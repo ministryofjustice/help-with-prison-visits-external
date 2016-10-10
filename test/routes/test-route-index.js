@@ -4,7 +4,6 @@ var expect = require('chai').expect
 var express = require('express')
 var mockViewEngine = require('./mock-view-engine')
 var route = require('../../app/routes/index')
-var i18n = require('i18n')
 
 describe('index', function () {
   var request
@@ -13,13 +12,6 @@ describe('index', function () {
     var app = express()
 
     mockViewEngine(app, '../../app/views')
-
-    i18n.configure({
-      locales: ['en'],
-      directory: path.join(__dirname, '../../app/locales'),
-      updateFiles: false
-    })
-    app.use(i18n.init)
 
     route(app)
 
