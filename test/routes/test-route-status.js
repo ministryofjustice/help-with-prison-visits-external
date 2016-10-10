@@ -1,7 +1,5 @@
 /* global describe beforeEach it */
 var supertest = require('supertest')
-var expect = require('chai').expect
-
 var path = require('path')
 var express = require('express')
 var nunjucks = require('express-nunjucks')
@@ -23,13 +21,10 @@ describe('status', function () {
   })
 
   describe('GET /status', function () {
-    it('should respond with a 200', function (done) {
+    it('should respond with a 200', function () {
       request
         .get('/status')
-        .expect(200, function (error, response) {
-          expect(error).to.be.null
-          done()
-        })
+        .expect(200)
     })
   })
 })
