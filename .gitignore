@@ -1,0 +1,23 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+.grunt
+node_modules
+.npm
+.node_repl_history
+.sass-cache
+.DS_Store
+.start.pid
+.port.tmp
+.tmuxp.*
+
+# Static managed assets
+app/views/govuk_template.html
+app/govuk_modules
+app/public/stylesheets/
+
+# Ignore IntelliJ files
+.idea/
+run-docker.sh

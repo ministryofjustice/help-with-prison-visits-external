@@ -1,0 +1,13 @@
+version: '2'
+services:
+
+  node-external-apvs:
+    build:
+      context: ./
+      dockerfile: Dockerfile-dev
+    volumes:
+      - "./build.sh:/usr/src/app/build.sh"
+      - "./app:/usr/src/app/app"
+      - "./cache_node_modules:/usr/src/app/node_modules"
+    ports:
+      - "3100:3100"
