@@ -18,5 +18,8 @@ app/views/govuk_template.html
 app/govuk_modules
 app/public/stylesheets/
 
+# Locales
+app/locales/en.json
+
 # Ignore IntelliJ files
 .idea/
