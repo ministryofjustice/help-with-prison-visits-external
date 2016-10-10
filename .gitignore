@@ -17,3 +17,6 @@ node_modules
 app/views/govuk_template.html
 app/govuk_modules
 app/public/stylesheets/application.css
+
+# Ignore IntelliJ files
+.idea/**
