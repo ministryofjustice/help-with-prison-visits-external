@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: Replace this with a GULP build step.
+
 function delete_node_modules() {
   rm -rf node_modules
 }
@@ -30,8 +32,6 @@ function compile_scss() {
 }
 
 main () {
-  #delete_node_modules
-  #install_modules
   copy_assets
   copy_templates
   compile_scss
