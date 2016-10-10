@@ -16,7 +16,6 @@ node_modules
 # Static managed assets
 app/views/govuk_template.html
 app/govuk_modules
-app/public/stylesheets/application.css
 app/public/stylesheets/
 
 # Ignore IntelliJ files
