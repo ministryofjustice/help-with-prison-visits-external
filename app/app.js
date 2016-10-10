@@ -53,8 +53,12 @@ app.use(function (req, res, next) {
   next()
 })
 
-routeIndex(app)
-routeStatus(app)
+var router = express.Router()
+
+app.use('/', router)
+
+routeIndex(router)
+routeStatus(router)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
