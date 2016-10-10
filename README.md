@@ -58,3 +58,11 @@ Checks code against standard JS and runs mocha unit tests.
 ```
 npm test
 ```
+
+## Notes
+
+### Localisation
+
+As a GOV.UK service this application should support Welsh.
+
+Localisation is provided via the [i18n node module](https://www.npmjs.com/package/i18n) which populates localisation strings for the supported locales into `app/locales`. Near the end of the Beta the localisation files will be sent for translation and populated.
