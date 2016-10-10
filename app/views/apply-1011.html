@@ -8,45 +8,21 @@
 
 <main id="content" role="main">
 
-  {% include "includes/phase_banner_beta.html" %}
+    {% include "includes/phase_banner_beta.html" %}
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <div class="grid-row">
+        <div class="column-two-thirds">
 
+            <h2 class="heading-large">
+                Create your claim
+            </h2>
 
-        <h2 class="heading-large">
-         Create your claim
-        </h2>
+            <form action="apply-11.html">
+                <input type="submit" class="button">
+            </form>
 
-
-<form action="apply-11.html" method="get" class="form">
-
-<div class="form-group">
-<input type="submit" name="commit" value="Add Item" class="button"></div> 
-
-
-
-</form>
-
+        </div>
       </div>
-      <!-- <div class="column-third">
+</main>
 
-        <aside class="govuk-related-items" role="complementary">
-          <h2 class="heading-medium" id="subsection-title">Subsection</h2>
-          <nav role="navigation" aria-labelledby="subsection-title">
-            <ul class="font-xsmall">
-              <li><a href="#">Related link</a></li>
-              <li><a href="#">Related link</a></li>
-              <li><a href="#" class="bold-xsmall">More <span class="visuallyhidden">in Subsection</span></a></li>
-            </ul>
-          </nav>
-        </aside>
-
-      </div>
-    </div> -->
-
-  </main>
-
-  {% endblock %}
-
-
+{% endblock %}
