@@ -1,6 +1,6 @@
 # Assisted Prison Visits Scheme (APVS) - External Web
 
-[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![Build Status](https://travis-ci.org/ministryofjustice/apvs-external-web.svg?branch=develop)](https://travis-ci.org/ministryofjustice/apvs-external-web?branch=develop) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 Beta implementation of the Assisted Prison Visits Scheme external web application.
 
@@ -12,7 +12,7 @@ Beta implementation of the Assisted Prison Visits Scheme external web applicatio
 ## Run
 
 ### Locally
-Install dependencies and run on port 3100. 
+Install dependencies and run on port 3100.
 
 ```
 npm install
@@ -39,17 +39,17 @@ docker build -t apvs-external-web-node:prod .
 
 ##### Run Production version:
 ```
-docker run --rm 
-    -p 3100:3100 
+docker run --rm
+    -p 3100:3100
     --name apvs-external-web-node-prod apvs-external-web-node:prod
 ```
 
 ##### Run development version:
 ```
-docker run --rm -t -i 
-    -p 3100:3100 
-    -v $(pwd)/app:/usr/src/app/app 
-    -v $(pwd)/cache_node_modules:/usr/src/app/node_modules 
+docker run --rm -t -i
+    -p 3100:3100
+    -v $(pwd)/app:/usr/src/app/app
+    -v $(pwd)/cache_node_modules:/usr/src/app/node_modules
     --name apvs-external-web-node-dev apvs-external-web-node:dev
 ```
 
