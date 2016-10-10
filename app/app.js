@@ -5,6 +5,7 @@ var favicon = require('serve-favicon')
 var bodyParser = require('body-parser')
 var helmet = require('helmet')
 var compression = require('compression')
+var i18n = require('i18n')
 
 var routeIndex = require('./routes/index')
 var routeStatus = require('./routes/status')
@@ -21,7 +22,6 @@ var packageJson = require('../package.json')
 var developmentMode = app.get('env') === 'development'
 var releaseVersion = packageJson.version
 var serviceName = 'Assisted Prison Visit Service'
-var cookieText = 'GOV.UK uses cookies to make the site simpler. <a href="#" title="Find out more about cookies">Find out more about cookies</a>'
 
 app.set('view engine', 'html')
 app.set('views', path.join(__dirname, 'views'))
@@ -48,10 +48,17 @@ app.use(function (req, res, next) {
 // Add variables that are available in all views
 app.use(function (req, res, next) {
   res.locals.serviceName = serviceName
-  res.locals.cookieText = cookieText
   res.locals.releaseVersion = 'v' + releaseVersion
   next()
 })
+
+// Set locale for translations
+i18n.configure({
+  locales: ['en', 'cy'],
+  directory: path.join(__dirname, '/locales'),
+  updateFiles: process.env.I18N_UPDATEFILES || true
+})
+app.use(i18n.init)
 
 routeIndex(app)
 routeStatus(app)

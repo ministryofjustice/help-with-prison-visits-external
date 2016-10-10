@@ -12,7 +12,7 @@ Beta implementation of the Assisted Prison Visits Scheme external web applicatio
 ## Run
 
 ### Locally
-Install dependencies and run on port 3100. 
+Install dependencies and run on port 3100.
 
 ```
 npm install
@@ -39,17 +39,17 @@ docker build -t apvs-external-web-node:prod .
 
 ##### Run Production version:
 ```
-docker run --rm 
-    -p 3100:3100 
+docker run --rm
+    -p 3100:3100
     --name apvs-external-web-node-prod apvs-external-web-node:prod
 ```
 
 ##### Run development version:
 ```
-docker run --rm -t -i 
-    -p 3100:3100 
-    -v $(pwd)/app:/usr/src/app/app 
-    -v $(pwd)/cache_node_modules:/usr/src/app/node_modules 
+docker run --rm -t -i
+    -p 3100:3100
+    -v $(pwd)/app:/usr/src/app/app
+    -v $(pwd)/cache_node_modules:/usr/src/app/node_modules
     --name apvs-external-web-node-dev apvs-external-web-node:dev
 ```
 
@@ -58,3 +58,11 @@ Checks code against standard JS and runs mocha unit tests.
 ```
 npm test
 ```
+
+## Notes
+
+### Localisation
+
+As a GOV.UK service this application should support Welsh.
+
+Localisation is provided via the [i18n node module](https://www.npmjs.com/package/i18n) which populates localisation strings for the supported locales into `app/locales`. Near the end of the Beta the localisation files will be sent for translation and populated.

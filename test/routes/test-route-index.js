@@ -6,6 +6,7 @@ var path = require('path')
 var express = require('express')
 var nunjucks = require('express-nunjucks')
 var route = require('../../app/routes/index')
+var i18n = require('i18n')
 
 describe('index', function () {
   var request
@@ -16,6 +17,13 @@ describe('index', function () {
     app.set('view engine', 'html')
     app.set('views', path.join(__dirname, '../../app/views'))
     nunjucks(app)
+
+    i18n.configure({
+      locales: ['en'],
+      directory: path.join(__dirname, '../../app/locales'),
+      updateFiles: false
+    })
+    app.use(i18n.init)
 
     route(app)
 
