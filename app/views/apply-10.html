@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <h2 class="heading-large">
+                Enter your bank account details to receive payment
+            </h2>
+
+            <h3 class="heading-small">Bank Details</h3>
+            <p>We don’t store this information. You will need to enter this for each claim you make</p>
+
+            <form action="apply-11.html">
+                <div class="form-group">
+                    <label class="form-label-bold" for="account-number">Account Number</label>
+                    <input id="account-number"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="sort-code">Sort Code</label>
+                    <input id="sort-code"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="block-label">
+                        <input id="no-bank-account"
+                               type="radio">
+                        I don't have a bank account
+                    </label>
+                </div>
+
+                <input type="submit" class="button">
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

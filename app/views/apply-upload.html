@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+
+      <h2 class="heading-large">
+       Please upload your train journey receipt
+     </h2>
+
+
+     <ul class="list list-number">
+      <li>Photograph or capture your document using a camera, mobile phone, scanner or other device</li>
+      <li>Transfer the image to your computer, or attach your camera to your computer</li> 
+      <li>Click “Choose File”</li>
+      <li>Locate and select the file</li>
+      <li>Click “Continue"</li>
+    </ul>
+
+    <label class="block-label" data-target="escort">
+              <input type="radio" name="escort" value="Yes" id="escort-yes">
+              <span class="heading-small">Upload now</span>
+              <br>
+              Uploading your receipt is the fastest way to process your application
+
+
+            </label>
+
+            <div class="panel panel-border-narrow js-hidden" id="escort">
+              <h3 class="heading-small">Select file</h3>
+    
+      <input type="file" name="benefit" value="Income Support" id="Income Support">
+
+
+
+            </div>
+
+
+
+<div class="form-group">
+<br>
+    <h4 class="heading-small">Cannot Upload receipt now?</h4>
+    <p>Your application will not be processed until we receive your receipt. </p>
+<label class="block-label">
+              <input type="radio" name="escort" value="Yes" id="escort-yes">
+              <span class="heading-small">Send by post</span>
+              <br>
+              Posting will add 10 days or more to the processing time
+
+
+            </label>
+
+          <!--   <div class="panel panel-border-narrow js-hidden" id="escort">
+              
+            </div> -->
+<label class="block-label">
+              <input type="radio" name="escort" value="Yes" id="escort-yes">
+              <span class="heading-small">Upload later</span>
+              <br>
+              You can upload your receipt later, you will receive a reference number which you will use to finish your application
+
+
+            </label>
+  </div>
+
+  <form action="apply-basket-receipt.html" method="get" class="form">
+
+  <div class="form-group"><input type="submit" name="commit" value="Continue" class="button"></div> 
+
+  </form>
+  </div>
+
+
+      <!-- <div class="column-third">
+
+        <aside class="govuk-related-items" role="complementary">
+          <h2 class="heading-medium" id="subsection-title">Subsection</h2>
+          <nav role="navigation" aria-labelledby="subsection-title">
+            <ul class="font-xsmall">
+              <li><a href="#">Related link</a></li>
+              <li><a href="#">Related link</a></li>
+              <li><a href="#" class="bold-xsmall">More <span class="visuallyhidden">in Subsection</span></a></li>
+            </ul>
+          </nav>
+        </aside>
+
+      </div>
+    </div> -->
+
+  </main>
+
+  {% endblock %}
+
+

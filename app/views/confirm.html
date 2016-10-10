@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+
+        <h2 class="heading-large">
+          Is your information correct?
+        </h2>
+
+        <!-- <div class="form-group">
+        <details>
+          <summary><span class="summary">What does this mean?</span></summary>
+          <div class="panel panel-border-narrow">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labo Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+        </details>
+      </div> -->
+
+      <h4 class="heading-small">Name</h4>
+      <p>Mr J B*o**s</p>
+
+      <h4 class="heading-small">Address</h4>
+      <ul class="list">
+        <li>12*3 S*re*t Na*e</li>
+      <li>Lo*n**n</li>
+      <li>N* AB*12*</li>
+      </ul>
+
+      <h4 class="heading-small">Email address</h4>
+      <p>ka**os@g*v.uk</p>
+
+      <h4 class="heading-small">Phone number</h4>
+      <p>07***34***8</p>
+
+      <h4 class="heading-small">Prisoner number</h4>
+      <p>0000001</p>
+
+      <h4 class="heading-small">Prison Location</h4>
+      <p>Hewell</p>
+
+      <h4 class="heading-small">You receive the following benefits</h4>
+      <p>Income Support</p>
+
+      <h4 class="heading-small">You're the prisoner's</h4>
+      <p>Close relative</p>
+
+
+        <div class="form-group">
+          <fieldset>
+
+            <label for="Yes" class="block-label">
+              <input type="radio" name="eligibilityNo" value="Yes" id="Yes">
+              Yes
+            </label>
+
+            <label for="No" class="block-label">
+              <input type="radio" name="eligibilityNo" value="No" id="No">
+              No
+            </label>
+
+          </fieldset>
+          </div>
+
+
+
+        <a href="apply-8"><input type="submit" name="commit" value="Continue" class="button"></a> 
+
+      </div>
+      <!-- <div class="column-third">
+
+        <aside class="govuk-related-items" role="complementary">
+          <h2 class="heading-medium" id="subsection-title">Subsection</h2>
+          <nav role="navigation" aria-labelledby="subsection-title">
+            <ul class="font-xsmall">
+              <li><a href="#">Related link</a></li>
+              <li><a href="#">Related link</a></li>
+              <li><a href="#" class="bold-xsmall">More <span class="visuallyhidden">in Subsection</span></a></li>
+            </ul>
+          </nav>
+        </aside>
+
+      </div>
+    </div> -->
+
+  </main>
+
+  {% endblock %}
+
+

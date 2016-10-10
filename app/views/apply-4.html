@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <h2 class="heading-large">
+                Does someone else claim benefits on your behalf?
+            </h2>
+
+            <form action="apply-5.html">
+                <div class="form-group">
+                    <fieldset>
+
+                        <label class="block-label" data-target="example_help">
+                            <input id="someone-else-claims-yes"
+                                   type="radio"
+                                   name="someone-else-claims"
+                                   value="Yes">
+                            Yes
+                        </label>
+
+                        <div class="panel panel-border-narrow js-hidden" id="example_help">
+                            <p>Provide their:</p>
+
+                            <label for="someone-else-claims-their-name" class="form-label">
+                                Name
+                            </label>
+                            <input id="someone-else-claims-their-name"
+                                   type="text"
+                                   class="form-control">
+
+                            <label for="someone-else-claims-their-national-insurance-number" class="form-label">
+                                National Insurance number
+                            </label>
+                            <input id="someone-else-claims-their-national-insurance-number"
+                                   type="text"
+                                   class="form-control">
+                        </div>
+
+                        <label class="block-label">
+                            <input id="someone-else-claims-no"
+                                   type="radio"
+                                   name="someone-else-claims"
+                                   value="No">
+                            No
+                        </label>
+
+                    </fieldset>
+
+                </div>
+
+                <input type="submit" class="button">
+            </form>
+
+        </div>
+      </div>
+
+</main>
+
+{% endblock %}
+
+

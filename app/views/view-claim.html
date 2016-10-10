@@ -1,0 +1,136 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+
+    <div class="column-two-thirds">
+
+      <h2 class="heading-large">
+        Your claim details
+      </h2>
+
+      <p class="warning">      Please add missing receipt.</p>
+
+      <table>
+        <tbody><tr>
+          <th>Date of visit</th>
+          <th>Prisoner number</th>
+          <th>Prison</th>
+          <th></th>
+        </tr>
+
+        <tr>
+          <td>30/08/16</td>
+          <td>0000001</td>
+          <td>Hewell</td>
+          <td class="text-right">Confirmation added</td>
+        </tr>
+
+      </tbody></table>
+
+      <br>
+
+      <form action="apply-10.html" method="get" class="form">
+
+        <table>
+          <tbody><tr>
+            <th>Expense(s)</th>
+            <th></th>
+            <th></th>
+          </tr>
+
+          <tr class="warning">
+            <td><span class="bold">Train Journey </span> 
+            <br>Birmingham New Street to Redditch - Return </td>
+            <td>£14</td>
+
+            
+            <td class="text-right"><a href="apply-upload.html" class="button pull-right">Add receipt</a></td>
+          </tr>
+          <tr>
+            <td><span class="bold">Taxi Journey </span> <br>Redditch to Hewell</td>
+            <td>£8.50</td>
+            
+            <td class="text-right">Receipt added</td>
+          </tr>
+
+          <tr>
+            <td><span class="bold">Taxi Journey </span> <br>Hewell to Redditch</td>
+            <td>£10</td>
+            
+            <td class="text-right">Receipt added</td>
+          </tr>
+
+          <tr>
+            <td><span class="bold">Light refreshment </span> <br>Tea</td>
+            <td>£2.20</td>
+            
+            <td class="text-right">Receipt added</td>
+          </tr>
+
+
+
+
+
+        </tbody></table>
+        
+      </form>
+
+      <br>
+<br>
+
+
+  <a class="link-back" href="profile">Back</a>
+        
+        </div>
+      
+    
+
+ <div class="column-third">
+
+<br>
+<br>
+<div class="form-group">
+          <label class="form-label" for="full-name">You can send information about your claim to the Assisted Prison Visits Unit.</label>
+          <textarea type="text" class="form-control full" id="full-name"></textarea>
+          <br>
+          <a href="index.html" class="button">Send</a> 
+        </div>
+          <!-- <h2 class="heading-medium" id="subsection-title">Subsection</h2>
+          <nav role="navigation" aria-labelledby="subsection-title">
+            <ul class="font-xsmall">
+              <li><a href="#">Related link</a></li>
+              <li><a href="#">Related link</a></li>
+              <li><a href="#" class="bold-xsmall">More <span class="visuallyhidden">in Subsection</span></a></li>
+            </ul>
+          </nav>
+ -->
+
+
+<!-- 
+        <a href="apply-8"><input type="submit" name="commit" value="Start a new claim" class="button"></a>  -->
+
+    
+
+      </div>
+
+
+    </div>
+      
+       
+    </div>
+
+  </main>
+
+  {% endblock %}
+
+

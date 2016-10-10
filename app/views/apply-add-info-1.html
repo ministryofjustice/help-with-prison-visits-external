@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+     <h2 class="heading-large">
+       Add taxi journey information
+     </h2>
+
+    
+
+     <form action="apply-add-expense.html" method="get" class="form">
+ 
+
+    
+
+      <div class="form-group">
+      <label class="form-label-bold" for="full-name">From</label>
+        
+        <input type="text" class="form-control" id="full-name">
+        <p class="form-hint">eg Birmingham New Street</p>
+      </div>
+
+
+      <div class="form-group">
+      <label class="form-label-bold" for="full-name">To</label>
+        
+        <input type="text" class="form-control" id="full-name">
+        <p class="form-hint">eg Hewell</p>
+      </div>
+
+      
+<div class="form-group">
+      <label class="form-label-bold" for="full-name">Cost</label>
+        
+        <input type="text" class="form-control" id="full-name">
+        <p class="form-hint">eg £20</p>
+      </div>
+
+      <div class="form-group">
+      
+   
+        
+        <div class="form-group">
+          <fieldset>
+
+
+            <label for="taxi-journey" class="block-label">
+              <input type="radio" name="eligibilityNo" value="taxi-journey" id="taxi-journey">
+              Add another taxi journey
+            </label>
+
+          </fieldset>
+          </div>
+
+  
+
+
+      <div class="form-group"><input type="submit" name="commit" value="Continue" class="button"></div> 
+    </form>
+
+
+  </div>
+</div>
+      <!-- <div class="column-third">
+
+        <aside class="govuk-related-items" role="complementary">
+          <h2 class="heading-medium" id="subsection-title">Subsection</h2>
+          <nav role="navigation" aria-labelledby="subsection-title">
+            <ul class="font-xsmall">
+              <li><a href="#">Related link</a></li>
+              <li><a href="#">Related link</a></li>
+              <li><a href="#" class="bold-xsmall">More <span class="visuallyhidden">in Subsection</span></a></li>
+            </ul>
+          </nav>
+        </aside>
+
+      </div>
+    </div> -->
+
+  </main>
+
+  {% endblock %}
+
+
