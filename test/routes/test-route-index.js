@@ -1,10 +1,8 @@
 /* global describe beforeEach it */
 var supertest = require('supertest')
 var expect = require('chai').expect
-
-var path = require('path')
 var express = require('express')
-var nunjucks = require('express-nunjucks')
+var mockViewEngine = require('./mock-view-engine')
 var route = require('../../app/routes/index')
 
 describe('index', function () {
@@ -13,9 +11,7 @@ describe('index', function () {
   beforeEach(function () {
     var app = express()
 
-    app.set('view engine', 'html')
-    app.set('views', path.join(__dirname, '../../app/views'))
-    nunjucks(app)
+    mockViewEngine(app, '../../app/views')
 
     route(app)
 
