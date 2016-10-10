@@ -20,3 +20,4 @@ app/public/stylesheets/
 
 # Ignore IntelliJ files
 .idea/
+run-docker.sh
