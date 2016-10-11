@@ -5,7 +5,7 @@ var express = require('express')
 var log = {
   info: function (text) {}
 }
-var route = proxyquire('../../../app/routes/status', {
+var route = proxyquire('../../../app/routes/health-check/status', {
   '../services/log': log
 })
 

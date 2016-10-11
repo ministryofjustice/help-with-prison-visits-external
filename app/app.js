@@ -7,8 +7,7 @@ var helmet = require('helmet')
 var compression = require('compression')
 var i18n = require('i18n')
 
-var routeIndex = require('./routes/index')
-var routeStatus = require('./routes/status')
+var routes = require('./routes/routes')
 
 var app = express()
 
@@ -60,8 +59,10 @@ i18n.configure({
 })
 app.use(i18n.init)
 
-routeIndex(app)
-routeStatus(app)
+// Build the router to be used for routing all HTTP request and pass to the routes file for route configuration.
+var router = express.Router()
+routes(router)
+app.use('/', router)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
