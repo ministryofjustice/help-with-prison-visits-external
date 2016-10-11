@@ -63,7 +63,9 @@ npm test
 Run e2e local selenium test
 ```
 # Requires application running on http://localhost:3000
-./node_modules/.bin/gulp e2e
+./node_modules/.bin/gulp test
+# sometimes selenium-standalone will not end correctly causing subsequent test runs to fail use:
+# pkill -f selenium-standalone
 ```
 
 ## Notes
