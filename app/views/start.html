@@ -1,4 +1,4 @@
-{% extends "layout.html" %} 
+{% extends "layout.html" %}
 
 {% block page_title %}
 {% if serviceName %} {{ serviceName }} {% endif %}
@@ -17,13 +17,16 @@
             <p>If this is your first claim you’ll need to register with the scheme. You'll need:</p>
             <ul class="list list-bullet">
                 <li>Your National Insurance number</li>
-                <li>Prisoner’s number and name of the Prison </li>
+                <li>Prisoner’s number and name of the Prison</li>
             </uL>
 
-            <p>You may also need to send paper documents to us electronically. We'll explain how to do this during your application.</p>
-            <a href="apply-1">
+            <p>You may also need to send paper documents to us electronically. We'll explain how to do this during your
+                application.</p>
+
+            <form action="date-of-birth">
                 <input type="submit" class="button">
-            </a>
+            </form>
+
         </div>
 
         <div class="column-half">
@@ -47,15 +50,18 @@
                                 <p class="form-hint">eg 18 08 1989</p>
                                 <div class="form-group form-group-day">
                                     <label for="dob-day">Day</label>
-                                    <input id="dob-day" type="number" pattern="[0-9]*" min="0" max="31" class="form-control"/>
+                                    <input id="dob-day" type="number" pattern="[0-9]*" min="0" max="31"
+                                           class="form-control"/>
                                 </div>
                                 <div class="form-group form-group-month">
                                     <label for="dob-month">Month</label>
-                                    <input id="dob-month" type="number" pattern="[0-9]*" min="0" max="12" class="form-control"/>
+                                    <input id="dob-month" type="number" pattern="[0-9]*" min="0" max="12"
+                                           class="form-control"/>
                                 </div>
                                 <div class="form-group form-group-year">
                                     <label for="dob-year">Year</label>
-                                    <input id="dob-year" type="number" pattern="[0-9]*" min="0" max="2014" class="form-control"/>
+                                    <input id="dob-year" type="number" pattern="[0-9]*" min="0" max="2014"
+                                           class="form-control"/>
                                 </div>
                             </label>
                         </div>
@@ -68,8 +74,9 @@
                 <div class="form-group">
                     <input type="submit" class="button">
                 </div>
-                
+
             </form>
         </div>
+    </div>
 </main>
 {% endblock %}

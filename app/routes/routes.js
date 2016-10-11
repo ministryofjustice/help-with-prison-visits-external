@@ -5,7 +5,7 @@
 var routes = [
   require('./index'),
   require('./status'),
-  require('./apply-1'),
+  require('./eligibility/date-of-birth'),
   require('./apply-2'),
   require('./apply-3'),
   require('./apply-4'),
