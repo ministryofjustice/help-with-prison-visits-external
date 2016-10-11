@@ -9,7 +9,7 @@ var routes = [
   require('./eligibility/prisoner-relationship'),
   require('./eligibility/benefits'),
   require('./eligibility/benefits-on-behalf'),
-  require('./apply-5'),
+  require('./eligibility/file-upload'),
   require('./apply-6'),
   require('./apply-7'),
   require('./apply-8'),
