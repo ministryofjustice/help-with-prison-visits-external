@@ -11,7 +11,7 @@ var routes = [
   require('./eligibility/benefits-on-behalf'),
   require('./eligibility/file-upload'),
   require('./eligibility/about-the-prisoner'),
-  require('./apply-7'),
+  require('./eligibility/about-you'),
   require('./apply-8'),
   require('./apply-9'),
   require('./apply-10'),
