@@ -19,7 +19,7 @@ var routes = [
   require('./apply-22'),
   require('./claim/transport'),
   require('./apply-1011'),
-  require('./apply-add-expense'),
+  require('./claim/additional-expenses'),
   require('./apply-add-food'),
   require('./apply-basket'),
   require('./claim/car-details'),
