@@ -22,7 +22,6 @@ var routes = [
   require('./claim/light-refreshment-details'),
   require('./claim/claim-summary'),
   require('./claim/car-details'),
-  require('./apply-previous-visit'),
   require('./claim/taxi-details'),
   require('./claim/train-details'),
   require('./check-eligibility'),
