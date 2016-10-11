@@ -1,7 +1,6 @@
-/* global describe beforeEach it */
 var supertest = require('supertest')
 var express = require('express')
-var route = require('../../app/routes/health-check/status')
+var route = require('../../../app/routes/health-check/status')
 
 describe('status', function () {
   var request

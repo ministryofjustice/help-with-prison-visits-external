@@ -10,7 +10,8 @@
     "ignore": [
       "cache_node_modules/*",
       "jquery*.js"
-    ]
+    ],
+    "globals": [ "describe", "before", "beforeEach", "it" ]
   },
   "dependencies": {
     "body-parser": "~1.15.1",

@@ -1,4 +1,3 @@
-/* global describe beforeEach it */
 var supertest = require('supertest')
 var expect = require('chai').expect
 var express = require('express')
