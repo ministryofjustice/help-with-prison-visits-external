@@ -72,7 +72,7 @@ app.use(function (req, res, next) {
 
 // Error handlers.
 if (developmentMode) {
-  app.use(function (err, req, res) {
+  app.use(function (err, req, res, next) {
     res.status(err.status || 500)
     res.render('includes/error', {
       message: err.message,
@@ -82,7 +82,7 @@ if (developmentMode) {
 }
 
 // Production error handler - no stack traces leaked to user.
-app.use(function (err, req, res) {
+app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.render('includes/error', {
     message: err.message,
