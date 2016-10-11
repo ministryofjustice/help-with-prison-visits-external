@@ -7,111 +7,82 @@
 {% block content %}
 
 <main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <h2 class="heading-large">
+                Your claim details
+            </h2>
 
-  {% include "includes/phase_banner_beta.html" %}
+            <p>Please add the relevant documentation associated with your claim.</p>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+            <table>
+                <tr>
+                    <th>Date of visit</th>
+                    <th>Prisoner number</th>
+                    <th>Prison</th>
+                    <th></th>
+                </tr>
 
-      <h2 class="heading-large">
-        Your claim details
-      </h2>
+                <tr>
+                    <td>30/08/16</td>
+                    <td>0000001</td>
+                    <td>Hewell</td>
+                    <td><a href="" class="button pull-right">Add confirmation</a></td>
+                </tr>
 
-      <p>Please add the relevant documentation associated with your claim.</p>
+            </table>
 
-      <table>
-        <tr>
-          <th>Date of visit</th>
-          <th>Prisoner number</th>
-          <th>Prison</th>
-          <th></th>
-        </tr>
+            <br>
 
-        <tr>
-          <td>30/08/16</td>
-          <td>0000001</td>
-          <td>Hewell</td>
-          <td><a href="" class="button pull-right">Add confirmation</a></td>
-        </tr>
+            <form action="apply-10" method="get" class="form">
+                <table>
+                    <tr>
+                        <th>Expense(s)</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td><span class="bold">Train Journey </span> - <a href="#" class="">edit</a> or <a href="">remove</a>
+                            <br>Birmingham New Street to Redditch - Return </td>
+                        <td>£14</td>
+                        <td>
+                            <a href="apply-upload class=" button pull-right ">Add receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="bold ">Taxi Journey </span> - <a href="# " class=" ">edit</a> or <a href=" ">remove</a><br>Redditch to Hewell</td>
+                        <td>£8.50</td>
+                        
+                        <td><a href="apply-upload " class="button pull-right ">Add receipt</a></td>
+                    </tr>
 
-      </table>
+                    <tr>
+                        <td><span class="bold ">Taxi Journey </span> - <a href="# " class=" ">edit</a> or <a href=" ">remove</a><br>Hewell to Redditch</td>
+                        <td>£10</td>
+                        
+                        <td><a href="apply-upload " class="button pull-right ">Add receipt</a></td>
+                    </tr>
 
-      <br>
+                    <tr>
+                        <td><span class="bold ">Light refreshment </span> - <a href="# " class=" ">edit</a> or <a href=" ">remove</a><br>Tea</td>
+                        <td>£2.20</td>
+                        
+                        <td><a href="apply-upload " class="button pull-right ">Add receipt</a></td>
+                    </tr>
+                </table>
 
-      <form action="apply-10" method="get" class="form">
+                <br>
+                <a href="apply-99 " class="button ">Add another journey</a>
+                <a href="apply-add-expense " class="button ">Add another expense</a>
+                <br>
+                <br>
+                <br>
 
-        <table>
-          <tr>
-            <th>Expense(s)</th>
-            <th></th>
-            <th></th>
-          </tr>
+            </form>
 
-          <tr>
-            <td><span class="bold">Train Journey </span> - <a href="#" class="">edit</a> or <a href="">remove</a>
-            <br>Birmingham New Street to Redditch - Return </td>
-            <td>£14</td>
-
-            
-            <td><a href="apply-upload.html" class="button pull-right">Add receipt</a></td>
-          </tr>
-          <tr>
-            <td><span class="bold">Taxi Journey </span> - <a href="#" class="">edit</a> or <a href="">remove</a><br>Redditch to Hewell</td>
-            <td>£8.50</td>
-            
-            <td><a href="apply-upload.html" class="button pull-right">Add receipt</a></td>
-          </tr>
-
-          <tr>
-            <td><span class="bold">Taxi Journey </span> - <a href="#" class="">edit</a> or <a href="">remove</a><br>Hewell to Redditch</td>
-            <td>£10</td>
-            
-            <td><a href="apply-upload.html" class="button pull-right">Add receipt</a></td>
-          </tr>
-
-          <tr>
-            <td><span class="bold">Light refreshment </span> - <a href="#" class="">edit</a> or <a href="">remove</a><br>Tea</td>
-            <td>£2.20</td>
-            
-            <td><a href="apply-upload.html" class="button pull-right">Add receipt</a></td>
-          </tr>
-
-
-
-
-
-        </table>
-        <br>
-        <a href="apply-99.html" class="button">Add another journey</a>
-        <a href="apply-add-expense.html" class="button">Add another expense</a>
-        <br>
-        <br>
-        <br>
-
-
-      </form>
-
-
+        </div>
     </div>
-  </div>
-<!-- <div class="column-third">
-
-<aside class="govuk-related-items" role="complementary">
-<h2 class="heading-medium" id="subsection-title">Subsection</h2>
-<nav role="navigation" aria-labelledby="subsection-title">
-<ul class="font-xsmall">
-<li><a href="#">Related link</a></li>
-<li><a href="#">Related link</a></li>
-<li><a href="#" class="bold-xsmall">More <span class="visuallyhidden">in Subsection</span></a></li>
-</ul>
-</nav>
-</aside>
-
-</div>
-</div> -->
 
 </main>
 
 {% endblock %}
-
-

@@ -21,11 +21,10 @@ var routes = [
   require('./apply-1011'),
   require('./apply-add-expense'),
   require('./apply-add-food'),
-  require('./apply-add-info'),
   require('./apply-basket'),
-  require('./apply-basket-receipt'),
   require('./apply-car'),
   require('./apply-previous-visit'),
+  require('./apply-taxi'),
   require('./apply-train'),
   require('./apply-upload'),
   require('./check-eligibility'),
@@ -38,7 +37,7 @@ var routes = [
 ]
 
 module.exports = function (router) {
-  routes.forEach(function(route) {
+  routes.forEach(function (route) {
     route(router)
   })
 }
