@@ -24,7 +24,7 @@ var routes = [
   require('./claim/car-details'),
   require('./claim/taxi-details'),
   require('./claim/train-details'),
-  require('./confirm'),
+  require('./eligibility/confirm-your-details'),
   require('./eligibility-requirements'),
   require('./eligibility-yes'),
   require('./claim/profile'),
