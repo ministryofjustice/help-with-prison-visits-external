@@ -10,4 +10,4 @@ services:
       - "./app:/usr/src/app/app"
       - "./cache_node_modules:/usr/src/app/node_modules"
     ports:
-      - "3100:3100"
+      - "3000:3000"

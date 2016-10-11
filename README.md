@@ -12,7 +12,7 @@ Beta implementation of the Assisted Prison Visits Scheme external web applicatio
 ## Run
 
 ### Locally
-Install dependencies and run on port 3100.
+Install dependencies and run on port 3000.
 
 ```
 npm install
@@ -40,23 +40,30 @@ docker build -t apvs-external-web-node:prod .
 ##### Run Production version:
 ```
 docker run --rm
-    -p 3100:3100
+    -p 3000:3000
     --name apvs-external-web-node-prod apvs-external-web-node:prod
 ```
 
 ##### Run development version:
 ```
 docker run --rm -t -i
-    -p 3100:3100
+    -p 3000:3000
     -v $(pwd)/app:/usr/src/app/app
     -v $(pwd)/cache_node_modules:/usr/src/app/node_modules
     --name apvs-external-web-node-dev apvs-external-web-node:dev
 ```
 
 ## Test
+
 Checks code against standard JS and runs mocha unit tests.
 ```
 npm test
+```
+
+Run e2e local selenium test
+```
+# Requires application running on http://localhost:3000
+./node_modules/.bin/gulp e2e
 ```
 
 ## Notes

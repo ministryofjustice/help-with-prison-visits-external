@@ -3,7 +3,7 @@ var supertest = require('supertest')
 var expect = require('chai').expect
 var express = require('express')
 var mockViewEngine = require('./mock-view-engine')
-var route = require('../../app/routes/index')
+var route = require('../../../app/routes/index')
 
 describe('index', function () {
   var request
@@ -11,7 +11,7 @@ describe('index', function () {
   beforeEach(function () {
     var app = express()
 
-    mockViewEngine(app, '../../app/views')
+    mockViewEngine(app, '../../../app/views')
 
     route(app)
 

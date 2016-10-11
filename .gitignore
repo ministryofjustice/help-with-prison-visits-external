@@ -21,6 +21,9 @@ app/public/stylesheets/
 # Locales
 app/locales/en.json
 
+# e2e selenium
+errorShots
+
 # Ignore IntelliJ files
 .idea/
 run-docker.sh
