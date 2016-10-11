@@ -12,7 +12,7 @@ var routes = [
   require('./eligibility/file-upload'),
   require('./eligibility/about-the-prisoner'),
   require('./eligibility/about-you'),
-  require('./apply-8'),
+  require('./eligibility/visit-type'),
   require('./apply-9'),
   require('./apply-10'),
   require('./apply-11'),
