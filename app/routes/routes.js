@@ -27,7 +27,7 @@ var routes = [
   require('./claim/train-details'),
   require('./check-eligibility'),
   require('./confirm'),
-  require('./eligibility'),
+  require('./eligibility-requirements'),
   require('./eligibility-yes'),
   require('./claim/profile'),
   require('./start'),
