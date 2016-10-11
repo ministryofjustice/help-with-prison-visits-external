@@ -22,7 +22,7 @@ var routes = [
   require('./apply-add-expense'),
   require('./apply-add-food'),
   require('./apply-basket'),
-  require('./apply-car'),
+  require('./claim/car-details'),
   require('./apply-previous-visit'),
   require('./apply-taxi'),
   require('./apply-train'),
