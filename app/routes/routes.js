@@ -17,7 +17,7 @@ var routes = [
   require('./apply-10'),
   require('./apply-11'),
   require('./apply-22'),
-  require('./apply-99'),
+  require('./claim/transport'),
   require('./apply-1011'),
   require('./apply-add-expense'),
   require('./apply-add-food'),
