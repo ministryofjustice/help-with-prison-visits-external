@@ -20,7 +20,7 @@ var routes = [
   require('./claim/transport'),
   require('./apply-1011'),
   require('./claim/additional-expenses'),
-  require('./apply-add-food'),
+  require('./claim/light-refreshment-details'),
   require('./apply-basket'),
   require('./claim/car-details'),
   require('./apply-previous-visit'),
