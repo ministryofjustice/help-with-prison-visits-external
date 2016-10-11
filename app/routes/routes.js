@@ -21,7 +21,7 @@ var routes = [
   require('./apply-1011'),
   require('./claim/additional-expenses'),
   require('./claim/light-refreshment-details'),
-  require('./apply-basket'),
+  require('./claim/claim-summary'),
   require('./claim/car-details'),
   require('./apply-previous-visit'),
   require('./claim/taxi-details'),
