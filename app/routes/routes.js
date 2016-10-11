@@ -8,7 +8,7 @@ var routes = [
   require('./eligibility/date-of-birth'),
   require('./eligibility/prisoner-relationship'),
   require('./eligibility/benefits'),
-  require('./apply-4'),
+  require('./eligibility/benefits-on-behalf'),
   require('./apply-5'),
   require('./apply-6'),
   require('./apply-7'),
