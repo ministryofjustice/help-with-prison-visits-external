@@ -31,9 +31,9 @@ var routes = [
   require('./confirm'),
   require('./eligibility'),
   require('./eligibility-yes'),
-  require('./profile'),
+  require('./claim/profile'),
   require('./start'),
-  require('./view-claim')
+  require('./claim/claim-details')
 ]
 
 module.exports = function (router) {
