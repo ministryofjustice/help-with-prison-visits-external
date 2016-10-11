@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app/bin/www",
-    "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/**/*"
+    "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/unit/**/*"
   },
   "standard": {
     "ignore": [

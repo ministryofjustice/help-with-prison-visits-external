@@ -21,13 +21,11 @@ gulp.task('e2e', ['selenium'], () => {
       process.exit(1)
     })
     .once('error', function () { // Explicit exit for gulp-mocha
+      seleniumServer.kill()
       process.exit(1)
     })
     .once('end', function () {
+      seleniumServer.kill()
       process.exit()
     })
-})
-
-gulp.task('test', ['e2e'], () => {
-  seleniumServer.kill()
 })
