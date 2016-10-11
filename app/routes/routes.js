@@ -13,7 +13,7 @@ var routes = [
   require('./eligibility/about-the-prisoner'),
   require('./eligibility/about-you'),
   require('./eligibility/visit-type'),
-  require('./apply-9'),
+  require('./claim/your-journey'),
   require('./apply-10'),
   require('./apply-11'),
   require('./apply-22'),
