@@ -1,17 +1,17 @@
 exports.config = {
   specs: ['./test/e2e/**/*.js'],
   exclude: [],
-  maxInstances: 10,
+  maxInstances: 1,
+  baseUrl: 'http://localhost:3000',
   capabilities: [{
-    maxInstances: 5,
+    maxInstances: 1,
     browserName: 'chrome'
   }],
   sync: false,
   logLevel: 'verbose',
   coloredLogs: true,
   screenshotPath: './errorShots/',
-  baseUrl: 'http://localhost:3000',
-  waitforTimeout: 1000000,
+  waitforTimeout: 10000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
   framework: 'mocha',

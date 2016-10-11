@@ -60,10 +60,21 @@ Checks code against standard JS and runs mocha unit tests.
 npm test
 ```
 
-Run e2e local selenium test
+Run e2e tests with local selenium standalone
 ```
 # Requires application running on http://localhost:3000
 ./node_modules/.bin/gulp e2e
+```
+
+Run e2e tests with saucelabs
+```
+# set environmental variables for saucelabs
+export SAUCE_USERNAME='MY_USERNAME'
+export SAUCE_ACCESS_KEY='MY_KEY'
+export SAUCE_BASEURL='http://localhost:3000' # proxy url for sauce connect
+
+./node_modules/.bin/wdio test/wdio.conf.sauce.ie8.js
+./node_modules/.bin/wdio test/wdio.conf.sauce.firefox.js
 ```
 
 ## Notes
