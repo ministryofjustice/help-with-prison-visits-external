@@ -15,7 +15,7 @@ gulp.task('selenium', (done) => {
 })
 
 gulp.task('e2e', ['selenium'], () => {
-  return gulp.src('wdio.conf.js')
+  return gulp.src('test/wdio.conf.js')
     .pipe(webdriver()).on('error', () => {
       seleniumServer.kill()
       process.exit(1)

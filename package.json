@@ -40,6 +40,7 @@
     "standard": "^8.0.0",
     "supertest": "^2.0.0",
     "wdio-mocha-framework": "^0.4.3",
+    "wdio-sauce-service": "^0.2.5",
     "webdriverio": "^4.2.16"
   }
 }
