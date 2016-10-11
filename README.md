@@ -66,7 +66,7 @@ Run e2e tests with local selenium standalone
 ./node_modules/.bin/gulp e2e
 ```
 
-Run e2e tests with saucelabs
+Run e2e tests with [saucelabs](https://saucelabs.com)
 ```
 # set environmental variables for saucelabs
 export SAUCE_USERNAME='MY_USERNAME'
