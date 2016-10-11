@@ -4,6 +4,7 @@ var log = require('../services/log')
 module.exports = function (app) {
   var route = express.Router()
 
+  // TODO: Separate out into routes.js file once created
   route.use(function (req, res, next) {
     log.info({ request: req }, 'Route Started.')
     next()
@@ -16,6 +17,7 @@ module.exports = function (app) {
     next()
   })
 
+  // TODO: Separate out into routes.js file once created
   route.use(function (req, res) {
     log.info({ response: res }, 'Route Complete.')
   })
