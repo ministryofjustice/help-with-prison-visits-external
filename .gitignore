@@ -1,6 +1,5 @@
 # Logs
-logs
-*.log
+**.log
 npm-debug.log*
 
 .grunt
@@ -20,6 +19,9 @@ app/public/stylesheets/
 
 # Locales
 app/locales/en.json
+
+# e2e selenium
+errorShots
 
 # Ignore IntelliJ files
 .idea/

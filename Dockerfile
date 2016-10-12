@@ -8,8 +8,8 @@ COPY app /usr/src/app/app
 RUN export NODE_ENV=production
 RUN npm install --only=production
 
-EXPOSE 3100
+EXPOSE 3000
 
-HEALTHCHECK CMD curl --fail http://localhost:3100/status || exit 1
+HEALTHCHECK CMD curl --fail http://localhost:3000/status || exit 1
 
 CMD npm start
