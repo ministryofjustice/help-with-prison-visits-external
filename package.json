@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "engines": {
-    "node": "6.x.x"
+    "node": "6.4.0"
   },
   "scripts": {
     "start": "node app/bin/www",
