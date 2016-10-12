@@ -1,0 +1,63 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <h2 class="heading-large">
+                Add Light refreshment information
+            </h2>
+
+            <form action="light-refreshment-details" method="post">
+
+                <div class="form-group">
+                    <label for="light-refreshment" class="form-label-bold">Light refreshment</label>
+
+                    <input id="light-refreshment"
+                           type="text"
+                           class="form-control">
+                    <p class="form-hint">eg Breakfast, lunch, snack, coffee, tea</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="cost" class="form-label-bold">Cost</label>
+
+                    <input id="cost"
+                           type="text"
+                           class="form-control">
+                    <p class="form-hint">eg £5</p>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="form-group">
+                        <fieldset>
+
+                            <label for="add-another-expense" class="block-label">
+                                <input id="add-another-expense"
+                                       type="radio">
+                                Add another Light refreshment expense
+                            </label>
+
+                        </fieldset>
+                    </div>
+
+                    <input type="submit" class="button">
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

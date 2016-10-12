@@ -1,0 +1,102 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <h2 class="heading-large">
+                Do you claim or receive any of the following?
+            </h2>
+
+            <p>Please select from the following options:</p>
+
+            <form action="benefits" method="post">
+                <div class="form-group">
+                    <fieldset>
+
+                        <label for="income-support" class="block-label">
+                            <input id="income-support"
+                                   type="radio"
+                                   name="benefit"
+                                   value="Income Support">
+                            Income Support
+                        </label>
+
+                        <label for="jobseekers-allowance" class="block-label">
+                            <input id="jobseekers-allowance"
+                                   type="radio"
+                                   name="benefit"
+                                   value="Jobseeker’s Allowance">
+                            Jobseeker’s Allowance (Income based)
+                        </label>
+
+                        <label for="employment-and-support-allowance" class="block-label">
+                            <input id="employment-and-support-allowance"
+                                   type="radio"
+                                   name="benefit"
+                                   value="Employment and Support Allowance">
+                            Employment and Support Allowance (Income related)
+                        </label>
+
+                        <label for="universal-credit" class="block-label">
+                            <input id="universal-credit"
+                                   type="radio"
+                                   name="benefit"
+                                   value="Universal Credit">
+                            Universal Credit (and you earn less than £1,250 a month)
+                        </label>
+
+                        <label for="working-or-child-tax-credits" class="block-label">
+                            <input id="working-or-child-tax-credits"
+                                   type="radio"
+                                   name="benefit"
+                                   value="Working Tax credits or Child tax credit with disability">
+                            Working Tax credits or Child tax credit with disability (and you earn less than £17,474 a
+                            year)
+                        </label>
+
+                        <label for="pension-credit" class="block-label">
+                            <input id="pension-credit"
+                                   type="radio"
+                                   name="benefit"
+                                   value="Pension Credit">
+                            Pension Credit
+                        </label>
+
+                        <label for="health-certificate" class="block-label">
+                            <input id="health-certificate"
+                                   type="radio"
+                                   name="benefit"
+                                   value="Health Certificate (HC2 or HC3)">
+                            Health Certificate (HC2 or HC3)
+                        </label>
+
+                        <label for="none-of-the-above" class="block-label">
+                            <input id="none-of-the-above"
+                                   type="radio"
+                                   name="benefit"
+                                   value="None of the above">
+                            None of the above
+                        </label>
+
+                    </fieldset>
+                </div>
+
+                <input type="submit" class="button">
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

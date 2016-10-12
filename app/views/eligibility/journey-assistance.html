@@ -1,0 +1,61 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <h2 class="heading-large">
+                Does someone assist you during your journey?
+            </h2>
+
+            <form action="journey-assistance" method="post">
+                <div class="form-group">
+
+                    <fieldset>
+
+                        <label class="block-label">
+                            <input id="assistance-yes-medical"
+                                   type="radio"
+                                   name="Assisted"
+                                   value="Medical Assistance">
+                            Yes, I have a medical reason
+                        </label>
+
+                        <label class="block-label">
+                            <input id="assistance-yes-over-75"
+                                   type="radio"
+                                   name="Assisted"
+                                   value="75 or Older">
+                            Yes, I'm 75 or older
+                        </label>
+
+                        <label class="block-label">
+                            <input id="assistance-no"
+                                   type="radio"
+                                   name="Assisted"
+                                   value="No Assistance">
+                            No
+                        </label>
+
+                    </fieldset>
+
+                </div>
+
+                <input type="submit" class="button">
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}
