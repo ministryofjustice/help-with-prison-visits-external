@@ -1,5 +1,5 @@
 # Logs
-**.log
+**.log*
 npm-debug.log*
 
 .grunt
