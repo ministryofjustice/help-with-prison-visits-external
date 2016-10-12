@@ -13,19 +13,41 @@
     <div class="grid-row">
         <div class="column-two-thirds">
 
+            {% if errors %}
+                <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
+
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
+                    Message to alert the user to a problem goes here
+                </h1>
+
+                <p>
+                    Optional description of the errors and how to correct them
+                </p>
+
+                <ul class="error-summary-list">
+                    {% for field, messages in errors %}
+                        {% if messages[0] %}
+                            <li><a href="#{{ field }}">{{ messages[0] }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+                </div>
+            {% endif %}
+
             <h2 class="heading-large">
                 What is your relationship with the person you're visiting?
             </h2>
 
             <form action="prisoner-relationship" method="post">
-                <div class="form-group">
+                <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
                     <fieldset>
 
                         <label for="close-relative" class="block-label" data-target="close-relative-question">
                             <input id="close-relative"
                                    type="radio"
                                    name="relationship"
-                                   value="Close Relative">
+                                   value="CloseRelative">
 
                             <span class="heading-small">Close Relative</span>
                             <br>
@@ -59,7 +81,7 @@
                             <input id="sole-visitor"
                                    type="radio"
                                    name="relationship"
-                                   value="Sole Visitor">
+                                   value="SoleVisitor">
                             <span class="heading-small">Sole Visitor</span>
                             <br>
                             You are going to be the prisoner’s only visitor for the next four weeks
@@ -113,7 +135,7 @@
                             <input id="other"
                                    type="radio"
                                    name="relationship"
-                                   value="None of the above">
+                                   value="NoneOfTheAbove">
                             <span class="heading-small">None of the above</span>
                             <br>
                         </label>

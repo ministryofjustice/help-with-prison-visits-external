@@ -1,3 +1,5 @@
+var validator = require('../../services/validators/prisoner-relationship-validator')
+
 module.exports = function (router) {
   router.get('/prisoner-relationship', function (req, res, next) {
     res.render('eligibility/prisoner-relationship')
@@ -5,6 +7,14 @@ module.exports = function (router) {
   })
 
   router.post('/prisoner-relationship', function (req, res, next) {
+    var validationErrors = validator(req.body)
+
+    if (validationErrors) {
+      res.status(400).render('eligibility/prisoner-relationship', { errors: validationErrors })
+      console.log('*****here****')
+      return next()
+    }
+
     var relationship = req.body.relationship
 
     if (relationship === 'Escort') {
