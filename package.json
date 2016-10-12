@@ -11,7 +11,7 @@
       "cache_node_modules/*",
       "jquery*.js"
     ],
-    "globals": [ "describe", "before", "beforeEach", "it" ]
+    "globals": [ "describe", "before", "beforeEach", "it", "browser" ]
   },
   "dependencies": {
     "body-parser": "~1.15.1",

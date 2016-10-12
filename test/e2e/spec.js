@@ -1,4 +1,3 @@
-/* global browser describe it */
 var assert = require('assert')
 
 describe('First time claim flow', () => {
