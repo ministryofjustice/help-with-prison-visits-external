@@ -43,20 +43,30 @@
             <h4 class="heading-small">You're the prisoner's</h4>
             <p>Close relative</p>
 
-            <div class="form-group">
-                <fieldset>
-                    <label for="Yes" class="block-label">
-                        <input id="Yes" type="radio"> Yes
-                    </label>
-                    <label for="No" class="block-label">
-                        <input id="No" type="radio"> No
-                    </label>
-                </fieldset>
-            </div>
+            <form action="confirm-your-details" method="post">
 
-            <a href="visit-type">
+                <div class="form-group">
+                    <fieldset>
+                        <label for="details-changed-yes" class="block-label">
+                            <input id="details-changed-yes"
+                                   type="radio"
+                                   name="details-changed"
+                                   value="Yes">
+                            Yes
+                        </label>
+                        <label for="details-changed-no" class="block-label">
+                            <input id="details-changed-no"
+                                   type="radio"
+                                   name="details-changed"
+                                   value="No">
+                            No
+                        </label>
+                    </fieldset>
+                </div>
+
                 <input type="submit" class="button">
-            </a>
+            </form>
         </div>
+    </div>
 </main>
 {% endblock %}
