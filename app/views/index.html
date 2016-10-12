@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "includes/layout.html" %}
 
 {% block page_title %}
 {% if serviceName %} {{ __(serviceName) }} {% endif %}
@@ -19,7 +19,9 @@
 
             <h3 class="heading-medium">{{ __('Eligibility') }}</h3>
             <p>{{ __('You may be able to get help with the cost of') }} <a
-                    href="https://www.gov.uk/staying-in-touch-with-someone-in-prison/visiting-someone-in-prison">{{ __('visiting a close relative or partner in prison') }}</a> {{ __('if you’re aged over 16, are on certain benefits or have a low income.') }}</p>
+                    href="https://www.gov.uk/staying-in-touch-with-someone-in-prison/visiting-someone-in-prison">{{
+                __('visiting a close relative or partner in prison') }}</a> {{ __('if you’re aged over 16, are on
+                certain benefits or have a low income.') }}</p>
 
             <h4 class="heading-small">{{__('Relationship')}}</h4>
 
@@ -37,7 +39,8 @@
 
             <p>{{__('You may qualify if you\'re receiving:')}}</p>
             <ul class="list list-bullet">
-                <li>{{__('Income Support, Jobseeker’s Allowance, Employment and Support Allowance, Universal Credit, Working Tax Credits, Child Tax Credit, Pension Credit, or')}}
+                <li>{{__('Income Support, Jobseeker’s Allowance, Employment and Support Allowance, Universal Credit,
+                    Working Tax Credits, Child Tax Credit, Pension Credit, or')}}
                 </li>
                 <li>{{__('Have a Health Certificate (HC2 or HC3)')}}</li>
             </ul>
@@ -48,20 +51,33 @@
             <br>
             <br>
             <p>
-                <a id="start" href="start.html" role="button" class="button button-start">{{__('Start now')}}</a>
+                <a id="start" href="start" role="button" class="button button-start">{{__('Start now')}}</a>
             </p>
 
             <h3 class="heading-small">{{__('Other ways to apply')}}</h3>
 
             <p>{{__('You can apply by filling in a paper form instead.')}}</p>
 
-            <p>{{__('You\'ll need to complete the paper form and send it to the address on the form to get help with travel costs.')}}</p>
+            <p>{{__('You\'ll need to complete the paper form and send it to the address on the form to get help with
+                travel costs.')}}</p>
 
+        </div>
+        <div class="column-third">
+
+            <aside class="govuk-related-items" role="complementary">
+                <h2 class="heading-medium" id="subsection-title">{% if serviceName %} {{ __(serviceName) }} {% endif
+                    %}</h2>
+                <nav role="navigation" aria-labelledby="subsection-title">
+                    <ul class="font-xsmall">
+                        <li><a href="">{{__('How to apply')}}</a></li>
+                        <li><a href="eligibility-requirements">{{__('Eligibility')}}</a></li>
+                        <li><a href="">{{__('Contact')}}</a></li>
+                    </ul>
+                </nav>
+            </aside>
         </div>
     </div>
 
 </main>
 
 {% endblock %}
-
-

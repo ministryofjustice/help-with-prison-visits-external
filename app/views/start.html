@@ -1,0 +1,82 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-half">
+            <h2 class="heading-large">
+                First time here?
+            </h2>
+
+            <p>If this is your first claim you’ll need to register with the scheme. You'll need:</p>
+            <ul class="list list-bullet">
+                <li>Your National Insurance number</li>
+                <li>Prisoner’s number and name of the Prison</li>
+            </uL>
+
+            <p>You may also need to send paper documents to us electronically. We'll explain how to do this during your
+                application.</p>
+
+            <form action="first-time" method="post">
+                <input type="submit" class="button">
+            </form>
+
+        </div>
+
+        <div class="column-half">
+            <h2 class="heading-large">
+                Already registered?
+            </h2>
+
+            <form action="already-registered" method="post">
+                <div class="form-group">
+                    <label class="form-label-bold" for="reference-number">Reference number</label>
+                    <p class="form-hint">For example APVS1234</p>
+                    <input id="reference-number" type="text" class="form-control"/>
+                    <br>
+                    <br><a href="">Forgotten your reference number?</a>
+                </div>
+
+                <div class="form-group">
+                    <fieldset>
+                        <div class="form-date">
+                            <label class="form-label-bold">Date of birth</label>
+                            <p class="form-hint">eg 18 08 1989</p>
+                            <div class="form-group form-group-day">
+                                <label for="dob-day">Day</label>
+                                <input id="dob-day" type="number" pattern="[0-9]*" min="0" max="31"
+                                       class="form-control"/>
+                            </div>
+                            <div class="form-group form-group-month">
+                                <label for="dob-month">Month</label>
+                                <input id="dob-month" type="number" pattern="[0-9]*" min="0" max="12"
+                                       class="form-control"/>
+                            </div>
+                            <div class="form-group form-group-year">
+                                <label for="dob-year">Year</label>
+                                <input id="dob-year" type="number" pattern="[0-9]*" min="0" max="2014"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <br>
+                <br>
+
+                <div class="form-group">
+                    <input type="submit" class="button">
+                </div>
+
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

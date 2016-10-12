@@ -1,0 +1,146 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <h2 class="heading-large">
+                What is your relationship with the person you're visiting?
+            </h2>
+
+            <form action="prisoner-relationship" method="post">
+                <div class="form-group">
+                    <fieldset>
+
+                        <label for="close-relative" class="block-label" data-target="close-relative-question">
+                            <input id="close-relative"
+                                   type="radio"
+                                   name="relationship"
+                                   value="Close Relative">
+
+                            <span class="heading-small">Close Relative</span>
+                            <br>
+                            You are the prisoner’s wife, husband, civil partner, mother, father, sister, brother, son,
+                            daughter, grandparent or adoptive step/half brother/sister, stepchild, stepparent or next of
+                            kin
+                        </label>
+
+                        <div class="panel panel-border-narrow js-hidden" id="close-relative-question">
+                            <label for="close-relative-relationship" class="form-label">
+                                What is your relationship to the person you're visiting?
+                            </label>
+                            <input id="close-relative-relationship"
+                                   type="text"
+                                   name="close-relative-relationship"
+                                   class="form-control">
+                        </div>
+
+                    </fieldset>
+
+                    <fieldset>
+
+                        <label for="partner" class="block-label" data-target="partner-question">
+                            <input id="partner"
+                                   type="radio"
+                                   name="relationship"
+                                   value="Partner">
+                            <span class="heading-small">Partner </span>
+                            <br>
+                            You were living with the prisoner, as a couple, in an established relationship, immediately
+                            before the period of remand/imprisonment
+                        </label>
+
+                        <label class="block-label">
+                            <input id="sole-visitor"
+                                   type="radio"
+                                   name="relationship"
+                                   value="Sole Visitor">
+                            <span class="heading-small">Sole Visitor</span>
+                            <br>
+                            You are going to be the prisoner’s only visitor for the next four weeks
+                        </label>
+
+                        <label class="block-label" data-target="escort">
+                            <input id="escort-yes"
+                                   type="radio"
+                                   name="relationship"
+                                   value="Escort">
+                            <span class="heading-small">Escort</span>
+                            <br>
+                            You are the guardian to the prisoner’s child/children or have permission to take the
+                            prisoner’s child/children to make a visit
+
+                        </label>
+
+                        <div class="panel panel-border-narrow js-hidden" id="escort">
+                            <label for="escorting" class="form-label">
+                                You are escorting:
+                            </label>
+
+                            <div id="escorting">
+
+                                <label class="block-label">
+                                    <input id="escort-adult"
+                                           type="checkbox"
+                                           name="escorting"
+                                           value="Adult">
+                                    An adult
+                                </label>
+                                <label class="block-label">
+                                    <input id="escort-someones-children"
+                                           type="checkbox"
+                                           name="escorting"
+                                           value="Someones Children">
+                                    Someone else’s child/children
+                                </label>
+                                <label class="block-label">
+                                    <input id="escort-my-children"
+                                           type="checkbox"
+                                           name="escorting"
+                                           value="Own Children">
+                                    My child/children
+                                </label>
+
+                            </div>
+                        </div>
+
+                        <label for="other" class="block-label" data-target="other-question">
+                            <input id="other"
+                                   type="radio"
+                                   name="relationship"
+                                   value="None of the above">
+                            <span class="heading-small">None of the above</span>
+                            <br>
+                        </label>
+
+                        <div class="panel panel-border-narrow js-hidden" id="other-question">
+                            <label for="other-relationship" class="form-label">
+                                What is your relationship to the person you're visiting?
+                            </label>
+                            <input id="other-relationship"
+                                   type="text"
+                                   name="other-relationship">
+                        </div>
+
+                    </fieldset>
+
+                </div>
+
+                <input type="submit" class="button">
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

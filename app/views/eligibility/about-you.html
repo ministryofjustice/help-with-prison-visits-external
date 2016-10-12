@@ -1,0 +1,103 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <h2 class="heading-large">
+                About You
+            </h2>
+
+            <form action="about-you" method="post">
+                <div class="form-group">
+                    <label class="form-label-bold" for="title">Title</label>
+                    <p class="form-hint">(Mr/Mrs/Miss/Ms)</p>
+                    <input id="title"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="first-name">First name</label>
+                    <input id="first-name"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="last-name">Last name</label>
+                    <input id="last-name"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="national-insurance-number">National Insurance number</label>
+                    <input id="national-insurance-number"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <label class="form-label-bold" for="address">Home address</label>
+                <div id="address" class="form-group">
+
+                    <label for="address-line-1"></label>
+                    <input id="address-line-1"
+                           type="text"
+                           class="form-control">
+                    <br>
+                    <br>
+
+                    <label for="address-line-2"></label>
+                    <input id="address-line-2"
+                           type="text"
+                           class="form-control">
+                    <br>
+                    <br>
+
+                    <label for="address-line-3"></label>
+                    <input id="address-line-3"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="post-code">Post code</label>
+                    <input id="post-code"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="email-address">Email address</label>
+                    <p class="form-hint">You’ll receive confirmation by email</p>
+                    <input id="email-address"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="phone-number">Phone number</label>
+                    <input id="phone-number"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <input type="submit" class="button">
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

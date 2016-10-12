@@ -1,4 +1,3 @@
-/* global describe it */
 var expect = require('chai').expect
 var log = require('../../../app/services/log')
 

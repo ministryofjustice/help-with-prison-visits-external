@@ -1,0 +1,61 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <h2 class="heading-large">
+                Your claim details
+            </h2>
+
+            <p>Add the details of your <span class="bold">car</span> journey</p>
+
+            <form action="car-details" method="post">
+                <div class="form-group inline">
+                    <label for="departure-time" class="form-label-bold">Time of departure</label>
+                    <input id="departure-time"
+                           type="text"
+                           class="form-control">
+                    <p class="form-hint">eg 10am</p>
+                </div>
+
+                <div class="form-group inline">
+                    <label for="from" class="form-label-bold">From</label>
+                    <input id="from"
+                           type="text"
+                           class="form-control">
+                    <p class="form-hint">eg London</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="arrival-time" class="form-label-bold">Time of arrival</label>
+                    <input id="arrival-time"
+                           type="text"
+                           class="form-control">
+                    <p class="form-hint">eg 11am</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="destination" class="form-label-bold">To</label>
+                    <input id="destination"
+                           type="text"
+                           class="form-control">
+                    <p class="form-hint">eg Hewell</p>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="button">
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

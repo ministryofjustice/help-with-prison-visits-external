@@ -6,15 +6,14 @@ var bodyParser = require('body-parser')
 var helmet = require('helmet')
 var compression = require('compression')
 var i18n = require('i18n')
-
 var routes = require('./routes/routes')
 
 var app = express()
 
-// Use gzip compression - remove if possible via reverse proxy/Azure gateway
+// Use gzip compression - remove if possible via reverse proxy/Azure gateway.
 app.use(compression())
 
-// Set security headers
+// Set security headers.
 app.use(helmet())
 
 var packageJson = require('../package.json')
@@ -38,20 +37,20 @@ app.use(favicon(path.join(__dirname, 'govuk_modules', 'govuk_template', 'images'
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-// send assetPath to all views
+// Send assetPath to all views.
 app.use(function (req, res, next) {
   res.locals.asset_path = '/public/'
   next()
 })
 
-// Add variables that are available in all views
+// Add variables that are available in all views.
 app.use(function (req, res, next) {
   res.locals.serviceName = serviceName
   res.locals.releaseVersion = 'v' + releaseVersion
   next()
 })
 
-// Set locale for translations
+// Set locale for translations.
 i18n.configure({
   locales: ['en', 'cy'],
   directory: path.join(__dirname, '/locales'),
@@ -64,29 +63,28 @@ var router = express.Router()
 routes(router)
 app.use('/', router)
 
-// catch 404 and forward to error handler
+// catch 404 and forward to error handler.
 app.use(function (req, res, next) {
   var err = new Error('Not Found')
   err.status = 404
   next(err)
 })
 
-// error handlers
+// Error handlers.
 if (developmentMode) {
   app.use(function (err, req, res, next) {
     res.status(err.status || 500)
-    res.render('error', {
+    res.render('includes/error', {
       message: err.message,
       error: err
     })
   })
 }
 
-// production error handler
-// no stacktraces leaked to user
+// Production error handler - no stack traces leaked to user.
 app.use(function (err, req, res, next) {
   res.status(err.status || 500)
-  res.render('error', {
+  res.render('includes/error', {
     message: err.message,
     error: {}
   })

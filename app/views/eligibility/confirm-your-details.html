@@ -1,0 +1,72 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <h2 class="heading-large">
+                Is your information correct?
+            </h2>
+
+            <h4 class="heading-small">Name</h4>
+            <p>Mr J B*o**s</p>
+
+            <h4 class="heading-small">Address</h4>
+            <ul class="list">
+                <li>12*3 S*re*t Na*e</li>
+                <li>Lo*n**n</li>
+                <li>N* AB*12*</li>
+            </ul>
+
+            <h4 class="heading-small">Email address</h4>
+            <p>ka**os@g*v.uk</p>
+
+            <h4 class="heading-small">Phone number</h4>
+            <p>07***34***8</p>
+
+            <h4 class="heading-small">Prisoner number</h4>
+            <p>0000001</p>
+
+            <h4 class="heading-small">Prison Location</h4>
+            <p>Hewell</p>
+
+            <h4 class="heading-small">You receive the following benefits</h4>
+            <p>Income Support</p>
+
+            <h4 class="heading-small">You're the prisoner's</h4>
+            <p>Close relative</p>
+
+            <form action="confirm-your-details" method="post">
+
+                <div class="form-group">
+                    <fieldset>
+                        <label for="details-changed-yes" class="block-label">
+                            <input id="details-changed-yes"
+                                   type="radio"
+                                   name="details-changed"
+                                   value="Yes">
+                            Yes
+                        </label>
+                        <label for="details-changed-no" class="block-label">
+                            <input id="details-changed-no"
+                                   type="radio"
+                                   name="details-changed"
+                                   value="No">
+                            No
+                        </label>
+                    </fieldset>
+                </div>
+
+                <input type="submit" class="button">
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
