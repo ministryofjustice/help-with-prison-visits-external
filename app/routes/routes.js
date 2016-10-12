@@ -34,7 +34,6 @@ var routes = [
 ]
 
 module.exports = function (router) {
-  
   router.use(function (req, res, next) {
     log.info({ request: req }, 'Route Started.')
     next()
