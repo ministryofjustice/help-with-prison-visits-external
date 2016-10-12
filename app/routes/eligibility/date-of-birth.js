@@ -3,7 +3,8 @@ module.exports = function (router) {
     res.render('eligibility/date-of-birth')
   })
 
-
   // TODO: Need age check here. If under 16 redirect to eligibility-fail.
-
+  router.post('/date-of-birth', function (req, res) {
+    res.redirect('prisoner-relationship')
+  })
 }
