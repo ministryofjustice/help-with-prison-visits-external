@@ -1,7 +1,13 @@
 /* global describe beforeEach it */
 var supertest = require('supertest')
+var proxyquire = require('proxyquire')
 var express = require('express')
-var route = require('../../../app/routes/status')
+var log = {
+  info: function (text) {}
+}
+var route = proxyquire('../../../app/routes/health-check/status', {
+  '../services/log': log
+})
 
 describe('status', function () {
   var request
