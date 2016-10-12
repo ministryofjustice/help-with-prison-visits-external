@@ -1,7 +1,10 @@
 {
   "name": "external-web",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "license": "MIT",
+  "engines": {
+    "node": "6.x.x"
+  },
   "scripts": {
     "start": "node app/bin/www",
     "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/unit/**/*"

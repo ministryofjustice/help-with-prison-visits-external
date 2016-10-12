@@ -1,0 +1,1 @@
+web: ./build.sh && node app/bin/www
