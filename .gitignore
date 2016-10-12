@@ -27,3 +27,6 @@ errorShots
 # Ignore IntelliJ files
 .idea/
 run-docker.sh
+
+# Public directory
+app/public
