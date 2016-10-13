@@ -24,9 +24,7 @@
             <p>You may also need to send paper documents to us electronically. We'll explain how to do this during your
                 application.</p>
 
-            <form action="first-time">
-                <input type="submit" class="button">
-            </form>
+            <a id="first-time-submit" href="first-time" role="button" class="button button-start">Start</a>
 
         </div>
 
@@ -51,17 +49,20 @@
                             <p class="form-hint">eg 18 08 1989</p>
                             <div class="form-group form-group-day">
                                 <label for="dob-day">Day</label>
-                                <input id="dob-day" type="number" pattern="[0-9]*" min="0" max="31"
+                                <input id="dob-day"
+                                       type="number"
                                        class="form-control"/>
                             </div>
                             <div class="form-group form-group-month">
                                 <label for="dob-month">Month</label>
-                                <input id="dob-month" type="number" pattern="[0-9]*" min="0" max="12"
+                                <input id="dob-month"
+                                       type="number"
                                        class="form-control"/>
                             </div>
                             <div class="form-group form-group-year">
                                 <label for="dob-year">Year</label>
-                                <input id="dob-year" type="number" pattern="[0-9]*" min="0" max="2014"
+                                <input id="dob-year"
+                                       type="number"
                                        class="form-control"/>
                             </div>
                         </div>
@@ -72,7 +73,7 @@
                 <br>
 
                 <div class="form-group">
-                    <input type="submit" class="button">
+                    <input id="already-registered-submit" type="submit" class="button">
                 </div>
 
             </form>

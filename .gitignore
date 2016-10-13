@@ -26,3 +26,6 @@ errorShots
 # Ignore IntelliJ files
 .idea/
 run-docker.sh
+run-end-to-end-tests.sh
+run-end-to-end-tests-ie8.sh
+run-end-to-end-tests-firefox.sh
