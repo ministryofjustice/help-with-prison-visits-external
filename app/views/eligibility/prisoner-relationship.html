@@ -13,23 +13,7 @@
     <div class="grid-row">
         <div class="column-two-thirds">
 
-            {% if errors %}
-            <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
-
-                <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
-                    You have not selected appropriate options:
-                </h1>
-
-                <ul class="error-summary-list">
-                    {% for field, messages in errors %}
-                        {% if messages[0] %}
-                            <li><a href="#{{ field }}">{{ messages[0] }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-
-            </div>
-            {% endif %}
+          {% include "includes/validation-error-messages.html" %}
 
             <h2 id='relationship' class="heading-large">
                 What is your relationship with the person you're visiting?
