@@ -31,9 +31,13 @@
             </div>
             {% endif %}
 
-            <h2 class="heading-large">
+            <h2 id='relationship' class="heading-large">
                 What is your relationship with the person you're visiting?
             </h2>
+
+            {% if errors['relationship'][0] %}
+              <span class="error-message" id="error-message-relaionship">{{ errors['relationship'][0] }}</span>
+            {% endif %}
 
             <form action="prisoner-relationship" method="post">
                 <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
