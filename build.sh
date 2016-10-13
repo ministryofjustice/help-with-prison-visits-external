@@ -11,7 +11,7 @@ function install_modules() {
 }
 
 function copy_assets() {
-  rm -rf app/govuk_modules
+  # rm -rf app/govuk_modules
   mkdir app/govuk_modules
 
   mkdir app/govuk_modules/govuk_template
@@ -23,7 +23,7 @@ function copy_assets() {
 }
 
 function copy_templates() {
-  rm -f app/views/govuk_template.html
+  # rm -f app/views/govuk_template.html
   cp node_modules/govuk_template_jinja/views/layouts/govuk_template.html app/views/
 }
 
