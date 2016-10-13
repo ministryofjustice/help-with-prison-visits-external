@@ -48,9 +48,6 @@ gulp.task('templates', function () {
 })
 
 gulp.task('sync', function () {
-  gulp.src('app/govuk_modules/govuk_frontend_toolkit/javascripts/govuk/show-hide-content.js')
-    .pipe(gulp.dest('app/public/javascripts/', { overwrite: true }))
-
   gulp.src('app/assets/javascripts/**/*')
     .pipe(gulp.dest('app/public/javascripts/', { overwrite: true }))
 })
