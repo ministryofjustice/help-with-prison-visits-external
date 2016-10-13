@@ -12,17 +12,6 @@ class PrisonerRelationshipValidator {
     FieldValidator(relationship, 'relationship', errors)
       .isRequired()
 
-    if (relationship === 'CloseRelative') {
-      FieldValidator(closeRelative, 'close-relative-relationship', errors)
-        .isRequired()
-    }else if (relationship === 'Escort') {
-      FieldValidator(escorting, 'escorting', errors)
-        .isRequired()
-    }else if (relationship === 'NoneOfTheAbove') {
-      FieldValidator(otherRelationship, 'other-relationship', errors)
-        .isRequired()
-    }
-
     for (var field in errors) {
       if (errors.hasOwnProperty(field)) {
         if (errors[field].length > 0) {return errors}
