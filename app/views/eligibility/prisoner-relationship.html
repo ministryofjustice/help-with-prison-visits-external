@@ -17,7 +17,7 @@
                 What is your relationship with the person you're visiting?
             </h2>
 
-            <form action="prisoner-relationship" method="post">
+            <form action="/first-time/{{ dob }}" method="post">
                 <div class="form-group">
                     <fieldset>
 
@@ -34,7 +34,7 @@
                             kin
                         </label>
 
-                        <div class="panel panel-border-narrow js-hidden" id="close-relative-question">
+                        <div class="panel panel-border-narrow" id="close-relative-question">
                             <label for="close-relative-relationship" class="form-label">
                                 What is your relationship to the person you're visiting?
                             </label>
@@ -81,7 +81,7 @@
 
                         </label>
 
-                        <div class="panel panel-border-narrow js-hidden" id="escort">
+                        <div class="panel panel-border-narrow" id="escort">
                             <label for="escorting" class="form-label">
                                 You are escorting:
                             </label>
@@ -122,7 +122,7 @@
                             <br>
                         </label>
 
-                        <div class="panel panel-border-narrow js-hidden" id="other-question">
+                        <div class="panel panel-border-narrow" id="other-question">
                             <label for="other-relationship" class="form-label">
                                 What is your relationship to the person you're visiting?
                             </label>

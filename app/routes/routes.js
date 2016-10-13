@@ -6,9 +6,7 @@ const log = require('../services/log')
 var routes = [
   require('./index'),
   require('./health-check/status'),
-  require('./eligibility/date-of-birth'),
-  require('./eligibility/prisoner-relationship'),
-  require('./eligibility/benefits'),
+  require('./eligibility/first-time-eligibility-flow'),
   require('./eligibility/benefits-on-behalf'),
   require('./file-upload'),
   require('./eligibility/about-the-prisoner'),
