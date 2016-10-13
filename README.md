@@ -53,6 +53,23 @@ docker run --rm -t -i
     --name apvs-external-web-node-dev apvs-external-web-node:dev
 ```
 
+### Heroku
+
+The application can be deployed to [heroku](https://www.heroku.com/) for quick preview.
+
+Deployment to heroku is automatically performed by [Travis using an encrypted deployment key](https://docs.travis-ci.com/user/deployment/heroku/) in `.travis.yml`.
+
+```
+heroku login
+heroku create
+heroku buildpacks:set heroku/nodejs
+
+# Set config vars for application
+# heroku config:set DB_USERNAME=mydbuser
+
+git push heroku master
+```
+
 ## Test
 
 Checks code against standard JS and runs mocha unit tests.
