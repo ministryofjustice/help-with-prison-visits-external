@@ -11,7 +11,6 @@ module.exports = function (router) {
 
     if (validationErrors) {
       res.status(400).render('eligibility/prisoner-relationship', { errors: validationErrors })
-      console.log('*****here****')
       return next()
     }
 

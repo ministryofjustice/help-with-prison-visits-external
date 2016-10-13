@@ -5,12 +5,23 @@ class PrisonerRelationshipValidator {
     var errors = {}
 
     var relationship = data['relationship']
-
-    console.log(relationship)
-    console.log(data)
+    var closeRelative = data['close-relative-relationship']
+    var escorting = data['escorting']
+    var otherRelationship = data['other-relationship']
 
     FieldValidator(relationship, 'relationship', errors)
       .isRequired()
+
+    if (relationship === 'CloseRelative') {
+      FieldValidator(closeRelative, 'close-relative-relationship', errors)
+        .isRequired()
+    }else if (relationship === 'Escort') {
+      FieldValidator(escorting, 'escorting', errors)
+        .isRequired()
+    }else if (relationship === 'NoneOfTheAbove') {
+      FieldValidator(otherRelationship, 'other-relationship', errors)
+        .isRequired()
+    }
 
     for (var field in errors) {
       if (errors.hasOwnProperty(field)) {
