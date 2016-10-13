@@ -2,13 +2,18 @@
   "name": "external-web",
   "version": "0.1.0",
   "license": "MIT",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/ministryofjustice/apvs-external-web.git"
+  },
   "engines": {
     "node": "6.4.0",
     "npm": "3.10.3"
   },
   "scripts": {
     "start": "node app/bin/www",
-    "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/unit/**/*"
+    "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/unit/**/*",
+    "postinstall": "./build.sh"
   },
   "standard": {
     "ignore": [
