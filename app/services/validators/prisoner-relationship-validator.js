@@ -1,7 +1,7 @@
 var FieldValidator = require('./field-validator')
 
 class PrisonerRelationshipValidator {
-  validate (data) {
+  static validate (data) {
     var errors = {}
 
     var relationship = data['relationship']
@@ -18,6 +18,6 @@ class PrisonerRelationshipValidator {
   }
 }
 exports.default = function (data) {
-  return new PrisonerRelationshipValidator().validate(data)
+  return PrisonerRelationshipValidator.validate(data)
 }
 module.exports = exports['default']

@@ -14,7 +14,7 @@
         <div class="column-two-thirds">
 
             {% if errors %}
-                <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
 
                 <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
                     You have not selected appropriate options:
@@ -28,7 +28,7 @@
                     {% endfor %}
                 </ul>
 
-                </div>
+            </div>
             {% endif %}
 
             <h2 class="heading-large">
@@ -39,7 +39,7 @@
                 <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
                     <fieldset>
 
-                        <label for="close-relative" class="block-label" data-target="close-relative-question">
+                        <label class="block-label" data-target="close-relative-question">
                             <input id="close-relative"
                                    type="radio"
                                    name="relationship"
@@ -53,16 +53,16 @@
                         </label>
 
                         <div class="panel panel-border-narrow js-hidden" id="close-relative-question">
-                            <label for="close-relative-relationship" class="form-label">
+                            <label class="form-label">
                                 What is your relationship to the person you're visiting?
+                                <input id="close-relative-relationship"
+                                       type="text"
+                                       name="close-relative-relationship"
+                                       class="form-control">
                             </label>
-                            <input id="close-relative-relationship"
-                                   type="text"
-                                   name="close-relative-relationship"
-                                   class="form-control">
                         </div>
 
-                        <label for="partner" class="block-label" data-target="partner-question">
+                        <label class="block-label" data-target="partner-question">
                             <input id="partner"
                                    type="radio"
                                    name="relationship"
@@ -96,35 +96,32 @@
                         </label>
 
                         <div class="panel panel-border-narrow js-hidden" id="escort">
-                            <label for="escorting" class="form-label">
-                                You are escorting:
+                            <p class="form-label"> You are escorting:</p>
+
+                            <label class="block-label">
+                                <input id="escort-adult"
+                                       type="checkbox"
+                                       name="escorting"
+                                       value="Adult">
+                                An adult
                             </label>
 
-                            <div id="escorting">
+                            <label class="block-label">
+                                <input id="escort-someones-children"
+                                       type="checkbox"
+                                       name="escorting"
+                                       value="Someones Children">
+                                Someone else’s child/children
+                            </label>
 
-                                <label class="block-label">
-                                    <input id="escort-adult"
-                                           type="checkbox"
-                                           name="escorting"
-                                           value="Adult">
-                                    An adult
-                                </label>
-                                <label class="block-label">
-                                    <input id="escort-someones-children"
-                                           type="checkbox"
-                                           name="escorting"
-                                           value="Someones Children">
-                                    Someone else’s child/children
-                                </label>
-                                <label class="block-label">
-                                    <input id="escort-my-children"
-                                           type="checkbox"
-                                           name="escorting"
-                                           value="Own Children">
-                                    My child/children
-                                </label>
+                            <label class="block-label">
+                                <input id="escort-my-children"
+                                       type="checkbox"
+                                       name="escorting"
+                                       value="Own Children">
+                                My child/children
+                            </label>
 
-                            </div>
                         </div>
 
                         <label for="other" class="block-label" data-target="other-question">
