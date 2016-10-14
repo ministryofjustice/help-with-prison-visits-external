@@ -4,12 +4,10 @@ var express = require('express')
 var mockViewEngine = require('../mock-view-engine')
 var bodyParser = require('body-parser')
 
-var log = {
-  info: function (text) {}
-}
+var validationErrors
 
 var route = proxyquire('../../../../app/routes/eligibility/first-time-eligibility-flow', {
-  '../services/log': log
+  '../../services/validators/prisoner-relationship-validator': function (data) { return validationErrors }
 })
 
 describe('first-time-eligibility-flow', function () {
@@ -21,6 +19,7 @@ describe('first-time-eligibility-flow', function () {
     mockViewEngine(app, '../../../app/views')
     route(app)
     request = supertest(app)
+    validationErrors = false
   })
 
   // date-of-birth
@@ -74,6 +73,14 @@ describe('first-time-eligibility-flow', function () {
       request
         .post('/first-time/:dob')
         .expect(302)
+        .end(done)
+    })
+
+    it('should fail validation if no relationship is provided', function (done) {
+      validationErrors = { 'relationship': [] }
+      request
+        .post('/first-time/:dob')
+        .expect(400)
         .end(done)
     })
 

@@ -1,3 +1,5 @@
+const validator = require('../../services/validators/prisoner-relationship-validator')
+
 module.exports = function (router) {
   // Date of Birth
   router.get('/first-time', function (req, res, next) {
@@ -23,6 +25,12 @@ module.exports = function (router) {
   router.post('/first-time/:dob', function (req, res, next) {
     var relationship = req.body.relationship
     var dob = req.params.dob
+    var validationErrors = validator(req.body)
+
+    if (validationErrors) {
+      res.status(400).render('eligibility/prisoner-relationship', { errors: validationErrors, dob: dob })
+      return next()
+    }
 
     if (relationship === 'None of the above') {
       res.redirect('/eligibility-fail')
