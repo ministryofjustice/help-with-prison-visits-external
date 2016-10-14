@@ -1,5 +1,6 @@
 const prisonerRelationshipValidator = require('../../services/validators/eligibility/prisoner-relationship-validator')
 const dateOfBirthValidator = require('../../services/validators/eligibility/date-of-birth-validator')
+const benefitValidator = require('../../services/validators/eligibility/benefit-validator')
 
 module.exports = function (router) {
   // Date of Birth
@@ -59,6 +60,12 @@ module.exports = function (router) {
     var benefit = req.body.benefit
     var dob = req.params.dob
     var relationship = req.params.relationship
+    var validationErrors = benefitValidator(req.body)
+
+    if (validationErrors) {
+      res.status(400).render('eligibility/benefits', { errors: validationErrors, dob: dob, relationship: relationship })
+      return next()
+    }
 
     if (benefit === 'None of the above') {
       res.redirect('eligibility-fail')
@@ -78,11 +85,11 @@ module.exports = function (router) {
     next()
   })
 
-  // TODO Post on joureny-assistance
-  router.post('/journey-assistance', function (req, res, next) {
-    res.redirect('benefits')
-    next()
-  })
+// TODO Post on joureny-assistance
+// router.post('/journey-assistance', function (req, res, next) {
+//   res.redirect('benefits')
+//   next()
+// })
 }
 
 function buildDOB (req) {
