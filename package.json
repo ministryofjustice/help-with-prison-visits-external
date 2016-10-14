@@ -43,7 +43,8 @@
     "i18n": "^0.8.3",
     "node-sass": "^3.10.1",
     "nunjucks": "^2.5.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "validator": "^6.0.0"
   },
   "devDependencies": {
     "assert": "^1.4.1",

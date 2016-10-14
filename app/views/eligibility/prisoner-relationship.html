@@ -13,15 +13,21 @@
     <div class="grid-row">
         <div class="column-two-thirds">
 
-            <h2 class="heading-large">
+          {% include "includes/validation-error-messages.html" %}
+
+            <h2 id='relationship' class="heading-large">
                 What is your relationship with the person you're visiting?
             </h2>
 
+            {% if errors['relationship'][0] %}
+              <span class="error-message" id="error-message-relaionship">{{ errors['relationship'][0] }}</span>
+            {% endif %}
+
             <form action="/first-time/{{ dob }}" method="post">
-                <div class="form-group">
+                <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
                     <fieldset>
 
-                        <label for="close-relative" class="block-label" data-target="close-relative-question">
+                        <label class="block-label" data-target="close-relative-question">
                             <input id="close-relative"
                                    type="radio"
                                    name="relationship"
@@ -34,21 +40,17 @@
                             kin
                         </label>
 
-                        <div class="panel panel-border-narrow" id="close-relative-question">
-                            <label for="close-relative-relationship" class="form-label">
+                        <div id="close-relative-question" class="panel panel-border-narrow js-hidden">
+                            <label class="form-label">
                                 What is your relationship to the person you're visiting?
+                                <input id="close-relative-relationship"
+                                       type="text"
+                                       name="close-relative-relationship"
+                                       class="form-control">
                             </label>
-                            <input id="close-relative-relationship"
-                                   type="text"
-                                   name="close-relative-relationship"
-                                   class="form-control">
                         </div>
 
-                    </fieldset>
-
-                    <fieldset>
-
-                        <label for="partner" class="block-label" data-target="partner-question">
+                        <label class="block-label" data-target="partner-question">
                             <input id="partner"
                                    type="radio"
                                    name="relationship"
@@ -81,36 +83,33 @@
 
                         </label>
 
-                        <div class="panel panel-border-narrow" id="escort">
-                            <label for="escorting" class="form-label">
-                                You are escorting:
+                        <div id="escort" class="panel panel-border-narrow js-hidden">
+                            <p class="form-label"> You are escorting:</p>
+
+                            <label class="block-label">
+                                <input id="escort-adult"
+                                       type="checkbox"
+                                       name="escorting"
+                                       value="Adult">
+                                An adult
                             </label>
 
-                            <div id="escorting">
+                            <label class="block-label">
+                                <input id="escort-someones-children"
+                                       type="checkbox"
+                                       name="escorting"
+                                       value="Someones Children">
+                                Someone else’s child/children
+                            </label>
 
-                                <label class="block-label">
-                                    <input id="escort-adult"
-                                           type="checkbox"
-                                           name="escorting"
-                                           value="Adult">
-                                    An adult
-                                </label>
-                                <label class="block-label">
-                                    <input id="escort-someones-children"
-                                           type="checkbox"
-                                           name="escorting"
-                                           value="Someones Children">
-                                    Someone else’s child/children
-                                </label>
-                                <label class="block-label">
-                                    <input id="escort-my-children"
-                                           type="checkbox"
-                                           name="escorting"
-                                           value="Own Children">
-                                    My child/children
-                                </label>
+                            <label class="block-label">
+                                <input id="escort-my-children"
+                                       type="checkbox"
+                                       name="escorting"
+                                       value="Own Children">
+                                My child/children
+                            </label>
 
-                            </div>
                         </div>
 
                         <label for="other" class="block-label" data-target="other-question">
@@ -122,7 +121,7 @@
                             <br>
                         </label>
 
-                        <div class="panel panel-border-narrow" id="other-question">
+                        <div id="other-question" class="panel panel-border-narrow js-hidden">
                             <label for="other-relationship" class="form-label">
                                 What is your relationship to the person you're visiting?
                             </label>
