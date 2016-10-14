@@ -1,7 +1,7 @@
-const FieldValidator = require('../field-validator')
 const FIELD_NAMES = require('../validation-field-names')
 const ERROR_MESSAGES = require('../validation-error-messages')
 
+// TODO: Split the error construction logic out into its own class.
 class DateOfBirthValidator {
   static validate (data) {
     var errors = {}
@@ -10,29 +10,18 @@ class DateOfBirthValidator {
     var dobMonth = data['dob-month']
     var dobYear = data['dob-year']
 
-    FieldValidator(dobDay, 'dob-day', errors)
-      .isRequired()
-      .isNumeric()
-      .isLength(2)
-
-    FieldValidator(dobMonth, 'dob-month', errors)
-      .isRequired()
-      .isNumeric()
-      .isLength(2)
-
-    FieldValidator(dobYear, 'dob-year', errors)
-      .isRequired()
-      .isNumeric()
-      .isLength(4)
-
-    var dob = new Date(buildDOB(dobYear, dobMonth, dobDay))
-
-    if (!isValidDate(dob)) {
+    if (!dobDay || !dobMonth || !dobYear) {
       addErrorMessage(errors, 'dob', 'dob', ERROR_MESSAGES.getInvalidDobFormatMessage)
-    }
+    } else {
+      var dob = new Date(buildDOB(dobYear, dobMonth, dobDay))
 
-    if (!isDateInThePast(dob)) {
-      addErrorMessage(errors, 'dob', 'dob', ERROR_MESSAGES.getFutureDobMessage)
+      if (!isValidDate(dob)) {
+        addErrorMessage(errors, 'dob', 'dob', ERROR_MESSAGES.getInvalidDobFormatMessage)
+      }
+
+      if (!isDateInThePast(dob)) {
+        addErrorMessage(errors, 'dob', 'dob', ERROR_MESSAGES.getFutureDobMessage)
+      }
     }
 
     for (var field in errors) {

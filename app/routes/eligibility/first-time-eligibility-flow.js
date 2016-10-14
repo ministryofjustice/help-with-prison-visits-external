@@ -67,6 +67,7 @@ module.exports = function (router) {
   })
 }
 
+// TODO: Need to use the Date constructor here and then return a parsed object (without the time stamp) for routing to the next page
 function buildDOB (req) {
   var day = req.body['dob-day']
   var month = req.body['dob-month']
