@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "node app/bin/www",
-    "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/unit/**/*",
+    "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/unit/**/**/*",
     "postinstall": "./build.sh"
   },
   "standard": {
