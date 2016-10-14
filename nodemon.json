@@ -1,0 +1,11 @@
+{
+  "ignore": [
+    "node_modules/**",
+    "logs/**",
+    "app/assets/**",
+    "app/public/**",
+    "app/govuk_modules/**",
+    "app/views/govuk_template.html"
+  ],
+  "ext": "js json"
+}

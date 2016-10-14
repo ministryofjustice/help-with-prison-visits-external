@@ -1,5 +1,5 @@
 # Logs
-**.log
+**.log*
 npm-debug.log*
 
 .grunt
@@ -26,3 +26,6 @@ errorShots
 # Ignore IntelliJ files
 .idea/
 run-docker.sh
+
+# Public directory
+app/public

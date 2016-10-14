@@ -11,4 +11,4 @@ EXPOSE 3000
 HEALTHCHECK CMD curl --fail http://localhost:3000/status || exit 1
 
 # Resolve dependencies at container startup to allow caching
-CMD npm install && node_modules/.bin/nodemon ./bin/www
+CMD npm install && node_modules/.bin/nodemon --config="nodemon.json"
