@@ -9,7 +9,6 @@ var routes = [
   require('./eligibility/date-of-birth'),
   require('./eligibility/prisoner-relationship'),
   require('./eligibility/benefits'),
-  require('./eligibility/benefits-on-behalf'),
   require('./file-upload'),
   require('./eligibility/about-the-prisoner'),
   require('./eligibility/about-you'),
