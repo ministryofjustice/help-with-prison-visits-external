@@ -10,7 +10,7 @@ module.exports = function (router) {
     if (benefit === 'None of the above') {
       res.redirect('eligibility-fail')
     } else {
-      res.redirect('benefits-on-behalf')
+      res.redirect('journey-assistance')
     }
     next()
   })

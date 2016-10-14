@@ -5,7 +5,7 @@ module.exports = function (router) {
   })
 
   router.post('/journey-assistance', function (req, res, next) {
-    res.redirect('benefits')
+    res.redirect('about-the-prisoner')
     next()
   })
 }
