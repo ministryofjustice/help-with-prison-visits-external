@@ -16,7 +16,6 @@ Install dependencies and run on port 3000.
 
 ```
 npm install
-./build.sh
 npm start
 ```
 
@@ -33,7 +32,6 @@ docker-compose up
 ```
 # Compile static resources and container image
 npm install
-./build.sh
 docker build -t apvs-external-web-node:prod .
 ```
 

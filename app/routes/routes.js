@@ -7,7 +7,6 @@ var routes = [
   require('./index'),
   require('./health-check/status'),
   require('./eligibility/first-time-eligibility-flow'),
-  require('./eligibility/benefits-on-behalf'),
   require('./file-upload'),
   require('./eligibility/about-the-prisoner'),
   require('./eligibility/about-you'),
