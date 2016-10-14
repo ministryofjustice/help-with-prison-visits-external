@@ -2,6 +2,7 @@ var gulp = require('gulp')
 var selenium = require('selenium-standalone')
 var webdriver = require('gulp-webdriver')
 var sass = require('gulp-sass')
+var spawn = require('child_process').spawn
 
 let seleniumServer
 
@@ -69,9 +70,11 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('app/public/stylesheets'))
 })
 
-gulp.task('compile-and-copy-assets', [
+gulp.task('generate-assets-and-start', [
   'assets',
   'templates',
   'sync',
   'sass'
-])
+], function () {
+  spawn('node', ['app/bin/www'], { stdio: 'inherit' })
+})
