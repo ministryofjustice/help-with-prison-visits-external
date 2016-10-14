@@ -32,7 +32,7 @@ gulp.task('e2e', ['selenium'], () => {
     })
 })
 
-gulp.task('assets', ['sass'], function () {
+gulp.task('assets', function () {
   gulp.src('node_modules/govuk_frontend_toolkit/javascripts/**/*')
     .pipe(gulp.dest('app/govuk_modules/govuk_frontend_toolkit/javascripts', { overwrite: true }))
 
