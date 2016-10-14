@@ -61,7 +61,7 @@ function isDateInThePast (date) {
   return date <= new Date()
 }
 
-// TODO: This function should be moved to a generic class for adding errors.
+// TODO: This function should be moved to a generic class for handling higher level validation. I.e. Not on a field.
 function addErrorMessage (errors, fieldName, displayName, message, options) {
   if (!errors[fieldName]) {
     errors[fieldName] = []
