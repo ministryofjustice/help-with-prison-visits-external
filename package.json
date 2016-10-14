@@ -10,7 +10,7 @@
     "node": "6.x.x"
   },
   "scripts": {
-    "start": "node_modules/.bin/gulp generate-assets-and-start",
+    "start": "gulp",
     "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/unit/**/*"
   },
   "standard": {
