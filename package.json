@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "gulp compile-and-copy-assets && node app/bin/www",
+    "start": "./node_modules/.bin/gulp compile-and-copy-assets && node app/bin/www",
     "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/unit/**/*"
   },
   "standard": {
@@ -36,7 +36,6 @@
     "chai": "^3.5.0",
     "gulp-webdriver": "^2.0.2",
     "mocha": "^3.0.2",
-    "node-sass": "^3.9.3",
     "nodemon": "^1.10.2",
     "proxyquire": "^1.7.10",
     "selenium-standalone": "^5.7.2",

@@ -6,7 +6,8 @@ services:
       context: ./
       dockerfile: Dockerfile-dev
     volumes:
-      - "./build.sh:/usr/src/app/build.sh"
+      - "./gulpfile.js:/usr/src/app/gulpfile.js"
+      - "./nodemon.json:/usr/src/app/nodemon.json"
       - "./app:/usr/src/app/app"
       - "./cache_node_modules:/usr/src/app/node_modules"
       - "./logs:/usr/src/app/logs"
