@@ -1,4 +1,5 @@
-const validator = require('../../services/validators/prisoner-relationship-validator')
+const prisonerRelationshipValidator = require('../../services/validators/eligibility/prisoner-relationship-validator')
+const dateOfBirthValidator = require('../../services/validators/eligibility/date-of-birth-validator')
 
 module.exports = function (router) {
   // Date of Birth
@@ -9,6 +10,12 @@ module.exports = function (router) {
 
   // TODO: Need age check here. If under 16 redirect to eligibility-fail. Add this to the validation logic for the page.
   router.post('/first-time', function (req, res, next) {
+    var validationErrors = dateOfBirthValidator(req.body)
+
+    if (validationErrors) {
+      res.status(400).render('eligibility/date-of-birth', { errors: validationErrors })
+      return next()
+    }
     res.redirect('/first-time/' + buildDOB(req))
     next()
   })
@@ -25,7 +32,7 @@ module.exports = function (router) {
   router.post('/first-time/:dob', function (req, res, next) {
     var relationship = req.body.relationship
     var dob = req.params.dob
-    var validationErrors = validator(req.body)
+    var validationErrors = prisonerRelationshipValidator(req.body)
 
     if (validationErrors) {
       res.status(400).render('eligibility/prisoner-relationship', { errors: validationErrors, dob: dob })

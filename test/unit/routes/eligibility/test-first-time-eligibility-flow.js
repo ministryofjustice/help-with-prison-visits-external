@@ -7,7 +7,8 @@ var bodyParser = require('body-parser')
 var validationErrors
 
 var route = proxyquire('../../../../app/routes/eligibility/first-time-eligibility-flow', {
-  '../../services/validators/prisoner-relationship-validator': function (data) { return validationErrors }
+  '../../services/validators/eligibility/prisoner-relationship-validator': function (data) { return validationErrors },
+  '../../services/validators/eligibility/date-of-birth-validator': function (data) { return validationErrors }
 })
 
 describe('first-time-eligibility-flow', function () {

@@ -13,6 +13,8 @@
     <div class="grid-row">
         <div class="column-two-thirds">
 
+            {% include "includes/validation-error-messages.html" %}
+
             <h2 class="heading-large">
                 What is your date of birth?
             </h2>
@@ -29,24 +31,24 @@
                             <div class="form-group form-group-day">
                                 <label id="dob-day" for="dob-day-input">Day</label>
                                 <input id="dob-day-input"
-                                       name="dob-day"
                                        type="number"
+                                       name="dob-day"
                                        class="form-control">
                             </div>
 
                             <div class="form-group form-group-month">
                                 <label id="dob-month" for="dob-month-input">Month</label>
                                 <input id="dob-month-input"
-                                       name="dob-month"
                                        type="number"
+                                       name="dob-month"
                                        class="form-control">
                             </div>
 
                             <div class="form-group form-group-year">
                                 <label id="dob-year" for="dob-year-input">Year</label>
                                 <input id="dob-year-input"
-                                       name="dob-year"
                                        type="number"
+                                       name="dob-year"
                                        class="form-control">
                             </div>
 

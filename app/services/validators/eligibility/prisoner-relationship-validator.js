@@ -1,4 +1,4 @@
-var FieldValidator = require('./field-validator')
+var FieldValidator = require('../field-validator')
 
 class PrisonerRelationshipValidator {
   static validate (data) {

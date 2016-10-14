@@ -1,7 +1,7 @@
 var proxyquire = require('proxyquire')
 var sinon = require('sinon')
 var expect = require('chai').expect
-var fieldValidator = require('../../../../app/services/validators/field-validator')
+var fieldValidator = require('../../../../../app/services/validators/field-validator')
 
 describe('prisoner-relationship-validator', function () {
   var prisonerRelationshipValidator
@@ -22,8 +22,8 @@ describe('prisoner-relationship-validator', function () {
       return fieldValidatorSpied
     }
 
-    prisonerRelationshipValidator = proxyquire('../../../../app/services/validators/prisoner-relationship-validator', {
-      './field-validator': mockFieldValidatorFactory
+    prisonerRelationshipValidator = proxyquire('../../../../../app/services/validators/eligibility/prisoner-relationship-validator', {
+      '../field-validator': mockFieldValidatorFactory
     })
   })
 
