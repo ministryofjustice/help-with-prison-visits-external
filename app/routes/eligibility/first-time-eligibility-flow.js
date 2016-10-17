@@ -14,7 +14,7 @@ module.exports = function (router) {
     var validationErrors = dateOfBirthValidator(req.body)
 
     if (validationErrors) {
-      res.status(400).render('eligibility/date-of-birth', { errors: validationErrors })
+      res.status(400).render('eligibility/date-of-birth', { claimant: req.body, errors: validationErrors })
       return next()
     }
     res.redirect('/first-time/' + buildDOB(req))
