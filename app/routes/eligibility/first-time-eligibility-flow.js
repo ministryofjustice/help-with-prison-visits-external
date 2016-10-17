@@ -9,7 +9,6 @@ module.exports = function (router) {
     next()
   })
 
-  // TODO: Need age check here. If under 16 redirect to eligibility-fail. Add this to the validation logic for the page.
   router.post('/first-time', function (req, res, next) {
     var validationErrors = dateOfBirthValidator(req.body)
 
@@ -17,6 +16,10 @@ module.exports = function (router) {
       res.status(400).render('eligibility/date-of-birth', { claimant: req.body, errors: validationErrors })
       return next()
     }
+
+    // TODO: Need age check here. If under 16 redirect to eligibility-fail.
+    // if (isUnderSixteen) { }
+
     res.redirect('/first-time/' + buildDOB(req))
     next()
   })

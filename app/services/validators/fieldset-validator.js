@@ -5,9 +5,9 @@ const ERROR_MESSAGES = require('./validation-error-messages')
 class FieldSetValidator {
 
   /**
-   * Build a validator for validation fieldsets.
+   * Build a validator for validating fieldsets (I.e. a group of fields).
    * @param data An array of elements to validate as a set.
-   * @param fieldName The name of of the field on the HTML page to
+   * @param fieldName The name of of the HTML element to link the error message to.
    * @param errors An object that each validation error will be appended to.
    */
   constructor (data, fieldName, errors) {
@@ -20,7 +20,6 @@ class FieldSetValidator {
 
   isRequired () {
     var self = this
-
     this.data.forEach(function (data) {
       if (!data) {
         self.addErrorMessage(ERROR_MESSAGES.getIsRequired)
