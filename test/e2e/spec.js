@@ -2,9 +2,10 @@
 
 describe('First time claim flow', () => {
   it('should display each page in the first time eligibility flow', () => {
-    browser.url('/')
+    return browser.url('/')
 
       // Index
+      .waitForExist('#start')
       .click('#start')
 
       // Start
