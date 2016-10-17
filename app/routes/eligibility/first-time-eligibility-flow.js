@@ -29,7 +29,6 @@ module.exports = function (router) {
   })
 
   // TODO: Split the reltionship values into an enum module.
-
   router.post('/first-time/:dob', function (req, res, next) {
     var relationship = req.body.relationship
     var dob = req.params.dob
@@ -85,7 +84,7 @@ module.exports = function (router) {
     next()
   })
 
-// TODO Post on joureny-assistance
+  // TODO: Implement flow passing values by URL path.
   router.post('/journey-assistance', function (req, res, next) {
     res.redirect('/about-the-prisoner')
     next()
