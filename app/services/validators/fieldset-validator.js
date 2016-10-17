@@ -21,7 +21,7 @@ class FieldSetValidator {
   isRequired () {
     var self = this
 
-    this.data.forEach(function(data) {
+    this.data.forEach(function (data) {
       if (!data) {
         self.addErrorMessage(ERROR_MESSAGES.getIsRequired)
       }
@@ -36,15 +36,9 @@ class FieldSetValidator {
     return this
   }
 
-  isPastDate(date) {
+  isPastDate (date) {
     if (!isDateInThePast(date)) {
       this.addErrorMessage(ERROR_MESSAGES.getFutureDobMessage)
-    }
-  }
-
-  isFutureDate(date) {
-    if (!this.isDateInTheFuture(date)) {
-      this.addErrorMessage(ERROR_MESSAGES.getPastDobMessage)
     }
   }
 
@@ -63,8 +57,4 @@ function isDateValid (date) {
 
 function isDateInThePast (date) {
   return date <= new Date()
-}
-
-function isDateInTheFuture (date) {
-  return date => new Date()
 }
