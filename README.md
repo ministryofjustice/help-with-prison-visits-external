@@ -92,6 +92,16 @@ export SAUCE_BASEURL='http://localhost:3000' # proxy url for sauce connect
 ./node_modules/.bin/wdio test/wdio.conf.sauce.firefox.js
 ```
 
+## Database
+
+The application requires a MS SQL database instance, configured with an external web user and a migration user. See [here](https://github.com/ministryofjustice/apvs/tree/develop/database) for details.
+
+To run the database migrations:
+
+```
+npm run-script migrations
+```
+
 ## Notes
 
 ### Localisation
