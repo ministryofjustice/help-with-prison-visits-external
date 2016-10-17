@@ -1,28 +1,24 @@
-const FIELD_NAMES = require('./validation-field-names')
 const ERROR_MESSAGES = require('./validation-error-messages')
 
-// TODO: Factor out the error construction logic
-class FieldSetValidator {
+class FieldsetValidator {
 
   /**
    * Build a validator for validating fieldsets (I.e. a group of fields).
    * @param data An array of elements to validate as a set.
    * @param fieldName The name of of the HTML element to link the error message to.
-   * @param errors An object that each validation error will be appended to.
+   * @param errors An instance of the ErrorHandler class.
    */
   constructor (data, fieldName, errors) {
     this.data = data
     this.fieldName = fieldName
-    this.displayName = FIELD_NAMES[fieldName]
     this.errors = errors
-    this.errors[fieldName] = []
   }
 
   isRequired () {
     var self = this
     this.data.forEach(function (data) {
       if (!data) {
-        self.addErrorMessage(ERROR_MESSAGES.getIsRequired)
+        self.errors.add(self.fieldName, ERROR_MESSAGES.getIsRequired)
       }
     })
     return this
@@ -30,24 +26,20 @@ class FieldSetValidator {
 
   isValidDate (date) {
     if (!isDateValid(date)) {
-      this.addErrorMessage(ERROR_MESSAGES.getInvalidDobFormatMessage)
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getInvalidDobFormatMessage)
     }
     return this
   }
 
   isPastDate (date) {
     if (!isDateInThePast(date)) {
-      this.addErrorMessage(ERROR_MESSAGES.getFutureDobMessage)
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getFutureDobMessage)
     }
-  }
-
-  addErrorMessage (message, options) {
-    this.errors[this.fieldName].push(message(this.displayName, options))
   }
 }
 
 module.exports = function (data, fieldName, errors) {
-  return new FieldSetValidator(data, fieldName, errors)
+  return new FieldsetValidator(data, fieldName, errors)
 }
 
 function isDateValid (date) {

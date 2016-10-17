@@ -2,7 +2,7 @@ const dateFormat = require('dateformat')
 const DATE_FORMAT = 'yyyy-mm-dd'
 
 exports.format = function (date) {
-  return dateFormat(date, DATE_FORMAT);
+  return dateFormat(date, DATE_FORMAT)
 }
 
 exports.build = function (day, month, year) {

@@ -1,10 +1,10 @@
 const FieldsetValidator = require('../fieldset-validator')
+const ErrorHandler = require('../error-handler')
 const dateFormatter = require('../../../services/date-formatter')
 
-// TODO: Split the error construction logic out into its own class.
 class DateOfBirthValidator {
   static validate (data) {
-    var errors = {}
+    var errors = ErrorHandler()
 
     var dobDay = data['dob-day']
     var dobMonth = data['dob-month']
@@ -23,12 +23,7 @@ class DateOfBirthValidator {
       .isValidDate(dob)
       .isPastDate(dob)
 
-    for (var field in errors) {
-      if (errors.hasOwnProperty(field)) {
-        if (errors[ field ].length > 0) { return errors }
-      }
-    }
-    return false
+    return errors.get()
   }
 }
 
