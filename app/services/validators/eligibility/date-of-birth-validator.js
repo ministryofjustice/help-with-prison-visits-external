@@ -1,5 +1,4 @@
-const FIELD_NAMES = require('../validation-field-names')
-const ERROR_MESSAGES = require('../validation-error-messages')
+const FieldsetValidator = require('../fieldset-validator')
 
 // TODO: Split the error construction logic out into its own class.
 class DateOfBirthValidator {
@@ -10,19 +9,18 @@ class DateOfBirthValidator {
     var dobMonth = data['dob-month']
     var dobYear = data['dob-year']
 
-    if (!dobDay || !dobMonth || !dobYear) {
-      addErrorMessage(errors, 'dob', 'dob', ERROR_MESSAGES.getInvalidDobFormatMessage)
-    } else {
-      var dob = new Date(buildDOB(dobYear, dobMonth, dobDay))
+    var dob = [
+      dobDay,
+      dobMonth,
+      dobYear
+    ]
 
-      if (!isValidDate(dob)) {
-        addErrorMessage(errors, 'dob', 'dob', ERROR_MESSAGES.getInvalidDobFormatMessage)
-      }
+    var date = new Date(buildDOB(dobYear, dobMonth, dobDay))
 
-      if (!isDateInThePast(dob)) {
-        addErrorMessage(errors, 'dob', 'dob', ERROR_MESSAGES.getFutureDobMessage)
-      }
-    }
+    FieldsetValidator(dob, 'dob', errors)
+      .isRequired()
+      .isValidDate(date)
+      .isPastDate(date)
 
     for (var field in errors) {
       if (errors.hasOwnProperty(field)) {
@@ -33,28 +31,11 @@ class DateOfBirthValidator {
   }
 }
 
-exports.default = function (data) {
+module.exports = function (data) {
   return DateOfBirthValidator.validate(data)
 }
-module.exports = exports[ 'default' ]
 
+// TODO: This should be used by both the validator and the date-of-birth routes.
 function buildDOB (year, month, day) {
   return new Date(year + '-' + month + '-' + day)
-}
-
-function isValidDate (date) {
-  return date.toString() !== 'Invalid Date'
-}
-
-function isDateInThePast (date) {
-  return date <= new Date()
-}
-
-// TODO: This function should be moved to a generic class for handling higher level validation. I.e. Not on a field.
-function addErrorMessage (errors, fieldName, displayName, message, options) {
-  if (!errors[fieldName]) {
-    errors[fieldName] = []
-  }
-  displayName = FIELD_NAMES[fieldName]
-  errors[fieldName].push(message(displayName, options))
 }

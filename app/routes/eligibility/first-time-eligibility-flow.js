@@ -86,10 +86,10 @@ module.exports = function (router) {
   })
 
 // TODO Post on joureny-assistance
-// router.post('/journey-assistance', function (req, res, next) {
-//   res.redirect('benefits')
-//   next()
-// })
+  router.post('/journey-assistance', function (req, res, next) {
+    res.redirect('/about-the-prisoner')
+    next()
+  })
 }
 
 // TODO: Need to use the Date constructor here and then return a parsed object (without the time stamp) for routing to the next page
