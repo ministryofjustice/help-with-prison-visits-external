@@ -1,6 +1,7 @@
 const prisonerRelationshipValidator = require('../../services/validators/eligibility/prisoner-relationship-validator')
 const dateOfBirthValidator = require('../../services/validators/eligibility/date-of-birth-validator')
 const benefitValidator = require('../../services/validators/eligibility/benefit-validator')
+const dateFormatter = require('../../services/date-formatter')
 
 module.exports = function (router) {
   // Date of Birth
@@ -94,10 +95,9 @@ module.exports = function (router) {
   })
 }
 
-// TODO: Need to use the Date constructor here and then return a parsed object (without the time stamp) for routing to the next page
 function buildDOB (req) {
   var day = req.body['dob-day']
   var month = req.body['dob-month']
   var year = req.body['dob-year']
-  return day + '-' + month + '-' + year
+  return dateFormatter.buildFormatted(day, month, year)
 }
