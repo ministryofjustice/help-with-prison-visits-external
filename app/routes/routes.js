@@ -14,7 +14,6 @@ var routes = [
   require('./claim/your-journey'),
   require('./payment/bank-account-details'),
   require('./application-submitted'),
-  require('./eligibility/journey-assistance'),
   require('./claim/transport'),
   require('./claim/additional-expenses'),
   require('./claim/light-refreshment-details'),

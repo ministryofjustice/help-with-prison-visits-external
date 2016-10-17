@@ -8,7 +8,8 @@ var validationErrors
 
 var route = proxyquire('../../../../app/routes/eligibility/first-time-eligibility-flow', {
   '../../services/validators/eligibility/prisoner-relationship-validator': function (data) { return validationErrors },
-  '../../services/validators/eligibility/date-of-birth-validator': function (data) { return validationErrors }
+  '../../services/validators/eligibility/date-of-birth-validator': function (data) { return validationErrors },
+  '../../services/validators/eligibility/benefit-validator': function (data) { return validationErrors }
 })
 
 describe('first-time-eligibility-flow', function () {
@@ -114,6 +115,45 @@ describe('first-time-eligibility-flow', function () {
       request
         .get('/first-time/:dob/:relationship')
         .expect(200)
+        .end(done)
+    })
+  })
+
+  describe('POST /first-time/:dob/:relationship', function () {
+    it('should respond with a 302', function (done) {
+      request
+        .post('/first-time/:dob/:relationship')
+        .expect(302)
+        .end(done)
+    })
+
+    it('should fail validation if no benefit is provided', function (done) {
+      validationErrors = { 'benefit': [] }
+      request
+        .post('/first-time/:dob/:relationship')
+        .expect(400)
+        .end(done)
+    })
+
+    it('should redirect to eligibility-fail page if benefit is None of the above', function (done) {
+      request
+        .post('/first-time/:dob/:relationship')
+        .send({
+          benefit: 'None of the above'
+        })
+        .expect('location', '/eligibility-fail')
+        .end(done)
+    })
+
+    it('should redirect to /first-time/:dob/:relationship/:benefit page if benefit is any value other than None of the above', function (done) {
+      var benefit = 'not-none-of-the-above'
+
+      request
+        .post('/first-time/:dob/:relationship')
+        .send({
+          benefit: benefit
+        })
+        .expect('location', '/first-time/:dob/:relationship/' + benefit)
         .end(done)
     })
   })

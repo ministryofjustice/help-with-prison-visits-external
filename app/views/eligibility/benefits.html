@@ -13,14 +13,20 @@
     <div class="grid-row">
         <div class="column-two-thirds">
 
-            <h2 class="heading-large">
+          {% include "includes/validation-error-messages.html" %}
+
+            <h2 id="benefit" class="heading-large">
                 Do you claim or receive any of the following?
             </h2>
 
             <p>Please select from the following options:</p>
 
-            <form action="benefits" method="post">
-                <div class="form-group">
+            {% if errors['benefit'][0] %}
+              <span class="error-message" id="error-message-benefit">{{ errors['benefit'][0] }}</span>
+            {% endif %}
+
+            <form action="/first-time/{{ dob }}/{{ relationship }}" method="post">
+                <div class="form-group {% if errors['benefit'][0] %} error {% endif %}"">
                     <fieldset>
 
                         <label for="income-support" class="block-label">
@@ -35,7 +41,7 @@
                             <input id="jobseekers-allowance"
                                    type="radio"
                                    name="benefit"
-                                   value="Jobseeker’s Allowance">
+                                   value="Jobseekers Allowance">
                             Jobseeker’s Allowance (Income based)
                         </label>
 
@@ -91,7 +97,7 @@
                     </fieldset>
                 </div>
 
-                <input type="submit" class="button">
+                <input id="benefit-submit" type="submit" class="button">
             </form>
 
         </div>

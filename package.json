@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "node_modules/.bin/gulp generate-assets-and-start",
-    "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/unit/**/*"
+    "test": "node_modules/.bin/standard && node_modules/.bin/mocha -u exports test/unit/**/**/*"
   },
   "standard": {
     "ignore": [

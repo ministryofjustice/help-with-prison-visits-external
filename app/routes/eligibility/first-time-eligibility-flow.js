@@ -1,5 +1,6 @@
 const prisonerRelationshipValidator = require('../../services/validators/eligibility/prisoner-relationship-validator')
 const dateOfBirthValidator = require('../../services/validators/eligibility/date-of-birth-validator')
+const benefitValidator = require('../../services/validators/eligibility/benefit-validator')
 
 module.exports = function (router) {
   // Date of Birth
@@ -47,24 +48,48 @@ module.exports = function (router) {
     next()
   })
 
-  // TODO: Move journey assistance elsewhere in the flow.
-
   // Benefits
   router.get('/first-time/:dob/:relationship', function (req, res, next) {
-    res.render('eligibility/benefits')
+    var dob = req.params.dob
+    var relationship = req.params.relationship
+    res.render('eligibility/benefits', { dob: dob, relationship: relationship })
     next()
   })
 
-  router.post('/benefits', function (req, res, next) {
+  router.post('/first-time/:dob/:relationship', function (req, res, next) {
     var benefit = req.body.benefit
+    var dob = req.params.dob
+    var relationship = req.params.relationship
+    var validationErrors = benefitValidator(req.body)
+
+    if (validationErrors) {
+      res.status(400).render('eligibility/benefits', { errors: validationErrors, dob: dob, relationship: relationship })
+      return next()
+    }
 
     if (benefit === 'None of the above') {
-      res.redirect('eligibility-fail')
+      res.redirect('/eligibility-fail')
     } else {
-      res.redirect('benefits-on-behalf')
+      res.redirect('/first-time' + '/' + dob + '/' + relationship + '/' + benefit)
     }
     next()
   })
+
+  // Journey assistance
+  router.get('/first-time/:dob/:relationship/:benefit', function (req, res, next) {
+    var dob = req.params.dob
+    var relationship = req.params.relationship
+    var benefit = req.params.benefit
+
+    res.render('eligibility/journey-assistance', { dob: dob, relationship: relationship, benefit: benefit })
+    next()
+  })
+
+// TODO Post on joureny-assistance
+// router.post('/journey-assistance', function (req, res, next) {
+//   res.redirect('benefits')
+//   next()
+// })
 }
 
 // TODO: Need to use the Date constructor here and then return a parsed object (without the time stamp) for routing to the next page
