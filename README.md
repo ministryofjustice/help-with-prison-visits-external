@@ -78,7 +78,7 @@ npm test
 Run e2e tests with local selenium standalone
 ```
 # Requires application running on http://localhost:3000
-./node_modules/.bin/gulp e2e
+./node_modules/.bin/gulp --gulpfile gulpfile-e2e.js
 ```
 
 Run e2e tests with [saucelabs](https://saucelabs.com)
