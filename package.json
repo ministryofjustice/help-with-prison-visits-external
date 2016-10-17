@@ -28,6 +28,7 @@
     ]
   },
   "dependencies": {
+    "bases": "^0.2.1",
     "body-parser": "~1.15.1",
     "bunyan": "^1.8.1",
     "bunyan-prettystream": "^0.1.3",
