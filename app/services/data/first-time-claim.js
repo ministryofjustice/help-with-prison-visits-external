@@ -9,7 +9,7 @@ var getUniqueReference = function () {
 
 var insertNewEligibilityAndPrisoner = function (prisonerData) {
   var reference = getUniqueReference()
-
+  // TODO change to avoid transaction as Tedious currently does not support multiple connections to MSSQL with transactions
   return knex.transaction(function (trx) {
     return trx
       .insert({

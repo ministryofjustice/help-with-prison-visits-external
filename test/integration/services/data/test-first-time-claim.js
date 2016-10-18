@@ -48,17 +48,17 @@ describe('firstTimeClaim', function () {
       firstTimeClaim.insertNewEligibilityAndPrisoner(prisonerData)
         .then(function (newReference) {
           expect(newReference).to.equal(uniqueReference)
+          done()
+        })
+    })
 
-          // Clean up
-          knex('ExtSchema.Prisoner').where('Reference', uniqueReference).del().then(function () {
-            knex('ExtSchema.Eligibility').where('Reference', uniqueReference).del().then(function () {
-              done()
-            })
-          })
+    after(function (done) {
+      // Clean up
+      knex('ExtSchema.Prisoner').where('Reference', uniqueReference).del().then(function () {
+        knex('ExtSchema.Eligibility').where('Reference', uniqueReference).del().then(function () {
+          done()
         })
-        .catch(function (error) {
-          throw error
-        })
+      })
     })
   })
 })
