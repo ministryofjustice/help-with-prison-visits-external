@@ -1,6 +1,7 @@
 const prisonerRelationshipValidator = require('../../services/validators/eligibility/prisoner-relationship-validator')
 const dateOfBirthValidator = require('../../services/validators/eligibility/date-of-birth-validator')
 const benefitValidator = require('../../services/validators/eligibility/benefit-validator')
+const journeyAssistanceValidator = require('../../services/validators/eligibility/journey-assistance-validator')
 const dateFormatter = require('../../services/date-formatter')
 
 module.exports = function (router) {
@@ -51,46 +52,73 @@ module.exports = function (router) {
     next()
   })
 
-  // Benefits
+  // Journey assistance
   router.get('/first-time/:dob/:relationship', function (req, res, next) {
     var dob = req.params.dob
     var relationship = req.params.relationship
-    res.render('eligibility/benefits', { dob: dob, relationship: relationship })
+
+    res.render('eligibility/journey-assistance', { dob: dob, relationship: relationship })
     next()
   })
 
   router.post('/first-time/:dob/:relationship', function (req, res, next) {
+    var journeyAssistance = req.body['journey-assistance']
+    var dob = req.params.dob
+    var relationship = req.params.relationship
+
+    var validationErrors = journeyAssistanceValidator(req.body)
+
+    if (validationErrors) {
+      res.status(400).render('eligibility/journey-assistance', { errors: validationErrors, dob: dob, relationship: relationship })
+      return next()
+    }
+
+    res.redirect('/first-time' + '/' + dob + '/' + relationship + '/' + journeyAssistance)
+    next()
+  })
+
+  // Benefits
+  router.get('/first-time/:dob/:relationship/:journeyAssistance', function (req, res, next) {
+    var dob = req.params.dob
+    var relationship = req.params.relationship
+    var journeyAssistance = req.params.journeyAssistance
+    res.render('eligibility/benefits', { dob: dob, relationship: relationship, journeyAssistance: journeyAssistance })
+    next()
+  })
+
+  router.post('/first-time/:dob/:relationship/:journeyAssistance', function (req, res, next) {
     var benefit = req.body.benefit
     var dob = req.params.dob
     var relationship = req.params.relationship
+    var journeyAssistance = req.params.journeyAssistance
     var validationErrors = benefitValidator(req.body)
 
     if (validationErrors) {
-      res.status(400).render('eligibility/benefits', { errors: validationErrors, dob: dob, relationship: relationship })
+      res.status(400).render('eligibility/benefits', { errors: validationErrors, dob: dob, relationship: relationship, journeyAssistance: journeyAssistance })
       return next()
     }
 
     if (benefit === 'None of the above') {
       res.redirect('/eligibility-fail')
     } else {
-      res.redirect('/first-time' + '/' + dob + '/' + relationship + '/' + benefit)
+      res.redirect('/first-time' + '/' + dob + '/' + relationship + '/' + journeyAssistance + '/' + benefit)
     }
     next()
   })
 
-  // Journey assistance
-  router.get('/first-time/:dob/:relationship/:benefit', function (req, res, next) {
+  // About the prisoner
+  router.get('/first-time/:dob/:relationship/:journeyAssistance/:benefit', function (req, res, next) {
     var dob = req.params.dob
     var relationship = req.params.relationship
+    var journeyAssistance = req.params.journeyAssistance
     var benefit = req.params.benefit
 
-    res.render('eligibility/journey-assistance', { dob: dob, relationship: relationship, benefit: benefit })
+    res.render('eligibility/about-the-prisoner', { dob: dob, relationship: relationship, benefit: benefit, journeyAssistance: journeyAssistance })
     next()
   })
 
-  // TODO: Implement flow passing values by URL path.
-  router.post('/journey-assistance', function (req, res, next) {
-    res.redirect('/about-the-prisoner')
+  router.post('/first-time/:dob/:relationship/:journeyAssistance/:benefit', function (req, res, next) {
+    res.redirect('/about-you')
     next()
   })
 }

@@ -1,13 +1,13 @@
 var FieldValidator = require('../field-validator')
 
-class BenefitValidator {
+class JourneyAssistanceValidator {
   static validate (data) {
     var errors = {}
 
-    var benefit = data['benefit']
+    var journeyAssistance = data['journey-assistance']
 
-    FieldValidator(benefit, 'benefit', errors)
-      .isRequired('radio')
+    FieldValidator(journeyAssistance, 'journey-assistance', errors)
+      .isRequired('journeyAssistance')
 
     for (var field in errors) {
       if (errors.hasOwnProperty(field)) {
@@ -18,6 +18,6 @@ class BenefitValidator {
   }
 }
 exports.default = function (data) {
-  return BenefitValidator.validate(data)
+  return JourneyAssistanceValidator.validate(data)
 }
 module.exports = exports['default']

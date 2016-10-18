@@ -17,7 +17,7 @@
                 About the person you're visiting
             </h2>
 
-            <form action="about-the-prisoner" method="post">
+            <form action="/first-time/{{ dob }}/{{ relationship }}/{{ benefit }}/{{ journeyAssistance }}" method="post">
 
                 <div class="form-group">
                     <label class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
@@ -91,7 +91,8 @@
                            class="form-control">
                 </div>
 
-                <input type="submit" class="button" value="Continue">
+                <input id="about-the-prisoner-submit" type="submit" class="button" value="Continue">
+
             </form>
 
         </div>

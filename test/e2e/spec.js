@@ -21,5 +21,19 @@ describe('First time claim flow', () => {
 
       // Prisoner Relationship
       .waitForExist('#prisoner-relationship-submit')
+      .click('#partner')
+      .click('#prisoner-relationship-submit')
+
+      // Journey Assistance
+      .waitForExist('#journey-assistance-submit')
+      .click('#assistance-no')
+      .click('#journey-assistance-submit')
+
+      // Benefit
+      .waitForExist('#benefit-submit')
+      .click('#income-support')
+      .click('#benefit-submit')
+
+      .waitForExist('#about-the-prisoner-submit')
   })
 })
