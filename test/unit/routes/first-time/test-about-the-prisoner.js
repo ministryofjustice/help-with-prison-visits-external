@@ -24,6 +24,7 @@ describe('first-time/about-the-prisoner', function () {
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
+          // TODO check called path validator returning true
           done()
         })
     })
