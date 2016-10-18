@@ -110,10 +110,15 @@ module.exports = function (router) {
   router.get('/first-time/:dob/:relationship/:journeyAssistance/:benefit', function (req, res, next) {
     var dob = req.params.dob
     var relationship = req.params.relationship
-    var benefit = req.params.benefit
     var journeyAssistance = req.params.journeyAssistance
+    var benefit = req.params.benefit
 
     res.render('eligibility/about-the-prisoner', { dob: dob, relationship: relationship, benefit: benefit, journeyAssistance: journeyAssistance })
+    next()
+  })
+
+  router.post('/first-time/:dob/:relationship/:journeyAssistance/:benefit', function (req, res, next) {
+    res.redirect('/about-you')
     next()
   })
 }

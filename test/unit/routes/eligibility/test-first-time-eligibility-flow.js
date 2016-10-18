@@ -17,6 +17,10 @@ var route = proxyquire(
 
 describe('first-time-eligibility-flow', function () {
   var request
+  var dobDay = '01'
+  var dobMonth = '05'
+  var dobYear = '1955'
+  var dob = dateFormatter.buildFormatted(dobDay, dobMonth, dobYear)
 
   beforeEach(function () {
     var app = express()
@@ -38,10 +42,6 @@ describe('first-time-eligibility-flow', function () {
   })
 
   describe('POST /first-time', function () {
-    var dobDay = '01'
-    var dobMonth = '05'
-    var dobYear = '1955'
-
     it('should respond with a 302', function (done) {
       request
         .post('/first-time')
@@ -55,11 +55,6 @@ describe('first-time-eligibility-flow', function () {
     })
 
     it('should build and appened the correct DOB to the redirect URL', function (done) {
-      var dobDay = '01'
-      var dobMonth = '05'
-      var dobYear = '1955'
-      var dob = dateFormatter.buildFormatted(dobDay, dobMonth, dobYear)
-
       request
         .post('/first-time')
         .send({
@@ -76,7 +71,7 @@ describe('first-time-eligibility-flow', function () {
   describe('GET /first-time/:dob', function () {
     it('should respond with a 200', function (done) {
       request
-        .get('/first-time/01-01-1990')
+        .get('/first-time/' + dob)
         .expect(200)
         .end(done)
     })
@@ -85,7 +80,7 @@ describe('first-time-eligibility-flow', function () {
   describe('POST /first-time/:dob', function () {
     it('should respond with a 302', function (done) {
       request
-        .post('/first-time/01-01-1990')
+        .post('/first-time/' + dob)
         .expect(302)
         .end(done)
     })
@@ -93,14 +88,14 @@ describe('first-time-eligibility-flow', function () {
     it('should respond with a 400 if validation fails', function (done) {
       validationErrors = { 'relationship': [] }
       request
-        .post('/first-time/01-01-1990')
+        .post('/first-time/' + dob)
         .expect(400)
         .end(done)
     })
 
     it('should redirect to eligibility-fail page if relationship is None of the above', function (done) {
       request
-        .post('/first-time/01-01-1990')
+        .post('/first-time/' + dob)
         .send({
           relationship: 'None of the above'
         })
@@ -112,11 +107,11 @@ describe('first-time-eligibility-flow', function () {
       var relationship = 'not-none-of-the-above'
 
       request
-        .post('/first-time/01-01-1990')
+        .post('/first-time/' + dob)
         .send({
           relationship: relationship
         })
-        .expect('location', '/first-time/01-01-1990/' + relationship)
+        .expect('location', '/first-time/' + dob + '/' + relationship)
         .end(done)
     })
   })
@@ -125,7 +120,7 @@ describe('first-time-eligibility-flow', function () {
   describe('GET /first-time/:dob/:relationship', function () {
     it('should respond with a 200', function (done) {
       request
-        .get('/first-time/01-01-1990/Partner')
+        .get('/first-time/' + dob + '/Partner')
         .expect(200)
         .end(done)
     })
@@ -136,7 +131,7 @@ describe('first-time-eligibility-flow', function () {
       var journeyAssistance = 'No'
 
       request
-        .post('/first-time/01-01-1990/Partner')
+        .post('/first-time/' + dob + '/Partner')
         .send({
           'journey-assistance': journeyAssistance
         })
@@ -147,7 +142,7 @@ describe('first-time-eligibility-flow', function () {
     it('should respond with a 400 if validation fails', function (done) {
       validationErrors = { 'journeyAssistance': [] }
       request
-        .post('/first-time/01-01-1990/Partner')
+        .post('/first-time/' + dob + '/Partner')
         .expect(400)
         .end(done)
     })
@@ -156,11 +151,11 @@ describe('first-time-eligibility-flow', function () {
       var journeyAssistance = 'No'
 
       request
-        .post('/first-time/01-01-1990/Partner')
+        .post('/first-time/' + dob + '/Partner')
         .send({
           'journey-assistance': journeyAssistance
         })
-        .expect('location', '/first-time/01-01-1990/Partner/' + journeyAssistance)
+        .expect('location', '/first-time/' + dob + '/Partner/' + journeyAssistance)
         .end(done)
     })
   })
@@ -169,7 +164,7 @@ describe('first-time-eligibility-flow', function () {
   describe('GET /first-time/:dob/:relationship/:journeyAssistance', function () {
     it('should respond with a 200', function (done) {
       request
-        .get('/first-time/01-01-1990/Partner/No')
+        .get('/first-time/' + dob + '/Partner/No')
         .expect(200)
         .end(done)
     })
@@ -178,7 +173,7 @@ describe('first-time-eligibility-flow', function () {
   describe('POST /first-time/:dob/:relationship/:journeyAssistance', function () {
     it('should respond with a 302', function (done) {
       request
-        .post('/first-time/01-01-1990/Partner/No')
+        .post('/first-time/' + dob + '/Partner/No')
         .expect(302)
         .end(done)
     })
@@ -186,14 +181,14 @@ describe('first-time-eligibility-flow', function () {
     it('should response with a 400 if validation fails', function (done) {
       validationErrors = { 'benefit': [] }
       request
-        .post('/first-time/01-01-1990/Partner/No')
+        .post('/first-time/' + dob + '/Partner/No')
         .expect(400)
         .end(done)
     })
 
     it('should redirect to eligibility-fail page if benefit is None of the above', function (done) {
       request
-        .post('/first-time/01-01-1990/Partner/No')
+        .post('/first-time/' + dob + '/Partner/No')
         .send({
           benefit: 'None of the above'
         })
@@ -205,11 +200,11 @@ describe('first-time-eligibility-flow', function () {
       var benefit = 'Income Support'
 
       request
-        .post('/first-time/01-01-1990/Partner/No')
+        .post('/first-time/' + dob + '/Partner/No')
         .send({
           benefit: benefit
         })
-        .expect('location', '/first-time/01-01-1990/Partner/No/' + benefit)
+        .expect('location', '/first-time/' + dob + '/Partner/No/' + benefit)
         .end(done)
     })
   })
