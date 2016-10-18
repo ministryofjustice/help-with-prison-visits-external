@@ -12,7 +12,11 @@
   "scripts": {
     "start": "gulp",
     "test": "standard && mocha -u exports test/unit/**/*",
+    "test-unit": "mocha -u exports test/unit/**/*",
     "test-integration": "mocha -u exports test/integration/**/*",
+    "test-e2e": "gulp --gulpfile gulpfile-e2e.js",
+    "test-e2e-ie8": "wdio test/wdio.conf.sauce.ie8.js",
+    "test-e2e-firefox": "wdio test/wdio.conf.sauce.firefox.js",
     "migrations": "knex migrate:latest --env migrations"
   },
   "standard": {

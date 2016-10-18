@@ -70,15 +70,16 @@ git push heroku master
 
 ## Test
 
-Checks code against standard JS and runs mocha unit tests.
 ```
-npm test
+npm test                        # checks code against standard JS and runs mocha unit tests.
+npm run-script test-unit        # just unit tests
+npm run-script test-integration # just integration tests
 ```
 
 Run e2e tests with local selenium standalone
 ```
 # Requires application running on http://localhost:3000
-./node_modules/.bin/gulp --gulpfile gulpfile-e2e.js
+npm run-script test-e2e
 ```
 
 Run e2e tests with [saucelabs](https://saucelabs.com)
@@ -88,8 +89,8 @@ export SAUCE_USERNAME='MY_USERNAME'
 export SAUCE_ACCESS_KEY='MY_KEY'
 export SAUCE_BASEURL='http://localhost:3000' # proxy url for sauce connect
 
-./node_modules/.bin/wdio test/wdio.conf.sauce.ie8.js
-./node_modules/.bin/wdio test/wdio.conf.sauce.firefox.js
+npm run-script test-e2e-ie8
+npm run-script test-e2e-firefox
 ```
 
 ## Database
