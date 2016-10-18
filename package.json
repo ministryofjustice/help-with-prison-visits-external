@@ -12,6 +12,7 @@
   "scripts": {
     "start": "gulp",
     "test": "standard && mocha -u exports test/unit/**/*",
+    "test-integration": "mocha -u exports test/integration/**/*",
     "migrations": "knex migrate:latest --env migrations"
   },
   "standard": {
