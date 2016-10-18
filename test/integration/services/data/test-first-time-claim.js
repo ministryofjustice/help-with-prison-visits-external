@@ -38,9 +38,11 @@ describe('firstTimeClaim', function () {
       var prisonerData = {
         firstName: 'John',
         lastName: 'Smith',
-        dateOfBirth: new Date(1980, 1, 1),
+        'dob-year': '1980',
+        'dob-month': '01',
+        'dob-day': '13',
         prisonerNumber: 'A3456TB',
-        NameOfPrison: 'Whitemoor'
+        nameOfPrison: 'Whitemoor'
       }
 
       firstTimeClaim.insertNewEligibilityAndPrisoner(prisonerData)

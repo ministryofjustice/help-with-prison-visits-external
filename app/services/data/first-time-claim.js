@@ -19,13 +19,16 @@ var insertNewEligibilityAndPrisoner = function (prisonerData) {
       })
       .into('Eligibility')
       .then(function () {
+        // TODO refactor to common date parser
+        prisonerData.dateOfBirth = new Date(`${prisonerData['dob-year']}-${prisonerData['dob-month']}-${prisonerData['dob-day']}`)
+
         return trx.insert({
           Reference: reference,
           FirstName: prisonerData.firstName,
           LastName: prisonerData.lastName,
           DateOfBirth: prisonerData.dateOfBirth,
           PrisonNumber: prisonerData.prisonerNumber,
-          NameOfPrison: prisonerData.NameOfPrison
+          NameOfPrison: prisonerData.nameOfPrison
         })
         .into('Prisoner')
       })
