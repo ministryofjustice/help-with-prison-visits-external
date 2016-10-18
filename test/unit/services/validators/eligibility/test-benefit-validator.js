@@ -45,8 +45,8 @@ describe('benefit-validator', function () {
       'benefit'
     ])
 
-    var titleErrorMessage = errors['benefit'][0]
-    expect(titleErrorMessage).to.equal('Benefit is required')
+    var errorMessage = errors['benefit'][0]
+    expect(errorMessage).to.equal('Select a benefit')
 
     done()
   })

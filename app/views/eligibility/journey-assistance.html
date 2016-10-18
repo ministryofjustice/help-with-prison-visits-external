@@ -13,19 +13,25 @@
     <div class="grid-row">
         <div class="column-two-thirds">
 
-            <h2 class="heading-large">
+            {% include "includes/validation-error-messages.html" %}
+
+            <h2 id="journey-assistance" class="heading-large">
                 Does someone assist you during your journey?
             </h2>
 
-            <form action="journey-assistance" method="post">
-                <div class="form-group">
+            {% if errors['journey-assistance'][0] %}
+              <span class="error-message" id="error-message-journey-assistance">{{ errors['journey-assistance'][0] }}</span>
+            {% endif %}
+
+            <form action="/first-time/{{ dob }}/{{ relationship }}/{{ benefit }}" method="post">
+                <div class="form-group {% if errors['journey-assistance'][0] %} error {% endif %}">
 
                     <fieldset>
 
                         <label class="block-label">
                             <input id="assistance-yes-medical"
                                    type="radio"
-                                   name="Assisted"
+                                   name="journey-assistance"
                                    value="Medical Assistance">
                             Yes, I have a medical reason
                         </label>
@@ -33,7 +39,7 @@
                         <label class="block-label">
                             <input id="assistance-yes-over-75"
                                    type="radio"
-                                   name="Assisted"
+                                   name="journey-assistance"
                                    value="75 or Older">
                             Yes, I'm 75 or older
                         </label>
@@ -41,8 +47,8 @@
                         <label class="block-label">
                             <input id="assistance-no"
                                    type="radio"
-                                   name="Assisted"
-                                   value="No Assistance">
+                                   name="journey-assistance"
+                                   value="No">
                             No
                         </label>
 
@@ -50,7 +56,7 @@
 
                 </div>
 
-                <input type="submit" class="button">
+                <input id="journey-assistance-submit" type="submit" class="button">
             </form>
 
         </div>

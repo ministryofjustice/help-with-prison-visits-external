@@ -7,7 +7,7 @@ class PrisonerRelationshipValidator {
     var relationship = data['relationship']
 
     FieldValidator(relationship, 'relationship', errors)
-      .isRequired()
+      .isRequired('radio')
 
     for (var field in errors) {
       if (errors.hasOwnProperty(field)) {

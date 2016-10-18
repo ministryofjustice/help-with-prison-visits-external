@@ -64,7 +64,7 @@ describe('first-time-eligibility-flow', function () {
   describe('GET /first-time/:dob', function () {
     it('should respond with a 200', function (done) {
       request
-        .get('/first-time/:dob')
+        .get('/first-time/01-01-1990')
         .expect(200)
         .end(done)
     })
@@ -73,22 +73,22 @@ describe('first-time-eligibility-flow', function () {
   describe('POST /first-time/:dob', function () {
     it('should respond with a 302', function (done) {
       request
-        .post('/first-time/:dob')
+        .post('/first-time/01-01-1990')
         .expect(302)
         .end(done)
     })
 
-    it('should fail validation if no relationship is provided', function (done) {
+    it('should respond with a 400 if validation fails', function (done) {
       validationErrors = { 'relationship': [] }
       request
-        .post('/first-time/:dob')
+        .post('/first-time/01-01-1990')
         .expect(400)
         .end(done)
     })
 
     it('should redirect to eligibility-fail page if relationship is None of the above', function (done) {
       request
-        .post('/first-time/:dob')
+        .post('/first-time/01-01-1990')
         .send({
           relationship: 'None of the above'
         })
@@ -100,11 +100,11 @@ describe('first-time-eligibility-flow', function () {
       var relationship = 'not-none-of-the-above'
 
       request
-        .post('/first-time/:dob')
+        .post('/first-time/01-01-1990')
         .send({
           relationship: relationship
         })
-        .expect('location', '/first-time/:dob/' + relationship)
+        .expect('location', '/first-time/01-01-1990/' + relationship)
         .end(done)
     })
   })
@@ -113,7 +113,7 @@ describe('first-time-eligibility-flow', function () {
   describe('GET /first-time/:dob/:relationship', function () {
     it('should respond with a 200', function (done) {
       request
-        .get('/first-time/:dob/:relationship')
+        .get('/first-time/01-01-1990/Partner')
         .expect(200)
         .end(done)
     })
@@ -122,22 +122,22 @@ describe('first-time-eligibility-flow', function () {
   describe('POST /first-time/:dob/:relationship', function () {
     it('should respond with a 302', function (done) {
       request
-        .post('/first-time/:dob/:relationship')
+        .post('/first-time/01-01-1990/Partner')
         .expect(302)
         .end(done)
     })
 
-    it('should fail validation if no benefit is provided', function (done) {
+    it('should response with a 400 if validation fails', function (done) {
       validationErrors = { 'benefit': [] }
       request
-        .post('/first-time/:dob/:relationship')
+        .post('/first-time/01-01-1990/Partner')
         .expect(400)
         .end(done)
     })
 
     it('should redirect to eligibility-fail page if benefit is None of the above', function (done) {
       request
-        .post('/first-time/:dob/:relationship')
+        .post('/first-time/01-01-1990/Partner')
         .send({
           benefit: 'None of the above'
         })
@@ -146,14 +146,58 @@ describe('first-time-eligibility-flow', function () {
     })
 
     it('should redirect to /first-time/:dob/:relationship/:benefit page if benefit is any value other than None of the above', function (done) {
-      var benefit = 'not-none-of-the-above'
+      var benefit = 'Income Support'
 
       request
-        .post('/first-time/:dob/:relationship')
+        .post('/first-time/01-01-1990/Partner')
         .send({
           benefit: benefit
         })
-        .expect('location', '/first-time/:dob/:relationship/' + benefit)
+        .expect('location', '/first-time/01-01-1990/Partner/' + benefit)
+        .end(done)
+    })
+  })
+
+  // journey-assistance
+  describe('GET /first-time/:dob/:relationship/:benefit', function () {
+    it('should respond with a 200', function (done) {
+      request
+        .get('/first-time/01-01-1990/Partner/Income%20Support')
+        .expect(200)
+        .end(done)
+    })
+  })
+
+  describe('POST /first-time/:dob/:relationship/:benefit', function () {
+    it('should respond with a 302', function (done) {
+      var journeyAssistance = 'No'
+
+      request
+        .post('/first-time/01-01-1990/Partner/Income%20Support')
+        .send({
+          'journey-assistance': journeyAssistance
+        })
+        .expect(302)
+        .end(done)
+    })
+
+    it('should respond with a 400 if validation fails', function (done) {
+      validationErrors = { 'journeyAssistance': [] }
+      request
+        .post('/first-time/01-01-1990/Partner/Income%20Support')
+        .expect(400)
+        .end(done)
+    })
+
+    it('should redirect to /first-time/:dob/:relationship/:benefit/:journeyAssistance', function (done) {
+      var journeyAssistance = 'No'
+
+      request
+        .post('/first-time/01-01-1990/Partner/Income%20Support')
+        .send({
+          'journey-assistance': journeyAssistance
+        })
+        .expect('location', '/first-time/01-01-1990/Partner/Income Support/' + journeyAssistance)
         .end(done)
     })
   })

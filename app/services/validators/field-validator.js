@@ -14,9 +14,15 @@ class FieldValidator {
     this.errors[fieldName] = []
   }
 
-  isRequired () {
+  isRequired (questionType = 'field') {
     if (!this.data) {
-      this.addErrorMessage(ERROR_MESSAGES.getIsRequired)
+      if (questionType === 'radio') {
+        this.addErrorMessage(ERROR_MESSAGES.getRadioQuestionIsRequired)
+      } else if (questionType === 'journeyAssistance') {
+        this.addErrorMessage(ERROR_MESSAGES.getJourneyAssistanceIsRequired)
+      } else {
+        this.addErrorMessage(ERROR_MESSAGES.getIsRequired)
+      }
     }
     return this
   }

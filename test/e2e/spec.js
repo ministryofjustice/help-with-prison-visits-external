@@ -2,7 +2,7 @@
 
 describe('First time claim flow', () => {
   it('should display each page in the first time eligibility flow', () => {
-    browser.url('/')
+    return browser.url('/')
 
       // Index
       .click('#start')
@@ -20,5 +20,19 @@ describe('First time claim flow', () => {
 
       // Prisoner Relationship
       .waitForExist('#prisoner-relationship-submit')
+      .click('#partner')
+      .click('#prisoner-relationship-submit')
+
+      // Journey Assistance
+      .waitForExist('#journey-assistance-submit')
+      .click('#assistance-no')
+      .click('#journey-assistance-submit')
+
+      // Benefit
+      .waitForExist('#benefit-submit')
+      .click('#benefit')
+      .click('#benefit-submit')
+
+      .waitForExist('#about-the-prisoner-submit')
   })
 })
