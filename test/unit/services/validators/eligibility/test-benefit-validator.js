@@ -1,53 +1,47 @@
-var proxyquire = require('proxyquire')
-var sinon = require('sinon')
-var expect = require('chai').expect
-var fieldValidator = require('../../../../../app/services/validators/field-validator')
+const expect = require('chai').expect
+const BenefitValidator = require('../../../../../app/services/validators/eligibility/benefit-validator')
 
-describe('benefit-validator', function () {
-  var benefitValidator
-  var mockFieldValidatorFactory
-  var fieldValidators
-  var data
+describe('services/validators/eligibility/benefit-validator', function () {
+  const VALID_DATA = {
+    'benefit': 'some benefit'
+  }
+  const INVALID_DATA = {
+    'benefit': ''
+  }
 
-  beforeEach(function () {
-    data = {
-      'benefit': 'Income Support'
-    }
-
-    fieldValidators = {}
-    mockFieldValidatorFactory = function (data, fieldName, errors) {
-      var fieldValidatorSpied = fieldValidator(data, fieldName, errors)
-      fieldValidatorSpied.spyIsRequired = sinon.spy(fieldValidatorSpied, 'isRequired')
-      fieldValidators[fieldName] = fieldValidatorSpied
-      return fieldValidatorSpied
-    }
-
-    benefitValidator = proxyquire('../../../../../app/services/validators/eligibility/benefit-validator', {
-      '../field-validator': mockFieldValidatorFactory
-    })
-  })
-
-  it('should return false for valid data', function (done) {
-    var errors = benefitValidator(data)
-    expect(errors).to.be.false
-
-    expect(fieldValidators['benefit']).to.exist
-    sinon.assert.calledOnce(fieldValidators['benefit'].spyIsRequired)
-
+  it('should throw error if data is null', function (done) {
+    expect(function () {
+      BenefitValidator(null)
+        .isRequired()
+    }).to.throw(TypeError)
     done()
   })
 
-  it('should return errors for no data input', function (done) {
-    data = {}
+  it('should throw error if data is undefined', function (done) {
+    expect(function () {
+      BenefitValidator(undefined)
+        .isRequired()
+    }).to.throw(TypeError)
+    done()
+  })
 
-    var errors = benefitValidator(data)
-    expect(errors).to.have.all.keys([
-      'benefit'
-    ])
+  it('should throw error if data is an unexpected object', function (done) {
+    expect(function () {
+      BenefitValidator({})
+        .isRequired()
+    }).to.throw(TypeError)
+    done()
+  })
 
-    var errorMessage = errors['benefit'][0]
-    expect(errorMessage).to.equal('Select a benefit')
+  it('should return false if provided with valid data', function (done) {
+    var errors = BenefitValidator(VALID_DATA)
+    expect(errors).to.equal(false)
+    done()
+  })
 
+  it('should return an error object if provided with invalid data', function (done) {
+    var errors = BenefitValidator(INVALID_DATA)
+    expect(errors).to.have.property('benefit')
     done()
   })
 })

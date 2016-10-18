@@ -8,7 +8,7 @@ var route = proxyquire('../../../../app/routes/health-check/status', {
   '../services/log': log
 })
 
-describe('status', function () {
+describe('routes/health-check/status', function () {
   var request
 
   beforeEach(function () {
