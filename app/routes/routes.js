@@ -6,9 +6,7 @@ const log = require('../services/log')
 var routes = [
   require('./index'),
   require('./health-check/status'),
-  require('./eligibility/date-of-birth'),
-  require('./eligibility/prisoner-relationship'),
-  require('./eligibility/benefits'),
+  require('./eligibility/first-time-eligibility-flow'),
   require('./file-upload'),
   require('./eligibility/about-the-prisoner'),
   require('./eligibility/about-you'),
@@ -16,7 +14,6 @@ var routes = [
   require('./claim/your-journey'),
   require('./payment/bank-account-details'),
   require('./application-submitted'),
-  require('./eligibility/journey-assistance'),
   require('./claim/transport'),
   require('./claim/additional-expenses'),
   require('./claim/light-refreshment-details'),

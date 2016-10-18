@@ -22,6 +22,7 @@ exports.config = {
   connectionRetryCount: 3,
   framework: 'mocha',
   mochaOpts: {
-    ui: 'bdd'
+    ui: 'bdd',
+    timeout: 500000
   }
 }

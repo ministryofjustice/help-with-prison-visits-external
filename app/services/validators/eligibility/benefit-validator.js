@@ -1,13 +1,13 @@
-var FieldValidator = require('./field-validator')
+var FieldValidator = require('../field-validator')
 
-class PrisonerRelationshipValidator {
+class BenefitValidator {
   static validate (data) {
     var errors = {}
 
-    var relationship = data['relationship']
+    var benefit = data['benefit']
 
-    FieldValidator(relationship, 'relationship', errors)
-      .isRequired()
+    FieldValidator(benefit, 'benefit', errors)
+      .isRequired('radio')
 
     for (var field in errors) {
       if (errors.hasOwnProperty(field)) {
@@ -18,6 +18,6 @@ class PrisonerRelationshipValidator {
   }
 }
 exports.default = function (data) {
-  return PrisonerRelationshipValidator.validate(data)
+  return BenefitValidator.validate(data)
 }
 module.exports = exports['default']

@@ -25,7 +25,14 @@ errorShots
 
 # Ignore IntelliJ files
 .idea/
+
+# Ignore local scripts
 run-docker.sh
+run-end-to-end-tests.sh
+run-end-to-end-tests-ie8.sh
+run-end-to-end-tests-firefox.sh
+run-standard-linter.sh
+run-unit-tests.sh
 
 # Public directory
 app/public
