@@ -7,6 +7,7 @@ var routes = [
   require('./index'),
   require('./start'),
   require('./first-time/about-the-prisoner.js'),
+  require('./first-time/about-you.js'),
   // These are temporary UX added routes
   require('./eligibility/date-of-birth'),
   require('./eligibility/prisoner-relationship'),

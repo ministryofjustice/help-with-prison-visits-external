@@ -9,7 +9,7 @@ var route = proxyquire('../../../../app/routes/first-time/about-the-prisoner', {
 })
 var request
 
-describe('first-time/about-the-prisoner', function () {
+describe('routes/first-time/about-the-prisoner', function () {
   beforeEach(function () {
     var app = express()
     mockViewEngine(app, '../../../app/views')
@@ -25,6 +25,28 @@ describe('first-time/about-the-prisoner', function () {
         .end(function (error, response) {
           expect(error).to.be.null
           // TODO check called path validator returning true
+          done()
+        })
+    })
+    it('should respond with a 500 for invalid path parameters', function (done) {
+      // TODO stub path validator and return false
+      done()
+    })
+  })
+
+  describe('POST /first-time/:dob/:relationship/:assistance/:requireBenefitUpload', function () {
+    it('should persist data and redirect to first-time/about-you for valid data', function (done) {
+      var newReference = '1234567'
+
+      request
+        .post('/first-time/1980-01-01/partner/n/n')
+        .expect(302)
+        .end(function (error, response) {
+          expect(error).to.be.null
+          expect(response.header.location).to.equal(`/first-time/1980-01-01/partner/n/n/${newReference}`)
+          // TODO check called path validator returning true
+          // TODO check called validator
+          // TODO check called to persist
           done()
         })
     })
