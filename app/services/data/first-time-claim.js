@@ -29,6 +29,9 @@ var insertNewEligibilityAndPrisoner = function (prisonerData) {
         })
         .into('Prisoner')
       })
+      .then(function () {
+        return reference
+      })
   })
 }
 
