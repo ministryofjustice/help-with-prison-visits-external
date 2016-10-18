@@ -197,7 +197,7 @@ describe('first-time-eligibility-flow', function () {
     })
 
     it('should redirect to /first-time/:dob/:relationship/:journeyAssistance/:benefit page if benefit is any value other than None of the above', function (done) {
-      var benefit = 'Income Support'
+      var benefit = 'No'
 
       request
         .post('/first-time/' + dob + '/Partner/No')
