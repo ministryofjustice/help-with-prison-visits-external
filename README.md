@@ -70,15 +70,16 @@ git push heroku master
 
 ## Test
 
-Checks code against standard JS and runs mocha unit tests.
 ```
-npm test
+npm test                        # checks code against standard JS and runs mocha unit tests.
+npm run-script test-unit        # just unit tests
+npm run-script test-integration # just integration tests
 ```
 
 Run e2e tests with local selenium standalone
 ```
 # Requires application running on http://localhost:3000
-npm run-script e2e
+npm run-script test-e2e
 ```
 
 Run e2e tests with [saucelabs](https://saucelabs.com)
@@ -88,8 +89,18 @@ export SAUCE_USERNAME='MY_USERNAME'
 export SAUCE_ACCESS_KEY='MY_KEY'
 export SAUCE_BASEURL='http://localhost:3000' # proxy url for sauce connect
 
-npm run-script e2e-ie8
-npm run-script e2e-firefox
+npm run-script test-e2e-ie8
+npm run-script test-e2e-firefox
+```
+
+## Database
+
+The application requires a MS SQL database instance, configured with an external web user and a migration user. See [here](https://github.com/ministryofjustice/apvs/tree/develop/database) for details.
+
+To run the database migrations:
+
+```
+npm run-script migrations
 ```
 
 ## Notes

@@ -1,0 +1,109 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <h2 class="heading-large">
+                About the person you're visiting
+            </h2>
+
+            <form action="/first-time/{{dob}}/{{relationship}}/{{assistance}}/{{requireBenefitUpload}}" method="post">
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
+                    <input id="prisoner-first-name"
+                           name="firstName"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="prisoner-last-name">Prisoner last name</label>
+                    <input id="prisoner-last-name"
+                           name="lastName"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <fieldset>
+                        <legend class="form-label-bold">Prisoner date of birth</legend>
+
+                        <div class="form-date">
+
+                            <p class="form-hint">eg 18 08 1989</p>
+
+                            <div class="form-group form-group-day">
+                                <label for="dob-day">Day</label>
+                                <input id="dob-day"
+                                       name="dob-day"
+                                       type="number"
+                                       pattern="[0-9]*"
+                                       min="0"
+                                       max="31"
+                                       class="form-control">
+                            </div>
+
+                            <div class="form-group form-group-month">
+                                <label for="dob-month">Month</label>
+                                <input id="dob-month"
+                                       name="dob-month"
+                                       type="number"
+                                       pattern="[0-9]*"
+                                       min="0"
+                                       max="12"
+                                       class="form-control">
+                            </div>
+
+                            <div class="form-group form-group-year">
+                                <label for="dob-year">Year</label>
+                                <input id="dob-year"
+                                       name="dob-year"
+                                       type="number"
+                                       pattern="[0-9]*"
+                                       min="0"
+                                       max="2014"
+                                       class="form-control">
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="prisoner-number">Prisoner number</label>
+                    <p class="form-hint">eg A1234BC</p>
+                    <input id="prisoner-number"
+                           name="prisonerNumber"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="prison-name">Name of the prison</label>
+                    <p class="form-hint">eg Hewell</p>
+                    <input id="prison-name"
+                           name="nameOfPrison"
+                           type="text"
+                           class="form-control">
+                </div>
+
+                <input id="about-the-prisoner-submit" type="submit" class="button" value="Continue">
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

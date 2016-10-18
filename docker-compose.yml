@@ -15,3 +15,9 @@ services:
       - "3000:3000"
     environment:
     - LOGGING_PATH=/usr/src/app/logs/external-web.log
+    - APVS_DATABASE
+    - APVS_DATABASE_SERVER
+    - APVS_EXT_WEB_USERNAME
+    - APVS_EXT_WEB_PASSWORD
+    - APVS_EXT_MIGRATION_USERNAME
+    - APVS_EXT_MIGRATION_PASSWORD

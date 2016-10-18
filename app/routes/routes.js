@@ -5,8 +5,11 @@ const log = require('../services/log')
 
 var routes = [
   require('./index'),
-  require('./health-check/status'),
+  require('./start'),
   require('./eligibility/first-time-eligibility-flow'),
+  require('./first-time/about-the-prisoner.js'),
+  require('./first-time/about-you.js'),
+  // These are temporary UX added routes
   require('./file-upload'),
   require('./eligibility/about-the-prisoner'),
   require('./eligibility/about-you'),
@@ -24,9 +27,10 @@ var routes = [
   require('./eligibility/confirm-your-details'),
   require('./eligibility/eligibility-requirements'),
   require('./claim/profile'),
-  require('./start'),
   require('./claim/claim-details'),
-  require('./eligibility/eligibility-fail')
+  require('./eligibility/eligibility-fail'),
+  // Health check routes
+  require('./health-check/status')
 ]
 
 module.exports = function (router) {
