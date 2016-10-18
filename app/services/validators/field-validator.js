@@ -58,4 +58,3 @@ exports.default = function (data, fieldName, errors) {
 }
 
 module.exports = exports['default']
-

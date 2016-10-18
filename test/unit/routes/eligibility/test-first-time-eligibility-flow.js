@@ -3,14 +3,17 @@ var proxyquire = require('proxyquire')
 var express = require('express')
 var mockViewEngine = require('../mock-view-engine')
 var bodyParser = require('body-parser')
+const dateFormatter = require('../../../../app/services/date-formatter')
 
 var validationErrors
 
-var route = proxyquire('../../../../app/routes/eligibility/first-time-eligibility-flow', {
-  '../../services/validators/eligibility/prisoner-relationship-validator': function (data) { return validationErrors },
-  '../../services/validators/eligibility/date-of-birth-validator': function (data) { return validationErrors },
-  '../../services/validators/eligibility/benefit-validator': function (data) { return validationErrors }
-})
+var route = proxyquire(
+  '../../../../app/routes/eligibility/first-time-eligibility-flow', {
+    '../../services/validators/eligibility/prisoner-relationship-validator': function (data) { return validationErrors },
+    '../../services/validators/eligibility/date-of-birth-validator': function (data) { return validationErrors },
+    '../../services/validators/eligibility/journey-assistance-validator': function (data) { return validationErrors },
+    '../../services/validators/eligibility/benefit-validator': function (data) { return validationErrors }
+  })
 
 describe('first-time-eligibility-flow', function () {
   var request
@@ -35,9 +38,18 @@ describe('first-time-eligibility-flow', function () {
   })
 
   describe('POST /first-time', function () {
+    var dobDay = '01'
+    var dobMonth = '05'
+    var dobYear = '1955'
+
     it('should respond with a 302', function (done) {
       request
         .post('/first-time')
+        .send({
+          'dob-day': dobDay,
+          'dob-month': dobMonth,
+          'dob-year': dobYear
+        })
         .expect(302)
         .end(done)
     })
@@ -46,7 +58,7 @@ describe('first-time-eligibility-flow', function () {
       var dobDay = '01'
       var dobMonth = '05'
       var dobYear = '1955'
-      var dob = dobDay + '-' + dobMonth + '-' + dobYear
+      var dob = dateFormatter.buildFormatted(dobDay, dobMonth, dobYear)
 
       request
         .post('/first-time')

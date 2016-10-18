@@ -24,6 +24,10 @@
                 <div class="form-group">
                     <fieldset>
 
+                        {% if errors['dob'][0] %}
+                            <span class="error-message" id="error-message-benefit">{{ errors['dob'][0] }}</span>
+                        {% endif %}
+
                         <div id="dob" class="form-date">
 
                             <p class="form-hint">eg 18 08 1989</p>
@@ -33,6 +37,7 @@
                                 <input id="dob-day-input"
                                        type="number"
                                        name="dob-day"
+                                       value="{{ claimant['dob-day'] }}"
                                        class="form-control">
                             </div>
 
@@ -41,6 +46,7 @@
                                 <input id="dob-month-input"
                                        type="number"
                                        name="dob-month"
+                                       value="{{ claimant['dob-month'] }}"
                                        class="form-control">
                             </div>
 
@@ -49,6 +55,7 @@
                                 <input id="dob-year-input"
                                        type="number"
                                        name="dob-year"
+                                       value="{{ claimant['dob-year'] }}"
                                        class="form-control">
                             </div>
 
@@ -59,7 +66,7 @@
                     <p class="form-hint">You must be over 16 to be eligible for assistance</p>
                 </div>
 
-                <input id="date-of-birth-submit" type="submit" class="button">
+                <input id="date-of-birth-submit" type="submit" class="button" value="Continue">
             </form>
 
         </div>

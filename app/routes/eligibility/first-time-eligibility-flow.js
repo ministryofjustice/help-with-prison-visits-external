@@ -2,6 +2,7 @@ const prisonerRelationshipValidator = require('../../services/validators/eligibi
 const dateOfBirthValidator = require('../../services/validators/eligibility/date-of-birth-validator')
 const benefitValidator = require('../../services/validators/eligibility/benefit-validator')
 const journeyAssistanceValidator = require('../../services/validators/eligibility/journey-assistance-validator')
+const dateFormatter = require('../../services/date-formatter')
 
 module.exports = function (router) {
   // Date of Birth
@@ -10,14 +11,17 @@ module.exports = function (router) {
     next()
   })
 
-  // TODO: Need age check here. If under 16 redirect to eligibility-fail. Add this to the validation logic for the page.
   router.post('/first-time', function (req, res, next) {
     var validationErrors = dateOfBirthValidator(req.body)
 
     if (validationErrors) {
-      res.status(400).render('eligibility/date-of-birth', { errors: validationErrors })
+      res.status(400).render('eligibility/date-of-birth', { claimant: req.body, errors: validationErrors })
       return next()
     }
+
+    // TODO: Need age check here. If under 16 redirect to eligibility-fail.
+    // if (isUnderSixteen) { }
+
     res.redirect('/first-time/' + buildDOB(req))
     next()
   })
@@ -30,7 +34,6 @@ module.exports = function (router) {
   })
 
   // TODO: Split the reltionship values into an enum module.
-
   router.post('/first-time/:dob', function (req, res, next) {
     var relationship = req.body.relationship
     var dob = req.params.dob
@@ -119,5 +122,5 @@ function buildDOB (req) {
   var day = req.body['dob-day']
   var month = req.body['dob-month']
   var year = req.body['dob-year']
-  return day + '-' + month + '-' + year
+  return dateFormatter.buildFormatted(day, month, year)
 }

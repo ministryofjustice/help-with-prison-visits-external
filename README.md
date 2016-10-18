@@ -78,7 +78,7 @@ npm test
 Run e2e tests with local selenium standalone
 ```
 # Requires application running on http://localhost:3000
-./node_modules/.bin/gulp e2e
+npm run-script e2e
 ```
 
 Run e2e tests with [saucelabs](https://saucelabs.com)
@@ -88,8 +88,8 @@ export SAUCE_USERNAME='MY_USERNAME'
 export SAUCE_ACCESS_KEY='MY_KEY'
 export SAUCE_BASEURL='http://localhost:3000' # proxy url for sauce connect
 
-./node_modules/.bin/wdio test/wdio.conf.sauce.ie8.js
-./node_modules/.bin/wdio test/wdio.conf.sauce.firefox.js
+npm run-script e2e-ie8
+npm run-script e2e-firefox
 ```
 
 ## Notes

@@ -14,39 +14,35 @@
         <div class="column-two-thirds">
 
             <h1 class="heading-xlarge">
-                {{ __('Get help with the cost of prison visits') }}
+                {{ __('Get help with the cost of visiting someone in prison') }}
             </h1>
 
-            <h3 class="heading-medium">{{ __('Eligibility') }}</h3>
-            <p>{{ __('You may be able to get help with the cost of') }} <a
-                    href="https://www.gov.uk/staying-in-touch-with-someone-in-prison/visiting-someone-in-prison">{{
-                __('visiting a close relative or partner in prison') }}</a> {{ __('if you’re aged over 16, are on
-                certain benefits or have a low income.') }}</p>
+            <p>{{ __('You may get help with the cost of visiting a close relative or partner in prison if you’re aged over 16.') }}</p>
 
-            <h4 class="heading-small">{{__('Relationship')}}</h4>
-
-            <p>{{ __('You may be eligible if you\'re the prisoner’s:') }}</p>
+            <h3 class="heading-medium">{{ __('Who can apply') }}</h3>
+            <p>{{ __('You may be eligible if you receive:') }}</p>
 
             <ul class="list list-bullet">
-                <li>{{__('close relative, partner, only visitor, or')}}</li>
-                <li>{{__('escorting a child, young person or adult')}}</li>
+              <li>{{ __('Income Support') }}</li>
+              <li>{{ __('Income-based Jobseeker’s Allowance (JSA)') }}</li>
+              <li>{{ __('Employment and Support Allowance (ESA)') }}</li>
+              <li>{{ __('Universal Credit') }}</li>
+              <li>{{ __('Working Tax Credit, Child Tax Credit or Pension Credit') }}</li>
             </ul>
 
-            <!-- TODO: Should link to a page. -->
-            <a href="" class="link">{{__('More information')}}</a>
+            <p>{{ __('or if you have an HC2 or HC3 Health Certificate.') }}</p>
 
-            <h4 class="heading-small">{{__('Benefits')}}</h4>
+            <a href="">{{ __('More about who can apply') }}</a>
 
-            <p>{{__('You may qualify if you\'re receiving:')}}</p>
-            <ul class="list list-bullet">
-                <li>{{__('Income Support, Jobseeker’s Allowance, Employment and Support Allowance, Universal Credit,
-                    Working Tax Credits, Child Tax Credit, Pension Credit, or')}}
-                </li>
-                <li>{{__('Have a Health Certificate (HC2 or HC3)')}}</li>
+            <h4 class="heading-medium">{{ __('What you can get help with') }}</h4>
+
+            <ul class=" list list-bullet">
+              <li>{{ __('travel costs, for example train tickets, petrol or car hire') }}</li>
+              <li>{{ __('overnight stays') }}</li>
+              <li>{{ __('other costs to do with your visit - for example food, childminding, a volunteer driver or an escort if needed') }}</li>
             </ul>
 
-            <!-- TODO: Should link to a page. -->
-            <a href="" class="link">{{__('More information')}}</a>
+            <a href="" class="link">{{ __('More about what you can get help with') }}</a>
 
             <br>
             <br>
@@ -54,13 +50,21 @@
                 <a id="start" href="start" role="button" class="button button-start">{{__('Start now')}}</a>
             </p>
 
-            <h3 class="heading-small">{{__('Other ways to apply')}}</h3>
+            <h3 class="heading-small">{{ __('Before you start') }}</h3>
 
-            <p>{{__('You can apply by filling in a paper form instead.')}}</p>
+            <p>{{ __('You\'ll need:') }}</p>
 
-            <p>{{__('You\'ll need to complete the paper form and send it to the address on the form to get help with
-                travel costs.')}}</p>
+            <ul class=" list list-bullet">
+                <li>{{ __('your National Insurance number') }}</li>
+                <li>{{ __('the name of the prison and the prisoner number of the person you’re visiting') }}</li>
+                <li>{{ __('details of your claim, for example tickets') }}</li>
+            </ul>
 
+            <p>{{ __('If you’ve used this service before you can return to a claim with your 8-digit reference number.') }}</p>
+
+            <h3 class="heading-small">{{ __('Other ways to apply') }}</h3>
+
+            <p>{{ __('You can complete and send a ') }}<a href="">{{ __('paper application form') }}</a>{{ __(' to the Assisted Prison Visits Unit.') }}</p>
         </div>
         <div class="column-third">
 
