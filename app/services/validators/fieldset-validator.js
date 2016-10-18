@@ -9,18 +9,20 @@ class FieldsetValidator {
    * @param errors An instance of the ErrorHandler class.
    */
   constructor (data, fieldName, errors) {
-    this.data = data
+    this.data = data || []
     this.fieldName = fieldName
     this.errors = errors
   }
 
   isRequired () {
     var self = this
-    this.data.forEach(function (data) {
-      if (!data) {
-        self.errors.add(self.fieldName, ERROR_MESSAGES.getIsRequired)
-      }
-    })
+    if (this.data instanceof Array) {
+      this.data.forEach(function (data) {
+        if (!data) {
+          self.errors.add(self.fieldName, ERROR_MESSAGES.getIsRequired)
+        }
+      })
+    }
     return this
   }
 
@@ -35,6 +37,7 @@ class FieldsetValidator {
     if (!isDateInThePast(date)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getFutureDobMessage)
     }
+    return this
   }
 }
 
@@ -43,9 +46,10 @@ module.exports = function (data, fieldName, errors) {
 }
 
 function isDateValid (date) {
-  return date.toString() !== 'Invalid Date'
+  return date instanceof Date
 }
 
 function isDateInThePast (date) {
-  return date <= new Date()
+  return isDateValid(date) &&
+         date <= new Date()
 }
