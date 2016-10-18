@@ -1,17 +1,17 @@
 var proxyquire = require('proxyquire')
 var sinon = require('sinon')
 var expect = require('chai').expect
-var fieldValidator = require('../../../../app/services/validators/field-validator')
+var fieldValidator = require('../../../../../app/services/validators/field-validator')
 
-describe('prisoner-relationship-validator', function () {
-  var prisonerRelationshipValidator
+describe('journey-assistance-validator', function () {
+  var journeyAssistanceValidator
   var mockFieldValidatorFactory
   var fieldValidators
   var data
 
   beforeEach(function () {
     data = {
-      'relationship': 'Partner'
+      'journey-assistance': 'No'
     }
 
     fieldValidators = {}
@@ -22,17 +22,17 @@ describe('prisoner-relationship-validator', function () {
       return fieldValidatorSpied
     }
 
-    prisonerRelationshipValidator = proxyquire('../../../../app/services/validators/prisoner-relationship-validator', {
-      './field-validator': mockFieldValidatorFactory
+    journeyAssistanceValidator = proxyquire('../../../../../app/services/validators/eligibility/journey-assistance-validator', {
+      '../field-validator': mockFieldValidatorFactory
     })
   })
 
   it('should return false for valid data', function (done) {
-    var errors = prisonerRelationshipValidator(data)
+    var errors = journeyAssistanceValidator(data)
     expect(errors).to.be.false
 
-    expect(fieldValidators['relationship']).to.exist
-    sinon.assert.calledOnce(fieldValidators['relationship'].spyIsRequired)
+    expect(fieldValidators['journey-assistance']).to.exist
+    sinon.assert.calledOnce(fieldValidators['journey-assistance'].spyIsRequired)
 
     done()
   })
@@ -40,13 +40,13 @@ describe('prisoner-relationship-validator', function () {
   it('should return errors for no data input', function (done) {
     data = {}
 
-    var errors = prisonerRelationshipValidator(data)
+    var errors = journeyAssistanceValidator(data)
     expect(errors).to.have.all.keys([
-      'relationship'
+      'journey-assistance'
     ])
 
-    var titleErrorMessage = errors['relationship'][0]
-    expect(titleErrorMessage).to.equal('Relationship is required')
+    var errorMessage = errors['journey-assistance'][0]
+    expect(errorMessage).to.equal('Select an option to specify if you need assistance on your journey')
 
     done()
   })

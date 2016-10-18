@@ -1,3 +1,5 @@
 module.exports = {
-  'relationship': 'Relationship'
+  'dob': 'Date of Birth',
+  'benefit': 'benefit',
+  'relationship': 'relationship'
 }
