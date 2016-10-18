@@ -30,7 +30,7 @@ describe('First time claim flow', () => {
 
       // Benefit
       .waitForExist('#benefit-submit')
-      .click('#benefit')
+      .click('#income-support')
       .click('#benefit-submit')
 
       .waitForExist('#about-the-prisoner-submit')

@@ -23,7 +23,7 @@
               <span class="error-message" id="error-message-journey-assistance">{{ errors['journey-assistance'][0] }}</span>
             {% endif %}
 
-            <form action="/first-time/{{ dob }}/{{ relationship }}/{{ benefit }}" method="post">
+            <form action="/first-time/{{ dob }}/{{ relationship }}" method="post">
                 <div class="form-group {% if errors['journey-assistance'][0] %} error {% endif %}">
 
                     <fieldset>

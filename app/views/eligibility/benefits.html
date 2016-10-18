@@ -25,7 +25,7 @@
               <span class="error-message" id="error-message-benefit">{{ errors['benefit'][0] }}</span>
             {% endif %}
 
-            <form action="/first-time/{{ dob }}/{{ relationship }}" method="post">
+            <form action="/first-time/{{ dob }}/{{ relationship }}/{{ journeyAssistance }}" method="post">
                 <div class="form-group {% if errors['benefit'][0] %} error {% endif %}"">
                     <fieldset>
 
