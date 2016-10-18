@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "gulp",
-    "test": "standard && mocha -u exports test/unit/**/**/*",
+    "test": "standard && mocha --recursive -u exports test/unit/",
     "e2e": "gulp --gulpfile gulpfile-e2e.js",
     "e2e-ie8": "wdio test/wdio.conf.sauce.ie8.js",
     "e2e-firefox": "wdio test/wdio.conf.sauce.firefox.js"
