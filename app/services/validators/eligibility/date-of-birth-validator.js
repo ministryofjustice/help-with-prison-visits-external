@@ -2,8 +2,7 @@ const FieldsetValidator = require('../fieldset-validator')
 const ErrorHandler = require('../error-handler')
 const dateFormatter = require('../../../services/date-formatter')
 
-// TODO: Add unit test for this class.
-
+// TODO: Handle the data parameter being invalid.
 class DateOfBirthValidator {
   static validate (data) {
     var errors = ErrorHandler()
