@@ -1,4 +1,4 @@
-var expect = require('chai').expect
+const expect = require('chai').expect
 const dateFormatter = require('../../../app/services/date-formatter')
 const dateFormat = require('dateformat')
 const DATE_FORMAT = 'yyyy-mm-dd'
