@@ -4,6 +4,8 @@ const benefitValidator = require('../../services/validators/eligibility/benefit-
 const journeyAssistanceValidator = require('../../services/validators/eligibility/journey-assistance-validator')
 const dateFormatter = require('../../services/date-formatter')
 
+// TODO: Refactor so that the routes live in files corresponding to the HTML page they effect.
+
 module.exports = function (router) {
   // Date of Birth
   router.get('/first-time', function (req, res, next) {
@@ -19,8 +21,7 @@ module.exports = function (router) {
       return next()
     }
 
-    // TODO: Need age check here. If under 16 redirect to eligibility-fail.
-    // if (isUnderSixteen) { }
+    // TODO: Need age check here. If under 16 redirect to eligibility-fail + unit test.
 
     res.redirect('/first-time/' + buildDOB(req))
     next()
@@ -29,6 +30,9 @@ module.exports = function (router) {
   // Prisoner-relationship
   router.get('/first-time/:dob', function (req, res, next) {
     var dob = req.params.dob
+
+    // TODO: Add URL Validation.
+
     res.render('eligibility/prisoner-relationship', { dob: dob })
     next()
   })
@@ -38,6 +42,8 @@ module.exports = function (router) {
     var relationship = req.body.relationship
     var dob = req.params.dob
     var validationErrors = prisonerRelationshipValidator(req.body)
+
+    // TODO: Add URL Validation.
 
     if (validationErrors) {
       res.status(400).render('eligibility/prisoner-relationship', { errors: validationErrors, dob: dob })
@@ -57,6 +63,8 @@ module.exports = function (router) {
     var dob = req.params.dob
     var relationship = req.params.relationship
 
+    // TODO: Add URL Validation.
+
     res.render('eligibility/journey-assistance', { dob: dob, relationship: relationship })
     next()
   })
@@ -67,6 +75,8 @@ module.exports = function (router) {
     var relationship = req.params.relationship
 
     var validationErrors = journeyAssistanceValidator(req.body)
+
+    // TODO: Add URL Validation.
 
     if (validationErrors) {
       res.status(400).render('eligibility/journey-assistance', { errors: validationErrors, dob: dob, relationship: relationship })
@@ -82,6 +92,9 @@ module.exports = function (router) {
     var dob = req.params.dob
     var relationship = req.params.relationship
     var journeyAssistance = req.params.journeyAssistance
+
+    // TODO: Add URL Validation.
+
     res.render('eligibility/benefits', { dob: dob, relationship: relationship, journeyAssistance: journeyAssistance })
     next()
   })
@@ -92,6 +105,8 @@ module.exports = function (router) {
     var relationship = req.params.relationship
     var journeyAssistance = req.params.journeyAssistance
     var validationErrors = benefitValidator(req.body)
+
+    // TODO: Add URL Validation.
 
     if (validationErrors) {
       res.status(400).render('eligibility/benefits', { errors: validationErrors, dob: dob, relationship: relationship, journeyAssistance: journeyAssistance })
@@ -113,12 +128,17 @@ module.exports = function (router) {
     var journeyAssistance = req.params.journeyAssistance
     var benefit = req.params.benefit
 
+    // TODO: Add URL Validation.
+
     res.render('eligibility/about-the-prisoner', { dob: dob, relationship: relationship, benefit: benefit, journeyAssistance: journeyAssistance })
     next()
   })
 
   router.post('/first-time/:dob/:relationship/:journeyAssistance/:benefit', function (req, res, next) {
     res.redirect('/about-you')
+
+    // TODO: Add URL Validation.
+
     next()
   })
 }

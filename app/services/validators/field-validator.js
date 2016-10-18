@@ -2,6 +2,9 @@ const validator = require('validator')
 const FIELD_NAMES = require('./validation-field-names')
 const ERROR_MESSAGES = require('./validation-error-messages')
 
+// TODO: Incorporate ErrorHandler replacing exisitng error specific logic in this class.
+// TODO: Add unit test for this clas.
+
 // ES6 Class used to chain common validation calls together
 // Using ES6 Template literals
 class FieldValidator {
