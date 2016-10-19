@@ -35,7 +35,8 @@ var routes = [
   // Health check routes
   require('./health-check/status'),
   // Dev routes TODO THESE SHOULD BE REMOVED
-  require('./dev/display-data-for-reference')
+  require('./dev/display-data-for-reference'),
+  require('./dev/gov-notify')
 ]
 
 module.exports = function (router) {
