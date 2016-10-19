@@ -1,3 +1,4 @@
+const aboutYouValidator = require('../../services/validators/first-time/about-you-validator')
 var visitor = require('../../services/data/visitor')
 
 module.exports = function (router) {
@@ -15,7 +16,7 @@ module.exports = function (router) {
 
   router.post('/first-time/:dob/:relationship/:assistance/:requireBenefitUpload/:reference', function (req, res, next) {
     // TODO path validation
-    var validationErrors = false // TODO call validator
+    var validationErrors = aboutYouValidator(req.body)
 
     if (validationErrors) {
       res.status(400).render('first-time/about-you', {
@@ -25,28 +26,17 @@ module.exports = function (router) {
         requireBenefitUpload: req.params.requireBenefitUpload,
         reference: req.params.reference,
         visitor: req.body,
-        errors: validationErrors })
+        errors: validationErrors
+      })
       return next()
     }
 
-    // TODO TEMP DATA replace with view req.body values
-    var visitorData = {
-      Title: 'Mr',
-      FirstName: 'John',
-      LastName: 'Smith',
-      NationalInsuranceNumber: 'QQ 12 34 56 c',
-      HouseNumberAndStreet: '1 Test Road',
-      Town: 'Test Town',
-      County: 'Durham',
-      PostCode: 'bT11 1BT',
-      Country: 'England',
-      EmailAddress: 'test@test.com',
-      PhoneNumber: '07911111111',
-      DateOfBirth: '1980-02-01',
-      Relationship: 'partner',
-      JourneyAssistance: 'y75',
-      RequireBenefitUpload: 'n'
-    }
+    var visitorData = req.body
+    visitorData.DateOfBirth = req.params.dob
+    visitorData.Relationship = req.params.relationship
+    visitorData.JourneyAssistance = req.params.assistance
+    visitorData.RequireBenefitUpload = req.params.requireBenefitUpload
+
     visitor.insert(req.params.reference, visitorData)
       .then(function () {
         res.redirect(`/application-submitted/${req.params.reference}`)

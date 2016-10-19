@@ -13,72 +13,117 @@
     <div class="grid-row">
         <div class="column-two-thirds">
 
+            {% include "includes/validation-error-messages.html" %}
+
             <h2 class="heading-large">
                 About You
             </h2>
 
             <form action="/first-time/{{dob}}/{{relationship}}/{{assistance}}/{{requireBenefitUpload}}/{{reference}}" method="post">
                 <div class="form-group">
-                    <label class="form-label-bold" for="title">Title</label>
+                    <label id="Title" class="form-label-bold" for="title-input">Title</label>
                     <p class="form-hint">(Mr/Mrs/Miss/Ms)</p>
-                    <input id="title"
+                    {% if errors['Title'][0] %}
+                        <span class="error-message" id="error-message-title">{{ errors['Title'][0] }}</span>
+                    {% endif %}
+                    <input id="title-input"
+                           name="Title"
                            type="text"
-                           class="form-control">
+                           class="form-control"
+                           value="{{ visitor['Title'] }}">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="first-name">First name</label>
-                    <input id="first-name"
+                    <label id="FirstName" class="form-label-bold" for="first-name-input">First name</label>
+                    {% if errors['FirstName'][0] %}
+                        <span class="error-message" id="error-message-first-name">{{ errors['FirstName'][0] }}</span>
+                    {% endif %}
+                    <input id="first-name-input"
+                           name="FirstName" 
                            type="text"
-                           class="form-control">
+                           class="form-control"
+                           value="{{ visitor['FirstName'] }}">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="last-name">Last name</label>
-                    <input id="last-name"
+                    <label id="LastName" class="form-label-bold" for="last-name-input">Last name</label>
+                    {% if errors['LastName'][0] %}
+                        <span class="error-message" id="error-message-last-name">{{ errors['LastName'][0] }}</span>
+                    {% endif %}
+                    <input id="last-name-input"
+                           name="LastName"
                            type="text"
-                           class="form-control">
+                           class="form-control"
+                           value="{{ visitor['LastName'] }}">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="national-insurance-number">National Insurance number</label>
-                    <input id="national-insurance-number"
+                    <label id="NationalInsuranceNumber" class="form-label-bold" for="national-insurance-number-input">National Insurance number</label>
+                    {% if errors['NationalInsuranceNumber'][0] %}
+                        <span class="error-message" id="error-message-national">{{ errors['NationalInsuranceNumber'][0] }}</span>
+                    {% endif %}
+                    <input id="national-insurance-number-input"
+                           name="NationalInsuranceNumber"
                            type="text"
-                           class="form-control">
+                           class="form-control"
+                           value="{{ visitor['NationalInsuranceNumber'] }}">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="house-number-and-street">House number and street</label>
+                    <label id="HouseNumberAndStreet" class="form-label-bold" for="house-number-and-street-input">House number and street</label>
+                    {% if errors['HouseNumberAndStreet'][0] %}
+                        <span class="error-message" id="error-message-house-street">{{ errors['HouseNumberAndStreet'][0] }}</span>
+                    {% endif %}
                     <p class="form-hint">e.g 123 Street Name</p>
-                    <input id="house-number-and-street"
+                    <input id="house-number-and-street-input"
+                           name="HouseNumberAndStreet"
                            type="text"
-                           class="form-control">
+                           class="form-control"
+                           value="{{ visitor['HouseNumberAndStreet'] }}">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="town">Town</label>
-                    <input id="town"
+                    <label id="Town" class="form-label-bold" for="town-input">Town</label>
+                    {% if errors['Town'][0] %}
+                        <span class="error-message" id="error-message-town">{{ errors['Town'][0] }}</span>
+                    {% endif %}
+                    <input id="town-input"
+                           name="Town"
                            type="text"
-                           class="form-control">
+                           class="form-control"
+                           value="{{ visitor['Town'] }}">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="county">County</label>
-                    <input id="county"
+                    <label id="County" class="form-label-bold" for="county-input">County</label>
+                    {% if errors['County'][0] %}
+                        <span class="error-message" id="error-message-county">{{ errors['County'][0] }}</span>
+                    {% endif %}
+                    <input id="county-input"
+                           name="County"
                            type="text"
-                           class="form-control">
+                           class="form-control"
+                           value="{{ visitor['County'] }}">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="post-code">Post code</label>
-                    <input id="post-code"
+                    <label id="PostCode" class="form-label-bold" for="post-code-input">Post code</label>
+                    {% if errors['PostCode'][0] %}
+                        <span class="error-message" id="error-message-post-code">{{ errors['PostCode'][0] }}</span>
+                    {% endif %}
+                    <input id="post-code-input"
+                           name="PostCode"
                            type="text"
-                           class="form-control">
+                           class="form-control"
+                           value="{{ visitor['PostCode'] }}">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold">Country</label>
-                    <select class="form-control">
+                    <label id="Country" class="form-label-bold">Country</label>
+                    {% if errors['Country'][0] %}
+                        <span class="error-message" id="error-message-country">{{ errors['Country'][0] }}</span>
+                    {% endif %}
+                    <select id="country-input" class="form-control" name="Country">
                         <option>select</option>
                         <option>Northern Ireland</option>
                         <option>England</option>
@@ -88,21 +133,31 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="email-address">Email address</label>
+                    <label id="EmailAddress" class="form-label-bold" for="email-address-input">Email address</label>
+                    {% if errors['EmailAddress'][0] %}
+                        <span class="error-message" id="error-message-email">{{ errors['EmailAddress'][0] }}</span>
+                    {% endif %}
                     <p class="form-hint">You’ll receive confirmation by email</p>
-                    <input id="email-address"
+                    <input id="email-address-input"
+                           name="EmailAddress"
                            type="text"
-                           class="form-control">
+                           class="form-control"
+                           value="{{ visitor['EmailAddress'] }}">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="phone-number">Phone number</label>
-                    <input id="phone-number"
+                    <label id="PhoneNumber" class="form-label-bold" for="phone-number-input">Phone number</label>
+                    {% if errors['PhoneNumber'][0] %}
+                        <span class="error-message" id="error-message-phone">{{ errors['PhoneNumber'][0] }}</span>
+                    {% endif %}
+                    <input id="phone-number-input"
+                           name="PhoneNumber"
                            type="text"
-                           class="form-control">
+                           class="form-control"
+                           value="{{ visitor['PhoneNumber'] }}">
                 </div>
 
-                <input id="about-you-submit" type="submit" class="button" value="continue">
+                <input id="about-you-submit" type="submit" class="button" value="Continue">
             </form>
 
         </div>
