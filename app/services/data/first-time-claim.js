@@ -9,7 +9,7 @@ var getUniqueReference = function () {
 
 var insertNewEligibilityAndPrisoner = function (prisonerData) {
   var reference = getUniqueReference()
-
+  // TODO change to avoid transaction as Tedious currently does not support multiple connections to MSSQL with transactions
   return knex.transaction(function (trx) {
     return trx
       .insert({
@@ -22,6 +22,8 @@ var insertNewEligibilityAndPrisoner = function (prisonerData) {
         // TODO refactor to common date parser
         prisonerData.dateOfBirth = new Date(`${prisonerData['dob-year']}-${prisonerData['dob-month']}-${prisonerData['dob-day']}`)
 
+        // TODO add trim strings ala visitor and tests on trim + dob
+        // TODO change fields to Pascal case and update view/tests ala visitor so they are consistent
         return trx.insert({
           Reference: reference,
           FirstName: prisonerData.firstName,
