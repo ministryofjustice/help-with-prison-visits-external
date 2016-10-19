@@ -22,6 +22,7 @@ var insertNewEligibilityAndPrisoner = function (prisonerData) {
         // TODO refactor to common date parser
         prisonerData.dateOfBirth = new Date(`${prisonerData['dob-year']}-${prisonerData['dob-month']}-${prisonerData['dob-day']}`)
 
+        // TODO add trim strings ala visitor and tests on trim + dob
         return trx.insert({
           Reference: reference,
           FirstName: prisonerData.firstName,
