@@ -4,7 +4,7 @@ const dateFormat = require('dateformat')
 const DATE_FORMAT = 'yyyy-mm-dd'
 const INVALID_DATE_ERROR = 'Invalid Date'
 
-describe('date-formatter', function () {
+describe('services/date-formatter', function () {
   const TODAYS_DATE = dateFormat(new Date(), DATE_FORMAT)
 
   const VALID_DAY = 1

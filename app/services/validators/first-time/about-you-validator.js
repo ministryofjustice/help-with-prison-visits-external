@@ -19,15 +19,15 @@ class AboutYouValidator {
     FieldValidator(title, 'Title', errors)
       .isRequired()
       .isAlpha()
-      .isLength(2, 4)
+      .isRange(2, 4)
 
     FieldValidator(firstName, 'FirstName', errors)
       .isRequired()
-      .isLength(1, 100)
+      .isRange(1, 100)
 
     FieldValidator(lastName, 'LastName', errors)
       .isRequired()
-      .isLength(1, 100)
+      .isRange(1, 100)
 
     FieldValidator(nationalInsuranceNumber, 'NationalInsuranceNumber', errors)
       .isRequired()
@@ -35,17 +35,17 @@ class AboutYouValidator {
 
     FieldValidator(houseNumberAndStreet, 'HouseNumberAndStreet', errors)
       .isRequired()
-      .isLength(1, 200)
+      .isRange(1, 200)
 
     FieldValidator(town, 'Town', errors)
       .isRequired()
       .isAlpha()
-      .isLength(3, 100)
+      .isRange(3, 100)
 
     FieldValidator(county, 'County', errors)
       .isRequired('dropbox')
       .isAlpha()
-      .isLength(4, 100)
+      .isRange(4, 100)
 
     FieldValidator(postcode, 'PostCode', errors)
       .isRequired()
@@ -55,20 +55,13 @@ class AboutYouValidator {
       .isRequired('dropbox')
 
     FieldValidator(emailAddress, 'EmailAddress', errors)
-      .isLength(1, 100)
+      .isRange(1, 100)
 
     FieldValidator(phoneNumber, 'PhoneNumber', errors)
-      .isLength(0, 13)
+      .isRange(0, 13)
 
-    for (var field in errors) {
-      if (errors.hasOwnProperty(field)) {
-        if (errors[field].length > 0) { return errors }
-      }
-    }
-    return false
-  }
+   return errors.get()
 }
-exports.default = function (data) {
+module.exports = function (data) {
   return AboutYouValidator.validate(data)
 }
-module.exports = exports['default']

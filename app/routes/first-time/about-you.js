@@ -1,4 +1,5 @@
 const aboutYouValidator = require('../../services/validators/first-time/about-you-validator')
+var visitor = require('../../services/data/visitor')
 
 module.exports = function (router) {
   router.get('/first-time/:dob/:relationship/:assistance/:requireBenefitUpload/:reference', function (req, res, next) {
@@ -14,6 +15,7 @@ module.exports = function (router) {
   })
 
   router.post('/first-time/:dob/:relationship/:assistance/:requireBenefitUpload/:reference', function (req, res, next) {
+    // TODO path validation
     var validationErrors = aboutYouValidator(req.body)
 
     if (validationErrors) {
@@ -28,7 +30,31 @@ module.exports = function (router) {
       return next()
     }
 
-    res.redirect('/visit-type')
-    next()
+    // TODO TEMP DATA replace with view req.body values
+    var visitorData = {
+      Title: 'Mr',
+      FirstName: 'John',
+      LastName: 'Smith',
+      NationalInsuranceNumber: 'QQ 12 34 56 c',
+      HouseNumberAndStreet: '1 Test Road',
+      Town: 'Test Town',
+      County: 'Durham',
+      PostCode: 'bT11 1BT',
+      Country: 'England',
+      EmailAddress: 'test@test.com',
+      PhoneNumber: '07911111111',
+      DateOfBirth: '1980-02-01',
+      Relationship: 'partner',
+      JourneyAssistance: 'y75',
+      RequireBenefitUpload: 'n'
+    }
+    visitor.insert(req.params.reference, visitorData)
+      .then(function () {
+        res.redirect(`/application-submitted/${req.params.reference}`)
+        next()
+      })
+      .catch(function (error) {
+        next(error)
+      })
   })
 }

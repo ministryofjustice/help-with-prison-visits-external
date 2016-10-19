@@ -1,23 +1,18 @@
-var FieldValidator = require('../field-validator')
+const FieldValidator = require('../field-validator')
+const ErrorHandler = require('../error-handler')
 
 class JourneyAssistanceValidator {
   static validate (data) {
-    var errors = {}
-
+    var errors = ErrorHandler()
     var journeyAssistance = data['journey-assistance']
 
     FieldValidator(journeyAssistance, 'journey-assistance', errors)
-      .isRequired('journeyAssistance')
+      .isRequired('radio')
 
-    for (var field in errors) {
-      if (errors.hasOwnProperty(field)) {
-        if (errors[field].length > 0) { return errors }
-      }
-    }
-    return false
+    return errors.get()
   }
 }
-exports.default = function (data) {
+
+module.exports = function (data) {
   return JourneyAssistanceValidator.validate(data)
 }
-module.exports = exports['default']

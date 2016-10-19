@@ -2,7 +2,7 @@ const expect = require('chai').expect
 const FieldsetValidator = require('../../../../app/services/validators/fieldset-validator')
 const ErrorHandler = require('../../../../app/services/validators/error-handler')
 
-describe('error-handler', function () {
+describe('services/validators/fieldset-validator', function () {
   const VALID_DATA_ITEM_1 = 'data 1'
   const VALID_DATA_ITEM_2 = 'data 2'
   const INVALID_DATA_ITEM_1 = ''
