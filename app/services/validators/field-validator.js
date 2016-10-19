@@ -48,7 +48,7 @@ class FieldValidator {
   }
 
   isLessThanLength (length) {
-    if (!validator.isLength(this.data, {max: length})) {
+    if (!validator.isLessThanLength(this.data, length)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLessThanLengthMessage, { length: length })
     }
   }
