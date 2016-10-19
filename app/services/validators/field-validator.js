@@ -1,4 +1,4 @@
-const validator = require('validator')
+const validator = require('./common-validator')
 const ERROR_MESSAGES = require('./validation-error-messages')
 
 class FieldValidator {
@@ -16,7 +16,7 @@ class FieldValidator {
   }
 
   isRequired (questionType) {
-    if (!this.data) {
+    if (validator.isNullOrUndefined(this.data)) {
       if (questionType === 'radio') {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getRadioQuestionIsRequired)
       } else if (questionType === 'journeyAssistance') {
@@ -66,7 +66,7 @@ class FieldValidator {
   }
 
   isLength (length) {
-    if (!validator.isLength(this.data, {min: length, max: length})) {
+    if (!validator.isLength(this.data, length)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLengthMessage, { length: length })
     }
     return this
@@ -79,7 +79,7 @@ class FieldValidator {
     return this
   }
   isLessThanLength (length) {
-    if (!validator.isLength(this.data, {max: length})) {
+    if (!validator.isLessThanLength(this.data, length)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLessThanLengthMessage, { length: length })
     }
   }

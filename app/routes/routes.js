@@ -33,7 +33,9 @@ var routes = [
   require('./claim/claim-details'),
   require('./eligibility/eligibility-fail'),
   // Health check routes
-  require('./health-check/status')
+  require('./health-check/status'),
+  // Dev routes TODO THESE SHOULD BE REMOVED
+  require('./dev/display-data-for-reference')
 ]
 
 module.exports = function (router) {
