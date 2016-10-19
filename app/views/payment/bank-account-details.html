@@ -23,16 +23,22 @@
             <p>We don’t store this information. You will need to enter this for each claim you make</p>
 
             <form action="bank-account-details" method="post">
-                <div class="form-group">
+                <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
                     <label id="AccountNumber" class="form-label-bold" for="account-number">Account Number</label>
+                    {% if errors['AccountNumber'][0] %}
+                        <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
+                    {% endif %}
                     <input id="account-number-input"
                            name="AccountNumber"
                            type="text"
                            class="form-control">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
                     <label id="SortCode" class="form-label-bold" for="sort-code">Sort Code</label>
+                    {% if errors['SortCode'][0] %}
+                        <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
+                    {% endif %}
                     <input id="sort-code-input"
                            name="SortCode"
                            type="text"
