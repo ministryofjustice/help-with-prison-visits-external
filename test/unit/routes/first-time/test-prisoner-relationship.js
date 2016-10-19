@@ -57,7 +57,7 @@ describe('routes/first-time/prisoner-relationship', function () {
       request
         .post('/first-time/' + dob)
         .send({
-          relationship: 'None of the above'
+          relationship: 'none'
         })
         .expect('location', '/eligibility-fail')
         .end(done)
