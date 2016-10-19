@@ -28,7 +28,7 @@ module.exports = function (router) {
       return next()
     }
 
-    res.redirect('/claim/visit-type')
+    res.redirect('/visit-type')
     next()
   })
 }
