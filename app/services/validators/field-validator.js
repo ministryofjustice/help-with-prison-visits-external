@@ -23,6 +23,8 @@ class FieldValidator {
         this.addErrorMessage(ERROR_MESSAGES.getRadioQuestionIsRequired)
       } else if (questionType === 'journeyAssistance') {
         this.addErrorMessage(ERROR_MESSAGES.getJourneyAssistanceIsRequired)
+      } else if (questionType === 'dropbox') {
+        this.addErrorMessage(ERROR_MESSAGES.getDropboxIsRequired)
       } else {
         this.addErrorMessage(ERROR_MESSAGES.getIsRequired)
       }
@@ -44,9 +46,23 @@ class FieldValidator {
     return this
   }
 
-  isLength (length) {
-    if (!validator.isLength(this.data, {min: length, max: length})) {
-      this.addErrorMessage(ERROR_MESSAGES.getIsLengthMessage, { length: length })
+  isLength (min, max) {
+    if (!validator.isLength(this.data, {min: min, max: max})) {
+      this.addErrorMessage(ERROR_MESSAGES.getIsBetweenMessage, { min: min, max: max })
+    }
+    return this
+  }
+
+  isNationalInsuranceNumber () {
+    if (!validator.matches(this.data, '^[A-z]{2}[0-9]{6}[A-z]{1}$')) {
+      this.addErrorMessage(ERROR_MESSAGES.getIsNationalInsuranceNumber)
+    }
+    return this
+  }
+
+  isPostcode () {
+    if (!validator.matches(this.data, '^[A-Z]{1,2}[0-9]{1,2}[A-Z]?[0-9]{1}[A-Z]{2}$')) {
+      this.addErrorMessage(ERROR_MESSAGES.getIsPostcode)
     }
     return this
   }

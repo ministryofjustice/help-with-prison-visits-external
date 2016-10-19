@@ -4,7 +4,10 @@ module.exports = {
   getJourneyAssistanceIsRequired: function (displayName) { return `Select an option to specify if you need assistance on your journey` },
   getIsAlpha: function (displayName) { return `${displayName} must only contain letters` },
   getIsNumeric: function (displayName) { return `${displayName} must only contain numbers` },
-  getIsLengthMessage: function (displayName, options) { return `${displayName} must be ${options.length} characters in length as shown in the example` },
+  getIsBetweenMessage: function (displayName, options) { return `${displayName} must be between ${options.min} and ${options.max} characters in length` },
   getInvalidDobFormatMessage: function (displayName) { return `${displayName} was invalid` },
-  getFutureDobMessage: function (displayName) { return `${displayName} must be in the past` }
+  getFutureDobMessage: function (displayName) { return `${displayName} must be in the past` },
+  getDropboxIsRequired: function (displayName) { return `${displayName} have option selected and not left as select` },
+  getIsNationalInsuranceNumber: function (displayName) { return `${displayName} must have valid National Insurance Number` },
+  getIsPostcode: function (displayName) { return `${displayName} must have valid Postcode` }
 }

@@ -13,15 +13,18 @@
     <div class="grid-row">
         <div class="column-two-thirds">
 
+            {% include "includes/validation-error-messages.html" %}
+
             <h2 class="heading-large">
                 About You
             </h2>
 
-            <form action="about-you" method="post">
+            <form action="/first-time/{{dob}}/{{relationship}}/{{assistance}}/{{requireBenefitUpload}}/{{reference}}" method="post">
                 <div class="form-group">
                     <label class="form-label-bold" for="title">Title</label>
                     <p class="form-hint">(Mr/Mrs/Miss/Ms)</p>
                     <input id="title"
+                           name="Title"
                            type="text"
                            class="form-control">
                 </div>
@@ -29,6 +32,7 @@
                 <div class="form-group">
                     <label class="form-label-bold" for="first-name">First name</label>
                     <input id="first-name"
+                           name="FirstName" 
                            type="text"
                            class="form-control">
                 </div>
@@ -36,6 +40,7 @@
                 <div class="form-group">
                     <label class="form-label-bold" for="last-name">Last name</label>
                     <input id="last-name"
+                           name="LastName"
                            type="text"
                            class="form-control">
                 </div>
@@ -43,6 +48,7 @@
                 <div class="form-group">
                     <label class="form-label-bold" for="national-insurance-number">National Insurance number</label>
                     <input id="national-insurance-number"
+                           name="NationalInsuranceNumber"
                            type="text"
                            class="form-control">
                 </div>
@@ -51,6 +57,7 @@
                     <label class="form-label-bold" for="house-number-and-street">House number and street</label>
                     <p class="form-hint">e.g 123 Street Name</p>
                     <input id="house-number-and-street"
+                           name="HouseNumberAndStreet"
                            type="text"
                            class="form-control">
                 </div>
@@ -58,6 +65,7 @@
                 <div class="form-group">
                     <label class="form-label-bold" for="town">Town</label>
                     <input id="town"
+                           name="Town"
                            type="text"
                            class="form-control">
                 </div>
@@ -65,6 +73,7 @@
                 <div class="form-group">
                     <label class="form-label-bold" for="county">County</label>
                     <input id="county"
+                           name="County"
                            type="text"
                            class="form-control">
                 </div>
@@ -72,13 +81,14 @@
                 <div class="form-group">
                     <label class="form-label-bold" for="post-code">Post code</label>
                     <input id="post-code"
+                           name="PostCode"
                            type="text"
                            class="form-control">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label-bold">Country</label>
-                    <select class="form-control">
+                    <select class="form-control" name="Country">
                         <option>select</option>
                         <option>Northern Ireland</option>
                         <option>England</option>
@@ -91,6 +101,7 @@
                     <label class="form-label-bold" for="email-address">Email address</label>
                     <p class="form-hint">You’ll receive confirmation by email</p>
                     <input id="email-address"
+                           name="EmailAddress"
                            type="text"
                            class="form-control">
                 </div>
@@ -98,6 +109,7 @@
                 <div class="form-group">
                     <label class="form-label-bold" for="phone-number">Phone number</label>
                     <input id="phone-number"
+                           name="PhoneNumber"
                            type="text"
                            class="form-control">
                 </div>
