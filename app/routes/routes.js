@@ -31,7 +31,7 @@ var routes = [
   require('./eligibility/eligibility-requirements'),
   require('./claim/profile'),
   require('./claim/claim-details'),
-  require('./eligibility/eligibility-fail'),
+  require('./eligibility-fail'),
   // Health check routes
   require('./health-check/status'),
   // Dev routes TODO THESE SHOULD BE REMOVED
