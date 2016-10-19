@@ -26,7 +26,7 @@ module.exports = function (router) {
         requireBenefitUpload: req.params.requireBenefitUpload,
         reference: req.params.reference,
         visitor: req.body,
-      errors: validationErrors })
+        errors: validationErrors })
       return next()
     }
 

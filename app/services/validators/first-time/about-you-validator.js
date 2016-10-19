@@ -59,7 +59,7 @@ class AboutYouValidator {
       .isEmail()
 
     FieldValidator(phoneNumber, 'PhoneNumber', errors)
-      .isRange(0, 13)
+      .isRange(0, 20)
 
     return errors.get()
   }
