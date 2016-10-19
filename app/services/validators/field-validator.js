@@ -19,9 +19,13 @@ class FieldValidator {
     if (validator.isNullOrUndefined(this.data)) {
       if (questionType === 'radio') {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getRadioQuestionIsRequired)
+      } else if (questionType === 'journeyAssistance') {
+        this.errors.add(this.fieldName, ERROR_MESSAGES.getJourneyAssistanceIsRequired)
       } else {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRequired)
       }
+    } else if (this.data === 'select') {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getDropboxIsRequired)
     }
     return this
   }
@@ -40,9 +44,37 @@ class FieldValidator {
     return this
   }
 
+  isRange (min, max) {
+    if (!validator.isRange(this.data, min, max)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRangeMessage, { min: min, max: max })
+    }
+    return this
+  }
+
+  isNationalInsuranceNumber () {
+    if (!validator.isNationalInsuranceNumber(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsNationalInsuranceNumber)
+    }
+    return this
+  }
+
+  isPostcode () {
+    if (!validator.isPostcode(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsPostcode)
+    }
+    return this
+  }
+
   isLength (length) {
     if (!validator.isLength(this.data, length)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLengthMessage, { length: length })
+    }
+    return this
+  }
+
+  isEmail () {
+    if (!validator.isEmail(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsEmailMessage)
     }
     return this
   }
