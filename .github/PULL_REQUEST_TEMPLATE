@@ -1,12 +1,8 @@
-## Description
-
 SQUASHED COMMIT MESSAGE (e.g. apvs-123 - this message accurately describes my changes replacing the squashed concatenation)
  
 High-level description - a few sentences on the overall context and goals for the PR's commits.
 
 ## Checklist
-
-This checklist is for the benefit of the primary reviewer - aka __YOU__ - the person submitting the pull request. Have you considered the following:
 
 - [ ] Unit tests
 - [ ] Coding standards
