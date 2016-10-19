@@ -1,3 +1,4 @@
+const validator = require('./common-validator')
 const ERROR_MESSAGES = require('./validation-error-messages')
 
 class FieldsetValidator {
@@ -18,7 +19,7 @@ class FieldsetValidator {
     var self = this
     if (this.data instanceof Array) {
       this.data.forEach(function (data) {
-        if (!data) {
+        if (validator.isNullOrUndefined(data)) {
           self.errors.add(self.fieldName, ERROR_MESSAGES.getIsRequired)
         }
       })
@@ -27,14 +28,14 @@ class FieldsetValidator {
   }
 
   isValidDate (date) {
-    if (!isDateValid(date)) {
+    if (!validator.isDateValid(date)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getInvalidDobFormatMessage)
     }
     return this
   }
 
   isPastDate (date) {
-    if (!isDateInThePast(date)) {
+    if (!validator.isDateInThePast(date)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getFutureDobMessage)
     }
     return this
@@ -43,14 +44,4 @@ class FieldsetValidator {
 
 module.exports = function (data, fieldName, errors) {
   return new FieldsetValidator(data, fieldName, errors)
-}
-
-function isDateValid (date) {
-  return date instanceof Date &&
-         date.toString() !== 'Invalid Date'
-}
-
-function isDateInThePast (date) {
-  return isDateValid(date) &&
-         date <= new Date()
 }
