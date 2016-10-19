@@ -1,5 +1,5 @@
 module.exports = {
-  'dob': 'Date of Birth',
+  'dob': 'Date of birth',
   'benefit': 'benefit',
   'journey-assistance': 'journey assistance',
   'relationship': 'relationship',
@@ -14,5 +14,9 @@ module.exports = {
   'Country': 'Country',
   'EmailAddress': 'Email Address',
   'PhoneNumber': 'Phone Number',
-  'DateOfBirth': 'Date of Birth'
+  'DateOfBirth': 'Date of Birth',
+  'firstName': 'First name',
+  'lastName': 'Last name',
+  'prisonerNumber': 'Prisoner number',
+  'nameOfPrison': 'Name of prison'
 }

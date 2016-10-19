@@ -6,7 +6,10 @@ const log = require('../services/log')
 var routes = [
   require('./index'),
   require('./start'),
-  require('./eligibility/first-time-eligibility-flow'),
+  require('./first-time/date-of-birth.js'),
+  require('./first-time/prisoner-relationship'),
+  require('./first-time/journey-assistance'),
+  require('./first-time/benefits'),
   require('./first-time/about-the-prisoner.js'),
   require('./first-time/about-you.js'),
   // These are temporary UX added routes

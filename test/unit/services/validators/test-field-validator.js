@@ -387,4 +387,52 @@ describe('services/validators/field-validator', function () {
       done()
     })
   })
+
+  describe('isLessThanLength', function () {
+    const ACCEPTED_LENGTH = '10'
+    const VALID_LENGTH = '11111'
+    const INVALID_LENGTH = '111111111111111'
+
+    it('should throw error if data is null', function (done) {
+      expect(function () {
+        FieldValidator(null, FIELD_NAME, ERROR_HANDLER)
+          .isLessThanLength()
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw error if data is undefined', function (done) {
+      expect(function () {
+        FieldValidator(undefined, FIELD_NAME, ERROR_HANDLER)
+          .isLessThanLength()
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw error if data is an object', function (done) {
+      expect(function () {
+        FieldValidator({}, FIELD_NAME, ERROR_HANDLER)
+          .isLessThanLength()
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return false if passed valid data', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(VALID_LENGTH, FIELD_NAME, errorHandler)
+        .isLessThanLength(ACCEPTED_LENGTH)
+      var errors = errorHandler.get()
+      expect(errors).to.equal(false)
+      done()
+    })
+
+    it('should return an error object if passed invalid data', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(INVALID_LENGTH, FIELD_NAME, errorHandler)
+        .isLessThanLength(ACCEPTED_LENGTH)
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+  })
 })

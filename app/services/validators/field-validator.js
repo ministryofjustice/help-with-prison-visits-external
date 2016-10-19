@@ -78,6 +78,11 @@ class FieldValidator {
     }
     return this
   }
+  isLessThanLength (length) {
+    if (!validator.isLength(this.data, {max: length})) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLessThanLengthMessage, { length: length })
+    }
+  }
 }
 
 module.exports = function (data, fieldName, errors) {
