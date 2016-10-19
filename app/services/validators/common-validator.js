@@ -33,3 +33,19 @@ exports.isDateInThePast = function (date) {
   return this.isDateValid(date) &&
          date <= new Date()
 }
+
+exports.isRange = function (value, min, max) {
+  return validator.isLength(value, {min: min, max: max})
+}
+
+exports.isNationalInsuranceNumber = function (value) {
+  return validator.matches(value, '^[A-z]{2}[0-9]{6}[A-z]{1}$')
+}
+
+exports.isPostcode = function (value) {
+  return validator.matches(value, '^[A-Z]{1,2}[0-9]{1,2}[A-Z]?[0-9]{1}[A-Z]{2}$')
+}
+
+exports.isEmail = function (value) {
+  return validator.isEmail(value)
+}
