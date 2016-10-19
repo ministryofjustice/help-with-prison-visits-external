@@ -12,8 +12,24 @@ class AboutThePrisonerValidator {
     var dobDay = data['dob-day']
     var dobMonth = data['dob-month']
     var dobYear = data['dob-year']
-    var prisonNumber = data['prisonNumber']
+    var prisonerNumber = data['prisonerNumber']
     var nameOfPrison = data['nameOfPrison']
+
+    FieldValidator(firstName, 'firstName', errors)
+      .isRequired()
+      .isLessThanLength(100)
+
+    FieldValidator(lastName, 'lastName', errors)
+      .isRequired()
+      .isLessThanLength(100)
+
+    FieldValidator(prisonerNumber, 'prisonerNumber', errors)
+      .isRequired()
+      .isLessThanLength(10)
+
+    FieldValidator(nameOfPrison, 'nameOfPrison', errors)
+      .isRequired()
+      .isLessThanLength(100)
 
     var dobFields = [
       dobDay,
@@ -28,12 +44,7 @@ class AboutThePrisonerValidator {
       .isValidDate(dob)
       .isPastDate(dob)
 
-    for (var field in errors) {
-      if (errors.hasOwnProperty(field)) {
-        if (errors[field].length > 0) { return errors }
-      }
-    }
-    return false
+    return errors.get()
   }
 }
 module.exports = function (data) {

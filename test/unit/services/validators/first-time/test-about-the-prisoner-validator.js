@@ -32,9 +32,7 @@ describe('services/validators/first-time/journey-assistance-validator', function
     expect(errors).to.have.all.keys([
       'firstName',
       'lastName',
-      'dob-day',
-      'dob-month',
-      'dob-year',
+      'dob',
       'prisonerNumber',
       'nameOfPrison'
     ])

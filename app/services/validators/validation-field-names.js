@@ -2,5 +2,9 @@ module.exports = {
   'dob': 'Date of Birth',
   'benefit': 'benefit',
   'journey-assistance': 'journey assistance',
-  'relationship': 'relationship'
+  'relationship': 'relationship',
+  'firstName': 'First name',
+  'lastName': 'Last name',
+  'prisonerNumber': 'Prisoner number',
+  'nameOfPrison': 'Name of prison'
 }
