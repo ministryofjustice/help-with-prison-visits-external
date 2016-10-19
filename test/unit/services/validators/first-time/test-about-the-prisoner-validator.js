@@ -59,7 +59,7 @@ describe('services/validators/first-time/journey-assistance-validator', function
     ])
 
     var errorMessage = errors['dob'][0]
-    expect(errorMessage).to.equal('Date of Birth was invalid')
+    expect(errorMessage).to.equal('Date of birth was invalid')
     done()
   })
 })

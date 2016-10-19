@@ -1,5 +1,5 @@
 module.exports = {
-  'dob': 'Date of Birth',
+  'dob': 'Date of birth',
   'benefit': 'benefit',
   'journey-assistance': 'journey assistance',
   'relationship': 'relationship',
