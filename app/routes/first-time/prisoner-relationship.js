@@ -23,7 +23,7 @@ module.exports = function (router) {
       return next()
     }
 
-    if (relationship === 'None of the above') {
+    if (relationship === 'none') {
       res.redirect('/eligibility-fail')
     } else {
       res.redirect('/first-time' + '/' + dob + '/' + relationship)
