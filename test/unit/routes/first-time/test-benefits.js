@@ -58,7 +58,7 @@ describe('routes/first-time/benefits', function () {
       request
         .post('/first-time/' + dob + '/Partner/No')
         .send({
-          benefit: 'None of the above'
+          benefit: 'none'
         })
         .expect('location', '/eligibility-fail')
         .end(done)
