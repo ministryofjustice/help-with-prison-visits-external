@@ -20,6 +20,10 @@ exports.isLength = function (value, length) {
   return validator.isLength(value, { min: length, max: length })
 }
 
+exports.isLessThanLength = function (value, length) {
+  return validator.isLength(value, { max: length })
+}
+
 exports.isDateValid = function (date) {
   return date instanceof Date &&
          date.toString() !== 'Invalid Date'
