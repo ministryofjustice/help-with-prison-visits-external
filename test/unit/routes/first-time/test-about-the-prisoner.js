@@ -4,6 +4,7 @@ var proxyquire = require('proxyquire')
 var sinon = require('sinon')
 require('sinon-bluebird')
 var express = require('express')
+var bodyParser = require('body-parser')
 var mockViewEngine = require('../mock-view-engine')
 var firstTimeClaim = require('../../../../app/services/data/first-time-claim')
 var stubAboutThePrisonerValidator
@@ -18,6 +19,7 @@ describe('routes/first-time/about-the-prisoner', function () {
     })
 
     var app = express()
+    app.use(bodyParser.urlencoded({ extended: false }))
     mockViewEngine(app, '../../../app/views')
     route(app)
     request = supertest(app)
