@@ -71,6 +71,13 @@ class FieldValidator {
     }
     return this
   }
+
+  isEmail () {
+    if (!validator.isEmail(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsEmailMessage)
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {

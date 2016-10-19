@@ -56,6 +56,7 @@ class AboutYouValidator {
     FieldValidator(emailAddress, 'EmailAddress', errors)
       .isRequired()
       .isRange(1, 100)
+      .isEmail()
 
     FieldValidator(phoneNumber, 'PhoneNumber', errors)
       .isRange(0, 13)
