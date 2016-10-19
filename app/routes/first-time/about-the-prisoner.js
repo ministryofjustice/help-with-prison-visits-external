@@ -16,7 +16,6 @@ module.exports = function (router) {
   router.post('/first-time/:dob/:relationship/:assistance/:requireBenefitUpload', function (req, res, next) {
     // TODO path validation
     var validationErrors = validator(req.body)
-    console.log(validationErrors)
     if (validationErrors) {
       res.status(400).render('first-time/about-the-prisoner', {
         dob: req.params.dob,

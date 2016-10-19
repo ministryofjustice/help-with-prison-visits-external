@@ -23,14 +23,6 @@ class AboutThePrisonerValidator {
       .isRequired()
       .isLessThanLength(100)
 
-    FieldValidator(prisonerNumber, 'prisonerNumber', errors)
-      .isRequired()
-      .isLessThanLength(10)
-
-    FieldValidator(nameOfPrison, 'nameOfPrison', errors)
-      .isRequired()
-      .isLessThanLength(100)
-
     var dobFields = [
       dobDay,
       dobMonth,
@@ -43,6 +35,14 @@ class AboutThePrisonerValidator {
       .isRequired()
       .isValidDate(dob)
       .isPastDate(dob)
+
+    FieldValidator(prisonerNumber, 'prisonerNumber', errors)
+      .isRequired()
+      .isLessThanLength(10)
+
+    FieldValidator(nameOfPrison, 'nameOfPrison', errors)
+      .isRequired()
+      .isLessThanLength(100)
 
     return errors.get()
   }
