@@ -58,5 +58,9 @@ describe('routes/first-time/about-the-prisoner', function () {
       // TODO stub path validator and return false
       done()
     })
+    it('should respond with a 400 for invalid data', function (done) {
+      // TODO stub validator and return false
+      done()
+    })
   })
 })
