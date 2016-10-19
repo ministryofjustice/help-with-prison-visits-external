@@ -93,11 +93,11 @@ describe('routes/eligibility/first-time-eligibility-flow', function () {
         .end(done)
     })
 
-    it('should redirect to eligibility-fail page if relationship is None of the above', function (done) {
+    it('should redirect to eligibility-fail page if relationship is none', function (done) {
       request
         .post('/first-time/' + dob)
         .send({
-          relationship: 'None of the above'
+          relationship: 'none'
         })
         .expect('location', '/eligibility-fail')
         .end(done)
@@ -186,11 +186,11 @@ describe('routes/eligibility/first-time-eligibility-flow', function () {
         .end(done)
     })
 
-    it('should redirect to eligibility-fail page if benefit is None of the above', function (done) {
+    it('should redirect to eligibility-fail page if benefit is none', function (done) {
       request
         .post('/first-time/' + dob + '/Partner/No')
         .send({
-          benefit: 'None of the above'
+          benefit: 'none'
         })
         .expect('location', '/eligibility-fail')
         .end(done)
