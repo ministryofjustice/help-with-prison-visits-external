@@ -2,24 +2,25 @@ var config = require('../../../knexfile').extweb
 var knex = require('knex')(config)
 
 module.exports.insert = function (reference, visitorData) {
-  var dateOfBirth = new Date(visitorData.dateOfBirth)
+  var dateOfBirth = new Date(visitorData.DateOfBirth)
   var requireBenefitUpload = visitorData === 'y'
 
   return knex('Visitor').insert({
     Reference: reference,
-    Title: visitorData.title.trim(),
-    FirstName: visitorData.firstName.trim(),
-    LastName: visitorData.lastName.trim(),
-    NationalInsuranceNumber: visitorData.nationalInsuranceNumber.replace(/ /g, '').toUpperCase(),
-    HouseNumberAndStreet: visitorData.houseNumberAndStreet.trim(),
-    County: visitorData.county.trim(),
-    PostCode: visitorData.postCode.replace(/ /g, '').toUpperCase(),
-    Country: visitorData.country.trim(),
-    EmailAddress: visitorData.emailAddress.trim(),
-    PhoneNumber: visitorData.phoneNumber.trim(),
+    Title: visitorData.Title.trim(),
+    FirstName: visitorData.FirstName.trim(),
+    LastName: visitorData.LastName.trim(),
+    NationalInsuranceNumber: visitorData.NationalInsuranceNumber.replace(/ /g, '').toUpperCase(),
+    HouseNumberAndStreet: visitorData.HouseNumberAndStreet.trim(),
+    Town: visitorData.Town.trim(),
+    County: visitorData.County.trim(),
+    PostCode: visitorData.PostCode.replace(/ /g, '').toUpperCase(),
+    Country: visitorData.Country.trim(),
+    EmailAddress: visitorData.EmailAddress.trim(),
+    PhoneNumber: visitorData.PhoneNumber.trim(),
     DateOfBirth: dateOfBirth,
-    Relationship: visitorData.relationship.trim(),
-    JourneyAssistance: visitorData.journeyAssistance,
+    Relationship: visitorData.Relationship.trim(),
+    JourneyAssistance: visitorData.JourneyAssistance,
     RequireBenefitUpload: requireBenefitUpload
   })
 }

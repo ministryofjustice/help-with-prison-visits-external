@@ -23,6 +23,7 @@ var insertNewEligibilityAndPrisoner = function (prisonerData) {
         prisonerData.dateOfBirth = new Date(`${prisonerData['dob-year']}-${prisonerData['dob-month']}-${prisonerData['dob-day']}`)
 
         // TODO add trim strings ala visitor and tests on trim + dob
+        // TODO change fields to Pascal case and update view/tests ala visitor so they are consistent
         return trx.insert({
           Reference: reference,
           FirstName: prisonerData.firstName,

@@ -6,6 +6,7 @@ exports.up = function (knex, Promise) {
     table.string('LastName', 100).notNullable()
     table.string('NationalInsuranceNumber', 10).notNullable()
     table.string('HouseNumberAndStreet', 250).notNullable()
+    table.string('Town', 100).notNullable()
     table.string('County', 100).notNullable()
     table.string('PostCode', 10).notNullable()
     table.string('Country', 100).notNullable()

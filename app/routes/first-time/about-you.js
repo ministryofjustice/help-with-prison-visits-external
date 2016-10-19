@@ -31,20 +31,21 @@ module.exports = function (router) {
 
     // TODO TEMP DATA replace with view req.body values
     var visitorData = {
-      title: 'Mr',
-      firstName: 'John',
-      lastName: 'Smith',
-      nationalInsuranceNumber: 'QQ 12 34 56 c',
-      houseNumberAndStreet: '1 Test Road',
-      county: 'Durham',
-      postCode: 'bT11 1BT',
-      country: 'England',
-      emailAddress: 'test@test.com',
-      phoneNumber: '07911111111',
-      dateOfBirth: '1980-02-01',
-      relationship: 'partner',
-      journeyAssistance: 'y75',
-      requireBenefitUpload: 'n'
+      Title: 'Mr',
+      FirstName: 'John',
+      LastName: 'Smith',
+      NationalInsuranceNumber: 'QQ 12 34 56 c',
+      HouseNumberAndStreet: '1 Test Road',
+      Town: 'Test Town',
+      County: 'Durham',
+      PostCode: 'bT11 1BT',
+      Country: 'England',
+      EmailAddress: 'test@test.com',
+      PhoneNumber: '07911111111',
+      DateOfBirth: '1980-02-01',
+      Relationship: 'partner',
+      JourneyAssistance: 'y75',
+      RequireBenefitUpload: 'n'
     }
     visitor.insert(req.params.reference, visitorData)
       .then(function () {
