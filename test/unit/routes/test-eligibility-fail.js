@@ -1,14 +1,8 @@
 var supertest = require('supertest')
 var expect = require('chai').expect
-var proxyquire = require('proxyquire')
 var express = require('express')
 var mockViewEngine = require('./mock-view-engine')
-var log = {
-  info: function (text) {}
-}
-var route = proxyquire('../../../app/routes/eligibility-fail', {
-  '../services/log': log
-})
+var route = require('../../../app/routes/eligibility-fail')
 
 describe('routes/eligibility-fail', function () {
   var request
