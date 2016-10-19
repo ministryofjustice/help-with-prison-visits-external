@@ -51,7 +51,7 @@ class AboutYouValidator {
       .isPostcode()
 
     FieldValidator(country, 'Country', errors)
-      .isRequired('dropbox')
+      .isRequired()
 
     FieldValidator(emailAddress, 'EmailAddress', errors)
       .isRequired()

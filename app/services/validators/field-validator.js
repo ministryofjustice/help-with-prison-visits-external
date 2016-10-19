@@ -21,11 +21,11 @@ class FieldValidator {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getRadioQuestionIsRequired)
       } else if (questionType === 'journeyAssistance') {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getJourneyAssistanceIsRequired)
-      } else if (questionType === 'dropbox') {
-        this.errors.add(this.fieldName, ERROR_MESSAGES.getDropboxIsRequired)
       } else {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRequired)
       }
+    } else if (this.data === 'select') {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getDropboxIsRequired)
     }
     return this
   }
