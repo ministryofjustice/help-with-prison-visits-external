@@ -20,7 +20,8 @@
             </h2>
 
             <form action="/first-time/{{dob}}/{{relationship}}/{{assistance}}/{{requireBenefitUpload}}/{{reference}}" method="post">
-                <div class="form-group">
+
+                <div class="form-group {% if errors['Title'][0] %} error {% endif %}">
                     <label id="Title" class="form-label-bold" for="title-input">Title</label>
                     <p class="form-hint">(Mr/Mrs/Miss/Ms)</p>
                     {% if errors['Title'][0] %}
@@ -33,7 +34,7 @@
                            value="{{ visitor['Title'] }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
                     <label id="FirstName" class="form-label-bold" for="first-name-input">First name</label>
                     {% if errors['FirstName'][0] %}
                         <span class="error-message" id="error-message-first-name">{{ errors['FirstName'][0] }}</span>
@@ -45,7 +46,7 @@
                            value="{{ visitor['FirstName'] }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
                     <label id="LastName" class="form-label-bold" for="last-name-input">Last name</label>
                     {% if errors['LastName'][0] %}
                         <span class="error-message" id="error-message-last-name">{{ errors['LastName'][0] }}</span>
@@ -57,7 +58,7 @@
                            value="{{ visitor['LastName'] }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['NationalInsuranceNumber'][0] %} error {% endif %}">
                     <label id="NationalInsuranceNumber" class="form-label-bold" for="national-insurance-number-input">National Insurance number</label>
                     {% if errors['NationalInsuranceNumber'][0] %}
                         <span class="error-message" id="error-message-national">{{ errors['NationalInsuranceNumber'][0] }}</span>
@@ -69,7 +70,7 @@
                            value="{{ visitor['NationalInsuranceNumber'] }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['HouseNumberAndStreet'][0] %} error {% endif %}">
                     <label id="HouseNumberAndStreet" class="form-label-bold" for="house-number-and-street-input">House number and street</label>
                     {% if errors['HouseNumberAndStreet'][0] %}
                         <span class="error-message" id="error-message-house-street">{{ errors['HouseNumberAndStreet'][0] }}</span>
@@ -82,7 +83,7 @@
                            value="{{ visitor['HouseNumberAndStreet'] }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['Town'][0] %} error {% endif %}">
                     <label id="Town" class="form-label-bold" for="town-input">Town</label>
                     {% if errors['Town'][0] %}
                         <span class="error-message" id="error-message-town">{{ errors['Town'][0] }}</span>
@@ -94,7 +95,7 @@
                            value="{{ visitor['Town'] }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['County'][0] %} error {% endif %}">
                     <label id="County" class="form-label-bold" for="county-input">County</label>
                     {% if errors['County'][0] %}
                         <span class="error-message" id="error-message-county">{{ errors['County'][0] }}</span>
@@ -106,7 +107,7 @@
                            value="{{ visitor['County'] }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['PostCode'][0] %} error {% endif %}">
                     <label id="PostCode" class="form-label-bold" for="post-code-input">Post code</label>
                     {% if errors['PostCode'][0] %}
                         <span class="error-message" id="error-message-post-code">{{ errors['PostCode'][0] }}</span>
@@ -118,7 +119,7 @@
                            value="{{ visitor['PostCode'] }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['Country'][0] %} error {% endif %}">
                     <label id="Country" class="form-label-bold">Country</label>
                     {% if errors['Country'][0] %}
                         <span class="error-message" id="error-message-country">{{ errors['Country'][0] }}</span>
@@ -132,7 +133,7 @@
                     </select>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
                     <label id="EmailAddress" class="form-label-bold" for="email-address-input">Email address</label>
                     {% if errors['EmailAddress'][0] %}
                         <span class="error-message" id="error-message-email">{{ errors['EmailAddress'][0] }}</span>
@@ -145,7 +146,7 @@
                            value="{{ visitor['EmailAddress'] }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {% if errors['PhoneNumber'][0] %} error {% endif %}">
                     <label id="PhoneNumber" class="form-label-bold" for="phone-number-input">Phone number</label>
                     {% if errors['PhoneNumber'][0] %}
                         <span class="error-message" id="error-message-phone">{{ errors['PhoneNumber'][0] }}</span>
