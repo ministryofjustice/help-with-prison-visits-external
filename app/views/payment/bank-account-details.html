@@ -13,6 +13,8 @@
     <div class="grid-row">
         <div class="column-two-thirds">
 
+            {% include "includes/validation-error-messages.html" %}
+
             <h2 class="heading-large">
                 Enter your bank account details to receive payment
             </h2>
@@ -22,25 +24,19 @@
 
             <form action="bank-account-details" method="post">
                 <div class="form-group">
-                    <label class="form-label-bold" for="account-number">Account Number</label>
-                    <input id="account-number"
+                    <label id="AccountNumber" class="form-label-bold" for="account-number">Account Number</label>
+                    <input id="account-number-input"
+                           name="AccountNumber"
                            type="text"
                            class="form-control">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="sort-code">Sort Code</label>
-                    <input id="sort-code"
+                    <label id="SortCode" class="form-label-bold" for="sort-code">Sort Code</label>
+                    <input id="sort-code-input"
+                           name="SortCode"
                            type="text"
                            class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="block-label">
-                        <input id="no-bank-account"
-                               type="radio">
-                        I don't have a bank account
-                    </label>
                 </div>
 
                 <input type="submit" class="button">

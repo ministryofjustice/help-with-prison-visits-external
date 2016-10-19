@@ -5,7 +5,7 @@ module.exports = function (router) {
   })
 
   router.post('/bank-account-details', function (req, res, next) {
-    res.redirect('application-submitted')
+    res.redirect('application-submitted/1234567')
     next()
   })
 }
