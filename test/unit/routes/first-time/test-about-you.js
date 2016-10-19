@@ -1,21 +1,24 @@
-var supertest = require('supertest')
-var expect = require('chai').expect
-var proxyquire = require('proxyquire')
-var sinon = require('sinon')
+const supertest = require('supertest')
+const expect = require('chai').expect
+const proxyquire = require('proxyquire')
+const sinon = require('sinon')
 require('sinon-bluebird')
-var express = require('express')
-var bodyParser = require('body-parser')
-var mockViewEngine = require('../mock-view-engine')
-var visitor = require('../../../../app/services/data/visitor')
+const express = require('express')
+const bodyParser = require('body-parser')
+const mockViewEngine = require('../mock-view-engine')
+const visitor = require('../../../../app/services/data/visitor')
 var stubAboutYouValidator
 var request
 
 describe('routes/first-time/about-you', function () {
+  var urlValidatorCalled = false
+
   beforeEach(function () {
     stubAboutYouValidator = sinon.stub()
     var route = proxyquire('../../../../app/routes/first-time/about-you', {
       '../../services/data/visitor': visitor,
-      '../../services/validators/first-time/about-you-validator': stubAboutYouValidator
+      '../../services/validators/first-time/about-you-validator': stubAboutYouValidator,
+      '../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
     })
 
     var app = express()
@@ -23,6 +26,7 @@ describe('routes/first-time/about-you', function () {
     mockViewEngine(app, '../../../app/views')
     route(app)
     request = supertest(app)
+    urlValidatorCalled = false
   })
 
   describe('GET /first-time/:dob/:relationship/:assistance/:requireBenefitUpload/:reference', function () {
@@ -32,7 +36,7 @@ describe('routes/first-time/about-you', function () {
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
-          // TODO check called path validator returning true
+          expect(urlValidatorCalled).to.be.true
           done()
         })
     })
@@ -53,7 +57,7 @@ describe('routes/first-time/about-you', function () {
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
-          // TODO check called path validator returning true
+          expect(urlValidatorCalled).to.be.true
           expect(stubAboutYouValidator.calledOnce).to.be.true
           expect(stubInsert.calledOnce).to.be.true
           expect(response.header.location).to.equal(`/application-submitted/${reference}`)
@@ -73,6 +77,7 @@ describe('routes/first-time/about-you', function () {
         .end(function (error, response) {
           expect(error).to.be.null
           expect(stubAboutYouValidator.calledOnce).to.be.true
+          expect(urlValidatorCalled).to.be.true
           done()
         })
     })

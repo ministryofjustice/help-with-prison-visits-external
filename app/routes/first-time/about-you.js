@@ -1,9 +1,10 @@
 const aboutYouValidator = require('../../services/validators/first-time/about-you-validator')
-var visitor = require('../../services/data/visitor')
+const UrlPathValidator = require('../../services/validators/url-path-validator')
+const visitor = require('../../services/data/visitor')
 
 module.exports = function (router) {
   router.get('/first-time/:dob/:relationship/:assistance/:requireBenefitUpload/:reference', function (req, res, next) {
-    // TODO path validation
+    UrlPathValidator(req.params)
     res.render('first-time/about-you', {
       dob: req.params.dob,
       relationship: req.params.relationship,
@@ -15,7 +16,7 @@ module.exports = function (router) {
   })
 
   router.post('/first-time/:dob/:relationship/:assistance/:requireBenefitUpload/:reference', function (req, res, next) {
-    // TODO path validation
+    UrlPathValidator(req.params)
     var validationErrors = aboutYouValidator(req.body)
 
     if (validationErrors) {

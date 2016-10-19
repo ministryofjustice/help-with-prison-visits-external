@@ -3,6 +3,13 @@
  * three higher level validators: FieldValidator, FieldSetValidator, and UrlPathValidator.
  */
 const validator = require('validator')
+const PRISONER_RELATIONSHIPS = require('../../constants/prisoner-relationships')
+const JOURNEY_ASSISTANCE = require('../../constants/journey-assistance')
+const BENEFITS = require('../../constants/benefits')
+const referenceNumber = require('../../constants/reference-number')
+const REFERENCE_CHARACTERS = referenceNumber.REFERENCE_NUMBER_CHARACTERS
+const REFERENCE_LENGTH = referenceNumber.REFERENCE_NUMBER_LENGTH
+const REFERENCE_REGEX = new RegExp('[' + REFERENCE_CHARACTERS + ']{7}')
 
 exports.isNullOrUndefined = function (value) {
   return !value
@@ -48,4 +55,32 @@ exports.isPostcode = function (value) {
 
 exports.isEmail = function (value) {
   return validator.isEmail(value)
+}
+
+exports.isValidDateOfBirth = function (dob) {
+  if (this.isNullOrUndefined(dob)) {
+    return false
+  }
+  var date = new Date(dob)
+  return this.isDateInThePast(date)
+}
+
+exports.isValidPrisonerRelationship = function (relationship) {
+  return PRISONER_RELATIONSHIPS.includes(relationship)
+}
+
+exports.isValidJourneyAssistance = function (journeyAssistance) {
+  return JOURNEY_ASSISTANCE.includes(journeyAssistance)
+}
+
+exports.isValidBenefitResponse = function (benefit) {
+  return BENEFITS.includes(benefit)
+}
+
+exports.isValidReference = function (reference) {
+  if (this.isNullOrUndefined(reference)) {
+    return false
+  }
+  return reference.match(REFERENCE_REGEX) !== null &&
+         this.isLength(reference, REFERENCE_LENGTH)
 }
