@@ -1,7 +1,7 @@
 const expect = require('chai').expect
-const validator = require('../../../../app/services/validators/validator')
+const validator = require('../../../../app/services/validators/common-validator')
 
-describe('services/validators/validator', function () {
+describe('services/validators/common-validator', function () {
   const ALPHA_STRING = 'alpha'
   const ALPHANUMERIC_STRING = 'alpha 123'
   const NUMERIC_STRING = '123'

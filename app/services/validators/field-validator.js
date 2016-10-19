@@ -1,4 +1,4 @@
-const validator = require('./validator')
+const validator = require('./common-validator')
 const ERROR_MESSAGES = require('./validation-error-messages')
 
 class FieldValidator {
