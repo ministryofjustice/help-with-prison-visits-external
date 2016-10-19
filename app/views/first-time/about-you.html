@@ -126,10 +126,10 @@
                     {% endif %}
                     <select id="country-input" class="form-control" name="Country">
                         <option>select</option>
-                        <option id="country-ni">Northern Ireland</option>
-                        <option id="country-england">England</option>
-                        <option id="country-scotland">Scotland</option>
-                        <option id="country-wales">Wales</option>
+                        <option {% if visitor['Country'] == 'Northern Ireland' %} selected {% endif %} id="country-ni">Northern Ireland</option>
+                        <option {% if visitor['Country'] == 'England' %} selected {% endif %} id="country-england">England</option>
+                        <option {% if visitor['Country'] == 'Scotland' %} selected {% endif %} id="country-scotland">Scotland</option>
+                        <option {% if visitor['Country'] == 'Wales' %} selected {% endif %} id="country-wales">Wales</option>
                     </select>
                 </div>
 
