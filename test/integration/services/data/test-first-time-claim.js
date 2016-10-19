@@ -1,5 +1,6 @@
 var expect = require('chai').expect
 var referenceGenerator = require('../../../../app/services/reference-generator')
+var dateFormatter = require('../../../../app/services/date-formatter')
 var proxyquire = require('proxyquire')
 var sinon = require('sinon')
 var config = require('../../../../knexfile').migrations
@@ -8,12 +9,14 @@ var knex = require('knex')(config)
 var uniqueReference = '1234567'
 
 var firstTimeClaim = proxyquire('../../../../app/services/data/first-time-claim', {
-  '../reference-generator': referenceGenerator
+  '../reference-generator': referenceGenerator,
+  '../date-formatter': dateFormatter
 })
 
 describe('firstTimeClaim', function () {
   beforeEach(function () {
     if (referenceGenerator.generate.restore) referenceGenerator.generate.restore()
+    if (dateFormatter.build.restore) dateFormatter.build.restore()
   })
 
   describe('getUniqueReference', function (done) {
@@ -34,7 +37,8 @@ describe('firstTimeClaim', function () {
 
   describe('insertNewEligibilityAndPrisoner', function (done) {
     it('should insert a new Eligibility and Prisoner returning reference', function (done) {
-      sinon.stub(referenceGenerator, 'generate').returns(uniqueReference)
+      var stubReferenceGeneratorGenerate = sinon.stub(referenceGenerator, 'generate').returns(uniqueReference)
+      var stubDateFormatterBuild = sinon.stub(dateFormatter, 'build').returns(new Date(1980, 1, 13))
       var prisonerData = {
         firstName: 'John',
         lastName: 'Smith',
@@ -47,6 +51,8 @@ describe('firstTimeClaim', function () {
 
       firstTimeClaim.insertNewEligibilityAndPrisoner(prisonerData)
         .then(function (newReference) {
+          expect(stubReferenceGeneratorGenerate.calledOnce).to.be.true
+          expect(stubDateFormatterBuild.calledOnce).to.be.true
           expect(newReference).to.equal(uniqueReference)
           done()
         })

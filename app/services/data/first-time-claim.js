@@ -2,6 +2,7 @@ var config = require('../../../knexfile').extweb
 var knex = require('knex')(config)
 var eligibilityStatus = require('./reference-data/eligibility-status')
 var referenceGenerator = require('../reference-generator')
+var dateFormatter = require('../date-formatter')
 
 var getUniqueReference = function () {
   return referenceGenerator.generate()
@@ -19,8 +20,7 @@ var insertNewEligibilityAndPrisoner = function (prisonerData) {
       })
       .into('Eligibility')
       .then(function () {
-        // TODO refactor to common date parser
-        prisonerData.dateOfBirth = new Date(`${prisonerData['dob-year']}-${prisonerData['dob-month']}-${prisonerData['dob-day']}`)
+        prisonerData.dateOfBirth = dateFormatter.build(prisonerData['dob-day'], prisonerData['dob-month'], prisonerData['dob-year'])
 
         // TODO add trim strings ala visitor and tests on trim + dob
         // TODO change fields to Pascal case and update view/tests ala visitor so they are consistent
