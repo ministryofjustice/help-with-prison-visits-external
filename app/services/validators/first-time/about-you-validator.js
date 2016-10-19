@@ -1,17 +1,18 @@
 var FieldValidator = require('../field-validator')
+const ErrorHandler = require('../error-handler')
 
 class AboutYouValidator {
   static validate (data) {
-    var errors = {}
+    var errors = ErrorHandler()
 
     var title = data['Title']
     var firstName = data['FirstName']
     var lastName = data['LastName']
-    var nationalInsuranceNumber = data['NationalInsuranceNumber']
+    var nationalInsuranceNumber = data['NationalInsuranceNumber'].replace(/ /g, '').toUpperCase()
     var houseNumberAndStreet = data['HouseNumberAndStreet']
     var town = data['Town']
     var county = data['County']
-    var postcode = data['PostCode']
+    var postcode = data['PostCode'].replace(/ /g, '').toUpperCase()
     var country = data['Country']
     var emailAddress = data['EmailAddress']
     var phoneNumber = data['PhoneNumber']
@@ -39,12 +40,10 @@ class AboutYouValidator {
 
     FieldValidator(town, 'Town', errors)
       .isRequired()
-      .isAlpha()
       .isRange(3, 100)
 
     FieldValidator(county, 'County', errors)
       .isRequired('dropbox')
-      .isAlpha()
       .isRange(4, 100)
 
     FieldValidator(postcode, 'PostCode', errors)
@@ -55,13 +54,16 @@ class AboutYouValidator {
       .isRequired('dropbox')
 
     FieldValidator(emailAddress, 'EmailAddress', errors)
+      .isRequired()
       .isRange(1, 100)
 
     FieldValidator(phoneNumber, 'PhoneNumber', errors)
       .isRange(0, 13)
 
-   return errors.get()
+    return errors.get()
+  }
 }
+
 module.exports = function (data) {
   return AboutYouValidator.validate(data)
 }

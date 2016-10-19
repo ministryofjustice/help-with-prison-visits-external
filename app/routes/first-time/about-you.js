@@ -25,29 +25,17 @@ module.exports = function (router) {
         assistance: req.params.assistance,
         requireBenefitUpload: req.params.requireBenefitUpload,
         reference: req.params.reference,
-        claiment: req.body,
+        visitor: req.body,
       errors: validationErrors })
       return next()
     }
 
-    // TODO TEMP DATA replace with view req.body values
-    var visitorData = {
-      Title: 'Mr',
-      FirstName: 'John',
-      LastName: 'Smith',
-      NationalInsuranceNumber: 'QQ 12 34 56 c',
-      HouseNumberAndStreet: '1 Test Road',
-      Town: 'Test Town',
-      County: 'Durham',
-      PostCode: 'bT11 1BT',
-      Country: 'England',
-      EmailAddress: 'test@test.com',
-      PhoneNumber: '07911111111',
-      DateOfBirth: '1980-02-01',
-      Relationship: 'partner',
-      JourneyAssistance: 'y75',
-      RequireBenefitUpload: 'n'
-    }
+    var visitorData = req.body
+    visitorData.DateOfBirth = req.params.dob
+    visitorData.Relationship = req.params.relationship
+    visitorData.JourneyAssistance = req.params.assistance
+    visitorData.RequireBenefitUpload = req.params.requireBenefitUpload
+
     visitor.insert(req.params.reference, visitorData)
       .then(function () {
         res.redirect(`/application-submitted/${req.params.reference}`)

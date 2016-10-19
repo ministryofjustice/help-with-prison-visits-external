@@ -8,6 +8,6 @@ module.exports = {
   getInvalidDobFormatMessage: function (displayName) { return `${displayName} was invalid` },
   getFutureDobMessage: function (displayName) { return `${displayName} must be in the past` },
   getDropboxIsRequired: function (displayName) { return `${displayName} have option selected and not left as select` },
-  getIsNationalInsuranceNumber: function (displayName) { return `${displayName} must have valid National Insurance Number` },
-  getIsPostcode: function (displayName) { return `${displayName} must have valid Postcode` }
+  getIsNationalInsuranceNumber: function (displayName) { return `${displayName} must have valid format` },
+  getIsPostcode: function (displayName) { return `${displayName} must have valid format` }
 }
