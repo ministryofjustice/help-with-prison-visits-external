@@ -16,7 +16,7 @@ module.exports = function (router) {
       })
       return next()
     }
-    res.redirect('application-submitted/1234567')
+    res.redirect('/application-submitted/1234567')
     next()
   })
 }
