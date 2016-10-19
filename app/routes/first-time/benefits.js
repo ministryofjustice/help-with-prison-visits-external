@@ -27,7 +27,7 @@ module.exports = function (router) {
       return next()
     }
 
-    if (benefit === 'None of the above') {
+    if (benefit === 'none') {
       res.redirect('/eligibility-fail')
     } else {
       res.redirect('/first-time' + '/' + dob + '/' + relationship + '/' + journeyAssistance + '/' + benefit)
