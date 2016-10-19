@@ -1,23 +1,18 @@
-var FieldValidator = require('../field-validator')
+const FieldValidator = require('../field-validator')
+const ErrorHandler = require('../error-handler')
 
 class BenefitValidator {
   static validate (data) {
-    var errors = {}
-
+    var errors = ErrorHandler()
     var benefit = data['benefit']
 
     FieldValidator(benefit, 'benefit', errors)
       .isRequired('radio')
 
-    for (var field in errors) {
-      if (errors.hasOwnProperty(field)) {
-        if (errors[field].length > 0) { return errors }
-      }
-    }
-    return false
+    return errors.get()
   }
 }
-exports.default = function (data) {
+
+module.exports = function (data) {
   return BenefitValidator.validate(data)
 }
-module.exports = exports['default']

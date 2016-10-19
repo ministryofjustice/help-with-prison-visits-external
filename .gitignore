@@ -15,7 +15,6 @@ node_modules
 # Static managed assets
 app/views/govuk_template.html
 app/govuk_modules
-app/public/stylesheets/
 
 # Locales
 app/locales/en.json
@@ -31,6 +30,8 @@ run-docker.sh
 run-end-to-end-tests.sh
 run-end-to-end-tests-ie8.sh
 run-end-to-end-tests-firefox.sh
+run-integration-tests.sh
+run-knex-migrations.sh
 run-standard-linter.sh
 run-unit-tests.sh
 

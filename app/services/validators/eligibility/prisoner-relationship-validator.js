@@ -1,23 +1,18 @@
-var FieldValidator = require('../field-validator')
+const FieldValidator = require('../field-validator')
+const ErrorHandler = require('../error-handler')
 
 class PrisonerRelationshipValidator {
   static validate (data) {
-    var errors = {}
-
+    var errors = ErrorHandler()
     var relationship = data['relationship']
 
     FieldValidator(relationship, 'relationship', errors)
       .isRequired('radio')
 
-    for (var field in errors) {
-      if (errors.hasOwnProperty(field)) {
-        if (errors[field].length > 0) { return errors }
-      }
-    }
-    return false
+    return errors.get()
   }
 }
-exports.default = function (data) {
+
+module.exports = function (data) {
   return PrisonerRelationshipValidator.validate(data)
 }
-module.exports = exports['default']
