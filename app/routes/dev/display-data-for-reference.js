@@ -1,7 +1,7 @@
 var devData = require('../../services/data/dev-data')
 
 module.exports = function (router) {
-  router.get('/dev/:reference', function (req, res, next) {
+  router.get('/dev-data/:reference', function (req, res, next) {
     devData.get(req.params.reference).then(function (data) {
       var json = JSON.stringify(data, null, '\t')
       console.log(json)
