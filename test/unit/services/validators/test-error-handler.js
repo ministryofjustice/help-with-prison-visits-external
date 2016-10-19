@@ -1,7 +1,7 @@
 const expect = require('chai').expect
 const ErrorHandler = require('../../../../app/services/validators/error-handler')
 
-describe('error-handler', function () {
+describe('services/validators/error-handler', function () {
   beforeEach(function () {
     this.errorHandler = ErrorHandler()
   })

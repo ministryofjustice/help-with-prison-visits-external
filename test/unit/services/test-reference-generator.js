@@ -1,7 +1,7 @@
 var expect = require('chai').expect
 var referenceGenerator = require('../../../app/services/reference-generator')
 
-describe('reference-generator', function () {
+describe('services/reference-generator', function () {
   it('should generate a random 7 digit base 32 string', function () {
     var reference1 = referenceGenerator.generate()
     var reference2 = referenceGenerator.generate()

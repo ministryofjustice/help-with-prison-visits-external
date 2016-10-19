@@ -10,7 +10,7 @@ var route = proxyquire('../../../app/routes/index', {
   '../services/log': log
 })
 
-describe('index', function () {
+describe('routes/index', function () {
   var request
 
   beforeEach(function () {
@@ -27,7 +27,7 @@ describe('index', function () {
     it('should respond with a 200', function (done) {
       request
         .get('/')
-        .expect(200, function (error, response) {
+        .expect(200, function (error) {
           expect(error).to.be.null
           done()
         })

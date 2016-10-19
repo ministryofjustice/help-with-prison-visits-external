@@ -46,7 +46,8 @@ module.exports = function (data, fieldName, errors) {
 }
 
 function isDateValid (date) {
-  return date instanceof Date
+  return date instanceof Date &&
+         date.toString() !== 'Invalid Date'
 }
 
 function isDateInThePast (date) {

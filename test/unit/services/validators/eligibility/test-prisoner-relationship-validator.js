@@ -1,53 +1,47 @@
-var proxyquire = require('proxyquire')
-var sinon = require('sinon')
-var expect = require('chai').expect
-var fieldValidator = require('../../../../../app/services/validators/field-validator')
+const expect = require('chai').expect
+const PrisonerRelationshipValidator = require('../../../../../app/services/validators/eligibility/prisoner-relationship-validator')
 
-describe('prisoner-relationship-validator', function () {
-  var prisonerRelationshipValidator
-  var mockFieldValidatorFactory
-  var fieldValidators
-  var data
+describe('services/validators/eligibility/prisoner-relationship-validator', function () {
+  const VALID_DATA = {
+    'relationship': 'some assistance'
+  }
+  const INVALID_DATA = {
+    'relationship': ''
+  }
 
-  beforeEach(function () {
-    data = {
-      'relationship': 'Partner'
-    }
-
-    fieldValidators = {}
-    mockFieldValidatorFactory = function (data, fieldName, errors) {
-      var fieldValidatorSpied = fieldValidator(data, fieldName, errors)
-      fieldValidatorSpied.spyIsRequired = sinon.spy(fieldValidatorSpied, 'isRequired')
-      fieldValidators[fieldName] = fieldValidatorSpied
-      return fieldValidatorSpied
-    }
-
-    prisonerRelationshipValidator = proxyquire('../../../../../app/services/validators/eligibility/prisoner-relationship-validator', {
-      '../field-validator': mockFieldValidatorFactory
-    })
-  })
-
-  it('should return false for valid data', function (done) {
-    var errors = prisonerRelationshipValidator(data)
-    expect(errors).to.be.false
-
-    expect(fieldValidators['relationship']).to.exist
-    sinon.assert.calledOnce(fieldValidators['relationship'].spyIsRequired)
-
+  it('should throw error if data is null', function (done) {
+    expect(function () {
+      PrisonerRelationshipValidator(null)
+        .isRequired()
+    }).to.throw(TypeError)
     done()
   })
 
-  it('should return errors for no data input', function (done) {
-    data = {}
+  it('should throw error if data is undefined', function (done) {
+    expect(function () {
+      PrisonerRelationshipValidator(undefined)
+        .isRequired()
+    }).to.throw(TypeError)
+    done()
+  })
 
-    var errors = prisonerRelationshipValidator(data)
-    expect(errors).to.have.all.keys([
-      'relationship'
-    ])
+  it('should throw error if data is an unexpected object', function (done) {
+    expect(function () {
+      PrisonerRelationshipValidator({})
+        .isRequired()
+    }).to.throw(TypeError)
+    done()
+  })
 
-    var errorMessage = errors['relationship'][0]
-    expect(errorMessage).to.equal('Select a relationship')
+  it('should return false if provided with valid data', function (done) {
+    var errors = PrisonerRelationshipValidator(VALID_DATA)
+    expect(errors).to.equal(false)
+    done()
+  })
 
+  it('should return an error object if provided with invalid data', function (done) {
+    var errors = PrisonerRelationshipValidator(INVALID_DATA)
+    expect(errors).to.have.property('relationship')
     done()
   })
 })
