@@ -20,7 +20,7 @@
             <form action="/first-time/{{dob}}/{{relationship}}/{{assistance}}/{{requireBenefitUpload}}" method="post">
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
+                    <label id="firstName" class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
                     <input id="prisoner-first-name"
                            name="firstName"
                            type="text"
@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="prisoner-last-name">Prisoner last name</label>
+                    <label id="lastName" class="form-label-bold" for="prisoner-last-name">Prisoner last name</label>
                     <input id="prisoner-last-name"
                            name="lastName"
                            type="text"
@@ -37,7 +37,7 @@
 
                 <div class="form-group">
                     <fieldset>
-                        <legend class="form-label-bold">Prisoner date of birth</legend>
+                        <legend id="dob" class="form-label-bold">Prisoner date of birth</legend>
 
                         <div class="form-date">
 
@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="prisoner-number">Prisoner number</label>
+                    <label id="prisonerNumber" class="form-label-bold" for="prisoner-number">Prisoner number</label>
                     <p class="form-hint">eg A1234BC</p>
                     <input id="prisoner-number"
                            name="prisonerNumber"
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label-bold" for="prison-name">Name of the prison</label>
+                    <label id="nameOfPrison" class="form-label-bold" for="prison-name">Name of the prison</label>
                     <p class="form-hint">eg Hewell</p>
                     <input id="prison-name"
                            name="nameOfPrison"
