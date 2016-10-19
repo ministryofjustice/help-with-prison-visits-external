@@ -45,21 +45,21 @@ class FieldValidator {
   }
 
   isRange (min, max) {
-    if (!validator.isLength(this.data, {min: min, max: max})) {
+    if (!validator.isRange(this.data, min, max)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRangeMessage, { min: min, max: max })
     }
     return this
   }
 
   isNationalInsuranceNumber () {
-    if (!validator.matches(this.data, '^[A-z]{2}[0-9]{6}[A-z]{1}$')) {
+    if (!validator.isNationalInsuranceNumber(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsNationalInsuranceNumber)
     }
     return this
   }
 
   isPostcode () {
-    if (!validator.matches(this.data, '^[A-Z]{1,2}[0-9]{1,2}[A-Z]?[0-9]{1}[A-Z]{2}$')) {
+    if (!validator.isPostcode(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsPostcode)
     }
     return this
@@ -78,6 +78,7 @@ class FieldValidator {
     }
     return this
   }
+
   isLessThanLength (length) {
     if (!validator.isLessThanLength(this.data, length)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLessThanLengthMessage, { length: length })
