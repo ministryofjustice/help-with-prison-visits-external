@@ -18,5 +18,7 @@ module.exports = {
   'firstName': 'First name',
   'lastName': 'Last name',
   'prisonerNumber': 'Prisoner number',
-  'nameOfPrison': 'Name of prison'
+  'nameOfPrison': 'Name of prison',
+  'AccountNumber': 'Account Number',
+  'SortCode': 'Sort Code'
 }
