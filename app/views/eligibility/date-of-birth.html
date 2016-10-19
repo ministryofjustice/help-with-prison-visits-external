@@ -21,7 +21,7 @@
 
             <form action="/first-time" method="post">
 
-                <div class="form-group">
+                <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
                     <fieldset>
 
                         {% if errors['dob'][0] %}
