@@ -34,6 +34,18 @@ describe('First time claim flow', () => {
       .click('#income-support')
       .click('#benefit-submit')
 
+      // About the Prisoner
       .waitForExist('#about-the-prisoner-submit')
+      .setValue('#prisoner-first-name', 'Joe')
+      .setValue('#prisoner-last-name', 'Bloggs')
+      .setValue('#dob-day', '01')
+      .setValue('#dob-month', '05')
+      .setValue('#dob-year', '1955')
+      .setValue('#prisoner-number', 'A1234BC')
+      .setValue('#prison-name', 'Hewell')
+      .click('#about-the-prisoner-submit')
+
+      // About you
+      .waitForExist('#about-you-submit')
   })
 })
