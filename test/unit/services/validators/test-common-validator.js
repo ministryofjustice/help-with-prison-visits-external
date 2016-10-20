@@ -268,7 +268,7 @@ describe('services/validators/common-validator', function () {
       done()
     })
 
-    it('should return true if passed a valid date of birth value', function (done) {
+    it('should return false if passed an invalid date of birth value', function (done) {
       var result = validator.isValidDateOfBirth(FUTURE_DATE)
       expect(result).to.equal(false)
       done()
