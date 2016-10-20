@@ -2,23 +2,23 @@ const benefitValidator = require('../../services/validators/eligibility/benefit-
 const UrlPathValidator = require('../../services/validators/url-path-validator')
 
 module.exports = function (router) {
-  router.get('/first-time/:dob/:relationship/:journeyAssistance', function (req, res, next) {
+  router.get('/first-time/:dob/:relationship/:assistance', function (req, res, next) {
     UrlPathValidator(req.params)
     res.render('first-time/benefits', {
       dob: req.params.dob,
       relationship: req.params.relationship,
-      journeyAssistance: req.params.journeyAssistance
+      assistance: req.params.assistance
     })
     next()
   })
 
-  router.post('/first-time/:dob/:relationship/:journeyAssistance', function (req, res, next) {
+  router.post('/first-time/:dob/:relationship/:assistance', function (req, res, next) {
     UrlPathValidator(req.params)
 
     var benefit = req.body.benefit
     var dob = req.params.dob
     var relationship = req.params.relationship
-    var journeyAssistance = req.params.journeyAssistance
+    var assistance = req.params.assistance
     var validationErrors = benefitValidator(req.body)
 
     if (validationErrors) {
@@ -26,7 +26,7 @@ module.exports = function (router) {
         errors: validationErrors,
         dob: dob,
         relationship: relationship,
-        journeyAssistance: journeyAssistance
+        assistance: assistance
       })
       return next()
     }
@@ -34,7 +34,7 @@ module.exports = function (router) {
     if (benefit === 'none') {
       res.redirect('/eligibility-fail')
     } else {
-      res.redirect('/first-time' + '/' + dob + '/' + relationship + '/' + journeyAssistance + '/' + benefit)
+      res.redirect('/first-time' + '/' + dob + '/' + relationship + '/' + assistance + '/' + benefit)
     }
     next()
   })

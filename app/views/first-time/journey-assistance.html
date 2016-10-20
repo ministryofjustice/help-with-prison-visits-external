@@ -15,23 +15,23 @@
 
             {% include "includes/validation-error-messages.html" %}
 
-            <h2 id="journey-assistance" class="heading-large">
+            <h2 id="assistance" class="heading-large">
                 Does someone assist you during your journey?
             </h2>
 
-            {% if errors['journey-assistance'][0] %}
-              <span class="error-message" id="error-message-journey-assistance">{{ errors['journey-assistance'][0] }}</span>
+            {% if errors['assistance'][0] %}
+              <span class="error-message" id="error-message-journey-assistance">{{ errors['assistance'][0] }}</span>
             {% endif %}
 
             <form action="/first-time/{{ dob }}/{{ relationship }}" method="post">
-                <div class="form-group {% if errors['journey-assistance'][0] %} error {% endif %}">
+                <div class="form-group {% if errors['assistance'][0] %} error {% endif %}">
 
                     <fieldset>
 
                         <label class="block-label">
                             <input id="assistance-yes-medical"
                                    type="radio"
-                                   name="journey-assistance"
+                                   name="assistance"
                                    value="medical">
                             Yes, I have a medical reason
                         </label>
@@ -39,7 +39,7 @@
                         <label class="block-label">
                             <input id="assistance-yes-over-75"
                                    type="radio"
-                                   name="journey-assistance"
+                                   name="assistance"
                                    value="older">
                             Yes, I'm 75 or older
                         </label>
@@ -47,7 +47,7 @@
                         <label class="block-label">
                             <input id="assistance-no"
                                    type="radio"
-                                   name="journey-assistance"
+                                   name="assistance"
                                    value="no">
                             No
                         </label>
