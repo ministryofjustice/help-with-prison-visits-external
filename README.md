@@ -27,30 +27,6 @@ docker-compose build
 docker-compose up
 ```
 
-### With Docker
-
-```
-# Compile static resources and container image
-npm install
-docker build -t apvs-external-web-node:prod .
-```
-
-##### Run Production version:
-```
-docker run --rm
-    -p 3000:3000
-    --name apvs-external-web-node-prod apvs-external-web-node:prod
-```
-
-##### Run development version:
-```
-docker run --rm -t -i
-    -p 3000:3000
-    -v $(pwd)/app:/usr/src/app/app
-    -v $(pwd)/cache_node_modules:/usr/src/app/node_modules
-    --name apvs-external-web-node-dev apvs-external-web-node:dev
-```
-
 ### Heroku
 
 The application can be deployed to [heroku](https://www.heroku.com/) for quick preview.

@@ -2,9 +2,7 @@ version: '2'
 services:
 
   node-external-apvs:
-    build:
-      context: ./
-      dockerfile: Dockerfile-dev
+    build: .
     volumes:
       - "./gulpfile.js:/usr/src/app/gulpfile.js"
       - "./nodemon.json:/usr/src/app/nodemon.json"
