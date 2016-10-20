@@ -40,10 +40,6 @@ describe('routes/first-time/about-you', function () {
           done()
         })
     })
-    it('should respond with a 500 for invalid path parameters', function (done) {
-      // TODO stub path validator and return false
-      done()
-    })
   })
 
   describe('POST /first-time/:dob/:relationship/:assistance/:requireBenefitUpload/:reference', function () {
@@ -63,10 +59,6 @@ describe('routes/first-time/about-you', function () {
           expect(response.header.location).to.equal(`/application-submitted/${reference}`)
           done()
         })
-    })
-    it('should respond with a 500 for invalid path parameters', function (done) {
-      // TODO stub path validator and return false
-      done()
     })
     it('should respond with a 400 for invalid data', function (done) {
       var reference = '1234567'
