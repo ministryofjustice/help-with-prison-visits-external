@@ -1,6 +1,6 @@
 module.exports = function (router) {
   router.get('/profile', function (req, res, next) {
-    res.render('claim/profile')
+    res.render('ux/claim/profile')
     next()
   })
 
