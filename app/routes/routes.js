@@ -6,6 +6,7 @@ const log = require('../services/log')
 var routes = [
   require('./index'),
   require('./start'),
+  require('./eligibility-fail'),
   require('./first-time/date-of-birth.js'),
   require('./first-time/prisoner-relationship'),
   require('./first-time/journey-assistance'),
@@ -31,11 +32,11 @@ var routes = [
   require('./eligibility/eligibility-requirements'),
   require('./claim/profile'),
   require('./claim/claim-details'),
-  require('./eligibility/eligibility-fail'),
   // Health check routes
   require('./health-check/status'),
   // Dev routes TODO THESE SHOULD BE REMOVED
-  require('./dev/display-data-for-reference')
+  require('./dev/display-data-for-reference'),
+  require('./dev/gov-notify')
 ]
 
 module.exports = function (router) {

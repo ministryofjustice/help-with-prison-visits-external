@@ -1,0 +1,62 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <div class="govuk-box-highlight">
+                <h1 class="bold-large">Dev - GOV.UK Notify</h1>
+                <p>
+                    {% if sent %}
+                    <strong class="heading-medium">Notification sent!</strong>
+                    {% endif %}
+                </p>
+            </div>
+
+            <form action="/dev-gov-notify" method="post">
+                <div class="form-group">
+                    <label class="form-label-bold" for="reference">Reference</label>
+                    <input id="reference"
+                           name="reference"
+                           type="text"
+                           class="form-control"
+                           value="{{ reference }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="email">Email</label>
+                    <input id="email"
+                           name="email"
+                           type="text"
+                           class="form-control"
+                           value="{{ email }}">
+                    <input type="submit" name="sendemail" class="button" value="Send email">
+                </div>
+
+
+
+                <div class="form-group">
+                    <label class="form-label-bold" for="phone">Phone number</label>
+                    <input id="phone"
+                           name="phone"
+                           type="text"
+                           class="form-control"
+                           value="{{ phone }}">
+                     <input type="submit" name="sendtext" class="button" value="Send text">
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</main>
+
+{% endblock %}

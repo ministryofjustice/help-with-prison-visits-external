@@ -22,6 +22,9 @@ app/locales/en.json
 # e2e selenium
 errorShots
 
+# coverage reports
+coverage
+
 # Ignore IntelliJ files
 .idea/
 

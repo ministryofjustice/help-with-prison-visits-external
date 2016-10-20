@@ -38,28 +38,33 @@ describe('routes/first-time/date-of-birth', function () {
   })
 
   describe('POST /first-time', function () {
-    it('should respond with a 302', function (done) {
-      request
-        .post('/first-time')
-        .send({
-          'dob-day': dobDay,
-          'dob-month': dobMonth,
-          'dob-year': dobYear
-        })
-        .expect(302)
-        .end(done)
+    describe('for over-sixteen date', function () {
+      it('should respond with a 302 and redirect /first-time/:dob', function (done) {
+        request
+          .post('/first-time')
+          .send({
+            'dob-day': dobDay,
+            'dob-month': dobMonth,
+            'dob-year': dobYear
+          })
+          .expect(302)
+          .expect('location', `/first-time/${dob}`)
+          .end(done)
+      })
     })
-
-    it('should build and appened the correct DOB to the redirect URL', function (done) {
-      request
-        .post('/first-time')
-        .send({
-          'dob-day': dobDay,
-          'dob-month': dobMonth,
-          'dob-year': dobYear
-        })
-        .expect('location', '/first-time/' + dob)
-        .end(done)
+    describe('sixteen or under date', function () {
+      it('should respond with a 302 and redirect to /eligibility-fail', function (done) {
+        request
+          .post('/first-time')
+          .send({
+            'dob-day': '1',
+            'dob-month': '1',
+            'dob-year': (new Date()).getFullYear() - 16
+          })
+          .expect(302)
+          .expect('location', '/eligibility-fail')
+          .end(done)
+      })
     })
   })
 })

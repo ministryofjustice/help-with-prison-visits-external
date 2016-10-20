@@ -233,4 +233,186 @@ describe('services/validators/common-validator', function () {
       done()
     })
   })
+
+  // TODO: Add unit tests for isLessThanLength function
+  // TODO: Add unit tests for isRange function
+  // TODO: Add unit tests for isNationalInsuranceNumber function
+  // TODO: Add unit tests for isPostcode function
+  // TODO: Add unit tests for isEmail function
+
+  describe('isValidDateOfBirth', function () {
+    const PAST_DATE = new Date('1950', '1', '1')
+    const FUTURE_DATE = new Date('3000', '1', '1')
+
+    it('should return false if passed null', function (done) {
+      var result = validator.isValidDateOfBirth(null)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed undefined', function (done) {
+      var result = validator.isValidDateOfBirth(undefined)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed an object', function (done) {
+      var result = validator.isValidDateOfBirth({})
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return true if passed a valid date of birth value', function (done) {
+      var result = validator.isValidDateOfBirth(PAST_DATE)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return true if passed a valid date of birth value', function (done) {
+      var result = validator.isValidDateOfBirth(FUTURE_DATE)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
+  describe('isValidPrisonerRelationship', function () {
+    const VALID_INPUT = 'partner'
+    const INVALID_INPUT = 'some invalid input'
+
+    it('should return false if passed null', function (done) {
+      var result = validator.isValidPrisonerRelationship(null)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed undefined', function (done) {
+      var result = validator.isValidPrisonerRelationship(undefined)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed an object', function (done) {
+      var result = validator.isValidPrisonerRelationship({})
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return true if passed a valid prisoner relationship', function (done) {
+      var result = validator.isValidPrisonerRelationship(VALID_INPUT)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed an invalid prisoner relationship', function (done) {
+      var result = validator.isValidPrisonerRelationship(INVALID_INPUT)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
+  describe('isValidJourneyAssistance', function () {
+    const VALID_INPUT = 'no'
+    const INVALID_INPUT = 'some invalid input'
+
+    it('should return false if passed null', function (done) {
+      var result = validator.isValidJourneyAssistance(null)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed undefined', function (done) {
+      var result = validator.isValidJourneyAssistance(undefined)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed an object', function (done) {
+      var result = validator.isValidJourneyAssistance({})
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return true if passed a valid journey ssistance value', function (done) {
+      var result = validator.isValidJourneyAssistance(VALID_INPUT)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed an invalid journey assistance value', function (done) {
+      var result = validator.isValidJourneyAssistance(INVALID_INPUT)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
+  describe('isValidBenefitResponse', function () {
+    const VALID_INPUT = 'no'
+    const INVALID_INPUT = 'some invalid input'
+
+    it('should return false if passed null', function (done) {
+      var result = validator.isValidBenefitResponse(null)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed undefined', function (done) {
+      var result = validator.isValidBenefitResponse(undefined)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed an object', function (done) {
+      var result = validator.isValidBenefitResponse({})
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return true if passed a valid benefit value', function (done) {
+      var result = validator.isValidBenefitResponse(VALID_INPUT)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed an invalid benefit value', function (done) {
+      var result = validator.isValidBenefitResponse(INVALID_INPUT)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
+  describe('isValidReference', function () {
+    const VALID_INPUT = '49CCADM'
+    const INVALID_INPUT = 'some invalid input'
+
+    it('should return false if passed null', function (done) {
+      var result = validator.isValidReference(null)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed undefined', function (done) {
+      var result = validator.isValidReference(undefined)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should throw Error if passed an object', function (done) {
+      expect(function () {
+        validator.isValidReference({})
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return true if passed a valid reference value', function (done) {
+      var result = validator.isValidReference(VALID_INPUT)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed an invalid reference value', function (done) {
+      var result = validator.isValidReference(INVALID_INPUT)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
 })

@@ -4,6 +4,10 @@
  */
 const validator = require('validator')
 const moment = require('moment')
+const validPrisonerRelationships = require('../../constants/prisoner-relationships-enum')
+const validJourneyAssistance = require('../../constants/journey-assistance-enum')
+const validBenefits = require('../../constants/benefits-enum')
+const referenceNumber = require('../../constants/reference-number-enum')
 const NUM_YEARS_LIMIT = 120
 
 exports.isNullOrUndefined = function (value) {
@@ -51,4 +55,32 @@ exports.isPostcode = function (value) {
 
 exports.isEmail = function (value) {
   return validator.isEmail(value)
+}
+
+exports.isValidDateOfBirth = function (dob) {
+  if (this.isNullOrUndefined(dob)) {
+    return false
+  }
+  var date = new Date(dob)
+  return this.isDateInThePast(date)
+}
+
+exports.isValidPrisonerRelationship = function (relationship) {
+  return validPrisonerRelationships.includes(relationship)
+}
+
+exports.isValidJourneyAssistance = function (journeyAssistance) {
+  return validJourneyAssistance.includes(journeyAssistance)
+}
+
+exports.isValidBenefitResponse = function (benefit) {
+  return validBenefits.includes(benefit)
+}
+
+exports.isValidReference = function (reference) {
+  if (this.isNullOrUndefined(reference)) {
+    return false
+  }
+  return reference.match(referenceNumber.IS_VALID_REGEX) !== null &&
+         this.isLength(reference, referenceNumber.VALID_LENGTH)
 }
