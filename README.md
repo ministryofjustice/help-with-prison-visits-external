@@ -72,14 +72,10 @@ git push heroku master
 
 ```
 npm test                        # checks code against standard JS and runs mocha unit tests.
-npm run-script test-unit        # just unit tests
-npm run-script test-integration # just integration tests
-```
-
-Run e2e tests with local selenium standalone
-```
-# Requires application running on http://localhost:3000
-npm run-script test-e2e
+npm run-script test-coverage    # unit tests and generates code coverage using Istanbul
+npm run-script test-unit        # unit tests
+npm run-script test-integration # integration tests
+npm run-script test-e2e         # e2e tests using selenium standalone against local
 ```
 
 Run e2e tests with [saucelabs](https://saucelabs.com)
@@ -97,7 +93,7 @@ npm run-script test-e2e-firefox
 
 The application requires a MS SQL database instance, configured with an external web user and a migration user. See [here](https://github.com/ministryofjustice/apvs/tree/develop/database) for details.
 
-To run the database migrations:
+To run the [knex](http://knexjs.org/) database migrations:
 
 ```
 npm run-script migrations
