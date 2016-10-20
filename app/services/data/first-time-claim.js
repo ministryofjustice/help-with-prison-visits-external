@@ -3,6 +3,7 @@ var knex = require('knex')(config)
 var eligibilityStatus = require('./reference-data/eligibility-status')
 var referenceGenerator = require('../reference-generator')
 var dateFormatter = require('../date-formatter')
+var moment = require('moment')
 
 var getUniqueReference = function () {
   return referenceGenerator.generate()
@@ -15,12 +16,13 @@ var insertNewEligibilityAndPrisoner = function (prisonerData) {
     return trx
       .insert({
         Reference: reference,
-        DateCreated: new Date(),
+        DateCreated: moment().toDate(),
         Status: eligibilityStatus.IN_PROGRESS
       })
       .into('Eligibility')
       .then(function () {
-        prisonerData.dateOfBirth = dateFormatter.build(prisonerData['dob-day'], prisonerData['dob-month'], prisonerData['dob-year'])
+        // dateFormatter.build returns a moment, create new Date to store in database
+        prisonerData.dateOfBirth = new Date(dateFormatter.build(prisonerData['dob-day'], prisonerData['dob-month'], prisonerData['dob-year']))
 
         // TODO add trim strings ala visitor and tests on trim + dob
         // TODO change fields to Pascal case and update view/tests ala visitor so they are consistent

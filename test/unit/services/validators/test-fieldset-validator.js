@@ -1,6 +1,7 @@
 const expect = require('chai').expect
 const FieldsetValidator = require('../../../../app/services/validators/fieldset-validator')
 const ErrorHandler = require('../../../../app/services/validators/error-handler')
+const moment = require('moment')
 
 describe('services/validators/fieldset-validator', function () {
   const VALID_DATA_ITEM_1 = 'data 1'
@@ -82,22 +83,22 @@ describe('services/validators/fieldset-validator', function () {
     })
 
     it('should return false if the date given is valid', function (done) {
-      this.fieldsetValidator.isValidDate(new Date())
+      this.fieldsetValidator.isValidDate(moment())
       var errors = this.error.get()
       expect(errors).to.equal(false)
       done()
     })
 
     it('should return the fieldsetValidator after being called to allow function chaining.', function (done) {
-      var result = this.fieldsetValidator.isValidDate(new Date())
+      var result = this.fieldsetValidator.isValidDate(moment())
       expect(result).to.be.equal(this.fieldsetValidator)
       done()
     })
   })
 
   describe('isPastDate', function () {
-    const PAST_DATE = new Date(2000, 1, 1)
-    const FUTURE_DATE = new Date(5000, 1, 1)
+    const PAST_DATE = moment().subtract(1, 'day')
+    const FUTURE_DATE = moment().add(1, 'day')
 
     it('should return error object if data is null', function (done) {
       this.fieldsetValidator.isPastDate(null)
@@ -135,7 +136,7 @@ describe('services/validators/fieldset-validator', function () {
     })
 
     it('should return the fieldsetValidator after being called to allow function chaining.', function (done) {
-      var result = this.fieldsetValidator.isPastDate(new Date())
+      var result = this.fieldsetValidator.isPastDate(moment())
       expect(result).to.be.equal(this.fieldsetValidator)
       done()
     })

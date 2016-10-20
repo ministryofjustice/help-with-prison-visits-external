@@ -1,7 +1,7 @@
 var expect = require('chai').expect
 const AboutThePrisonerValidator = require('../../../../../app/services/validators/first-time/about-the-prisoner-validator')
 
-describe('services/validators/first-time/journey-assistance-validator', function () {
+describe('services/validators/first-time/about-the-prisoner-validator', function () {
   const VALID_DATA = {
     'firstName': 'Joe',
     'lastName': 'Bloggs',

@@ -5,6 +5,8 @@ var proxyquire = require('proxyquire')
 var sinon = require('sinon')
 var config = require('../../../../knexfile').migrations
 var knex = require('knex')(config)
+var moment = require('moment')
+const DATE_FORMAT = 'YYYY-MM-DD'
 
 var uniqueReference = '1234567'
 
@@ -38,7 +40,7 @@ describe('firstTimeClaim', function () {
   describe('insertNewEligibilityAndPrisoner', function (done) {
     it('should insert a new Eligibility and Prisoner returning reference', function (done) {
       var stubReferenceGeneratorGenerate = sinon.stub(referenceGenerator, 'generate').returns(uniqueReference)
-      var stubDateFormatterBuild = sinon.stub(dateFormatter, 'build').returns(new Date(1980, 1, 13))
+      var stubDateFormatterBuild = sinon.stub(dateFormatter, 'build').returns(moment('1980, 1, 13', DATE_FORMAT).toDate())
       var prisonerData = {
         firstName: 'John',
         lastName: 'Smith',

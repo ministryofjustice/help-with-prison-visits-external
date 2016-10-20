@@ -1,5 +1,6 @@
 const DateOfBirthValidator = require('../../services/validators/eligibility/date-of-birth-validator')
 const dateFormatter = require('../../services/date-formatter')
+const moment = require('moment')
 
 module.exports = function (router) {
   router.get('/first-time', function (req, res, next) {
@@ -39,8 +40,8 @@ function parseDobAsDateAndFormattedString (req) {
 
 function isSixteenOrUnder (dobDate) {
   const AGE_MUST_BE_OVER = 16
-  const CURRENT_YEAR = (new Date()).getFullYear()
-  if ((dobDate.getFullYear() + AGE_MUST_BE_OVER) >= CURRENT_YEAR) {
+  const CURRENT_YEAR = moment().year()
+  if ((dobDate.year() + AGE_MUST_BE_OVER) >= CURRENT_YEAR) {
     return true
   }
   return false
