@@ -1,21 +1,24 @@
-var supertest = require('supertest')
-var expect = require('chai').expect
-var proxyquire = require('proxyquire')
-var sinon = require('sinon')
+const supertest = require('supertest')
+const expect = require('chai').expect
+const proxyquire = require('proxyquire')
+const sinon = require('sinon')
 require('sinon-bluebird')
-var express = require('express')
-var bodyParser = require('body-parser')
-var mockViewEngine = require('../mock-view-engine')
-var firstTimeClaim = require('../../../../app/services/data/first-time-claim')
+const express = require('express')
+const bodyParser = require('body-parser')
+const mockViewEngine = require('../mock-view-engine')
+const firstTimeClaim = require('../../../../app/services/data/first-time-claim')
 var stubAboutThePrisonerValidator
 var request
 
 describe('routes/first-time/about-the-prisoner', function () {
+  var urlValidatorCalled = false
+
   beforeEach(function () {
     stubAboutThePrisonerValidator = sinon.stub()
     var route = proxyquire('../../../../app/routes/first-time/about-the-prisoner', {
       '../../services/data/first-time-claim': firstTimeClaim,
-      '../../services/validators/first-time/about-the-prisoner-validator': stubAboutThePrisonerValidator
+      '../../services/validators/first-time/about-the-prisoner-validator': stubAboutThePrisonerValidator,
+      '../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
     })
 
     var app = express()
@@ -23,6 +26,7 @@ describe('routes/first-time/about-the-prisoner', function () {
     mockViewEngine(app, '../../../app/views')
     route(app)
     request = supertest(app)
+    urlValidatorCalled = false
   })
 
   describe('GET /first-time/:dob/:relationship/:assistance/:requireBenefitUpload', function () {
@@ -30,9 +34,9 @@ describe('routes/first-time/about-the-prisoner', function () {
       request
         .get('/first-time/1980-01-01/partner/n/n')
         .expect(200)
-        .end(function (error, response) {
+        .end(function (error) {
           expect(error).to.be.null
-          // TODO check called path validator returning true
+          expect(urlValidatorCalled).to.be.true
           done()
         })
     })
@@ -53,7 +57,7 @@ describe('routes/first-time/about-the-prisoner', function () {
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
-          // TODO check called path validator returning true
+          expect(urlValidatorCalled).to.be.true
           expect(stubAboutThePrisonerValidator.calledOnce).to.be.true
           expect(stubInsertNewEligibilityAndPrisoner.calledOnce).to.be.true
           expect(response.header.location).to.equal(`/first-time/1980-01-01/partner/n/n/${newReference}`)

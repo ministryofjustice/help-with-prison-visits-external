@@ -1,9 +1,10 @@
-var firstTimeClaim = require('../../services/data/first-time-claim')
-var validator = require('../../services/validators/first-time/about-the-prisoner-validator')
+const firstTimeClaim = require('../../services/data/first-time-claim')
+const validator = require('../../services/validators/first-time/about-the-prisoner-validator')
+const UrlPathValidator = require('../../services/validators/url-path-validator')
 
 module.exports = function (router) {
   router.get('/first-time/:dob/:relationship/:assistance/:requireBenefitUpload', function (req, res, next) {
-    // TODO path validation
+    UrlPathValidator(req.params)
     res.render('first-time/about-the-prisoner', {
       dob: req.params.dob,
       relationship: req.params.relationship,
@@ -14,7 +15,7 @@ module.exports = function (router) {
   })
 
   router.post('/first-time/:dob/:relationship/:assistance/:requireBenefitUpload', function (req, res, next) {
-    // TODO path validation
+    UrlPathValidator(req.params)
     var validationErrors = validator(req.body)
     if (validationErrors) {
       res.status(400).render('first-time/about-the-prisoner', {

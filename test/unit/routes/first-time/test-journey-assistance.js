@@ -1,16 +1,11 @@
-var supertest = require('supertest')
-var proxyquire = require('proxyquire')
-var express = require('express')
-var mockViewEngine = require('../mock-view-engine')
-var bodyParser = require('body-parser')
+const supertest = require('supertest')
+const proxyquire = require('proxyquire')
+const express = require('express')
+const mockViewEngine = require('../mock-view-engine')
+const bodyParser = require('body-parser')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 var validationErrors
-
-var route = proxyquire(
-  '../../../../app/routes/first-time/journey-assistance', {
-    '../../services/validators/eligibility/journey-assistance-validator': function () { return validationErrors }
-  })
 
 describe('routes/first-time/journey-assistance', function () {
   var request
@@ -23,15 +18,22 @@ describe('routes/first-time/journey-assistance', function () {
     var app = express()
     app.use(bodyParser.json())
     mockViewEngine(app, '../../../app/views')
-    route(app)
+
     request = supertest(app)
     validationErrors = false
+
+    var route = proxyquire(
+      '../../../../app/routes/first-time/journey-assistance', {
+        '../../services/validators/eligibility/journey-assistance-validator': function () { return validationErrors },
+        '../../services/validators/url-path-validator': function () { }
+      })
+    route(app)
   })
 
   describe('GET /first-time/:dob/:relationship', function () {
     it('should respond with a 200', function (done) {
       request
-        .get('/first-time/' + dob + '/Partner')
+        .get('/first-time/' + dob + '/partner')
         .expect(200)
         .end(done)
     })
@@ -42,7 +44,7 @@ describe('routes/first-time/journey-assistance', function () {
       var journeyAssistance = 'No'
 
       request
-        .post('/first-time/' + dob + '/Partner')
+        .post('/first-time/' + dob + '/partner')
         .send({
           'journey-assistance': journeyAssistance
         })
@@ -53,7 +55,7 @@ describe('routes/first-time/journey-assistance', function () {
     it('should respond with a 400 if validation fails', function (done) {
       validationErrors = { 'journeyAssistance': [] }
       request
-        .post('/first-time/' + dob + '/Partner')
+        .post('/first-time/' + dob + '/partner')
         .expect(400)
         .end(done)
     })
@@ -62,11 +64,11 @@ describe('routes/first-time/journey-assistance', function () {
       var journeyAssistance = 'No'
 
       request
-        .post('/first-time/' + dob + '/Partner')
+        .post('/first-time/' + dob + '/partner')
         .send({
           'journey-assistance': journeyAssistance
         })
-        .expect('location', '/first-time/' + dob + '/Partner/' + journeyAssistance)
+        .expect('location', '/first-time/' + dob + '/partner/' + journeyAssistance)
         .end(done)
     })
   })
