@@ -1,5 +1,6 @@
 const expect = require('chai').expect
 const validator = require('../../../../app/services/validators/common-validator')
+const moment = require('moment')
 
 describe('services/validators/common-validator', function () {
   const ALPHA_STRING = 'alpha'
@@ -185,15 +186,22 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a valid Date object', function (done) {
-      var result = validator.isDateValid(new Date())
+      var result = validator.isDateValid(moment())
       expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed a Date more than 120 years ago', function (done) {
+      var numYearsToSubtract = 130
+      var result = validator.isDateValid(moment().subtract(numYearsToSubtract, 'years'))
+      expect(result).to.equal(false)
       done()
     })
   })
 
   describe('isDateInThePast', function () {
-    const PAST_DATE = new Date('1950', '1', '1')
-    const FUTURE_DATE = new Date('3000', '1', '1')
+    const PAST_DATE = moment().subtract(1, 'day')
+    const FUTURE_DATE = moment().add(1, 'day')
 
     it('should return false if passed null', function (done) {
       var result = validator.isDateInThePast(null)
@@ -219,7 +227,7 @@ describe('services/validators/common-validator', function () {
       done()
     })
 
-    it('should return true if passed a valid Date object', function (done) {
+    it('should return false if passed a valid Date object', function (done) {
       var result = validator.isDateInThePast(FUTURE_DATE)
       expect(result).to.equal(false)
       done()

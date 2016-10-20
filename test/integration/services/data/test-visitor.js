@@ -1,6 +1,7 @@
 var expect = require('chai').expect
 var config = require('../../../../knexfile').migrations
 var knex = require('knex')(config)
+var moment = require('moment')
 
 var visitor = require('../../../../app/services/data/visitor')
 var reference = 'V123456'
@@ -10,7 +11,7 @@ describe('services/data/visitor', function () {
     before(function (done) {
       knex('ExtSchema.Eligibility').insert({
         Reference: reference,
-        DateCreated: new Date(),
+        DateCreated: moment().toDate(),
         Status: 'TEST'
       }).then(function () {
         done()

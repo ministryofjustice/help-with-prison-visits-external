@@ -1,8 +1,9 @@
 var config = require('../../../knexfile').extweb
 var knex = require('knex')(config)
+var moment = require('moment')
 
 module.exports.insert = function (reference, visitorData) {
-  var dateOfBirth = new Date(visitorData.DateOfBirth)
+  var dateOfBirth = moment(visitorData.DateOfBirth).toDate()
   var requireBenefitUpload = visitorData === 'y'
 
   return knex('Visitor').insert({
