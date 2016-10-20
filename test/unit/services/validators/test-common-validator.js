@@ -313,9 +313,119 @@ describe('services/validators/common-validator', function () {
     })
   })
 
-  // TODO: Add unit tests for isNationalInsuranceNumber function
-  // TODO: Add unit tests for isPostcode function
-  // TODO: Add unit tests for isEmail function
+  describe('isNationalInsuranceNumber', function () {
+    const VALID_STRING = 'AA123456A'
+    const INVALID_STRING = 'AAA23456A'
+
+    it('should throw an error if passed null', function (done) {
+      expect(function () {
+        validator.isNationalInsuranceNumber(null)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed undefined', function (done) {
+      expect(function () {
+        validator.isNationalInsuranceNumber(undefined)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed an object', function (done) {
+      expect(function () {
+        validator.isNationalInsuranceNumber({})
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return true if passed a string that has a valid format', function (done) {
+      var result = validator.isNationalInsuranceNumber(VALID_STRING)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed a string that has an invalid format', function (done) {
+      var result = validator.isNationalInsuranceNumber(INVALID_STRING)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
+  describe('isPostcode', function () {
+    const VALID_STRING = 'AA123AA'
+    const INVALID_STRING = '1234567'
+
+    it('should throw an error if passed null', function (done) {
+      expect(function () {
+        validator.isPostcode(null)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed undefined', function (done) {
+      expect(function () {
+        validator.isPostcode(undefined)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed an object', function (done) {
+      expect(function () {
+        validator.isPostcode({})
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return true if passed a string that has a valid format', function (done) {
+      var result = validator.isPostcode(VALID_STRING)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed a string that has an invalid format', function (done) {
+      var result = validator.isPostcode(INVALID_STRING)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
+  describe('isEmail', function () {
+    const VALID_STRING = 'test@test.com'
+    const INVALID_STRING = 'test.test.com'
+
+    it('should throw an error if passed null', function (done) {
+      expect(function () {
+        validator.isEmail(null)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed undefined', function (done) {
+      expect(function () {
+        validator.isEmail(undefined)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed an object', function (done) {
+      expect(function () {
+        validator.isEmail({})
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return true if passed a string that has a valid format', function (done) {
+      var result = validator.isEmail(VALID_STRING)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed a string that has an invalid format', function (done) {
+      var result = validator.isEmail(INVALID_STRING)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
 
   describe('isValidDateOfBirth', function () {
     const PAST_DATE = moment().subtract(1, 'day')
