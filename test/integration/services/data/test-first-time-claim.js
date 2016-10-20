@@ -1,6 +1,6 @@
 var expect = require('chai').expect
 var referenceGenerator = require('../../../../app/services/reference-generator')
-var dateFormatter = require('../../../../app/services/date-formatter')
+var eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
 var proxyquire = require('proxyquire')
 var sinon = require('sinon')
 var config = require('../../../../knexfile').migrations
@@ -9,14 +9,12 @@ var knex = require('knex')(config)
 var uniqueReference = '1234567'
 
 var firstTimeClaim = proxyquire('../../../../app/services/data/first-time-claim', {
-  '../reference-generator': referenceGenerator,
-  '../date-formatter': dateFormatter
+  '../reference-generator': referenceGenerator
 })
 
 describe('firstTimeClaim', function () {
   beforeEach(function () {
     if (referenceGenerator.generate.restore) referenceGenerator.generate.restore()
-    if (dateFormatter.build.restore) dateFormatter.build.restore()
   })
 
   describe('getUniqueReference', function (done) {
@@ -38,23 +36,32 @@ describe('firstTimeClaim', function () {
   describe('insertNewEligibilityAndPrisoner', function (done) {
     it('should insert a new Eligibility and Prisoner returning reference', function (done) {
       var stubReferenceGeneratorGenerate = sinon.stub(referenceGenerator, 'generate').returns(uniqueReference)
-      var stubDateFormatterBuild = sinon.stub(dateFormatter, 'build').returns(new Date(1980, 1, 13))
       var prisonerData = {
-        firstName: 'John',
-        lastName: 'Smith',
+        FirstName: 'John   ',
+        LastName: '   Smith',
         'dob-year': '1980',
         'dob-month': '01',
         'dob-day': '13',
-        prisonerNumber: 'A3456TB',
-        nameOfPrison: 'Whitemoor'
+        PrisonerNumber: 'A3 456Tb ',
+        NameOfPrison: '  Whitemoor  '
       }
 
       firstTimeClaim.insertNewEligibilityAndPrisoner(prisonerData)
         .then(function (newReference) {
-          expect(stubReferenceGeneratorGenerate.calledOnce).to.be.true
-          expect(stubDateFormatterBuild.calledOnce).to.be.true
           expect(newReference).to.equal(uniqueReference)
-          done()
+
+          knex('ExtSchema.Eligibility').where('Reference', uniqueReference).first().then(function (newEligibilityRow) {
+            expect(newEligibilityRow.Status).to.equal(eligibilityStatusEnum.IN_PROGRESS)
+            knex('ExtSchema.Prisoner').where('Reference', uniqueReference).first().then(function (newPrisonerRow) {
+              expect(stubReferenceGeneratorGenerate.calledOnce).to.be.true
+              expect(newPrisonerRow.FirstName, 'did not trim name').to.equal('John')
+              expect(newPrisonerRow.LastName, 'did not trim name').to.equal('Smith')
+              expect(newPrisonerRow.PrisonNumber, 'did not replace space/uppercase prison number').to.equal('A3456TB')
+              expect(newPrisonerRow.NameOfPrison, 'did not trim name of prison').to.equal('Whitemoor')
+              expect(newPrisonerRow.DateOfBirth, 'did not set date correctly').to.be.within(new Date('1980-01-12 11:59:59'), new Date('1980-01-13 00:00:01'))
+              done()
+            })
+          })
         })
     })
 
