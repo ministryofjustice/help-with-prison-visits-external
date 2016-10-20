@@ -3,6 +3,7 @@ var proxyquire = require('proxyquire')
 var express = require('express')
 var mockViewEngine = require('../mock-view-engine')
 var bodyParser = require('body-parser')
+var moment = require('moment')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 var validationErrors
@@ -59,7 +60,7 @@ describe('routes/first-time/date-of-birth', function () {
           .send({
             'dob-day': '1',
             'dob-month': '1',
-            'dob-year': (new Date()).getFullYear() - 16
+            'dob-year': moment().year() - 16
           })
           .expect(302)
           .expect('location', '/eligibility-fail')

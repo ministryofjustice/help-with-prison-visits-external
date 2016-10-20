@@ -9,6 +9,7 @@ const validJourneyAssistance = require('../../constants/journey-assistance-enum'
 const validBenefits = require('../../constants/benefits-enum')
 const referenceNumber = require('../../constants/reference-number-enum')
 const NUM_YEARS_LIMIT = 120
+const DATE_FORMAT = 'YYYY-MM-DD'
 
 exports.isNullOrUndefined = function (value) {
   return !value
@@ -61,7 +62,7 @@ exports.isValidDateOfBirth = function (dob) {
   if (this.isNullOrUndefined(dob)) {
     return false
   }
-  var date = new Date(dob)
+  var date = moment(dob, DATE_FORMAT)
   return this.isDateInThePast(date)
 }
 

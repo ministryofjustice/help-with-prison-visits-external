@@ -241,8 +241,8 @@ describe('services/validators/common-validator', function () {
   // TODO: Add unit tests for isEmail function
 
   describe('isValidDateOfBirth', function () {
-    const PAST_DATE = new Date('1950', '1', '1')
-    const FUTURE_DATE = new Date('3000', '1', '1')
+    const PAST_DATE = moment().subtract(1, 'day')
+    const FUTURE_DATE = moment().add(1, 'day')
 
     it('should return false if passed null', function (done) {
       var result = validator.isValidDateOfBirth(null)
