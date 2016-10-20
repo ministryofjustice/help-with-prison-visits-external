@@ -40,10 +40,6 @@ describe('routes/first-time/about-the-prisoner', function () {
           done()
         })
     })
-    it('should respond with a 500 for invalid path parameters', function (done) {
-      // TODO stub path validator and return false
-      done()
-    })
   })
 
   describe('POST /first-time/:dob/:relationship/:assistance/:requireBenefitUpload', function () {
@@ -63,10 +59,6 @@ describe('routes/first-time/about-the-prisoner', function () {
           expect(response.header.location).to.equal(`/first-time/1980-01-01/partner/n/n/${newReference}`)
           done()
         })
-    })
-    it('should respond with a 500 for invalid path parameters', function (done) {
-      // TODO stub path validator and return false
-      done()
     })
     it('should respond with a 400 for invalid data', function (done) {
       stubAboutThePrisonerValidator.returns({ 'firstName': [] })

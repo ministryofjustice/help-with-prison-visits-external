@@ -1,6 +1,6 @@
 module.exports = function (router) {
   router.get('/file-upload', function (req, res, next) {
-    res.render('file-upload')
+    res.render('ux/file-upload')
     next()
   })
 

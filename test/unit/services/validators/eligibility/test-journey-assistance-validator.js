@@ -3,10 +3,10 @@ const JourneyAssistanceValidator = require('../../../../../app/services/validato
 
 describe('services/validators/eligibility/journey-assistance-validator', function () {
   const VALID_DATA = {
-    'journey-assistance': 'some assistance'
+    'assistance': 'some assistance'
   }
   const INVALID_DATA = {
-    'journey-assistance': ''
+    'assistance': ''
   }
 
   it('should throw error if data is null', function (done) {
@@ -41,7 +41,7 @@ describe('services/validators/eligibility/journey-assistance-validator', functio
 
   it('should return an error object if provided with invalid data', function (done) {
     var errors = JourneyAssistanceValidator(INVALID_DATA)
-    expect(errors).to.have.property('journey-assistance')
+    expect(errors).to.have.property('assistance')
     done()
   })
 })
