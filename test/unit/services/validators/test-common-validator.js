@@ -166,6 +166,45 @@ describe('services/validators/common-validator', function () {
     })
   })
 
+  describe('isLessThanLength', function () {
+    const LENGTH = 10
+    const VALID_STRING = '11111'
+    const INVALID_STRING = '11111111111111111111'
+
+    it('should throw an error if passed null', function (done) {
+      expect(function () {
+        validator.isLessThanLength(null, null)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed undefined', function (done) {
+      expect(function () {
+        validator.isLessThanLength(undefined, undefined)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed an object', function (done) {
+      expect(function () {
+        validator.isLessThanLength({}, {})
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return true if passed a string that has a valid length', function (done) {
+      var result = validator.isLessThanLength(VALID_STRING, LENGTH)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed a string that has an invalid length', function (done) {
+      var result = validator.isLessThanLength(INVALID_STRING, LENGTH)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
   describe('isDateValid', function () {
     it('should return false if passed null', function (done) {
       var result = validator.isDateValid(null)
@@ -234,8 +273,46 @@ describe('services/validators/common-validator', function () {
     })
   })
 
-  // TODO: Add unit tests for isLessThanLength function
-  // TODO: Add unit tests for isRange function
+  describe('isRange', function () {
+    const ACCEPTED_MIN = '2'
+    const ACCEPTED_MAX = '5'
+    const VALID_LENGTH = '11'
+    const INVALID_LENGTH = '111111'
+
+    it('should throw an error if passed null', function (done) {
+      expect(function () {
+        validator.isRange(null, null, null)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed undefined', function (done) {
+      expect(function () {
+        validator.isRange(undefined, undefined, undefined)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed an object', function (done) {
+      expect(function () {
+        validator.isRange({}, {}, {})
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return true if passed a string that has a valid length', function (done) {
+      var result = validator.isRange(VALID_LENGTH, ACCEPTED_MIN, ACCEPTED_MAX)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed a string that has an invalid length', function (done) {
+      var result = validator.isRange(INVALID_LENGTH, ACCEPTED_MIN, ACCEPTED_MAX)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
   // TODO: Add unit tests for isNationalInsuranceNumber function
   // TODO: Add unit tests for isPostcode function
   // TODO: Add unit tests for isEmail function
