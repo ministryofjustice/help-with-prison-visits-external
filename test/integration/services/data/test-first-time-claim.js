@@ -5,6 +5,7 @@ var proxyquire = require('proxyquire')
 var sinon = require('sinon')
 var config = require('../../../../knexfile').migrations
 var knex = require('knex')(config)
+var moment = require('moment')
 
 var uniqueReference = '1234567'
 
@@ -58,7 +59,7 @@ describe('firstTimeClaim', function () {
               expect(newPrisonerRow.LastName, 'did not trim name').to.equal('Smith')
               expect(newPrisonerRow.PrisonNumber, 'did not replace space/uppercase prison number').to.equal('A3456TB')
               expect(newPrisonerRow.NameOfPrison, 'did not trim name of prison').to.equal('Whitemoor')
-              expect(newPrisonerRow.DateOfBirth, 'did not set date correctly').to.be.within(new Date('1980-01-12 11:59:59'), new Date('1980-01-13 00:00:01'))
+              expect(newPrisonerRow.DateOfBirth, 'did not set date correctly').to.be.within(moment('1980-01-12 11:59:59').toDate(), moment('1980-01-13 00:00:01').toDate())
               done()
             })
           })

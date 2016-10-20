@@ -25,7 +25,7 @@ describe('routes/first-time/journey-assistance', function () {
     var route = proxyquire(
       '../../../../app/routes/first-time/journey-assistance', {
         '../../services/validators/eligibility/journey-assistance-validator': function () { return validationErrors },
-        '../../services/validators/url-path-validator': function () { }
+        '../../services/validators/url-path-validator': function () {}
       })
     route(app)
   })
@@ -41,34 +41,34 @@ describe('routes/first-time/journey-assistance', function () {
 
   describe('POST /first-time/:dob/:relationship', function () {
     it('should respond with a 302', function (done) {
-      var journeyAssistance = 'No'
+      var assistance = 'no'
 
       request
         .post('/first-time/' + dob + '/partner')
         .send({
-          'journey-assistance': journeyAssistance
+          'assistance': assistance
         })
         .expect(302)
         .end(done)
     })
 
     it('should respond with a 400 if validation fails', function (done) {
-      validationErrors = { 'journeyAssistance': [] }
+      validationErrors = { 'assistance': [] }
       request
         .post('/first-time/' + dob + '/partner')
         .expect(400)
         .end(done)
     })
 
-    it('should redirect to /first-time/:dob/:relationship/:journeyAssistance', function (done) {
-      var journeyAssistance = 'No'
+    it('should redirect to /first-time/:dob/:relationship/:assistance', function (done) {
+      var assistance = 'no'
 
       request
         .post('/first-time/' + dob + '/partner')
         .send({
-          'journey-assistance': journeyAssistance
+          'assistance': assistance
         })
-        .expect('location', '/first-time/' + dob + '/partner/' + journeyAssistance)
+        .expect('location', '/first-time/' + dob + '/partner/' + assistance)
         .end(done)
     })
   })

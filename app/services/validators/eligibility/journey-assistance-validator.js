@@ -4,9 +4,9 @@ const ErrorHandler = require('../error-handler')
 class JourneyAssistanceValidator {
   static validate (data) {
     var errors = ErrorHandler()
-    var journeyAssistance = data['journey-assistance']
+    var assistance = data['assistance']
 
-    FieldValidator(journeyAssistance, 'journey-assistance', errors)
+    FieldValidator(assistance, 'assistance', errors)
       .isRequired('radio')
 
     return errors.get()

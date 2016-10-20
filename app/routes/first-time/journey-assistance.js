@@ -14,7 +14,7 @@ module.exports = function (router) {
   router.post('/first-time/:dob/:relationship', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    var journeyAssistance = req.body['journey-assistance']
+    var assistance = req.body['assistance']
     var dob = req.params.dob
     var relationship = req.params.relationship
 
@@ -25,7 +25,7 @@ module.exports = function (router) {
       return next()
     }
 
-    res.redirect('/first-time' + '/' + dob + '/' + relationship + '/' + journeyAssistance)
+    res.redirect('/first-time' + '/' + dob + '/' + relationship + '/' + assistance)
     next()
   })
 }

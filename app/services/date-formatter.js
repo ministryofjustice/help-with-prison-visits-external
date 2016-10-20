@@ -1,16 +1,16 @@
-const dateFormat = require('dateformat')
-const DATE_FORMAT = 'yyyy-mm-dd'
-const INVALID_DATE_ERROR = 'Invalid Date'
+const moment = require('moment')
+const DATE_FORMAT = 'YYYY-MM-DD'
+const INVALID_DATE_ERROR = 'Invalid date'
 
 exports.format = function (date) {
-  if (!isDate(date) && !isUndefined(date) && !isNull(date)) {
+  if (!isDate(date) || isUndefined(date) || isNull(date)) {
     return INVALID_DATE_ERROR
   }
-  return dateFormat(date, DATE_FORMAT)
+  return date.format(DATE_FORMAT)
 }
 
 exports.build = function (day, month, year) {
-  return new Date(year + '-' + month + '-' + day)
+  return moment([year, month - 1, day])
 }
 
 exports.buildFormatted = function (day, month, year) {
@@ -30,9 +30,9 @@ function isNull (date) {
 }
 
 function isDate (date) {
-  return date instanceof Date
+  return date instanceof moment
 }
 
 function isValidDate (date) {
-  return date.toString() !== INVALID_DATE_ERROR
+  return date.isValid()
 }

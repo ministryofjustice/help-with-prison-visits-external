@@ -3,6 +3,7 @@ var knex = require('knex')(config)
 var eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 var referenceGenerator = require('../reference-generator')
 var dateFormatter = require('../date-formatter')
+var moment = require('moment')
 
 var getUniqueReference = function () {
   return referenceGenerator.generate()
@@ -13,12 +14,12 @@ var insertNewEligibilityAndPrisoner = function (prisonerData) {
 
   return knex.insert({
     Reference: reference,
-    DateCreated: new Date(),
+    DateCreated: moment().toDate(),
     Status: eligibilityStatusEnum.IN_PROGRESS
   })
   .into('Eligibility')
   .then(function () {
-    var dateOfBirth = dateFormatter.build(prisonerData['dob-day'], prisonerData['dob-month'], prisonerData['dob-year'])
+    var dateOfBirth = dateFormatter.build(prisonerData['dob-day'], prisonerData['dob-month'], prisonerData['dob-year']).toDate()
 
     return knex.insert({
       Reference: reference,

@@ -3,9 +3,9 @@ const DateOfBirthValidator = require('../../../../../app/services/validators/eli
 
 describe('services/validators/eligibility/date-of-birth-validator', function () {
   const VALID_DATA = {
-    'dob-day': 1,
-    'dob-month': 1,
-    'dob-year': 2000
+    'dob-day': '01',
+    'dob-month': '01',
+    'dob-year': '2000'
   }
   const INVALID_DATA = {
     'dob-day': '',
@@ -45,6 +45,50 @@ describe('services/validators/eligibility/date-of-birth-validator', function () 
 
   it('should return an error object if provided with invalid data', function (done) {
     var errors = DateOfBirthValidator(INVALID_DATA)
+    expect(errors).to.have.property('dob')
+    done()
+  })
+
+  it('should return an error object if provided with a day greater than 29 in February', function (done) {
+    var data = {
+      'dob-day': '31',
+      'dob-month': '02',
+      'dob-year': '1990'
+    }
+    var errors = DateOfBirthValidator(data)
+    expect(errors).to.have.property('dob')
+    done()
+  })
+
+  it('should return false if provided with 29th February on a leap year', function (done) {
+    var data = {
+      'dob-day': '29',
+      'dob-month': '02',
+      'dob-year': '1992'
+    }
+    var errors = DateOfBirthValidator(data)
+    expect(errors).to.equal(false)
+    done()
+  })
+
+  it('should return an error object if provided with 29th February and not a leap year', function (done) {
+    var data = {
+      'dob-day': '29',
+      'dob-month': '02',
+      'dob-year': '1993'
+    }
+    var errors = DateOfBirthValidator(data)
+    expect(errors).to.have.property('dob')
+    done()
+  })
+
+  it('should return an error object if provided with a date greater than 120 years ago', function (done) {
+    var data = {
+      'dob-day': '10',
+      'dob-month': '02',
+      'dob-year': '1850'
+    }
+    var errors = DateOfBirthValidator(data)
     expect(errors).to.have.property('dob')
     done()
   })

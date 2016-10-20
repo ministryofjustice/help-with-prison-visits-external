@@ -3,10 +3,13 @@
  * three higher level validators: FieldValidator, FieldSetValidator, and UrlPathValidator.
  */
 const validator = require('validator')
+const moment = require('moment')
 const validPrisonerRelationships = require('../../constants/prisoner-relationships-enum')
 const validJourneyAssistance = require('../../constants/journey-assistance-enum')
 const validBenefits = require('../../constants/benefits-enum')
 const referenceNumber = require('../../constants/reference-number-enum')
+const NUM_YEARS_LIMIT = 120
+const DATE_FORMAT = 'YYYY-MM-DD'
 
 exports.isNullOrUndefined = function (value) {
   return !value
@@ -29,13 +32,14 @@ exports.isLessThanLength = function (value, length) {
 }
 
 exports.isDateValid = function (date) {
-  return date instanceof Date &&
-         date.toString() !== 'Invalid Date'
+  return date instanceof moment &&
+         date.isValid() &&
+         moment().diff(date, 'years') < NUM_YEARS_LIMIT
 }
 
 exports.isDateInThePast = function (date) {
   return this.isDateValid(date) &&
-         date <= new Date()
+         date < moment()
 }
 
 exports.isRange = function (value, min, max) {
@@ -58,7 +62,7 @@ exports.isValidDateOfBirth = function (dob) {
   if (this.isNullOrUndefined(dob)) {
     return false
   }
-  var date = new Date(dob)
+  var date = moment(dob, DATE_FORMAT)
   return this.isDateInThePast(date)
 }
 
