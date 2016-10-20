@@ -15,16 +15,33 @@ module.exports = function (router) {
       return next()
     }
 
-    // TODO: Need age check here. If under 16 redirect to eligibility-fail + unit test.
+    var dobAsDateAndFormattedString = parseDobAsDateAndFormattedString(req)
 
-    res.redirect('/first-time/' + buildDOB(req))
-    next()
+    if (isSixteenOrUnder(dobAsDateAndFormattedString.date)) {
+      res.redirect('/eligibility-fail')
+      next()
+    } else {
+      res.redirect(`/first-time/${dobAsDateAndFormattedString.formattedString}`)
+      next()
+    }
   })
 }
 
-function buildDOB (req) {
+function parseDobAsDateAndFormattedString (req) {
   var day = req.body['dob-day']
   var month = req.body['dob-month']
   var year = req.body['dob-year']
-  return dateFormatter.buildFormatted(day, month, year)
+  return {
+    date: dateFormatter.build(day, month, year),
+    formattedString: dateFormatter.buildFormatted(day, month, year)
+  }
+}
+
+function isSixteenOrUnder (dobDate) {
+  const AGE_MUST_BE_OVER = 16
+  const CURRENT_YEAR = (new Date()).getFullYear()
+  if ((dobDate.getFullYear() + AGE_MUST_BE_OVER) >= CURRENT_YEAR) {
+    return true
+  }
+  return false
 }
