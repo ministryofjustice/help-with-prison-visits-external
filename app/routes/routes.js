@@ -24,6 +24,7 @@ var routes = [
 
   // These are temporary UX routes.
   require('./ux/file-upload'),
+  require('./ux/eligibility/confirm-your-details'),
   require('./ux/claim/visit-type'),
   require('./ux/claim/your-journey'),
   require('./ux/claim/transport'),
@@ -33,7 +34,6 @@ var routes = [
   require('./ux/claim/car-details'),
   require('./ux/claim/taxi-details'),
   require('./ux/claim/train-details'),
-  require('./ux/eligibility/confirm-your-details'),
   require('./ux/claim/profile'),
   require('./ux/claim/claim-details'),
 
