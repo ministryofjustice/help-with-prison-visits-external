@@ -1,48 +1,52 @@
-var config = require('../../../knexfile').extweb
-var knex = require('knex')(config)
-var eligibilityStatus = require('./reference-data/eligibility-status')
-var referenceGenerator = require('../reference-generator')
-var dateFormatter = require('../date-formatter')
-var moment = require('moment')
+const config = require('../../../knexfile').extweb
+const knex = require('knex')(config)
+const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
+const referenceGenerator = require('../reference-generator')
+const dateFormatter = require('../date-formatter')
+const moment = require('moment')
 
-var getUniqueReference = function () {
-  return referenceGenerator.generate()
-}
+module.exports.insertNewEligibilityAndPrisoner = function (prisonerData) {
+  var reference = referenceGenerator.generate()
 
-var insertNewEligibilityAndPrisoner = function (prisonerData) {
-  var reference = getUniqueReference()
-  // TODO change to avoid transaction as Tedious currently does not support multiple connections to MSSQL with transactions
-  return knex.transaction(function (trx) {
-    return trx
-      .insert({
-        Reference: reference,
+  return knex('Eligibility')
+    .where('Reference', reference)
+    .count('Reference as ReferenceCount')
+    .then(function (countResult) {
+      var count = countResult[ 0 ].ReferenceCount
+      if (count > 0) {
+        // odds of two references in a row being non-unique 1x10e21
+        reference = referenceGenerator.generate()
+      }
+      return reference
+    })
+    .then(function (uniqueReference) {
+      return knex.insert({
+        Reference: uniqueReference,
         DateCreated: moment().toDate(),
-        Status: eligibilityStatus.IN_PROGRESS
+        Status: eligibilityStatusEnum.IN_PROGRESS
       })
-      .into('Eligibility')
-      .then(function () {
-        // dateFormatter.build returns a moment, create new Date to store in database
-        prisonerData.dateOfBirth = new Date(dateFormatter.build(prisonerData['dob-day'], prisonerData['dob-month'], prisonerData['dob-year']))
+        .into('Eligibility')
+        .then(function () {
+          var dateOfBirth = dateFormatter
+            .build(prisonerData[ 'dob-day' ], prisonerData[ 'dob-month' ], prisonerData[ 'dob-year' ])
+            .toDate()
 
-        // TODO add trim strings ala visitor and tests on trim + dob
-        // TODO change fields to Pascal case and update view/tests ala visitor so they are consistent
-        return trx.insert({
-          Reference: reference,
-          FirstName: prisonerData.firstName,
-          LastName: prisonerData.lastName,
-          DateOfBirth: prisonerData.dateOfBirth,
-          PrisonNumber: prisonerData.prisonerNumber,
-          NameOfPrison: prisonerData.nameOfPrison
+          return knex.insert({
+            Reference: uniqueReference,
+            FirstName: prisonerData.FirstName.trim(),
+            LastName: prisonerData.LastName.trim(),
+            DateOfBirth: dateOfBirth,
+            PrisonNumber: prisonerData.PrisonerNumber.replace(/ /g, '').toUpperCase(),
+            NameOfPrison: prisonerData.NameOfPrison.trim()
+          })
+            .into('Prisoner')
+            .then(function () {
+              return uniqueReference
+            })
+            .catch(function (error) {
+              // Will leave orphaned Eligibility but will be cleaned up by worker
+              throw error
+            })
         })
-        .into('Prisoner')
-      })
-      .then(function () {
-        return reference
-      })
-  })
-}
-
-module.exports = {
-  getUniqueReference: getUniqueReference,
-  insertNewEligibilityAndPrisoner: insertNewEligibilityAndPrisoner
+    })
 }

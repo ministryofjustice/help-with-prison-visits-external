@@ -1,6 +1,6 @@
-var config = require('../../../knexfile').extweb
-var knex = require('knex')(config)
-var moment = require('moment')
+const config = require('../../../knexfile').extweb
+const knex = require('knex')(config)
+const moment = require('moment')
 
 module.exports.insert = function (reference, visitorData) {
   var dateOfBirth = moment(visitorData.DateOfBirth).toDate()

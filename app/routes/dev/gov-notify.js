@@ -1,13 +1,14 @@
 // TODO remove 'notifications-node-client' from package.json when dev route removed
-var NotifyClient = require('notifications-node-client').NotifyClient
+const NotifyClient = require('notifications-node-client').NotifyClient
 
 module.exports = function (router) {
-  router.get('/dev-gov-notify', function (req, res, next) {
-    res.render('dev/gov-notify', {reference: 'APVS15341'})
-    next()
+  router.get('/dev-gov-notify', function (req, res) {
+    return res.render('dev/gov-notify', {
+      reference: 'APVS15341'
+    })
   })
 
-  router.post('/dev-gov-notify', function (req, res, next) {
+  router.post('/dev-gov-notify', function (req, res) {
     // using old style of url/clientid/apikey, this will be replaced in future with single constructor key arg
     var notifyClient = new NotifyClient(
       'https://api.notifications.service.gov.uk',
@@ -27,7 +28,10 @@ module.exports = function (router) {
       notifyClient.sendSms(textTemplateId, phoneNumber, personalisation)
     }
 
-    res.render('dev/gov-notify', {reference: reference, email: req.body.email, phone: req.body.phone, sent: true})
-    next()
+    return res.render('dev/gov-notify', {
+      reference: reference,
+      email: req.body.email,
+      phone: req.body.phone,
+      sent: true})
   })
 }

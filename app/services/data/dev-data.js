@@ -1,5 +1,5 @@
-var config = require('../../../knexfile').extweb
-var knex = require('knex')(config)
+const config = require('../../../knexfile').extweb
+const knex = require('knex')(config)
 
 module.exports.get = function (reference) {
   var data = {}

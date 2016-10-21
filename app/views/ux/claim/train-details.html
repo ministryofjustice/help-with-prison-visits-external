@@ -8,92 +8,92 @@
 
 <main id="content" role="main">
 
-    {% include "includes/phase_banner_beta.html" %}
+  {% include "includes/phase_banner_beta.html" %}
 
-    <div class="grid-row">
-        <div class="column-two-thirds">
+  <div class="grid-row">
+    <div class="column-two-thirds">
 
-            <h2 class="heading-large">
-                Add train journey information
-            </h2>
+      <h2 class="heading-large">
+        Add train journey information
+      </h2>
 
-            <form action="train-details" method="post">
-                <div class="form-group">
-                    <label for="departure-time" class="form-label-bold">Time of departure</label>
+      <form action="train-details" method="post">
+        <div class="form-group">
+          <label for="departure-time" class="form-label-bold">Time of departure</label>
 
-                    <input id="departure-time"
-                           type="text"
-                           class="form-control">
-                    <p class="form-hint">eg 10am</p>
-                </div>
-
-                <div class="form-group">
-                    <label for="from" class="form-label-bold">From</label>
-
-                    <input id="from"
-                           type="text"
-                           class="form-control">
-                    <p class="form-hint">eg Euston</p>
-                </div>
-
-                <div class="form-group">
-                    <label for="destination" class="form-label-bold">To</label>
-
-                    <input id="destination"
-                           type="text"
-                           class="form-control">
-                    <p class="form-hint">eg Birmingham New Street</p>
-                </div>
-
-                <div class="form-group">
-
-                    <label class="form-label-bold">Is this a return journey?</label>
-
-                    <div class="form-group">
-                        <fieldset>
-
-                            <label for="Yes" class="block-label">
-                                <input id="Yes"
-                                       type="radio"
-                                       value="Yes">
-                                Yes
-                            </label>
-                            <label for="No" class="block-label">
-                                <input id="No"
-                                       type="radio"
-                                       value="No">
-                                No
-                            </label>
-
-                        </fieldset>
-                    </div>
-                    <div class="form-group">
-                        <label for="cost" class="form-label-bold">Cost</label>
-
-                        <input id="cost"
-                               type="text"
-                               class="form-control">
-                        <p class="form-hint">eg £20</p>
-                    </div>
-
-                    <div class="form-group">
-                        <fieldset>
-
-                            <label for="add-another-train" class="block-label">
-                                <input id="add-another-train"
-                                       type="radio">
-                                Add another train journey
-                            </label>
-
-                        </fieldset>
-                    </div>
-
-                    <input type="submit" class="button">
-                </div>
-            </form>
-
+          <input id="departure-time"
+                 type="text"
+                 class="form-control">
+          <p class="form-hint">eg 10am</p>
         </div>
+
+        <div class="form-group">
+          <label for="from" class="form-label-bold">From</label>
+
+          <input id="from"
+                 type="text"
+                 class="form-control">
+          <p class="form-hint">eg Euston</p>
+        </div>
+
+        <div class="form-group">
+          <label for="destination" class="form-label-bold">To</label>
+
+          <input id="destination"
+                 type="text"
+                 class="form-control">
+          <p class="form-hint">eg Birmingham New Street</p>
+        </div>
+
+        <div class="form-group">
+
+          <label class="form-label-bold">Is this a return journey?</label>
+
+          <div class="form-group">
+            <fieldset>
+
+              <label for="Yes" class="block-label">
+                <input id="Yes"
+                       type="radio"
+                       value="Yes">
+                Yes
+              </label>
+              <label for="No" class="block-label">
+                <input id="No"
+                       type="radio"
+                       value="No">
+                No
+              </label>
+
+            </fieldset>
+          </div>
+          <div class="form-group">
+            <label for="cost" class="form-label-bold">Cost</label>
+
+            <input id="cost"
+                   type="text"
+                   class="form-control">
+            <p class="form-hint">eg £20</p>
+          </div>
+
+          <div class="form-group">
+            <fieldset>
+
+              <label for="add-another-train" class="block-label">
+                <input id="add-another-train"
+                       type="radio">
+                Add another train journey
+              </label>
+
+            </fieldset>
+          </div>
+
+          <input type="submit" class="button">
+        </div>
+      </form>
+
     </div>
+  </div>
 
 </main>
 

@@ -4,8 +4,8 @@ module.exports = {
   'assistance': 'journey assistance',
   'relationship': 'relationship',
   'Title': 'Title',
-  'FirstName': 'First Name',
-  'LastName': 'Last Name',
+  'FirstName': 'First name',
+  'LastName': 'Last name',
   'NationalInsuranceNumber': 'National Insurance number',
   'HouseNumberAndStreet': 'House number and street',
   'Town': 'Town',
@@ -15,10 +15,8 @@ module.exports = {
   'EmailAddress': 'Email address',
   'PhoneNumber': 'Phone number',
   'DateOfBirth': 'Date of birth',
-  'firstName': 'First name',
-  'lastName': 'Last name',
-  'prisonerNumber': 'Prisoner number',
-  'nameOfPrison': 'Name of prison',
+  'PrisonerNumber': 'Prisoner number',
+  'NameOfPrison': 'Name of prison',
   'AccountNumber': 'Account Number',
   'SortCode': 'Sort Code'
 }

@@ -2,16 +2,15 @@ const journeyAssistanceValidator = require('../../services/validators/eligibilit
 const UrlPathValidator = require('../../services/validators/url-path-validator')
 
 module.exports = function (router) {
-  router.get('/first-time/:dob/:relationship', function (req, res, next) {
+  router.get('/first-time/:dob/:relationship', function (req, res) {
     UrlPathValidator(req.params)
-    res.render('first-time/journey-assistance', {
+    return res.render('first-time/journey-assistance', {
       dob: req.params.dob,
       relationship: req.params.relationship
     })
-    next()
   })
 
-  router.post('/first-time/:dob/:relationship', function (req, res, next) {
+  router.post('/first-time/:dob/:relationship', function (req, res) {
     UrlPathValidator(req.params)
 
     var assistance = req.body['assistance']
@@ -21,11 +20,12 @@ module.exports = function (router) {
     var validationErrors = journeyAssistanceValidator(req.body)
 
     if (validationErrors) {
-      res.status(400).render('first-time/journey-assistance', { errors: validationErrors, dob: dob, relationship: relationship })
-      return next()
+      return res.status(400).render('first-time/journey-assistance', {
+        errors: validationErrors,
+        dob: dob,
+        relationship: relationship
+      })
     }
-
-    res.redirect('/first-time' + '/' + dob + '/' + relationship + '/' + assistance)
-    next()
+    return res.redirect(`/first-time/${dob}/${relationship}/${assistance}`)
   })
 }
