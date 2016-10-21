@@ -1,4 +1,4 @@
-var FieldValidator = require('../field-validator')
+const FieldValidator = require('../field-validator')
 const ErrorHandler = require('../error-handler')
 
 class AboutYouValidator {

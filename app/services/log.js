@@ -1,6 +1,6 @@
-var bunyan = require('bunyan')
-var PrettyStream = require('bunyan-prettystream')
-var logsPath = process.env.LOGGING_PATH || 'logs/external-web.log'
+const bunyan = require('bunyan')
+const PrettyStream = require('bunyan-prettystream')
+const logsPath = process.env.LOGGING_PATH || 'logs/external-web.log'
 
 // Stream to handle pretty printing of Bunyan logs to stdout.
 var prettyStream = new PrettyStream()

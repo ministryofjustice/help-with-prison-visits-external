@@ -1,11 +1,9 @@
 module.exports = function (router) {
-  router.get('/train-details', function (req, res, next) {
-    res.render('ux/claim/train-details')
-    next()
+  router.get('/train-details', function (req, res) {
+    return res.render('ux/claim/train-details')
   })
 
-  router.post('/train-details', function (req, res, next) {
-    res.redirect('taxi-details')
-    next()
+  router.post('/train-details', function (req, res) {
+    return res.redirect('taxi-details')
   })
 }
