@@ -1,12 +1,14 @@
-var express = require('express')
-var nunjucks = require('express-nunjucks')
-var path = require('path')
-var favicon = require('serve-favicon')
-var bodyParser = require('body-parser')
-var helmet = require('helmet')
-var compression = require('compression')
-var i18n = require('i18n')
-var routes = require('./routes/routes')
+const express = require('express')
+const nunjucks = require('express-nunjucks')
+const path = require('path')
+const favicon = require('serve-favicon')
+const bodyParser = require('body-parser')
+const helmet = require('helmet')
+const compression = require('compression')
+const i18n = require('i18n')
+const routes = require('./routes/routes')
+const log = require('./services/log')
+const onFinished = require('on-finished')
 
 var app = express()
 
@@ -58,36 +60,42 @@ i18n.configure({
 })
 app.use(i18n.init)
 
-// Build the router to be used for routing all HTTP request and pass to the routes file for route configuration.
+// Log each HTML request and it's response.
+app.use(function (req, res, next) {
+  // Log response started.
+  log.info({ request: req }, 'Route Started.')
+
+  // Log response finished.
+  onFinished(res, function () {
+    log.info({ response: res }, 'Route Complete.')
+  })
+
+  next()
+})
+
+// Build the router to route all HTTP requests and pass to the routes file for route configuration.
 var router = express.Router()
 routes(router)
 app.use('/', router)
 
 // catch 404 and forward to error handler.
 app.use(function (req, res, next) {
-  var err = new Error('Not Found')
+  var err = new Error('404 Page Not Found')
   err.status = 404
+  res.status(404)
   next(err)
 })
 
-// Error handlers.
-if (developmentMode) {
-  app.use(function (err, req, res, next) {
-    res.status(err.status || 500)
-    res.render('includes/error', {
-      message: err.message,
-      error: err
-    })
-  })
-}
-
-// Production error handler - no stack traces leaked to user.
+// Development error handler.
 app.use(function (err, req, res, next) {
   res.status(err.status || 500)
-  res.render('includes/error', {
-    message: err.message,
-    error: {}
-  })
+  if (err.status === 404) {
+    res.render('includes/error-404')
+  } else {
+    res.render('includes/error', {
+      error: developmentMode ? err : {}
+    })
+  }
 })
 
 module.exports = app

@@ -1,11 +1,9 @@
 module.exports = function (router) {
-  router.get('/profile', function (req, res, next) {
-    res.render('ux/claim/profile')
-    next()
+  router.get('/profile', function (req, res) {
+    return res.render('ux/claim/profile')
   })
 
-  router.post('/profile', function (req, res, next) {
-    res.redirect('confirm-your-details')
-    next()
+  router.post('/profile', function (req, res) {
+    return res.redirect('confirm-your-details')
   })
 }
