@@ -7,19 +7,19 @@ class AboutThePrisonerValidator {
   static validate (data) {
     var errors = ErrorHandler()
 
-    var firstName = data['firstName']
-    var lastName = data['lastName']
+    var firstName = data['FirstName']
+    var lastName = data['LastName']
     var dobDay = data['dob-day']
     var dobMonth = data['dob-month']
     var dobYear = data['dob-year']
-    var prisonerNumber = data['prisonerNumber']
-    var nameOfPrison = data['nameOfPrison']
+    var prisonerNumber = data['PrisonerNumber']
+    var nameOfPrison = data['NameOfPrison']
 
-    FieldValidator(firstName, 'firstName', errors)
+    FieldValidator(firstName, 'FirstName', errors)
       .isRequired()
       .isLessThanLength(100)
 
-    FieldValidator(lastName, 'lastName', errors)
+    FieldValidator(lastName, 'LastName', errors)
       .isRequired()
       .isLessThanLength(100)
 
@@ -36,11 +36,11 @@ class AboutThePrisonerValidator {
       .isValidDate(dob)
       .isPastDate(dob)
 
-    FieldValidator(prisonerNumber, 'prisonerNumber', errors)
+    FieldValidator(prisonerNumber, 'PrisonerNumber', errors)
       .isRequired()
       .isLessThanLength(10)
 
-    FieldValidator(nameOfPrison, 'nameOfPrison', errors)
+    FieldValidator(nameOfPrison, 'NameOfPrison', errors)
       .isRequired()
       .isLessThanLength(100)
 

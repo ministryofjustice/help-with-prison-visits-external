@@ -21,26 +21,26 @@
 
             <form action="/first-time/{{dob}}/{{relationship}}/{{assistance}}/{{requireBenefitUpload}}" method="post">
 
-                <div class="form-group {% if errors['firstName'][0] %} error {% endif %}">
-                    <label id="firstName" class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
-                    {% if errors['firstName'][0] %}
-                        <span class="error-message" id="error-message-firstName">{{ errors['firstName'][0] }}</span>
+                <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
+                    <label id="FirstName" class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
+                    {% if errors['FirstName'][0] %}
+                        <span class="error-message" id="error-message-FirstName">{{ errors['FirstName'][0] }}</span>
                     {% endif %}
                     <input id="prisoner-first-name"
-                           name="firstName"
-                           value="{{ prisoner['firstName'] }}"
+                           name="FirstName"
+                           value="{{ prisoner['FirstName'] }}"
                            type="text"
                            class="form-control">
                 </div>
 
-                <div class="form-group {% if errors['lastName'][0] %} error {% endif %}">
-                    <label id="lastName" class="form-label-bold" for="prisoner-last-name">Prisoner last name</label>
-                    {% if errors['lastName'][0] %}
-                        <span class="error-message" id="error-message-lastName">{{ errors['lastName'][0] }}</span>
+                <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
+                    <label id="LastName" class="form-label-bold" for="prisoner-last-name">Prisoner last name</label>
+                    {% if errors['LastName'][0] %}
+                        <span class="error-message" id="error-message-LastName">{{ errors['LastName'][0] }}</span>
                     {% endif %}
                     <input id="prisoner-last-name"
-                           name="lastName"
-                           value="{{ prisoner['lastName'] }}"
+                           name="LastName"
+                           value="{{ prisoner['LastName'] }}"
                            type="text"
                            class="form-control">
                 </div>
@@ -88,28 +88,28 @@
                     </fieldset>
                 </div>
 
-                <div class="form-group {% if errors['prisonerNumber'][0] %} error {% endif %}">
-                    <label id="prisonerNumber" class="form-label-bold" for="prisoner-number">Prisoner number</label>
+                <div class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
+                    <label id="PrisonerNumber" class="form-label-bold" for="prisoner-number">Prisoner number</label>
                     <p class="form-hint">eg A1234BC</p>
-                    {% if errors['prisonerNumber'][0] %}
-                        <span class="error-message" id="error-message-prisonerNumber">{{ errors['prisonerNumber'][0] }}</span>
+                    {% if errors['PrisonerNumber'][0] %}
+                        <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
                     {% endif %}
                     <input id="prisoner-number"
-                           name="prisonerNumber"
-                           value="{{ prisoner['prisonerNumber'] }}"
+                           name="PrisonerNumber"
+                           value="{{ prisoner['PrisonerNumber'] }}"
                            type="text"
                            class="form-control">
                 </div>
 
-                <div class="form-group {% if errors['nameOfPrison'][0] %} error {% endif %}">
-                    <label id="nameOfPrison" class="form-label-bold" for="prison-name">Name of the prison</label>
+                <div class="form-group {% if errors['NameOfPrison'][0] %} error {% endif %}">
+                    <label id="NameOfPrison" class="form-label-bold" for="prison-name">Name of the prison</label>
                     <p class="form-hint">eg Hewell</p>
-                    {% if errors['nameOfPrison'][0] %}
-                        <span class="error-message" id="error-message-nameOfPrison">{{ errors['nameOfPrison'][0] }}</span>
+                    {% if errors['NameOfPrison'][0] %}
+                        <span class="error-message" id="error-message-NameOfPrison">{{ errors['NameOfPrison'][0] }}</span>
                     {% endif %}
                     <input id="prison-name"
-                           name="nameOfPrison"
-                           value="{{ prisoner['nameOfPrison'] }}"
+                           name="NameOfPrison"
+                           value="{{ prisoner['NameOfPrison'] }}"
                            type="text"
                            class="form-control">
                 </div>
