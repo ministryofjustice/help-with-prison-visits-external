@@ -3,27 +3,25 @@ const dateFormatter = require('../../services/date-formatter')
 const moment = require('moment')
 
 module.exports = function (router) {
-  router.get('/first-time', function (req, res, next) {
-    res.render('first-time/date-of-birth')
-    next()
+  router.get('/first-time', function (req, res) {
+    return res.render('first-time/date-of-birth')
   })
 
-  router.post('/first-time', function (req, res, next) {
+  router.post('/first-time', function (req, res) {
     var validationErrors = DateOfBirthValidator(req.body)
 
     if (validationErrors) {
-      res.status(400).render('first-time/date-of-birth', { claimant: req.body, errors: validationErrors })
-      return next()
+      return res.status(400).render('first-time/date-of-birth', {
+        claimant: req.body,
+        errors: validationErrors })
     }
 
     var dobAsDateAndFormattedString = parseDobAsDateAndFormattedString(req)
 
     if (isSixteenOrUnder(dobAsDateAndFormattedString.date)) {
-      res.redirect('/eligibility-fail')
-      next()
+      return res.redirect('/eligibility-fail')
     } else {
-      res.redirect(`/first-time/${dobAsDateAndFormattedString.formattedString}`)
-      next()
+      return res.redirect(`/first-time/${dobAsDateAndFormattedString.formattedString}`)
     }
   })
 }
