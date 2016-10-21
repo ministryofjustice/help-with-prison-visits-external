@@ -8,50 +8,50 @@
 
 <main id="content" role="main">
 
-    {% include "includes/phase_banner_beta.html" %}
+  {% include "includes/phase_banner_beta.html" %}
 
-    <div class="grid-row">
-        <div class="column-two-thirds">
-            <h3 class="heading-large">
-                Reference number<br>
-                APVS1234
-            </h3>
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <h3 class="heading-large">
+        Reference number<br>
+        APVS1234
+      </h3>
 
-            <form action="profile" method="post">
-                <input type="submit" class="button">
-            </form>
+      <form action="profile" method="post">
+        <input type="submit" class="button">
+      </form>
 
-            <h3 class="heading-medium">
-                Your claim(s)
-            </h3>
+      <h3 class="heading-medium">
+        Your claim(s)
+      </h3>
 
-            <table>
-                <tr>
-                    <th>Date of claim</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td>20/09/16</td>
-                    <td>Pending</td>
-                    <td><a href="claim-details">View</a></td>
-                </tr>
-                <tr>
-                    <td>17/09/16</td>
-                    <td>More information required</td>
-                    <td><a href="claim-details" class="button">Add information</a></td>
-                </tr>
-                <tr>
-                    <td>12/09/16</td>
-                    <td>Complete</td>
-                    <td><a href="claim-details">View</a></td>
-                </tr>
-            </table>
+      <table>
+        <tr>
+          <th>Date of claim</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+        <tr>
+          <td>20/09/16</td>
+          <td>Pending</td>
+          <td><a href="claim-details">View</a></td>
+        </tr>
+        <tr>
+          <td>17/09/16</td>
+          <td>More information required</td>
+          <td><a href="claim-details" class="button">Add information</a></td>
+        </tr>
+        <tr>
+          <td>12/09/16</td>
+          <td>Complete</td>
+          <td><a href="claim-details">View</a></td>
+        </tr>
+      </table>
 
-        </div>
-        <div class="column-third">
-        </div>
     </div>
+    <div class="column-third">
+    </div>
+  </div>
 </main>
 
 {% endblock %}

@@ -8,105 +8,105 @@
 
 <main id="content" role="main">
 
-    {% include "includes/phase_banner_beta.html" %}
+  {% include "includes/phase_banner_beta.html" %}
 
-    <div class="grid-row">
-        <div class="column-two-thirds">
+  <div class="grid-row">
+    <div class="column-two-thirds">
 
-          {% include "includes/validation-error-messages.html" %}
+      {% include "includes/validation-error-messages.html" %}
 
-            <h2 id='relationship' class="heading-large">
-                What is your relationship with the person you're visiting?
-            </h2>
+      <h2 id='relationship' class="heading-large">
+        What is your relationship with the person you're visiting?
+      </h2>
 
-            {% if errors['relationship'][0] %}
-              <span class="error-message" id="error-message-relaionship">{{ errors['relationship'][0] }}</span>
-            {% endif %}
+      {% if errors['relationship'][0] %}
+      <span class="error-message" id="error-message-relaionship">{{ errors['relationship'][0] }}</span>
+      {% endif %}
 
-            <p>I am their:</p>
+      <p>I am their:</p>
 
-            <form action="/first-time/{{ dob }}" method="post">
-                <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
-                    <fieldset>
+      <form action="/first-time/{{ dob }}" method="post">
+        <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
+          <fieldset>
 
-                        <label class="block-label" data-target="close-relative-question">
-                            <input id="close-relative"
-                                   type="radio"
-                                   name="relationship"
-                                   value="husband-wife-civil">
+            <label class="block-label" data-target="close-relative-question">
+              <input id="close-relative"
+                     type="radio"
+                     name="relationship"
+                     value="husband-wife-civil">
 
-                            <span class="heading-small">Husband, wife or civil partner</span>
-                            <br>
-                        </label>
+              <span class="heading-small">Husband, wife or civil partner</span>
+              <br>
+            </label>
 
-                        <label class="block-label" data-target="partner-question">
-                            <input id="partner"
-                                   type="radio"
-                                   name="relationship"
-                                   value="partner">
-                            <span class="heading-small">Partner</span>
-                            <br>
-                            You were living together as a couple before they went to prison or remand
-                        </label>
+            <label class="block-label" data-target="partner-question">
+              <input id="partner"
+                     type="radio"
+                     name="relationship"
+                     value="partner">
+              <span class="heading-small">Partner</span>
+              <br>
+              You were living together as a couple before they went to prison or remand
+            </label>
 
-                        <label class="block-label" data-target="parent-question">
-                            <input id="parent"
-                                   type="radio"
-                                   name="relationship"
-                                   value="parent">
-                            <span class="heading-small">Parent</span>
-                            <br>
-                            Includes step-parent or adoptive parent
-                        </label>
+            <label class="block-label" data-target="parent-question">
+              <input id="parent"
+                     type="radio"
+                     name="relationship"
+                     value="parent">
+              <span class="heading-small">Parent</span>
+              <br>
+              Includes step-parent or adoptive parent
+            </label>
 
-                        <label class="block-label" data-target="sibling-question">
-                            <input id="sibling"
-                                   type="radio"
-                                   name="relationship"
-                                   value="sibling">
-                            <span class="heading-small">Brother or sister</span>
-                            <br>
-                            Includes half-sibling, or step-sibling
-                        </label>
+            <label class="block-label" data-target="sibling-question">
+              <input id="sibling"
+                     type="radio"
+                     name="relationship"
+                     value="sibling">
+              <span class="heading-small">Brother or sister</span>
+              <br>
+              Includes half-sibling, or step-sibling
+            </label>
 
-                        <label class="block-label" data-target="child-question">
-                            <input id="child"
-                                   type="radio"
-                                   name="relationship"
-                                   value="child">
-                            <span class="heading-small">Son or daughter</span>
-                            <br>
-                            Includes step- or adopted son or daughter
-                        </label>
+            <label class="block-label" data-target="child-question">
+              <input id="child"
+                     type="radio"
+                     name="relationship"
+                     value="child">
+              <span class="heading-small">Son or daughter</span>
+              <br>
+              Includes step- or adopted son or daughter
+            </label>
 
-                        <label class="block-label">
-                            <input id="sole-visitor"
-                                   type="radio"
-                                   name="relationship"
-                                   value="sole-visitor">
-                            <span class="heading-small">Sole Visitor</span>
-                            <br>
-                            You are their only visitor for the next 4 weeks
-                        </label>
+            <label class="block-label">
+              <input id="sole-visitor"
+                     type="radio"
+                     name="relationship"
+                     value="sole-visitor">
+              <span class="heading-small">Sole Visitor</span>
+              <br>
+              You are their only visitor for the next 4 weeks
+            </label>
 
-                        <label for="other" class="block-label" data-target="other-question">
-                            <input id="other"
-                                   type="radio"
-                                   name="relationship"
-                                   value="none">
-                            <span class="heading-small">None of the above</span>
-                            <br>
-                        </label>
+            <label for="other" class="block-label" data-target="other-question">
+              <input id="other"
+                     type="radio"
+                     name="relationship"
+                     value="none">
+              <span class="heading-small">None of the above</span>
+              <br>
+            </label>
 
-                    </fieldset>
-
-                </div>
-
-                <input id="prisoner-relationship-submit" type="submit" class="button" value="Continue">
-            </form>
+          </fieldset>
 
         </div>
+
+        <input id="prisoner-relationship-submit" type="submit" class="button" value="Continue">
+      </form>
+
     </div>
+  </div>
 
 </main>
 

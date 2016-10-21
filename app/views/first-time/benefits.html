@@ -8,108 +8,108 @@
 
 <main id="content" role="main">
 
-    {% include "includes/phase_banner_beta.html" %}
+  {% include "includes/phase_banner_beta.html" %}
 
-    <div class="grid-row">
-        <div class="column-two-thirds">
+  <div class="grid-row">
+    <div class="column-two-thirds">
 
-          {% include "includes/validation-error-messages.html" %}
+      {% include "includes/validation-error-messages.html" %}
 
-            <h2 id="benefit" class="heading-large">
-                Do you claim or receive any of the following?
-            </h2>
+      <h2 id="benefit" class="heading-large">
+        Do you claim or receive any of the following?
+      </h2>
 
-            <p>Please select from the following options:</p>
+      <p>Please select from the following options:</p>
 
-            {% if errors['benefit'][0] %}
-              <span class="error-message" id="error-message-benefit">{{ errors['benefit'][0] }}</span>
-            {% endif %}
+      {% if errors['benefit'][0] %}
+      <span class="error-message" id="error-message-benefit">{{ errors['benefit'][0] }}</span>
+      {% endif %}
 
-            <form action="/first-time/{{ dob }}/{{ relationship }}/{{ assistance }}" method="post">
-                <div class="form-group {% if errors['benefit'][0] %} error {% endif %}">
-                    <fieldset>
+      <form action="/first-time/{{ dob }}/{{ relationship }}/{{ assistance }}" method="post">
+        <div class="form-group {% if errors['benefit'][0] %} error {% endif %}">
+          <fieldset>
 
-                        <label for="income-support" class="block-label">
-                            <input id="income-support"
-                                   type="radio"
-                                   name="benefit"
-                                   value="no">
-                            Income Support
-                        </label>
+            <label for="income-support" class="block-label">
+              <input id="income-support"
+                     type="radio"
+                     name="benefit"
+                     value="no">
+              Income Support
+            </label>
 
-                        <label for="jobseekers-allowance" class="block-label">
-                            <input id="jobseekers-allowance"
-                                   type="radio"
-                                   name="benefit"
-                                   value="no">
-                            Jobseeker’s Allowance (Income based)
-                        </label>
+            <label for="jobseekers-allowance" class="block-label">
+              <input id="jobseekers-allowance"
+                     type="radio"
+                     name="benefit"
+                     value="no">
+              Jobseeker’s Allowance (Income based)
+            </label>
 
-                        <label for="employment-and-support-allowance" class="block-label">
-                            <input id="employment-and-support-allowance"
-                                   type="radio"
-                                   name="benefit"
-                                   value="no">
-                            Employment and Support Allowance (Income related)
-                        </label>
+            <label for="employment-and-support-allowance" class="block-label">
+              <input id="employment-and-support-allowance"
+                     type="radio"
+                     name="benefit"
+                     value="no">
+              Employment and Support Allowance (Income related)
+            </label>
 
-                        <label for="universal-credit" class="block-label">
-                            <input id="universal-credit"
-                                   type="radio"
-                                   name="benefit"
-                                   value="no">
-                            Universal Credit (and you earn less than £1,250 a month)
-                        </label>
+            <label for="universal-credit" class="block-label">
+              <input id="universal-credit"
+                     type="radio"
+                     name="benefit"
+                     value="no">
+              Universal Credit (and you earn less than £1,250 a month)
+            </label>
 
-                        <label for="pension-credit" class="block-label">
-                            <input id="pension-credit"
-                                   type="radio"
-                                   name="benefit"
-                                   value="yes">
-                            Pension Credit
-                        </label>
+            <label for="pension-credit" class="block-label">
+              <input id="pension-credit"
+                     type="radio"
+                     name="benefit"
+                     value="yes">
+              Pension Credit
+            </label>
 
-                        <label for="working-or-child-tax-credits" class="block-label">
-                            <input id="working-or-child-tax-credits"
-                                   type="radio"
-                                   name="benefit"
-                                   value="yes">
-                            Working Tax credits or Child tax credit with disability (and you earn less than £17,474 a
-                            year)
-                        </label>
+            <label for="working-or-child-tax-credits" class="block-label">
+              <input id="working-or-child-tax-credits"
+                     type="radio"
+                     name="benefit"
+                     value="yes">
+              Working Tax credits or Child tax credit with disability (and you earn less than £17,474 a
+              year)
+            </label>
 
-                        <label for="health-certificate2" class="block-label">
-                            <input id="health-certificate2"
-                                   type="radio"
-                                   name="benefit"
-                                   value="yes">
-                            Health Certificate (HC2)
-                        </label>
+            <label for="health-certificate2" class="block-label">
+              <input id="health-certificate2"
+                     type="radio"
+                     name="benefit"
+                     value="yes">
+              Health Certificate (HC2)
+            </label>
 
-                        <label for="health-certificate3" class="block-label">
-                            <input id="health-certificate3"
-                                   type="radio"
-                                   name="benefit"
-                                   value="yes">
-                            Health Certificate (HC3)
-                        </label>
+            <label for="health-certificate3" class="block-label">
+              <input id="health-certificate3"
+                     type="radio"
+                     name="benefit"
+                     value="yes">
+              Health Certificate (HC3)
+            </label>
 
-                        <label for="none-of-the-above" class="block-label">
-                            <input id="none-of-the-above"
-                                   type="radio"
-                                   name="benefit"
-                                   value="none">
-                            None of the above
-                        </label>
+            <label for="none-of-the-above" class="block-label">
+              <input id="none-of-the-above"
+                     type="radio"
+                     name="benefit"
+                     value="none">
+              None of the above
+            </label>
 
-                    </fieldset>
-                </div>
-
-                <input id="benefit-submit" type="submit" class="button">
-            </form>
-
+          </fieldset>
         </div>
+
+        <input id="benefit-submit" type="submit" class="button">
+      </form>
+
     </div>
+  </div>
 
 </main>
 
