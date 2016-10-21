@@ -8,117 +8,117 @@
 
 <main id="content" role="main">
 
-    {% include "includes/phase_banner_beta.html" %}
+  {% include "includes/phase_banner_beta.html" %}
 
-    <div class="grid-row">
-        <div class="column-two-thirds">
+  <div class="grid-row">
+    <div class="column-two-thirds">
 
-            {% include "includes/validation-error-messages.html" %}
+      {% include "includes/validation-error-messages.html" %}
 
-            <h2 class="heading-large">
-                About the person you're visiting
-            </h2>
+      <h2 class="heading-large">
+        About the person you're visiting
+      </h2>
 
-            <form action="/first-time/{{dob}}/{{relationship}}/{{assistance}}/{{requireBenefitUpload}}" method="post">
+      <form action="/first-time/{{dob}}/{{relationship}}/{{assistance}}/{{requireBenefitUpload}}" method="post">
 
-                <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
-                    <label id="FirstName" class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
-                    {% if errors['FirstName'][0] %}
-                        <span class="error-message" id="error-message-FirstName">{{ errors['FirstName'][0] }}</span>
-                    {% endif %}
-                    <input id="prisoner-first-name"
-                           name="FirstName"
-                           value="{{ prisoner['FirstName'] }}"
-                           type="text"
-                           class="form-control">
-                </div>
-
-                <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-                    <label id="LastName" class="form-label-bold" for="prisoner-last-name">Prisoner last name</label>
-                    {% if errors['LastName'][0] %}
-                        <span class="error-message" id="error-message-LastName">{{ errors['LastName'][0] }}</span>
-                    {% endif %}
-                    <input id="prisoner-last-name"
-                           name="LastName"
-                           value="{{ prisoner['LastName'] }}"
-                           type="text"
-                           class="form-control">
-                </div>
-
-                <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
-                    <fieldset>
-                        <legend id="dob" class="form-label-bold">Prisoner date of birth</legend>
-
-                        {% if errors['dob'][0] %}
-                            <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
-                        {% endif %}
-
-                        <div class="form-date">
-
-                            <p class="form-hint">eg 18 08 1989</p>
-
-                            <div class="form-group form-group-day">
-                                <label for="dob-day">Day</label>
-                                <input id="dob-day"
-                                       name="dob-day"
-                                       value="{{ prisoner['dob-day'] }}"
-                                       type="number"
-                                       class="form-control">
-                            </div>
-
-                            <div class="form-group form-group-month">
-                                <label for="dob-month">Month</label>
-                                <input id="dob-month"
-                                       name="dob-month"
-                                       value="{{ prisoner['dob-month'] }}"
-                                       type="number"
-                                       class="form-control">
-                            </div>
-
-                            <div class="form-group form-group-year">
-                                <label for="dob-year">Year</label>
-                                <input id="dob-year"
-                                       name="dob-year"
-                                       value="{{ prisoner['dob-year'] }}"
-                                       type="number"
-                                       class="form-control">
-                            </div>
-                        </div>
-
-                    </fieldset>
-                </div>
-
-                <div class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
-                    <label id="PrisonerNumber" class="form-label-bold" for="prisoner-number">Prisoner number</label>
-                    <p class="form-hint">eg A1234BC</p>
-                    {% if errors['PrisonerNumber'][0] %}
-                        <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
-                    {% endif %}
-                    <input id="prisoner-number"
-                           name="PrisonerNumber"
-                           value="{{ prisoner['PrisonerNumber'] }}"
-                           type="text"
-                           class="form-control">
-                </div>
-
-                <div class="form-group {% if errors['NameOfPrison'][0] %} error {% endif %}">
-                    <label id="NameOfPrison" class="form-label-bold" for="prison-name">Name of the prison</label>
-                    <p class="form-hint">eg Hewell</p>
-                    {% if errors['NameOfPrison'][0] %}
-                        <span class="error-message" id="error-message-NameOfPrison">{{ errors['NameOfPrison'][0] }}</span>
-                    {% endif %}
-                    <input id="prison-name"
-                           name="NameOfPrison"
-                           value="{{ prisoner['NameOfPrison'] }}"
-                           type="text"
-                           class="form-control">
-                </div>
-
-                <input id="about-the-prisoner-submit" type="submit" class="button" value="Continue">
-            </form>
-
+        <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
+          <label id="FirstName" class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
+          {% if errors['FirstName'][0] %}
+          <span class="error-message" id="error-message-FirstName">{{ errors['FirstName'][0] }}</span>
+          {% endif %}
+          <input id="prisoner-first-name"
+                 name="FirstName"
+                 value="{{ prisoner['FirstName'] }}"
+                 type="text"
+                 class="form-control">
         </div>
+
+        <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
+          <label id="LastName" class="form-label-bold" for="prisoner-last-name">Prisoner last name</label>
+          {% if errors['LastName'][0] %}
+          <span class="error-message" id="error-message-LastName">{{ errors['LastName'][0] }}</span>
+          {% endif %}
+          <input id="prisoner-last-name"
+                 name="LastName"
+                 value="{{ prisoner['LastName'] }}"
+                 type="text"
+                 class="form-control">
+        </div>
+
+        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
+          <fieldset>
+            <legend id="dob" class="form-label-bold">Prisoner date of birth</legend>
+
+            {% if errors['dob'][0] %}
+            <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
+            {% endif %}
+
+            <div class="form-date">
+
+              <p class="form-hint">eg 18 08 1989</p>
+
+              <div class="form-group form-group-day">
+                <label for="dob-day">Day</label>
+                <input id="dob-day"
+                       name="dob-day"
+                       value="{{ prisoner['dob-day'] }}"
+                       type="number"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-month">
+                <label for="dob-month">Month</label>
+                <input id="dob-month"
+                       name="dob-month"
+                       value="{{ prisoner['dob-month'] }}"
+                       type="number"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-year">
+                <label for="dob-year">Year</label>
+                <input id="dob-year"
+                       name="dob-year"
+                       value="{{ prisoner['dob-year'] }}"
+                       type="number"
+                       class="form-control">
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+
+        <div class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
+          <label id="PrisonerNumber" class="form-label-bold" for="prisoner-number">Prisoner number</label>
+          <p class="form-hint">eg A1234BC</p>
+          {% if errors['PrisonerNumber'][0] %}
+          <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
+          {% endif %}
+          <input id="prisoner-number"
+                 name="PrisonerNumber"
+                 value="{{ prisoner['PrisonerNumber'] }}"
+                 type="text"
+                 class="form-control">
+        </div>
+
+        <div class="form-group {% if errors['NameOfPrison'][0] %} error {% endif %}">
+          <label id="NameOfPrison" class="form-label-bold" for="prison-name">Name of the prison</label>
+          <p class="form-hint">eg Hewell</p>
+          {% if errors['NameOfPrison'][0] %}
+          <span class="error-message" id="error-message-NameOfPrison">{{ errors['NameOfPrison'][0] }}</span>
+          {% endif %}
+          <input id="prison-name"
+                 name="NameOfPrison"
+                 value="{{ prisoner['NameOfPrison'] }}"
+                 type="text"
+                 class="form-control">
+        </div>
+
+        <input id="about-the-prisoner-submit" type="submit" class="button" value="Continue">
+      </form>
+
     </div>
+  </div>
 
 </main>
 

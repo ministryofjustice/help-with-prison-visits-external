@@ -8,50 +8,50 @@
 
 <main id="content" role="main">
 
-    {% include "includes/phase_banner_beta.html" %}
+  {% include "includes/phase_banner_beta.html" %}
 
-    <div class="grid-row">
-        <div class="column-two-thirds">
+  <div class="grid-row">
+    <div class="column-two-thirds">
 
-            {% include "includes/validation-error-messages.html" %}
+      {% include "includes/validation-error-messages.html" %}
 
-            <h2 class="heading-large">
-                Enter your bank account details to receive payment
-            </h2>
+      <h2 class="heading-large">
+        Enter your bank account details to receive payment
+      </h2>
 
-            <h3 class="heading-small">Bank Details</h3>
-            <p>We don’t store this information. You will need to enter this for each claim you make</p>
+      <h3 class="heading-small">Bank Details</h3>
+      <p>We don’t store this information. You will need to enter this for each claim you make</p>
 
-            <form action="bank-account-details" method="post">
-                <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
-                    <label id="AccountNumber" class="form-label-bold" for="account-number">Account Number</label>
-                    {% if errors['AccountNumber'][0] %}
-                        <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
-                    {% endif %}
-                    <input id="account-number-input"
-                           name="AccountNumber"
-                           type="text"
-                           class="form-control"
-                           value="{{ bankDetails['AccountNumber'] }}">
-                </div>
-
-                <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
-                    <label id="SortCode" class="form-label-bold" for="sort-code">Sort Code</label>
-                    {% if errors['SortCode'][0] %}
-                        <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
-                    {% endif %}
-                    <input id="sort-code-input"
-                           name="SortCode"
-                           type="text"
-                           class="form-control"
-                           value="{{ bankDetails['SortCode'] }}">
-                </div>
-
-                <input type="submit" class="button">
-            </form>
-
+      <form action="bank-account-details" method="post">
+        <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
+          <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account Number</label>
+          {% if errors['AccountNumber'][0] %}
+          <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
+          {% endif %}
+          <input id="account-number-input"
+                 name="AccountNumber"
+                 type="text"
+                 class="form-control"
+                 value="{{ bankDetails['AccountNumber'] }}">
         </div>
+
+        <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
+          <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort Code</label>
+          {% if errors['SortCode'][0] %}
+          <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
+          {% endif %}
+          <input id="sort-code-input"
+                 name="SortCode"
+                 type="text"
+                 class="form-control"
+                 value="{{ bankDetails['SortCode'] }}">
+        </div>
+
+        <input type="submit" class="button">
+      </form>
+
     </div>
+  </div>
 
 </main>
 
