@@ -29,7 +29,7 @@ module.exports = {
     },
     migrations: {
       tableName: 'knex_ext_migrations'
-    },
-    debug: true
+    }
+    // , debug: true // Uncomment to see knex generated SQL
   }
 }
