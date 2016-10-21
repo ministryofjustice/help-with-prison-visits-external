@@ -60,7 +60,12 @@ describe('First time claim flow', () => {
       .setValue('#phone-number-input', '0123456789')
       .click('#about-you-submit')
 
-      // Application Submitted
-      .waitForExist('#reference')
+      // Future or past visit
+      .waitForExist('#future-or-past-submit')
+      .click('#past')
+      .click('#future-or-past-submit')
+
+      // Journey Information
+      .waitForExist('#journey-information-submit')
   })
 })

@@ -12,12 +12,18 @@ var routes = [
   require('./application-submitted'),
 
   // First Time Flow.
+  // TODO refactor route to start from /first-time/new-eligibility/
   require('./first-time/date-of-birth.js'),
   require('./first-time/prisoner-relationship'),
   require('./first-time/journey-assistance'),
   require('./first-time/benefits'),
   require('./first-time/about-the-prisoner.js'),
+  // TODO refactor route to start from /first-time/eligibility/:reference with additional values in query string
   require('./first-time/about-you.js'),
+  // TODO refactor route to start from /first-time/eligibility/:reference/new-claim
+  require('./first-time/eligibility/new-claim/future-or-past-visit.js'),
+  require('./first-time/eligibility/new-claim/journey-information.js'),
+  // TODO all routes after this /first-time/eligibility/:reference/claim/:claim-ref
 
   // Health check routes
   require('./health-check/status'),

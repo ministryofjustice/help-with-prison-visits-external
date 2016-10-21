@@ -40,7 +40,7 @@ module.exports = function (router) {
 
     visitor.insert(req.params.reference, visitorData)
       .then(function () {
-        res.redirect(`/application-submitted/${req.params.reference}`)
+        res.redirect(`/first-time-claim/eligibility/${req.params.reference}/new-claim`)
         next()
       })
       .catch(function (error) {

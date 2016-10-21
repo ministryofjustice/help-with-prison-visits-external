@@ -1,0 +1,67 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+  <main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Are you claiming for a future or past visit?
+      </h2>
+
+      <p>I'm claiming for</p>
+
+      <form action="/first-time-claim/eligibility/{{reference}}/new-claim" method="post" class="form">
+
+        <div class="form-group">
+          <fieldset>
+            <label class="block-label">
+              <input type="radio"
+                     name="future-past"
+                     value="past"
+                     id="past"
+                     checked>
+              a visit I have already made
+            </label>
+
+          </fieldset>
+        </div>
+
+        <div class="form-group">
+          <fieldset>
+            <label class="block-label">
+              <input type="radio"
+                     name="future-past"
+                     value="future"
+                     id="future">
+              a visit I will make in the future
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="form-group">
+          <input type="submit"
+                 id="future-or-past-submit"
+                 name="commit"
+                 value="Continue"
+                 class="button">
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  </main>
+
+{% endblock %}
