@@ -23,6 +23,7 @@ var routes = [
   require('./first-time/eligibility/new-claim/future-or-past-visit.js'),
   require('./first-time/eligibility/new-claim/journey-information.js'),
   // TODO all routes after this /first-time/eligibility/:reference/claim/:claim-ref
+  require('./first-time/eligibility/new-claim/expenses'),
 
   // Health check routes
   require('./health-check/status'),
@@ -30,9 +31,6 @@ var routes = [
   // These are temporary UX routes.
   require('./ux/file-upload'),
   require('./ux/eligibility/confirm-your-details'),
-  require('./ux/claim/your-journey'),
-  require('./ux/claim/transport'),
-  require('./ux/claim/additional-expenses'),
   require('./ux/claim/light-refreshment-details'),
   require('./ux/claim/claim-summary'),
   require('./ux/claim/car-details'),

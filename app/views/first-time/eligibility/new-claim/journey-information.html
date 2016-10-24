@@ -6,7 +6,7 @@
 
 {% block content %}
 
-  <main id="content" role="main">
+<main id="content" role="main">
 
   {% include "includes/phase_banner_beta.html" %}
 
@@ -15,16 +15,96 @@
 
       {% include "includes/validation-error-messages.html" %}
 
-      <!-- TODO stub -->
       <h2 class="heading-large">
         Your journey information
       </h2>
 
-      <input id="journey-information-submit" type="submit" class="button" value="Continue">
+      <form action="/first-time-claim/eligibility/{{reference}}/new-claim/past" method="post" class="form">
+
+        <div class="form-group">
+          <fieldset>
+            <legend class="form-label-bold">Date of prision visit</legend>
+
+            <div class="form-date">
+
+              <p class="form-hint">For example, 20 10 2016</p>
+
+              <div class="form-group form-group-day">
+                <label for="dob-day">Day</label>
+                <input id="dob-day"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-month">
+                <label for="dob-month">Month</label>
+                <input id="dob-month"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-year">
+                <label for="dob-year">Year</label>
+                <input id="dob-year"
+                       class="form-control">
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+
+        <label class="form-label-bold">Did you use an escort for this journey?</label>
+        <p class="form-hint">An escort is someone that helped you get to the prison but did not visit the prisoner</p>
+
+        <div class="form-group">
+          <fieldset>
+
+            <label for="escort-yes" class="block-label inline">
+              <input id="escort-yes"
+                     type="radio"
+                     name="escort"
+                     value="yes">
+              Yes
+            </label>
+            <label for="escort-no" class="block-label inline">
+              <input id="escort-no"
+                     type="radio"
+                     name="escort"
+                     value="no">
+              No
+            </label>
+
+          </fieldset>
+        </div>
+
+        <label class="form-label-bold">Did you bring any children on this visit?</label>
+        <p class="form-hint"></p>
+
+        <div class="form-group">
+          <fieldset>
+
+            <label for="children-yes" class="block-label inline">
+              <input id="children-yes"
+                     type="radio"
+                     name="children"
+                     value="yes">
+              Yes
+            </label>
+            <label for="children-no" class="block-label inline">
+              <input id="children-no"
+                     type="radio"
+                     name="children"
+                     value="no">
+              No
+            </label>
+
+          </fieldset>
+        </div>
+
+        <input id="journey-information-submit" type="submit" class="button" value="Continue">
+      </form>
 
     </div>
   </div>
 
-  </main>
+</main>
 
 {% endblock %}
