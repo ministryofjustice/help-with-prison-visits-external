@@ -1,6 +1,8 @@
 const validator = require('./common-validator')
 const VALIDATION_ERROR = new Error('An error has occured')
 
+// TODO: Add a validation check on the claim paramater.
+
 /**
  * A validator for validating URL path paramaeters.
  * Takes the param property of a HTTP request as input.
