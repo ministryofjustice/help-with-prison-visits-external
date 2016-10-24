@@ -1,0 +1,30 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+  <main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <!-- TODO stub -->
+      <h2 class="heading-large">
+        Your journey information
+      </h2>
+
+      <input id="journey-information-submit" type="submit" class="button" value="Continue">
+
+    </div>
+  </div>
+
+  </main>
+
+{% endblock %}

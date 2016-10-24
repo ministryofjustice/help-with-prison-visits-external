@@ -7,7 +7,7 @@ module.exports = function (router) {
     if (req.body['details-changed'] === 'Yes') {
       return res.redirect('first-time')
     } else {
-      return res.redirect('visit-type')
+      return res.redirect('claim-details')
     }
   })
 }

@@ -56,7 +56,7 @@ describe('routes/first-time/about-you', function () {
           expect(urlValidatorCalled).to.be.true
           expect(stubAboutYouValidator.calledOnce).to.be.true
           expect(stubInsert.calledOnce).to.be.true
-          expect(response.header.location).to.equal(`/application-submitted/${reference}`)
+          expect(response.header.location).to.equal(`/first-time-claim/eligibility/${reference}/new-claim`)
           done()
         })
     })
