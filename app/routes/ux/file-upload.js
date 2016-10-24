@@ -4,6 +4,6 @@ module.exports = function (router) {
   })
 
   router.post('/file-upload', function (req, res) {
-    return res.redirect('visit-type')
+    return res.redirect('claim-details')
   })
 }
