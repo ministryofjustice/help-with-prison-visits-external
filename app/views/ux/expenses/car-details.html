@@ -1,0 +1,93 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Add Car/Motorcyle journey information
+      </h2>
+
+      <p>
+        Car travel is calculated automatically based on the shortest distance for a return journey from your address
+        to the Visitor Centre.
+
+        This is paid at 13p per mile.
+
+        You may also add toll or parking charges you had to pay.
+      </p>
+
+      <form action="car-details" method="post">
+
+        <div class="form-group">
+          <label class="form-label-bold">From</label>
+          {{ from }}
+        </div>
+
+        <div class="form-group">
+          <label class="form-label-bold">To</label>
+          {{ to }}
+        </div>
+
+        <fieldset>
+          <label for="toll" data-target="toll-question" class="block-label">
+            <input id="toll"
+                   type="radio"
+                   name="toll"
+                   value="yes">
+            Add toll charge
+          </label>
+
+          <div id="toll-question" class="panel panel-border-narrow js-hidden">
+            <label for="toll-cost" class="form-label">Cost</label>
+            <input id="toll-cost"
+                   type="text"
+                   name="toll-cost"
+                   class="form-control">
+          </div>
+
+          <label for="parking-charge" data-target="parking-charge-question" class="block-label">
+            <input id="parking-charge"
+                   type="radio"
+                   name="parking-charge"
+                   value="yes">
+            Add parking charge
+          </label>
+
+          <div id="parking-charge-question" class="panel panel-border-narrow js-hidden">
+            <label for="parking-charge-cost" class="form-label">
+              Cost
+            </label>
+            <input id="parking-charge-cost"
+                   type="text"
+                   name="parking-charge-cost"
+                   class="form-control">
+          </div>
+
+        </fieldset>
+
+        <br/>
+
+        <input id="car-details-submit"
+               type="submit"
+               class="button"
+               value="Continue">
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

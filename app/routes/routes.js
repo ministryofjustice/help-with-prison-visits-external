@@ -31,13 +31,20 @@ var routes = [
   // These are temporary UX routes.
   require('./ux/file-upload'),
   require('./ux/eligibility/confirm-your-details'),
-  require('./ux/claim/light-refreshment-details'),
   require('./ux/claim/claim-summary'),
-  require('./ux/claim/car-details'),
-  require('./ux/claim/taxi-details'),
-  require('./ux/claim/train-details'),
   require('./ux/claim/profile'),
   require('./ux/claim/claim-details'),
+
+  // Expenses
+  require('./ux/expenses/car-details'),
+  require('./ux/expenses/car-hire-details'),
+  require('./ux/expenses/bus-details'),
+  require('./ux/expenses/train-details'),
+  require('./ux/expenses/taxi-details'),
+  require('./ux/expenses/plane-details'),
+  require('./ux/expenses/ferry-details'),
+  require('./ux/expenses/light-refreshment-details'),
+  require('./ux/expenses/accommodation-details'),
 
   // These are temporary development routes included for demonstration only. TODO THESE SHOULD BE REMOVED
   require('./dev/display-data-for-reference'),

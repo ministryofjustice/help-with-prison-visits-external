@@ -1,0 +1,55 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Add Accommodation information
+      </h2>
+
+      <p>Before claiming assistance for a Accommodation, you must contact the Assisted Prison Visits Unit.</p>
+
+      <form action="accommodation-details" method="post">
+
+        <div class="form-group">
+          <label for="number-of-nights" class="form-label-bold">Number of nights</label>
+          <input id="number-of-nights"
+                 type="text"
+                 name="number-of-nights"
+                 class="form-control">
+          <p class="form-hint">eg 1</p>
+        </div>
+
+        <div class="form-group">
+          <label for="cost" class="form-label-bold">Cost</label>
+          <input id="cost"
+                 type="text"
+                 name="cost"
+                 class="form-control">
+          <p class="form-hint">eg £50</p>
+        </div>
+
+        <input id="accommodation-details-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

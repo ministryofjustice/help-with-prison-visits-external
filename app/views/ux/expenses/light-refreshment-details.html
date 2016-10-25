@@ -1,0 +1,87 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Add light refreshment information
+
+      </h2>
+
+      <p> A contribution to the cost of light refreshments may apply where your visit caused you to be away from home
+        for over 5 hours. This is the time it took you to travel to the prison and return home afterwards.</p>
+
+      <p>A limit of £2.55 applies to visits over 5 hours, and £5.10 for visits over 10 hours.</p>
+
+      <p>Receipts should be held in case these are needed later on.</p>
+
+      <form action="light-refreshment-details" method="post">
+
+        <div class="form-group">
+
+          <fieldset>
+
+            <h2 class="form-label-bold">Travel time</h2>
+
+            <label for="travel-time-up-to-five" class="block-label">
+              <input id="travel-time-up-to-five"
+                     type="radio"
+                     name="travel-time"
+                     value="up-to-five">
+              Up to 5 hours
+            </label>
+
+            <label for="travel-time-over-five" class="block-label">
+              <input id="travel-time-over-five"
+                     type="radio"
+                     name="travel-time"
+                     value="over-five">
+              Over 5 hours
+            </label>
+
+            <label for="travel-time-over-ten" class="block-label">
+              <input id="travel-time-over-ten"
+                     type="radio"
+                     name="travel-time"
+                     value="over-ten">
+              Over 10 hours
+            </label>
+
+          </fieldset>
+
+        </div>
+
+        <div class="form-group">
+          <label for="cost" class="form-label-bold">Cost</label>
+          <input id="cost"
+                 type="text"
+                 name="cost"
+                 class="form-control">
+          <p class="form-hint">eg £5</p>
+        </div>
+
+        <input id="light-refreshment-details-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

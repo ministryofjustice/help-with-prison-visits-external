@@ -1,0 +1,79 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Add car hire information
+      </h2>
+
+      <p>Car hire is paid on the basis of a receipt (up to a limit of £40 per day or the equivalent public transport
+        option, whichever is cheaper).</p>
+
+      <p>A mileage allowance of 13p per mile will also be paid based on the shortest return journey. </p>
+
+      <form action="car-hire-details" method="post">
+
+        <div class="form-group">
+          <label for="number-of-days" class="form-label-bold">Number of days</label>
+          <input id="number-of-days"
+                 type="text"
+                 name="number-of-days"
+                 class="form-control">
+          <p class="form-hint">eg 1</p>
+        </div>
+
+        <div class="form-group">
+          <label for="from" class="form-label-bold">From</label>
+          <input id="from"
+                 type="text"
+                 name="from"
+                 class="form-control">
+          <p class="form-hint">eg Euston</p>
+        </div>
+
+        <div class="form-group">
+          <label for="to" class="form-label-bold">To</label>
+          <input id="to"
+                 type="text"
+                 name="to"
+                 class="form-control">
+          <p class="form-hint">eg Birmingham New Street</p>
+        </div>
+
+        <div class="form-group">
+
+          <div class="form-group">
+            <label for="cost" class="form-label-bold">Rental cost</label>
+            <input id="cost"
+                   type="text"
+                   name="cost"
+                   class="form-control">
+            <p class="form-hint">eg £20</p>
+          </div>
+
+          <input id="car-hire-details-submit"
+                 type="submit"
+                 value="Continue"
+                 class="button">
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}
