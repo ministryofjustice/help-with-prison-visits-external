@@ -14,7 +14,8 @@ describe('services/data/bank-account-details', function () {
         Reference: reference,
         DateCreated: moment().toDate(),
         Status: 'TEST'
-      }).then(function () {
+      })
+      .then(function () {
         return knex('ExtSchema.Claim').insert({
           Reference: reference,
           DateOfJourney: moment().toDate(),

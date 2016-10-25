@@ -7,7 +7,6 @@ var routes = [
   require('./eligibility-requirements'),
   require('./start'),
   require('./eligibility-fail'),
-  require('./payment/bank-account-details'),
   require('./application-submitted'),
 
   // First Time Flow.
@@ -24,6 +23,7 @@ var routes = [
   require('./first-time/eligibility/new-claim/journey-information.js'),
   // TODO all routes after this /first-time/eligibility/:reference/claim/:claim-ref
   require('./first-time/eligibility/claim/expenses'),
+  require('./first-time/eligibility/claim/bank-account-details'),
 
   // Health check routes
   require('./health-check/status'),
