@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-{% if serviceName %} {{ serviceName }} {% endif %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -13,64 +13,97 @@
   <div class="grid-row">
     <div class="column-two-thirds">
 
+      {% include "includes/validation-error-messages.html" %}
+
       <h2 class="heading-large">
         What type(s) of transport did you use?
       </h2>
 
       <p>You can select more than one mode of transport.</p>
 
-      <form action="transport" method="post">
+      <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claim}}" method="post">
         <div class="form-group">
+
           <fieldset>
 
             <label class="block-label">
               <input id="car"
                      type="checkbox"
                      name="category"
-                     value="Car">
-              Car
+                     value="car">
+              Car/Motorcyle
+            </label>
+            <label class="block-label">
+              <input id="hire"
+                     type="checkbox"
+                     name="category"
+                     value="hire">
+              Car Hire
             </label>
             <label class="block-label">
               <input id="bus"
                      type="checkbox"
                      name="category"
-                     value="Bus">
+                     value="bus">
               Bus
             </label>
             <label class="block-label">
               <input id="train"
                      type="checkbox"
                      name="category"
-                     value="Train">
+                     value="train">
               Train
             </label>
             <label class="block-label">
               <input id="taxi"
                      type="checkbox"
                      name="category"
-                     value="Taxi">
+                     value="taxi">
               Taxi
             </label>
             <label class="block-label">
               <input id="plane"
                      type="checkbox"
                      name="category"
-                     value="Plane">
+                     value="plane">
               Plane
             </label>
             <label class="block-label">
               <input id="ferry"
                      type="checkbox"
                      name="category"
-                     value="Ferry">
+                     value="ferry">
               Ferry
+            </label>
+
+          </fieldset>
+
+          <h2 class="heading-medium">
+            Additional expense(s)
+          </h2>
+
+          <fieldset>
+
+            <label class="block-label">
+              <input id="refreshment"
+                     type="checkbox"
+                     name="category"
+                     value="refreshment">
+              Light refreshment
+            </label>
+            <label class="block-label">
+              <input id="accommodation"
+                     type="checkbox"
+                     name="category"
+                     value="accommodation">
+              Accommodation
             </label>
 
           </fieldset>
 
         </div>
 
-        <input type="submit" class="button">
+        <input id="expenses-submit" type="submit" class="button" value="Continue">
       </form>
 
     </div>
