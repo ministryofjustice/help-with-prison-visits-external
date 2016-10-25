@@ -67,5 +67,9 @@ describe('First time claim flow', () => {
 
       // Journey Information
       .waitForExist('#journey-information-submit')
+      .click('#journey-information-submit')
+
+      // Expense
+      .waitForExist('#expenses-submit')
   })
 })
