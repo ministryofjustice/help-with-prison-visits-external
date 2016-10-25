@@ -40,12 +40,9 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('app/public/stylesheets'))
 })
 
-gulp.task('generate-assets-and-start', [
-  'assets',
-  'templates',
-  'sync',
-  'sass'
-], function () {
+gulp.task('generate-assets', ['assets', 'templates', 'sync', 'sass'])
+
+gulp.task('generate-assets-and-start', ['generate-assets'], function () {
   spawn('node', ['app/bin/www'], { stdio: 'inherit' })
 })
 
