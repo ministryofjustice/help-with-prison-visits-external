@@ -11,6 +11,7 @@
   },
   "scripts": {
     "start": "gulp",
+    "generate-assets": "gulp generate-assets",
     "test": "standard && mocha --recursive -u exports test/unit/",
     "test-coverage": "istanbul cover _mocha -- --recursive -u exports test/unit/",
     "test-unit": "mocha --recursive -u exports test/unit/",
