@@ -1,10 +1,10 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 
-module.exports.insert = function (claimId, bankDetailsData) {
+module.exports.insert = function (claimId, bankDetailsDetails) {
   return knex('ClaimBankDetail').insert({
     ClaimId: claimId,
-    AccountNumber: bankDetailsData.AccountNumber.replace(/ /g, ''),
-    SortCode: bankDetailsData.SortCode.replace(/ /g, '')
+    AccountNumber: bankDetailsDetails.AccountNumber,
+    SortCode: bankDetailsDetails.SortCode
   })
 }
