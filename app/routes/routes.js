@@ -23,7 +23,7 @@ var routes = [
   require('./first-time/eligibility/new-claim/future-or-past-visit.js'),
   require('./first-time/eligibility/new-claim/journey-information.js'),
   // TODO all routes after this /first-time/eligibility/:reference/claim/:claim-ref
-  require('./first-time/eligibility/new-claim/expenses'),
+  require('./first-time/eligibility/claim/expenses'),
 
   // Health check routes
   require('./health-check/status'),
