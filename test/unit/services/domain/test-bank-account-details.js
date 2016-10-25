@@ -6,13 +6,13 @@ var bankAccountDetails
 describe('services/domain/bank-account-details', function () {
   const VALID_ACCOUNT_NUMBER = ' 123 45678 '
   const VALID_SORT_CODE = '12 345 6'
-  const EXPECTED_ACCOUNT_NUMBER = '12345678'
-  const EXPECTED_SORT_CODE = '123456'
+  const PROCESSED_ACCOUNT_NUMBER = '12345678'
+  const PROCESSED_SORT_CODE = '123456'
 
   it('should construct a domain object given valid input', function (done) {
     bankAccountDetails = new BankAccountDetails(VALID_ACCOUNT_NUMBER, VALID_SORT_CODE)
-    expect(bankAccountDetails.AccountNumber).to.equal(EXPECTED_ACCOUNT_NUMBER)
-    expect(bankAccountDetails.SortCode).to.equal(EXPECTED_SORT_CODE)
+    expect(bankAccountDetails.AccountNumber).to.equal(PROCESSED_ACCOUNT_NUMBER)
+    expect(bankAccountDetails.SortCode).to.equal(PROCESSED_SORT_CODE)
     done()
   })
 
