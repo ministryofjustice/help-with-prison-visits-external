@@ -1,0 +1,117 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Add ferry journey information
+      </h2>
+
+      <p>If your journey requires a sea crossing, e.g. between mainland Great Britain and Isle of Wight, you may be
+        able to claim the cost of the ferry ticket as either a foot passenger or car passenger.</p>
+
+      <p>When you are also claiming for a car journey, the ferry mileage will be deducted from your car mileage
+        claim.</p>
+
+      <form action="ferry-details" method="post">
+
+        <div class="form-group">
+          <label for="from" class="form-label-bold">From</label>
+          <input id="from"
+                 type="text"
+                 name="from"
+                 class="form-control">
+          <p class="form-hint">eg Portsmouth</p>
+        </div>
+
+        <div class="form-group">
+          <label for="to" class="form-label-bold">To</label>
+          <input id="to"
+                 type="text"
+                 name="to"
+                 class="form-control">
+          <p class="form-hint">eg Isle of Wight</p>
+        </div>
+
+        <div class="form-group">
+
+          <h2 class="form-label-bold">Is this a return journey?</h2>
+
+          <div class="form-group">
+            <fieldset>
+
+              <label for="return-yes" class="block-label inline">
+                <input id="return-yes"
+                       type="radio"
+                       name="return-journey"
+                       value="yes">
+                Yes
+              </label>
+              <label for="return-no" class="block-label inline">
+                <input id="return-no"
+                       type="radio"
+                       name="return-journey"
+                       value="no">
+                No
+              </label>
+
+            </fieldset>
+          </div>
+
+          <h2 class="form-label-bold">Ticket type</h2>
+
+          <div class="form-group">
+            <fieldset>
+
+              <label for="ticket-type-yes" class="block-label">
+                <input id="ticket-type-yes"
+                       type="radio"
+                       name="ticket-type"
+                       value="yes">
+                Foot passenger
+              </label>
+              <label for="ticket-type-no" class="block-label">
+                <input id="ticket-type-no"
+                       type="radio"
+                       name="ticket-type"
+                       value="no">
+                Car
+              </label>
+
+            </fieldset>
+          </div>
+
+          <div class="form-group">
+            <label for="cost" class="form-label-bold">Cost</label>
+            <input id="cost"
+                   type="text"
+                   name="cost"
+                   class="form-control">
+            <p class="form-hint">eg £100</p>
+          </div>
+
+          <input id="ferry-details-submit"
+                 type="submit"
+                 class="button"
+                 value="Continue">
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}
