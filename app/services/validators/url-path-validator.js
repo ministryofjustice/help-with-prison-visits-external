@@ -15,6 +15,7 @@ class UrlPathValidator {
     this.validateAssistance(path)
     this.validateBenefit(path)
     this.validateReference(path)
+    this.validateClaimId(path)
   }
 
   static validateDob (path) {
@@ -57,6 +58,15 @@ class UrlPathValidator {
     var reference = path['reference']
     if (reference) {
       if (!validator.isValidReference(reference)) {
+        throw VALIDATION_ERROR
+      }
+    }
+  }
+
+  static validateClaimId (path) {
+    var claimId = path['claimId']
+    if (claimId) {
+      if (!validator.isNumeric(claimId)) {
         throw VALIDATION_ERROR
       }
     }

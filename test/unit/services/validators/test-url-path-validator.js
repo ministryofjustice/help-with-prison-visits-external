@@ -17,6 +17,9 @@ describe('services/validators/url-path-validator', function () {
   const VALID_REFERENCE = { reference: '49CCADM' }
   const INVALID_REFERENCE = { reference: 'invalid' }
 
+  const VALID_CLAIMID = { claimId: '123' }
+  const INVALID_CLAIMID = { claimId: 'invalid' }
+
   it('should throw error if passed null', function (done) {
     expect(function () {
       UrlPathValidator(null)
@@ -66,6 +69,13 @@ describe('services/validators/url-path-validator', function () {
     done()
   })
 
+  it('should throw Error if passed an invalid claimId value', function (done) {
+    expect(function () {
+      UrlPathValidator(INVALID_CLAIMID)
+    }).to.throw(Error)
+    done()
+  })
+
   it('should return undefined if passed a valid dob value', function (done) {
     var result = UrlPathValidator(VALID_DOB)
     expect(result).to.equal(undefined)
@@ -98,6 +108,12 @@ describe('services/validators/url-path-validator', function () {
 
   it('should return undefined if passed a valid reference value', function (done) {
     var result = UrlPathValidator(VALID_REFERENCE)
+    expect(result).to.equal(undefined)
+    done()
+  })
+
+  it('should return undefined if passed a valid claimId value', function (done) {
+    var result = UrlPathValidator(VALID_CLAIMID)
     expect(result).to.equal(undefined)
     done()
   })
