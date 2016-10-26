@@ -84,7 +84,7 @@ describe('First time claim flow', () => {
       .waitForExist('#bus-details-submit')
       .setValue('#from', 'Euston')
       .setValue('#to', 'Birmingham New Street')
-      .click('#return-yes')
+      .click('#return-no')
       .setValue('#cost', '20')
       .click('#add-another-journey')
       .click('#bus-details-submit')
@@ -93,7 +93,7 @@ describe('First time claim flow', () => {
       .waitForExist('#bus-details-submit')
       .setValue('#from', 'Birmingham New Street')
       .setValue('#to', 'Euston')
-      .click('#return-yes')
+      .click('#return-no')
       .setValue('#cost', '20')
       .click('#bus-details-submit')
 
