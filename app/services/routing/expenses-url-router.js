@@ -18,29 +18,42 @@ module.exports.getRedirectUrl = function (req) {
 
   // TODO should pass either the expense params OR the query params. whichever is set.
   var expenseParams = req.body.expenses
-  // var queryParams = req.params
+  var queryParams = req.params
 
-  return buildUrl(expenseParams, referenceId, claimId)
-}
+  console.log('Expense Params (expenses page):')
+  console.log(expenseParams)
 
-function buildUrl (queryParams, referenceId, claimId) {
-  var params = buildParameterArray(queryParams)
-  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(params) + parseParams(params)
-}
+  console.log('Query Params (expense pages):')
+  console.log(queryParams)
 
-function buildParameterArray (queryParams) {
   var params = []
+  if (expenseParams) {
+    params = expenseParams
+  }
+  else if (queryParams) {
+    params = queryParams
+  }
+  return buildUrl(params, referenceId, claimId)
+}
 
-  if (!(queryParams instanceof Array)) {
-    queryParams = [queryParams]
+function buildUrl (params, referenceId, claimId) {
+  var paramsArray = buildParameterArray(params)
+  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(paramsArray) + formatParams(paramsArray)
+}
+
+function buildParameterArray (params) {
+  var paramsArray = []
+
+  if (!(params instanceof Array)) {
+    params = [params]
   }
 
-  queryParams.forEach(function (param) {
+  params.forEach(function (param) {
     if (URL_PARAMS.includes(param)) {
-      params.push(param)
+      paramsArray.push(param)
     }
   })
-  return params
+  return paramsArray
 }
 
 function getPath (params) {
@@ -52,13 +65,13 @@ function getPath (params) {
   }
 }
 
-function parseParams (params) {
-  var queryStrings = ''
+function formatParams (params) {
+  var queryString = ''
   if (params) {
-    queryStrings = '?'
+    queryString = '?'
     params.forEach(function (param) {
-      queryStrings += param + '=&'
+      queryString += param + '=&'
     })
   }
-  return queryStrings
+  return queryString
 }
