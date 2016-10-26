@@ -18,19 +18,18 @@ module.exports.getRedirectUrl = function (req) {
 
   // TODO should pass either the expense params OR the query params. whichever is set.
   var expenseParams = req.body.expenses
-  var queryParams = req.params
+  var queryParams = req.query
 
-  console.log('Expense Params (expenses page):')
+  console.log('ROUTER - Expense Params:')
   console.log(expenseParams)
 
-  console.log('Query Params (expense pages):')
+  console.log('ROUTER - Query Params:')
   console.log(queryParams)
 
   var params = []
   if (expenseParams) {
     params = expenseParams
-  }
-  else if (queryParams) {
+  } else if (queryParams) {
     params = queryParams
   }
   return buildUrl(params, referenceId, claimId)
