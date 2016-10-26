@@ -82,7 +82,7 @@ function formatParams (params) {
 }
 
 function buildUrl (params, referenceId, claimId) {
-  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(params) + formatParamsAndRemoveLeading(params)
+  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/${getPath(params)}${formatParamsAndRemoveLeading(params)}`
 }
 
 function isEmptyObject (object) {
