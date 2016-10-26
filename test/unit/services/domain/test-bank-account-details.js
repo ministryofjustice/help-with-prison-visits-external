@@ -11,8 +11,8 @@ describe('services/domain/bank-account-details', function () {
 
   it('should construct a domain object given valid input', function (done) {
     bankAccountDetails = new BankAccountDetails(VALID_ACCOUNT_NUMBER, VALID_SORT_CODE)
-    expect(bankAccountDetails.AccountNumber).to.equal(PROCESSED_ACCOUNT_NUMBER)
-    expect(bankAccountDetails.SortCode).to.equal(PROCESSED_SORT_CODE)
+    expect(bankAccountDetails.accountNumber).to.equal(PROCESSED_ACCOUNT_NUMBER)
+    expect(bankAccountDetails.sortCode).to.equal(PROCESSED_SORT_CODE)
     done()
   })
 

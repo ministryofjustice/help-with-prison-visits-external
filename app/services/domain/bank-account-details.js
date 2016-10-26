@@ -9,14 +9,6 @@ class BankAccountDetails {
     this.IsValid()
   }
 
-  get AccountNumber () {
-    return this.accountNumber
-  }
-
-  get SortCode () {
-    return this.sortCode
-  }
-
   IsValid () {
     var errors = ErrorHandler()
 
