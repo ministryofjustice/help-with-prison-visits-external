@@ -65,7 +65,7 @@ function getPath (params) {
 }
 
 // Remove the first param as we will be redirecting to this page.
-function formatAndHandleLeadingParam (params) {
+function formatParamsAndRemoveLeading (params) {
   params.shift()
   return formatParams(params)
 }
@@ -82,7 +82,7 @@ function formatParams (params) {
 }
 
 function buildUrl (params, referenceId, claimId) {
-  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(params) + formatAndHandleLeadingParam(params)
+  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(params) + formatParamsAndRemoveLeading(params)
 }
 
 function isEmptyObject (object) {
