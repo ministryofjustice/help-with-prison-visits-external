@@ -8,7 +8,7 @@ module.exports = function (claimId, bankAccountDetails) {
   }
   return knex('ClaimBankDetail').insert({
     ClaimId: claimId,
-    AccountNumber: bankAccountDetails.AccountNumber,
-    SortCode: bankAccountDetails.SortCode
+    AccountNumber: bankAccountDetails.accountNumber,
+    SortCode: bankAccountDetails.sortCode
   })
 }
