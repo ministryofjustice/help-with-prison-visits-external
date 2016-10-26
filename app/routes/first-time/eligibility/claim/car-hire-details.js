@@ -3,6 +3,7 @@ const expenseUrlRouter = require('../../../../services/routing/expenses-url-rout
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claim/hire', function (req, res) {
+    UrlPathValidator(req.params)
     return res.render('first-time/eligibility/claim/car-hire-details', {
       reference: req.params.reference,
       claim: req.params.claim
