@@ -4,14 +4,14 @@ var knex = require('knex')(config)
 var moment = require('moment')
 var BankAccountDetailsDomain = require('../../../../app/services/domain/bank-account-details')
 
-var bankAccountDetails = require('../../../../app/services/data/bank-account-details')
+var insertBankAccountDetailsForClaim = require('../../../../app/services/data/insert-bank-account-details-for-claim')
 var reference = 'V123456'
 var claimId
 
 var AccountNumber = ' 00 12 34 56 '
 var SortCode = ' 11 22 3 3 '
 
-describe('services/data/bank-account-details', function () {
+describe('services/data/insert-bank-account-details-for-claim', function () {
   describe('insert', function (done) {
     before(function (done) {
       knex('ExtSchema.Eligibility').insert({
@@ -38,7 +38,7 @@ describe('services/data/bank-account-details', function () {
     it('should insert a new Bank Details record for a claim', function (done) {
       var bankDetailsData = new BankAccountDetailsDomain(AccountNumber, SortCode)
 
-      bankAccountDetails.insert(claimId, bankDetailsData)
+      insertBankAccountDetailsForClaim(claimId, bankDetailsData)
         .returning('ClaimBankDetailId')
         .then(function (claimBankDetailId) {
           knex.select().from('ExtSchema.ClaimBankDetail').where('ClaimBankDetailId', claimBankDetailId)
