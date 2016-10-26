@@ -1,5 +1,5 @@
 const BankAccountDetails = require('../../../../services/domain/bank-account-details')
-const bankAccountDetailsData = require('../../../../services/data/bank-account-details')
+const insertBankAccountDetailsForClaim = require('../../../../services/data/insert-bank-account-details-for-claim')
 const ValidationError = require('../../../../services/errors/validation-error')
 
 module.exports = function (router) {
@@ -12,7 +12,7 @@ module.exports = function (router) {
     // TODO: Validate URL path
     try {
       var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode)
-      bankAccountDetailsData.insert(req.params.claimId, bankAccountDetails)
+      insertBankAccountDetailsForClaim(req.params.claimId, bankAccountDetails)
         .then(function () {
           return res.redirect(`/application-submitted/${req.params.reference}`)
         })

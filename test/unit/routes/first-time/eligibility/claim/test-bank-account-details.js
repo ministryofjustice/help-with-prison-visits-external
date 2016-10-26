@@ -6,7 +6,6 @@ var mockViewEngine = require('../../../mock-view-engine')
 var bodyParser = require('body-parser')
 const sinon = require('sinon')
 require('sinon-bluebird')
-var bankAccountDetails = require('../../../../../../app/services/data/bank-account-details')
 var reference = 'V123456'
 var claimId = '1'
 var ValidationError = require('../../../../../../app/services/errors/validation-error')
@@ -14,6 +13,7 @@ var ValidationError = require('../../../../../../app/services/errors/validation-
 describe('routes/first-time/eligibility/claim/bank-account-details', function () {
   var request
   var stubBankAccountDetails
+  var stubInsertBankAccountDetailsForClaim
   const VALID_DATA = {
     'AccountNumber': '12345678',
     'SortCode': '123456'
@@ -21,11 +21,12 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
 
   beforeEach(function () {
     stubBankAccountDetails = sinon.stub()
+    stubInsertBankAccountDetailsForClaim = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/first-time/eligibility/claim/bank-account-details', {
         '../../../../services/domain/bank-account-details': stubBankAccountDetails,
-        '../../../../services/data/bank-account-details': bankAccountDetails
+        '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim
       })
 
     var app = express()
@@ -48,8 +49,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
     it('should respond with a 302', function (done) {
       var newBankAccountDetails = {}
       stubBankAccountDetails.returns(newBankAccountDetails)
-      var mockInsert = sinon.mock(bankAccountDetails)
-      mockInsert.expects('insert').withExactArgs(claimId, newBankAccountDetails).resolves(1)
+      stubInsertBankAccountDetailsForClaim.resolves(1)
 
       request
         .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
@@ -57,7 +57,8 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
-          expect(mockInsert.verify()).to.be.true
+          expect(stubBankAccountDetails.calledWithExactly(VALID_DATA.AccountNumber, VALID_DATA.SortCode)).to.be.true
+          expect(stubInsertBankAccountDetailsForClaim.calledWithExactly(claimId, newBankAccountDetails)).to.be.true
           expect(response.headers['location']).to.be.equal('/application-submitted/' + reference)
           done()
         })

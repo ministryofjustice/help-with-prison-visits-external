@@ -1,10 +1,14 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
+const BankAccountDetails = require('../domain/bank-account-details')
 
-module.export = function (claimId, bankDetailsDetails) {
+module.exports = function (claimId, bankAccountDetails) {
+  if (!(bankAccountDetails instanceof BankAccountDetails)) {
+    throw new Error('Provided bankAccountDetails object is not an instance of the expected class')
+  }
   return knex('ClaimBankDetail').insert({
     ClaimId: claimId,
-    AccountNumber: bankDetailsDetails.AccountNumber,
-    SortCode: bankDetailsDetails.SortCode
+    AccountNumber: bankAccountDetails.AccountNumber,
+    SortCode: bankAccountDetails.SortCode
   })
 }
