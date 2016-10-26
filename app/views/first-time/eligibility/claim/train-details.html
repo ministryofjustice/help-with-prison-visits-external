@@ -16,16 +16,10 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Add ferry journey information
+        Add train journey information
       </h2>
 
-      <p>If your journey requires a sea crossing, e.g. between mainland Great Britain and Isle of Wight, you may be
-        able to claim the cost of the ferry ticket as either a foot passenger or car passenger.</p>
-
-      <p>When you are also claiming for a car journey, the ferry mileage will be deducted from your car mileage
-        claim.</p>
-
-      <form action="ferry-details" method="post">
+      <form action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claim }}/train" method="post">
 
         <div class="form-group">
           <label for="from" class="form-label-bold">From</label>
@@ -33,7 +27,7 @@
                  type="text"
                  name="from"
                  class="form-control">
-          <p class="form-hint">eg Portsmouth</p>
+          <p class="form-hint">eg Euston</p>
         </div>
 
         <div class="form-group">
@@ -42,7 +36,7 @@
                  type="text"
                  name="to"
                  class="form-control">
-          <p class="form-hint">eg Isle of Wight</p>
+          <p class="form-hint">eg Birmingham New Street</p>
         </div>
 
         <div class="form-group">
@@ -70,39 +64,30 @@
             </fieldset>
           </div>
 
-          <h2 class="form-label-bold">Ticket type</h2>
-
-          <div class="form-group">
-            <fieldset>
-
-              <label for="ticket-type-yes" class="block-label">
-                <input id="ticket-type-yes"
-                       type="radio"
-                       name="ticket-type"
-                       value="yes">
-                Foot passenger
-              </label>
-              <label for="ticket-type-no" class="block-label">
-                <input id="ticket-type-no"
-                       type="radio"
-                       name="ticket-type"
-                       value="no">
-                Car
-              </label>
-
-            </fieldset>
-          </div>
-
           <div class="form-group">
             <label for="cost" class="form-label-bold">Cost</label>
             <input id="cost"
                    type="text"
                    name="cost"
                    class="form-control">
-            <p class="form-hint">eg £100</p>
+            <p class="form-hint">eg £20</p>
           </div>
 
-          <input id="ferry-details-submit"
+          <div class="form-group">
+            <fieldset>
+
+              <label for="add-another-journey" class="block-label">
+                <input id="add-another-journey"
+                       type="checkbox"
+                       name="add-another-journey"
+                       value="yes">
+                Add another train journey
+              </label>
+
+            </fieldset>
+          </div>
+
+          <input id="train-details-submit"
                  type="submit"
                  class="button"
                  value="Continue">
