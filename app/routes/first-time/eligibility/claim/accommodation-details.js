@@ -9,6 +9,7 @@ module.exports = function (router) {
     })
   })
 
+  // TODO: Add form validation.
   router.post('/first-time-claim/eligibility/:reference/claim/:claim/accommodation', function (req, res) {
     UrlPathValidator(req.params)
     return res.redirect(expenseUrlRouter.getRedirectUrl(req))
