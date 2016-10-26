@@ -1,6 +1,5 @@
 const URL_PARAMS = require('../../constants/expenses-url-path-enum')
 
-// TODO: Only add a paramater if we are NOT redirecting to that page.
 // TODO: Need to handle add another journey being selected. Will need to know which page this was selected on.
 // TODO: Split out the URL contruction logic.
 // TODO: Explain what this class does.
@@ -16,7 +15,6 @@ module.exports.getRedirectUrl = function (req) {
   var referenceId = req.params.reference
   var claimId = req.params.claim
 
-  // TODO should pass either the expense params OR the query params. whichever is set.
   var expenseParams = req.body.expenses
   var queryParams = req.query
 
@@ -36,7 +34,7 @@ module.exports.getRedirectUrl = function (req) {
 }
 
 function buildUrl (params, referenceId, claimId) {
-  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(params) + formatParams(params)
+  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(params) + formatAndHandleLeadingParam(params)
 }
 
 function buildParamArrayFromArray (params) {
@@ -63,20 +61,27 @@ function getPath (params) {
   }
 }
 
+function formatAndHandleLeadingParam (params) {
+  // TODO: Do this only if the user did NOT set add another journey to true.
+  // Remove the first param as we will be redirecting to this page.
+  params.shift()
+  return formatParams(params)
+}
+
 function formatParams (params) {
   var queryString = ''
-  if (params) {
+  if (params && params.length > 0) {
     queryString = '?'
     params.forEach(function (param) {
       queryString += param + '=&'
     })
   }
-  return queryString.replace(/&$/, "")
+  return queryString.replace(/&$/, '')
 }
 
-function buildParamArrayFromObject(params) {
+function buildParamArrayFromObject (params) {
   var paramsArray = []
-  for(var param in params) {
+  for (var param in params) {
     paramsArray.push(param)
   }
   return paramsArray
