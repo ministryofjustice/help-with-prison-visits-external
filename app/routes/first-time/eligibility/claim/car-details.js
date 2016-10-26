@@ -6,12 +6,13 @@ module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claim/car', function (req, res) {
     UrlPathValidator(req.params)
 
-    console.log('GET - Query Params (car pages):')
+    console.log('GET - Query Params (car page):')
     console.log(req.query)
 
     return res.render('first-time/eligibility/claim/car-details', {
       reference: req.params.reference,
       claim: req.params.claim,
+      params: expenseUrlRouter.parseParams(req.query),
       from: 'London',
       to: 'Hewell'
     })
@@ -21,7 +22,7 @@ module.exports = function (router) {
   router.post('/first-time-claim/eligibility/:reference/claim/:claim/car', function (req, res) {
     UrlPathValidator(req.params)
 
-    console.log('POST - Query Params (car pages):')
+    console.log('POST - Query Params (car page):')
     console.log(req.query)
 
     return res.redirect(expenseUrlRouter.getRedirectUrl(req))

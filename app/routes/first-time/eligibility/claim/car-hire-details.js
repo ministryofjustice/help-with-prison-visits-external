@@ -6,7 +6,8 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     return res.render('first-time/eligibility/claim/car-hire-details', {
       reference: req.params.reference,
-      claim: req.params.claim
+      claim: req.params.claim,
+      params: expenseUrlRouter.parseParams(req.query)
     })
   })
 

@@ -28,19 +28,18 @@ module.exports.getRedirectUrl = function (req) {
 
   var params = []
   if (expenseParams) {
-    params = expenseParams
+    params = buildParamArrayFromArray(expenseParams)
   } else if (queryParams) {
-    params = queryParams
+    params = buildParamArrayFromObject(queryParams)
   }
   return buildUrl(params, referenceId, claimId)
 }
 
 function buildUrl (params, referenceId, claimId) {
-  var paramsArray = buildParameterArray(params)
-  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(paramsArray) + formatParams(paramsArray)
+  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(params) + formatParams(params)
 }
 
-function buildParameterArray (params) {
+function buildParamArrayFromArray (params) {
   var paramsArray = []
 
   if (!(params instanceof Array)) {
@@ -72,5 +71,17 @@ function formatParams (params) {
       queryString += param + '=&'
     })
   }
-  return queryString
+  return queryString.replace(/&$/, "")
+}
+
+function buildParamArrayFromObject(params) {
+  var paramsArray = []
+  for(var param in params) {
+    paramsArray.push(param)
+  }
+  return paramsArray
+}
+
+module.exports.parseParams = function (queryParams) {
+  return formatParams(buildParamArrayFromObject(queryParams))
 }
