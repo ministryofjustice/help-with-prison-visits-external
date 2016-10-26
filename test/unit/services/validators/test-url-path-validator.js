@@ -17,8 +17,8 @@ describe('services/validators/url-path-validator', function () {
   const VALID_REFERENCE = { reference: '49CCADM' }
   const INVALID_REFERENCE = { reference: 'invalid' }
 
-  const VALID_CLAIMID = { claimId: '123' }
-  const INVALID_CLAIMID = { claimId: 'invalid' }
+  const VALID_CLAIMID = { claim: '123' }
+  const INVALID_CLAIMID = { claim: 'invalid' }
 
   it('should throw error if passed null', function (done) {
     expect(function () {
