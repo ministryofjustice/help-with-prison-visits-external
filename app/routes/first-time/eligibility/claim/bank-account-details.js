@@ -1,5 +1,6 @@
-var validator = require('../../../../services/validators/payment/bank-account-details-validator')
-const bankAccountDetails = require('../../../../services/data/bank-account-details')
+const BankAccountDetails = require('../../../../services/domain/bank-account-details')
+const insertBankAccountDetailsForClaim = require('../../../../services/data/insert-bank-account-details-for-claim')
+const ValidationError = require('../../../../services/errors/validation-error')
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function (req, res) {
@@ -9,20 +10,21 @@ module.exports = function (router) {
 
   router.post('/first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function (req, res) {
     // TODO: Validate URL path
-    var validationErrors = validator(req.body)
-    var bankAccountData = req.body
-
-    if (validationErrors) {
-      console.log(validationErrors)
-      return res.status(400).render('first-time/eligibility/claim/bank-account-details', {
-        bankDetails: req.body,
-        errors: validationErrors
-      })
+    try {
+      var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode)
+      insertBankAccountDetailsForClaim(req.params.claimId, bankAccountDetails)
+        .then(function () {
+          return res.redirect(`/application-submitted/${req.params.reference}`)
+        })
+    } catch (e) {
+      if (e instanceof ValidationError) {
+        return res.status(400).render('first-time/eligibility/claim/bank-account-details', {
+          bankDetails: req.body,
+          errors: e.validationErrors
+        })
+      } else {
+        throw e
+      }
     }
-
-    bankAccountDetails.insert(req.params.claimId, bankAccountData)
-      .then(function () {
-        return res.redirect(`/application-submitted/${req.params.reference}`)
-      })
   })
 }
