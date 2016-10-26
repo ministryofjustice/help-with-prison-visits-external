@@ -25,6 +25,17 @@ var routes = [
   require('./first-time/eligibility/claim/expenses'),
   require('./first-time/eligibility/claim/bank-account-details'),
 
+  // Expenses
+  require('./first-time/eligibility/claim/car-details'),
+  require('./first-time/eligibility/claim/car-hire-details'),
+  require('./first-time/eligibility/claim/bus-details'),
+  require('./first-time/eligibility/claim/train-details'),
+  require('./first-time/eligibility/claim/taxi-details'),
+  require('./first-time/eligibility/claim/plane-details'),
+  require('./first-time/eligibility/claim/ferry-details'),
+  require('./first-time/eligibility/claim/light-refreshment-details'),
+  require('./first-time/eligibility/claim/accommodation-details'),
+
   // Health check routes
   require('./health-check/status'),
 
@@ -34,17 +45,6 @@ var routes = [
   require('./ux/claim/claim-summary'),
   require('./ux/claim/profile'),
   require('./ux/claim/claim-details'),
-
-  // Expenses
-  require('./ux/expenses/car-details'),
-  require('./ux/expenses/car-hire-details'),
-  require('./ux/expenses/bus-details'),
-  require('./ux/expenses/train-details'),
-  require('./ux/expenses/taxi-details'),
-  require('./ux/expenses/plane-details'),
-  require('./ux/expenses/ferry-details'),
-  require('./ux/expenses/light-refreshment-details'),
-  require('./ux/expenses/accommodation-details'),
 
   // These are temporary development routes included for demonstration only. TODO THESE SHOULD BE REMOVED
   require('./dev/display-data-for-reference'),
