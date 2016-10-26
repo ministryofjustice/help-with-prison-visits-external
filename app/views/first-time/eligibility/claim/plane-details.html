@@ -16,10 +16,14 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Add train journey information
+        Add plane journey information
       </h2>
 
-      <form action="train-details" method="post">
+      <p>Air travel may be permitted if it is cheaper than other public transport options.</p>
+
+      <p>Claims that include air travel require approval before you travel, by the Assisted Prison Visits Unit.</p>
+
+      <form action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claim }}/plane" method="post">
 
         <div class="form-group">
           <label for="from" class="form-label-bold">From</label>
@@ -27,7 +31,7 @@
                  type="text"
                  name="from"
                  class="form-control">
-          <p class="form-hint">eg Euston</p>
+          <p class="form-hint">eg Heathrow</p>
         </div>
 
         <div class="form-group">
@@ -36,7 +40,7 @@
                  type="text"
                  name="to"
                  class="form-control">
-          <p class="form-hint">eg Birmingham New Street</p>
+          <p class="form-hint">eg Edinburgh</p>
         </div>
 
         <div class="form-group">
@@ -70,7 +74,7 @@
                    type="text"
                    name="cost"
                    class="form-control">
-            <p class="form-hint">eg £20</p>
+            <p class="form-hint">eg £100</p>
           </div>
 
           <div class="form-group">
@@ -81,13 +85,13 @@
                        type="checkbox"
                        name="add-another-journey"
                        value="yes">
-                Add another train journey
+                Add another plane journey
               </label>
 
             </fieldset>
           </div>
 
-          <input id="train-details-submit"
+          <input id="plane-details-submit"
                  type="submit"
                  class="button"
                  value="Continue">
