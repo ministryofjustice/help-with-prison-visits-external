@@ -3,7 +3,7 @@ const URL_PARAMS = require('../../constants/expenses-url-path-enum')
 // TODO: Split out the URL contruction logic.
 // TODO: Explain what this class does.
 
-const POST_EXPENSES_URL = 'summary'
+const POST_EXPENSES_PATH = 'summary'
 
 module.exports.parseParams = function (queryParams) {
   return formatParams(buildParamsArrayFromObject(queryParams))
@@ -60,7 +60,7 @@ function getPath (params) {
   if (firstParam) {
     return firstParam
   } else {
-    return POST_EXPENSES_URL
+    return POST_EXPENSES_PATH
   }
 }
 
