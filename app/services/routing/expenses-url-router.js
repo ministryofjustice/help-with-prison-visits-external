@@ -1,4 +1,4 @@
-const URL_PARAMS = require('../../constants/expenses-url-params-enums')
+const URL_PARAMS = require('../../constants/expenses-url-path-enum')
 
 // TODO: Only add a paramater if we are NOT redirecting to that page.
 // TODO: Need to handle add another journey being selected. Will need to know which page this was selected on.
