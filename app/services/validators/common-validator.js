@@ -7,6 +7,7 @@ const moment = require('moment')
 const validPrisonerRelationships = require('../../constants/prisoner-relationships-enum')
 const validJourneyAssistance = require('../../constants/journey-assistance-enum')
 const validBenefits = require('../../constants/benefits-enum')
+const validStatuses = require('../../constants/claim-status-enum')
 const referenceNumber = require('../../constants/reference-number-enum')
 const NUM_YEARS_LIMIT = 120
 const DATE_FORMAT = 'YYYY-MM-DD'
@@ -76,6 +77,10 @@ exports.isValidJourneyAssistance = function (journeyAssistance) {
 
 exports.isValidBenefitResponse = function (benefit) {
   return validBenefits.includes(benefit)
+}
+
+exports.isValidStatus = function (status) {
+  return validStatuses.includes(status)
 }
 
 exports.isValidReference = function (reference) {

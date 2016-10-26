@@ -435,4 +435,104 @@ describe('services/validators/field-validator', function () {
       done()
     })
   })
+
+  describe('isReference', function () {
+    const VALID_REFERENCE = 'APVS123'
+    const INVALID_REFERENCE = 'APVS1234'
+
+    it('should return false if data is null', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(null, FIELD_NAME, errorHandler)
+        .isReference()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+
+    it('should throw error if data is undefined', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(undefined, FIELD_NAME, errorHandler)
+        .isReference()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+
+    it('should throw error if data is an object', function (done) {
+      var errorHandler = ErrorHandler()
+      expect(function () {
+        FieldValidator({}, FIELD_NAME, errorHandler)
+            .isReference()
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return false if passed valid data', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(VALID_REFERENCE, FIELD_NAME, errorHandler)
+        .isReference()
+      var errors = errorHandler.get()
+      expect(errors).to.equal(false)
+      done()
+    })
+
+    it('should return an error object if passed invalid data', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(INVALID_REFERENCE, FIELD_NAME, errorHandler)
+        .isReference()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+  })
+
+  describe('isStatus', function () {
+    const VALID_STATUS = 'IN-PROGRESS'
+    const INVALID_STATUS = 'invalid'
+
+    it('should throw error if data is null', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(null, FIELD_NAME, errorHandler)
+        .isStatus()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+
+    it('should throw error if data is undefined', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(undefined, FIELD_NAME, errorHandler)
+        .isStatus()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+
+    it('should throw error if data is an object', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator({}, FIELD_NAME, errorHandler)
+        .isStatus()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+
+    it('should return false if passed valid data', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(VALID_STATUS, FIELD_NAME, errorHandler)
+        .isStatus()
+      var errors = errorHandler.get()
+      expect(errors).to.equal(false)
+      done()
+    })
+
+    it('should return an error object if passed invalid data', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(INVALID_STATUS, FIELD_NAME, errorHandler)
+        .isStatus()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+  })
 })

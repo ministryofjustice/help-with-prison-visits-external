@@ -53,14 +53,14 @@ class FieldValidator {
 
   isNationalInsuranceNumber () {
     if (!validator.isNationalInsuranceNumber(this.data)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsNationalInsuranceNumber)
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
     }
     return this
   }
 
   isPostcode () {
     if (!validator.isPostcode(this.data)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsPostcode)
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
     }
     return this
   }
@@ -74,7 +74,7 @@ class FieldValidator {
 
   isEmail () {
     if (!validator.isEmail(this.data)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsEmailMessage)
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
     }
     return this
   }
@@ -82,6 +82,18 @@ class FieldValidator {
   isLessThanLength (length) {
     if (!validator.isLessThanLength(this.data, length)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLessThanLengthMessage, { length: length })
+    }
+  }
+
+  isReference () {
+    if (!validator.isValidReference(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
+    }
+  }
+
+  isStatus () {
+    if (!validator.isValidStatus(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidStatus)
     }
   }
 }
