@@ -1,43 +1,38 @@
 const URL_PARAMS = require('../../constants/expenses-url-path-enum')
 
-// TODO: Need to handle add another journey being selected. Will need to know which page this was selected on.
 // TODO: Split out the URL contruction logic.
 // TODO: Explain what this class does.
 
 const POST_EXPENSES_URL = 'summary'
 
+module.exports.parseParams = function (queryParams) {
+  return formatParams(buildParamsArrayFromObject(queryParams))
+}
+
 module.exports.getRedirectUrl = function (req) {
-  if (!req || !req.body || !req.params || !req.params.reference || !req.params.claim) {
+  if (!req || !req.body || !req.params || !req.params.reference || !req.params.claim || !req.originalUrl) {
     throw new Error('An error occured.')
   }
 
-  // The parameters to append to the URL.
-  var referenceId = req.params.reference
-  var claimId = req.params.claim
+  if (req.body['add-another-journey']) {
+    return req.originalUrl
+  }
+  var params = buildParamsArray(req.body.expenses, req.query)
+  return buildUrl(params, req.params.reference, req.params.claim)
+}
 
-  var expenseParams = req.body.expenses
-  var queryParams = req.query
-
-  console.log('ROUTER - Expense Params:')
-  console.log(expenseParams)
-
-  console.log('ROUTER - Query Params:')
-  console.log(queryParams)
-
+function buildParamsArray (expenseParams, queryParams) {
   var params = []
   if (expenseParams) {
-    params = buildParamArrayFromArray(expenseParams)
-  } else if (queryParams) {
-    params = buildParamArrayFromObject(queryParams)
+    params = buildParamsArrayFromArray(expenseParams)
   }
-  return buildUrl(params, referenceId, claimId)
+  if (!isEmptyObject(queryParams)) {
+    params = buildParamsArrayFromObject(queryParams)
+  }
+  return params
 }
 
-function buildUrl (params, referenceId, claimId) {
-  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(params) + formatAndHandleLeadingParam(params)
-}
-
-function buildParamArrayFromArray (params) {
+function buildParamsArrayFromArray (params) {
   var paramsArray = []
 
   if (!(params instanceof Array)) {
@@ -52,6 +47,14 @@ function buildParamArrayFromArray (params) {
   return paramsArray
 }
 
+function buildParamsArrayFromObject (params) {
+  var paramsArray = []
+  for (var param in params) {
+    paramsArray.push(param)
+  }
+  return paramsArray
+}
+
 function getPath (params) {
   var firstParam = params[0]
   if (firstParam) {
@@ -61,9 +64,8 @@ function getPath (params) {
   }
 }
 
+// Remove the first param as we will be redirecting to this page.
 function formatAndHandleLeadingParam (params) {
-  // TODO: Do this only if the user did NOT set add another journey to true.
-  // Remove the first param as we will be redirecting to this page.
   params.shift()
   return formatParams(params)
 }
@@ -79,14 +81,10 @@ function formatParams (params) {
   return queryString.replace(/&$/, '')
 }
 
-function buildParamArrayFromObject (params) {
-  var paramsArray = []
-  for (var param in params) {
-    paramsArray.push(param)
-  }
-  return paramsArray
+function buildUrl (params, referenceId, claimId) {
+  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(params) + formatAndHandleLeadingParam(params)
 }
 
-module.exports.parseParams = function (queryParams) {
-  return formatParams(buildParamArrayFromObject(queryParams))
+function isEmptyObject (object) {
+  return Object.keys(object).length === 0 && object.constructor === Object
 }
