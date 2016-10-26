@@ -2,6 +2,7 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
+    UrlPathValidator(req.params)
     return res.render('first-time/eligibility/new-claim/journey-information', {
       reference: req.params.reference
     })

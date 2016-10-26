@@ -71,5 +71,39 @@ describe('First time claim flow', () => {
 
       // Expense
       .waitForExist('#expenses-submit')
+      .click('#car')
+      .click('#bus')
+      .click('#refreshment')
+      .click('#expenses-submit')
+
+      // Car
+      .waitForExist('#car-details-submit')
+      .click('#car-details-submit')
+
+      // Bus #1
+      .waitForExist('#bus-details-submit')
+      .setValue('#from', 'Euston')
+      .setValue('#to', 'Birmingham New Street')
+      .click('#return-no')
+      .setValue('#cost', '20')
+      .click('#add-another-journey')
+      .click('#bus-details-submit')
+
+      // Bus #2 (Add Another Journey)
+      .waitForExist('#bus-details-submit')
+      .setValue('#from', 'Birmingham New Street')
+      .setValue('#to', 'Euston')
+      .click('#return-no')
+      .setValue('#cost', '20')
+      .click('#bus-details-submit')
+
+      // Light Refreshment
+      .waitForExist('#light-refreshment-details-submit')
+      .click('#travel-time-over-five')
+      .setValue('#cost', '7.99')
+      .click('#light-refreshment-details-submit')
+
+      // Claim Details
+      .waitForExist('#claim-summary-submit')
   })
 })

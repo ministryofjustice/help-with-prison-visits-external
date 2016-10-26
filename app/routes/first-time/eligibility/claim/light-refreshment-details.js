@@ -3,9 +3,11 @@ const expenseUrlRouter = require('../../../../services/routing/expenses-url-rout
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claim/refreshment', function (req, res) {
+    UrlPathValidator(req.params)
     return res.render('first-time/eligibility/claim/light-refreshment-details', {
       reference: req.params.reference,
-      claim: req.params.claim
+      claim: req.params.claim,
+      params: expenseUrlRouter.parseParams(req.query)
     })
   })
 
