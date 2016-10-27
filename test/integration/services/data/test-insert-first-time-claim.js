@@ -2,6 +2,7 @@ var expect = require('chai').expect
 var config = require('../../../../knexfile').migrations
 var knex = require('knex')(config)
 var moment = require('moment')
+var claimStatusEnum = require('../../../../app/constants/claim-status-enum')
 var insertFirstTimeClaim = require('../../../../app/services/data/insert-first-time-claim')
 var FirstTimeClaim = require('../../../../app/services/domain/first-time-claim')
 var dateFormatter = require('../../../../app/services/date-formatter')
@@ -9,7 +10,6 @@ var dateFormatter = require('../../../../app/services/date-formatter')
 var reference = 'APVS123'
 var claimId
 var dateOfJourney = dateFormatter.build('26', '10', '2016')
-var status = 'PENDING'
 
 describe('services/data/insert-first-time-claim', function () {
   before(function (done) {
@@ -43,7 +43,7 @@ describe('services/data/insert-first-time-claim', function () {
                 moment(dateOfJourney).add(1, 'seconds').toDate()
             )
             expect(results[0].DateSubmitted).to.equal(null)
-            expect(results[0].Status).to.equal(status)
+            expect(results[0].Status).to.equal(claimStatusEnum.IN_PROGRESS)
             done()
           })
       })

@@ -1,5 +1,6 @@
 const BankAccountDetails = require('../../../../services/domain/bank-account-details')
 const insertBankAccountDetailsForClaim = require('../../../../services/data/insert-bank-account-details-for-claim')
+const submitFirstTimeClaim = require('../../../../services/data/submit-first-time-claim')
 const ValidationError = require('../../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 
@@ -18,7 +19,10 @@ module.exports = function (router) {
       var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode)
       insertBankAccountDetailsForClaim(req.params.claimId, bankAccountDetails)
         .then(function () {
-          return res.redirect(`/application-submitted/${req.params.reference}`)
+          return submitFirstTimeClaim(req.params.reference, req.params.claimId)
+            .then(function () {
+              return res.redirect(`/application-submitted/${req.params.reference}`)
+            })
         })
     } catch (error) {
       if (error instanceof ValidationError) {
