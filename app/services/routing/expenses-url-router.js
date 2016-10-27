@@ -1,46 +1,58 @@
 const URL_PARAMS = require('../../constants/expenses-url-path-enum')
 
-// TODO: Only add a paramater if we are NOT redirecting to that page.
-// TODO: Need to handle add another journey being selected. Will need to know which page this was selected on.
 // TODO: Split out the URL contruction logic.
 // TODO: Explain what this class does.
 
-const POST_EXPENSES_URL = 'summary'
+const POST_EXPENSES_PATH = 'summary'
+
+module.exports.parseParams = function (queryParams) {
+  return formatParams(buildParamsArrayFromObject(queryParams))
+}
 
 module.exports.getRedirectUrl = function (req) {
-  if (!req || !req.body || !req.params || !req.params.reference || !req.params.claim) {
+  if (!req || !req.body || !req.params || !req.params.reference || !req.params.claim || !req.originalUrl) {
     throw new Error('An error occured.')
   }
 
-  // The parameters to append to the URL.
-  var referenceId = req.params.reference
-  var claimId = req.params.claim
-
-  // TODO should pass either the expense params OR the query params. whichever is set.
-  var expenseParams = req.body.expenses
-  // var queryParams = req.params
-
-  return buildUrl(expenseParams, referenceId, claimId)
+  if (req.body['add-another-journey']) {
+    return req.originalUrl
+  }
+  var params = buildParamsArray(req.body.expenses, req.query)
+  return buildUrl(params, req.params.reference, req.params.claim)
 }
 
-function buildUrl (queryParams, referenceId, claimId) {
-  var params = buildParameterArray(queryParams)
-  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/` + getPath(params) + parseParams(params)
-}
-
-function buildParameterArray (queryParams) {
+function buildParamsArray (expenseParams, queryParams) {
   var params = []
+  if (expenseParams) {
+    params = buildParamsArrayFromArray(expenseParams)
+  }
+  if (!isEmptyObject(queryParams)) {
+    params = buildParamsArrayFromObject(queryParams)
+  }
+  return params
+}
 
-  if (!(queryParams instanceof Array)) {
-    queryParams = [queryParams]
+function buildParamsArrayFromArray (params) {
+  var paramsArray = []
+
+  if (!(params instanceof Array)) {
+    params = [params]
   }
 
-  queryParams.forEach(function (param) {
+  params.forEach(function (param) {
     if (URL_PARAMS.includes(param)) {
-      params.push(param)
+      paramsArray.push(param)
     }
   })
-  return params
+  return paramsArray
+}
+
+function buildParamsArrayFromObject (params) {
+  var paramsArray = []
+  for (var param in params) {
+    paramsArray.push(param)
+  }
+  return paramsArray
 }
 
 function getPath (params) {
@@ -48,17 +60,31 @@ function getPath (params) {
   if (firstParam) {
     return firstParam
   } else {
-    return POST_EXPENSES_URL
+    return POST_EXPENSES_PATH
   }
 }
 
-function parseParams (params) {
-  var queryStrings = ''
-  if (params) {
-    queryStrings = '?'
+// Remove the first param as we will be redirecting to this page.
+function formatParamsAndRemoveLeading (params) {
+  params.shift()
+  return formatParams(params)
+}
+
+function formatParams (params) {
+  var queryString = ''
+  if (params && params.length > 0) {
+    queryString = '?'
     params.forEach(function (param) {
-      queryStrings += param + '=&'
+      queryString += param + '=&'
     })
   }
-  return queryStrings
+  return queryString.replace(/&$/, '')
+}
+
+function buildUrl (params, referenceId, claimId) {
+  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/${getPath(params)}${formatParamsAndRemoveLeading(params)}`
+}
+
+function isEmptyObject (object) {
+  return Object.keys(object).length === 0 && object.constructor === Object
 }

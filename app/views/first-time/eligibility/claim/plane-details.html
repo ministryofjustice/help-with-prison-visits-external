@@ -23,7 +23,7 @@
 
       <p>Claims that include air travel require approval before you travel, by the Assisted Prison Visits Unit.</p>
 
-      <form action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claim }}/plane" method="post">
+      <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claim}}/plane{{params}}" method="post">
 
         <div class="form-group">
           <label for="from" class="form-label-bold">From</label>
@@ -83,8 +83,7 @@
               <label for="add-another-journey" class="block-label">
                 <input id="add-another-journey"
                        type="checkbox"
-                       name="add-another-journey"
-                       value="yes">
+                       name="add-another-journey">
                 Add another plane journey
               </label>
 

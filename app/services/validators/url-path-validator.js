@@ -8,63 +8,17 @@ const VALIDATION_ERROR = new Error('An error has occured')
 class UrlPathValidator {
 
   static validate (path) {
-    this.validateDob(path)
-    this.validateRelationship(path)
-    this.validateAssistance(path)
-    this.validateBenefit(path)
-    this.validateReference(path)
-    this.validateClaimId(path)
+    this.validateParam(path['dob'], 'isValidDateOfBirth')
+    this.validateParam(path['relationship'], 'isValidPrisonerRelationship')
+    this.validateParam(path['assistance'], 'isValidJourneyAssistance')
+    this.validateParam(path['requireBenefitUpload'], 'isValidBenefitResponse')
+    this.validateParam(path['reference'], 'isValidReference')
+    this.validateParam(path['claim'], 'isNumeric')
   }
 
-  static validateDob (path) {
-    var dob = path['dob']
-    if (dob) {
-      if (!validator.isValidDateOfBirth(dob)) {
-        throw VALIDATION_ERROR
-      }
-    }
-  }
-
-  static validateRelationship (path) {
-    var relationship = path['relationship']
-    if (relationship) {
-      if (!validator.isValidPrisonerRelationship(relationship)) {
-        throw VALIDATION_ERROR
-      }
-    }
-  }
-
-  static validateAssistance (path) {
-    var assistance = path['assistance']
-    if (assistance) {
-      if (!validator.isValidJourneyAssistance(assistance)) {
-        throw VALIDATION_ERROR
-      }
-    }
-  }
-
-  static validateBenefit (path) {
-    var benefit = path['requireBenefitUpload']
-    if (benefit) {
-      if (!validator.isValidBenefitResponse(benefit)) {
-        throw VALIDATION_ERROR
-      }
-    }
-  }
-
-  static validateReference (path) {
-    var reference = path['reference']
-    if (reference) {
-      if (!validator.isValidReference(reference)) {
-        throw VALIDATION_ERROR
-      }
-    }
-  }
-
-  static validateClaimId (path) {
-    var claimId = path['claimId']
-    if (claimId) {
-      if (!validator.isNumeric(claimId)) {
+  static validateParam (param, validateFunction) {
+    if (param) {
+      if (!validator[validateFunction](param)) {
         throw VALIDATION_ERROR
       }
     }
