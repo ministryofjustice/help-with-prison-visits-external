@@ -1,9 +1,7 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const ValidationError = require('../../../../services/errors/validation-error')
-const dateFormatter = require('../../../../services/date-formatter')
-const moment = require('moment')
-const Claim = require('../../../../services/domain/claim')
-const insertClaim = require('../../../../services/data/insert-claim')
+const FirstTimeClaim = require('../../../../services/domain/first-time-claim')
+const insertFirstTimeClaim = require('../../../../services/data/insert-first-time-claim')
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
@@ -17,21 +15,14 @@ module.exports = function (router) {
   router.post('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
     UrlPathValidator(req.params)
 
-    var day = req.body['date-of-journey-day']
-    var month = req.body['date-of-journey-month']
-    var year = req.body['date-of-journey-year']
-
-    var dateOfJourney = dateFormatter.build(day, month, year)
-
     try {
-      var claim = new Claim(
+      var firstTimeClaim = new FirstTimeClaim(
         req.params.reference,
-        dateOfJourney,
-        moment(),
-        null,
-        'IN-PROGRESS'
+        req.body['date-of-journey-day'],
+        req.body['date-of-journey-month'],
+        req.body['date-of-journey-year']
       )
-      insertClaim(claim)
+      insertFirstTimeClaim(firstTimeClaim)
         .then(function (result) {
           var claimId = result[0]
           return res.redirect(`/first-time-claim/eligibility/${req.params.reference}/claim/${claimId}`)

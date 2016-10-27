@@ -2,20 +2,17 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const FieldsetValidator = require('../validators/fieldset-validator')
 const ErrorHandler = require('../validators/error-handler')
+const dateFormatter = require('../date-formatter')
 
-class Claim {
+class FirstTimeClaim {
   constructor (
     reference,
-    dateOfJourney,
-    dateCreated,
-    dateSubmitted,
-    status
+    day,
+    month,
+    year
   ) {
-    this.reference = reference.replace(/ /g, '')
-    this.dateOfJourney = dateOfJourney
-    this.dateCreated = dateCreated
-    this.dateSubmitted = dateSubmitted
-    this.status = status
+    this.reference = reference
+    this.dateOfJourney = dateFormatter.build(day, month, year).toDate()
     this.IsValid()
   }
 
@@ -24,17 +21,10 @@ class Claim {
 
     FieldValidator(this.reference, 'Reference', errors)
       .isRequired()
-      .isReference()
 
     FieldsetValidator(this.dateOfJourney, 'DateOfJourney', errors)
       .isValidDate(this.dateOfJourney)
-
-    FieldsetValidator(this.dateCreated, 'DateCreated', errors)
-      .isValidDate(this.dateCreated)
-
-    FieldValidator(this.status, 'Status', errors)
-      .isRequired()
-      .isStatus()
+      .isPastDate(this.dateOfJourney)
 
     var validationErrors = errors.get()
 
@@ -44,4 +34,4 @@ class Claim {
   }
 }
 
-module.exports = Claim
+module.exports = FirstTimeClaim

@@ -266,7 +266,7 @@ describe('services/validators/common-validator', function () {
       done()
     })
 
-    it('should return false if passed a valid Date object', function (done) {
+    it('should return false if passed an invalid Date object', function (done) {
       var result = validator.isDateInThePast(FUTURE_DATE)
       expect(result).to.equal(false)
       done()
@@ -598,41 +598,6 @@ describe('services/validators/common-validator', function () {
 
     it('should return false if passed an invalid reference value', function (done) {
       var result = validator.isValidReference(INVALID_INPUT)
-      expect(result).to.equal(false)
-      done()
-    })
-  })
-
-  describe('isValidStatus', function () {
-    const VALID_INPUT = 'IN-PROGRESS'
-    const INVALID_INPUT = 'some invalid input'
-
-    it('should return false if passed null', function (done) {
-      var result = validator.isValidStatus(null)
-      expect(result).to.equal(false)
-      done()
-    })
-
-    it('should return false if passed undefined', function (done) {
-      var result = validator.isValidStatus(undefined)
-      expect(result).to.equal(false)
-      done()
-    })
-
-    it('should return false if passed an object', function (done) {
-      var result = validator.isValidStatus({})
-      expect(result).to.equal(false)
-      done()
-    })
-
-    it('should return true if passed a valid benefit value', function (done) {
-      var result = validator.isValidStatus(VALID_INPUT)
-      expect(result).to.equal(true)
-      done()
-    })
-
-    it('should return false if passed an invalid benefit value', function (done) {
-      var result = validator.isValidStatus(INVALID_INPUT)
       expect(result).to.equal(false)
       done()
     })

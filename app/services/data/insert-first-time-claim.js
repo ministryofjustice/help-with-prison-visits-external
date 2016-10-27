@@ -1,16 +1,17 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
-const Claim = require('../domain/claim')
+const moment = require('moment')
+const FirstTimeClaim = require('../domain/first-time-claim')
 
 module.exports = function (claim) {
-  if (!(claim instanceof Claim)) {
+  if (!(claim instanceof FirstTimeClaim)) {
     throw new Error('Provided claim object is not an instance of the expected class')
   }
   return knex('Claim').insert({
     Reference: claim.reference,
-    DateOfJourney: claim.dateOfJourney.toDate(),
-    DateCreated: claim.dateCreated.toDate(),
+    DateOfJourney: claim.dateOfJourney,
+    DateCreated: moment().toDate(),
     DateSubmitted: null,
-    Status: claim.status
+    Status: 'PENDING'
   }).returning('ClaimId')
 }

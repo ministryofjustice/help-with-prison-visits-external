@@ -90,12 +90,6 @@ class FieldValidator {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
     }
   }
-
-  isStatus () {
-    if (!validator.isValidStatus(this.data)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidStatus)
-    }
-  }
 }
 
 module.exports = function (data, fieldName, errors) {
