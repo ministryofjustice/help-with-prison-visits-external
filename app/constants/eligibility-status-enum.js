@@ -1,3 +1,4 @@
 module.exports = {
-  IN_PROGRESS: 'IN-PROGRESS'
+  IN_PROGRESS: 'IN-PROGRESS',
+  SUBMITTED: 'SUBMITTED'
 }
