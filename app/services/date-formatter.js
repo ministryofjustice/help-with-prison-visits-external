@@ -10,7 +10,12 @@ exports.format = function (date) {
 }
 
 exports.build = function (day, month, year) {
-  return moment([year, month - 1, day])
+  month = month - 1
+  var date = moment([year, month, day])
+  if (date.isDST()) {
+    date = date.add(1, 'hour')
+  }
+  return date
 }
 
 exports.buildFormatted = function (day, month, year) {

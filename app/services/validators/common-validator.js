@@ -32,6 +32,12 @@ exports.isLessThanLength = function (value, length) {
 }
 
 exports.isDateValid = function (date) {
+  if (this.isNullOrUndefined(date)) {
+    return false
+  }
+  if (date instanceof Date) {
+    date = moment(date)
+  }
   return date instanceof moment &&
          date.isValid() &&
          moment().diff(date, 'years') < NUM_YEARS_LIMIT
@@ -39,7 +45,7 @@ exports.isDateValid = function (date) {
 
 exports.isDateInThePast = function (date) {
   return this.isDateValid(date) &&
-         date < moment()
+         moment(date) < moment()
 }
 
 exports.isRange = function (value, min, max) {

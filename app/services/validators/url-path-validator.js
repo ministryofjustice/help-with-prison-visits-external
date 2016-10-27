@@ -13,7 +13,7 @@ class UrlPathValidator {
     this.validateParam(path['assistance'], 'isValidJourneyAssistance')
     this.validateParam(path['requireBenefitUpload'], 'isValidBenefitResponse')
     this.validateParam(path['reference'], 'isValidReference')
-    this.validateParam(path['claim'], 'isNumeric')
+    this.validateParam(path['claimId'], 'isNumeric')
   }
 
   static validateParam (param, validateFunction) {

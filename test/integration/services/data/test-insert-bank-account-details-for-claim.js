@@ -2,7 +2,7 @@ var expect = require('chai').expect
 var config = require('../../../../knexfile').migrations
 var knex = require('knex')(config)
 var moment = require('moment')
-var BankAccountDetailsDomain = require('../../../../app/services/domain/bank-account-details')
+var BankAccountDetails = require('../../../../app/services/domain/bank-account-details')
 
 var insertBankAccountDetailsForClaim = require('../../../../app/services/data/insert-bank-account-details-for-claim')
 var reference = 'V123456'
@@ -35,15 +35,16 @@ describe('services/data/insert-bank-account-details-for-claim', function () {
   })
 
   it('should insert a new Bank Details record for a claim', function (done) {
-    var bankDetailsData = new BankAccountDetailsDomain(AccountNumber, SortCode)
+    var bankDetailsData = new BankAccountDetails(AccountNumber, SortCode)
 
     insertBankAccountDetailsForClaim(claimId, bankDetailsData)
       .returning('ClaimBankDetailId')
-      .then(function (claimBankDetailId) {
+      .then(function (insertClaimBankDetailResult) {
+        var claimBankDetailId = insertClaimBankDetailResult[0]
         knex.select().from('ExtSchema.ClaimBankDetail').where('ClaimBankDetailId', claimBankDetailId)
           .then(function (results) {
             expect(results.length).to.equal(1)
-            expect(results[0].ClaimBankDetailId).to.equal(claimBankDetailId[0])
+            expect(results[0].ClaimBankDetailId).to.equal(claimBankDetailId)
             expect(results[0].ClaimId).to.equal(claimId)
             expect(results[0].AccountNumber).to.equal('00123456')
             expect(results[0].SortCode).to.equal('112233')
