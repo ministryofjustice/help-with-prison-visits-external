@@ -1,5 +1,6 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
+const moment = require('moment')
 const tasksEnum = require('../../constants/tasks-enum')
 const taskStatusEnum = require('../../constants/task-status-enum')
 
@@ -12,7 +13,7 @@ module.exports = function (reference, claimId) {
       Reference: reference,
       ClaimId: claimId,
       AdditionalData: emailAddress,
-      DateCreated: new Date(),
+      DateCreated: moment().toDate(),
       Status: taskStatusEnum.PENDING
     })
   })
