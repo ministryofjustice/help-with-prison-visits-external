@@ -1,6 +1,7 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const moment = require('moment')
+const insertTaskSendFirstTimeClaimNotification = require('./insert-task-send-first-time-claim-notification')
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 
 module.exports = function (reference, claimId) {
@@ -34,5 +35,7 @@ module.exports = function (reference, claimId) {
             })
           })
         })
+    }).then(function () {
+      return insertTaskSendFirstTimeClaimNotification(reference, claimId)
     })
 }
