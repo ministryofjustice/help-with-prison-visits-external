@@ -16,11 +16,13 @@ module.exports.format = function (params) {
 
 module.exports.build = function (params) {
   var paramsArray = []
-  params.forEach(function (param) {
-    if (URL_PARAMS.includes(param)) {
-      paramsArray.push(param)
-    }
-  })
+  if (params) {
+    params.forEach(function (param) {
+      if (URL_PARAMS.includes(param)) {
+        paramsArray.push(param)
+      }
+    })
+  }
   return paramsArray
 }
 
