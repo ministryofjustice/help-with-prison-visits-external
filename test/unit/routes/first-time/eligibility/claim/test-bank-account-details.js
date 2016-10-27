@@ -57,7 +57,6 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
       var newBankAccountDetails = {}
       stubBankAccountDetails.returns(newBankAccountDetails)
       stubInsertBankAccountDetailsForClaim.resolves(1)
-
       request
         .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
         .send(VALID_DATA)
