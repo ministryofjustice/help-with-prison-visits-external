@@ -21,9 +21,9 @@
 
       <form action="/first-time-claim/eligibility/{{reference}}/new-claim/past" method="post">
 
-        <div class="form-group">
+        <div class="form-group {% if errors['DateOfJourney'][0] %} error {% endif %}">
           <fieldset>
-            <legend class="form-label-bold">Date of prision visit</legend>
+            <legend id="DateOfJourney" class="form-label-bold">Date of prision visit</legend>
 
             {% if errors['DateOfJourney'][0] %}
             <span class="error-message" id="error-message-benefit">{{ errors['DateOfJourney'][0] }}</span>
@@ -43,7 +43,7 @@
 
               <div class="form-group form-group-month">
                 <label for="date-of-journey-month">Month</label>
-                <input id="date-of-journey-month-input"
+                <input id="date-of-journey-month"
                        name="date-of-journey-month"
                        value="{{ claim['date-of-journey-month'] }}"
                        class="form-control">

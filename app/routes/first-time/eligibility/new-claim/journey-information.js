@@ -17,17 +17,17 @@ module.exports = function (router) {
   router.post('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
     UrlPathValidator(req.params)
 
-    var dateOfJourney = parseDate(
-      req.body['date-of-journey-day'],
-      req.body['date-of-journey-month'],
-      req.body['date-of-journey-year']
-    )
+    var day = req.body['date-of-journey-day']
+    var month = req.body['date-of-journey-month']
+    var year = req.body['date-of-journey-year']
+
+    var dateOfJourney = dateFormatter.build(day, month, year)
 
     try {
       var claim = new Claim(
         req.params.reference,
-        dateOfJourney.date.toDate(),
-        moment().toDate(),
+        dateOfJourney,
+        moment(),
         null,
         'IN-PROGRESS'
       )
@@ -36,6 +36,7 @@ module.exports = function (router) {
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('first-time/eligibility/new-claim/journey-information', {
+          reference: req.params.reference,
           claim: req.body,
           errors: error.validationErrors
         })
@@ -47,11 +48,4 @@ module.exports = function (router) {
     var stubId = '123'
     return res.redirect(`/first-time-claim/eligibility/${req.params.reference}/claim/${stubId}`)
   })
-}
-
-function parseDate (day, month, year) {
-  return {
-    date: dateFormatter.build(day, month, year),
-    formattedString: dateFormatter.buildFormatted(day, month, year)
-  }
 }

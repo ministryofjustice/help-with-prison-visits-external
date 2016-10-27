@@ -67,6 +67,9 @@ describe('First time claim flow', () => {
 
       // Journey Information
       .waitForExist('#journey-information-submit')
+      .setValue('#date-of-journey-day', '01')
+      .setValue('#date-of-journey-month', '01')
+      .setValue('#date-of-journey-year', '1955')
       .click('#journey-information-submit')
 
       // Expense

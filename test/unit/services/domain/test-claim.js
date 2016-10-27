@@ -54,7 +54,6 @@ describe('services/domain/claim', function () {
       expect(e.validationErrors['Reference'][0]).to.equal('Reference is required')
       expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of journey was invalid')
       expect(e.validationErrors['DateCreated'][0]).to.equal('Date created was invalid')
-      expect(e.validationErrors['DateSubmitted'][0]).to.equal('Date submitted was invalid')
       expect(e.validationErrors['Status'][0]).to.equal('Status is required')
     }
     done()

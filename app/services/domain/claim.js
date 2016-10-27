@@ -30,10 +30,7 @@ class Claim {
       .isValidDate(this.dateOfJourney)
 
     FieldsetValidator(this.dateCreated, 'DateCreated', errors)
-      .isValidDate(this.dateOfJourney)
-
-    FieldsetValidator(this.dateSubmitted, 'DateSubmitted', errors)
-      .isValidDate(this.dateOfJourney)
+      .isValidDate(this.dateCreated)
 
     FieldValidator(this.status, 'Status', errors)
       .isRequired()

@@ -22,7 +22,7 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
     VALID_DATA['date-of-journey-day'],
     VALID_DATA['date-of-journey-month'],
     VALID_DATA['date-of-journey-year']
-  ).toDate()
+  )
 
   var stubClaim
 
