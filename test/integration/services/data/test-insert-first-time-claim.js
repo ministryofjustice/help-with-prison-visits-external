@@ -1,14 +1,15 @@
-const expect = require('chai').expect
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
-const moment = require('moment')
-const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
-const insertFirstTimeClaim = require('../../../../app/services/data/insert-first-time-claim')
-const FirstTimeClaim = require('../../../../app/services/domain/first-time-claim')
+var expect = require('chai').expect
+var config = require('../../../../knexfile').migrations
+var knex = require('knex')(config)
+var moment = require('moment')
+var claimStatusEnum = require('../../../../app/constants/claim-status-enum')
+var insertFirstTimeClaim = require('../../../../app/services/data/insert-first-time-claim')
+var FirstTimeClaim = require('../../../../app/services/domain/first-time-claim')
+var dateFormatter = require('../../../../app/services/date-formatter')
 
 var reference = 'APVS123'
 var claimId
-var dateOfJourney = moment(['2016', '10', '26'])
+var dateOfJourney = dateFormatter.build('26', '10', '2016')
 
 describe('services/data/insert-first-time-claim', function () {
   before(function (done) {
@@ -38,8 +39,8 @@ describe('services/data/insert-first-time-claim', function () {
           .then(function (results) {
             expect(results.length).to.equal(1)
             expect(results[0].DateOfJourney).to.be.within(
-                dateOfJourney.subtract(1, 'seconds').toDate(),
-                dateOfJourney.add(1, 'seconds').toDate()
+                moment(dateOfJourney).subtract(1, 'seconds').toDate(),
+                moment(dateOfJourney).add(1, 'seconds').toDate()
             )
             expect(results[0].DateSubmitted).to.equal(null)
             expect(results[0].Status).to.equal(claimStatusEnum.IN_PROGRESS)
