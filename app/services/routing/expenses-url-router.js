@@ -10,7 +10,7 @@ module.exports.parseParams = function (params) {
 }
 
 module.exports.getRedirectUrl = function (req) {
-  if (!req || !req.body || !req.params || !req.params.reference || !req.params.claimId || !req.originalUrl || !req.query) {
+  if (!isValid(req)) {
     throw ROUTING_ERROR
   }
 
@@ -46,6 +46,10 @@ function buildUrl (params, reference, claimId) {
   var path = getPath(params)
   params.shift()
   return `/first-time-claim/eligibility/${reference}/claim/${claimId}/${path}${paramBuilder.format(params)}`
+}
+
+function isValid(req) {
+  return req && req.body && req.query && req.originalUrl && req.params && req.params.reference && req.params.claimId
 }
 
 function isEmpty (array) {
