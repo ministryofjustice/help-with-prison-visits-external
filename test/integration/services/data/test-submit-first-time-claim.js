@@ -4,6 +4,8 @@ const sinon = require('sinon')
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 const moment = require('moment')
+const eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
+const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
 require('sinon-bluebird')
 
 const reference = 'S123456'
@@ -45,10 +47,10 @@ describe('services/data/submit-first-time-claim', function () {
           .then(function (eligibility) {
             return knex.first().from('ExtSchema.Claim').where('Reference', reference)
               .then(function (claim) {
-                expect(eligibility.Status).to.equal('SUBMITTED')
+                expect(eligibility.Status).to.equal(eligibilityStatusEnum.SUBMITTED)
                 expect(eligibility.DateSubmitted).to.be.within(currentDate.setMinutes(currentDate.getMinutes() - 2), currentDate.setMinutes(currentDate.getMinutes() + 2))
 
-                expect(claim.Status).to.equal('SUBMITTED')
+                expect(claim.Status).to.equal(claimStatusEnum.SUBMITTED)
                 expect(claim.DateSubmitted).to.be.within(currentDate.setMinutes(currentDate.getMinutes() - 2), currentDate.setMinutes(currentDate.getMinutes() + 2))
 
                 expect(stubInsertTaskSendFirstTimeClaimNotification.calledWith(reference, claimId)).to.be.true

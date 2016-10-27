@@ -1,14 +1,14 @@
-var expect = require('chai').expect
-var config = require('../../../../knexfile').migrations
-var knex = require('knex')(config)
-var moment = require('moment')
-var insertFirstTimeClaim = require('../../../../app/services/data/insert-first-time-claim')
-var FirstTimeClaim = require('../../../../app/services/domain/first-time-claim')
+const expect = require('chai').expect
+const config = require('../../../../knexfile').migrations
+const knex = require('knex')(config)
+const moment = require('moment')
+const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
+const insertFirstTimeClaim = require('../../../../app/services/data/insert-first-time-claim')
+const FirstTimeClaim = require('../../../../app/services/domain/first-time-claim')
 
 var reference = 'APVS123'
 var claimId
 var dateOfJourney = moment(['2016', '10', '26'])
-var status = 'PENDING'
 
 describe('services/data/insert-first-time-claim', function () {
   before(function (done) {
@@ -42,7 +42,7 @@ describe('services/data/insert-first-time-claim', function () {
                 dateOfJourney.add(1, 'seconds').toDate()
             )
             expect(results[0].DateSubmitted).to.equal(null)
-            expect(results[0].Status).to.equal(status)
+            expect(results[0].Status).to.equal(claimStatusEnum.IN_PROGRESS)
             done()
           })
       })

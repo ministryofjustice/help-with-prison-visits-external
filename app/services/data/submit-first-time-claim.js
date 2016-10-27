@@ -3,6 +3,7 @@ const knex = require('knex')(config)
 const moment = require('moment')
 const insertTaskSendFirstTimeClaimNotification = require('./insert-task-send-first-time-claim-notification')
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
+const claimStatusEnum = require('../../constants/claim-status-enum')
 
 module.exports = function (reference, claimId) {
   var dateSubmitted = moment().toDate()
@@ -13,7 +14,7 @@ module.exports = function (reference, claimId) {
     }).then(function () {
       return knex('Claim').where('ClaimId', claimId)
         .update({
-          'Status': 'SUBMITTED', // TODO change to constant
+          'Status': claimStatusEnum.SUBMITTED,
           'DateSubmitted': dateSubmitted
         })
         // TODO TEMPORARY CLAIM TRANSPORT AND EXPENSE INSERT
