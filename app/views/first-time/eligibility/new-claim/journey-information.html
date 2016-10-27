@@ -21,29 +21,39 @@
 
       <form action="/first-time-claim/eligibility/{{reference}}/new-claim/past" method="post">
 
-        <div class="form-group">
+        <div class="form-group {% if errors['DateOfJourney'][0] %} error {% endif %}">
           <fieldset>
-            <legend class="form-label-bold">Date of prision visit</legend>
+            <legend id="DateOfJourney" class="form-label-bold">Date of prision visit</legend>
+
+            {% if errors['DateOfJourney'][0] %}
+            <span class="error-message" id="error-message-benefit">{{ errors['DateOfJourney'][0] }}</span>
+            {% endif %}
 
             <div class="form-date">
 
               <p class="form-hint">For example, 20 10 2016</p>
 
               <div class="form-group form-group-day">
-                <label for="dob-day">Day</label>
-                <input id="dob-day"
+                <label for="date-of-journey-day">Day</label>
+                <input id="date-of-journey-day" 
+                       name="date-of-journey-day"
+                       value="{{ claim['date-of-journey-day'] }}"
                        class="form-control">
               </div>
 
               <div class="form-group form-group-month">
-                <label for="dob-month">Month</label>
-                <input id="dob-month"
+                <label for="date-of-journey-month">Month</label>
+                <input id="date-of-journey-month"
+                       name="date-of-journey-month"
+                       value="{{ claim['date-of-journey-month'] }}"
                        class="form-control">
               </div>
 
               <div class="form-group form-group-year">
-                <label for="dob-year">Year</label>
-                <input id="dob-year"
+                <label for="date-of-journey-year">Year</label>
+                <input id="date-of-journey-year"
+                       name="date-of-journey-year"
+                       value="{{ claim['date-of-journey-year'] }}"
                        class="form-control">
               </div>
             </div>

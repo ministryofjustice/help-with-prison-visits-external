@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const mockViewEngine = require('../../../mock-view-engine')
 var request
 
-describe('routes/first-time/claim/future-or-past-visit', function () {
+describe('routes/first-time/eligibility/new-claim/future-or-past-visit', function () {
   var urlValidatorCalled = false
 
   beforeEach(function () {

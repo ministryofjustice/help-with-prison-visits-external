@@ -266,7 +266,7 @@ describe('services/validators/common-validator', function () {
       done()
     })
 
-    it('should return false if passed a valid Date object', function (done) {
+    it('should return false if passed an invalid Date object', function (done) {
       var result = validator.isDateInThePast(FUTURE_DATE)
       expect(result).to.equal(false)
       done()
