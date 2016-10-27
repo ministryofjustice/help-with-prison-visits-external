@@ -34,7 +34,7 @@ module.exports = function (router) {
       insertClaim(claim)
         .then(function (result) {
           var claimId = result[0]
-          return res.redirect(`/first-time-claim/eligibility/${claim.reference}/claim/${claimId}`)
+          return res.redirect(`/first-time-claim/eligibility/${req.params.reference}/claim/${claimId}`)
         })
     } catch (error) {
       if (error instanceof ValidationError) {
