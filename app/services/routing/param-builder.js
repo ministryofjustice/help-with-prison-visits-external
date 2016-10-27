@@ -24,6 +24,10 @@ module.exports.build = function (params) {
   return paramsArray
 }
 
+module.exports.buildFormatted = function (params) {
+  return this.format(this.build(params))
+}
+
 function isEmpty (array) {
   return !array || array.length === 0
 }

@@ -6,7 +6,7 @@ const POST_EXPENSES_PATH = 'summary'
 const ROUTING_ERROR = new Error('An error occured.')
 
 module.exports.parseParams = function (params) {
-  return paramBuilder.format(paramBuilder.build(toArray(params)))
+  return paramBuilder.buildFormatted(toArray(params))
 }
 
 module.exports.getRedirectUrl = function (req) {
