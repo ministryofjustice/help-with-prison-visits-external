@@ -14,6 +14,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
   var request
   var stubBankAccountDetails
   var stubInsertBankAccountDetailsForClaim
+  var stubSubmitFirstTimeClaim
   var urlValidatorCalled
   const VALID_DATA = {
     'AccountNumber': '12345678',
@@ -23,11 +24,13 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
   beforeEach(function () {
     stubBankAccountDetails = sinon.stub()
     stubInsertBankAccountDetailsForClaim = sinon.stub()
+    stubSubmitFirstTimeClaim = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/first-time/eligibility/claim/bank-account-details', {
         '../../../../services/domain/bank-account-details': stubBankAccountDetails,
         '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
+        '../../../../services/data/submit-first-time-claim': stubSubmitFirstTimeClaim,
         '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
       })
 
@@ -56,7 +59,8 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
     it('should respond with a 302', function (done) {
       var newBankAccountDetails = {}
       stubBankAccountDetails.returns(newBankAccountDetails)
-      stubInsertBankAccountDetailsForClaim.resolves(1)
+      stubInsertBankAccountDetailsForClaim.resolves()
+      stubSubmitFirstTimeClaim.resolves()
 
       request
         .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
@@ -67,6 +71,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
           expect(urlValidatorCalled).to.be.true
           expect(stubBankAccountDetails.calledWithExactly(VALID_DATA.AccountNumber, VALID_DATA.SortCode)).to.be.true
           expect(stubInsertBankAccountDetailsForClaim.calledWithExactly(claimId, newBankAccountDetails)).to.be.true
+          expect(stubSubmitFirstTimeClaim.calledWithExactly(reference, claimId)).to.be.true
           expect(response.headers['location']).to.be.equal('/application-submitted/' + reference)
           done()
         })
