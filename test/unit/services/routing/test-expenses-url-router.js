@@ -5,10 +5,14 @@ const paramBuilder = require('../../../../app/services/routing/param-builder')
 
 describe('services/routing/expenses-url-router', function () {
   describe('parseParams', function () {
+    var buildFormatted = sinon.stub(paramBuilder, 'buildFormatted')
     it('should call buildFormatted to build and format the params parameter', function (done) {
-      var buildFormatted = sinon.stub(paramBuilder, 'buildFormatted')
       expensesUrlRouter.parseParams([])
       sinon.assert.calledOnce(buildFormatted)
+      done()
+    })
+    after(function (done) {
+      buildFormatted.restore()
       done()
     })
   })
