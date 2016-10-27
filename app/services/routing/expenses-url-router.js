@@ -10,7 +10,7 @@ module.exports.parseParams = function (params) {
 }
 
 module.exports.getRedirectUrl = function (req) {
-  if (!req || !req.body || !req.params || !req.params.reference || !req.params.claimId || !req.originalUrl) {
+  if (!req || !req.body || !req.params || !req.params.reference || !req.params.claimId || !req.originalUrl || !req.query) {
     throw ROUTING_ERROR
   }
 
