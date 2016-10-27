@@ -4,10 +4,11 @@ var knex = require('knex')(config)
 var moment = require('moment')
 var insertFirstTimeClaim = require('../../../../app/services/data/insert-first-time-claim')
 var FirstTimeClaim = require('../../../../app/services/domain/first-time-claim')
+var dateFormatter = require('../../../../app/services/date-formatter')
 
 var reference = 'APVS123'
 var claimId
-var dateOfJourney = moment(['2016', '10', '26'])
+var dateOfJourney = dateFormatter.build('26', '10', '2016')
 var status = 'PENDING'
 
 describe('services/data/insert-first-time-claim', function () {
@@ -38,8 +39,8 @@ describe('services/data/insert-first-time-claim', function () {
           .then(function (results) {
             expect(results.length).to.equal(1)
             expect(results[0].DateOfJourney).to.be.within(
-                dateOfJourney.subtract(1, 'seconds').toDate(),
-                dateOfJourney.add(1, 'seconds').toDate()
+                moment(dateOfJourney).subtract(1, 'seconds').toDate(),
+                moment(dateOfJourney).add(1, 'seconds').toDate()
             )
             expect(results[0].DateSubmitted).to.equal(null)
             expect(results[0].Status).to.equal(status)
