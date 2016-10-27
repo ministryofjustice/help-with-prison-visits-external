@@ -96,20 +96,26 @@ describe('services/routing/param-builder', function () {
       done()
     })
 
+    // TODO: FAILING?
     it('should return valid query paramater containing each valid paramater in the input array', function (done) {
       var result = paramBuilder.buildFormatted(VALID_ARRAY)
+      console.log(result)
       expect(result).to.deep.equal(VALID_ARRAY_OUTPUT)
       done()
     })
 
+    // TODO: FAILING?
     it('should return an empty string if passed an array containing only non valid parameters', function (done) {
       var result = paramBuilder.buildFormatted(INVALID_ARRAY)
+      console.log(result)
       expect(result).to.deep.equal('')
       done()
     })
 
-    it('should return valid query paramater containing each valid paramater in the input array', function (done) {
+    // TODO: FAILING?
+    it('should return valid query paramater containing only valid paramaters from the input array', function (done) {
       var result = paramBuilder.buildFormatted(VALID_AND_INVALID_ARRAY)
+      console.log(result)
       expect(result).to.deep.equal(VALID_AND_INVALID_ARRAY_OUTPUT)
       done()
     })

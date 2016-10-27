@@ -48,7 +48,7 @@ function buildUrl (params, reference, claimId) {
   return `/first-time-claim/eligibility/${reference}/claim/${claimId}/${path}${paramBuilder.format(params)}`
 }
 
-function isValid(req) {
+function isValid (req) {
   return req && req.body && req.query && req.originalUrl && req.params && req.params.reference && req.params.claimId
 }
 
