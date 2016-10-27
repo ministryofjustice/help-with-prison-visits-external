@@ -10,7 +10,7 @@ module.exports.parseParams = function (queryParams) {
 }
 
 module.exports.getRedirectUrl = function (req) {
-  if (!req || !req.body || !req.params || !req.params.reference || !req.params.claim || !req.originalUrl) {
+  if (!req || !req.body || !req.params || !req.params.reference || !req.params.claimId || !req.originalUrl) {
     throw new Error('An error occured.')
   }
 
@@ -18,7 +18,7 @@ module.exports.getRedirectUrl = function (req) {
     return req.originalUrl
   }
   var params = buildParamsArray(req.body.expenses, req.query)
-  return buildUrl(params, req.params.reference, req.params.claim)
+  return buildUrl(params, req.params.reference, req.params.claimId)
 }
 
 function buildParamsArray (expenseParams, queryParams) {
@@ -81,8 +81,8 @@ function formatParams (params) {
   return queryString.replace(/&$/, '')
 }
 
-function buildUrl (params, referenceId, claimId) {
-  return `/first-time-claim/eligibility/${referenceId}/claim/${claimId}/${getPath(params)}${formatParamsAndRemoveLeading(params)}`
+function buildUrl (params, reference, claimId) {
+  return `/first-time-claim/eligibility/${reference}/claim/${claimId}/${getPath(params)}${formatParamsAndRemoveLeading(params)}`
 }
 
 function isEmptyObject (object) {

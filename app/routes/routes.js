@@ -21,7 +21,7 @@ var routes = [
   // TODO refactor route to start from /first-time/eligibility/:reference/new-claim
   require('./first-time/eligibility/new-claim/future-or-past-visit.js'),
   require('./first-time/eligibility/new-claim/journey-information.js'),
-  // TODO all routes after this /first-time/eligibility/:reference/claim/:claim-ref
+  // TODO all routes after this /first-time/eligibility/:reference/claim/:claimId
   require('./first-time/eligibility/claim/expenses'),
   require('./first-time/eligibility/claim/bank-account-details'),
 

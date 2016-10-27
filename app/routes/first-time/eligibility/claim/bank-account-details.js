@@ -4,16 +4,19 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 
 module.exports = function (router) {
-  router.get('/first-time-claim/eligibility/:reference/claim/:claim/bank-account-details', function (req, res) {
+  router.get('/first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function (req, res) {
     UrlPathValidator(req.params)
-    return res.render('first-time/eligibility/claim/bank-account-details')
+    return res.render('first-time/eligibility/claim/bank-account-details', {
+      reference: req.params.reference,
+      claimId: req.params.claimId
+    })
   })
 
-  router.post('/first-time-claim/eligibility/:reference/claim/:claim/bank-account-details', function (req, res) {
+  router.post('/first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function (req, res) {
     UrlPathValidator(req.params)
     try {
       var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode)
-      insertBankAccountDetailsForClaim(req.params.claim, bankAccountDetails)
+      insertBankAccountDetailsForClaim(req.params.claimId, bankAccountDetails)
         .then(function () {
           return res.redirect(`/application-submitted/${req.params.reference}`)
         })
