@@ -3,6 +3,7 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const dateFormatter = require('../../../../services/date-formatter')
 const moment = require('moment')
 const Claim = require('../../../../services/domain/claim')
+const insertClaim = require('../../../../services/data/insert-claim')
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
@@ -13,7 +14,6 @@ module.exports = function (router) {
   })
 
   // TODO: Add branches based on question responses.
-  // TODO: Need to generate real Claim ID at this point.
   router.post('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
     UrlPathValidator(req.params)
 
@@ -31,8 +31,11 @@ module.exports = function (router) {
         null,
         'IN-PROGRESS'
       )
-      // TODO: Persist claim record
-      console.log(claim)
+      insertClaim(claim)
+        .then(function (result) {
+          var claimId = result[0]
+          return res.redirect(`/first-time-claim/eligibility/${claim.reference}/claim/${claimId}`)
+        })
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('first-time/eligibility/new-claim/journey-information', {
@@ -44,8 +47,5 @@ module.exports = function (router) {
         throw error
       }
     }
-
-    var stubId = '123'
-    return res.redirect(`/first-time-claim/eligibility/${req.params.reference}/claim/${stubId}`)
   })
 }
