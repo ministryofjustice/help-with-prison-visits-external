@@ -1,90 +1,57 @@
-const URL_PARAMS = require('../../constants/expenses-url-path-enum')
-
-// TODO: Split out the URL contruction logic.
-// TODO: Explain what this class does.
-
+/**
+ * A custom router that returns a redirection URL based upon a set of path params (defined in expenses-url-path-enum.js).
+ */
+const paramBuilder = require('./param-builder')
 const POST_EXPENSES_PATH = 'summary'
+const ROUTING_ERROR = new Error('An error occured.')
 
-module.exports.parseParams = function (queryParams) {
-  return formatParams(buildParamsArrayFromObject(queryParams))
+module.exports.parseParams = function (params) {
+  return paramBuilder.format(paramBuilder.build(toArray(params)))
 }
 
 module.exports.getRedirectUrl = function (req) {
   if (!req || !req.body || !req.params || !req.params.reference || !req.params.claimId || !req.originalUrl) {
-    throw new Error('An error occured.')
+    throw ROUTING_ERROR
   }
 
   if (req.body['add-another-journey']) {
     return req.originalUrl
   }
-  var params = buildParamsArray(req.body.expenses, req.query)
+  var params = getParams(req.body.expenses, toArray(req.query))
   return buildUrl(params, req.params.reference, req.params.claimId)
 }
 
-function buildParamsArray (expenseParams, queryParams) {
+function getParams (expenseParams, queryParams) {
   var params = []
-  if (expenseParams) {
-    params = buildParamsArrayFromArray(expenseParams)
+
+  if (!(expenseParams instanceof Array)) {
+    expenseParams = [expenseParams]
   }
-  if (!isEmptyObject(queryParams)) {
-    params = buildParamsArrayFromObject(queryParams)
+
+  if (!isEmpty(expenseParams)) {
+    params = paramBuilder.build(expenseParams)
+  }
+  if (!isEmpty(queryParams)) {
+    params = paramBuilder.build(queryParams)
   }
   return params
 }
 
-function buildParamsArrayFromArray (params) {
-  var paramsArray = []
-
-  if (!(params instanceof Array)) {
-    params = [params]
-  }
-
-  params.forEach(function (param) {
-    if (URL_PARAMS.includes(param)) {
-      paramsArray.push(param)
-    }
-  })
-  return paramsArray
-}
-
-function buildParamsArrayFromObject (params) {
-  var paramsArray = []
-  for (var param in params) {
-    paramsArray.push(param)
-  }
-  return paramsArray
-}
-
 function getPath (params) {
-  var firstParam = params[0]
-  if (firstParam) {
-    return firstParam
-  } else {
-    return POST_EXPENSES_PATH
-  }
+  return params[0] ? params[0] : POST_EXPENSES_PATH
 }
 
-// Remove the first param as we will be redirecting to this page.
-function formatParamsAndRemoveLeading (params) {
-  params.shift()
-  return formatParams(params)
-}
-
-function formatParams (params) {
-  var queryString = ''
-  if (params && params.length > 0) {
-    queryString = '?'
-    params.forEach(function (param) {
-      queryString += param + '=&'
-    })
-  }
-  return queryString.replace(/&$/, '')
-}
-
+// Shift the array to remove the first param as we will be redirecting to this page.
 function buildUrl (params, reference, claimId) {
-  return `/first-time-claim/eligibility/${reference}/claim/${claimId}/${getPath(params)}${formatParamsAndRemoveLeading(params)}`
+  var path = getPath(params)
+  params.shift()
+  return `/first-time-claim/eligibility/${reference}/claim/${claimId}/${path}${paramBuilder.format(params)}`
 }
 
-function isEmptyObject (object) {
-  return Object.keys(object).length === 0 && object.constructor === Object
+function isEmpty (array) {
+  return !array || array.length === 0
+}
+
+function toArray (object) {
+  return Object.keys(object)
 }
