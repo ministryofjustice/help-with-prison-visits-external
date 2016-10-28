@@ -20,20 +20,11 @@ module.exports = function (reference, claimId) {
         // TODO TEMPORARY CLAIM TRANSPORT AND EXPENSE INSERT
         // REMOVE WHEN EXPENSE FLOW IS PERSISTING AND REMOVE CLEANUP FROM TEST
         .then(function () {
-          return knex('ClaimTransport').insert({
+          return knex('ClaimExpense').insert({
             ClaimId: claimId,
-            TransportType: 'bus',
-            From: 'London',
-            To: 'Hewell',
-            Cost: 10.50,
-            IsReturn: true
-          }).then(function () {
-            return knex('ClaimExpense').insert({
-              ClaimId: claimId,
-              ExpenseType: 'refreshment',
-              Cost: 5.55,
-              TravelTime: 'under-five-hours'
-            })
+            ExpenseType: 'refreshment',
+            Cost: 5.55,
+            TravelTime: 'under-five-hours'
           })
         })
     }).then(function () {

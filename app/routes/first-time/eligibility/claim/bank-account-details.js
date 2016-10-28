@@ -28,7 +28,9 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         return res.status(400).render('first-time/eligibility/claim/bank-account-details', {
           bankDetails: req.body,
-          errors: error.validationErrors
+          errors: error.validationErrors,
+          reference: req.params.reference,
+          claimId: req.params.claimId
         })
       } else {
         throw error
