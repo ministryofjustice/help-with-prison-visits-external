@@ -3,10 +3,10 @@ const insertExpense = require('../../services/data/insert-expense')
 module.exports = function (carExpense, tollExpense, parkingExpense) {
   return insert(carExpense)
     .then(function () {
-      return insert(tollExpense)
+      return insert(carExpense.tollExpense)
     })
     .then(function () {
-      return insert(parkingExpense)
+      return insert(carExpense.parkingExpense)
     })
 }
 
