@@ -56,7 +56,7 @@ describe('First time claim flow', () => {
       .setValue('#county-input', 'County')
       .setValue('#post-code-input', 'AA123AA')
       .selectByVisibleText('#country-input', 'Northern Ireland')
-      .setValue('#email-address-input', 'test@test.com')
+      .setValue('#email-address-input', 'steven.william.alexander+apvstest@googlemail.com')
       .setValue('#phone-number-input', '0123456789')
       .click('#about-you-submit')
 
