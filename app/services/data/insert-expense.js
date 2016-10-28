@@ -1,19 +1,17 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
-// TODO: Use a domain object to persist rather than req.body.
+const ExpenseBase = require('../../services/domain/expenses/base-expense')
 
-module.exports = function (claimId, expenseType, reqBody) {
-  // TODO: Add error handling.
-
-  console.log(claimId)
-  console.log(expenseType)
-  console.log(reqBody)
+module.exports = function (expense) {
+  if (!(expense instanceof ExpenseBase)) {
+    throw new Error('Provided object is not an instance of the expected class')
+  }
 
   return knex('ClaimExpense').insert({
-    ClaimId: claimId,
-    ExpenseType: expenseType,
-    Cost: reqBody.cost || 0,
-    NumberOfNights: reqBody['number-of-nights'] || '',
-    TravelTime: reqBody['travel-time'] || ''
+    ClaimId: expense.claimId,
+    ExpenseType: expense.expenseType,
+    Cost: expense.cost || 0,
+    NumberOfNights: expense['number-of-nights'],
+    TravelTime: expense['travel-time']
   })
 }
