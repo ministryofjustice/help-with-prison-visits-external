@@ -1,0 +1,122 @@
+{% extends "includes/layout.html" %} {% block page_title %} {% if serviceName %} {{ serviceName }} {% endif %} {% endblock
+%} {% block content %}
+
+<main id="content" role="main">
+
+	{% include "includes/phase_banner_beta.html" %}
+
+	<h2 class="heading-large">
+		Your claim details
+	</h2>
+
+	<p>Please add the relevant documentation associated with your claim.</p>
+
+	<table class="col-2">
+		<tr>
+			<td>Visitor</td>
+			<td>Joe Bloggs</td>
+		</tr>
+
+		<tr>
+			<td>Benefit information</td>
+			<td>
+				Working Tax credits or Child tax credit with disability
+				<br>
+				<span class="text-warning"> Evidence required</span>
+				<a href="#" class="button grey pull-right">Add</a>
+			</td>
+		</tr>
+
+	</table>
+
+	<h2 class="heading-medium">Your visit</h2>
+
+	<table class="col-2">
+
+		<!-- TODO: Pull data from database -->
+
+		<tr>
+			<td>Prisoner name</td>
+			<td>Paul Bloggs</td>
+		</tr>
+
+		<tr>
+			<td>Prisoner number</td>
+			<td>0000001</td>
+		</tr>
+
+		<tr>
+			<td>Prison</td>
+			<td>Hewell</td>
+		</tr>
+
+		<tr>
+			<td>Date of visit</td>
+			<td>Friday 28 October</td>
+		</tr>
+
+		<tr>
+			<td>Visit confirmation</td>
+			<td>
+				<span class="text-warning">Visit confirmation required</span>
+				<a href="#" class="button grey pull-right">Add</a>
+			</td>
+		</tr>
+
+	</table>
+
+	<br>
+
+	<table>
+		<tr>
+			<th>Expense(s)</th>
+			<th>Amount</th>
+			<th></th>
+		</tr>
+
+		<tr>
+			<td><span class="bold">Train Journey </span> <a href="#" class="">remove</a> - <a href="#" class="">edit</a>
+				<br>Birmingham New Street to Redditch - Return </td>
+			<td>£14</td>
+
+
+			<td><span class="text-warning">Receipt required</span> <a href="#" class="button grey pull-right">Add</a></td>
+		</tr>
+		<tr>
+			<td><span class="bold">Taxi Journey </span> <a href="#" class="">remove</a> - <a href="#" class="">edit</a><br>Redditch to
+				Hewell
+			</td>
+			<td>£8.50</td>
+
+			<td><span class="text-warning">Receipt required</span> <a href="#" class="button grey pull-right">Add</a></td>
+		</tr>
+
+		<tr>
+			<td><span class="bold">Taxi Journey </span> <a href="#" class="">remove</a> - <a href="#" class="">edit</a><br>Hewell to Redditch
+			</td>
+			<td>£10</td>
+
+			<td><span class="text-success">Receipt required</span> <a href="#" class="link pull-right">view</a></td>
+		</tr>
+
+	</table>
+	<br>
+	<a href="apply-99.html" class="link">Add another expense</a>
+
+	<br>
+	<br>
+	<br>
+
+	<form action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claimId }}/summary" method="post" class="form">
+
+		<div class="form-group">
+      <input id="claim-summary-submit" type="submit" name="commit" value="Continue" class="button">
+    </div>
+
+	</form>
+
+	</div>
+
+</main>
+
+{% endblock %}

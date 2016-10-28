@@ -36,15 +36,16 @@ var routes = [
   require('./first-time/eligibility/claim/light-refreshment-details'),
   require('./first-time/eligibility/claim/accommodation-details'),
 
+  // Claim summary
+  require('./first-time/eligibility/claim/claim-summary'),
+
   // Health check routes
   require('./health-check/status'),
 
   // These are temporary UX routes.
   require('./ux/file-upload'),
   require('./ux/eligibility/confirm-your-details'),
-  require('./ux/claim/claim-summary'),
   require('./ux/claim/profile'),
-  require('./ux/claim/claim-details'),
 
   // These are temporary development routes included for demonstration only. TODO THESE SHOULD BE REMOVED
   require('./dev/display-data-for-reference'),

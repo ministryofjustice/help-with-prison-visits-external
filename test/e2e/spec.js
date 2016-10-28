@@ -12,19 +12,19 @@ describe('First time claim flow', () => {
       .waitForExist('#first-time-submit')
       .click('#first-time-submit')
 
-      // Date of Birth
+      // Date of birth
       .waitForExist('#date-of-birth-submit')
       .setValue('#dob-day-input', '01')
       .setValue('#dob-month-input', '05')
       .setValue('#dob-year-input', '1955')
       .click('#date-of-birth-submit')
 
-      // Prisoner Relationship
+      // Prisoner relationship
       .waitForExist('#prisoner-relationship-submit')
       .click('#partner')
       .click('#prisoner-relationship-submit')
 
-      // Journey Assistance
+      // Journey assistance
       .waitForExist('#journey-assistance-submit')
       .click('#assistance-no')
       .click('#journey-assistance-submit')
@@ -56,7 +56,7 @@ describe('First time claim flow', () => {
       .setValue('#county-input', 'County')
       .setValue('#post-code-input', 'AA123AA')
       .selectByVisibleText('#country-input', 'Northern Ireland')
-      .setValue('#email-address-input', 'test@test.com')
+      .setValue('#email-address-input', 'steven.william.alexander+apvstest@googlemail.com')
       .setValue('#phone-number-input', '0123456789')
       .click('#about-you-submit')
 
@@ -65,7 +65,7 @@ describe('First time claim flow', () => {
       .click('#past')
       .click('#future-or-past-submit')
 
-      // Journey Information
+      // Journey information
       .waitForExist('#journey-information-submit')
       .setValue('#date-of-journey-day', '26')
       .setValue('#date-of-journey-month', '10')
@@ -92,7 +92,7 @@ describe('First time claim flow', () => {
       .click('#add-another-journey')
       .click('#bus-details-submit')
 
-      // Bus #2 (Add Another Journey)
+      // Bus #2 (add another journey)
       .waitForExist('#bus-details-submit')
       .setValue('#from', 'Birmingham New Street')
       .setValue('#to', 'Euston')
@@ -100,13 +100,23 @@ describe('First time claim flow', () => {
       .setValue('#cost', '20')
       .click('#bus-details-submit')
 
-      // Light Refreshment
+      // Light refreshment
       .waitForExist('#light-refreshment-details-submit')
       .click('#travel-time-over-five')
       .setValue('#cost', '7.99')
       .click('#light-refreshment-details-submit')
 
-      // Claim Details
+      // Claim summary
       .waitForExist('#claim-summary-submit')
+      .click('#claim-summary-submit')
+
+      // Bank account details
+      .waitForExist('#bank-account-details-submit')
+      .setValue('#account-number-input', '00123456')
+      .setValue('#sort-code-input', '001122')
+      .click('#bank-account-details-submit')
+
+      // Application submitted
+      .waitForExist('#reference')
   })
 })
