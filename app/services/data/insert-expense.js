@@ -11,7 +11,11 @@ module.exports = function (expense) {
     ClaimId: expense.claimId,
     ExpenseType: expense.expenseType,
     Cost: expense.cost || 0,
-    NumberOfNights: expense['number-of-nights'],
-    TravelTime: expense['travel-time']
+    TravelTime: expense.travelTime,
+    From: expense.from,
+    To: expense.to,
+    IsReturn: expense.isReturn,
+    DurationOfTravel: expense.durationOfTravel,
+    TicketType: expense.ticketType
   })
 }
