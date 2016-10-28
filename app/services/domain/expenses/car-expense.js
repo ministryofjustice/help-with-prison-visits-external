@@ -8,14 +8,35 @@ class CarExpense extends BaseExpense {
     this.tollCost = tollCost ? tollCost.trim() : null
     this.parking = parking
     this.parkingCost = parkingCost ? parkingCost.trim() : null
+    this.isValid()
   }
 
   get tollExpense () {
-    return this.toll ? new BaseExpense(this.claimId, EXPENSE_TYPE.CAR_TOLL, this.tollCost, null, this.from, this.to, null, null, null) : null
+    return this.toll ? new BaseExpense(
+      this.claimId,
+      EXPENSE_TYPE.CAR_TOLL,
+      this.tollCost,
+      null,
+      this.from,
+      this.to,
+      null,
+      null,
+      null
+    ) : null
   }
 
   get parkingExpense () {
-    return this.parking ? new BaseExpense(this.claimId, EXPENSE_TYPE.CAR_PARKING_CHARGE, this.parkingCost, null, this.from, this.to, null, null, null) : null
+    return this.parking ? new BaseExpense(
+      this.claimId,
+      EXPENSE_TYPE.CAR_PARKING_CHARGE,
+      this.parkingCost,
+      null,
+      this.from,
+      this.to,
+      null,
+      null,
+      null
+    ) : null
   }
 
   isValid () {

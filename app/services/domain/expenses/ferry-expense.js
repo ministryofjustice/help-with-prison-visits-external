@@ -4,6 +4,7 @@ const EXPENSE_TYPE = require('../../../constants/expense-type-enum')
 class FerryExpense extends BaseExpense {
   constructor (claimId, cost, from, to, returnJourney, ticketType) {
     super(claimId, EXPENSE_TYPE.FERRY, cost, null, from, to, returnJourney, null, ticketType)
+    this.isValid()
   }
 
   isValid () {
