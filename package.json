@@ -19,6 +19,7 @@
     "test-e2e": "gulp --gulpfile gulpfile-e2e.js",
     "test-e2e-ie8": "wdio test/wdio.conf.sauce.ie8.js",
     "test-e2e-firefox": "wdio test/wdio.conf.sauce.firefox.js",
+    "test-e2e-ie8-jenkins": "wdio test/wdio.conf.sauce.ie8.jenkins.js",
     "migrations": "knex migrate:latest --env migrations"
   },
   "standard": {
