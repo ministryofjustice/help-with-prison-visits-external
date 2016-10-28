@@ -46,7 +46,6 @@ var routes = [
   require('./ux/file-upload'),
   require('./ux/eligibility/confirm-your-details'),
   require('./ux/claim/profile'),
-  require('./ux/claim/claim-details'),
 
   // These are temporary development routes included for demonstration only. TODO THESE SHOULD BE REMOVED
   require('./dev/display-data-for-reference'),
