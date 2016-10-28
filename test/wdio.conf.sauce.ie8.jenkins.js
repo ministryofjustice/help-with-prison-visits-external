@@ -22,6 +22,6 @@ exports.config = {
   framework: 'mocha',
   mochaOpts: {
     ui: 'bdd',
-    timeout: 500000
+    timeout: 1000 * 60 * 5 // five minute per flow
   }
 }
