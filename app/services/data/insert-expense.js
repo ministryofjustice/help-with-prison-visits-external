@@ -9,13 +9,13 @@ module.exports = function (expense) {
 
   return knex('ClaimExpense').insert({
     ClaimId: expense.claimId,
-    ExpenseType: expense.expenseType,
+    ExpenseType: expense.expenseType || null,
     Cost: expense.cost || 0,
-    TravelTime: expense.travelTime,
-    From: expense.from,
-    To: expense.to,
-    IsReturn: expense.isReturn,
-    DurationOfTravel: expense.durationOfTravel,
-    TicketType: expense.ticketType
+    TravelTime: expense.travelTime || null,
+    From: expense.from || null,
+    To: expense.to || null,
+    IsReturn: expense.isReturn === 'yes',
+    DurationOfTravel: expense.durationOfTravel || null,
+    TicketType: expense.ticketType || null
   })
 }

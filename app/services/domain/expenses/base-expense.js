@@ -9,13 +9,13 @@ class ExpenseBase {
     this.createField('travelTime', travelTime)
     this.createField('from', from)
     this.createField('to', to)
-    this.isReturn = isReturn === 'yes'
+    this.createField('isReturn', isReturn)
     this.createField('durationOfTravel', durationOfTravel)
     this.createField('ticketType', ticketType)
   }
 
   createField (key, value) {
-    this[key] = value ? value.trim() : null
+    this[key] = value ? value.trim() : ''
   }
 }
 

@@ -83,12 +83,21 @@ class FieldValidator {
     if (!validator.isLessThanLength(this.data, length)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLessThanLengthMessage, { length: length })
     }
+    return this
   }
 
   isReference () {
     if (!validator.isValidReference(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
     }
+    return this
+  }
+
+  isCurrency () {
+    if (!validator.isCurrency(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsCurrency)
+    }
+    return this
   }
 }
 

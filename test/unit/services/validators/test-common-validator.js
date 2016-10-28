@@ -427,6 +427,58 @@ describe('services/validators/common-validator', function () {
     })
   })
 
+  describe('isCurrency', function () {
+    const VALID_INTEGER = '20'
+    const VALID_DECIMAL = '20.00'
+    const INVALID_STRING = 'invalid'
+    const INVALID_NUMERIC = '-20'
+
+    it('should throw an error if passed null', function (done) {
+      expect(function () {
+        validator.isCurrency(null)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed undefined', function (done) {
+      expect(function () {
+        validator.isCurrency(undefined)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed an object', function (done) {
+      expect(function () {
+        validator.isCurrency({})
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return true if passed a numeric string', function (done) {
+      var result = validator.isCurrency(VALID_INTEGER)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return true if passed a numeric string to 2 decimal places', function (done) {
+      var result = validator.isCurrency(VALID_DECIMAL)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed a non-numeric string', function (done) {
+      var result = validator.isCurrency(INVALID_STRING)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed a negative numeric string', function (done) {
+      var result = validator.isCurrency(INVALID_NUMERIC)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
   describe('isValidDateOfBirth', function () {
     const PAST_DATE = moment().subtract(1, 'day')
     const FUTURE_DATE = moment().add(1, 'day')
