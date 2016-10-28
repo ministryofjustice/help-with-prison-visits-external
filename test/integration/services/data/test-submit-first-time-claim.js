@@ -67,12 +67,10 @@ describe('services/data/submit-first-time-claim', function () {
 
   after(function (done) {
     // TODO REMOVE TEMPORARY TRANSPORT AND EXPENSE CLEAN UP
-    knex('ExtSchema.ClaimTransport').where('ClaimId', claimId).del().then(function () {
-      return knex('ExtSchema.ClaimExpense').where('ClaimId', claimId).del().then(function () {
-        // Clean up
-        return knex('ExtSchema.Claim').where('ClaimId', claimId).del().then(function () {
-          return knex('ExtSchema.Eligibility').where('Reference', reference).del()
-        })
+    knex('ExtSchema.ClaimExpense').where('ClaimId', claimId).del().then(function () {
+      // Clean up
+      return knex('ExtSchema.Claim').where('ClaimId', claimId).del().then(function () {
+        return knex('ExtSchema.Eligibility').where('Reference', reference).del()
       })
     })
     .then(function () {
