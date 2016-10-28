@@ -31,13 +31,21 @@
       <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claimId}}/car{{params}}" method="post">
 
         <div class="form-group">
-          <label class="form-label-bold">From</label>
-          {{ from }}
+          <label class="form-label-bold" for="from">From</label>
+          <input id="from"
+                 type="text"
+                 name="from"
+                 value="{{ from }}"
+                 readonly>
         </div>
 
         <div class="form-group">
-          <label class="form-label-bold">To</label>
-          {{ to }}
+          <label class="form-label-bold" for="to">To</label>
+          <input id="to"
+                 type="text"
+                 name="to"
+                 value="{{ to }}"
+                 readonly>
         </div>
 
         <fieldset>

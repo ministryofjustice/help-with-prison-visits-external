@@ -1,5 +1,7 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const expenseUrlRouter = require('../../../../services/routing/expenses-url-router')
+const AccommodationExpense = require('../../../../services/domain/expenses/accommodation-expense')
+const insertExpense = require('../../../../services/data/insert-expense')
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claimId/accommodation', function (req, res) {
@@ -11,9 +13,18 @@ module.exports = function (router) {
     })
   })
 
-  // TODO: Add form validation.
   router.post('/first-time-claim/eligibility/:reference/claim/:claimId/accommodation', function (req, res) {
     UrlPathValidator(req.params)
-    return res.redirect(expenseUrlRouter.getRedirectUrl(req))
+
+    var expense = new AccommodationExpense(
+      req.params.claimId,
+      req.body.cost,
+      req.body.duration
+    )
+
+    insertExpense(expense)
+      .then(function () {
+        return res.redirect(expenseUrlRouter.getRedirectUrl(req))
+      })
   })
 }
