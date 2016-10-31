@@ -51,7 +51,7 @@
 
 		<tr>
 			<td>Date of visit</td>
-			<td>{{ claimDetails.claim['DateOfJourney'] }} TODO Date formatter</td>
+			<td>{{ dateHelper(claimDetails.claim['DateOfJourney']) }}</td>
 		</tr>
 
 		<tr>
@@ -77,8 +77,8 @@
 			{% for claimExpense in claimDetails.claimExpenses %}
 				<tr>
 					<td>
-						<span class="bold">{{ claimExpense.ExpenseType }} </span> <a href="#" class="">remove</a>
-						<br>TODO Expense details
+						<span class="bold">{{ claimExpenseHelper.DisplayName(claimExpense) }} </span> <a href="#" class="">remove</a>
+						<br>{{ claimExpenseHelper.FormattedDetail(claimExpense) }}
 					</td>
 					<td>£{{claimExpense.Cost}}</td>
 					<td><span class="text-warning">Receipt required</span></td>
