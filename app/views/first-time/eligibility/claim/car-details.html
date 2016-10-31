@@ -53,14 +53,14 @@
         <fieldset>
           <label for="toll" data-target="toll-question" class="block-label">
             <input id="toll"
-                   type="radio"
+                   type="checkbox"
                    name="toll"
                    value="yes"
                    {% if expense['toll'] == 'yes' %} checked {% endif %}>
             Add toll charge
           </label>
 
-          <div id="toll-question" class="panel panel-border-narrow js-hidden {% if errors['toll-cost'][0] %} error {% endif %}">
+          <div id="toll-question" class="panel panel-border-narrow {% if errors['toll-cost'][0] %} error {% else %} js-hidden {% endif %}">
             <label id="toll-cost" for="toll-cost-input" class="form-label">Cost</label>
 
             {% if errors['toll-cost'][0] %}
@@ -76,14 +76,14 @@
 
           <label for="parking-charge" data-target="parking-charge-question" class="block-label">
             <input id="parking-charge"
-                   type="radio"
+                   type="checkbox"
                    name="parking-charge"
                    value="yes"
                    {% if expense['parking-charge'] == 'yes' %} checked {% endif %}>
             Add parking charge
           </label>
 
-          <div id="parking-charge-question" class="panel panel-border-narrow js-hidden {% if errors['parking-charge-cost'][0] %} error {% endif %}">
+          <div id="parking-charge-question" class="panel panel-border-narrow {% if errors['parking-charge-cost'][0] %} error {% else %} js-hidden {% endif %}">
             <label id="parking-charge-cost" for="parking-charge-cost-input" class="form-label">Cost</label>
 
             {% if errors['parking-charge-cost'][0] %}
