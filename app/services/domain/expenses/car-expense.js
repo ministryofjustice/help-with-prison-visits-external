@@ -8,9 +8,9 @@ class CarExpense extends BaseExpense {
   constructor (claimId, from, to, toll, tollCost, parking, parkingCost) {
     super(claimId, EXPENSE_TYPE.CAR, null, null, from, to, null, null, null)
     this.toll = toll
-    this.tollCost = tollCost ? tollCost.trim() : ''
+    this.createField('tollCost', tollCost)
     this.parking = parking
-    this.parkingCost = parkingCost ? parkingCost.trim() : ''
+    this.createField('parkingCost', parkingCost)
     this.isValid()
   }
 
