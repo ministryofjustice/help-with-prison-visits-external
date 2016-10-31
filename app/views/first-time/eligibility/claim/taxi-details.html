@@ -81,7 +81,8 @@
               <label for="add-another-taxi" class="block-label">
                 <input id="add-another-taxi"
                        type="radio"
-                       name="add-another-journey">
+                       name="add-another-journey"
+                       {% if expense['add-another-journey'] == 'on' %} checked {% endif %}>
                 Add another taxi journey
               </label>
 
