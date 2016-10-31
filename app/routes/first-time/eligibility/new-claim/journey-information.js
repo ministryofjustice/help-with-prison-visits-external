@@ -11,7 +11,6 @@ module.exports = function (router) {
     })
   })
 
-  // TODO: Add branches based on question responses.
   router.post('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
     UrlPathValidator(req.params)
 
