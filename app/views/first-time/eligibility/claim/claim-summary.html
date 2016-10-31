@@ -14,16 +14,15 @@
 	<table class="col-2">
 		<tr>
 			<td>Visitor</td>
-			<td>Joe Bloggs</td>
+			<td>{{ claimDetails.claim['FirstName'] }} {{ claimDetails.claim['LastName'] }}</td>
 		</tr>
 
 		<tr>
 			<td>Benefit information</td>
 			<td>
-				Working Tax credits or Child tax credit with disability
-				<br>
-				<span class="text-warning"> Evidence required</span>
-				<a href="#" class="button grey pull-right">Add</a>
+				TODO Benefit
+				<br/>
+				<span class="text-warning">Evidence required</span>
 			</td>
 		</tr>
 
@@ -37,29 +36,28 @@
 
 		<tr>
 			<td>Prisoner name</td>
-			<td>Paul Bloggs</td>
+			<td>{{ claimDetails.claim['PrisonerFirstName']}} {{ claimDetails.claim['PrisonerLastName'] }}</td>
 		</tr>
 
 		<tr>
 			<td>Prisoner number</td>
-			<td>0000001</td>
+			<td>{{ claimDetails.claim['PrisonNumber'] }}</td>
 		</tr>
 
 		<tr>
 			<td>Prison</td>
-			<td>Hewell</td>
+			<td>{{ claimDetails.claim['NameOfPrison'] }}</td>
 		</tr>
 
 		<tr>
 			<td>Date of visit</td>
-			<td>Friday 28 October</td>
+			<td>{{ claimDetails.claim['DateOfJourney'] }} TODO Date formatter</td>
 		</tr>
 
 		<tr>
 			<td>Visit confirmation</td>
 			<td>
 				<span class="text-warning">Visit confirmation required</span>
-				<a href="#" class="button grey pull-right">Add</a>
 			</td>
 		</tr>
 
@@ -68,40 +66,28 @@
 	<br>
 
 	<table>
-		<tr>
-			<th>Expense(s)</th>
-			<th>Amount</th>
-			<th></th>
-		</tr>
-
-		<tr>
-			<td><span class="bold">Train Journey </span> <a href="#" class="">remove</a> - <a href="#" class="">edit</a>
-				<br>Birmingham New Street to Redditch - Return </td>
-			<td>£14</td>
-
-
-			<td><span class="text-warning">Receipt required</span> <a href="#" class="button grey pull-right">Add</a></td>
-		</tr>
-		<tr>
-			<td><span class="bold">Taxi Journey </span> <a href="#" class="">remove</a> - <a href="#" class="">edit</a><br>Redditch to
-				Hewell
-			</td>
-			<td>£8.50</td>
-
-			<td><span class="text-warning">Receipt required</span> <a href="#" class="button grey pull-right">Add</a></td>
-		</tr>
-
-		<tr>
-			<td><span class="bold">Taxi Journey </span> <a href="#" class="">remove</a> - <a href="#" class="">edit</a><br>Hewell to Redditch
-			</td>
-			<td>£10</td>
-
-			<td><span class="text-success">Receipt required</span> <a href="#" class="link pull-right">view</a></td>
-		</tr>
-
+		<thead>
+			<tr>
+				<th>Expense(s)</th>
+				<th>Amount</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for claimExpense in claimDetails.claimExpenses %}
+				<tr>
+					<td>
+						<span class="bold">{{ claimExpense.ExpenseType }} </span> <a href="#" class="">remove</a>
+						<br>TODO Expense details
+					</td>
+					<td>£{{claimExpense.Cost}}</td>
+					<td><span class="text-warning">Receipt required</span></td>
+				</tr>
+			{% endfor %}
+		</tbody>
 	</table>
 	<br>
-	<a href="apply-99.html" class="link">Add another expense</a>
+	<a href="/first-time-claim/eligibility/{{ reference }}/claim/{{ claimId }}" class="link">Add another expense</a>
 
 	<br>
 	<br>
