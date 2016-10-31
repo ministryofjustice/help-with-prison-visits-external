@@ -22,5 +22,14 @@ module.exports = {
   'DateOfJourney': 'Date of journey',
   'DateCreated': 'Date created',
   'DateSubmitted': 'Date submitted',
-  'Status': 'Status'
+  'expenses': 'Expenses',
+  'from': 'From',
+  'to': 'To',
+  'return-journey': 'Return Journey',
+  'cost': 'Cost',
+  'travel-time': 'Travel Time',
+  'duration': 'Travel Duration',
+  'ticket-type': 'Ticket Type',
+  'toll-cost': 'Toll Cost',
+  'parking-charge-cost': 'Parking Charge Cost'
 }

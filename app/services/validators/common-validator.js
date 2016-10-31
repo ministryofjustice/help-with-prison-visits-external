@@ -63,6 +63,14 @@ exports.isEmail = function (value) {
   return validator.isEmail(value)
 }
 
+exports.isCurrency = function (value) {
+  return validator.isCurrency(value)
+}
+
+exports.isGreaterThanZero = function (value) {
+  return value > 0
+}
+
 exports.isValidDateOfBirth = function (dob) {
   if (this.isNullOrUndefined(dob)) {
     return false
