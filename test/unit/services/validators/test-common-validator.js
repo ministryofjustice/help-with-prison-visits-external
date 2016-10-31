@@ -431,7 +431,6 @@ describe('services/validators/common-validator', function () {
     const VALID_INTEGER = '20'
     const VALID_DECIMAL = '20.00'
     const INVALID_STRING = 'invalid'
-    const INVALID_NUMERIC = '-20'
 
     it('should throw an error if passed null', function (done) {
       expect(function () {
@@ -471,9 +470,48 @@ describe('services/validators/common-validator', function () {
       expect(result).to.equal(false)
       done()
     })
+  })
+
+  describe('isGreaterThanZero', function () {
+    const VALID_NUMERIC = '20'
+    const INVALID_NUMERIC = '-20'
+    const INVALID_STRING = 'some invalid string'
+
+    it('should throw an error if passed null', function (done) {
+      expect(function () {
+        validator.isGreaterThanZero(null)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed undefined', function (done) {
+      expect(function () {
+        validator.isGreaterThanZero(undefined)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed an object', function (done) {
+      expect(function () {
+        validator.isGreaterThanZero({})
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return true if passed a numeric string that is greater than zero', function (done) {
+      var result = validator.isGreaterThanZero(VALID_NUMERIC)
+      expect(result).to.equal(true)
+      done()
+    })
 
     it('should return false if passed a negative numeric string', function (done) {
-      var result = validator.isCurrency(INVALID_NUMERIC)
+      var result = validator.isGreaterThanZero(INVALID_NUMERIC)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed a non-numeric string', function (done) {
+      var result = validator.isGreaterThanZero(INVALID_STRING)
       expect(result).to.equal(false)
       done()
     })

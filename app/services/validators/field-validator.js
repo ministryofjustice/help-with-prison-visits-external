@@ -42,9 +42,37 @@ class FieldValidator {
     return this
   }
 
+  isCurrency () {
+    if (!validator.isCurrency(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsCurrency)
+    }
+    return this
+  }
+
+  isGreaterThanZero () {
+    if (!validator.isGreaterThanZero(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsGreaterThan)
+    }
+    return this
+  }
+
   isRange (min, max) {
     if (!validator.isRange(this.data, min, max)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRangeMessage, { min: min, max: max })
+    }
+    return this
+  }
+
+  isLength (length) {
+    if (!validator.isLength(this.data, length)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLengthMessage, { length: length })
+    }
+    return this
+  }
+
+  isLessThanLength (length) {
+    if (!validator.isLessThanLength(this.data, length)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLessThanLengthMessage, { length: length })
     }
     return this
   }
@@ -63,23 +91,9 @@ class FieldValidator {
     return this
   }
 
-  isLength (length) {
-    if (!validator.isLength(this.data, length)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLengthMessage, { length: length })
-    }
-    return this
-  }
-
   isEmail () {
     if (!validator.isEmail(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
-    }
-    return this
-  }
-
-  isLessThanLength (length) {
-    if (!validator.isLessThanLength(this.data, length)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLessThanLengthMessage, { length: length })
     }
     return this
   }
@@ -91,12 +105,6 @@ class FieldValidator {
     return this
   }
 
-  isCurrency () {
-    if (!validator.isCurrency(this.data)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsCurrency)
-    }
-    return this
-  }
 }
 
 module.exports = function (data, fieldName, errors) {

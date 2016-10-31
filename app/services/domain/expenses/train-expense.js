@@ -27,6 +27,7 @@ class TrainExpense extends BaseExpense {
     FieldValidator(this.cost, 'cost', errors)
       .isRequired()
       .isCurrency()
+      .isGreaterThanZero()
 
     var validationErrors = errors.get()
     if (validationErrors) {
