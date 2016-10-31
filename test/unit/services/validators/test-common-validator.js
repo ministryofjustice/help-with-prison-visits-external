@@ -474,6 +474,7 @@ describe('services/validators/common-validator', function () {
 
   describe('isGreaterThanZero', function () {
     const VALID_NUMERIC = '20'
+    const VALID_FLOAT = '7.99'
     const INVALID_NUMERIC = '-20'
     const INVALID_STRING = 'some invalid string'
 
@@ -497,6 +498,12 @@ describe('services/validators/common-validator', function () {
 
     it('should return true if passed a numeric string that is greater than zero', function (done) {
       var result = validator.isGreaterThanZero(VALID_NUMERIC)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return true if passed a float that is greater than zero', function (done) {
+      var result = validator.isGreaterThanZero(VALID_FLOAT)
       expect(result).to.equal(true)
       done()
     })
