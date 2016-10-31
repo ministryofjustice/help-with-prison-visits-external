@@ -77,8 +77,9 @@
 			{% for claimExpense in claimDetails.claimExpenses %}
 				<tr>
 					<td>
-						<span class="bold">{{ claimExpenseHelper.DisplayName(claimExpense) }} </span> <a href="#" class="">remove</a>
-						<br>{{ claimExpenseHelper.FormattedDetail(claimExpense) }}
+						<span class="bold">{{ claimExpenseHelper.DisplayName(claimExpense) }} </span>
+						<div>{{ claimExpenseHelper.FormattedDetail(claimExpense) }}</div>
+						<form action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claimId }}/summary/remove/{{ claimExpense.ClaimExpenseId}}" method="post" class="form"><input type="submit" class="button-warning" name="remove" value="Remove"></form>
 					</td>
 					<td>£{{claimExpense.Cost}}</td>
 					<td><span class="text-warning">Receipt required</span></td>
