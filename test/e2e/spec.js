@@ -80,25 +80,25 @@ describe('First time claim flow', () => {
 
       // Bus #1
       .waitForExist('#bus-details-submit')
-      .setValue('#from', 'Euston')
-      .setValue('#to', 'Birmingham New Street')
+      .setValue('#from-input', 'Euston')
+      .setValue('#to-input', 'Birmingham New Street')
       .click('#return-no')
-      .setValue('#cost', '20')
+      .setValue('#cost-input', '20')
       .click('#add-another-journey')
       .click('#bus-details-submit')
 
       // Bus #2 (add another journey)
       .waitForExist('#bus-details-submit')
-      .setValue('#from', 'Birmingham New Street')
-      .setValue('#to', 'Euston')
+      .setValue('#from-input', 'Birmingham New Street')
+      .setValue('#to-input', 'Euston')
       .click('#return-no')
-      .setValue('#cost', '20')
+      .setValue('#cost-input', '20')
       .click('#bus-details-submit')
 
       // Light refreshment
       .waitForExist('#light-refreshment-details-submit')
       .click('#travel-time-over-five')
-      .setValue('#cost', '7.99')
+      .setValue('#cost-input', '7.99')
       .click('#light-refreshment-details-submit')
 
       // Claim summary

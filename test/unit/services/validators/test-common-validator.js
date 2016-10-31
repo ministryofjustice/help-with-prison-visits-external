@@ -427,6 +427,100 @@ describe('services/validators/common-validator', function () {
     })
   })
 
+  describe('isCurrency', function () {
+    const VALID_INTEGER = '20'
+    const VALID_DECIMAL = '20.00'
+    const INVALID_STRING = 'invalid'
+
+    it('should throw an error if passed null', function (done) {
+      expect(function () {
+        validator.isCurrency(null)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed undefined', function (done) {
+      expect(function () {
+        validator.isCurrency(undefined)
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should throw an error if passed an object', function (done) {
+      expect(function () {
+        validator.isCurrency({})
+      }).to.throw(TypeError)
+      done()
+    })
+
+    it('should return true if passed a numeric string', function (done) {
+      var result = validator.isCurrency(VALID_INTEGER)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return true if passed a numeric string to 2 decimal places', function (done) {
+      var result = validator.isCurrency(VALID_DECIMAL)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed a non-numeric string', function (done) {
+      var result = validator.isCurrency(INVALID_STRING)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
+  describe('isGreaterThanZero', function () {
+    const VALID_NUMERIC = '20'
+    const VALID_FLOAT = '7.99'
+    const INVALID_NUMERIC = '-20'
+    const INVALID_STRING = 'some invalid string'
+
+    it('should return false if passed null', function (done) {
+      var result = validator.isGreaterThanZero(null)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed undefined', function (done) {
+      var result = validator.isGreaterThanZero(undefined)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed an object', function (done) {
+      var result = validator.isGreaterThanZero({})
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return true if passed a numeric string that is greater than zero', function (done) {
+      var result = validator.isGreaterThanZero(VALID_NUMERIC)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return true if passed a float that is greater than zero', function (done) {
+      var result = validator.isGreaterThanZero(VALID_FLOAT)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed a negative numeric string', function (done) {
+      var result = validator.isGreaterThanZero(INVALID_NUMERIC)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed a non-numeric string', function (done) {
+      var result = validator.isGreaterThanZero(INVALID_STRING)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
   describe('isValidDateOfBirth', function () {
     const PAST_DATE = moment().subtract(1, 'day')
     const FUTURE_DATE = moment().add(1, 'day')

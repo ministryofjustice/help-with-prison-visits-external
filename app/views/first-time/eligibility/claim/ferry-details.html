@@ -27,79 +27,111 @@
 
       <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claimId}}/ferry{{params}}" method="post">
 
-        <div class="form-group">
-          <label for="from" class="form-label-bold">From</label>
-          <input id="from"
+        <div class="form-group {% if errors['from'][0] %} error {% endif %}">
+          <label id="from" for="from-input" class="form-label-bold">From</label>
+
+          {% if errors['from'][0] %}
+            <span class="error-message">{{ errors['from'][0] }}</span>
+          {% endif %}
+
+          <input id="from-input"
                  type="text"
                  name="from"
+                 value="{{ expense['from'] }}"
                  class="form-control">
           <p class="form-hint">eg Portsmouth</p>
         </div>
 
-        <div class="form-group">
-          <label for="to" class="form-label-bold">To</label>
-          <input id="to"
+        <div class="form-group {% if errors['to'][0] %} error {% endif %}">
+          <label id="to" for="to-input" class="form-label-bold">To</label>
+
+          {% if errors['to'][0] %}
+            <span class="error-message">{{ errors['to'][0] }}</span>
+          {% endif %}
+
+          <input id="to-input"
                  type="text"
                  name="to"
+                 value="{{ expense['to'] }}"
                  class="form-control">
           <p class="form-hint">eg Isle of Wight</p>
         </div>
 
         <div class="form-group">
 
-          <h2 class="form-label-bold">Is this a return journey?</h2>
+          <div class="form-group {% if errors['return-journey'][0] %} error {% endif %}">
 
-          <div class="form-group">
+            <h2 id="return-journey" class="form-label-bold">Is this a return journey?</h2>
+
+            {% if errors['return-journey'][0] %}
+              <span class="error-message">{{ errors['return-journey'][0] }}</span>
+            {% endif %}
+
             <fieldset>
 
               <label for="return-yes" class="block-label inline">
                 <input id="return-yes"
                        type="radio"
                        name="return-journey"
-                       value="yes">
+                       value="yes"
+                       {% if expense['return-journey'] == 'yes' %} checked {% endif %}>
                 Yes
               </label>
               <label for="return-no" class="block-label inline">
                 <input id="return-no"
                        type="radio"
                        name="return-journey"
-                       value="no">
+                       value="no"
+                       {% if expense['return-journey'] == 'no' %} checked {% endif %}>
                 No
               </label>
 
             </fieldset>
           </div>
 
-          <h2 class="form-label-bold">Ticket type</h2>
+          <div class="form-group {% if errors['ticket-type'][0] %} error {% endif %}">
 
-          <div class="form-group">
+            <h2 id="ticket-type" class="form-label-bold">Ticket type</h2>
+
+            {% if errors['ticket-type'][0] %}
+              <span class="error-message">{{ errors['ticket-type'][0] }}</span>
+            {% endif %}
+
             <fieldset>
 
-              <label for="ticket-type-yes" class="block-label">
+              <label for="ticket-type-yes" class="block-label inline">
                 <input id="ticket-type-yes"
                        type="radio"
                        name="ticket-type"
-                       value="foot-passenger">
+                       value="foot-passenger"
+                       {% if expense['ticket-type'] == 'foot-passenger' %} checked {% endif %}>
                 Foot passenger
               </label>
-              <label for="ticket-type-no" class="block-label">
+              <label for="ticket-type-no" class="block-label inline">
                 <input id="ticket-type-no"
                        type="radio"
                        name="ticket-type"
-                       value="car-passenger">
+                       value="car-passenger"
+                       {% if expense['ticket-type'] == 'car-passenger' %} checked {% endif %}>
                 Car
               </label>
 
             </fieldset>
           </div>
 
-          <div class="form-group">
-            <label for="cost" class="form-label-bold">Cost</label>
-            <input id="cost"
+          <div class="form-group {% if errors['cost'][0] %} error {% endif %}">
+            <label id="cost" for="cost-input" class="form-label-bold">Cost</label>
+
+            {% if errors['cost'][0] %}
+              <span class="error-message">{{ errors['cost'][0] }}</span>
+            {% endif %}
+
+            <input id="cost-input"
                    type="text"
                    name="cost"
+                   value="{{ expense['cost'] }}"
                    class="form-control">
-            <p class="form-hint">eg £100</p>
+            <p class="form-hint">eg 100</p>
           </div>
 
           <input id="ferry-details-submit"
