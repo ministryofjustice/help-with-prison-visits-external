@@ -8,9 +8,6 @@ describe('services/validators/url-path-validator', function () {
   const VALID_RELATIONSHIP = { relationship: 'partner' }
   const INVALID_RELATIONSHIP = { relationship: 'invalid' }
 
-  const VALID_ASSISTANCE = { assistance: 'no' }
-  const INVALID_ASSISTANCE = { assistance: 'invalid' }
-
   const VALID_BENEFIT = { requireBenefitUpload: 'no' }
   const INVALID_BENEFIT = { requireBenefitUpload: 'invalid' }
 
@@ -48,13 +45,6 @@ describe('services/validators/url-path-validator', function () {
     done()
   })
 
-  it('should throw Error if passed an invalid assistance value', function (done) {
-    expect(function () {
-      UrlPathValidator(INVALID_ASSISTANCE)
-    }).to.throw(Error)
-    done()
-  })
-
   it('should throw Error if passed an invalid benefit value', function (done) {
     expect(function () {
       UrlPathValidator(INVALID_BENEFIT)
@@ -84,12 +74,6 @@ describe('services/validators/url-path-validator', function () {
 
   it('should return undefined if passed a valid relationship value', function (done) {
     var result = UrlPathValidator(VALID_RELATIONSHIP)
-    expect(result).to.equal(undefined)
-    done()
-  })
-
-  it('should return undefined if passed a valid assistance value', function (done) {
-    var result = UrlPathValidator(VALID_ASSISTANCE)
     expect(result).to.equal(undefined)
     done()
   })

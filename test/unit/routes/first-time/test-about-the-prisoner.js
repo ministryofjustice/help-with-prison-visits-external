@@ -29,10 +29,10 @@ describe('routes/first-time/about-the-prisoner', function () {
     urlValidatorCalled = false
   })
 
-  describe('GET /first-time/:dob/:relationship/:assistance/:requireBenefitUpload', function () {
+  describe('GET /first-time/:dob/:relationship/:requireBenefitUpload', function () {
     it('should respond with a 200 for valid path parameters', function (done) {
       request
-        .get('/first-time/1980-01-01/partner/n/n')
+        .get('/first-time/1980-01-01/partner/n')
         .expect(200)
         .end(function (error) {
           expect(error).to.be.null
@@ -42,28 +42,28 @@ describe('routes/first-time/about-the-prisoner', function () {
     })
   })
 
-  describe('POST /first-time/:dob/:relationship/:assistance/:requireBenefitUpload', function () {
+  describe('POST /first-time/:dob/:relationship/:requireBenefitUpload', function () {
     it('should persist data and redirect to first-time/about-you for valid data', function (done) {
       var newReference = '1234567'
       var stubInsertNewEligibilityAndPrisoner = sinon.stub(firstTimeClaim, 'insertNewEligibilityAndPrisoner').resolves(newReference)
       stubAboutThePrisonerValidator.returns(false)
 
       request
-        .post('/first-time/1980-01-01/partner/n/n')
+        .post('/first-time/1980-01-01/partner/n')
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(stubAboutThePrisonerValidator.calledOnce).to.be.true
           expect(stubInsertNewEligibilityAndPrisoner.calledOnce).to.be.true
-          expect(response.header.location).to.equal(`/first-time/1980-01-01/partner/n/n/${newReference}`)
+          expect(response.header.location).to.equal(`/first-time/1980-01-01/partner/n/${newReference}`)
           done()
         })
     })
     it('should respond with a 400 for invalid data', function (done) {
       stubAboutThePrisonerValidator.returns({ 'firstName': [] })
       request
-        .post('/first-time/1980-01-01/partner/n/n')
+        .post('/first-time/1980-01-01/partner/n')
         .expect(400)
         .end(function (error, response) {
           expect(error).to.be.null
