@@ -35,6 +35,7 @@ module.exports = function (router) {
           errors: error.validationErrors,
           reference: req.params.reference,
           claimId: req.params.claimId,
+          params: expenseUrlRouter.parseParams(req.query),
           expense: req.body
         })
       } else {
