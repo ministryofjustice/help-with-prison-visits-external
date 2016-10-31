@@ -23,20 +23,32 @@
 
       <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claimId}}/accommodation{{params}}" method="post">
 
-        <div class="form-group">
-          <label for="duration" class="form-label-bold">Number of nights</label>
-          <input id="duration"
+        <div id="duration" class="form-group {% if errors['duration'][0] %} error {% endif %}">
+          <label for="duration-input" class="form-label-bold">Number of nights</label>
+
+          {% if errors['duration'][0] %}
+            <span class="error-message">{{ errors['duration'][0] }}</span>
+          {% endif %}
+
+          <input id="duration-input"
                  type="text"
                  name="duration"
+                 value="{{ expense['duration'] }}"
                  class="form-control">
           <p class="form-hint">eg 1</p>
         </div>
 
-        <div class="form-group">
-          <label for="cost" class="form-label-bold">Cost</label>
-          <input id="cost"
+        <div id="cost" class="form-group {% if errors['cost'][0] %} error {% endif %}">
+          <label for="cost-input" class="form-label-bold">Cost</label>
+
+          {% if errors['cost'][0] %}
+            <span class="error-message">{{ errors['cost'][0] }}</span>
+          {% endif %}
+
+          <input id="cost-input"
                  type="text"
                  name="cost"
+                 value="{{ expense['cost'] }}"
                  class="form-control">
           <p class="form-hint">eg 50</p>
         </div>
