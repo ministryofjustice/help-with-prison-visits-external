@@ -68,7 +68,7 @@ exports.isCurrency = function (value) {
 }
 
 exports.isGreaterThanZero = function (value) {
-  return this.isNumeric(value) && value > 0
+  return value > 0
 }
 
 exports.isValidDateOfBirth = function (dob) {

@@ -477,24 +477,21 @@ describe('services/validators/common-validator', function () {
     const INVALID_NUMERIC = '-20'
     const INVALID_STRING = 'some invalid string'
 
-    it('should throw an error if passed null', function (done) {
-      expect(function () {
-        validator.isGreaterThanZero(null)
-      }).to.throw(TypeError)
+    it('should return false if passed null', function (done) {
+      var result = validator.isGreaterThanZero(null)
+      expect(result).to.equal(false)
       done()
     })
 
-    it('should throw an error if passed undefined', function (done) {
-      expect(function () {
-        validator.isGreaterThanZero(undefined)
-      }).to.throw(TypeError)
+    it('should return false if passed undefined', function (done) {
+      var result = validator.isGreaterThanZero(undefined)
+      expect(result).to.equal(false)
       done()
     })
 
-    it('should throw an error if passed an object', function (done) {
-      expect(function () {
-        validator.isGreaterThanZero({})
-      }).to.throw(TypeError)
+    it('should return false if passed an object', function (done) {
+      var result = validator.isGreaterThanZero({})
+      expect(result).to.equal(false)
       done()
     })
 

@@ -537,27 +537,30 @@ describe('services/validators/field-validator', function () {
     const VALID_INPUT = '20'
     const INVALID_INPUT = '0'
 
-    it('should throw error if data is null', function (done) {
-      expect(function () {
-        FieldValidator(null, FIELD_NAME, ERROR_HANDLER)
-          .isGreaterThanZero()
-      }).to.throw(TypeError)
+    it('should return an error object if passed null', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(null, FIELD_NAME, errorHandler)
+        .isGreaterThanZero()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
       done()
     })
 
-    it('should throw error if data is undefined', function (done) {
-      expect(function () {
-        FieldValidator(undefined, FIELD_NAME, ERROR_HANDLER)
-          .isGreaterThanZero()
-      }).to.throw(TypeError)
+    it('should return an error object if passed undefined', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator(undefined, FIELD_NAME, errorHandler)
+        .isGreaterThanZero()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
       done()
     })
 
-    it('should throw error if data is an object', function (done) {
-      expect(function () {
-        FieldValidator({}, FIELD_NAME, ERROR_HANDLER)
-          .isGreaterThanZero()
-      }).to.throw(TypeError)
+    it('should return an error object if passed an object', function (done) {
+      var errorHandler = ErrorHandler()
+      FieldValidator({}, FIELD_NAME, errorHandler)
+        .isGreaterThanZero()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
       done()
     })
 
