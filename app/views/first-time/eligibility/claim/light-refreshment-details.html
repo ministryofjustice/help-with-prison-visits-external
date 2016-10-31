@@ -29,17 +29,22 @@
 
       <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claimId}}/refreshment{{params}}" method="post">
 
-        <div class="form-group">
+        <div class="form-group {% if errors['travel-time'][0] %} error {% endif %}">
+
+          <h2 id="travel-time" class="form-label-bold">Travel time</h2>
+
+          {% if errors['travel-time'][0] %}
+            <span class="error-message">{{ errors['travel-time'][0] }}</span>
+          {% endif %}
 
           <fieldset>
-
-            <h2 class="form-label-bold">Travel time</h2>
 
             <label for="travel-time-up-to-five" class="block-label">
               <input id="travel-time-up-to-five"
                      type="radio"
                      name="travel-time"
-                     value="up-to-five">
+                     value="up-to-five"
+                     {% if expense['travel-time'] == 'up-to-five' %} checked {% endif %}>
               Up to 5 hours
             </label>
 
@@ -47,7 +52,8 @@
               <input id="travel-time-over-five"
                      type="radio"
                      name="travel-time"
-                     value="over-five">
+                     value="over-five"
+                     {% if expense['travel-time'] == 'over-five' %} checked {% endif %}>
               Over 5 hours
             </label>
 
@@ -55,7 +61,8 @@
               <input id="travel-time-over-ten"
                      type="radio"
                      name="travel-time"
-                     value="over-ten">
+                     value="over-ten"
+                     {% if expense['travel-time'] == 'over-ten' %} checked {% endif %}>
               Over 10 hours
             </label>
 
@@ -63,11 +70,17 @@
 
         </div>
 
-        <div class="form-group">
-          <label for="cost" class="form-label-bold">Cost</label>
-          <input id="cost"
+        <div class="form-group {% if errors['cost'][0] %} error {% endif %}">
+          <label id="cost" for="cost-input" class="form-label-bold">Cost</label>
+
+          {% if errors['cost'][0] %}
+            <span class="error-message">{{ errors['cost'][0] }}</span>
+          {% endif %}
+
+          <input id="cost-input"
                  type="text"
                  name="cost"
+                 value="{{ expense['cost'] }}"
                  class="form-control">
           <p class="form-hint">eg 5</p>
         </div>
