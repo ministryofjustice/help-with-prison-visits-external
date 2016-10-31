@@ -9,6 +9,10 @@ $path: "/public/images/";
 @import 'patterns/check-your-answers';
 @import 'patterns/unbranded';
 
+.button-warning{
+  @include button($red);
+}
+
 // Related items
 .govuk-related-items {
   margin-top: $gutter;
@@ -124,13 +128,13 @@ span.mileage input{
  ul.claim-dialog li {
  max-width:550px;
  padding:10px;
- margin:0 0 10px 0; 
+ margin:0 0 10px 0;
  display:block;
  clear:both!important;
  }
 
  ul.claim-dialog li p{
- margin:0 0 5px 0; 
+ margin:0 0 5px 0;
  }
 
   ul.claim-dialog li h2 {

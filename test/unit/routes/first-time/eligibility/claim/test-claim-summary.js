@@ -9,19 +9,23 @@ require('sinon-bluebird')
 
 var reference = 'V123456'
 var claimId = '1'
+var claimExpenseId = '1234'
 
 describe('routes/first-time/eligibility/claim/claim-summary', function () {
   var request
   var urlValidatorCalled
   var getIndividualClaimDetails
+  var removeClaimExpense
 
   beforeEach(function () {
     getIndividualClaimDetails = sinon.stub().resolves()
+    removeClaimExpense = sinon.stub().resolves()
 
     var route = proxyquire(
       '../../../../../../app/routes/first-time/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
-        '../../../../services/data/get-individual-claim-details': getIndividualClaimDetails
+        '../../../../services/data/get-individual-claim-details': getIndividualClaimDetails,
+        '../../../../services/data/remove-claim-expense': removeClaimExpense
       })
 
     var app = express()
@@ -55,6 +59,21 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(response.headers['location']).to.be.equal(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
+          done()
+        })
+    })
+  })
+
+  describe('POST /first-time-claim/eligibility/:reference/claim/:claimId/summary/remove/:claimExpenseId', function () {
+    it('should respond with a 302 and call removeClaimExpense', function (done) {
+      request
+        .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/summary/remove/${claimExpenseId}`)
+        .expect(302)
+        .end(function (error, response) {
+          expect(error).to.be.null
+          expect(urlValidatorCalled).to.be.true
+          expect(removeClaimExpense.calledWith(claimId, claimExpenseId)).to.be.true
+          expect(response.headers['location']).to.be.equal(`/first-time-claim/eligibility/${reference}/claim/${claimId}/summary`)
           done()
         })
     })
