@@ -22,6 +22,7 @@ module.exports = {
   'DateOfJourney': 'Date of journey',
   'DateCreated': 'Date created',
   'DateSubmitted': 'Date submitted',
+  'expenses': 'Expenses',
   'from': 'From',
   'to': 'To',
   'return-journey': 'Return Journey',
