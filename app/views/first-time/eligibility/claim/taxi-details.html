@@ -29,32 +29,47 @@
 
       <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claimId}}/taxi{{params}}" method="post">
 
-        <div class="form-group">
-          <label for="from" class="form-label-bold">From</label>
+        <div class="form-group {% if errors['from'][0] %} error {% endif %}">
+          <label id="from" for="from-input" class="form-label-bold">From</label>
 
-          <input id="from"
+          {% if errors['from'][0] %}
+            <span class="error-message">{{ errors['from'][0] }}</span>
+          {% endif %}
+
+          <input id="from-input"
                  type="text"
                  name="from"
+                 value="{{ expense['from'] }}"
                  class="form-control">
           <p class="form-hint">eg Birmingham New Street</p>
         </div>
 
-        <div class="form-group">
-          <label for="destination" class="form-label-bold">To</label>
+        <div class="form-group {% if errors['to'][0] %} error {% endif %}">
+          <label id="to" for="to-input" class="form-label-bold">To</label>
 
-          <input id="destination"
+          {% if errors['to'][0] %}
+            <span class="error-message">{{ errors['to'][0] }}</span>
+          {% endif %}
+
+          <input id="to-input"
                  type="text"
                  name="to"
+                 value="{{ expense['to'] }}"
                  class="form-control">
           <p class="form-hint">eg Hewell</p>
         </div>
 
-        <div class="form-group">
-          <label for="cost" class="form-label-bold">Cost</label>
+        <div class="form-group {% if errors['cost'][0] %} error {% endif %}">
+          <label id="cost" for="cost-input" class="form-label-bold">Cost</label>
 
-          <input id="cost"
+          {% if errors['cost'][0] %}
+            <span class="error-message">{{ errors['cost'][0] }}</span>
+          {% endif %}
+
+          <input id="cost-input"
                  type="text"
                  name="cost"
+                 value="{{ expense['cost'] }}"
                  class="form-control">
           <p class="form-hint">eg 20</p>
         </div>
@@ -63,7 +78,6 @@
 
           <div class="form-group">
             <fieldset>
-
               <label for="add-another-taxi" class="block-label">
                 <input id="add-another-taxi"
                        type="radio"
