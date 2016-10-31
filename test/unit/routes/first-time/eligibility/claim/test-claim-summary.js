@@ -1,20 +1,27 @@
-var supertest = require('supertest')
-var proxyquire = require('proxyquire')
-var express = require('express')
+const supertest = require('supertest')
+const proxyquire = require('proxyquire')
+const sinon = require('sinon')
+const express = require('express')
 const expect = require('chai').expect
-var mockViewEngine = require('../../../mock-view-engine')
-var bodyParser = require('body-parser')
+const mockViewEngine = require('../../../mock-view-engine')
+const bodyParser = require('body-parser')
+require('sinon-bluebird')
+
 var reference = 'V123456'
 var claimId = '1'
 
 describe('routes/first-time/eligibility/claim/claim-summary', function () {
   var request
   var urlValidatorCalled
+  var getIndividualClaimDetails
 
   beforeEach(function () {
+    getIndividualClaimDetails = sinon.stub().resolves()
+
     var route = proxyquire(
       '../../../../../../app/routes/first-time/eligibility/claim/claim-summary', {
-        '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
+        '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
+        '../../../../services/data/get-individual-claim-details': getIndividualClaimDetails
       })
 
     var app = express()
@@ -33,6 +40,7 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
+          expect(getIndividualClaimDetails.calledWith(claimId)).to.be.true
           done()
         })
     })
