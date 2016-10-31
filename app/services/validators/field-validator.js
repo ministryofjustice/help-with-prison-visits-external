@@ -19,8 +19,6 @@ class FieldValidator {
     if (validator.isNullOrUndefined(this.data)) {
       if (questionType === 'radio') {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getRadioQuestionIsRequired)
-      } else if (questionType === 'journeyAssistance') {
-        this.errors.add(this.fieldName, ERROR_MESSAGES.getJourneyAssistanceIsRequired)
       } else {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRequired)
       }

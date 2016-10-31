@@ -10,7 +10,6 @@ class UrlPathValidator {
   static validate (path) {
     this.validateParam(path['dob'], 'isValidDateOfBirth')
     this.validateParam(path['relationship'], 'isValidPrisonerRelationship')
-    this.validateParam(path['assistance'], 'isValidJourneyAssistance')
     this.validateParam(path['requireBenefitUpload'], 'isValidBenefitResponse')
     this.validateParam(path['reference'], 'isValidReference')
     this.validateParam(path['claimId'], 'isNumeric')
