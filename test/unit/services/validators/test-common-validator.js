@@ -549,41 +549,6 @@ describe('services/validators/common-validator', function () {
     })
   })
 
-  describe('isValidJourneyAssistance', function () {
-    const VALID_INPUT = 'no'
-    const INVALID_INPUT = 'some invalid input'
-
-    it('should return false if passed null', function (done) {
-      var result = validator.isValidJourneyAssistance(null)
-      expect(result).to.equal(false)
-      done()
-    })
-
-    it('should return false if passed undefined', function (done) {
-      var result = validator.isValidJourneyAssistance(undefined)
-      expect(result).to.equal(false)
-      done()
-    })
-
-    it('should return false if passed an object', function (done) {
-      var result = validator.isValidJourneyAssistance({})
-      expect(result).to.equal(false)
-      done()
-    })
-
-    it('should return true if passed a valid journey ssistance value', function (done) {
-      var result = validator.isValidJourneyAssistance(VALID_INPUT)
-      expect(result).to.equal(true)
-      done()
-    })
-
-    it('should return false if passed an invalid journey assistance value', function (done) {
-      var result = validator.isValidJourneyAssistance(INVALID_INPUT)
-      expect(result).to.equal(false)
-      done()
-    })
-  })
-
   describe('isValidBenefitResponse', function () {
     const VALID_INPUT = 'no'
     const INVALID_INPUT = 'some invalid input'

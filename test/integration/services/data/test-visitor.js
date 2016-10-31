@@ -33,7 +33,7 @@ describe('services/data/visitor', function () {
         PhoneNumber: '07911111111',
         DateOfBirth: '1980-02-01',
         Relationship: 'partner',
-        JourneyAssistance: 'y75',
+        JourneyAssistance: 'no',
         RequireBenefitUpload: 'n'
       }
 

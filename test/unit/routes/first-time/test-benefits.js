@@ -4,16 +4,11 @@ const express = require('express')
 const mockViewEngine = require('../mock-view-engine')
 const bodyParser = require('body-parser')
 const expect = require('chai').expect
-const dateFormatter = require('../../../../app/services/date-formatter')
 
 var validationErrors
 
 describe('routes/first-time/benefits', function () {
   var request
-  var dobDay = '01'
-  var dobMonth = '05'
-  var dobYear = '1955'
-  var dob = dateFormatter.buildFormatted(dobDay, dobMonth, dobYear)
   var urlValidatorCalled = false
 
   beforeEach(function () {
@@ -34,10 +29,10 @@ describe('routes/first-time/benefits', function () {
   })
 
   // benefits
-  describe('GET /first-time/:dob/:relationship/:journeyAssistance', function () {
+  describe('GET /first-time/:dob/:relationship', function () {
     it('should respond with a 200', function (done) {
       request
-        .get('/first-time/' + dob + '/partner/no')
+        .get('/first-time/1980-01-01/partner')
         .expect(200)
         .expect(function () {
           expect(urlValidatorCalled).to.be.true
@@ -46,10 +41,10 @@ describe('routes/first-time/benefits', function () {
     })
   })
 
-  describe('POST /first-time/:dob/:relationship/:journeyAssistance', function () {
+  describe('POST /first-time/:dob/:relationship', function () {
     it('should respond with a 302', function (done) {
       request
-        .post('/first-time/' + dob + '/partner/no')
+        .post('/first-time/1980-01-01/partner')
         .expect(302)
         .end(function () {
           expect(urlValidatorCalled).to.be.true
@@ -60,7 +55,7 @@ describe('routes/first-time/benefits', function () {
     it('should response with a 400 if validation fails', function (done) {
       validationErrors = { 'benefit': [] }
       request
-        .post('/first-time/' + dob + '/partner/no')
+        .post('/first-time/1980-01-01/partner')
         .expect(400)
         .end(function () {
           expect(urlValidatorCalled).to.be.true
@@ -70,7 +65,7 @@ describe('routes/first-time/benefits', function () {
 
     it('should redirect to eligibility-fail page if benefit is none', function (done) {
       request
-        .post('/first-time/' + dob + '/partner/no')
+        .post('/first-time/1980-01-01/partner')
         .send({
           benefit: 'none'
         })
@@ -81,15 +76,15 @@ describe('routes/first-time/benefits', function () {
         })
     })
 
-    it('should redirect to /first-time/:dob/:relationship/:journeyAssistance/:benefit page if benefit is any value other than none', function (done) {
-      var benefit = 'No'
+    it('should redirect to /first-time/:dob/:relationship/:benefit page if benefit is any value other than none', function (done) {
+      var benefit = 'no'
 
       request
-        .post('/first-time/' + dob + '/partner/no')
+        .post('/first-time/1980-01-01/partner')
         .send({
           benefit: benefit
         })
-        .expect('location', '/first-time/' + dob + '/partner/no/' + benefit)
+        .expect('location', `/first-time/1980-01-01/partner/${benefit}`)
         .end(function () {
           expect(urlValidatorCalled).to.be.true
           done()

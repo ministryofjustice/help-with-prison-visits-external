@@ -22,7 +22,7 @@ module.exports.insert = function (reference, visitorData) {
     PhoneNumber: visitorData.PhoneNumber.trim(),
     DateOfBirth: dateOfBirth,
     Relationship: visitorData.Relationship.trim(),
-    JourneyAssistance: visitorData.JourneyAssistance,
+    JourneyAssistance: 'no', // TODO remove from visitor
     RequireBenefitUpload: requireBenefitUpload
   })
 }

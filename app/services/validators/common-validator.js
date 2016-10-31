@@ -5,7 +5,6 @@
 const validator = require('validator')
 const moment = require('moment')
 const validPrisonerRelationships = require('../../constants/prisoner-relationships-enum')
-const validJourneyAssistance = require('../../constants/journey-assistance-enum')
 const validBenefits = require('../../constants/benefits-enum')
 const referenceNumber = require('../../constants/reference-number-enum')
 const NUM_YEARS_LIMIT = 120
@@ -80,10 +79,6 @@ exports.isValidDateOfBirth = function (dob) {
 
 exports.isValidPrisonerRelationship = function (relationship) {
   return validPrisonerRelationships.includes(relationship)
-}
-
-exports.isValidJourneyAssistance = function (journeyAssistance) {
-  return validJourneyAssistance.includes(journeyAssistance)
 }
 
 exports.isValidBenefitResponse = function (benefit) {

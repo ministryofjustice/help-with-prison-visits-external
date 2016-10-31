@@ -29,10 +29,10 @@ describe('routes/first-time/about-you', function () {
     urlValidatorCalled = false
   })
 
-  describe('GET /first-time/:dob/:relationship/:assistance/:requireBenefitUpload/:reference', function () {
+  describe('GET /first-time/:dob/:relationship/:requireBenefitUpload/:reference', function () {
     it('should respond with a 200 for valid path parameters', function (done) {
       request
-        .get('/first-time/1980-01-01/partner/n/n/1234567')
+        .get('/first-time/1980-01-01/partner/n/1234567')
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
@@ -42,14 +42,14 @@ describe('routes/first-time/about-you', function () {
     })
   })
 
-  describe('POST /first-time/:dob/:relationship/:assistance/:requireBenefitUpload/:reference', function () {
+  describe('POST /first-time/:dob/:relationship/:requireBenefitUpload/:reference', function () {
     it('should persist data and redirect to /application-submitted/:reference for valid data', function (done) {
       var reference = '1234567'
       var stubInsert = sinon.stub(visitor, 'insert').resolves()
       stubAboutYouValidator.returns(false)
 
       request
-        .post('/first-time/1980-01-01/partner/n/n/' + reference)
+        .post('/first-time/1980-01-01/partner/n/' + reference)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
@@ -64,7 +64,7 @@ describe('routes/first-time/about-you', function () {
       var reference = '1234567'
       stubAboutYouValidator.returns({ 'Title': [] })
       request
-        .post('/first-time/1980-01-01/partner/n/n/' + reference)
+        .post('/first-time/1980-01-01/partner/n/' + reference)
         .expect(400)
         .end(function (error, response) {
           expect(error).to.be.null

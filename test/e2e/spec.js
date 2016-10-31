@@ -24,11 +24,6 @@ describe('First time claim flow', () => {
       .click('#partner')
       .click('#prisoner-relationship-submit')
 
-      // Journey assistance
-      .waitForExist('#journey-assistance-submit')
-      .click('#assistance-no')
-      .click('#journey-assistance-submit')
-
       // Benefit
       .waitForExist('#benefit-submit')
       .click('#income-support')
