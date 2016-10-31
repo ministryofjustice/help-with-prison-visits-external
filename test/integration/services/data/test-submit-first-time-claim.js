@@ -10,9 +10,12 @@ require('sinon-bluebird')
 
 const reference = 'S123456'
 var claimId
+
+var stubInsertTaskCompleteFirstTimeClaim = sinon.stub().resolves()
 var stubInsertTaskSendFirstTimeClaimNotification = sinon.stub().resolves()
 
 const submitFirstTimeClaim = proxyquire('../../../../app/services/data/submit-first-time-claim', {
+  './insert-task-complete-first-time-claim': stubInsertTaskCompleteFirstTimeClaim,
   './insert-task-send-first-time-claim-notification': stubInsertTaskSendFirstTimeClaimNotification
 })
 
@@ -53,6 +56,7 @@ describe('services/data/submit-first-time-claim', function () {
                 expect(claim.Status).to.equal(claimStatusEnum.SUBMITTED)
                 expect(claim.DateSubmitted).to.be.within(currentDate.setMinutes(currentDate.getMinutes() - 2), currentDate.setMinutes(currentDate.getMinutes() + 2))
 
+                expect(stubInsertTaskCompleteFirstTimeClaim.calledWith(reference, claimId)).to.be.true
                 expect(stubInsertTaskSendFirstTimeClaimNotification.calledWith(reference, claimId)).to.be.true
 
                 expect
@@ -66,15 +70,12 @@ describe('services/data/submit-first-time-claim', function () {
   })
 
   after(function (done) {
-    // TODO REMOVE TEMPORARY TRANSPORT AND EXPENSE CLEAN UP
-    knex('ExtSchema.ClaimExpense').where('ClaimId', claimId).del().then(function () {
-      // Clean up
-      return knex('ExtSchema.Claim').where('ClaimId', claimId).del().then(function () {
+    knex('ExtSchema.Claim').where('ClaimId', claimId).del()
+      .then(function () {
         return knex('ExtSchema.Eligibility').where('Reference', reference).del()
       })
-    })
-    .then(function () {
-      done()
-    })
+      .then(function () {
+        done()
+      })
   })
 })
