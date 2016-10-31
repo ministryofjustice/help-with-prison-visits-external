@@ -1,13 +1,16 @@
 const BaseExpense = require('../../../services/domain/expenses/base-expense')
 const EXPENSE_TYPE = require('../../../constants/expense-type-enum')
+const ValidationError = require('../../errors/validation-error')
+const FieldValidator = require('../../validators/field-validator')
+const ErrorHandler = require('../../validators/error-handler')
 
 class CarExpense extends BaseExpense {
   constructor (claimId, from, to, toll, tollCost, parking, parkingCost) {
     super(claimId, EXPENSE_TYPE.CAR, null, null, from, to, null, null, null)
     this.toll = toll
-    this.tollCost = tollCost ? tollCost.trim() : null
+    this.tollCost = tollCost ? tollCost.trim() : ''
     this.parking = parking
-    this.parkingCost = parkingCost ? parkingCost.trim() : null
+    this.parkingCost = parkingCost ? parkingCost.trim() : ''
     this.isValid()
   }
 
@@ -40,7 +43,26 @@ class CarExpense extends BaseExpense {
   }
 
   isValid () {
-    // TODO: Implement validation and validate if toll/parking is set they need values.
+    var errors = ErrorHandler()
+
+    if (this.toll) {
+      FieldValidator(this.tollCost, 'toll-cost', errors)
+        .isRequired()
+        .isCurrency()
+        .isGreaterThanZero()
+    }
+
+    if (this.parking) {
+      FieldValidator(this.parkingCost, 'parking-charge-cost', errors)
+        .isRequired()
+        .isCurrency()
+        .isGreaterThanZero()
+    }
+
+    var validationErrors = errors.get()
+    if (validationErrors) {
+      throw new ValidationError(validationErrors)
+    }
   }
 }
 

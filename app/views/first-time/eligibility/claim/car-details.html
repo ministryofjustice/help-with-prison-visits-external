@@ -35,7 +35,7 @@
           <input id="from"
                  type="text"
                  name="from"
-                 value="{{ from }}"
+                 value="{{ expense['from'] }}"
                  class="form-control"
                  readonly>
         </div>
@@ -45,7 +45,7 @@
           <input id="to"
                  type="text"
                  name="to"
-                 value="{{ to }}"
+                 value="{{ expense['to'] }}"
                  class="form-control"
                  readonly>
         </div>
@@ -55,15 +55,22 @@
             <input id="toll"
                    type="radio"
                    name="toll"
-                   value="yes">
+                   value="yes"
+                   {% if expense['toll'] == 'yes' %} checked {% endif %}>
             Add toll charge
           </label>
 
-          <div id="toll-question" class="panel panel-border-narrow js-hidden">
-            <label for="toll-cost" class="form-label">Cost</label>
-            <input id="toll-cost"
+          <div id="toll-question" class="panel panel-border-narrow js-hidden {% if errors['toll-cost'][0] %} error {% endif %}">
+            <label id="toll-cost" for="toll-cost-input" class="form-label">Cost</label>
+
+            {% if errors['toll-cost'][0] %}
+              <span class="error-message">{{ errors['toll-cost'][0] }}</span>
+            {% endif %}
+
+            <input id="toll-cost-input"
                    type="text"
                    name="toll-cost"
+                   value="{{ expense['toll-cost'] }}"
                    class="form-control">
           </div>
 
@@ -71,22 +78,26 @@
             <input id="parking-charge"
                    type="radio"
                    name="parking-charge"
-                   value="yes">
+                   value="yes"
+                   {% if expense['parking-charge'] == 'yes' %} checked {% endif %}>
             Add parking charge
           </label>
 
-          <div id="parking-charge-question" class="panel panel-border-narrow js-hidden">
-            <label for="parking-charge-cost" class="form-label">
-              Cost
-            </label>
-            <input id="parking-charge-cost"
+          <div id="parking-charge-question" class="panel panel-border-narrow js-hidden {% if errors['parking-charge-cost'][0] %} error {% endif %}">
+            <label id="parking-charge-cost" for="parking-charge-cost-input" class="form-label">Cost</label>
+
+            {% if errors['parking-charge-cost'][0] %}
+              <span class="error-message">{{ errors['parking-charge-cost'][0] }}</span>
+            {% endif %}
+
+            <input id="parking-charge-cost-input"
                    type="text"
                    name="parking-charge-cost"
+                   value="{{ expense['parking-charge-cost'] }}"
                    class="form-control">
           </div>
 
         </fieldset>
-
         <br/>
 
         <input id="car-details-submit"
