@@ -5,29 +5,27 @@ const eligiblityStatusEnum = require('../../../app/constants/eligibility-status-
 const visitorHelper = require('./visitor-helper')
 const prisonerHelper = require('./prisoner-helper')
 
-module.exports.REFERENCE = 'V123467'
 module.exports.DATE_CREATED = moment().toDate()
 module.exports.DATE_SUBMITTED = moment().toDate()
 module.exports.STATUS = eligiblityStatusEnum.IN_PROGRESS
 
-module.exports.insert = function () {
+module.exports.insert = function (reference) {
   return knex('ExtSchema.Eligibility')
     .insert({
-      Reference: this.REFERENCE,
+      Reference: reference,
       DateCreated: this.DATE_CREATED,
       DateSubmitted: this.DATE_SUBMITTED,
-      Status: this.REFERENCE
+      Status: this.STATUS
     })
 }
 
-module.exports.insertEligibilityVisitorAndPrisoner = function () {
-  var self = this
-  return this.insert()
+module.exports.insertEligibilityVisitorAndPrisoner = function (reference) {
+  return this.insert(reference)
     .then(function () {
-      return visitorHelper.insert(self.REFERENCE)
+      return visitorHelper.insert(reference)
     })
     .then(function () {
-      return prisonerHelper.insert(self.REFERENCE)
+      return prisonerHelper.insert(reference)
     })
 }
 
@@ -37,19 +35,19 @@ module.exports.get = function (reference) {
     .where('Reference', reference)
 }
 
-module.exports.delete = function () {
+module.exports.delete = function (reference) {
   return knex('ExtSchema.Eligibility')
-    .where('Reference', this.REFERENCE)
+    .where('Reference', reference)
     .del()
 }
 
-module.exports.deleteEligibilityVisitorAndPrisoner = function () {
+module.exports.deleteEligibilityVisitorAndPrisoner = function (reference) {
   var self = this
-  return prisonerHelper.delete(self.REFERENCE)
+  return prisonerHelper.delete(reference)
     .then(function () {
-      return visitorHelper.delete(self.REFERENCE)
+      return visitorHelper.delete(reference)
     })
     .then(function () {
-      return self.delete()
+      return self.delete(reference)
     })
 }

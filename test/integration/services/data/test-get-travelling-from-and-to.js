@@ -5,20 +5,21 @@ const prisonerHelper = require('../../../helpers/data/prisoner-helper')
 const expect = require('chai').expect
 
 describe('services/data/get-travelling-from-and-to', function () {
+  const REFERENCE = 'V123467'
   const EXPECTED_RESULT = {
     from: visitorHelper.TOWN,
     to: prisonerHelper.NAME_OF_PRISON
   }
 
   before(function (done) {
-    eligiblityHelper.insertEligibilityVisitorAndPrisoner()
+    eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
       .then(function () {
         done()
       })
   })
 
   it('should retrieve to and from information for the given reference', function (done) {
-    getTravellingFromAndTo(eligiblityHelper.REFERENCE)
+    getTravellingFromAndTo(REFERENCE)
       .then(function (result) {
         expect(result).to.deep.equal(EXPECTED_RESULT)
         done()
@@ -26,7 +27,7 @@ describe('services/data/get-travelling-from-and-to', function () {
   })
 
   after(function (done) {
-    eligiblityHelper.deleteEligibilityVisitorAndPrisoner()
+    eligiblityHelper.deleteEligibilityVisitorAndPrisoner(REFERENCE)
       .then(function () {
         done()
       })

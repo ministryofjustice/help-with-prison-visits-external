@@ -5,10 +5,12 @@ const claimHelper = require('../../../helpers/data/claim-helper')
 const expenseHelper = require('../../../helpers/data/expense-helper')
 
 describe('services/data/insert-expense', function () {
+  const REFERENCE = 'V123467'
+
   it('should insert a new expense', function (done) {
-    eligiblityHelper.insertEligibilityVisitorAndPrisoner()
+    eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
       .then(function () {
-        return claimHelper.insert(eligiblityHelper.REFERENCE)
+        return claimHelper.insert(REFERENCE)
       })
       .then(function () {
         return expenseHelper.insert(claimHelper.CLAIM_ID)
@@ -44,7 +46,7 @@ describe('services/data/insert-expense', function () {
         return claimHelper.delete(claimHelper.CLAIM_ID)
       })
       .then(function () {
-        return eligiblityHelper.deleteEligibilityVisitorAndPrisoner()
+        return eligiblityHelper.deleteEligibilityVisitorAndPrisoner(REFERENCE)
       })
       .then(function () {
         done()
