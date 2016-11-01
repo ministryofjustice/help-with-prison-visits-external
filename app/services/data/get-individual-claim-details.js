@@ -8,9 +8,8 @@ module.exports = function (claimId) {
     .join('Visitor', 'Eligibility.Reference', '=', 'Visitor.Reference')
     .join('Prisoner', 'Eligibility.Reference', '=', 'Prisoner.Reference')
     .where('Claim.ClaimId', claimId)
-    .first('Eligibility.Reference', 'Claim.DateSubmitted', 'Claim.DateOfJourney', 'Visitor.FirstName', 'Visitor.LastName',
-      'Visitor.DateOfBirth', 'Visitor.NationalInsuranceNumber', 'Visitor.HouseNumberAndStreet', 'Visitor.Town', 'Visitor.County', 'Visitor.PostCode',
-      'Visitor.EmailAddress', 'Visitor.PhoneNumber', 'Visitor.Relationship', 'Prisoner.FirstName AS PrisonerFirstName', 'Prisoner.LastName AS PrisonerLastName',
+    .first('Eligibility.Reference', 'Claim.DateSubmitted', 'Claim.DateOfJourney', 'Visitor.FirstName', 'Visitor.LastName', 'Visitor.Benefit',
+      'Prisoner.FirstName AS PrisonerFirstName', 'Prisoner.LastName AS PrisonerLastName',
       'Prisoner.DateOfBirth AS PrisonerDateOfBirth', 'Prisoner.PrisonNumber', 'Prisoner.NameOfPrison')
     .then(function (claim) {
       return knex('Claim')

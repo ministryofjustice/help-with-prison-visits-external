@@ -16,14 +16,11 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Add ferry journey information
+        About your ferry journey
       </h2>
 
-      <p>If your journey requires a sea crossing, for example, between mainland Great Britain and Isle of Wight, you may be
-        able to claim the cost of the ferry ticket as either a foot passenger or car passenger.</p>
-
-      <p>When you are also claiming for a car journey, the ferry mileage will be deducted from your car mileage
-        claim.</p>
+      <p>You may be able to get help with the cost of a ferry ticket if your journey involved a sea crossing
+         - for example from the Isle of Wight to the mainland.</p>
 
       <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claimId}}/ferry{{params}}" method="post">
 
@@ -99,7 +96,7 @@
 
             <fieldset>
 
-              <label for="ticket-type-yes" class="block-label inline">
+              <label for="ticket-type-yes" class="block-label">
                 <input id="ticket-type-yes"
                        type="radio"
                        name="ticket-type"
@@ -107,7 +104,7 @@
                        {% if expense['ticket-type'] == 'foot-passenger' %} checked {% endif %}>
                 Foot passenger
               </label>
-              <label for="ticket-type-no" class="block-label inline">
+              <label for="ticket-type-no" class="block-label">
                 <input id="ticket-type-no"
                        type="radio"
                        name="ticket-type"
@@ -131,7 +128,7 @@
                    name="cost"
                    value="{{ expense['cost'] }}"
                    class="form-control">
-            <p class="form-hint">For example, 100</p>
+            <p class="form-hint">For example, £100</p>
           </div>
 
           <input id="ferry-details-submit"
