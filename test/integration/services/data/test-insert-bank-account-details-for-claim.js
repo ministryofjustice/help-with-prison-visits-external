@@ -15,12 +15,11 @@ describe('services/data/insert-bank-account-details-for-claim', function () {
   })
 
   it('should insert a new Bank Details record for a claim', function () {
-    return bankHelper.insert(claimHelper.CLAIM_ID)
+    return insertBankAccountDetailsForClaim(claimHelper.CLAIM_ID, bankHelper.build())
       .then(function () {
         return bankHelper.get(claimHelper.CLAIM_ID)
       })
       .then(function (bank) {
-        expect(bank.ClaimId).to.equal(claimHelper.CLAIM_ID)
         expect(bank.AccountNumber).to.equal(bankHelper.ACCOUNT_NUMBER)
         expect(bank.SortCode).to.equal(bankHelper.SORT_CODE)
       })

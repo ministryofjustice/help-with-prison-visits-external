@@ -6,12 +6,15 @@ const BankAccountDetails = require('../../../app/services/domain/bank-account-de
 module.exports.ACCOUNT_NUMBER = '07526415'
 module.exports.SORT_CODE = '010203'
 
-module.exports.insert = function (claimId) {
-  var bank = new BankAccountDetails(
+module.exports.build = function() {
+  return new BankAccountDetails(
     this.ACCOUNT_NUMBER,
     this.SORT_CODE
   )
-  return insertBankAccountDetailsForClaim(claimId, bank)
+}
+
+module.exports.insert = function (claimId) {
+  return insertBankAccountDetailsForClaim(claimId, this.build())
 }
 
 module.exports.get = function (claimId) {
