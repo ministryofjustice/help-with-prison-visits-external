@@ -1,13 +1,14 @@
 const expect = require('chai').expect
 const moment = require('moment')
 const taskHelper = require('../../../helpers/data/task-helper')
+const insertTask = require('../../../../app/services/data/insert-task-complete-first-time-claim')
 
 describe('services/data/insert-task-complete-first-time-claim', function () {
   const REFERENCE = 'COMFTC1'
   const CLAIM_ID = 124
 
   it('should insert a new task to complete the first time claim', function () {
-    return taskHelper.insert(REFERENCE, CLAIM_ID)
+    return insertTask(REFERENCE, CLAIM_ID)
       .then(function () {
         return taskHelper.get(REFERENCE, CLAIM_ID)
       })

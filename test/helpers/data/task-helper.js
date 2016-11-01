@@ -3,24 +3,14 @@ const knex = require('knex')(config)
 const moment = require('moment')
 const tasksEnum = require('../../../app/constants/tasks-enum')
 const taskStatusEnum = require('../../../app/constants/task-status-enum')
+const insertTask = require('../../../app/services/data/insert-task-complete-first-time-claim')
 
 module.exports.TASK = tasksEnum.COMPLETE_FIRST_TIME_CLAIM
 module.exports.ADDITONAL_DATA = 'Smith'
-module.exports.DATE_CREATED = moment().toDate()
-module.exports.DATE_PROCESSED = moment().toDate()
 module.exports.STATUS = taskStatusEnum.PENDING
 
 module.exports.insert = function (reference, claimId) {
-  return knex('ExtSchema.Task')
-    .insert({
-      Task: this.TASK,
-      Reference: reference,
-      ClaimId: claimId,
-      AdditionalData: this.ADDITONAL_DATA,
-      DateCreated: this.DATE_CREATED,
-      DateProcessed: this.DATE_PROCESSED,
-      Status: this.STATUS
-    })
+  return insertTask(reference, claimId)
 }
 
 module.exports.get = function (reference, claimId) {
