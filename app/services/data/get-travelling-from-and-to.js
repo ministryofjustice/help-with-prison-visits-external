@@ -5,10 +5,10 @@ module.exports = function (reference) {
   return knex('Visitor')
     .join('Prisoner', 'Visitor.Reference', '=', 'Prisoner.Reference')
     .where('Visitor.Reference', reference)
-    .first('Visitor.HouseNumberAndStreet', 'Visitor.Town', 'Visitor.County', 'Visitor.PostCode', 'Prisoner.NameOfPrison')
+    .first('Visitor.Town', 'Prisoner.NameOfPrison')
     .then(function (result) {
       return {
-        from: `${result.HouseNumberAndStreet}, ${result.Town}, ${result.County}, ${result.PostCode}`,
+        from: result.Town,
         to: result.NameOfPrison
       }
     })

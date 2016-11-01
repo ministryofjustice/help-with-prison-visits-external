@@ -10,6 +10,6 @@ module.exports = {
   getFutureDobMessage: function (displayName) { return `${displayName} must be in the past` },
   getDropboxIsRequired: function (displayName) { return `${displayName} is required` },
   getIsValidFormat: function (displayName) { return `${displayName} must have valid format` },
-  getIsCurrency: function (displayName) { return `${displayName} must be a valid currency` },
+  getIsCurrency: function (displayName) { return `${displayName} must be a valid amount` },
   getIsGreaterThan: function (displayName) { return `${displayName} must be greater than zero` }
 }
