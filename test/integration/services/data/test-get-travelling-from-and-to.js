@@ -1,65 +1,30 @@
-const expect = require('chai').expect
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
-const moment = require('moment')
 const getTravellingFromAndTo = require('../../../../app/services/data/get-travelling-from-and-to')
+const eligiblityHelper = require('../../helpers/data/eligibility-helper')
+const visitorHelper = require('../../helpers/data/visitor-helper')
+const prisonerHelper = require('../../helpers/data/prisoner-helper')
+const expect = require('chai').expect
 
 describe('services/data/insert-bank-account-details-for-claim', function () {
-  const REFERENCE = 'V123456'
-  const TOWN = 'some town'
-  const PRISON = 'some prison'
   const EXPECTED_RESULT = {
-    from: TOWN,
-    to: PRISON
+    from: visitorHelper.TOWN,
+    to: prisonerHelper.NAME_OF_PRISON
   }
 
   before(function (done) {
-    knex('ExtSchema.Eligibility')
-      .insert({
-        Reference: REFERENCE,
-        DateCreated: moment().toDate(),
-        Status: 'TEST'
+    eligiblityHelper.insert()
+      .then(function () {
+        return visitorHelper.insert(eligiblityHelper.REFERENCE)
       })
       .then(function () {
-        return knex('ExtSchema.Visitor').insert({
-          Reference: REFERENCE,
-          Title: '',
-          FirstName: '',
-          LastName: '',
-          NationalInsuranceNumber: '',
-          HouseNumberAndStreet: '',
-          Town: TOWN,
-          County: '',
-          PostCode: '',
-          Country: '',
-          EmailAddress: '',
-          PhoneNumber: '',
-          DateOfBirth: moment().toDate(),
-          Relationship: '',
-          JourneyAssistance: '',
-          RequireBenefitUpload: false
-        })
-      })
-      .then(function () {
-        return knex('ExtSchema.Prisoner').insert({
-          Reference: REFERENCE,
-          NameOfPrison: PRISON,
-          FirstName: '',
-          LastName: '',
-          DateOfBirth: '',
-          PrisonNumber: ''
-        })
+        return prisonerHelper.insert(eligiblityHelper.REFERENCE)
       })
       .then(function () {
         done()
       })
-      .catch(function (error) {
-        console.log(error)
-      })
   })
 
   it('should retrieve to and from information for the given reference', function (done) {
-    getTravellingFromAndTo(REFERENCE)
+    getTravellingFromAndTo(eligiblityHelper.REFERENCE)
       .then(function (result) {
         expect(result).to.deep.equal(EXPECTED_RESULT)
         done()
@@ -67,12 +32,15 @@ describe('services/data/insert-bank-account-details-for-claim', function () {
   })
 
   after(function (done) {
-    knex('ExtSchema.Prisoner').where('Reference', REFERENCE).del().then(function () {
-      knex('ExtSchema.Visitor').where('Reference', REFERENCE).del().then(function () {
-        knex('ExtSchema.Eligibility').where('Reference', REFERENCE).del().then(function () {
-          done()
-        })
+    prisonerHelper.delete(eligiblityHelper.REFERENCE)
+      .then(function () {
+        return visitorHelper.delete(eligiblityHelper.REFERENCE)
       })
-    })
+      .then(function () {
+        return eligiblityHelper.delete()
+      })
+      .then(function () {
+        done()
+      })
   })
 })
