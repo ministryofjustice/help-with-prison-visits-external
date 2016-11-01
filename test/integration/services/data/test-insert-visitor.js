@@ -27,7 +27,7 @@ describe('services/data/insert-visitor', function () {
         )
         expect(visitor.PostCode).to.equal(visitorHelper.POST_CODE)
         expect(visitor.Benefit).to.equal(visitorHelper.BENEFIT)
-        expect(visitor.RequireBenefitUpload, 'should set RequireBenefitUpload based on benefit').to.be.true
+        expect(visitor.RequireBenefitUpload, 'should set RequireBenefitUpload based on benefit').to.be.false
       })
   })
 
