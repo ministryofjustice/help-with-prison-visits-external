@@ -1,6 +1,4 @@
 const expect = require('chai').expect
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
 const moment = require('moment')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const claimHelper = require('../../../helpers/data/claim-helper')
@@ -14,7 +12,7 @@ describe('services/data/insert-first-time-claim', function () {
 
   it('should insert a new Claim record', function () {
     return claimHelper.insert(REFERENCE)
-      .then(function() {
+      .then(function () {
         return claimHelper.get(claimHelper.CLAIM_ID)
       })
       .then(function (claim) {
@@ -33,7 +31,7 @@ describe('services/data/insert-first-time-claim', function () {
 
   after(function () {
     return claimHelper.delete(claimHelper.CLAIM_ID)
-      .then(function() {
+      .then(function () {
         return eligiblityHelper.delete(REFERENCE)
       })
   })
