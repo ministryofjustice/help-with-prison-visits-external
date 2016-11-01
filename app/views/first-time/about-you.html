@@ -78,7 +78,7 @@
           {% if errors['HouseNumberAndStreet'][0] %}
           <span class="error-message" id="error-message-house-street">{{ errors['HouseNumberAndStreet'][0] }}</span>
           {% endif %}
-          <p class="form-hint">e.g 123 Street Name</p>
+          <p class="form-hint">For example, 123 Street Name</p>
           <input id="house-number-and-street-input"
                  name="HouseNumberAndStreet"
                  type="text"
@@ -129,10 +129,10 @@
           {% endif %}
           <select id="country-input" class="form-control" name="Country">
             <option>select</option>
-            <option {% if visitor['Country'] == 'Northern Ireland' %} selected {% endif %} id="country-ni">Northern Ireland</option>
             <option {% if visitor['Country'] == 'England' %} selected {% endif %} id="country-england">England</option>
-            <option {% if visitor['Country'] == 'Scotland' %} selected {% endif %} id="country-scotland">Scotland</option>
             <option {% if visitor['Country'] == 'Wales' %} selected {% endif %} id="country-wales">Wales</option>
+            <option {% if visitor['Country'] == 'Scotland' %} selected {% endif %} id="country-scotland">Scotland</option>
+            <option {% if visitor['Country'] == 'Northern Ireland' %} selected {% endif %} id="country-ni">Northern Ireland</option>
           </select>
         </div>
 

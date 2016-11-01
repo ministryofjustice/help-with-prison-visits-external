@@ -15,16 +15,10 @@
         First time here?
       </h2>
 
-      <p>If this is your first claim you’ll need to register with the scheme. You'll need:</p>
-      <ul class="list list-bullet">
-        <li>Your National Insurance number</li>
-        <li>Prisoner’s number and name of the Prison</li>
-      </uL>
+      <p>Apply for help and your details will be saved for next time.</p>
+      <p>You’ll get a reference number at the end of your application.</p>
 
-      <p>You may also need to send paper documents to us electronically. We'll explain how to do this during your
-        application.</p>
-
-      <a id="first-time-submit" href="first-time" role="button" class="button button-start">Apply</a>
+      <a id="first-time-submit" href="first-time"><input type="submit" value="Apply" class="button"></a>
 
     </div>
 
@@ -33,10 +27,19 @@
         Already registered?
       </h2>
 
+      <p>With your reference number, you can sign in and:</p>
+
+      <ul class="list-bullet">
+        <li>apply without having to enter all of the information again</li>
+        <li>return to saved applications</li>
+      </ul>
+
+      <br>
+
       <form action="profile">
         <div class="form-group">
           <label class="form-label-bold" for="reference-number">Reference number</label>
-          <p class="form-hint">For example APVS1234</p>
+          <p class="form-hint">for example, APVS1234</p>
           <input id="reference-number" type="text" class="form-control"/>
           <br>
           <br><a href="">Forgotten your reference number?</a>
@@ -46,7 +49,7 @@
           <fieldset>
             <div class="form-date">
               <label class="form-label-bold">Date of birth</label>
-              <p class="form-hint">eg 18 08 1989</p>
+              <p class="form-hint">For example, 18 08 1989</p>
               <div class="form-group form-group-day">
                 <label for="dob-day">Day</label>
                 <input id="dob-day"
@@ -73,7 +76,7 @@
         <br>
 
         <div class="form-group">
-          <input id="already-registered-submit" type="submit" class="button">
+          <input id="already-registered-submit" type="submit" value="Continue" class="button">
         </div>
 
       </form>

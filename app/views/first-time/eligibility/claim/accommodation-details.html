@@ -16,10 +16,10 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Add Accommodation information
+        About your accommodation
       </h2>
 
-      <p>Before claiming assistance for a Accommodation, you must contact the Assisted Prison Visits Unit.</p>
+      <p>Before claiming assistance for accommodation, you must contact the Assisted Prison Visits Unit.</p>
 
       <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claimId}}/accommodation{{params}}" method="post">
 
@@ -35,7 +35,7 @@
                  name="duration"
                  value="{{ expense['duration'] }}"
                  class="form-control">
-          <p class="form-hint">eg 1</p>
+          <p class="form-hint">For example, 1</p>
         </div>
 
         <div id="cost" class="form-group {% if errors['cost'][0] %} error {% endif %}">
@@ -50,7 +50,7 @@
                  name="cost"
                  value="{{ expense['cost'] }}"
                  class="form-control">
-          <p class="form-hint">eg 50</p>
+          <p class="form-hint">For example, £50</p>
         </div>
 
         <input id="accommodation-details-submit"

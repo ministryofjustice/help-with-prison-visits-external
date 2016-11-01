@@ -16,10 +16,11 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        What type(s) of transport did you use?
+        What kind of transport did you use?
       </h2>
 
-      <p>You can select more than one mode of transport.</p>
+      <p>You can select more than one. You will need to show us receipts or tickets 
+        for all parts of the journey, except for car or motorcycle travel.</p>
 
       <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claimId}}" method="post">
         <div class="form-group">
@@ -31,14 +32,14 @@
                      type="checkbox"
                      name="expenses"
                      value="car">
-              Car/Motorcyle
+              Car/Motorcycle
             </label>
             <label class="block-label">
-              <input id="hire"
+              <input id="train"
                      type="checkbox"
                      name="expenses"
-                     value="hire">
-              Car Hire
+                     value="train">
+              Train (standard class)
             </label>
             <label class="block-label">
               <input id="bus"
@@ -48,11 +49,11 @@
               Bus
             </label>
             <label class="block-label">
-              <input id="train"
+              <input id="hire"
                      type="checkbox"
                      name="expenses"
-                     value="train">
-              Train
+                     value="hire">
+              Car Hire
             </label>
             <label class="block-label">
               <input id="taxi"
@@ -62,25 +63,27 @@
               Taxi
             </label>
             <label class="block-label">
-              <input id="plane"
-                     type="checkbox"
-                     name="expenses"
-                     value="plane">
-              Plane
-            </label>
-            <label class="block-label">
               <input id="ferry"
                      type="checkbox"
                      name="expenses"
                      value="ferry">
               Ferry
             </label>
+            <label class="block-label">
+              <input id="plane"
+                     type="checkbox"
+                     name="expenses"
+                     value="plane">
+              Plane
+            </label>
 
           </fieldset>
 
           <h2 class="heading-medium">
-            Additional expense(s)
+            Did you have any other expenses?
           </h2>
+
+          <p>You may be able to get help paying for light refreshments and accommodation.</p>
 
           <fieldset>
 

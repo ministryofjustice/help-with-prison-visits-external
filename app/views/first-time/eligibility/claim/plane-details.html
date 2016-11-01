@@ -16,10 +16,10 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Add plane journey information
+        About your plane journey
       </h2>
 
-      <p>Air travel may be permitted if it is cheaper than other public transport options.</p>
+      <p>You may get help paying for air travel if it is cheaper than other public transport options.</p>
 
       <p>Claims that include air travel require approval before you travel, by the Assisted Prison Visits Unit.</p>
 
@@ -37,7 +37,7 @@
                  name="from"
                  value="{{ expense['from'] }}"
                  class="form-control">
-          <p class="form-hint">eg Heathrow</p>
+          <p class="form-hint">For example, Heathrow</p>
         </div>
 
         <div class="form-group {% if errors['to'][0] %} error {% endif %}">
@@ -52,7 +52,7 @@
                  name="to"
                  value="{{ expense['to'] }}"
                  class="form-control">
-          <p class="form-hint">eg Edinburgh</p>
+          <p class="form-hint">For example, Edinburgh</p>
         </div>
 
         <div class="form-group">
@@ -99,7 +99,7 @@
                    name="cost"
                    value="{{ expense['cost'] }}"
                    class="form-control">
-            <p class="form-hint">eg 100</p>
+            <p class="form-hint">For example, £100</p>
           </div>
 
           <div class="form-group">

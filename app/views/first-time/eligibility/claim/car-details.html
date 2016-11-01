@@ -16,16 +16,15 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Add Car/Motorcyle journey information
+        About your car or motorcycle journey
       </h2>
 
       <p>
-        Car travel is calculated automatically based on the shortest distance for a return journey from your address
-        to the Visitor Centre.
+        You will get 13p per mile for this kind of travel. The distance is calculated as the shortest route between your home and the prison’s visitor centre
+      </p>
 
-        This is paid at 13p per mile.
-
-        You may also add toll or parking charges you had to pay.
+      <p>
+        You can also claim for any tolls or parking charges.
       </p>
 
       <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claimId}}/car{{params}}" method="post">

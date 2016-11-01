@@ -17,8 +17,10 @@
         {{ __('Get help with the cost of visiting someone in prison') }}
       </h1>
 
-      <p>{{ __('You may get help with the cost of visiting a close relative or partner in prison if you’re aged over
-        16.') }}</p>
+      <p>{{ __('You may get help with the cost of visiting someone in prison, if you’re a close relative or partner 
+        or are their only visitor in a month.') }}</p>
+
+      <p>{{ __('You must be over 16 and on a low income, or receiving a qualifying benefit.') }}</p>
 
       <h3 class="heading-medium">{{ __('Who can apply') }}</h3>
       <p>{{ __('You may be eligible if you receive:') }}</p>
@@ -26,21 +28,21 @@
       <ul class="list list-bullet">
         <li>{{ __('Income Support') }}</li>
         <li>{{ __('Income-based Jobseeker’s Allowance (JSA)') }}</li>
-        <li>{{ __('Employment and Support Allowance (ESA)') }}</li>
+        <li>{{ __('Employment and Support Allowance (ESA) - Income related') }}</li>
         <li>{{ __('Universal Credit') }}</li>
-        <li>{{ __('Working Tax Credit, Child Tax Credit or Pension Credit') }}</li>
+        <li>{{ __('Working Tax Credit (with disability), Child Tax Credit or Pension Credit') }}</li>
       </ul>
 
       <p>{{ __('or if you have an HC2 or HC3 Health Certificate.') }}</p>
 
       <a href="">{{ __('More about who can apply') }}</a>
 
-      <h4 class="heading-medium">{{ __('What you can get help with') }}</h4>
+      <h4 class="heading-medium">{{ __('What you may be able to get help with') }}</h4>
 
       <ul class=" list list-bullet">
-        <li>{{ __('travel costs, for example train tickets, petrol or car hire') }}</li>
-        <li>{{ __('overnight stays') }}</li>
-        <li>{{ __('other costs to do with your visit - for example food, childminding, a volunteer driver or an escort
+        <li>{{ __('Travel costs, for example, train tickets, petrol or car hire') }}</li>
+        <li>{{ __('Overnight stays') }}</li>
+        <li>{{ __('Other costs to do with your visit - for example, food, childminding, a volunteer driver or an escort
           if needed') }}
         </li>
       </ul>
@@ -58,9 +60,9 @@
       <p>{{ __('You\'ll need:') }}</p>
 
       <ul class=" list list-bullet">
-        <li>{{ __('your National Insurance number') }}</li>
-        <li>{{ __('the name of the prison and the prisoner number of the person you’re visiting') }}</li>
-        <li>{{ __('details of your claim, for example tickets') }}</li>
+        <li>{{ __('Your National Insurance number') }}</li>
+        <li>{{ __('The name of the prison and the prisoner number of the person you’re visiting') }}</li>
+        <li>{{ __('Details of your claim, for example, tickets') }}</li>
       </ul>
 
       <p>{{ __('If you’ve used this service before you can return to a claim with your 8-digit reference number.')
@@ -74,8 +76,7 @@
     <div class="column-third">
 
       <aside class="govuk-related-items" role="complementary">
-        <h2 class="heading-medium" id="subsection-title">{% if serviceName %} {{ __(serviceName) }} {% endif
-          %}</h2>
+        <br>
         <nav role="navigation" aria-labelledby="subsection-title">
           <ul class="font-xsmall">
             <li><a href="">{{__('How to apply')}}</a></li>

@@ -9,7 +9,7 @@ module.exports = {
   'HouseNumberAndStreet': 'House number and street',
   'Town': 'Town',
   'County': 'County',
-  'PostCode': 'Postcode',
+  'PostCode': 'Post code',
   'Country': 'Country',
   'EmailAddress': 'Email address',
   'PhoneNumber': 'Phone number',
