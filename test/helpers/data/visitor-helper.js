@@ -3,6 +3,7 @@ const knex = require('knex')(config)
 const moment = require('moment')
 const relationshipEnum = require('../../../app/constants/prisoner-relationships-enum')
 const benefitsEnum = require('../../../app/constants/benefits-enum')
+const insertVisitor = require('../../../app/services/data/insert-visitor')
 
 module.exports.TITLE = 'Mr'
 module.exports.FIRST_NAME = 'John'
@@ -21,27 +22,29 @@ module.exports.JOURNEY_ASSISTANCE = 'yes'
 module.exports.REQURE_BENEFIT_UPLOAD = false
 module.exports.BENEFIT = benefitsEnum['income-support'].displayName
 
+module.exports.build = function () {
+  return {
+    Title: this.TITLE,
+    FirstName: this.FIRST_NAME,
+    LastName: this.LAST_NAME,
+    NationalInsuranceNumber: this.NATIONAL_INSURANCE_NUMBER,
+    HouseNumberAndStreet: this.HOUSE_NUMBER_AND_STREET,
+    Town: this.TOWN,
+    County: this.COUNTY,
+    PostCode: this.POST_CODE,
+    Country: this.COUNTRY,
+    EmailAddress: this.EMAIL_ADDRESS,
+    PhoneNumber: this.PHONE_NUMBER,
+    DateOfBirth: this.DATE_OF_BIRTH,
+    Relationship: this.RELATIONSHIP,
+    JourneyAssistance: this.JOURNEY_ASSISTANCE,
+    RequireBenefitUpload: this.REQURE_BENEFIT_UPLOAD,
+    Benefit: this.BENEFIT
+  }
+}
+
 module.exports.insert = function (reference) {
-  return knex('ExtSchema.Visitor')
-    .insert({
-      Reference: reference,
-      Title: this.TITLE,
-      FirstName: this.FIRST_NAME,
-      LastName: this.LAST_NAME,
-      NationalInsuranceNumber: this.NATIONAL_INSURANCE_NUMBER,
-      HouseNumberAndStreet: this.HOUSE_NUMBER_AND_STREET,
-      Town: this.TOWN,
-      County: this.COUNTY,
-      PostCode: this.POST_CODE,
-      Country: this.COUNTRY,
-      EmailAddress: this.EMAIL_ADDRESS,
-      PhoneNumber: this.PHONE_NUMBER,
-      DateOfBirth: this.DATE_OF_BIRTH,
-      Relationship: this.RELATIONSHIP,
-      JourneyAssistance: this.JOURNEY_ASSISTANCE,
-      RequireBenefitUpload: this.REQURE_BENEFIT_UPLOAD,
-      Benefit: this.BENEFIT
-    })
+  return insertVisitor(reference, this.build())
 }
 
 module.exports.get = function (reference) {

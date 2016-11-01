@@ -2,6 +2,7 @@ const expect = require('chai').expect
 const moment = require('moment')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const visitorHelper = require('../../../helpers/data/visitor-helper')
+const insertVisitor = require('../../../../app/services/data/insert-visitor')
 
 describe('services/data/insert-visitor', function () {
   var REFERENCE = 'V123456'
@@ -11,7 +12,7 @@ describe('services/data/insert-visitor', function () {
   })
 
   it('should insert a new Visitor for a reference', function () {
-    return visitorHelper.insert(REFERENCE)
+    return insertVisitor(REFERENCE, visitorHelper.build())
       .then(function () {
         return visitorHelper.get(REFERENCE)
       })
@@ -26,8 +27,14 @@ describe('services/data/insert-visitor', function () {
         )
         expect(visitor.PostCode).to.equal(visitorHelper.POST_CODE)
         expect(visitor.Benefit).to.equal(visitorHelper.BENEFIT)
-        expect(visitor.RequireBenefitUpload, 'should set RequireBenefitUpload based on benefit').to.be.false
+        expect(visitor.RequireBenefitUpload, 'should set RequireBenefitUpload based on benefit').to.be.true
       })
+  })
+
+  it('should throw an error if passed a non visitor object.', function () {
+    return expect(function () {
+      insertVisitor({})
+    }).to.throw(Error)
   })
 
   after(function () {
