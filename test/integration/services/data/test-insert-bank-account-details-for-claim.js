@@ -12,8 +12,8 @@ var AccountNumber = ' 00 12 34 56 '
 var SortCode = ' 11 22 3 3 '
 
 describe('services/data/insert-bank-account-details-for-claim', function () {
-  before(function (done) {
-    knex('ExtSchema.Eligibility').insert({
+  before(function () {
+    return knex('ExtSchema.Eligibility').insert({
       Reference: reference,
       DateCreated: moment().toDate(),
       Status: 'TEST'
@@ -29,15 +29,14 @@ describe('services/data/insert-bank-account-details-for-claim', function () {
       .returning('ClaimId')
       .then(function (result) {
         claimId = result[0]
-        done()
       })
     })
   })
 
-  it('should insert a new Bank Details record for a claim', function (done) {
+  it('should insert a new Bank Details record for a claim', function () {
     var bankDetailsData = new BankAccountDetails(AccountNumber, SortCode)
 
-    insertBankAccountDetailsForClaim(claimId, bankDetailsData)
+    return insertBankAccountDetailsForClaim(claimId, bankDetailsData)
       .returning('ClaimBankDetailId')
       .then(function (insertClaimBankDetailResult) {
         var claimBankDetailId = insertClaimBankDetailResult[0]
@@ -48,33 +47,26 @@ describe('services/data/insert-bank-account-details-for-claim', function () {
             expect(results[0].ClaimId).to.equal(claimId)
             expect(results[0].AccountNumber).to.equal('00123456')
             expect(results[0].SortCode).to.equal('112233')
-            done()
           })
-      })
-      .catch(function (error) {
-        throw error
       })
   })
 
-  it('should throw error if called with incorrect domain object type', function (done) {
+  it('should throw error if called with incorrect domain object type', function () {
     var bankDetailsData = {
       AccountNumber: AccountNumber,
       SortCode: SortCode
     }
     try {
-      insertBankAccountDetailsForClaim(claimId, bankDetailsData)
+      return insertBankAccountDetailsForClaim(claimId, bankDetailsData)
     } catch (error) {
       expect(error.message).to.equal('Provided bankAccountDetails object is not an instance of the expected class')
-      done()
     }
   })
 
-  after(function (done) {
-    // Clean up
-    knex('ExtSchema.ClaimBankDetail').where('ClaimId', claimId).del().then(function () {
-      knex('ExtSchema.Claim').where('Reference', reference).del().then(function () {
-        knex('ExtSchema.Eligibility').where('Reference', reference).del().then(function () {
-          done()
+  after(function () {
+    return knex('ExtSchema.ClaimBankDetail').where('ClaimId', claimId).del().then(function () {
+      return knex('ExtSchema.Claim').where('Reference', reference).del().then(function () {
+        return knex('ExtSchema.Eligibility').where('Reference', reference).del().then(function () {
         })
       })
     })

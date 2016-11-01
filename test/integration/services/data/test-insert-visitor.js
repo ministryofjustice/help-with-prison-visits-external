@@ -7,7 +7,7 @@ var insertVisitor = require('../../../../app/services/data/insert-visitor')
 var reference = 'V123456'
 
 describe('services/data/insert-visitor', function () {
-  describe('insert', function (done) {
+  describe('insert', function () {
     before(function () {
       return knex('ExtSchema.Eligibility').insert({
         Reference: reference,
@@ -52,7 +52,6 @@ describe('services/data/insert-visitor', function () {
     })
 
     after(function () {
-      // Clean up
       return knex('ExtSchema.Visitor').where('Reference', reference).del().then(function () {
         return knex('ExtSchema.Eligibility').where('Reference', reference).del()
       })

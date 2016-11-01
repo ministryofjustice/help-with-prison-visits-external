@@ -12,18 +12,15 @@ var claimId
 var dateOfJourney = dateFormatter.build('26', '10', '2016')
 
 describe('services/data/insert-first-time-claim', function () {
-  before(function (done) {
-    knex('ExtSchema.Eligibility').insert({
+  before(function () {
+    return knex('ExtSchema.Eligibility').insert({
       Reference: reference,
       DateCreated: moment().toDate(),
       Status: 'TEST'
     })
-    .then(function () {
-      done()
-    })
   })
 
-  it('should insert a new Claim record', function (done) {
+  it('should insert a new Claim record', function () {
     var firstTimeClaim = new FirstTimeClaim(
       reference,
       '26',
@@ -31,7 +28,7 @@ describe('services/data/insert-first-time-claim', function () {
       '2016'
     )
 
-    insertFirstTimeClaim(firstTimeClaim)
+    return insertFirstTimeClaim(firstTimeClaim)
       .returning('ClaimId')
       .then(function (insertResult) {
         claimId = insertResult[0]
@@ -44,16 +41,13 @@ describe('services/data/insert-first-time-claim', function () {
             )
             expect(results[0].DateSubmitted).to.equal(null)
             expect(results[0].Status).to.equal(claimStatusEnum.IN_PROGRESS)
-            done()
           })
       })
   })
 
-  after(function (done) {
-    // Clean up
-    knex('ExtSchema.Claim').where('ClaimId', claimId).del().then(function () {
-      knex('ExtSchema.Eligibility').where('Reference', reference).del().then(function () {
-        done()
+  after(function () {
+    return knex('ExtSchema.Claim').where('ClaimId', claimId).del().then(function () {
+      return knex('ExtSchema.Eligibility').where('Reference', reference).del().then(function () {
       })
     })
   })
