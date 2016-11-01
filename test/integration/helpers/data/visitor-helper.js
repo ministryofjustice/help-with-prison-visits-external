@@ -41,6 +41,12 @@ module.exports.insert = function (reference) {
     })
 }
 
+module.exports.get = function (reference) {
+  return knex.select()
+    .from('ExtSchema.Visitor')
+    .where('Reference', reference)
+}
+
 module.exports.delete = function (reference) {
   return knex('ExtSchema.Visitor')
     .where('Reference', reference)

@@ -20,6 +20,12 @@ module.exports.insert = function (reference) {
     })
 }
 
+module.exports.get = function (reference) {
+  return knex.select()
+    .from('ExtSchema.Prisoner')
+    .where('Reference', reference)
+}
+
 module.exports.delete = function (reference) {
   return knex('ExtSchema.Prisoner')
     .where('Reference', reference)

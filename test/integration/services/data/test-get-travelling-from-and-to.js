@@ -4,20 +4,14 @@ const visitorHelper = require('../../helpers/data/visitor-helper')
 const prisonerHelper = require('../../helpers/data/prisoner-helper')
 const expect = require('chai').expect
 
-describe('services/data/insert-bank-account-details-for-claim', function () {
+describe('services/data/get-travelling-from-and-to', function () {
   const EXPECTED_RESULT = {
     from: visitorHelper.TOWN,
     to: prisonerHelper.NAME_OF_PRISON
   }
 
   before(function (done) {
-    eligiblityHelper.insert()
-      .then(function () {
-        return visitorHelper.insert(eligiblityHelper.REFERENCE)
-      })
-      .then(function () {
-        return prisonerHelper.insert(eligiblityHelper.REFERENCE)
-      })
+    eligiblityHelper.insertEligibilityVisitorAndPrisoner()
       .then(function () {
         done()
       })
@@ -32,13 +26,7 @@ describe('services/data/insert-bank-account-details-for-claim', function () {
   })
 
   after(function (done) {
-    prisonerHelper.delete(eligiblityHelper.REFERENCE)
-      .then(function () {
-        return visitorHelper.delete(eligiblityHelper.REFERENCE)
-      })
-      .then(function () {
-        return eligiblityHelper.delete()
-      })
+    eligiblityHelper.deleteEligibilityVisitorAndPrisoner()
       .then(function () {
         done()
       })
