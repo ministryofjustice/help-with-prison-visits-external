@@ -2,7 +2,6 @@ const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const moment = require('moment')
 const relationshipEnum = require('../../../app/constants/prisoner-relationships-enum')
-const benefitsEnum = require('../../../app/constants/benefits-enum')
 const insertVisitor = require('../../../app/services/data/insert-visitor')
 
 module.exports.TITLE = 'Mr'
