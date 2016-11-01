@@ -7,8 +7,8 @@ const expenseHelper = require('../../../helpers/data/expense-helper')
 describe('services/data/insert-expense', function () {
   const REFERENCE = 'V123467'
 
-  it('should insert a new expense', function (done) {
-    eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
+  it('should insert a new expense', function () {
+    return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
       .then(function () {
         return claimHelper.insert(REFERENCE)
       })
@@ -29,27 +29,22 @@ describe('services/data/insert-expense', function () {
         expect(expenses[0].IsReturn).to.equal(expenseHelper.IS_RETURN === 'yes')
         expect(expenses[0].DurationOfTravel).to.equal(expenseHelper.DURATION_OF_TRAVEL)
         expect(expenses[0].TicketType).to.equal(expenseHelper.TICKET_TYPE)
-        done()
       })
   })
 
-  it('should throw an error if passed a non-expense object.', function (done) {
-    expect(function () {
+  it('should throw an error if passed a non-expense object.', function () {
+    return expect(function () {
       insertExpense({})
     }).to.throw(Error)
-    done()
   })
 
-  after(function (done) {
-    expenseHelper.delete(claimHelper.CLAIM_ID)
+  after(function () {
+    return expenseHelper.delete(claimHelper.CLAIM_ID)
       .then(function () {
         return claimHelper.delete(claimHelper.CLAIM_ID)
       })
       .then(function () {
         return eligiblityHelper.deleteEligibilityVisitorAndPrisoner(REFERENCE)
-      })
-      .then(function () {
-        done()
       })
   })
 })

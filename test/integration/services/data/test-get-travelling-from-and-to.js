@@ -11,25 +11,18 @@ describe('services/data/get-travelling-from-and-to', function () {
     to: prisonerHelper.NAME_OF_PRISON
   }
 
-  before(function (done) {
-    eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
-      .then(function () {
-        done()
-      })
+  before(function () {
+    return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
   })
 
-  it('should retrieve to and from information for the given reference', function (done) {
+  it('should retrieve to and from information for the given reference', function () {
     getTravellingFromAndTo(REFERENCE)
       .then(function (result) {
         expect(result).to.deep.equal(EXPECTED_RESULT)
-        done()
       })
   })
 
-  after(function (done) {
-    eligiblityHelper.deleteEligibilityVisitorAndPrisoner(REFERENCE)
-      .then(function () {
-        done()
-      })
+  after(function () {
+    return eligiblityHelper.deleteEligibilityVisitorAndPrisoner(REFERENCE)
   })
 })
