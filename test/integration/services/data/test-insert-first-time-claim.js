@@ -1,35 +1,41 @@
 const expect = require('chai').expect
 const moment = require('moment')
+const insertFirstTimeClaim = require('../../../../app/services/data/insert-first-time-claim')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const claimHelper = require('../../../helpers/data/claim-helper')
 
 describe('services/data/insert-first-time-claim', function () {
-  const REFERENCE = 'APVS123'
+  const REFERENCE = 'APVS137'
+  var claimId
 
   before(function () {
     return eligiblityHelper.insert(REFERENCE)
   })
 
   it('should insert a new Claim record', function () {
-    return claimHelper.insert(REFERENCE)
-      .then(function () {
-        return claimHelper.get(claimHelper.CLAIM_ID)
+    return insertFirstTimeClaim(claimHelper.build(REFERENCE))
+      .then(function (insertResult) {
+        claimId = insertResult[0]
+        return claimHelper.get(claimId)
       })
       .then(function (claim) {
         expect(claim.DateOfJourney).to.be.within(
-          moment(claimHelper.DATE_OF_JOURNEY).subtract(1, 'seconds').toDate(),
-          moment(claimHelper.DATE_OF_JOURNEY).add(1, 'seconds').toDate()
+          moment(claimHelper.DATE_OF_JOURNEY_FORMATTED).subtract(1, 'seconds').toDate(),
+          moment(claimHelper.DATE_OF_JOURNEY_FORMATTED).add(1, 'seconds').toDate()
         )
-        expect(claim.DateSubmitted).to.be.within(
-          moment(claimHelper.DATE_SUBMITTED).subtract(1, 'seconds').toDate(),
-          moment(claimHelper.DATE_SUBMITTED).add(1, 'seconds').toDate()
-        )
+        expect(claim.DateSubmitted).to.be.equal(null)
         expect(claim.Status).to.equal(claimHelper.STATUS)
       })
   })
 
+  it('should throw an error if passed a non-expense object.', function () {
+    return expect(function () {
+      insertFirstTimeClaim({})
+    }).to.throw(Error)
+  })
+
   after(function () {
-    return claimHelper.delete(claimHelper.CLAIM_ID)
+    return claimHelper.delete(claimId)
       .then(function () {
         return eligiblityHelper.delete(REFERENCE)
       })

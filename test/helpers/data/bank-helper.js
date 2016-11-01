@@ -6,7 +6,7 @@ const BankAccountDetails = require('../../../app/services/domain/bank-account-de
 module.exports.ACCOUNT_NUMBER = '07526415'
 module.exports.SORT_CODE = '010203'
 
-module.exports.build = function() {
+module.exports.build = function () {
   return new BankAccountDetails(
     this.ACCOUNT_NUMBER,
     this.SORT_CODE
