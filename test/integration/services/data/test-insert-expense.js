@@ -7,14 +7,15 @@ const expenseHelper = require('../../../helpers/data/expense-helper')
 describe('services/data/insert-expense', function () {
   const REFERENCE = 'V123467'
 
-  it('should insert a new expense', function () {
+  before(function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
       .then(function () {
         return claimHelper.insert(REFERENCE)
       })
-      .then(function () {
-        return expenseHelper.insert(claimHelper.CLAIM_ID)
-      })
+  })
+
+  it('should insert a new expense', function () {
+    return insertExpense(expenseHelper.build(claimHelper.CLAIM_ID))
       .then(function () {
         return expenseHelper.get(claimHelper.CLAIM_ID)
       })

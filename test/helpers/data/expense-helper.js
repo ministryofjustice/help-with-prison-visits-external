@@ -12,15 +12,18 @@ module.exports.IS_RETURN = 'yes'
 module.exports.DURATION_OF_TRAVEL = null
 module.exports.TICKET_TYPE = null
 
-module.exports.insert = function (claimId) {
-  var expense = new BusExpense(
+module.exports.build = function (claimId) {
+  return new BusExpense(
     claimId,
     this.COST,
     this.FROM,
     this.TO,
     this.IS_RETURN
   )
-  return insertExpense(expense)
+}
+
+module.exports.insert = function (claimId) {
+  return insertExpense(this.build(claimId))
 }
 
 module.exports.get = function (claimId) {
