@@ -1,54 +1,40 @@
-var expect = require('chai').expect
-var config = require('../../../../knexfile').migrations
-var knex = require('knex')(config)
-var moment = require('moment')
-var claimStatusEnum = require('../../../../app/constants/claim-status-enum')
-var insertFirstTimeClaim = require('../../../../app/services/data/insert-first-time-claim')
-var FirstTimeClaim = require('../../../../app/services/domain/first-time-claim')
-var dateFormatter = require('../../../../app/services/date-formatter')
-
-var reference = 'APVS123'
-var claimId
-var dateOfJourney = dateFormatter.build('26', '10', '2016')
+const expect = require('chai').expect
+const config = require('../../../../knexfile').migrations
+const knex = require('knex')(config)
+const moment = require('moment')
+const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
+const claimHelper = require('../../../helpers/data/claim-helper')
 
 describe('services/data/insert-first-time-claim', function () {
+  const REFERENCE = 'APVS123'
+
   before(function () {
-    return knex('ExtSchema.Eligibility').insert({
-      Reference: reference,
-      DateCreated: moment().toDate(),
-      Status: 'TEST'
-    })
+    return eligiblityHelper.insert(REFERENCE)
   })
 
   it('should insert a new Claim record', function () {
-    var firstTimeClaim = new FirstTimeClaim(
-      reference,
-      '26',
-      '10',
-      '2016'
-    )
-
-    return insertFirstTimeClaim(firstTimeClaim)
-      .returning('ClaimId')
-      .then(function (insertResult) {
-        claimId = insertResult[0]
-        knex.select().from('ExtSchema.Claim').where('ClaimId', claimId)
-          .then(function (results) {
-            expect(results.length).to.equal(1)
-            expect(results[0].DateOfJourney).to.be.within(
-                moment(dateOfJourney).subtract(1, 'seconds').toDate(),
-                moment(dateOfJourney).add(1, 'seconds').toDate()
-            )
-            expect(results[0].DateSubmitted).to.equal(null)
-            expect(results[0].Status).to.equal(claimStatusEnum.IN_PROGRESS)
-          })
+    return claimHelper.insert(REFERENCE)
+      .then(function() {
+        return claimHelper.get(claimHelper.CLAIM_ID)
+      })
+      .then(function (claim) {
+        expect(claim.length).to.equal(1)
+        expect(claim[0].DateOfJourney).to.be.within(
+          moment(claimHelper.DATE_OF_JOURNEY).subtract(1, 'seconds').toDate(),
+          moment(claimHelper.DATE_OF_JOURNEY).add(1, 'seconds').toDate()
+        )
+        expect(claim[0].DateSubmitted).to.be.within(
+          moment(claimHelper.DATE_SUBMITTED).subtract(1, 'seconds').toDate(),
+          moment(claimHelper.DATE_SUBMITTED).add(1, 'seconds').toDate()
+        )
+        expect(claim[0].Status).to.equal(claimHelper.STATUS)
       })
   })
 
   after(function () {
-    return knex('ExtSchema.Claim').where('ClaimId', claimId).del().then(function () {
-      return knex('ExtSchema.Eligibility').where('Reference', reference).del().then(function () {
+    return claimHelper.delete(claimHelper.CLAIM_ID)
+      .then(function() {
+        return eligiblityHelper.delete(REFERENCE)
       })
-    })
   })
 })
