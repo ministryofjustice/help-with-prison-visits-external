@@ -20,7 +20,7 @@ module.exports.DATE_OF_BIRTH = moment().toDate()
 module.exports.RELATIONSHIP = relationshipEnum[0]
 module.exports.JOURNEY_ASSISTANCE = 'yes'
 module.exports.REQURE_BENEFIT_UPLOAD = false
-module.exports.BENEFIT = benefitsEnum['income-support'].displayName
+module.exports.BENEFIT = 'income-support'
 
 module.exports.build = function () {
   return {
