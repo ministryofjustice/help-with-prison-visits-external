@@ -1,6 +1,5 @@
 const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
-const moment = require('moment')
 const tasksEnum = require('../../../app/constants/tasks-enum')
 const taskStatusEnum = require('../../../app/constants/task-status-enum')
 const insertTask = require('../../../app/services/data/insert-task-complete-first-time-claim')
