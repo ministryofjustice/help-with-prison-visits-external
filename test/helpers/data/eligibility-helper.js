@@ -30,7 +30,7 @@ module.exports.insertEligibilityVisitorAndPrisoner = function (reference) {
 }
 
 module.exports.get = function (reference) {
-  return knex.select()
+  return knex.first()
     .from('ExtSchema.Eligibility')
     .where('Reference', reference)
 }

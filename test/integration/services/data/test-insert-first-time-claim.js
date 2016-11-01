@@ -16,16 +16,15 @@ describe('services/data/insert-first-time-claim', function () {
         return claimHelper.get(claimHelper.CLAIM_ID)
       })
       .then(function (claim) {
-        expect(claim.length).to.equal(1)
-        expect(claim[0].DateOfJourney).to.be.within(
+        expect(claim.DateOfJourney).to.be.within(
           moment(claimHelper.DATE_OF_JOURNEY).subtract(1, 'seconds').toDate(),
           moment(claimHelper.DATE_OF_JOURNEY).add(1, 'seconds').toDate()
         )
-        expect(claim[0].DateSubmitted).to.be.within(
+        expect(claim.DateSubmitted).to.be.within(
           moment(claimHelper.DATE_SUBMITTED).subtract(1, 'seconds').toDate(),
           moment(claimHelper.DATE_SUBMITTED).add(1, 'seconds').toDate()
         )
-        expect(claim[0].Status).to.equal(claimHelper.STATUS)
+        expect(claim.Status).to.equal(claimHelper.STATUS)
       })
   })
 

@@ -21,7 +21,7 @@ module.exports.insert = function (reference) {
 }
 
 module.exports.get = function (reference) {
-  return knex.select()
+  return knex.first()
     .from('ExtSchema.Prisoner')
     .where('Reference', reference)
 }

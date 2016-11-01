@@ -24,14 +24,11 @@ module.exports.insert = function (reference, claimId) {
 }
 
 module.exports.get = function (reference, claimId) {
-  return knex.select()
+  return knex.first()
     .from('ExtSchema.Task')
     .where({
       Reference: reference,
       ClaimId: claimId
-    })
-    .then(function (result) {
-      return result[0]
     })
 }
 

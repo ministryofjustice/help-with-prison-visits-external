@@ -24,7 +24,7 @@ module.exports.insert = function (claimId) {
 }
 
 module.exports.get = function (claimId) {
-  return knex.select()
+  return knex.first()
     .from('ExtSchema.ClaimExpense')
     .where('ClaimId', claimId)
 }

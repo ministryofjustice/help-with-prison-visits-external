@@ -18,17 +18,16 @@ describe('services/data/insert-expense', function () {
       .then(function () {
         return expenseHelper.get(claimHelper.CLAIM_ID)
       })
-      .then(function (expenses) {
-        expect(expenses.length).to.equal(1)
-        expect(expenses[0].ClaimId).to.equal(claimHelper.CLAIM_ID)
-        expect(expenses[0].ExpenseType.toString()).to.equal(expenseHelper.EXPENSE_TYPE)
-        expect(expenses[0].Cost.toString()).to.equal(expenseHelper.COST)
-        expect(expenses[0].TravelTime).to.equal(expenseHelper.TRAVEL_TIME)
-        expect(expenses[0].From.toString()).to.equal(expenseHelper.FROM)
-        expect(expenses[0].To.toString()).to.equal(expenseHelper.TO)
-        expect(expenses[0].IsReturn).to.equal(expenseHelper.IS_RETURN === 'yes')
-        expect(expenses[0].DurationOfTravel).to.equal(expenseHelper.DURATION_OF_TRAVEL)
-        expect(expenses[0].TicketType).to.equal(expenseHelper.TICKET_TYPE)
+      .then(function (expense) {
+        expect(expense.ClaimId).to.equal(claimHelper.CLAIM_ID)
+        expect(expense.ExpenseType.toString()).to.equal(expenseHelper.EXPENSE_TYPE)
+        expect(expense.Cost.toString()).to.equal(expenseHelper.COST)
+        expect(expense.TravelTime).to.equal(expenseHelper.TRAVEL_TIME)
+        expect(expense.From.toString()).to.equal(expenseHelper.FROM)
+        expect(expense.To.toString()).to.equal(expenseHelper.TO)
+        expect(expense.IsReturn).to.equal(expenseHelper.IS_RETURN === 'yes')
+        expect(expense.DurationOfTravel).to.equal(expenseHelper.DURATION_OF_TRAVEL)
+        expect(expense.TicketType).to.equal(expenseHelper.TICKET_TYPE)
       })
   })
 
