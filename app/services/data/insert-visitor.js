@@ -1,11 +1,15 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const moment = require('moment')
+const benefitsEnum = require('../../constants/benefits-enum')
 
-// TODO rename file insert-visitor and change module to expose single function
-module.exports.insert = function (reference, visitorData) {
+module.exports = function (reference, visitorData) {
   var dateOfBirth = moment(visitorData.DateOfBirth).toDate()
-  var requireBenefitUpload = visitorData === 'y'
+  var requireBenefitUpload = true
+
+  if (benefitsEnum[visitorData.Benefit]) {
+    requireBenefitUpload = benefitsEnum[visitorData.Benefit].requireBenefitUpload
+  }
 
   return knex('Visitor').insert({
     Reference: reference,
@@ -23,6 +27,7 @@ module.exports.insert = function (reference, visitorData) {
     DateOfBirth: dateOfBirth,
     Relationship: visitorData.Relationship.trim(),
     JourneyAssistance: 'no', // TODO remove from visitor
-    RequireBenefitUpload: requireBenefitUpload
+    RequireBenefitUpload: requireBenefitUpload,
+    Benefit: visitorData.Benefit
   })
 }
