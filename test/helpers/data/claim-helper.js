@@ -1,7 +1,7 @@
-const config = require('../../../../knexfile').migrations
+const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const moment = require('moment')
-const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
+const claimStatusEnum = require('../../../app/constants/claim-status-enum')
 
 module.exports.DATE_OF_JOURNEY = moment().toDate()
 module.exports.DATE_CREATED = moment().toDate()

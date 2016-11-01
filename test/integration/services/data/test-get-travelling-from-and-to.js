@@ -1,7 +1,7 @@
 const getTravellingFromAndTo = require('../../../../app/services/data/get-travelling-from-and-to')
-const eligiblityHelper = require('../../helpers/data/eligibility-helper')
-const visitorHelper = require('../../helpers/data/visitor-helper')
-const prisonerHelper = require('../../helpers/data/prisoner-helper')
+const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
+const visitorHelper = require('../../../helpers/data/visitor-helper')
+const prisonerHelper = require('../../../helpers/data/prisoner-helper')
 const expect = require('chai').expect
 
 describe('services/data/get-travelling-from-and-to', function () {

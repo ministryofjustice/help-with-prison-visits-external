@@ -1,8 +1,8 @@
 const expect = require('chai').expect
 const insertExpense = require('../../../../app/services/data/insert-expense')
-const eligiblityHelper = require('../../helpers/data/eligibility-helper')
-const claimHelper = require('../../helpers/data/claim-helper')
-const expenseHelper = require('../../helpers/data/expense-helper')
+const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
+const claimHelper = require('../../../helpers/data/claim-helper')
+const expenseHelper = require('../../../helpers/data/expense-helper')
 
 describe('services/data/insert-expense', function () {
   it('should insert a new expense', function (done) {

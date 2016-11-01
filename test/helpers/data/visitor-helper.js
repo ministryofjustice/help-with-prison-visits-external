@@ -1,7 +1,7 @@
-const config = require('../../../../knexfile').migrations
+const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const moment = require('moment')
-const relationshipEnum = require('../../../../app/constants/prisoner-relationships-enum')
+const relationshipEnum = require('../../../app/constants/prisoner-relationships-enum')
 
 module.exports.TITLE = 'Mr'
 module.exports.FIRST_NAME = 'John'

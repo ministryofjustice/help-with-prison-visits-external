@@ -1,7 +1,7 @@
-const config = require('../../../../knexfile').migrations
+const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
-const BusExpense = require('../../../../app/services/domain/expenses/bus-expense')
-const insertExpense = require('../../../../app/services/data/insert-expense')
+const BusExpense = require('../../../app/services/domain/expenses/bus-expense')
+const insertExpense = require('../../../app/services/data/insert-expense')
 
 module.exports.EXPENSE_TYPE = 'bus'
 module.exports.COST = '10'

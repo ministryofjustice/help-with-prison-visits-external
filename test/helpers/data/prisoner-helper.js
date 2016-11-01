@@ -1,4 +1,4 @@
-const config = require('../../../../knexfile').migrations
+const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const moment = require('moment')
 

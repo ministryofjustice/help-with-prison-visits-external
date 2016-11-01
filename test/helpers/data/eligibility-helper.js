@@ -1,7 +1,7 @@
-const config = require('../../../../knexfile').migrations
+const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const moment = require('moment')
-const eligiblityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
+const eligiblityStatusEnum = require('../../../app/constants/eligibility-status-enum')
 const visitorHelper = require('./visitor-helper')
 const prisonerHelper = require('./prisoner-helper')
 
