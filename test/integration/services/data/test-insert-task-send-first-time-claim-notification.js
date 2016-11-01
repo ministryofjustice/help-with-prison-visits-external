@@ -32,22 +32,19 @@ var visitorData = {
 visitorData.Reference = reference
 
 describe('services/data/insert-task-send-first-time-claim-notification', function () {
-  before(function (done) {
-    knex('ExtSchema.Eligibility').insert({
+  before(function () {
+    return knex('ExtSchema.Eligibility').insert({
       Reference: reference,
       DateCreated: moment().toDate(),
       Status: 'TEST'
     })
     .then(function () {
       return knex('ExtSchema.Visitor').insert(visitorData)
-        .then(function () {
-          done()
-        })
     })
   })
 
-  it('should insert a new task to send the first time claim notification', function (done) {
-    insertTaskSendFirstTimeClaimNotification(reference, claimId)
+  it('should insert a new task to send the first time claim notification', function () {
+    return insertTaskSendFirstTimeClaimNotification(reference, claimId)
       .then(function () {
         return knex.first().from('ExtSchema.Task').where({Reference: reference, ClaimId: claimId})
           .then(function (task) {
@@ -57,22 +54,15 @@ describe('services/data/insert-task-send-first-time-claim-notification', functio
             expect(task.AdditionalData).to.equal(visitorData.EmailAddress)
             expect(task.DateCreated).to.be.within(moment().add(-2, 'minutes').toDate(), moment().add(2, 'minutes').toDate())
             expect(task.Status).to.equal(taskStatusEnum.PENDING)
-
-            done()
           })
-      })
-      .catch(function (error) {
-        throw error
       })
   })
 
-  after(function (done) {
-    knex('ExtSchema.Visitor').where('Reference', reference).del().then(function () {
+  after(function () {
+    return knex('ExtSchema.Visitor').where('Reference', reference).del().then(function () {
       return knex('ExtSchema.Eligibility').where('Reference', reference).del().then(function () {
         return knex('ExtSchema.Task').where({Reference: reference, ClaimId: claimId}).del()
       })
-    }).then(function () {
-      done()
     })
   })
 })

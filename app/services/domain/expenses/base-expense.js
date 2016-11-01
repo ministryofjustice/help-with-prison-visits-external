@@ -15,7 +15,7 @@ class ExpenseBase {
   }
 
   createField (key, value) {
-    this[key] = value ? value.trim() : ''
+    this[key] = value ? value.toString().trim() : ''
   }
 }
 
