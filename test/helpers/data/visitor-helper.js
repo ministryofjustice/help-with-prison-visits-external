@@ -2,6 +2,7 @@ const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const moment = require('moment')
 const relationshipEnum = require('../../../app/constants/prisoner-relationships-enum')
+const benefitsEnum = require('../../../app/constants/benefits-enum')
 
 module.exports.TITLE = 'Mr'
 module.exports.FIRST_NAME = 'John'
@@ -18,6 +19,7 @@ module.exports.DATE_OF_BIRTH = moment().toDate()
 module.exports.RELATIONSHIP = relationshipEnum[0]
 module.exports.JOURNEY_ASSISTANCE = 'yes'
 module.exports.REQURE_BENEFIT_UPLOAD = false
+module.exports.BENEFIT = benefitsEnum['income-support'].displayName
 
 module.exports.insert = function (reference) {
   return knex('ExtSchema.Visitor')
@@ -37,7 +39,8 @@ module.exports.insert = function (reference) {
       DateOfBirth: this.DATE_OF_BIRTH,
       Relationship: this.RELATIONSHIP,
       JourneyAssistance: this.JOURNEY_ASSISTANCE,
-      RequireBenefitUpload: this.REQURE_BENEFIT_UPLOAD
+      RequireBenefitUpload: this.REQURE_BENEFIT_UPLOAD,
+      Benefit: this.BENEFIT
     })
 }
 

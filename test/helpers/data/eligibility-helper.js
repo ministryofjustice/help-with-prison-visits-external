@@ -9,7 +9,6 @@ module.exports.REFERENCE = 'V123467'
 module.exports.DATE_CREATED = moment().toDate()
 module.exports.DATE_SUBMITTED = moment().toDate()
 module.exports.STATUS = eligiblityStatusEnum.IN_PROGRESS
-module.exports.BENEFIT = 'yes' // TODO: Replace with a benefit enum.
 
 module.exports.insert = function () {
   return knex('ExtSchema.Eligibility')
@@ -17,8 +16,7 @@ module.exports.insert = function () {
       Reference: this.REFERENCE,
       DateCreated: this.DATE_CREATED,
       DateSubmitted: this.DATE_SUBMITTED,
-      Status: this.REFERENCE,
-      Benefit: this.BENEFIT
+      Status: this.REFERENCE
     })
 }
 
