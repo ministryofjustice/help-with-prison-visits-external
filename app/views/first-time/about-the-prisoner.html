@@ -55,7 +55,7 @@
 
             <div class="form-date">
 
-              <p class="form-hint">eg 18 08 1989</p>
+              <p class="form-hint">For example, 18 08 1989</p>
 
               <div class="form-group form-group-day">
                 <label for="dob-day">Day</label>
@@ -90,7 +90,7 @@
 
         <div class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
           <label id="PrisonerNumber" class="form-label-bold" for="prisoner-number">Prisoner number</label>
-          <p class="form-hint">eg A1234BC</p>
+          <p class="form-hint">For example, A1234BC</p>
           {% if errors['PrisonerNumber'][0] %}
           <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
           {% endif %}
@@ -103,7 +103,7 @@
 
         <div class="form-group {% if errors['NameOfPrison'][0] %} error {% endif %}">
           <label id="NameOfPrison" class="form-label-bold" for="prison-name">Name of the prison</label>
-          <p class="form-hint">eg Hewell</p>
+          <p class="form-hint">For example, Hewell</p>
           {% if errors['NameOfPrison'][0] %}
           <span class="error-message" id="error-message-NameOfPrison">{{ errors['NameOfPrison'][0] }}</span>
           {% endif %}
