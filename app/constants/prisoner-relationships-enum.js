@@ -1,7 +1,7 @@
 module.exports = [
   'husband-wife-civil',
   'partner',
-  'parent',
+  'parent-grandparent',
   'sibling',
   'child',
   'sole-visitor'
