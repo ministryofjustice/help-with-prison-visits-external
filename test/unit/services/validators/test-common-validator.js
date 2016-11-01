@@ -592,7 +592,7 @@ describe('services/validators/common-validator', function () {
   })
 
   describe('isValidBenefitResponse', function () {
-    const VALID_INPUT = 'no'
+    const VALID_INPUT = 'income-support'
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function (done) {
