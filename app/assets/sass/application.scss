@@ -9,8 +9,15 @@ $path: "/public/images/";
 @import 'patterns/check-your-answers';
 @import 'patterns/unbranded';
 
-.button-warning{
-  @include button($red);
+button.link {
+  color: #005ea5;
+  text-decoration: underline;
+  font-size:18px;
+  line-height:24px;
+  background:none!important;
+  border:none;
+  padding:0!important;
+  cursor: pointer;
 }
 
 // Related items
@@ -320,7 +327,7 @@ background-color: #fff;
     padding-bottom: 0.75em;
     padding: 0;
     z-index: 999;
-            
+
         }
         #sub-nav li{
             position:relative;
@@ -377,7 +384,7 @@ background-color: #fff;
 
      .advanced-search {
      margin:0 0 0 20px;
-     }   
+     }
 
 span h4.heading-secondary {
     font-size:24px;
