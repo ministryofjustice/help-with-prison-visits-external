@@ -3,29 +3,29 @@ const validator = require('../../services/validators/first-time/about-the-prison
 const UrlPathValidator = require('../../services/validators/url-path-validator')
 
 module.exports = function (router) {
-  router.get('/first-time/:dob/:relationship/:requireBenefitUpload', function (req, res) {
+  router.get('/first-time/:dob/:relationship/:benefit', function (req, res) {
     UrlPathValidator(req.params)
     return res.render('first-time/about-the-prisoner', {
       dob: req.params.dob,
       relationship: req.params.relationship,
-      requireBenefitUpload: req.params.requireBenefitUpload
+      benefit: req.params.benefit
     })
   })
 
-  router.post('/first-time/:dob/:relationship/:requireBenefitUpload', function (req, res) {
+  router.post('/first-time/:dob/:relationship/:benefit', function (req, res) {
     UrlPathValidator(req.params)
 
     var validationErrors = validator(req.body)
     var dob = req.params.dob
     var relationship = req.params.relationship
-    var requireBenefitUpload = req.params.requireBenefitUpload
+    var benefit = req.params.benefit
     var prisoner = req.body
 
     if (validationErrors) {
       return res.status(400).render('first-time/about-the-prisoner', {
         dob: dob,
         relationship: relationship,
-        requireBenefitUpload: requireBenefitUpload,
+        benefit: benefit,
         prisoner: prisoner,
         errors: validationErrors
       })
@@ -33,7 +33,7 @@ module.exports = function (router) {
 
     firstTimeClaim.insertNewEligibilityAndPrisoner(prisoner)
       .then(function (newReference) {
-        return res.redirect(`/first-time/${dob}/${relationship}/${requireBenefitUpload}/${newReference}`)
+        return res.redirect(`/first-time/${dob}/${relationship}/${benefit}/${newReference}`)
       })
   })
 }

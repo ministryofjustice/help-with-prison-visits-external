@@ -8,8 +8,8 @@ describe('services/validators/url-path-validator', function () {
   const VALID_RELATIONSHIP = { relationship: 'partner' }
   const INVALID_RELATIONSHIP = { relationship: 'invalid' }
 
-  const VALID_BENEFIT = { requireBenefitUpload: 'no' }
-  const INVALID_BENEFIT = { requireBenefitUpload: 'invalid' }
+  const VALID_BENEFIT = { benefit: 'income-support' }
+  const INVALID_BENEFIT = { benefit: 'invalid' }
 
   const VALID_REFERENCE = { reference: '49CCADM' }
   const INVALID_REFERENCE = { reference: 'invalid' }

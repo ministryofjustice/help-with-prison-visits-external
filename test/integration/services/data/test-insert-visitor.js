@@ -6,19 +6,17 @@ var moment = require('moment')
 var insertVisitor = require('../../../../app/services/data/insert-visitor')
 var reference = 'V123456'
 
-describe('services/data/visitor', function () {
+describe('services/data/insert-visitor', function () {
   describe('insert', function (done) {
-    before(function (done) {
-      knex('ExtSchema.Eligibility').insert({
+    before(function () {
+      return knex('ExtSchema.Eligibility').insert({
         Reference: reference,
         DateCreated: moment().toDate(),
         Status: 'TEST'
-      }).then(function () {
-        done()
       })
     })
 
-    it('should insert a new Visitor for a reference', function (done) {
+    it('should insert a new Visitor for a reference', function () {
       var visitorData = {
         Title: 'Mr',
         FirstName: 'John  ',
@@ -34,10 +32,10 @@ describe('services/data/visitor', function () {
         DateOfBirth: '1980-02-01',
         Relationship: 'partner',
         JourneyAssistance: 'no',
-        RequireBenefitUpload: 'n'
+        Benefit: 'income-support'
       }
 
-      insertVisitor(reference, visitorData)
+      return insertVisitor(reference, visitorData)
         .then(function () {
           knex.select().from('ExtSchema.Visitor').where('Reference', reference).then(function (results) {
             expect(results.length).to.equal(1)
@@ -47,20 +45,16 @@ describe('services/data/visitor', function () {
             expect(results[0].NationalInsuranceNumber).to.equal('QQ123456C')
             expect(results[0].DateOfBirth.toDateString()).to.equal('Fri Feb 01 1980')
             expect(results[0].PostCode).to.equal('BT111BT')
-            done()
+            expect(results[0].Benefit).to.equal('income-support')
+            expect(results[0].RequireBenefitUpload, 'should set RequireBenefitUpload based on benefit').to.be.false
           })
-        })
-        .catch(function (error) {
-          throw error
         })
     })
 
-    after(function (done) {
+    after(function () {
       // Clean up
-      knex('ExtSchema.Visitor').where('Reference', reference).del().then(function () {
-        knex('ExtSchema.Eligibility').where('Reference', reference).del().then(function () {
-          done()
-        })
+      return knex('ExtSchema.Visitor').where('Reference', reference).del().then(function () {
+        return knex('ExtSchema.Eligibility').where('Reference', reference).del()
       })
     })
   })

@@ -26,7 +26,8 @@ var visitorData = {
   DateOfBirth: '1980-02-01',
   Relationship: 'partner',
   JourneyAssistance: 'y75',
-  RequireBenefitUpload: false
+  RequireBenefitUpload: false,
+  Benefit: 'income-support'
 }
 visitorData.Reference = reference
 

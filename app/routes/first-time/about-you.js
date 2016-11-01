@@ -3,23 +3,23 @@ const UrlPathValidator = require('../../services/validators/url-path-validator')
 const insertVisitor = require('../../services/data/insert-visitor')
 
 module.exports = function (router) {
-  router.get('/first-time/:dob/:relationship/:requireBenefitUpload/:reference', function (req, res) {
+  router.get('/first-time/:dob/:relationship/:benefit/:reference', function (req, res) {
     UrlPathValidator(req.params)
     return res.render('first-time/about-you', {
       dob: req.params.dob,
       relationship: req.params.relationship,
-      requireBenefitUpload: req.params.requireBenefitUpload,
+      benefit: req.params.benefit,
       reference: req.params.reference
     })
   })
 
-  router.post('/first-time/:dob/:relationship/:requireBenefitUpload/:reference', function (req, res) {
+  router.post('/first-time/:dob/:relationship/:benefit/:reference', function (req, res) {
     UrlPathValidator(req.params)
 
     var validationErrors = aboutYouValidator(req.body)
     var dob = req.params.dob
     var relationship = req.params.relationship
-    var requireBenefitUpload = req.params.requireBenefitUpload
+    var benefit = req.params.benefit
     var reference = req.params.reference
     var visitorDetails = req.body
 
@@ -27,7 +27,7 @@ module.exports = function (router) {
       return res.status(400).render('first-time/about-you', {
         dob: dob,
         relationship: relationship,
-        requireBenefitUpload: requireBenefitUpload,
+        benefit: benefit,
         reference: reference,
         visitor: visitorDetails,
         errors: validationErrors
@@ -37,7 +37,7 @@ module.exports = function (router) {
     var visitorData = visitorDetails
     visitorData.DateOfBirth = dob
     visitorData.Relationship = relationship
-    visitorData.RequireBenefitUpload = requireBenefitUpload
+    visitorData.Benefit = benefit
 
     insertVisitor(req.params.reference, visitorData)
       .then(function () {
