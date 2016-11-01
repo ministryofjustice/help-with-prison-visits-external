@@ -1,6 +1,6 @@
 const aboutYouValidator = require('../../services/validators/first-time/about-you-validator')
 const UrlPathValidator = require('../../services/validators/url-path-validator')
-const visitor = require('../../services/data/visitor')
+const insertVisitor = require('../../services/data/insert-visitor')
 
 module.exports = function (router) {
   router.get('/first-time/:dob/:relationship/:requireBenefitUpload/:reference', function (req, res) {
@@ -39,7 +39,7 @@ module.exports = function (router) {
     visitorData.Relationship = relationship
     visitorData.RequireBenefitUpload = requireBenefitUpload
 
-    visitor.insert(req.params.reference, visitorData)
+    insertVisitor(req.params.reference, visitorData)
       .then(function () {
         return res.redirect(`/first-time-claim/eligibility/${req.params.reference}/new-claim`)
       })

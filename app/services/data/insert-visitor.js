@@ -2,8 +2,7 @@ const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const moment = require('moment')
 
-// TODO rename file insert-visitor and change module to expose single function
-module.exports.insert = function (reference, visitorData) {
+module.exports = function (reference, visitorData) {
   var dateOfBirth = moment(visitorData.DateOfBirth).toDate()
   var requireBenefitUpload = visitorData === 'y'
 

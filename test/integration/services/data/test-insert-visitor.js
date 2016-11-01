@@ -3,7 +3,7 @@ var config = require('../../../../knexfile').migrations
 var knex = require('knex')(config)
 var moment = require('moment')
 
-var visitor = require('../../../../app/services/data/visitor')
+var insertVisitor = require('../../../../app/services/data/insert-visitor')
 var reference = 'V123456'
 
 describe('services/data/visitor', function () {
@@ -37,7 +37,7 @@ describe('services/data/visitor', function () {
         RequireBenefitUpload: 'n'
       }
 
-      visitor.insert(reference, visitorData)
+      insertVisitor(reference, visitorData)
         .then(function () {
           knex.select().from('ExtSchema.Visitor').where('Reference', reference).then(function (results) {
             expect(results.length).to.equal(1)

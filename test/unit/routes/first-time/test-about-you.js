@@ -6,7 +6,8 @@ require('sinon-bluebird')
 const express = require('express')
 const bodyParser = require('body-parser')
 const mockViewEngine = require('../mock-view-engine')
-const visitor = require('../../../../app/services/data/visitor')
+
+var stubInsertVisitor
 var stubAboutYouValidator
 var request
 
@@ -14,9 +15,10 @@ describe('routes/first-time/about-you', function () {
   var urlValidatorCalled = false
 
   beforeEach(function () {
+    stubInsertVisitor = sinon.stub()
     stubAboutYouValidator = sinon.stub()
     var route = proxyquire('../../../../app/routes/first-time/about-you', {
-      '../../services/data/visitor': visitor,
+      '../../services/data/insert-visitor': stubInsertVisitor,
       '../../services/validators/first-time/about-you-validator': stubAboutYouValidator,
       '../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
     })
@@ -45,7 +47,7 @@ describe('routes/first-time/about-you', function () {
   describe('POST /first-time/:dob/:relationship/:requireBenefitUpload/:reference', function () {
     it('should persist data and redirect to /application-submitted/:reference for valid data', function (done) {
       var reference = '1234567'
-      var stubInsert = sinon.stub(visitor, 'insert').resolves()
+      stubInsertVisitor.resolves()
       stubAboutYouValidator.returns(false)
 
       request
@@ -55,7 +57,7 @@ describe('routes/first-time/about-you', function () {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(stubAboutYouValidator.calledOnce).to.be.true
-          expect(stubInsert.calledOnce).to.be.true
+          expect(stubInsertVisitor.calledOnce).to.be.true
           expect(response.header.location).to.equal(`/first-time-claim/eligibility/${reference}/new-claim`)
           done()
         })
