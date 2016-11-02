@@ -20,8 +20,8 @@ const submitFirstTimeClaim = proxyquire('../../../../app/services/data/submit-fi
 })
 
 describe('services/data/submit-first-time-claim', function () {
-  before(function (done) {
-    knex('ExtSchema.Eligibility').insert({
+  before(function () {
+    return knex('ExtSchema.Eligibility').insert({
       Reference: reference,
       DateCreated: moment().toDate(),
       Status: 'TEST'
@@ -36,12 +36,11 @@ describe('services/data/submit-first-time-claim', function () {
       .returning('ClaimId')
       .then(function (result) {
         claimId = result[0]
-        done()
       })
     })
   })
 
-  it('should update Eligibility and Claim status and DateSubmitted then call insertTaskSendFirstTimeClaimNotification', function (done) {
+  it('should update Eligibility and Claim status and DateSubmitted then call insertTaskSendFirstTimeClaimNotification', function () {
     var currentDate = new Date()
 
     submitFirstTimeClaim(reference, claimId)
@@ -58,24 +57,15 @@ describe('services/data/submit-first-time-claim', function () {
 
                 expect(stubInsertTaskCompleteFirstTimeClaim.calledWith(reference, claimId)).to.be.true
                 expect(stubInsertTaskSendFirstTimeClaimNotification.calledWith(reference, claimId)).to.be.true
-
-                expect
-                done()
               })
           })
       })
-      .catch(function (error) {
-        throw error
-      })
   })
 
-  after(function (done) {
-    knex('ExtSchema.Claim').where('ClaimId', claimId).del()
+  after(function () {
+    return knex('ExtSchema.Claim').where('ClaimId', claimId).del()
       .then(function () {
         return knex('ExtSchema.Eligibility').where('Reference', reference).del()
-      })
-      .then(function () {
-        done()
       })
   })
 })

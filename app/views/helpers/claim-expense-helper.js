@@ -1,9 +1,11 @@
 const displayFieldNames = require('./display-field-names')
 
+// TODO test
 module.exports.DisplayName = function (expense) {
   return displayFieldNames[expense.ExpenseType]
 }
 
+// TODO test
 module.exports.FormattedDetail = function (expense) {
   var formattedDetail
 
