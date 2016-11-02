@@ -28,14 +28,14 @@ describe('routes/first-time/eligibility/claim/light-refreshment', function () {
 
   describe(`GET ${VALID_ROUTE}`, function () {
     it('should respond with a 200', function () {
-      return supertest(app)
+      supertest(app)
         .get(VALID_ROUTE)
         .expect(200)
     })
 
     it('should call the URL Path Validator', function () {
       var urlPathValidatorSpy = sandbox.spy(UrlPathValidator, 'validate')
-      return supertest(app)
+      supertest(app)
         .get(VALID_ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorSpy)
@@ -44,7 +44,7 @@ describe('routes/first-time/eligibility/claim/light-refreshment', function () {
 
     it('should call parseParams', function () {
       var expenseUrlRouterSpy = sandbox.spy(expenseUrlRouter, 'parseParams')
-      return supertest(app)
+      supertest(app)
         .get(VALID_ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(expenseUrlRouterSpy)
@@ -56,7 +56,7 @@ describe('routes/first-time/eligibility/claim/light-refreshment', function () {
     it('should respond with a 200 if expected body parameters are set', function () {
       var expenseUrlRouterSpy = sandbox.spy(expenseUrlRouter, 'getRedirectUrl')
       var stubInsertExpense = sandbox.stub(insertExpense, 'insert').resolves()
-      return supertest(app)
+      supertest(app)
         .post(VALID_ROUTE)
         .send(VALID_BODY)
         .expect(function () {
@@ -68,7 +68,7 @@ describe('routes/first-time/eligibility/claim/light-refreshment', function () {
 
     it('should call the URL Path Validator', function () {
       var urlPathValidatorSpy = sandbox.spy(UrlPathValidator, 'validate')
-      return supertest(app)
+      supertest(app)
         .post(VALID_ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorSpy)
@@ -76,7 +76,7 @@ describe('routes/first-time/eligibility/claim/light-refreshment', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      return supertest(app)
+      supertest(app)
         .post(VALID_ROUTE)
         .expect(400)
     })

@@ -60,7 +60,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
 
     it('should call the URL Path Validator ', function () {
       var urlPathValidatorSpy = sandbox.spy(UrlPathValidator, 'validate')
-      return request
+      request
         .get(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorSpy)
@@ -103,7 +103,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
     it('should call the URL Path Validator ', function () {
       stubBankAccountDetails.throws(new ValidationError({ 'firstName': {} }))
       var urlPathValidatorSpy = sandbox.spy(UrlPathValidator, 'validate')
-      return request
+      request
         .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorSpy)
