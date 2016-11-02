@@ -4,7 +4,7 @@
  */
 const validator = require('validator')
 const moment = require('moment')
-const validPrisonerRelationships = require('../../constants/prisoner-relationships-enum')
+const prisonerRelationshipsEnum = require('../../constants/prisoner-relationships-enum')
 const benefitsEnum = require('../../constants/benefits-enum')
 const referenceNumber = require('../../constants/reference-number-enum')
 const NUM_YEARS_LIMIT = 120
@@ -80,6 +80,7 @@ exports.isValidDateOfBirth = function (dob) {
 }
 
 exports.isValidPrisonerRelationship = function (relationship) {
+  var validPrisonerRelationships = Object.keys(prisonerRelationshipsEnum)
   return validPrisonerRelationships.includes(relationship)
 }
 

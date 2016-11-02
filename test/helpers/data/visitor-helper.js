@@ -1,7 +1,6 @@
 const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const moment = require('moment')
-const relationshipEnum = require('../../../app/constants/prisoner-relationships-enum')
 const insertVisitor = require('../../../app/services/data/insert-visitor')
 
 module.exports.TITLE = 'Mr'
@@ -16,7 +15,7 @@ module.exports.COUNTRY = 'United Kingdom'
 module.exports.EMAIL_ADDRESS = 'john.smith@gmail.com'
 module.exports.PHONE_NUMBER = '02153245564'
 module.exports.DATE_OF_BIRTH = moment().toDate()
-module.exports.RELATIONSHIP = relationshipEnum[0]
+module.exports.RELATIONSHIP = 'partner'
 module.exports.JOURNEY_ASSISTANCE = 'yes'
 module.exports.REQURE_BENEFIT_UPLOAD = false
 module.exports.BENEFIT = 'income-support'
