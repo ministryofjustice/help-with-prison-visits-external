@@ -87,6 +87,9 @@ describe('First time claim flow', () => {
       .click('#add-another-journey')
       .click('#bus-details-submit')
 
+      // Allow second bus page to load
+      .pause(1000)
+
       // Bus #2 (add another journey)
       .waitForExist('#bus-details-submit')
       .setValue('#from-input', 'Birmingham New Street')
