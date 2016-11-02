@@ -4,15 +4,13 @@ const claimExpenseHelper = require('../../../../app/views/helpers/claim-expense-
 
 describe('views/helpers/claim-expense-helper', function () {
   describe('DisplayName', function () {
-    it('should return display name for ClaimExpense', function (done) {
+    it('should return display name for ClaimExpense', function () {
       expect(claimExpenseHelper.DisplayName({ExpenseType: 'car'})).to.equal('Car Journey')
-
-      done()
     })
   })
 
   describe('FormattedDetail', function () {
-    it('should return formatted detail string for ClaimExpense', function (done) {
+    it('should return formatted detail string for ClaimExpense', function () {
       const from = 'PointA'
       const to = 'PointB'
       const durationOfTravel = 2
@@ -40,8 +38,6 @@ describe('views/helpers/claim-expense-helper', function () {
 
       expect(claimExpenseHelper.FormattedDetail({ExpenseType: 'anything-else', From: from, To: to})).to.equal(
         `${from} to ${to}`)
-
-      done()
     })
   })
 })
