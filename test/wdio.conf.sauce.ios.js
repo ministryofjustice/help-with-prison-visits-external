@@ -10,9 +10,9 @@ exports.config = {
   capabilities: [{
     maxInstances: 1,
     platformName: 'iOS',
-    platformVersion: '9.0',
+    platformVersion: '9.1',
     browserName: 'Safari',
-    deviceName: 'iPhone 6 Simulator',
+    deviceName: 'iPhone 6s Simulator',
     deviceOrientation: 'portrait'
   }],
   sync: false,
