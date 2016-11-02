@@ -4,18 +4,20 @@ const expensesUrlRouter = require('../../../../app/services/routing/expenses-url
 const paramBuilder = require('../../../../app/services/routing/param-builder')
 
 describe('services/routing/expenses-url-router', function () {
-  describe('parseParams', function () {
-    var buildFormatted = sinon.stub(paramBuilder, 'buildFormatted')
+  var sandbox
+  beforeEach(function () {
+    sandbox = sinon.sandbox.create()
+  })
 
-    it('should call buildFormatted to build and format the params parameter', function (done) {
+  afterEach(function () {
+    sandbox.restore()
+  })
+
+  describe('parseParams', function () {
+    it('should call buildFormatted to build and format the params parameter', function () {
+      var buildFormatted = sandbox.stub(paramBuilder, 'buildFormatted')
       expensesUrlRouter.parseParams([])
       sinon.assert.calledOnce(buildFormatted)
-      done()
-    })
-
-    after(function (done) {
-      buildFormatted.restore()
-      done()
     })
   })
 
@@ -41,83 +43,74 @@ describe('services/routing/expenses-url-router', function () {
     }
     const VALID_REQUEST_OUTPUT = `/first-time-claim/eligibility/${REFERENCE}/claim/${CLAIM_ID}/${VALID_PARAM_ONE}?${VALID_PARAM_TWO}=`
 
-    it('should throw an error if req is invalid', function (done) {
-      expect(function () {
+    it('should throw an error if req is invalid', function () {
+      return expect(function () {
         expensesUrlRouter.getRedirectUrl(
           null)
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.body is invalid', function (done) {
-      expect(function () {
+    it('should throw an error if req.body is invalid', function () {
+      return expect(function () {
         expensesUrlRouter.getRedirectUrl({
           body: null
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.params is invalid', function (done) {
-      expect(function () {
+    it('should throw an error if req.params is invalid', function () {
+      return expect(function () {
         expensesUrlRouter.getRedirectUrl({
           params: null
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.params.reference is invalid', function (done) {
-      expect(function () {
+    it('should throw an error if req.params.reference is invalid', function () {
+      return expect(function () {
         expensesUrlRouter.getRedirectUrl({
           params: {
             reference: null
           }
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.params.claimId is invalid', function (done) {
-      expect(function () {
+    it('should throw an error if req.params.claimId is invalid', function () {
+      return expect(function () {
         expensesUrlRouter.getRedirectUrl({
           params: {
             claimId: null
           }
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.originalUrl is invalid', function (done) {
-      expect(function () {
+    it('should throw an error if req.originalUrl is invalid', function () {
+      return expect(function () {
         expensesUrlRouter.getRedirectUrl({
           originalUrl: null
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.query is invalid', function (done) {
-      expect(function () {
+    it('should throw an error if req.query is invalid', function () {
+      return expect(function () {
         expensesUrlRouter.getRedirectUrl({
           query: null
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should return a url path if passed a valid request and add-another-journey was not set', function (done) {
+    it('should return a url path if passed a valid request and add-another-journey was not set', function () {
       var result = expensesUrlRouter.getRedirectUrl(validRequest)
-      expect(result).to.be.equal(VALID_REQUEST_OUTPUT)
-      done()
+      return expect(result).to.be.equal(VALID_REQUEST_OUTPUT)
     })
 
-    it('should return the originalUrl if passed a valid request with add-another-journey set', function (done) {
+    it('should return the originalUrl if passed a valid request with add-another-journey set', function () {
       validRequest.body['add-another-journey'] = 'on'
       var result = expensesUrlRouter.getRedirectUrl(validRequest)
-      expect(result).to.be.equal(ORIGINAL_URL)
-      done()
+      return expect(result).to.be.equal(ORIGINAL_URL)
     })
   })
 })

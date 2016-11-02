@@ -7,7 +7,7 @@ const benefitsEnum = require('../../../../constants/benefits-enum')
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claimId/summary', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
 
     getIndividualClaimDetails(req.params.claimId)
       .then(function (claimDetails) {
@@ -24,12 +24,12 @@ module.exports = function (router) {
   })
 
   router.post('/first-time-claim/eligibility/:reference/claim/:claimId/summary', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
     return res.redirect(`/first-time-claim/eligibility/${req.params.reference}/claim/${req.params.claimId}/bank-account-details`)
   })
 
   router.post('/first-time-claim/eligibility/:reference/claim/:claimId/summary/remove/:claimExpenseId', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
 
     removeClaimExpense(req.params.claimId, req.params.claimExpenseId)
       .then(function (claimDetails) {

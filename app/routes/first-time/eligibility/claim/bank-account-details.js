@@ -6,7 +6,7 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
     return res.render('first-time/eligibility/claim/bank-account-details', {
       reference: req.params.reference,
       claimId: req.params.claimId
@@ -14,7 +14,7 @@ module.exports = function (router) {
   })
 
   router.post('/first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
     try {
       var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode)
       insertBankAccountDetailsForClaim(req.params.claimId, bankAccountDetails)

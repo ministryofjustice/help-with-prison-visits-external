@@ -6,7 +6,7 @@ const insertExpense = require('../../../../services/data/insert-expense')
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claimId/refreshment', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
     return res.render('first-time/eligibility/claim/light-refreshment-details', {
       reference: req.params.reference,
       claimId: req.params.claimId,
@@ -15,7 +15,7 @@ module.exports = function (router) {
   })
 
   router.post('/first-time-claim/eligibility/:reference/claim/:claimId/refreshment', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
 
     try {
       var expense = new RefreshmentExpense(
@@ -24,7 +24,7 @@ module.exports = function (router) {
         req.body['travel-time']
       )
 
-      insertExpense(expense)
+      insertExpense.insert(expense)
         .then(function () {
           return res.redirect(expenseUrlRouter.getRedirectUrl(req))
         })

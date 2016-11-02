@@ -24,6 +24,6 @@ class UrlPathValidator {
   }
 }
 
-module.exports = function (data) {
+module.exports.validate = function (data) {
   return UrlPathValidator.validate(data)
 }

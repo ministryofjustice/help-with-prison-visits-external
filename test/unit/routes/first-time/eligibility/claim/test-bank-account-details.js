@@ -1,27 +1,30 @@
-var supertest = require('supertest')
-var proxyquire = require('proxyquire')
-var express = require('express')
+const supertest = require('supertest')
+const proxyquire = require('proxyquire')
+const express = require('express')
 const expect = require('chai').expect
-var mockViewEngine = require('../../../mock-view-engine')
-var bodyParser = require('body-parser')
+const mockViewEngine = require('../../../mock-view-engine')
+const bodyParser = require('body-parser')
 const sinon = require('sinon')
 require('sinon-bluebird')
-var reference = 'V123456'
-var claimId = '1'
-var ValidationError = require('../../../../../../app/services/errors/validation-error')
+const ValidationError = require('../../../../../../app/services/errors/validation-error')
+const UrlPathValidator = require('../../../../../../app/services/validators/url-path-validator')
+
+const reference = 'V123456'
+const claimId = '1'
 
 describe('routes/first-time/eligibility/claim/bank-account-details', function () {
   var request
   var stubBankAccountDetails
   var stubInsertBankAccountDetailsForClaim
   var stubSubmitFirstTimeClaim
-  var urlValidatorCalled
   const VALID_DATA = {
     'AccountNumber': '12345678',
     'SortCode': '123456'
   }
 
+  var sandbox
   beforeEach(function () {
+    sandbox = sinon.sandbox.create()
     stubBankAccountDetails = sinon.stub()
     stubInsertBankAccountDetailsForClaim = sinon.stub()
     stubSubmitFirstTimeClaim = sinon.stub()
@@ -30,8 +33,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
       '../../../../../../app/routes/first-time/eligibility/claim/bank-account-details', {
         '../../../../services/domain/bank-account-details': stubBankAccountDetails,
         '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
-        '../../../../services/data/submit-first-time-claim': stubSubmitFirstTimeClaim,
-        '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
+        '../../../../services/data/submit-first-time-claim': stubSubmitFirstTimeClaim
       })
 
     var app = express()
@@ -39,7 +41,10 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
     mockViewEngine(app, '../../../app/views')
     route(app)
     request = supertest(app)
-    urlValidatorCalled = false
+  })
+
+  afterEach(function () {
+    sandbox.restore()
   })
 
   describe('GET /first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function () {
@@ -47,10 +52,18 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
       request
         .get(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
         .expect(200)
-        .end(function (error, response) {
+        .end(function (error) {
           expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
           done()
+        })
+    })
+
+    it('should call the URL Path Validator ', function () {
+      var urlPathValidatorSpy = sandbox.spy(UrlPathValidator, 'validate')
+      return request
+        .get(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorSpy)
         })
     })
   })
@@ -68,7 +81,6 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
           expect(stubBankAccountDetails.calledWithExactly(VALID_DATA.AccountNumber, VALID_DATA.SortCode)).to.be.true
           expect(stubInsertBankAccountDetailsForClaim.calledWithExactly(claimId, newBankAccountDetails)).to.be.true
           expect(stubSubmitFirstTimeClaim.calledWithExactly(reference, claimId)).to.be.true
@@ -82,10 +94,19 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
       request
         .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
         .expect(400)
-        .end(function (error, response) {
+        .end(function (error) {
           expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
           done()
+        })
+    })
+
+    it('should call the URL Path Validator ', function () {
+      stubBankAccountDetails.throws(new ValidationError({ 'firstName': {} }))
+      var urlPathValidatorSpy = sandbox.spy(UrlPathValidator, 'validate')
+      return request
+        .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorSpy)
         })
     })
   })

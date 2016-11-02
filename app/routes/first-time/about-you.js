@@ -4,7 +4,7 @@ const insertVisitor = require('../../services/data/insert-visitor')
 
 module.exports = function (router) {
   router.get('/first-time/:dob/:relationship/:benefit/:reference', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
     return res.render('first-time/about-you', {
       dob: req.params.dob,
       relationship: req.params.relationship,
@@ -14,7 +14,7 @@ module.exports = function (router) {
   })
 
   router.post('/first-time/:dob/:relationship/:benefit/:reference', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
 
     var validationErrors = aboutYouValidator(req.body)
     var dob = req.params.dob

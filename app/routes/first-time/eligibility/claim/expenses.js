@@ -4,7 +4,7 @@ const expenseUrlRouter = require('../../../../services/routing/expenses-url-rout
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claimId', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
     return res.render('first-time/eligibility/claim/expenses', {
       reference: req.params.reference,
       claimId: req.params.claimId
@@ -12,7 +12,7 @@ module.exports = function (router) {
   })
 
   router.post('/first-time-claim/eligibility/:reference/claim/:claimId', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
     var validationErrors = ExpensesValidator(req.body)
     if (validationErrors) {
       return res.status(400).render('first-time/eligibility/claim/expenses', {
