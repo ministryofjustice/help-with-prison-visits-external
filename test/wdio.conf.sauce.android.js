@@ -19,8 +19,8 @@ exports.config = {
   logLevel: 'verbose',
   coloredLogs: true,
   screenshotPath: './errorShots/',
-  waitforTimeout: 180000,
-  connectionRetryTimeout: 180000,
+  waitforTimeout: 10000,
+  connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
   framework: 'mocha',
   mochaOpts: {

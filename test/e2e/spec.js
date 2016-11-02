@@ -88,7 +88,7 @@ describe('First time claim flow', () => {
       .click('#bus-details-submit')
 
       // Allow second bus page to load
-      .pause(1000)
+      .pause(3000)
 
       // Bus #2 (add another journey)
       .waitForExist('#bus-details-submit')

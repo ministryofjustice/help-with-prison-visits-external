@@ -51,7 +51,7 @@ npm test                        # checks code against standard JS and runs mocha
 npm run-script test-coverage    # unit tests and generates code coverage using Istanbul
 npm run-script test-unit        # unit tests
 npm run-script test-integration # integration tests
-npm run-script test-e2e         # e2e tests using selenium standalone against local
+npm run-script test-e2e         # e2e tests using selenium standalone against local application (must already be running)
 ```
 
 Run e2e tests with [saucelabs](https://saucelabs.com)
@@ -63,6 +63,9 @@ export SAUCE_BASEURL='http://localhost:3000' # proxy url for sauce connect
 
 npm run-script test-e2e-ie8
 npm run-script test-e2e-firefox
+npm run-script test-e2e-ios
+npm run-script test-e2e-android
+
 ```
 
 ## Database
