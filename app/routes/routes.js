@@ -44,11 +44,7 @@ var routes = [
   // These are temporary UX routes.
   require('./ux/file-upload'),
   require('./ux/eligibility/confirm-your-details'),
-  require('./ux/claim/profile'),
-
-  // These are temporary development routes included for demonstration only. TODO THESE SHOULD BE REMOVED
-  require('./dev/display-data-for-reference'),
-  require('./dev/gov-notify')
+  require('./ux/claim/profile')
 ]
 
 module.exports = function (router) {
