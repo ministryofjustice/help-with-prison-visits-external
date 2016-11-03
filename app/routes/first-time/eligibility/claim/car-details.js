@@ -7,8 +7,8 @@ const insertCarExpenses = require('../../../../services/data/insert-car-expenses
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claimId/car', function (req, res) {
-    UrlPathValidator(req.params)
-    getTravellingFromAndTo(req.params.reference)
+    UrlPathValidator.validate(req.params)
+    getTravellingFromAndTo.get(req.params.reference)
       .then(function (result) {
         return res.render('first-time/eligibility/claim/car-details', {
           reference: req.params.reference,
@@ -20,7 +20,7 @@ module.exports = function (router) {
   })
 
   router.post('/first-time-claim/eligibility/:reference/claim/:claimId/car', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
 
     try {
       var expense = new CarExpense(
@@ -33,7 +33,7 @@ module.exports = function (router) {
         req.body[ 'parking-charge-cost' ]
       )
 
-      insertCarExpenses(expense)
+      insertCarExpenses.insert(expense)
         .then(function () {
           return res.redirect(expenseUrlRouter.getRedirectUrl(req))
         })

@@ -1,7 +1,7 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 
-module.exports = function (reference) {
+module.exports.get = function (reference) {
   return knex('Visitor')
     .join('Prisoner', 'Visitor.Reference', '=', 'Prisoner.Reference')
     .where('Visitor.Reference', reference)

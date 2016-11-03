@@ -4,7 +4,7 @@ const UrlPathValidator = require('../../services/validators/url-path-validator')
 
 module.exports = function (router) {
   router.get('/first-time/:dob/:relationship/:benefit', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
     return res.render('first-time/about-the-prisoner', {
       dob: req.params.dob,
       relationship: req.params.relationship,
@@ -13,7 +13,7 @@ module.exports = function (router) {
   })
 
   router.post('/first-time/:dob/:relationship/:benefit', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
 
     var validationErrors = validator(req.body)
     var dob = req.params.dob

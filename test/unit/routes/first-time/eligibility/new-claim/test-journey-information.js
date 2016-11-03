@@ -6,11 +6,11 @@ const bodyParser = require('body-parser')
 const mockViewEngine = require('../../../mock-view-engine')
 const sinon = require('sinon')
 require('sinon-bluebird')
-var ValidationError = require('../../../../../../app/services/errors/validation-error')
+const UrlPathValidator = require('../../../../../../app/services/validators/url-path-validator')
+const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/first-time/eligibility/new-claim/journey-information', function () {
   var request
-  var urlValidatorCalled = false
   var reference = 'APVS123'
   var claimId = '123'
   var day = 26
@@ -26,20 +26,24 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
   var stubClaim
   var stubInsertClaim
 
+  var sandbox
   beforeEach(function () {
+    sandbox = sinon.sandbox.create()
     stubClaim = sinon.stub()
     stubInsertClaim = sinon.stub()
     var app = express()
     app.use(bodyParser.json())
     mockViewEngine(app, '../../../app/views')
     var route = proxyquire('../../../../../../app/routes/first-time/eligibility/new-claim/journey-information', {
-      '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
       '../../../../services/domain/first-time-claim': stubClaim,
       '../../../../services/data/insert-first-time-claim': stubInsertClaim
     })
     route(app)
     request = supertest(app)
-    urlValidatorCalled = false
+  })
+
+  afterEach(function () {
+    sandbox.restore()
   })
 
   describe('GET /first-time/eligibility/:reference/new-claim/past', function () {
@@ -47,10 +51,18 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
       request
         .get(`/first-time-claim/eligibility/${reference}/new-claim/past`)
         .expect(200)
-        .end(function (error, response) {
+        .end(function (error) {
           expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
           done()
+        })
+    })
+
+    it('should call the URL Path Validator ', function () {
+      var urlPathValidatorSpy = sandbox.spy(UrlPathValidator, 'validate')
+      return request
+        .get(`/first-time-claim/eligibility/${reference}/new-claim/past`)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorSpy)
         })
     })
   })
@@ -66,7 +78,6 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
           expect(stubClaim.calledWith(reference, day, month, year)).to.be.true
           expect(stubInsertClaim.calledWithExactly(newClaim)).to.be.true
           expect(response.header.location).to.equal(`/first-time-claim/eligibility/${reference}/claim/${claimId}`)
@@ -79,10 +90,19 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
       request
         .post(`/first-time-claim/eligibility/${reference}/new-claim/past`)
         .expect(400)
-        .end(function (error, response) {
+        .end(function (error) {
           expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
           done()
+        })
+    })
+
+    it('should call the URL Path Validator ', function () {
+      stubClaim.throws(new ValidationError({ 'Reference': [] }))
+      var urlPathValidatorSpy = sandbox.spy(UrlPathValidator, 'validate')
+      return request
+        .post(`/first-time-claim/eligibility/${reference}/new-claim/past`)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorSpy)
         })
     })
   })

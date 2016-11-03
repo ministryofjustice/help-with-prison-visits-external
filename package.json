@@ -35,6 +35,7 @@
       "before",
       "beforeEach",
       "after",
+      "afterEach",
       "it",
       "browser"
     ]

@@ -2,7 +2,7 @@ const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const ExpenseBase = require('../../services/domain/expenses/base-expense')
 
-module.exports = function (expense) {
+module.exports.insert = function (expense) {
   if (!(expense instanceof ExpenseBase)) {
     throw new Error('Provided object is not an instance of the expected class')
   }

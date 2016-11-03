@@ -5,14 +5,14 @@ const insertFirstTimeClaim = require('../../../../services/data/insert-first-tim
 
 module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
     return res.render('first-time/eligibility/new-claim/journey-information', {
       reference: req.params.reference
     })
   })
 
   router.post('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
-    UrlPathValidator(req.params)
+    UrlPathValidator.validate(req.params)
 
     try {
       var firstTimeClaim = new FirstTimeClaim(
