@@ -60,7 +60,6 @@
     "moment": "^2.15.1",
     "mssql": "^3.3.0",
     "node-sass": "^3.10.1",
-    "notifications-node-client": "2.1.0",
     "nunjucks": "^2.5.1",
     "on-finished": "^2.3.0",
     "serve-favicon": "~2.3.0",
