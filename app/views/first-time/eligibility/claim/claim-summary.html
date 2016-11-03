@@ -79,7 +79,7 @@
 						<div>{{ claimExpenseHelper.FormattedDetail(claimExpense) }}</div>
 						<form action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claimId }}/summary/remove/{{ claimExpense.ClaimExpenseId}}" method="post" class="form"><button class="link" name="remove">remove</button></form>
 					</td>
-					<td>£{{claimExpense.Cost}}</td>
+					<td>£{{claimExpense.Cost.toFixed(2)}}</td>
 					<td><span class="text-warning">Receipt required</span></td>
 				</tr>
 			{% endfor %}
