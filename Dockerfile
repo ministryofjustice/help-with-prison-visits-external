@@ -5,6 +5,7 @@ RUN mkdir -p /usr/src/app/app
 WORKDIR /usr/src/app
 
 COPY package.json /usr/src/app/
+COPY config.js /usr/src/app/
 COPY knexfile.js /usr/src/app/
 COPY app /usr/src/app/app
 COPY migrations /usr/src/app/migrations

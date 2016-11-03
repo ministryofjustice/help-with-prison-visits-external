@@ -1,11 +1,13 @@
+const config = require('./config')
+
 module.exports = {
   extweb: {
     client: 'mssql',
     connection: {
-      host: process.env.APVS_DATABASE_SERVER,
-      user: process.env.APVS_EXT_WEB_USERNAME,
-      password: process.env.APVS_EXT_WEB_PASSWORD,
-      database: process.env.APVS_DATABASE,
+      host: config.DATABASE_SERVER,
+      user: config.EXT_WEB_USERNAME,
+      password: config.EXT_WEB_PASSWORD,
+      database: config.DATABASE,
       options: {
         encrypt: true
       }
@@ -19,10 +21,10 @@ module.exports = {
   migrations: {
     client: 'mssql',
     connection: {
-      host: process.env.APVS_DATABASE_SERVER,
-      user: process.env.APVS_EXT_MIGRATION_USERNAME,
-      password: process.env.APVS_EXT_MIGRATION_PASSWORD,
-      database: process.env.APVS_DATABASE,
+      host: config.DATABASE_SERVER,
+      user: config.EXT_MIGRATION_USERNAME,
+      password: config.EXT_MIGRATION_PASSWORD,
+      database: config.DATABASE,
       options: {
         encrypt: true
       }

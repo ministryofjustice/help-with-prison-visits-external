@@ -1,3 +1,4 @@
+const config = require('../config')
 const express = require('express')
 const nunjucks = require('express-nunjucks')
 const path = require('path')
@@ -56,7 +57,7 @@ app.use(function (req, res, next) {
 i18n.configure({
   locales: ['en', 'cy'],
   directory: path.join(__dirname, '/locales'),
-  updateFiles: process.env.I18N_UPDATEFILES || true
+  updateFiles: config.I18N_UPDATEFILES || true
 })
 app.use(i18n.init)
 
