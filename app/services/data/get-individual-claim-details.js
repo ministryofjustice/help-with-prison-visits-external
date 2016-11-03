@@ -19,6 +19,9 @@ module.exports = function (claimId) {
           'ClaimExpense.DurationOfTravel', 'ClaimExpense.TicketType')
         .orderBy('ClaimExpense.ClaimExpenseId')
         .then(function (claimExpenses) {
+          claimExpenses.forEach(function (expense) {
+            expense.Cost = Number(expense.Cost).toFixed(2)
+          })
           return {claim: claim, claimExpenses: claimExpenses}
         })
     })
