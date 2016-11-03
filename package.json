@@ -34,6 +34,7 @@
       "describe",
       "before",
       "beforeEach",
+      "afterEach",
       "after",
       "it",
       "browser"
