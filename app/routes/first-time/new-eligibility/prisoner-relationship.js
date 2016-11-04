@@ -2,14 +2,14 @@ const prisonerRelationshipValidator = require('../../../services/validators/elig
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 
 module.exports = function (router) {
-  router.get('/first-time/:dob', function (req, res) {
+  router.get('/first-time/new-eligibility/:dob', function (req, res) {
     UrlPathValidator(req.params)
     return res.render('first-time/new-eligibility/prisoner-relationship', {
       dob: req.params.dob
     })
   })
 
-  router.post('/first-time/:dob', function (req, res) {
+  router.post('/first-time/new-eligibility/:dob', function (req, res) {
     UrlPathValidator(req.params)
 
     var relationship = req.body.relationship
@@ -25,7 +25,7 @@ module.exports = function (router) {
     if (relationship === 'none') {
       return res.redirect('/eligibility-fail')
     } else {
-      return res.redirect(`/first-time/${dob}/${relationship}`)
+      return res.redirect(`/first-time/new-eligibility/${dob}/${relationship}`)
     }
   })
 }

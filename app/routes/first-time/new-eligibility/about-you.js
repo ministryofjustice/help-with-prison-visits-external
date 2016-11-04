@@ -3,7 +3,7 @@ const UrlPathValidator = require('../../../services/validators/url-path-validato
 const insertVisitor = require('../../../services/data/insert-visitor')
 
 module.exports = function (router) {
-  router.get('/first-time/:dob/:relationship/:benefit/:reference', function (req, res) {
+  router.get('/first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function (req, res) {
     UrlPathValidator(req.params)
     return res.render('first-time/new-eligibility/about-you', {
       dob: req.params.dob,
@@ -13,7 +13,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/:dob/:relationship/:benefit/:reference', function (req, res) {
+  router.post('/first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function (req, res) {
     UrlPathValidator(req.params)
 
     var validationErrors = aboutYouValidator(req.body)

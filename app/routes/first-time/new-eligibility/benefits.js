@@ -2,7 +2,7 @@ const benefitValidator = require('../../../services/validators/eligibility/benef
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 
 module.exports = function (router) {
-  router.get('/first-time/:dob/:relationship', function (req, res) {
+  router.get('/first-time/new-eligibility/:dob/:relationship', function (req, res) {
     UrlPathValidator(req.params)
     return res.render('first-time/new-eligibility/benefits', {
       dob: req.params.dob,
@@ -10,7 +10,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/:dob/:relationship', function (req, res) {
+  router.post('/first-time/new-eligibility/:dob/:relationship', function (req, res) {
     UrlPathValidator(req.params)
 
     var dob = req.params.dob
@@ -29,7 +29,7 @@ module.exports = function (router) {
     if (benefit === 'none') {
       return res.redirect('/eligibility-fail')
     } else {
-      return res.redirect(`/first-time/${dob}/${relationship}/${benefit}`)
+      return res.redirect(`/first-time/new-eligibility/${dob}/${relationship}/${benefit}`)
     }
   })
 }

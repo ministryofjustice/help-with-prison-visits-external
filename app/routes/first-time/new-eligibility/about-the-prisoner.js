@@ -3,7 +3,7 @@ const validator = require('../../../services/validators/first-time/about-the-pri
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 
 module.exports = function (router) {
-  router.get('/first-time/:dob/:relationship/:benefit', function (req, res) {
+  router.get('/first-time/new-eligibility/:dob/:relationship/:benefit', function (req, res) {
     UrlPathValidator(req.params)
     return res.render('first-time/new-eligibility/about-the-prisoner', {
       dob: req.params.dob,
@@ -12,7 +12,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/:dob/:relationship/:benefit', function (req, res) {
+  router.post('/first-time/new-eligibility/:dob/:relationship/:benefit', function (req, res) {
     UrlPathValidator(req.params)
 
     var validationErrors = validator(req.body)
@@ -33,7 +33,7 @@ module.exports = function (router) {
 
     firstTimeClaim.insertNewEligibilityAndPrisoner(prisoner)
       .then(function (newReference) {
-        return res.redirect(`/first-time/${dob}/${relationship}/${benefit}/${newReference}`)
+        return res.redirect(`/first-time/new-eligibility/${dob}/${relationship}/${benefit}/${newReference}`)
       })
   })
 }
