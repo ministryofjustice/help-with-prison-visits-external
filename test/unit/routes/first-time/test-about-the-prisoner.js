@@ -6,8 +6,9 @@ require('sinon-bluebird')
 const express = require('express')
 const bodyParser = require('body-parser')
 const mockViewEngine = require('../mock-view-engine')
-const firstTimeClaim = require('../../../../app/services/data/first-time-claim')
+
 var stubAboutThePrisonerValidator
+var stubInsertNewEligibilityAndPrisoner
 var request
 
 describe('routes/first-time/about-the-prisoner', function () {
@@ -15,8 +16,10 @@ describe('routes/first-time/about-the-prisoner', function () {
 
   beforeEach(function () {
     stubAboutThePrisonerValidator = sinon.stub()
+    stubInsertNewEligibilityAndPrisoner = sinon.stub()
+
     var route = proxyquire('../../../../app/routes/first-time/about-the-prisoner', {
-      '../../services/data/first-time-claim': firstTimeClaim,
+      '../../services/data/insert-new-eligibility-and-prisoner': stubInsertNewEligibilityAndPrisoner,
       '../../services/validators/first-time/about-the-prisoner-validator': stubAboutThePrisonerValidator,
       '../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
     })
@@ -45,7 +48,7 @@ describe('routes/first-time/about-the-prisoner', function () {
   describe('POST /first-time/:dob/:relationship/:benefit', function () {
     it('should persist data and redirect to first-time/about-you for valid data', function (done) {
       var newReference = '1234567'
-      var stubInsertNewEligibilityAndPrisoner = sinon.stub(firstTimeClaim, 'insertNewEligibilityAndPrisoner').resolves(newReference)
+      stubInsertNewEligibilityAndPrisoner.resolves(newReference)
       stubAboutThePrisonerValidator.returns(false)
 
       request
