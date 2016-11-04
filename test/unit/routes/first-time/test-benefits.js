@@ -7,7 +7,7 @@ const expect = require('chai').expect
 
 var validationErrors
 
-describe('routes/first-time/benefits', function () {
+describe('routes/first-time/new-eligibility/benefits', function () {
   var request
   var urlValidatorCalled = false
 
@@ -20,9 +20,9 @@ describe('routes/first-time/benefits', function () {
     validationErrors = false
 
     var route = proxyquire(
-      '../../../../app/routes/first-time/benefits', {
-        '../../services/validators/eligibility/benefit-validator': function () { return validationErrors },
-        '../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
+      '../../../../app/routes/first-time/new-eligibility/benefits', {
+        '../../../services/validators/eligibility/benefit-validator': function () { return validationErrors },
+        '../../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
       })
     route(app)
     urlValidatorCalled = false

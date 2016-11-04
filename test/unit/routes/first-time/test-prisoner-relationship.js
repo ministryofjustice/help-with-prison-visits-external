@@ -8,11 +8,11 @@ const dateFormatter = require('../../../../app/services/date-formatter')
 var validationErrors
 
 var route = proxyquire(
-  '../../../../app/routes/first-time/prisoner-relationship', {
-    '../../services/validators/eligibility/prisoner-relationship-validator': function () { return validationErrors }
+  '../../../../app/routes/first-time/new-eligibility/prisoner-relationship', {
+    '../../../services/validators/eligibility/prisoner-relationship-validator': function () { return validationErrors }
   })
 
-describe('routes/first-time/prisoner-relationship', function () {
+describe('routes/first-time/new-eligibility/prisoner-relationship', function () {
   var request
   var dobDay = '01'
   var dobMonth = '05'

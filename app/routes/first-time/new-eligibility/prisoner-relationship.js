@@ -1,10 +1,10 @@
-const prisonerRelationshipValidator = require('../../services/validators/eligibility/prisoner-relationship-validator')
-const UrlPathValidator = require('../../services/validators/url-path-validator')
+const prisonerRelationshipValidator = require('../../../services/validators/eligibility/prisoner-relationship-validator')
+const UrlPathValidator = require('../../../services/validators/url-path-validator')
 
 module.exports = function (router) {
   router.get('/first-time/:dob', function (req, res) {
     UrlPathValidator(req.params)
-    return res.render('first-time/prisoner-relationship', {
+    return res.render('first-time/new-eligibility/prisoner-relationship', {
       dob: req.params.dob
     })
   })
@@ -17,7 +17,7 @@ module.exports = function (router) {
     var validationErrors = prisonerRelationshipValidator(req.body)
 
     if (validationErrors) {
-      return res.status(400).render('first-time/prisoner-relationship', {
+      return res.status(400).render('first-time/new-eligibility/prisoner-relationship', {
         errors: validationErrors,
         dob: dob })
     }

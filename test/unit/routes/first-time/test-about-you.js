@@ -11,16 +11,16 @@ var stubInsertVisitor
 var stubAboutYouValidator
 var request
 
-describe('routes/first-time/about-you', function () {
+describe('routes/first-time/new-eligibility/about-you', function () {
   var urlValidatorCalled = false
 
   beforeEach(function () {
     stubInsertVisitor = sinon.stub()
     stubAboutYouValidator = sinon.stub()
-    var route = proxyquire('../../../../app/routes/first-time/about-you', {
-      '../../services/data/insert-visitor': stubInsertVisitor,
-      '../../services/validators/first-time/about-you-validator': stubAboutYouValidator,
-      '../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
+    var route = proxyquire('../../../../app/routes/first-time/new-eligibility/about-you', {
+      '../../../services/data/insert-visitor': stubInsertVisitor,
+      '../../../services/validators/first-time/about-you-validator': stubAboutYouValidator,
+      '../../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
     })
 
     var app = express()

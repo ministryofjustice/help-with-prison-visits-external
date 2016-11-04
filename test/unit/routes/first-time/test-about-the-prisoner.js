@@ -10,15 +10,15 @@ const firstTimeClaim = require('../../../../app/services/data/first-time-claim')
 var stubAboutThePrisonerValidator
 var request
 
-describe('routes/first-time/about-the-prisoner', function () {
+describe('routes/first-time/new-eligibility/about-the-prisoner', function () {
   var urlValidatorCalled = false
 
   beforeEach(function () {
     stubAboutThePrisonerValidator = sinon.stub()
-    var route = proxyquire('../../../../app/routes/first-time/about-the-prisoner', {
-      '../../services/data/first-time-claim': firstTimeClaim,
-      '../../services/validators/first-time/about-the-prisoner-validator': stubAboutThePrisonerValidator,
-      '../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
+    var route = proxyquire('../../../../app/routes/first-time/new-eligibility/about-the-prisoner', {
+      '../../../services/data/first-time-claim': firstTimeClaim,
+      '../../../services/validators/first-time/about-the-prisoner-validator': stubAboutThePrisonerValidator,
+      '../../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
     })
 
     var app = express()

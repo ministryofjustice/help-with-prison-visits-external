@@ -1,17 +1,17 @@
-const DateOfBirthValidator = require('../../services/validators/eligibility/date-of-birth-validator')
-const dateFormatter = require('../../services/date-formatter')
+const DateOfBirthValidator = require('../../../services/validators/eligibility/date-of-birth-validator')
+const dateFormatter = require('../../../services/date-formatter')
 const moment = require('moment')
 
 module.exports = function (router) {
   router.get('/first-time', function (req, res) {
-    return res.render('first-time/date-of-birth')
+    return res.render('first-time/new-eligibility/date-of-birth')
   })
 
   router.post('/first-time', function (req, res) {
     var validationErrors = DateOfBirthValidator(req.body)
 
     if (validationErrors) {
-      return res.status(400).render('first-time/date-of-birth', {
+      return res.status(400).render('first-time/new-eligibility/date-of-birth', {
         claimant: req.body,
         errors: validationErrors })
     }

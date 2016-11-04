@@ -9,11 +9,11 @@ const dateFormatter = require('../../../../app/services/date-formatter')
 var validationErrors
 
 var route = proxyquire(
-  '../../../../app/routes/first-time/date-of-birth', {
-    '../../services/validators/eligibility/date-of-birth-validator': function () { return validationErrors }
+  '../../../../app/routes/first-time/new-eligibility/date-of-birth', {
+    '../../../services/validators/eligibility/date-of-birth-validator': function () { return validationErrors }
   })
 
-describe('routes/first-time/date-of-birth', function () {
+describe('routes/first-time/new-eligibility/date-of-birth', function () {
   var request
   var dobDay = '01'
   var dobMonth = '05'

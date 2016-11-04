@@ -1,10 +1,10 @@
-const benefitValidator = require('../../services/validators/eligibility/benefit-validator')
-const UrlPathValidator = require('../../services/validators/url-path-validator')
+const benefitValidator = require('../../../services/validators/eligibility/benefit-validator')
+const UrlPathValidator = require('../../../services/validators/url-path-validator')
 
 module.exports = function (router) {
   router.get('/first-time/:dob/:relationship', function (req, res) {
     UrlPathValidator(req.params)
-    return res.render('first-time/benefits', {
+    return res.render('first-time/new-eligibility/benefits', {
       dob: req.params.dob,
       relationship: req.params.relationship
     })
@@ -19,7 +19,7 @@ module.exports = function (router) {
     var validationErrors = benefitValidator(req.body)
 
     if (validationErrors) {
-      return res.status(400).render('first-time/benefits', {
+      return res.status(400).render('first-time/new-eligibility/benefits', {
         errors: validationErrors,
         dob: dob,
         relationship: relationship
