@@ -14,8 +14,8 @@ describe('services/data/insert-first-time-claim', function () {
 
   it('should insert a new Claim record', function () {
     return insertFirstTimeClaim(claimHelper.build(REFERENCE))
-      .then(function (insertResult) {
-        claimId = insertResult[0]
+      .then(function (newClaimId) {
+        claimId = newClaimId
         return claimHelper.get(claimId)
       })
       .then(function (claim) {

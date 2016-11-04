@@ -27,9 +27,6 @@ module.exports.build = function (reference) {
 
 module.exports.insert = function (reference) {
   return insertFirstTimeClaim(this.build(reference))
-    .then(function (claimId) {
-      module.exports.CLAIM_ID = claimId[0]
-    })
 }
 
 module.exports.get = function (claimId) {

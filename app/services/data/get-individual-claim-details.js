@@ -1,7 +1,6 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 
-// TODO test
 module.exports = function (claimId) {
   return knex('Claim')
     .join('Eligibility', 'Claim.Reference', '=', 'Eligibility.Reference')
