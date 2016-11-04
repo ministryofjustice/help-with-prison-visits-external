@@ -1,5 +1,5 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
-const getIndividualClaimDetails = require('../../../../services/data/get-individual-claim-details')
+const getClaimSummary = require('../../../../services/data/get-claim-summary')
 const removeClaimExpense = require('../../../../services/data/remove-claim-expense')
 const dateHelper = require('../../../../views/helpers/date-helper')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
@@ -9,7 +9,7 @@ module.exports = function (router) {
   router.get('/first-time-claim/eligibility/:reference/claim/:claimId/summary', function (req, res) {
     UrlPathValidator(req.params)
 
-    getIndividualClaimDetails(req.params.claimId)
+    getClaimSummary(req.params.claimId)
       .then(function (claimDetails) {
         return res.render('first-time/eligibility/claim/claim-summary',
           {
