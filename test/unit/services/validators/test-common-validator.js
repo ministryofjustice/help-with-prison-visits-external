@@ -273,7 +273,7 @@ describe('services/validators/common-validator', function () {
     })
   })
 
-  describe('isDateSetDaysAway', function () {
+  describe('isDateWithinDays', function () {
     const DAYS = 28
     const DATE_WITHIN_28_DAYS = moment().subtract(1, 'day')
     const DATE_OUTSIDE_28_DAYS = moment().subtract(29, 'day')
@@ -297,13 +297,13 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a valid Date object', function (done) {
-      var result = validator.isDateSetDaysAway(DATE_WITHIN_28_DAYS, DAYS)
+      var result = validator.isDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
       expect(result).to.equal(true)
       done()
     })
 
     it('should return false if passed an invalid Date object', function (done) {
-      var result = validator.isDateSetDaysAway(DATE_OUTSIDE_28_DAYS, DAYS)
+      var result = validator.isDateWithinDays(DATE_OUTSIDE_28_DAYS, DAYS)
       expect(result).to.equal(false)
       done()
     })

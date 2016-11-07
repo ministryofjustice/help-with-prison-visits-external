@@ -25,12 +25,11 @@ class FirstTimeClaim {
     FieldsetValidator(this.dateOfJourney, 'DateOfJourney', errors)
       .isValidDate(this.dateOfJourney)
       .isPastDate(this.dateOfJourney)
-      .isDateSetDaysAway(this.dateOfJourney, 28)
+      .isDateWithinDays(this.dateOfJourney, 28)
 
     var validationErrors = errors.get()
 
     if (validationErrors) {
-      console.log(validationErrors)
       throw new ValidationError(validationErrors)
     }
   }

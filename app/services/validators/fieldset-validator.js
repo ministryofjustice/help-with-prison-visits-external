@@ -41,8 +41,8 @@ class FieldsetValidator {
     return this
   }
 
-  isDateSetDaysAway (date, days) {
-    if (!validator.isDateSetDaysAway(date, days)) {
+  isDateWithinDays (date, days) {
+    if (!validator.isDateWithinDays(date, days)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getDateSetDaysAway, {days: days})
     }
     return this

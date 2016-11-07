@@ -65,7 +65,7 @@ describe('services/domain/first-time-claim', function () {
     }
   })
 
-  it('should return isDateSetDaysAway error given a date more than 28 days away', function () {
+  it('should return isDateWithinDays error given a date more than 28 days away', function () {
     try {
       var dateFurtherThan28Days = moment().subtract(29)
       claim = new FirstTimeClaim(

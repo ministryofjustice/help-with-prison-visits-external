@@ -47,7 +47,7 @@ exports.isDateInThePast = function (date) {
     moment(date) < moment()
 }
 
-exports.isDateSetDaysAway = function (date, days) {
+exports.isDateWithinDays = function (date, days) {
   return moment().diff(date, 'days') <= days
 }
 
