@@ -6,7 +6,7 @@ require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('routes/first/eligibility/claim/car-details', function () {
+describe('routes/first-time/eligibility/claim/car-details', function () {
   const ROUTE = `/first-time/eligibility/A123456/claim/1/car`
 
   var app
