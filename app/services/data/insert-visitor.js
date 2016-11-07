@@ -1,40 +1,37 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const benefitsEnum = require('../../constants/benefits-enum')
-const dateFormatter = require('../date-formatter')
+const AboutYou = require('../domain/about-you')
 
-module.exports = function (reference, visitorData) {
-  var dateOfBirth = dateFormatter
-    .build(
-      visitorData.DateOfBirth.day,
-      visitorData.DateOfBirth.month,
-      visitorData.DateOfBirth.year
-    )
-    .toDate()
+module.exports = function (reference, aboutYou) {
+  if (!(aboutYou instanceof AboutYou)) {
+    throw new Error('Provided aboutYou object is not an instance of the expected class')
+  }
 
+  var dateOfBirth = aboutYou.dob.toDate()
   var requireBenefitUpload = true
 
-  if (benefitsEnum[visitorData.Benefit]) {
-    requireBenefitUpload = benefitsEnum[visitorData.Benefit].requireBenefitUpload
+  if (benefitsEnum[aboutYou.benefit]) {
+    requireBenefitUpload = benefitsEnum[aboutYou.benefit].requireBenefitUpload
   }
 
   return knex('Visitor').insert({
     Reference: reference,
-    Title: visitorData.Title.trim(),
-    FirstName: visitorData.FirstName.trim(),
-    LastName: visitorData.LastName.trim(),
-    NationalInsuranceNumber: visitorData.NationalInsuranceNumber.replace(/ /g, '').toUpperCase(),
-    HouseNumberAndStreet: visitorData.HouseNumberAndStreet.trim(),
-    Town: visitorData.Town.trim(),
-    County: visitorData.County.trim(),
-    PostCode: visitorData.PostCode.replace(/ /g, '').toUpperCase(),
-    Country: visitorData.Country.trim(),
-    EmailAddress: visitorData.EmailAddress.trim(),
-    PhoneNumber: visitorData.PhoneNumber.trim(),
+    Title: aboutYou.title,
+    FirstName: aboutYou.firstName,
+    LastName: aboutYou.lastName,
+    NationalInsuranceNumber: aboutYou.nationalInsuranceNumber,
+    HouseNumberAndStreet: aboutYou.houseNumberAndStreet,
+    Town: aboutYou.town,
+    County: aboutYou.county,
+    PostCode: aboutYou.postCode,
+    Country: aboutYou.country,
+    EmailAddress: aboutYou.emailAddress,
+    PhoneNumber: aboutYou.phoneNumber,
     DateOfBirth: dateOfBirth,
-    Relationship: visitorData.Relationship.trim(),
+    Relationship: aboutYou.relationship,
     JourneyAssistance: 'no', // TODO remove from visitor
     RequireBenefitUpload: requireBenefitUpload,
-    Benefit: visitorData.Benefit
+    Benefit: aboutYou.benefit
   })
 }

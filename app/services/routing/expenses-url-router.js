@@ -45,7 +45,7 @@ function getPath (params) {
 function buildUrl (params, reference, claimId) {
   var path = getPath(params)
   params.shift()
-  return `/first-time-claim/eligibility/${reference}/claim/${claimId}/${path}${paramBuilder.format(params)}`
+  return `/first-time/eligibility/${reference}/claim/${claimId}/${path}${paramBuilder.format(params)}`
 }
 
 function isValid (req) {

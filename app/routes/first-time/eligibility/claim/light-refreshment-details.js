@@ -5,7 +5,7 @@ const RefreshmentExpense = require('../../../../services/domain/expenses/refresh
 const insertExpense = require('../../../../services/data/insert-expense')
 
 module.exports = function (router) {
-  router.get('/first-time-claim/eligibility/:reference/claim/:claimId/refreshment', function (req, res) {
+  router.get('/first-time/eligibility/:reference/claim/:claimId/refreshment', function (req, res) {
     UrlPathValidator(req.params)
     return res.render('first-time/eligibility/claim/light-refreshment-details', {
       reference: req.params.reference,
@@ -14,7 +14,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time-claim/eligibility/:reference/claim/:claimId/refreshment', function (req, res) {
+  router.post('/first-time/eligibility/:reference/claim/:claimId/refreshment', function (req, res) {
     UrlPathValidator(req.params)
 
     try {

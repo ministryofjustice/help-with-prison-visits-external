@@ -44,7 +44,7 @@ describe('services/data/insert-visitor', function () {
 
   it('should throw an error if passed a non visitor object.', function () {
     return expect(function () {
-      insertVisitor({})
+      insertVisitor(REFERENCE, {})
     }).to.throw(Error)
   })
 

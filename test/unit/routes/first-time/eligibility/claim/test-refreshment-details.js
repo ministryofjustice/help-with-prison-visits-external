@@ -6,27 +6,27 @@ require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('routes/first-time/eligibility/claim/plane-details', function () {
-  const ROUTE = `/first-time-claim/eligibility/A123456/claim/1/plane`
+describe('routes/first-time/eligibility/claim/light-refreshment-details', function () {
+  const ROUTE = `/first-time/eligibility/A123456/claim/1/refreshment`
 
   var app
 
   var urlPathValidatorStub
   var expenseUrlRouterStub
   var insertExpenseStub
-  var planeExpenseStub
+  var refreshmentExpenseStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     expenseUrlRouterStub = sinon.stub()
     insertExpenseStub = sinon.stub()
-    planeExpenseStub = sinon.stub()
+    refreshmentExpenseStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/plane-details', {
+    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/light-refreshment-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-expense': insertExpenseStub,
-      '../../../../services/domain/expenses/plane-expense': planeExpenseStub
+      '../../../../services/domain/expenses/refreshment-expense': refreshmentExpenseStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -58,7 +58,7 @@ describe('routes/first-time/eligibility/claim/plane-details', function () {
 
   describe(`POST ${ROUTE}`, function () {
     const REDIRECT_URL = 'some url'
-    const PLANE_EXPENSE = {}
+    const REFRESHMENT_EXPENSE = {}
 
     it('should call the URL Path Validator', function () {
       insertExpenseStub.resolves()
@@ -70,14 +70,14 @@ describe('routes/first-time/eligibility/claim/plane-details', function () {
     })
 
     it('should respond with a 302 if domain object is built and then persisted successfully', function () {
-      planeExpenseStub.returns(PLANE_EXPENSE)
+      refreshmentExpenseStub.returns(REFRESHMENT_EXPENSE)
       insertExpenseStub.resolves()
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
-          sinon.assert.calledOnce(planeExpenseStub)
+          sinon.assert.calledOnce(refreshmentExpenseStub)
           sinon.assert.calledOnce(insertExpenseStub)
-          sinon.assert.calledWith(insertExpenseStub, PLANE_EXPENSE)
+          sinon.assert.calledWith(insertExpenseStub, REFRESHMENT_EXPENSE)
         })
         .expect(302)
     })
@@ -94,14 +94,14 @@ describe('routes/first-time/eligibility/claim/plane-details', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      planeExpenseStub.throws(new ValidationError())
+      refreshmentExpenseStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      planeExpenseStub.throws(new Error())
+      refreshmentExpenseStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .expect(500)

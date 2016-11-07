@@ -22,7 +22,7 @@
       <h3 class="heading-small">Bank Details</h3>
       <p>We don’t store this information. You will need to enter this for each claim you make</p>
 
-      <form action="/first-time-claim/eligibility/{{reference}}/claim/{{claimId}}/bank-account-details" method="post">
+      <form action="/first-time/eligibility/{{reference}}/claim/{{claimId}}/bank-account-details" method="post">
         <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
           <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account Number</label>
           {% if errors['AccountNumber'][0] %}

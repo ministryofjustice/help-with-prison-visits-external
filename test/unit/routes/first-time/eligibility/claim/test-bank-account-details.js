@@ -6,11 +6,14 @@ var mockViewEngine = require('../../../mock-view-engine')
 var bodyParser = require('body-parser')
 const sinon = require('sinon')
 require('sinon-bluebird')
-var reference = 'V123456'
-var claimId = '1'
+
 var ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/first-time/eligibility/claim/bank-account-details', function () {
+  const REFERENCE = 'V123456'
+  const CLAIM_ID = '1'
+  const ROUTE = `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}/bank-account-details`
+
   var request
   var stubBankAccountDetails
   var stubInsertBankAccountDetailsForClaim
@@ -42,10 +45,10 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
     urlValidatorCalled = false
   })
 
-  describe('GET /first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function () {
+  describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200', function (done) {
       request
-        .get(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
+        .get(ROUTE)
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
@@ -55,7 +58,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
     })
   })
 
-  describe('POST /first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function () {
+  describe(`POST ${ROUTE}`, function () {
     it('should respond with a 302', function (done) {
       var newBankAccountDetails = {}
       stubBankAccountDetails.returns(newBankAccountDetails)
@@ -63,16 +66,16 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
       stubSubmitFirstTimeClaim.resolves()
 
       request
-        .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
+        .post(ROUTE)
         .send(VALID_DATA)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(stubBankAccountDetails.calledWithExactly(VALID_DATA.AccountNumber, VALID_DATA.SortCode)).to.be.true
-          expect(stubInsertBankAccountDetailsForClaim.calledWithExactly(claimId, newBankAccountDetails)).to.be.true
-          expect(stubSubmitFirstTimeClaim.calledWithExactly(reference, claimId)).to.be.true
-          expect(response.headers['location']).to.be.equal('/application-submitted/' + reference)
+          expect(stubInsertBankAccountDetailsForClaim.calledWithExactly(CLAIM_ID, newBankAccountDetails)).to.be.true
+          expect(stubSubmitFirstTimeClaim.calledWithExactly(REFERENCE, CLAIM_ID)).to.be.true
+          expect(response.headers['location']).to.be.equal(`/application-submitted/${REFERENCE}`)
           done()
         })
     })
@@ -80,7 +83,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
     it('should respond with a 400 if validation fails', function (done) {
       stubBankAccountDetails.throws(new ValidationError({ 'firstName': {} }))
       request
-        .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
+        .post(ROUTE)
         .expect(400)
         .end(function (error, response) {
           expect(error).to.be.null
