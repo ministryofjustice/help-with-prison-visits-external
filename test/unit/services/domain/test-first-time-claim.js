@@ -10,7 +10,7 @@ describe('services/domain/first-time-claim', function () {
   const VALID_DAY = moment().date()
   const VALID_MONTH = moment().month() + 1 // Needed for zero indexed month
   const VALID_YEAR = moment().year()
-  var expectedDateOfPrisonVisit = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
+  var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
 
   it('should construct a domain object given valid input', function () {
     claim = new FirstTimeClaim(
@@ -20,9 +20,9 @@ describe('services/domain/first-time-claim', function () {
       VALID_YEAR
     )
     expect(claim.reference).to.equal(VALID_REFERENCE)
-    expect(claim.dateOfPrisonVisit).to.be.within(
-      expectedDateOfPrisonVisit.subtract(1, 'seconds').toDate(),
-      expectedDateOfPrisonVisit.add(1, 'seconds').toDate()
+    expect(claim.dateOfJourney).to.be.within(
+      expectedDateOfJourney.subtract(1, 'seconds').toDate(),
+      expectedDateOfJourney.add(1, 'seconds').toDate()
     )
   })
 
@@ -32,7 +32,7 @@ describe('services/domain/first-time-claim', function () {
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
       expect(e.validationErrors['Reference'][0]).to.equal('Reference is required')
-      expect(e.validationErrors['DateOfPrisonVisit'][0]).to.equal('Date of prison visit was invalid')
+      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of prison visit was invalid')
     }
   })
 
@@ -46,7 +46,7 @@ describe('services/domain/first-time-claim', function () {
       )
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['DateOfPrisonVisit'][0]).to.equal('Date of prison visit was invalid')
+      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of prison visit was invalid')
     }
   })
 
@@ -61,7 +61,7 @@ describe('services/domain/first-time-claim', function () {
       )
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['DateOfPrisonVisit'][0]).to.equal('Date of prison visit was invalid')
+      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of prison visit was invalid')
     }
   })
 
@@ -76,7 +76,7 @@ describe('services/domain/first-time-claim', function () {
       )
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['DateOfPrisonVisit'][0]).to.equal('Date of prison must be within 28 days')
+      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of prison must be within 28 days')
     }
   })
 })
