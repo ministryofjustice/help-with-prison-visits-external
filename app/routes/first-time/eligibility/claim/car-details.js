@@ -6,7 +6,7 @@ const getTravellingFromAndTo = require('../../../../services/data/get-travelling
 const insertCarExpenses = require('../../../../services/data/insert-car-expenses')
 
 module.exports = function (router) {
-  router.get('/first-time-claim/eligibility/:reference/claim/:claimId/car', function (req, res) {
+  router.get('/first-time/eligibility/:reference/claim/:claimId/car', function (req, res) {
     UrlPathValidator(req.params)
     getTravellingFromAndTo(req.params.reference)
       .then(function (result) {
@@ -19,7 +19,7 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/first-time-claim/eligibility/:reference/claim/:claimId/car', function (req, res) {
+  router.post('/first-time/eligibility/:reference/claim/:claimId/car', function (req, res) {
     UrlPathValidator(req.params)
 
     try {
