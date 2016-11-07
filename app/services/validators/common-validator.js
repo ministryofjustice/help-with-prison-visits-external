@@ -38,13 +38,17 @@ exports.isDateValid = function (date) {
     date = moment(date)
   }
   return date instanceof moment &&
-         date.isValid() &&
-         moment().diff(date, 'years') < NUM_YEARS_LIMIT
+    date.isValid() &&
+    moment().diff(date, 'years') < NUM_YEARS_LIMIT
 }
 
 exports.isDateInThePast = function (date) {
   return this.isDateValid(date) &&
-         moment(date) < moment()
+    moment(date) < moment()
+}
+
+exports.isDateSetDaysAway = function (date, days) {
+  return moment().diff(date, 'days') <= days
 }
 
 exports.isRange = function (value, min, max) {
@@ -94,5 +98,5 @@ exports.isValidReference = function (reference) {
     return false
   }
   return reference.match(referenceNumber.IS_VALID_REGEX) !== null &&
-         this.isLength(reference, referenceNumber.VALID_LENGTH)
+    this.isLength(reference, referenceNumber.VALID_LENGTH)
 }

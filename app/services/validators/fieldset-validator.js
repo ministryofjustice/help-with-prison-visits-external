@@ -40,6 +40,13 @@ class FieldsetValidator {
     }
     return this
   }
+
+  isDateSetDaysAway (date, days) {
+    if (!validator.isDateSetDaysAway(date, days)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getDateSetDaysAway, {days: days})
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {

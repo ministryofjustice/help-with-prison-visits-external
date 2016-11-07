@@ -12,7 +12,7 @@ class FirstTimeClaim {
     year
   ) {
     this.reference = reference
-    this.dateOfJourney = dateFormatter.build(day, month, year).toDate()
+    this.dateOfPrisonVisit = dateFormatter.build(day, month, year).toDate()
     this.IsValid()
   }
 
@@ -22,13 +22,15 @@ class FirstTimeClaim {
     FieldValidator(this.reference, 'Reference', errors)
       .isRequired()
 
-    FieldsetValidator(this.dateOfJourney, 'DateOfJourney', errors)
-      .isValidDate(this.dateOfJourney)
-      .isPastDate(this.dateOfJourney)
+    FieldsetValidator(this.dateOfPrisonVisit, 'DateOfPrisonVisit', errors)
+      .isValidDate(this.dateOfPrisonVisit)
+      .isPastDate(this.dateOfPrisonVisit)
+      .isDateSetDaysAway(this.dateOfPrisonVisit, 28)
 
     var validationErrors = errors.get()
 
     if (validationErrors) {
+      console.log(validationErrors)
       throw new ValidationError(validationErrors)
     }
   }

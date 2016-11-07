@@ -141,4 +141,44 @@ describe('services/validators/fieldset-validator', function () {
       done()
     })
   })
+
+  describe('isDateSetDaysAway', function () {
+    const DAYS = 28
+    const DATE_WITHIN_28_DAYS = moment().subtract(1, 'day')
+    const DATE_OUTSIDE_28_DAYS = moment().subtract(29, 'day')
+
+    it('should return error object if data is null', function (done) {
+      this.fieldsetValidator.isDateSetDaysAway(null)
+      var errors = this.error.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+
+    it('should return error object if data is undefined', function (done) {
+      this.fieldsetValidator.isDateSetDaysAway(undefined)
+      var errors = this.error.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+
+    it('should return error object if data is not a valid date object', function (done) {
+      this.fieldsetValidator.isDateSetDaysAway({})
+      var errors = this.error.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+
+    it('should return error object if the date given over the given days away', function (done) {
+      this.fieldsetValidator.isDateSetDaysAway(DATE_OUTSIDE_28_DAYS, DAYS)
+      var errors = this.error.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      done()
+    })
+
+    it('should return the fieldsetValidator after being called to allow function chaining.', function (done) {
+      var result = this.fieldsetValidator.isDateSetDaysAway(DATE_WITHIN_28_DAYS, DAYS)
+      expect(result).to.be.equal(this.fieldsetValidator)
+      done()
+    })
+  })
 })
