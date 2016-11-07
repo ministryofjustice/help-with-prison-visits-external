@@ -1,6 +1,5 @@
 const routeHelper = require('../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 require('sinon-bluebird')
@@ -48,12 +47,12 @@ describe('routes/first-time/new-eligibility/about-you', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(302)
-        .expect(function (response) {
+        .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
-          expect(stubAboutYou.calledOnce).to.be.true
-          expect(stubInsertVisitor.calledOnce).to.be.true
-          expect(response.header.location).to.equal(`/first-time/eligibility/${REFERENCE}/new-claim`)
+          sinon.assert.calledOnce(stubAboutYou)
+          sinon.assert.calledOnce(stubInsertVisitor)
         })
+        .expect('location', `/first-time/eligibility/${REFERENCE}/new-claim`)
     })
 
     it('should respond with a 400 for invalid data', function () {
@@ -62,7 +61,7 @@ describe('routes/first-time/new-eligibility/about-you', function () {
         .post(ROUTE)
         .expect(400)
         .expect(function () {
-          expect(stubAboutYou.calledOnce).to.be.true
+          sinon.assert.calledOnce(stubAboutYou)
         })
     })
   })
