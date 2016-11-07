@@ -45,7 +45,7 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
   describe('GET /first-time/eligibility/:reference/new-claim/past', function () {
     it('should respond with a 200', function (done) {
       request
-        .get(`/first-time-claim/eligibility/${reference}/new-claim/past`)
+        .get(`/first-time/eligibility/${reference}/new-claim/past`)
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
@@ -61,7 +61,7 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
       stubClaim.returns(newClaim)
       stubInsertClaim.resolves([123])
       request
-        .post(`/first-time-claim/eligibility/${reference}/new-claim/past`)
+        .post(`/first-time/eligibility/${reference}/new-claim/past`)
         .send(VALID_DATA)
         .expect(302)
         .end(function (error, response) {
@@ -69,7 +69,7 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
           expect(urlValidatorCalled).to.be.true
           expect(stubClaim.calledWith(reference, day, month, year)).to.be.true
           expect(stubInsertClaim.calledWithExactly(newClaim)).to.be.true
-          expect(response.header.location).to.equal(`/first-time-claim/eligibility/${reference}/claim/${claimId}`)
+          expect(response.header.location).to.equal(`/first-time/eligibility/${reference}/claim/${claimId}`)
           done()
         })
     })
@@ -77,7 +77,7 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
     it('should response with a 400 for invalid data', function (done) {
       stubClaim.throws(new ValidationError({ 'Reference': [] }))
       request
-        .post(`/first-time-claim/eligibility/${reference}/new-claim/past`)
+        .post(`/first-time/eligibility/${reference}/new-claim/past`)
         .expect(400)
         .end(function (error, response) {
           expect(error).to.be.null
