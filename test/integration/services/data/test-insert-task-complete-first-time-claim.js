@@ -1,7 +1,7 @@
 const expect = require('chai').expect
-const moment = require('moment')
 const taskHelper = require('../../../helpers/data/task-helper')
 const insertTask = require('../../../../app/services/data/insert-task-complete-first-time-claim')
+const dateFormatter = require('../../../../app/services/date-formatter')
 
 describe('services/data/insert-task-complete-first-time-claim', function () {
   const REFERENCE = 'COMFTC1'
@@ -17,8 +17,8 @@ describe('services/data/insert-task-complete-first-time-claim', function () {
         expect(task.Reference).to.equal(REFERENCE)
         expect(task.ClaimId).to.equal(CLAIM_ID)
         expect(task.DateCreated).to.be.within(
-          moment().add(-2, 'minutes').toDate(),
-          moment().add(2, 'minutes').toDate())
+          dateFormatter.now().add(-2, 'minutes').toDate(),
+          dateFormatter.now().add(2, 'minutes').toDate())
         expect(task.Status).to.equal(taskHelper.STATUS)
       })
   })

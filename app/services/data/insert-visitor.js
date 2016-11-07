@@ -9,6 +9,7 @@ module.exports = function (reference, aboutYou) {
   }
 
   var dateOfBirth = aboutYou.dob.toDate()
+
   var requireBenefitUpload = true
 
   if (benefitsEnum[aboutYou.benefit]) {

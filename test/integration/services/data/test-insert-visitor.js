@@ -17,22 +17,13 @@ describe('services/data/insert-visitor', function () {
         return visitorHelper.get(REFERENCE)
       })
       .then(function (visitor) {
-        var dateExpected = dateFormatter.build(
-          visitorHelper.DATE_OF_BIRTH.day,
-          visitorHelper.DATE_OF_BIRTH.month,
-          visitorHelper.DATE_OF_BIRTH.year
-        )
+        var dateExpected = dateFormatter.buildFromDateString(visitorHelper.DATE_OF_BIRTH)
 
         expect(visitor.Reference).to.equal(REFERENCE)
         expect(visitor.FirstName).to.equal(visitorHelper.FIRST_NAME)
         expect(visitor.LastName).to.equal(visitorHelper.LAST_NAME)
         expect(visitor.NationalInsuranceNumber).to.equal(visitorHelper.NATIONAL_INSURANCE_NUMBER)
-
-        expect(visitor.DateOfBirth).to.be.within(
-          dateExpected.subtract(1, 'seconds').toDate(),
-          dateExpected.add(1, 'seconds').toDate()
-        )
-
+        expect(visitor.DateOfBirth).to.deep.equal(dateExpected.toDate())
         expect(visitor.PostCode).to.equal(visitorHelper.POST_CODE)
         expect(visitor.Benefit).to.equal(visitorHelper.BENEFIT)
         expect(visitor.RequireBenefitUpload, 'should set RequireBenefitUpload based on benefit').to.be.false
@@ -50,23 +41,15 @@ describe('services/data/insert-visitor', function () {
 
   it('should handle daylight saving time when storing Visitor DOB', function () {
     var visitorInserted = visitorHelper.build()
-    visitorInserted.DateOfBirth = { day: '12', month: '10', year: '1990' }
-
-    var dateExpected = dateFormatter.build(
-      visitorInserted.DateOfBirth.day,
-      visitorInserted.DateOfBirth.month,
-      visitorInserted.DateOfBirth.year
-    )
+    visitorInserted.dob = dateFormatter.buildFromDateString('1990-10-12')
+    var dateExpected = dateFormatter.buildFromDateString('1990-10-12')
 
     return insertVisitor(REFERENCE, visitorInserted)
       .then(function () {
         return visitorHelper.get(REFERENCE)
       })
       .then(function (visitorReturned) {
-        expect(visitorReturned.DateOfBirth).to.be.within(
-          dateExpected.subtract(1, 'seconds').toDate(),
-          dateExpected.add(1, 'seconds').toDate()
-        )
+        expect(visitorReturned.DateOfBirth).to.deep.equal(dateExpected.toDate())
       })
   })
 

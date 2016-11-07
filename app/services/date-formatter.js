@@ -9,13 +9,15 @@ exports.format = function (date) {
   return date.format(DATE_FORMAT)
 }
 
+exports.now = function () {
+  var now = moment()
+  return applyDST(now)
+}
+
 exports.build = function (day, month, year) {
   month = month - 1
   var date = moment([year, month, day])
-  if (date.isDST()) {
-    date = date.add(1, 'hour')
-  }
-  return date
+  return applyDST(date)
 }
 
 exports.buildFormatted = function (day, month, year) {
@@ -24,6 +26,25 @@ exports.buildFormatted = function (day, month, year) {
     return INVALID_DATE_ERROR
   }
   return this.format(date)
+}
+
+exports.buildFromDateString = function (date) {
+  if (typeof date !== 'string') {
+    return false
+  }
+  var dateSplit = date.split('-')
+  var year = dateSplit[0]
+  var month = dateSplit[1]
+  var day = dateSplit[2]
+
+  return this.build(day, month, year)
+}
+
+function applyDST (date) {
+  if (date.isDST()) {
+    date = date.add(1, 'hour')
+  }
+  return date
 }
 
 function isUndefined (date) {

@@ -4,10 +4,10 @@ const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 
 class AboutYou {
-  constructor (dobDay, dobMonth, dobYear, relationship, benefit, title, firstName, lastName,
+  constructor (dob, relationship, benefit, title, firstName, lastName,
     nationalInsuranceNumber, houseNumberAndStreet, town, county, postCode,
     country, emailAddress, phoneNumber) {
-    this.dob = dateFormatter.build(dobDay, dobMonth, dobYear)
+    this.dob = dateFormatter.buildFromDateString(dob)
     this.relationship = relationship
     this.benefit = benefit
 

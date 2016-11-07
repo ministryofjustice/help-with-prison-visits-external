@@ -3,7 +3,6 @@ const FirstTimeClaim = require('../../../../app/services/domain/first-time-claim
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const dateFormatter = require('../../../../app/services/date-formatter')
 const expect = require('chai').expect
-const moment = require('moment')
 var claim
 
 describe('services/domain/first-time-claim', function () {
@@ -56,7 +55,7 @@ describe('services/domain/first-time-claim', function () {
 
   it('should return isValidDate error given a date in the future', function (done) {
     try {
-      var futureDate = moment().add(1)
+      var futureDate = dateFormatter.now().add(1)
       claim = new FirstTimeClaim(
         VALID_REFERENCE,
         futureDate.get('date'), // day

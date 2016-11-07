@@ -34,7 +34,6 @@ class AboutThePrisonerValidator {
     FieldsetValidator(dobFields, 'dob', errors)
       .isRequired()
       .isValidDate(dob)
-      .isPastDate(dob)
 
     FieldValidator(prisonerNumber, 'PrisonerNumber', errors)
       .isRequired()

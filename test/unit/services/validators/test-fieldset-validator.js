@@ -1,7 +1,7 @@
 const expect = require('chai').expect
 const FieldsetValidator = require('../../../../app/services/validators/fieldset-validator')
 const ErrorHandler = require('../../../../app/services/validators/error-handler')
-const moment = require('moment')
+const dateFormatter = require('../../../../app/services/date-formatter')
 
 describe('services/validators/fieldset-validator', function () {
   const VALID_DATA_ITEM_1 = 'data 1'
@@ -60,45 +60,40 @@ describe('services/validators/fieldset-validator', function () {
     })
   })
 
-  describe('isValidDate', function () {
-    it('should return error object if data is null', function (done) {
-      this.fieldsetValidator.isValidDate(null)
+  describe('isValidDateOfBirth', function () {
+    it('should return error object if data is null', function () {
+      this.fieldsetValidator.isValidDateOfBirth(null)
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return error object if data is undefined', function (done) {
-      this.fieldsetValidator.isValidDate(undefined)
+    it('should return error object if data is undefined', function () {
+      this.fieldsetValidator.isValidDateOfBirth(undefined)
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return error object if data is not a valid date object', function (done) {
-      this.fieldsetValidator.isValidDate({})
+    it('should return error object if data is not a valid date object', function () {
+      this.fieldsetValidator.isValidDateOfBirth({})
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return false if the date given is valid', function (done) {
-      this.fieldsetValidator.isValidDate(moment())
+    it('should return false if the date given is valid', function () {
+      this.fieldsetValidator.isValidDateOfBirth(dateFormatter.now().subtract(18, 'years'))
       var errors = this.error.get()
       expect(errors).to.equal(false)
-      done()
     })
 
-    it('should return the fieldsetValidator after being called to allow function chaining.', function (done) {
-      var result = this.fieldsetValidator.isValidDate(moment())
+    it('should return the fieldsetValidator after being called to allow function chaining.', function () {
+      var result = this.fieldsetValidator.isValidDateOfBirth(dateFormatter.now())
       expect(result).to.be.equal(this.fieldsetValidator)
-      done()
     })
   })
 
   describe('isPastDate', function () {
-    const PAST_DATE = moment().subtract(1, 'day')
-    const FUTURE_DATE = moment().add(1, 'day')
+    const PAST_DATE = dateFormatter.now().subtract(1, 'day')
+    const FUTURE_DATE = dateFormatter.now().add(1, 'day')
 
     it('should return error object if data is null', function (done) {
       this.fieldsetValidator.isPastDate(null)
@@ -136,7 +131,7 @@ describe('services/validators/fieldset-validator', function () {
     })
 
     it('should return the fieldsetValidator after being called to allow function chaining.', function (done) {
-      var result = this.fieldsetValidator.isPastDate(moment())
+      var result = this.fieldsetValidator.isPastDate(dateFormatter.now())
       expect(result).to.be.equal(this.fieldsetValidator)
       done()
     })

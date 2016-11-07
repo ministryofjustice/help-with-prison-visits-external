@@ -1,10 +1,10 @@
 const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
-const moment = require('moment')
+const dateFormatter = require('../../../app/services/date-formatter')
 
 module.exports.FIRST_NAME = 'John'
 module.exports.LAST_NAME = 'Smith'
-module.exports.DATE_OF_BIRTH = moment().toDate()
+module.exports.DATE_OF_BIRTH = dateFormatter.now().toDate()
 module.exports.PRISON_NUMBER = '0123456789'
 module.exports.NAME_OF_PRISON = 'Hewell'
 

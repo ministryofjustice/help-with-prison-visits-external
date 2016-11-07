@@ -1,5 +1,6 @@
 const expect = require('chai').expect
 const ValidationError = require('../../../../app/services/errors/validation-error')
+const dateFormatter = require('../../../../app/services/date-formatter')
 
 const AboutYou = require('../../../../app/services/domain/about-you')
 var aboutYou
@@ -51,7 +52,7 @@ describe('services/domain/about-you', function () {
       VALID_EMAILADDRESS,
       VALID_PHONENUMBER)
 
-    expect(aboutYou.dob).to.equal(VALID_DOB)
+    expect(aboutYou.dob).to.deep.equal(dateFormatter.buildFromDateString(VALID_DOB))
     expect(aboutYou.relationship).to.equal(VALID_RELATIONSHIP)
     expect(aboutYou.benefit).to.equal(VALID_BENEFIT)
     expect(aboutYou.title).to.equal(VALID_TITLE)

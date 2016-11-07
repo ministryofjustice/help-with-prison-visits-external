@@ -1,6 +1,6 @@
 const FieldsetValidator = require('../fieldset-validator')
 const ErrorHandler = require('../error-handler')
-const dateFormatter = require('../../../services/date-formatter')
+const dateFormatter = require('../../date-formatter')
 
 class DateOfBirthValidator {
   static validate (data) {
@@ -20,8 +20,7 @@ class DateOfBirthValidator {
 
     FieldsetValidator(fields, 'dob', errors)
       .isRequired()
-      .isValidDate(dob)
-      .isPastDate(dob)
+      .isValidDateOfBirth(dob)
 
     return errors.get()
   }

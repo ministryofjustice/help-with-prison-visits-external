@@ -3,7 +3,6 @@ const knex = require('knex')(config)
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const referenceGenerator = require('../reference-generator')
 const dateFormatter = require('../date-formatter')
-const moment = require('moment')
 
 module.exports = function (prisonerData) {
   var reference = referenceGenerator.generate()
@@ -22,7 +21,7 @@ module.exports = function (prisonerData) {
     .then(function (uniqueReference) {
       return knex.insert({
         Reference: uniqueReference,
-        DateCreated: moment().toDate(),
+        DateCreated: dateFormatter.now().toDate(),
         Status: eligibilityStatusEnum.IN_PROGRESS
       })
         .into('Eligibility')
