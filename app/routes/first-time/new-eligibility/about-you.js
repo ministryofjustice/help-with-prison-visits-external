@@ -41,7 +41,7 @@ module.exports = function (router) {
 
     insertVisitor(req.params.reference, visitorData)
       .then(function () {
-        return res.redirect(`/first-time-claim/eligibility/${req.params.reference}/new-claim`)
+        return res.redirect(`/first-time/eligibility/${req.params.reference}/new-claim`)
       })
   })
 }

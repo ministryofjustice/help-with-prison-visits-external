@@ -59,7 +59,7 @@ describe('routes/first-time/new-eligibility/about-you', function () {
           expect(urlValidatorCalled).to.be.true
           expect(stubAboutYouValidator.calledOnce).to.be.true
           expect(stubInsertVisitor.calledOnce).to.be.true
-          expect(response.header.location).to.equal(`/first-time-claim/eligibility/${REFERENCE}/new-claim`)
+          expect(response.header.location).to.equal(`/first-time/eligibility/${REFERENCE}/new-claim`)
           done()
         })
     })
