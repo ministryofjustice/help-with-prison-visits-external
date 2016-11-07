@@ -29,7 +29,6 @@ describe('routes/first-time/new-eligibility/benefits', function () {
     urlValidatorCalled = false
   })
 
-  // benefits
   describe('GET /first-time/new-eligibility/:dob/:relationship', function () {
     it('should respond with a 200', function (done) {
       request
