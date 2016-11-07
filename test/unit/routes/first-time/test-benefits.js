@@ -8,6 +8,7 @@ const expect = require('chai').expect
 var validationErrors
 
 describe('routes/first-time/new-eligibility/benefits', function () {
+  const ROUTE = '/first-time/new-eligibility/1980-01-01/partner'
   var request
   var urlValidatorCalled = false
 
@@ -29,10 +30,10 @@ describe('routes/first-time/new-eligibility/benefits', function () {
   })
 
   // benefits
-  describe('GET /first-time/:dob/:relationship', function () {
+  describe('GET /first-time/new-eligibility/:dob/:relationship', function () {
     it('should respond with a 200', function (done) {
       request
-        .get('/first-time/1980-01-01/partner')
+        .get(ROUTE)
         .expect(200)
         .expect(function () {
           expect(urlValidatorCalled).to.be.true
@@ -41,10 +42,10 @@ describe('routes/first-time/new-eligibility/benefits', function () {
     })
   })
 
-  describe('POST /first-time/:dob/:relationship', function () {
+  describe('POST /first-time/new-eligibility/:dob/:relationship', function () {
     it('should respond with a 302', function (done) {
       request
-        .post('/first-time/1980-01-01/partner')
+        .post(ROUTE)
         .expect(302)
         .end(function () {
           expect(urlValidatorCalled).to.be.true
@@ -55,7 +56,7 @@ describe('routes/first-time/new-eligibility/benefits', function () {
     it('should response with a 400 if validation fails', function (done) {
       validationErrors = { 'benefit': [] }
       request
-        .post('/first-time/1980-01-01/partner')
+        .post(ROUTE)
         .expect(400)
         .end(function () {
           expect(urlValidatorCalled).to.be.true
@@ -65,7 +66,7 @@ describe('routes/first-time/new-eligibility/benefits', function () {
 
     it('should redirect to eligibility-fail page if benefit is none', function (done) {
       request
-        .post('/first-time/1980-01-01/partner')
+        .post(ROUTE)
         .send({
           benefit: 'none'
         })
@@ -80,11 +81,11 @@ describe('routes/first-time/new-eligibility/benefits', function () {
       var benefit = 'no'
 
       request
-        .post('/first-time/1980-01-01/partner')
+        .post(ROUTE)
         .send({
           benefit: benefit
         })
-        .expect('location', `/first-time/1980-01-01/partner/${benefit}`)
+        .expect('location', `${ROUTE}/${benefit}`)
         .end(function () {
           expect(urlValidatorCalled).to.be.true
           done()

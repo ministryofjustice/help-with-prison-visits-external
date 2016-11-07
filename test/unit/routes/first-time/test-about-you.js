@@ -12,6 +12,8 @@ var stubAboutYouValidator
 var request
 
 describe('routes/first-time/new-eligibility/about-you', function () {
+  const REFERENCE = '1234567'
+  const ROUTE = `/first-time/new-eligibility/1980-01-01/partner/income-support/${REFERENCE}`
   var urlValidatorCalled = false
 
   beforeEach(function () {
@@ -31,10 +33,10 @@ describe('routes/first-time/new-eligibility/about-you', function () {
     urlValidatorCalled = false
   })
 
-  describe('GET /first-time/:dob/:relationship/:benefit/:reference', function () {
+  describe('GET /first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function () {
     it('should respond with a 200 for valid path parameters', function (done) {
       request
-        .get('/first-time/1980-01-01/partner/income-support/1234567')
+        .get(ROUTE)
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
@@ -44,29 +46,28 @@ describe('routes/first-time/new-eligibility/about-you', function () {
     })
   })
 
-  describe('POST /first-time/:dob/:relationship/:benefit/:reference', function () {
+  describe('POST /first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function () {
     it('should persist data and redirect to /application-submitted/:reference for valid data', function (done) {
-      var reference = '1234567'
       stubInsertVisitor.resolves()
       stubAboutYouValidator.returns(false)
 
       request
-        .post(`/first-time/1980-01-01/partner/income-support/${reference}`)
+        .post(ROUTE)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(stubAboutYouValidator.calledOnce).to.be.true
           expect(stubInsertVisitor.calledOnce).to.be.true
-          expect(response.header.location).to.equal(`/first-time-claim/eligibility/${reference}/new-claim`)
+          expect(response.header.location).to.equal(`/first-time-claim/eligibility/${REFERENCE}/new-claim`)
           done()
         })
     })
+
     it('should respond with a 400 for invalid data', function (done) {
-      var reference = '1234567'
       stubAboutYouValidator.returns({ 'Title': [] })
       request
-        .post(`/first-time/1980-01-01/partner/income-support/${reference}`)
+        .post(ROUTE)
         .expect(400)
         .end(function (error, response) {
           expect(error).to.be.null
