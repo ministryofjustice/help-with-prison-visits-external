@@ -6,27 +6,27 @@ require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('routes/first-time/eligibility/claim/car-hire-details', function () {
-  const ROUTE = `/first-time-claim/eligibility/A123456/claim/1/hire`
+describe('routes/first-time/eligibility/claim/ferry-details', function () {
+  const ROUTE = `/first-time/eligibility/A123456/claim/1/ferry`
 
   var app
 
   var urlPathValidatorStub
   var expenseUrlRouterStub
   var insertExpenseStub
-  var hireExpenseStub
+  var ferryExpenseStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     expenseUrlRouterStub = sinon.stub()
     insertExpenseStub = sinon.stub()
-    hireExpenseStub = sinon.stub()
+    ferryExpenseStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/car-hire-details', {
+    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/ferry-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-expense': insertExpenseStub,
-      '../../../../services/domain/expenses/hire-expense': hireExpenseStub
+      '../../../../services/domain/expenses/ferry-expense': ferryExpenseStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -58,7 +58,7 @@ describe('routes/first-time/eligibility/claim/car-hire-details', function () {
 
   describe(`POST ${ROUTE}`, function () {
     const REDIRECT_URL = 'some url'
-    const HIRE_EXPENSE = {}
+    const FERRY_EXPENSE = {}
 
     it('should call the URL Path Validator', function () {
       insertExpenseStub.resolves()
@@ -70,14 +70,14 @@ describe('routes/first-time/eligibility/claim/car-hire-details', function () {
     })
 
     it('should respond with a 302 if domain object is built and then persisted successfully', function () {
-      hireExpenseStub.returns(HIRE_EXPENSE)
+      ferryExpenseStub.returns(FERRY_EXPENSE)
       insertExpenseStub.resolves()
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
-          sinon.assert.calledOnce(hireExpenseStub)
+          sinon.assert.calledOnce(ferryExpenseStub)
           sinon.assert.calledOnce(insertExpenseStub)
-          sinon.assert.calledWith(insertExpenseStub, HIRE_EXPENSE)
+          sinon.assert.calledWith(insertExpenseStub, FERRY_EXPENSE)
         })
         .expect(302)
     })
@@ -94,14 +94,14 @@ describe('routes/first-time/eligibility/claim/car-hire-details', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      hireExpenseStub.throws(new ValidationError())
+      ferryExpenseStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      hireExpenseStub.throws(new Error())
+      ferryExpenseStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .expect(500)
