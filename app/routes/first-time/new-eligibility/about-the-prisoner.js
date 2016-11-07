@@ -1,4 +1,4 @@
-const firstTimeClaim = require('../../../services/data/first-time-claim')
+const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
 const validator = require('../../../services/validators/first-time/about-the-prisoner-validator')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 
@@ -31,7 +31,7 @@ module.exports = function (router) {
       })
     }
 
-    firstTimeClaim.insertNewEligibilityAndPrisoner(prisoner)
+    insertNewEligibilityAndPrisoner(prisoner)
       .then(function (newReference) {
         return res.redirect(`/first-time/new-eligibility/${dob}/${relationship}/${benefit}/${newReference}`)
       })

@@ -19,7 +19,7 @@ describe('routes/first-time/new-eligibility/about-the-prisoner', function () {
     stubAboutThePrisonerValidator = sinon.stub()
     stubInsertNewEligibilityAndPrisoner = sinon.stub()
 
-    var route = proxyquire('../../../../app/routes/first-time/about-the-prisoner', {
+    var route = proxyquire('../../../../app/routes/first-time/new-eligibility/about-the-prisoner', {
       '../../../services/data/insert-new-eligibility-and-prisoner': stubInsertNewEligibilityAndPrisoner,
       '../../../services/validators/first-time/about-the-prisoner-validator': stubAboutThePrisonerValidator,
       '../../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
