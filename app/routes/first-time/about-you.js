@@ -1,5 +1,6 @@
-const aboutYouValidator = require('../../services/validators/first-time/about-you-validator')
+const AboutYou = require('../../services/domain/about-you')
 const UrlPathValidator = require('../../services/validators/url-path-validator')
+const ValidationError = require('../../services/errors/validation-error')
 const insertVisitor = require('../../services/data/insert-visitor')
 
 module.exports = function (router) {
@@ -16,32 +17,43 @@ module.exports = function (router) {
   router.post('/first-time/:dob/:relationship/:benefit/:reference', function (req, res) {
     UrlPathValidator(req.params)
 
-    var validationErrors = aboutYouValidator(req.body)
     var dob = req.params.dob
     var relationship = req.params.relationship
     var benefit = req.params.benefit
     var reference = req.params.reference
     var visitorDetails = req.body
 
-    if (validationErrors) {
-      return res.status(400).render('first-time/about-you', {
-        dob: dob,
-        relationship: relationship,
-        benefit: benefit,
-        reference: reference,
-        visitor: visitorDetails,
-        errors: validationErrors
-      })
-    }
+    try {
+      var aboutYou = new AboutYou(dob, relationship, benefit,
+        req.body['Title'],
+        req.body['FirstName'],
+        req.body['LastName'],
+        req.body['NationalInsuranceNumber'],
+        req.body['HouseNumberAndStreet'],
+        req.body['Town'],
+        req.body['County'],
+        req.body['PostCode'],
+        req.body['Country'],
+        req.body['EmailAddress'],
+        req.body['PhoneNumber'])
 
-    var visitorData = visitorDetails
-    visitorData.DateOfBirth = dob
-    visitorData.Relationship = relationship
-    visitorData.Benefit = benefit
-
-    insertVisitor(req.params.reference, visitorData)
+      insertVisitor(req.params.reference, aboutYou)
       .then(function () {
         return res.redirect(`/first-time-claim/eligibility/${req.params.reference}/new-claim`)
       })
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return res.status(400).render('first-time/about-you', {
+          dob: dob,
+          relationship: relationship,
+          benefit: benefit,
+          reference: reference,
+          visitor: visitorDetails,
+          errors: error.validationErrors
+        })
+      } else {
+        throw error
+      }
+    }
   })
 }

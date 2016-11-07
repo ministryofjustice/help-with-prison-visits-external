@@ -2,6 +2,7 @@ const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const moment = require('moment')
 const insertVisitor = require('../../../app/services/data/insert-visitor')
+const AboutYou = require('../../../app/services/domain/about-you')
 
 module.exports.TITLE = 'Mr'
 module.exports.FIRST_NAME = 'John'
@@ -21,24 +22,21 @@ module.exports.REQURE_BENEFIT_UPLOAD = false
 module.exports.BENEFIT = 'income-support'
 
 module.exports.build = function () {
-  return {
-    Title: this.TITLE,
-    FirstName: this.FIRST_NAME,
-    LastName: this.LAST_NAME,
-    NationalInsuranceNumber: this.NATIONAL_INSURANCE_NUMBER,
-    HouseNumberAndStreet: this.HOUSE_NUMBER_AND_STREET,
-    Town: this.TOWN,
-    County: this.COUNTY,
-    PostCode: this.POST_CODE,
-    Country: this.COUNTRY,
-    EmailAddress: this.EMAIL_ADDRESS,
-    PhoneNumber: this.PHONE_NUMBER,
-    DateOfBirth: this.DATE_OF_BIRTH,
-    Relationship: this.RELATIONSHIP,
-    JourneyAssistance: this.JOURNEY_ASSISTANCE,
-    RequireBenefitUpload: this.REQURE_BENEFIT_UPLOAD,
-    Benefit: this.BENEFIT
-  }
+  return new AboutYou(
+    this.DATE_OF_BIRTH,
+    this.RELATIONSHIP,
+    this.BENEFIT,
+    this.TITLE,
+    this.FIRST_NAME,
+    this.LAST_NAME,
+    this.NATIONAL_INSURANCE_NUMBER,
+    this.HOUSE_NUMBER_AND_STREET,
+    this.TOWN,
+    this.COUNTY,
+    this.POST_CODE,
+    this.COUNTRY,
+    this.EMAIL_ADDRESS,
+    this.PHONE_NUMBER)
 }
 
 module.exports.insert = function (reference) {
