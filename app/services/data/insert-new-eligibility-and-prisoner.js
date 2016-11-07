@@ -2,10 +2,9 @@ const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const referenceGenerator = require('../reference-generator')
-const dateFormatter = require('../date-formatter')
 const moment = require('moment')
 
-module.exports = function (prisonerData) {
+module.exports = function (aboutThePrisoner) {
   var reference = referenceGenerator.generate()
 
   return knex('Eligibility')
@@ -27,17 +26,13 @@ module.exports = function (prisonerData) {
       })
         .into('Eligibility')
         .then(function () {
-          var dateOfBirth = dateFormatter
-            .build(prisonerData[ 'dob-day' ], prisonerData[ 'dob-month' ], prisonerData[ 'dob-year' ])
-            .toDate()
-
           return knex.insert({
             Reference: uniqueReference,
-            FirstName: prisonerData.FirstName.trim(),
-            LastName: prisonerData.LastName.trim(),
-            DateOfBirth: dateOfBirth,
-            PrisonNumber: prisonerData.PrisonerNumber.replace(/ /g, '').toUpperCase(),
-            NameOfPrison: prisonerData.NameOfPrison.trim()
+            FirstName: aboutThePrisoner.firstName,
+            LastName: aboutThePrisoner.lastName,
+            DateOfBirth: aboutThePrisoner.dob,
+            PrisonNumber: aboutThePrisoner.prisonerNumber,
+            NameOfPrison: aboutThePrisoner.nameOfPrison
           })
             .into('Prisoner')
             .then(function () {
