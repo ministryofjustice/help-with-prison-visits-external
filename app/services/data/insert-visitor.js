@@ -1,10 +1,17 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
-const moment = require('moment')
 const benefitsEnum = require('../../constants/benefits-enum')
+const dateFormatter = require('../date-formatter')
 
 module.exports = function (reference, visitorData) {
-  var dateOfBirth = moment(visitorData.DateOfBirth).toDate()
+  var dateOfBirth = dateFormatter
+    .build(
+      visitorData.DateOfBirth.day,
+      visitorData.DateOfBirth.month,
+      visitorData.DateOfBirth.year
+    )
+    .toDate()
+
   var requireBenefitUpload = true
 
   if (benefitsEnum[visitorData.Benefit]) {

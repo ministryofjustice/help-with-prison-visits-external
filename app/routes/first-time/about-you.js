@@ -13,11 +13,15 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/:dob/:relationship/:benefit/:reference', function (req, res) {
+  router.post('/first-time/:dobDay-:dobMonth-:dobYear/:relationship/:benefit/:reference', function (req, res) {
     UrlPathValidator(req.params)
 
     var validationErrors = aboutYouValidator(req.body)
-    var dob = req.params.dob
+    var dob = {
+      day: req.params.dobDay,
+      month: req.params.dobMonth,
+      year: req.params.dobYear
+    }
     var relationship = req.params.relationship
     var benefit = req.params.benefit
     var reference = req.params.reference
