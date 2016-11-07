@@ -10,17 +10,13 @@ var routes = [
   require('./application-submitted'),
 
   // First Time Flow.
-  // TODO refactor route to start from /first-time/new-eligibility/
-  require('./first-time/date-of-birth.js'),
-  require('./first-time/prisoner-relationship'),
-  require('./first-time/benefits'),
-  require('./first-time/about-the-prisoner.js'),
-  // TODO refactor route to start from /first-time/eligibility/:reference with additional values in query string
-  require('./first-time/about-you.js'),
-  // TODO refactor route to start from /first-time/eligibility/:reference/new-claim
+  require('./first-time/new-eligibility/date-of-birth.js'),
+  require('./first-time/new-eligibility/prisoner-relationship'),
+  require('./first-time/new-eligibility/benefits'),
+  require('./first-time/new-eligibility/about-the-prisoner.js'),
+  require('./first-time/new-eligibility/about-you.js'),
   require('./first-time/eligibility/new-claim/future-or-past-visit.js'),
   require('./first-time/eligibility/new-claim/journey-information.js'),
-  // TODO all routes after this /first-time/eligibility/:reference/claim/:claimId
   require('./first-time/eligibility/claim/expenses'),
   require('./first-time/eligibility/claim/bank-account-details'),
 
@@ -35,7 +31,7 @@ var routes = [
   require('./first-time/eligibility/claim/light-refreshment-details'),
   require('./first-time/eligibility/claim/accommodation-details'),
 
-  // Claim summary
+  // Claim Summary
   require('./first-time/eligibility/claim/claim-summary'),
 
   // Health check routes

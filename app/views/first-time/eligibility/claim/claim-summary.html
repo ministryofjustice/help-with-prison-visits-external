@@ -1,106 +1,115 @@
-{% extends "includes/layout.html" %} {% block page_title %} {% if serviceName %} {{ serviceName }} {% endif %} {% endblock
-%} {% block content %}
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
 
 <main id="content" role="main">
 
-	{% include "includes/phase_banner_beta.html" %}
+  {% include "includes/phase_banner_beta.html" %}
 
-	<h2 class="heading-large">
-		Your claim details
-	</h2>
+  <h2 class="heading-large">
+    Your claim details
+  </h2>
 
-	<p>Please add the relevant documentation associated with your claim.</p>
+  <p>Please add the relevant documentation associated with your claim.</p>
 
-	<table class="col-2">
-		<tr>
-			<td>Visitor</td>
-			<td>{{ claimDetails.claim['FirstName'] }} {{ claimDetails.claim['LastName'] }}</td>
-		</tr>
+  <table class="col-2">
+    <tr>
+      <td>Visitor</td>
+      <td>{{ claimDetails.claim['FirstName'] }} {{ claimDetails.claim['LastName'] }}</td>
+    </tr>
 
-		<tr>
-			<td>Benefit information</td>
-			<td>
+    <tr>
+      <td>Benefit information</td>
+      <td>
         {{ benefitsEnum[claimDetails.claim['Benefit']].displayName }}
-			</td>
-		</tr>
+      </td>
+    </tr>
 
-	</table>
+  </table>
 
-	<h2 class="heading-medium">Your visit</h2>
+  <h2 class="heading-medium">Your visit</h2>
 
-	<table class="col-2">
+  <table class="col-2">
 
-		<!-- TODO: Pull data from database -->
+    <tr>
+      <td>Prisoner name</td>
+      <td>{{ claimDetails.claim['PrisonerFirstName']}} {{ claimDetails.claim['PrisonerLastName'] }}</td>
+    </tr>
 
-		<tr>
-			<td>Prisoner name</td>
-			<td>{{ claimDetails.claim['PrisonerFirstName']}} {{ claimDetails.claim['PrisonerLastName'] }}</td>
-		</tr>
+    <tr>
+      <td>Prisoner number</td>
+      <td>{{ claimDetails.claim['PrisonNumber'] }}</td>
+    </tr>
 
-		<tr>
-			<td>Prisoner number</td>
-			<td>{{ claimDetails.claim['PrisonNumber'] }}</td>
-		</tr>
+    <tr>
+      <td>Prison</td>
+      <td>{{ claimDetails.claim['NameOfPrison'] }}</td>
+    </tr>
 
-		<tr>
-			<td>Prison</td>
-			<td>{{ claimDetails.claim['NameOfPrison'] }}</td>
-		</tr>
+    <tr>
+      <td>Date of visit</td>
+      <td>{{ dateHelper(claimDetails.claim['DateOfJourney']) }}</td>
+    </tr>
 
-		<tr>
-			<td>Date of visit</td>
-			<td>{{ dateHelper(claimDetails.claim['DateOfJourney']) }}</td>
-		</tr>
+    <tr>
+      <td>Visit confirmation</td>
+      <td>
+        <span class="text-warning">Visit confirmation required</span>
+      </td>
+    </tr>
 
-		<tr>
-			<td>Visit confirmation</td>
-			<td>
-				<span class="text-warning">Visit confirmation required</span>
-			</td>
-		</tr>
+  </table>
 
-	</table>
+  <br>
 
-	<br>
+  <table>
 
-	<table>
-		<thead>
-			<tr>
-				<th>Expense(s)</th>
-				<th>Amount</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for claimExpense in claimDetails.claimExpenses %}
-				<tr>
-					<td>
-						<span class="bold">{{ claimExpenseHelper.DisplayName(claimExpense) }} </span>
-						<div>{{ claimExpenseHelper.FormattedDetail(claimExpense) }}</div>
-						<form action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claimId }}/summary/remove/{{ claimExpense.ClaimExpenseId}}" method="post" class="form"><button class="link" name="remove">remove</button></form>
-					</td>
-					<td>£{{claimExpense.Cost}}</td>
-					<td><span class="text-warning">Receipt required</span></td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	<br>
-	<a href="/first-time-claim/eligibility/{{ reference }}/claim/{{ claimId }}" class="link">Add another expense</a>
+    <thead>
+    <tr>
+      <th>Expense(s)</th>
+      <th>Amount</th>
+      <th></th>
+    </tr>
+    </thead>
 
-	<br>
-	<br>
-	<br>
+    <tbody>
+    {% for claimExpense in claimDetails.claimExpenses %}
+    <tr>
+      <td>
+        <span class="bold">{{ claimExpenseHelper.DisplayName(claimExpense) }} </span>
+        <div>{{ claimExpenseHelper.FormattedDetail(claimExpense) }}</div>
+        <form
+          action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claimId }}/summary/remove/{{ claimExpense.ClaimExpenseId}}"
+          method="post" class="form">
+          <button class="link" name="remove">remove</button>
+        </form>
+      </td>
+      <td>£{{claimExpense.Cost}}</td>
+      <td><span class="text-warning">Receipt required</span></td>
+    </tr>
+    {% endfor %}
+    </tbody>
 
-	<form action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claimId }}/summary" method="post" class="form">
+  </table>
 
-		<div class="form-group">
-      <input id="claim-summary-submit" type="submit" name="commit" value="Continue" class="button">
+  <br>
+  <a href="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}" class="link">Add another expense</a>
+
+  <br>
+  <br>
+  <br>
+
+  <form action="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/summary" method="post" class="form">
+
+    <div class="form-group">
+      <input id="claim-summary-submit" type="submit" value="Continue" class="button">
     </div>
 
-	</form>
-
-	</div>
+  </form>
 
 </main>
 
