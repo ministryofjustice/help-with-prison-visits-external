@@ -22,8 +22,8 @@ module.exports = function (router) {
         req.body['date-of-journey-year']
       )
       insertFirstTimeClaim(firstTimeClaim)
-        .then(function (result) {
-          var claimId = result[0]
+        .then(function (newClaimId) {
+          var claimId = newClaimId
           return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}`)
         })
     } catch (error) {

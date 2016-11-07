@@ -14,17 +14,17 @@ var claimExpenseId = '1234'
 describe('routes/first-time/eligibility/claim/claim-summary', function () {
   var request
   var urlValidatorCalled
-  var getIndividualClaimDetails
+  var getClaimSummary
   var removeClaimExpense
 
   beforeEach(function () {
-    getIndividualClaimDetails = sinon.stub().resolves()
+    getClaimSummary = sinon.stub().resolves()
     removeClaimExpense = sinon.stub().resolves()
 
     var route = proxyquire(
       '../../../../../../app/routes/first-time/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
-        '../../../../services/data/get-individual-claim-details': getIndividualClaimDetails,
+        '../../../../services/data/get-claim-summary': getClaimSummary,
         '../../../../services/data/remove-claim-expense': removeClaimExpense
       })
 
@@ -44,7 +44,7 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(getIndividualClaimDetails.calledWith(claimId)).to.be.true
+          expect(getClaimSummary.calledWith(claimId)).to.be.true
           done()
         })
     })

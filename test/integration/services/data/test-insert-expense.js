@@ -6,21 +6,25 @@ const expenseHelper = require('../../../helpers/data/expense-helper')
 
 describe('services/data/insert-expense', function () {
   const REFERENCE = 'V123467'
+  var claimId
 
   before(function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
       .then(function () {
         return claimHelper.insert(REFERENCE)
+          .then(function (newClaimId) {
+            claimId = newClaimId
+          })
       })
   })
 
   it('should insert a new expense', function () {
-    return insertExpense(expenseHelper.build(claimHelper.CLAIM_ID))
+    return insertExpense(expenseHelper.build(claimId))
       .then(function () {
-        return expenseHelper.get(claimHelper.CLAIM_ID)
+        return expenseHelper.get(claimId)
       })
       .then(function (expense) {
-        expect(expense.ClaimId).to.equal(claimHelper.CLAIM_ID)
+        expect(expense.ClaimId).to.equal(claimId)
         expect(expense.ExpenseType.toString()).to.equal(expenseHelper.EXPENSE_TYPE)
         expect(expense.Cost.toString()).to.equal(expenseHelper.COST)
         expect(expense.TravelTime).to.equal(expenseHelper.TRAVEL_TIME)
@@ -39,9 +43,9 @@ describe('services/data/insert-expense', function () {
   })
 
   after(function () {
-    return expenseHelper.delete(claimHelper.CLAIM_ID)
+    return expenseHelper.delete(claimId)
       .then(function () {
-        return claimHelper.delete(claimHelper.CLAIM_ID)
+        return claimHelper.delete(claimId)
       })
       .then(function () {
         return eligiblityHelper.deleteEligibilityVisitorAndPrisoner(REFERENCE)

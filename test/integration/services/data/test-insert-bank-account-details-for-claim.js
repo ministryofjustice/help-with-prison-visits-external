@@ -6,18 +6,22 @@ const bankHelper = require('../../../helpers/data/bank-helper')
 
 describe('services/data/insert-bank-account-details-for-claim', function () {
   const REFERENCE = 'V123456'
+  var claimId
 
   before(function () {
     return eligiblityHelper.insert(REFERENCE)
       .then(function () {
         return claimHelper.insert(REFERENCE)
+          .then(function (newClaimId) {
+            claimId = newClaimId
+          })
       })
   })
 
   it('should insert a new Bank Details record for a claim', function () {
-    return insertBankAccountDetailsForClaim(claimHelper.CLAIM_ID, bankHelper.build())
+    return insertBankAccountDetailsForClaim(claimId, bankHelper.build())
       .then(function () {
-        return bankHelper.get(claimHelper.CLAIM_ID)
+        return bankHelper.get(claimId)
       })
       .then(function (bank) {
         expect(bank.AccountNumber).to.equal(bankHelper.ACCOUNT_NUMBER)
@@ -27,14 +31,14 @@ describe('services/data/insert-bank-account-details-for-claim', function () {
 
   it('should throw error if called with incorrect domain object type', function () {
     expect(function () {
-      insertBankAccountDetailsForClaim(claimHelper.CLAIM_ID, {})
+      insertBankAccountDetailsForClaim(claimId, {})
     }).to.throw(Error)
   })
 
   after(function () {
-    return bankHelper.delete(claimHelper.CLAIM_ID)
+    return bankHelper.delete(claimId)
       .then(function () {
-        return claimHelper.delete(claimHelper.CLAIM_ID)
+        return claimHelper.delete(claimId)
       })
       .then(function () {
         return eligiblityHelper.delete(REFERENCE)

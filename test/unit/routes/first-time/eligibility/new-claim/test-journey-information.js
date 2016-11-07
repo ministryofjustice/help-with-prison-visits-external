@@ -59,7 +59,7 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
     it('should redirect to /first-time-claim/eligibility/:reference/claim/:claimId', function (done) {
       var newClaim = {}
       stubClaim.returns(newClaim)
-      stubInsertClaim.resolves([123])
+      stubInsertClaim.resolves(claimId)
       request
         .post(`/first-time/eligibility/${reference}/new-claim/past`)
         .send(VALID_DATA)

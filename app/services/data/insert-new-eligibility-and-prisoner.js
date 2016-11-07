@@ -5,8 +5,7 @@ const referenceGenerator = require('../reference-generator')
 const dateFormatter = require('../date-formatter')
 const moment = require('moment')
 
-// TODO rename file insert-new-eligibility-and-prisoner and change module to expose single function
-module.exports.insertNewEligibilityAndPrisoner = function (prisonerData) {
+module.exports = function (prisonerData) {
   var reference = referenceGenerator.generate()
 
   return knex('Eligibility')
