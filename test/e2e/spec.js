@@ -42,7 +42,6 @@ describe('First time claim flow', () => {
 
       // About you
       .waitForExist('#about-you-submit')
-.debug()
       .setValue('#title-input', 'Mr')
       .setValue('#first-name-input', 'Joe')
       .setValue('#last-name-input', 'Bloggs')
