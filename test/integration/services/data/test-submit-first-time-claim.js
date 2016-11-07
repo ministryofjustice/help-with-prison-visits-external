@@ -24,14 +24,14 @@ describe('services/data/submit-first-time-claim', function () {
     return knex('ExtSchema.Eligibility').insert({
       Reference: reference,
       DateCreated: moment().toDate(),
-      Status: 'TEST'
+      Status: eligibilityStatusEnum.IN_PROGRESS
     })
     .then(function () {
       return knex('ExtSchema.Claim').insert({
         Reference: reference,
         DateOfJourney: moment().toDate(),
         DateCreated: moment().toDate(),
-        Status: 'TEST'
+        Status: claimStatusEnum.IN_PROGRESS
       })
       .returning('ClaimId')
       .then(function (result) {
@@ -43,7 +43,7 @@ describe('services/data/submit-first-time-claim', function () {
   it('should update Eligibility and Claim status and DateSubmitted then call insertTaskSendFirstTimeClaimNotification', function () {
     var currentDate = new Date()
 
-    submitFirstTimeClaim(reference, claimId)
+    return submitFirstTimeClaim(reference, claimId)
       .then(function () {
         knex.first().from('ExtSchema.Eligibility').where('Reference', reference)
           .then(function (eligibility) {
@@ -59,6 +59,13 @@ describe('services/data/submit-first-time-claim', function () {
                 expect(stubInsertTaskSendFirstTimeClaimNotification.calledWith(reference, claimId)).to.be.true
               })
           })
+      })
+  })
+
+  it('should throw an error if no valid claim', function () {
+    return submitFirstTimeClaim('NONE123', 123456)
+      .catch(function (error) {
+        expect(error.message).to.contain('Could not find Claim')
       })
   })
 

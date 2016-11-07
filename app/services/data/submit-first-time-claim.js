@@ -10,10 +10,19 @@ const claimStatusEnum = require('../../constants/claim-status-enum')
 module.exports = function (reference, claimId) {
   var dateSubmitted = moment().toDate()
 
-  return Promise.all([updateEligibility(reference, dateSubmitted),
-                      updateClaim(claimId, dateSubmitted),
-                      insertTaskCompleteFirstTimeClaim(reference, claimId),
-                      insertTaskSendFirstTimeClaimNotification(reference, claimId)])
+  return knex('Claim')
+    .where({'Reference': reference, 'ClaimId': claimId, 'Status': claimStatusEnum.IN_PROGRESS})
+    .first('ClaimId')
+    .then(function (result) {
+      if (!result) {
+        throw new Error(`Could not find Claim reference: ${reference} - claimId: ${claimId} - status: IN-PROGRESS`)
+      }
+
+      return Promise.all([updateEligibility(reference, dateSubmitted),
+                          updateClaim(claimId, dateSubmitted),
+                          insertTaskCompleteFirstTimeClaim(reference, claimId),
+                          insertTaskSendFirstTimeClaimNotification(reference, claimId)])
+    })
 }
 
 function updateEligibility (reference, dateSubmitted) {
