@@ -33,7 +33,7 @@ describe('routes/first-time/new-eligibility/about-you', function () {
     urlValidatorCalled = false
   })
 
-  describe('GET /first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function () {
+  describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200 for valid path parameters', function (done) {
       request
         .get(ROUTE)
@@ -46,7 +46,7 @@ describe('routes/first-time/new-eligibility/about-you', function () {
     })
   })
 
-  describe('POST /first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function () {
+  describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to /application-submitted/:reference for valid data', function (done) {
       stubInsertVisitor.resolves()
       stubAboutYouValidator.returns(false)

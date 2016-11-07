@@ -45,7 +45,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
     urlValidatorCalled = false
   })
 
-  describe('GET /first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function () {
+  describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200', function (done) {
       request
         .get(ROUTE)
@@ -58,7 +58,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
     })
   })
 
-  describe('POST /first-time-claim/eligibility/:reference/claim/:claimId/bank-account-details', function () {
+  describe(`POST ${ROUTE}`, function () {
     it('should respond with a 302', function (done) {
       var newBankAccountDetails = {}
       stubBankAccountDetails.returns(newBankAccountDetails)

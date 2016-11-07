@@ -30,7 +30,7 @@ describe('routes/first-time/new-eligibility/prisoner-relationship', function () 
     validationErrors = false
   })
 
-  describe('GET /first-time/new-eligibility/:dob', function () {
+  describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200', function (done) {
       request
         .get(`${ROUTE}/${dob}`)
@@ -39,7 +39,7 @@ describe('routes/first-time/new-eligibility/prisoner-relationship', function () 
     })
   })
 
-  describe('POST /first-time/new-eligibility/:dob', function () {
+  describe(`POST ${ROUTE}`, function () {
     it('should respond with a 302', function (done) {
       request
         .post(`${ROUTE}/${dob}`)

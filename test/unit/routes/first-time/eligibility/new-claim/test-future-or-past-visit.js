@@ -23,7 +23,7 @@ describe('routes/first-time/eligibility/new-claim/future-or-past-visit', functio
     urlValidatorCalled = false
   })
 
-  describe('GET /first-time/eligibility/:reference/new-claim', function () {
+  describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200', function (done) {
       request
         .get(ROUTE)
@@ -36,7 +36,7 @@ describe('routes/first-time/eligibility/new-claim/future-or-past-visit', functio
     })
   })
 
-  describe('POST /first-time/eligibility/:reference/new-claim', function () {
+  describe(`POST ${ROUTE}`, function () {
     it('should redirect to /first-time/eligibility/:reference/new-claim/past', function (done) {
       request
         .post(ROUTE)

@@ -29,7 +29,7 @@ describe('routes/first-time/new-eligibility/benefits', function () {
     urlValidatorCalled = false
   })
 
-  describe('GET /first-time/new-eligibility/:dob/:relationship', function () {
+  describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200', function (done) {
       request
         .get(ROUTE)
@@ -41,7 +41,7 @@ describe('routes/first-time/new-eligibility/benefits', function () {
     })
   })
 
-  describe('POST /first-time/new-eligibility/:dob/:relationship', function () {
+  describe(`POST ${ROUTE}`, function () {
     it('should respond with a 302', function (done) {
       request
         .post(ROUTE)
