@@ -14,14 +14,14 @@ describe('services/data/insert-first-time-claim', function () {
 
   it('should insert a new Claim record', function () {
     return insertFirstTimeClaim(claimHelper.build(REFERENCE))
-      .then(function (insertResult) {
-        claimId = insertResult[0]
+      .then(function (newClaimId) {
+        claimId = newClaimId
         return claimHelper.get(claimId)
       })
       .then(function (claim) {
         expect(claim.DateOfJourney).to.be.within(
-          moment(claimHelper.DATE_OF_JOURNEY_FORMATTED).subtract(1, 'seconds').toDate(),
-          moment(claimHelper.DATE_OF_JOURNEY_FORMATTED).add(1, 'seconds').toDate()
+          moment(claimHelper.DATE_OF_JOURNEY).subtract(1, 'seconds').toDate(),
+          moment(claimHelper.DATE_OF_JOURNEY).add(1, 'seconds').toDate()
         )
         expect(claim.DateSubmitted).to.be.equal(null)
         expect(claim.Status).to.equal(claimHelper.STATUS)

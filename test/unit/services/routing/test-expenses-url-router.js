@@ -41,7 +41,7 @@ describe('services/routing/expenses-url-router', function () {
         claimId: CLAIM_ID
       }
     }
-    const VALID_REQUEST_OUTPUT = `/first-time-claim/eligibility/${REFERENCE}/claim/${CLAIM_ID}/${VALID_PARAM_ONE}?${VALID_PARAM_TWO}=`
+    const VALID_REQUEST_OUTPUT = `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}/${VALID_PARAM_ONE}?${VALID_PARAM_TWO}=`
 
     it('should throw an error if req is invalid', function (done) {
       expect(function () {

@@ -1,12 +1,13 @@
-const AboutYou = require('../../services/domain/about-you')
-const UrlPathValidator = require('../../services/validators/url-path-validator')
-const ValidationError = require('../../services/errors/validation-error')
-const insertVisitor = require('../../services/data/insert-visitor')
+const AboutYou = require('../../../services/domain/about-you')
+const ValidationError = require('../../../services/errors/validation-error')
+const UrlPathValidator = require('../../../services/validators/url-path-validator')
+const insertVisitor = require('../../../services/data/insert-visitor')
 
 module.exports = function (router) {
-  router.get('/first-time/:dob/:relationship/:benefit/:reference', function (req, res) {
+  router.get('/first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function (req, res) {
     UrlPathValidator(req.params)
-    return res.render('first-time/about-you', {
+
+    return res.render('first-time/new-eligibility/about-you', {
       dob: req.params.dob,
       relationship: req.params.relationship,
       benefit: req.params.benefit,
@@ -14,7 +15,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/:dob/:relationship/:benefit/:reference', function (req, res) {
+  router.post('/first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function (req, res) {
     UrlPathValidator(req.params)
 
     var dob = req.params.dob
@@ -39,11 +40,11 @@ module.exports = function (router) {
 
       insertVisitor(req.params.reference, aboutYou)
       .then(function () {
-        return res.redirect(`/first-time-claim/eligibility/${req.params.reference}/new-claim`)
+        return res.redirect(`/first-time/eligibility/${req.params.reference}/new-claim`)
       })
     } catch (error) {
       if (error instanceof ValidationError) {
-        return res.status(400).render('first-time/about-you', {
+        return res.status(400).render('first-time/new-eligibility/about-you', {
           dob: dob,
           relationship: relationship,
           benefit: benefit,

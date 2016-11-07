@@ -1,17 +1,17 @@
-const DateOfBirthValidator = require('../../services/validators/eligibility/date-of-birth-validator')
-const dateFormatter = require('../../services/date-formatter')
+const DateOfBirthValidator = require('../../../services/validators/eligibility/date-of-birth-validator')
+const dateFormatter = require('../../../services/date-formatter')
 const moment = require('moment')
 
 module.exports = function (router) {
-  router.get('/first-time', function (req, res) {
-    return res.render('first-time/date-of-birth')
+  router.get('/first-time/new-eligibility/', function (req, res) {
+    return res.render('first-time/new-eligibility/date-of-birth')
   })
 
-  router.post('/first-time', function (req, res) {
+  router.post('/first-time/new-eligibility/', function (req, res) {
     var validationErrors = DateOfBirthValidator(req.body)
 
     if (validationErrors) {
-      return res.status(400).render('first-time/date-of-birth', {
+      return res.status(400).render('first-time/new-eligibility/date-of-birth', {
         claimant: req.body,
         errors: validationErrors })
     }
@@ -21,7 +21,7 @@ module.exports = function (router) {
     if (isSixteenOrUnder(dobAsDateAndFormattedString.date)) {
       return res.redirect('/eligibility-fail')
     } else {
-      return res.redirect(`/first-time/${dobAsDateAndFormattedString.formattedString}`)
+      return res.redirect(`/first-time/new-eligibility/${dobAsDateAndFormattedString.formattedString}`)
     }
   })
 }

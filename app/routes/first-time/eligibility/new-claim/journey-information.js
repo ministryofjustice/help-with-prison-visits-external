@@ -4,14 +4,14 @@ const FirstTimeClaim = require('../../../../services/domain/first-time-claim')
 const insertFirstTimeClaim = require('../../../../services/data/insert-first-time-claim')
 
 module.exports = function (router) {
-  router.get('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
+  router.get('/first-time/eligibility/:reference/new-claim/past', function (req, res) {
     UrlPathValidator(req.params)
     return res.render('first-time/eligibility/new-claim/journey-information', {
       reference: req.params.reference
     })
   })
 
-  router.post('/first-time-claim/eligibility/:reference/new-claim/past', function (req, res) {
+  router.post('/first-time/eligibility/:reference/new-claim/past', function (req, res) {
     UrlPathValidator(req.params)
 
     try {
@@ -22,9 +22,9 @@ module.exports = function (router) {
         req.body['date-of-journey-year']
       )
       insertFirstTimeClaim(firstTimeClaim)
-        .then(function (result) {
-          var claimId = result[0]
-          return res.redirect(`/first-time-claim/eligibility/${req.params.reference}/claim/${claimId}`)
+        .then(function (newClaimId) {
+          var claimId = newClaimId
+          return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}`)
         })
     } catch (error) {
       if (error instanceof ValidationError) {

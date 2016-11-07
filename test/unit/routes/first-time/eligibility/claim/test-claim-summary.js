@@ -14,17 +14,17 @@ var claimExpenseId = '1234'
 describe('routes/first-time/eligibility/claim/claim-summary', function () {
   var request
   var urlValidatorCalled
-  var getIndividualClaimDetails
+  var getClaimSummary
   var removeClaimExpense
 
   beforeEach(function () {
-    getIndividualClaimDetails = sinon.stub().resolves()
+    getClaimSummary = sinon.stub().resolves()
     removeClaimExpense = sinon.stub().resolves()
 
     var route = proxyquire(
       '../../../../../../app/routes/first-time/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
-        '../../../../services/data/get-individual-claim-details': getIndividualClaimDetails,
+        '../../../../services/data/get-claim-summary': getClaimSummary,
         '../../../../services/data/remove-claim-expense': removeClaimExpense
       })
 
@@ -36,44 +36,44 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
     urlValidatorCalled = false
   })
 
-  describe('GET /first-time-claim/eligibility/:reference/claim/:claimId/summary', function () {
+  describe('GET /first-time/eligibility/:reference/claim/:claimId/summary', function () {
     it('should respond with a 200', function (done) {
       request
-        .get(`/first-time-claim/eligibility/${reference}/claim/${claimId}/summary`)
+        .get(`/first-time/eligibility/${reference}/claim/${claimId}/summary`)
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(getIndividualClaimDetails.calledWith(claimId)).to.be.true
+          expect(getClaimSummary.calledWith(claimId)).to.be.true
           done()
         })
     })
   })
 
-  describe('POST /first-time-claim/eligibility/:reference/claim/:claimId/summary', function () {
+  describe('POST /first-time/eligibility/:reference/claim/:claimId/summary', function () {
     it('should respond with a 302', function (done) {
       request
-        .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/summary`)
+        .post(`/first-time/eligibility/${reference}/claim/${claimId}/summary`)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(response.headers['location']).to.be.equal(`/first-time-claim/eligibility/${reference}/claim/${claimId}/bank-account-details`)
+          expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${reference}/claim/${claimId}/bank-account-details`)
           done()
         })
     })
   })
 
-  describe('POST /first-time-claim/eligibility/:reference/claim/:claimId/summary/remove/:claimExpenseId', function () {
+  describe('POST /first-time/eligibility/:reference/claim/:claimId/summary/remove/:claimExpenseId', function () {
     it('should respond with a 302 and call removeClaimExpense', function (done) {
       request
-        .post(`/first-time-claim/eligibility/${reference}/claim/${claimId}/summary/remove/${claimExpenseId}`)
+        .post(`/first-time/eligibility/${reference}/claim/${claimId}/summary/remove/${claimExpenseId}`)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(removeClaimExpense.calledWith(claimId, claimExpenseId)).to.be.true
-          expect(response.headers['location']).to.be.equal(`/first-time-claim/eligibility/${reference}/claim/${claimId}/summary`)
+          expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${reference}/claim/${claimId}/summary`)
           done()
         })
     })

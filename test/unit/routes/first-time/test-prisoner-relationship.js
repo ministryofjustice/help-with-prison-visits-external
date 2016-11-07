@@ -8,11 +8,13 @@ const dateFormatter = require('../../../../app/services/date-formatter')
 var validationErrors
 
 var route = proxyquire(
-  '../../../../app/routes/first-time/prisoner-relationship', {
-    '../../services/validators/eligibility/prisoner-relationship-validator': function () { return validationErrors }
+  '../../../../app/routes/first-time/new-eligibility/prisoner-relationship', {
+    '../../../services/validators/eligibility/prisoner-relationship-validator': function () { return validationErrors }
   })
 
-describe('routes/first-time/prisoner-relationship', function () {
+describe('routes/first-time/new-eligibility/prisoner-relationship', function () {
+  const ROUTE = '/first-time/new-eligibility'
+
   var request
   var dobDay = '01'
   var dobMonth = '05'
@@ -28,19 +30,19 @@ describe('routes/first-time/prisoner-relationship', function () {
     validationErrors = false
   })
 
-  describe('GET /first-time/:dob', function () {
+  describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200', function (done) {
       request
-        .get('/first-time/' + dob)
+        .get(`${ROUTE}/${dob}`)
         .expect(200)
         .end(done)
     })
   })
 
-  describe('POST /first-time/:dob', function () {
+  describe(`POST ${ROUTE}`, function () {
     it('should respond with a 302', function (done) {
       request
-        .post('/first-time/' + dob)
+        .post(`${ROUTE}/${dob}`)
         .expect(302)
         .end(done)
     })
@@ -48,14 +50,14 @@ describe('routes/first-time/prisoner-relationship', function () {
     it('should respond with a 400 if validation fails', function (done) {
       validationErrors = { 'relationship': [] }
       request
-        .post('/first-time/' + dob)
+        .post(`${ROUTE}/${dob}`)
         .expect(400)
         .end(done)
     })
 
     it('should redirect to eligibility-fail page if relationship is None of the above', function (done) {
       request
-        .post('/first-time/' + dob)
+        .post(`${ROUTE}/${dob}`)
         .send({
           relationship: 'none'
         })
@@ -67,11 +69,11 @@ describe('routes/first-time/prisoner-relationship', function () {
       var relationship = 'not-none-of-the-above'
 
       request
-        .post('/first-time/' + dob)
+        .post(`${ROUTE}/${dob}`)
         .send({
           relationship: relationship
         })
-        .expect('location', '/first-time/' + dob + '/' + relationship)
+        .expect('location', `${ROUTE}/${dob}/${relationship}`)
         .end(done)
     })
   })
