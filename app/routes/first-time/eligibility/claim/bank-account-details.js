@@ -23,9 +23,6 @@ module.exports = function (router) {
             .then(function () {
               return res.redirect(`/application-submitted/${req.params.reference}`)
             })
-            .catch(function (error) {
-              next(error)
-            })
         })
         .catch(function (error) {
           next(error)
