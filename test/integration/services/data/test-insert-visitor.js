@@ -40,9 +40,9 @@ describe('services/data/insert-visitor', function () {
   })
 
   it('should handle daylight saving time when storing Visitor DOB', function () {
-    var visitorInserted = visitorHelper.build()
-    visitorInserted.dob = dateFormatter.buildFromDateString('1990-10-12')
     var dateExpected = dateFormatter.buildFromDateString('1990-10-12')
+    var visitorInserted = visitorHelper.build()
+    visitorInserted.dob = dateExpected
 
     return insertVisitor(REFERENCE, visitorInserted)
       .then(function () {
