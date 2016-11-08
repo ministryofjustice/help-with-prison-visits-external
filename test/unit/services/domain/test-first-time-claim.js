@@ -2,14 +2,13 @@ const FirstTimeClaim = require('../../../../app/services/domain/first-time-claim
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const dateFormatter = require('../../../../app/services/date-formatter')
 const expect = require('chai').expect
-const moment = require('moment')
 var claim
 
 describe('services/domain/first-time-claim', function () {
   const VALID_REFERENCE = 'APVS123'
-  const VALID_DAY = moment().date()
-  const VALID_MONTH = moment().month() + 1 // Needed for zero indexed month
-  const VALID_YEAR = moment().year()
+  const VALID_DAY = dateFormatter.now().date()
+  const VALID_MONTH = dateFormatter.now().month() + 1 // Needed for zero indexed month
+  const VALID_YEAR = dateFormatter.now().year()
   var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
 
   it('should construct a domain object given valid input', function () {
@@ -52,7 +51,7 @@ describe('services/domain/first-time-claim', function () {
 
   it('should return isValidDate error given a date in the future', function () {
     try {
-      var futureDate = moment().add(1)
+      var futureDate = dateFormatter.now().add(1)
       claim = new FirstTimeClaim(
         VALID_REFERENCE,
         futureDate.date(),
@@ -67,7 +66,7 @@ describe('services/domain/first-time-claim', function () {
 
   it('should return isDateWithinDays error given a date more than 28 days away', function () {
     try {
-      var dateFurtherThan28Days = moment().subtract(29)
+      var dateFurtherThan28Days = dateFormatter.now().subtract(29)
       claim = new FirstTimeClaim(
         VALID_REFERENCE,
         dateFurtherThan28Days.date(),

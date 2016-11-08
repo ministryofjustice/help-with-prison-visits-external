@@ -1,6 +1,5 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
-const moment = require('moment')
 const AboutYou = require('../domain/about-you')
 
 module.exports = function (reference, aboutYou) {
@@ -8,7 +7,7 @@ module.exports = function (reference, aboutYou) {
     throw new Error('Provided aboutYou object is not an instance of the expected class')
   }
 
-  var dateOfBirth = moment(aboutYou.dob).toDate()
+  var dateOfBirth = aboutYou.dob.toDate()
 
   return knex('Visitor').insert({
     Reference: reference,

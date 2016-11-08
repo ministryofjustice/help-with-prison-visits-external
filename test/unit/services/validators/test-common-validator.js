@@ -1,6 +1,6 @@
 const expect = require('chai').expect
 const validator = require('../../../../app/services/validators/common-validator')
-const moment = require('moment')
+const dateFormatter = require('../../../../app/services/date-formatter')
 
 describe('services/validators/common-validator', function () {
   const ALPHA_STRING = 'alpha'
@@ -205,42 +205,42 @@ describe('services/validators/common-validator', function () {
     })
   })
 
-  describe('isDateValid', function () {
+  describe('isValidDate', function () {
     it('should return false if passed null', function (done) {
-      var result = validator.isDateValid(null)
+      var result = validator.isValidDate(null)
       expect(result).to.equal(false)
       done()
     })
 
     it('should return false if passed undefined', function (done) {
-      var result = validator.isDateValid(undefined)
+      var result = validator.isValidDate(undefined)
       expect(result).to.equal(false)
       done()
     })
 
     it('should return false if passed an object', function (done) {
-      var result = validator.isDateValid({})
+      var result = validator.isValidDate({})
       expect(result).to.equal(false)
       done()
     })
 
     it('should return true if passed a valid Date object', function (done) {
-      var result = validator.isDateValid(moment())
+      var result = validator.isValidDate(dateFormatter.now())
       expect(result).to.equal(true)
       done()
     })
 
     it('should return false if passed a Date more than 120 years ago', function (done) {
       var numYearsToSubtract = 130
-      var result = validator.isDateValid(moment().subtract(numYearsToSubtract, 'years'))
+      var result = validator.isValidDate(dateFormatter.now().subtract(numYearsToSubtract, 'years'))
       expect(result).to.equal(false)
       done()
     })
   })
 
   describe('isDateInThePast', function () {
-    const PAST_DATE = moment().subtract(1, 'day')
-    const FUTURE_DATE = moment().add(1, 'day')
+    const PAST_DATE = dateFormatter.now().subtract(1, 'day')
+    const FUTURE_DATE = dateFormatter.now().add(1, 'day')
 
     it('should return false if passed null', function (done) {
       var result = validator.isDateInThePast(null)
@@ -275,8 +275,8 @@ describe('services/validators/common-validator', function () {
 
   describe('isDateWithinDays', function () {
     const DAYS = 28
-    const DATE_WITHIN_28_DAYS = moment().subtract(1, 'day')
-    const DATE_OUTSIDE_28_DAYS = moment().subtract(29, 'day')
+    const DATE_WITHIN_28_DAYS = dateFormatter.now().subtract(1, 'day')
+    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().subtract(29, 'day')
 
     it('should return false if passed null', function (done) {
       var result = validator.isDateInThePast(null)
@@ -558,37 +558,56 @@ describe('services/validators/common-validator', function () {
   })
 
   describe('isValidDateOfBirth', function () {
-    const PAST_DATE = moment().subtract(1, 'day')
-    const FUTURE_DATE = moment().add(1, 'day')
+    const VALID_PAST_DATE = '1990-10-21'
+    const INVALID_MONTH = '1990-21-10'
+    const INVALID_YEAR = '21-10-1990'
+    const INVALID_LENGTH = '1990-10-111'
+    const FUTURE_DATE = '3000-10-21'
+    const NON_NUMERIC_DATE = '1990-10-AS'
 
-    it('should return false if passed null', function (done) {
+    it('should return false if passed null', function () {
       var result = validator.isValidDateOfBirth(null)
       expect(result).to.equal(false)
-      done()
     })
 
-    it('should return false if passed undefined', function (done) {
+    it('should return false if passed undefined', function () {
       var result = validator.isValidDateOfBirth(undefined)
       expect(result).to.equal(false)
-      done()
     })
 
-    it('should return false if passed an object', function (done) {
+    it('should return false if passed an object', function () {
       var result = validator.isValidDateOfBirth({})
       expect(result).to.equal(false)
-      done()
     })
 
-    it('should return true if passed a valid date of birth value', function (done) {
-      var result = validator.isValidDateOfBirth(PAST_DATE)
+    it('should return true if passed a valid past date', function () {
+      var result = validator.isValidDateOfBirth(VALID_PAST_DATE)
       expect(result).to.equal(true)
-      done()
     })
 
-    it('should return false if passed an invalid date of birth value', function (done) {
+    it('should return false if passed an invalid month', function () {
+      var result = validator.isValidDateOfBirth(INVALID_MONTH)
+      expect(result).to.equal(false)
+    })
+
+    it('should return false if passed an invalid year', function () {
+      var result = validator.isValidDateOfBirth(INVALID_YEAR)
+      expect(result).to.equal(false)
+    })
+
+    it('should return false if passed an invalid length for day', function () {
+      var result = validator.isValidDateOfBirth(INVALID_LENGTH)
+      expect(result).to.equal(false)
+    })
+
+    it('should return false if passed a future date', function () {
       var result = validator.isValidDateOfBirth(FUTURE_DATE)
       expect(result).to.equal(false)
-      done()
+    })
+
+    it('should return false if passed non-numeric values', function () {
+      var result = validator.isValidDateOfBirth(NON_NUMERIC_DATE)
+      expect(result).to.equal(false)
     })
   })
 

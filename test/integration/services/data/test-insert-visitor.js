@@ -1,8 +1,8 @@
 const expect = require('chai').expect
-const moment = require('moment')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const visitorHelper = require('../../../helpers/data/visitor-helper')
 const insertVisitor = require('../../../../app/services/data/insert-visitor')
+const dateFormatter = require('../../../../app/services/date-formatter')
 
 describe('services/data/insert-visitor', function () {
   var REFERENCE = 'V123456'
@@ -12,7 +12,8 @@ describe('services/data/insert-visitor', function () {
   })
 
   it('should insert a new Visitor for a reference', function () {
-    return insertVisitor(REFERENCE, visitorHelper.build())
+    var visitorInserted = visitorHelper.build()
+    return insertVisitor(REFERENCE, visitorInserted)
       .then(function () {
         return visitorHelper.get(REFERENCE)
       })
@@ -21,12 +22,12 @@ describe('services/data/insert-visitor', function () {
         expect(visitor.FirstName).to.equal(visitorHelper.FIRST_NAME)
         expect(visitor.LastName).to.equal(visitorHelper.LAST_NAME)
         expect(visitor.NationalInsuranceNumber).to.equal(visitorHelper.NATIONAL_INSURANCE_NUMBER)
-        expect(visitor.DateOfBirth).to.be.within(
-          moment(visitorHelper.DATE_OF_BIRTH).subtract(1, 'seconds').toDate(),
-          moment(visitorHelper.DATE_OF_BIRTH).add(1, 'seconds').toDate()
-        )
+        expect(visitor.DateOfBirth).to.deep.equal(visitorInserted.dob.toDate())
         expect(visitor.PostCode).to.equal(visitorHelper.POST_CODE)
         expect(visitor.Benefit).to.equal(visitorHelper.BENEFIT)
+      })
+      .then(function () {
+        return visitorHelper.delete(REFERENCE)
       })
   })
 
@@ -34,6 +35,20 @@ describe('services/data/insert-visitor', function () {
     return expect(function () {
       insertVisitor(REFERENCE, {})
     }).to.throw(Error)
+  })
+
+  it('should handle daylight saving time when storing Visitor DOB', function () {
+    var dateExpected = dateFormatter.buildFromDateString('1990-10-12')
+    var visitorInserted = visitorHelper.build()
+    visitorInserted.dob = dateExpected
+
+    return insertVisitor(REFERENCE, visitorInserted)
+      .then(function () {
+        return visitorHelper.get(REFERENCE)
+      })
+      .then(function (visitor) {
+        expect(visitor.DateOfBirth).to.deep.equal(dateExpected.toDate())
+      })
   })
 
   after(function () {

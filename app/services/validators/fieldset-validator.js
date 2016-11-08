@@ -28,15 +28,22 @@ class FieldsetValidator {
   }
 
   isValidDate (date) {
-    if (!validator.isDateValid(date)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getInvalidDobFormatMessage)
+    if (!validator.isValidDate(date)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getInvalidDateFormatMessage)
+    }
+    return this
+  }
+
+  isValidDateOfBirth (date) {
+    if (!validator.isValidDateOfBirth(date)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getInvalidDateFormatMessage)
     }
     return this
   }
 
   isPastDate (date) {
     if (!validator.isDateInThePast(date)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getFutureDobMessage)
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getFutureDateMessage)
     }
     return this
   }
