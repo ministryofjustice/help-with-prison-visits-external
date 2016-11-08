@@ -11,5 +11,6 @@ module.exports = {
   getDropboxIsRequired: function (displayName) { return `${displayName} is required` },
   getIsValidFormat: function (displayName) { return `${displayName} must have valid format` },
   getIsCurrency: function (displayName) { return `${displayName} must be a valid amount` },
-  getIsGreaterThan: function (displayName) { return `${displayName} must be greater than zero` }
+  getIsGreaterThan: function (displayName) { return `${displayName} must be greater than zero` },
+  getDateSetDaysAway: function (displayName, options) { return `${displayName} must be within ${options.days} days` }
 }

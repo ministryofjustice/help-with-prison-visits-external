@@ -19,7 +19,7 @@ module.exports = {
   'AccountNumber': 'Account Number',
   'SortCode': 'Sort Code',
   'Reference': 'Reference',
-  'DateOfJourney': 'Date of journey',
+  'DateOfJourney': 'Date of prison visit',
   'DateCreated': 'Date created',
   'DateSubmitted': 'Date submitted',
   'expenses': 'Expenses',

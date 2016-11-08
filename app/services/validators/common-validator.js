@@ -44,6 +44,10 @@ exports.isDateInThePast = function (date) {
          date < dateFormatter.now()
 }
 
+exports.isDateWithinDays = function (date, days) {
+  return dateFormatter.now().diff(date, 'days') <= days
+}
+
 exports.isRange = function (value, min, max) {
   return validator.isLength(value, {min: min, max: max})
 }
@@ -93,5 +97,5 @@ exports.isValidReference = function (reference) {
     return false
   }
   return reference.match(referenceNumber.IS_VALID_REGEX) !== null &&
-         this.isLength(reference, referenceNumber.VALID_LENGTH)
+    this.isLength(reference, referenceNumber.VALID_LENGTH)
 }

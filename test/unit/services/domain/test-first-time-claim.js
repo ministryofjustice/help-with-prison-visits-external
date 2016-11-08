@@ -1,4 +1,3 @@
-// TODO: Add claim details domain object
 const FirstTimeClaim = require('../../../../app/services/domain/first-time-claim')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const dateFormatter = require('../../../../app/services/date-formatter')
@@ -7,12 +6,12 @@ var claim
 
 describe('services/domain/first-time-claim', function () {
   const VALID_REFERENCE = 'APVS123'
-  const VALID_DAY = '26'
-  const VALID_MONTH = '10'
-  const VALID_YEAR = '2016'
+  const VALID_DAY = moment().date()
+  const VALID_MONTH = moment().month() + 1 // Needed for zero indexed month
+  const VALID_YEAR = moment().year()
   var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
 
-  it('should construct a domain object given valid input', function (done) {
+  it('should construct a domain object given valid input', function () {
     claim = new FirstTimeClaim(
       VALID_REFERENCE,
       VALID_DAY,
@@ -21,24 +20,22 @@ describe('services/domain/first-time-claim', function () {
     )
     expect(claim.reference).to.equal(VALID_REFERENCE)
     expect(claim.dateOfJourney).to.be.within(
-        expectedDateOfJourney.subtract(1, 'seconds').toDate(),
-        expectedDateOfJourney.add(1, 'seconds').toDate()
+      expectedDateOfJourney.subtract(1, 'seconds').toDate(),
+      expectedDateOfJourney.add(1, 'seconds').toDate()
     )
-    done()
   })
 
-  it('should return isRequired errors given empty strings', function (done) {
+  it('should return isRequired errors given empty strings', function () {
     try {
       claim = new FirstTimeClaim('', '', '', '')
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
       expect(e.validationErrors['Reference'][0]).to.equal('Reference is required')
-      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of journey was invalid')
+      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of prison visit was invalid')
     }
-    done()
   })
 
-  it('should return isValidDate error given an invalid type for date', function (done) {
+  it('should return isValidDate error given an invalid type for date', function () {
     try {
       claim = new FirstTimeClaim(
         VALID_REFERENCE,
@@ -48,24 +45,37 @@ describe('services/domain/first-time-claim', function () {
       )
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of journey was invalid')
+      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of prison visit was invalid')
     }
-    done()
   })
 
-  it('should return isValidDate error given a date in the future', function (done) {
+  it('should return isValidDate error given a date in the future', function () {
     try {
       var futureDate = dateFormatter.now().add(1)
       claim = new FirstTimeClaim(
         VALID_REFERENCE,
-        futureDate.get('date'), // day
-        futureDate.get('month') + 1,
-        futureDate.get('year')
+        futureDate.date(),
+        futureDate.month() + 1,
+        futureDate.year()
       )
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of journey was invalid')
+      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of prison visit was invalid')
     }
-    done()
+  })
+
+  it('should return isDateWithinDays error given a date more than 28 days away', function () {
+    try {
+      var dateFurtherThan28Days = moment().subtract(29)
+      claim = new FirstTimeClaim(
+        VALID_REFERENCE,
+        dateFurtherThan28Days.date(),
+        dateFurtherThan28Days.month() + 1,
+        dateFurtherThan28Days.year()
+      )
+    } catch (e) {
+      expect(e).to.be.instanceof(ValidationError)
+      expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of prison must be within 28 days')
+    }
   })
 })
