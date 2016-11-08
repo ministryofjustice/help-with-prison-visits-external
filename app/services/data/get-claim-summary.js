@@ -6,10 +6,13 @@ module.exports = function (claimId) {
     .join('Eligibility', 'Claim.Reference', '=', 'Eligibility.Reference')
     .join('Visitor', 'Eligibility.Reference', '=', 'Visitor.Reference')
     .join('Prisoner', 'Eligibility.Reference', '=', 'Prisoner.Reference')
+    .join('ClaimDocument', 'Claim.ClaimId', '=', 'ClaimDocument.ClaimId')
     .where('Claim.ClaimId', claimId)
+    .andWhere('ClaimDocument.DocumentType', 'prison confirmation')
+    .orWhere('ClaimDocument.ClaimDocumentId', null)
     .first('Eligibility.Reference', 'Claim.DateSubmitted', 'Claim.DateOfJourney', 'Visitor.FirstName', 'Visitor.LastName', 'Visitor.Benefit',
       'Prisoner.FirstName AS PrisonerFirstName', 'Prisoner.LastName AS PrisonerLastName',
-      'Prisoner.DateOfBirth AS PrisonerDateOfBirth', 'Prisoner.PrisonNumber', 'Prisoner.NameOfPrison')
+      'Prisoner.DateOfBirth AS PrisonerDateOfBirth', 'Prisoner.PrisonNumber', 'Prisoner.NameOfPrison', 'ClaimDocument.DocumentStatus')
     .then(function (claim) {
       return knex('Claim')
         .join('ClaimExpense', 'Claim.ClaimId', '=', 'ClaimExpense.ClaimId')

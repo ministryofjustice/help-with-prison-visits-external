@@ -58,8 +58,12 @@
     <tr>
       <td>Visit confirmation</td>
       <td>
-        <span class="text-warning">Visit confirmation required</span>
-        <a href="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/prison-visit-confirmation-upload" class="button grey pull-right">Add</a>
+        {% if claimDetails.claim['DocumentStatus'] == 'uploaded' %}
+          <span class="text-success">Visit confirmation uploaded</span>
+        {% else %}
+          <span class="text-warning">Visit confirmation required</span>
+          <a href="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/prison-visit-confirmation-upload" class="button grey pull-right">Add</a>
+        {% endif %}
       </td>
     </tr>
 
