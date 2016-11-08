@@ -3,6 +3,7 @@ const moment = require('moment')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const claimHelper = require('../../../helpers/data/claim-helper')
 const expenseHelper = require('../../../helpers/data/expense-helper')
+const claimDocumentHelper = require('../../../helpers/data/claim-document-helper')
 
 const getClaimSummary = require('../../../../app/services/data/get-claim-summary')
 
@@ -13,10 +14,14 @@ describe('services/data/get-claim-summary', function () {
   before(function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(reference)
       .then(function () {
-        return claimHelper.insert(reference).then(function (newClaimId) {
-          claimId = newClaimId
-          return expenseHelper.insert(claimId)
-        })
+        return claimHelper.insert(reference)
+          .then(function (newClaimId) {
+            claimId = newClaimId
+            return expenseHelper.insert(claimId)
+          })
+          .then(function () {
+            return claimDocumentHelper.insertPrisonConfirmation(claimId)
+          })
       })
   })
 
@@ -28,6 +33,7 @@ describe('services/data/get-claim-summary', function () {
           moment(claimHelper.DATE_OF_JOURNEY).subtract(1, 'seconds').toDate(),
           moment(claimHelper.DATE_OF_JOURNEY).add(1, 'seconds').toDate()
         )
+        expect(result.claim.prisonConfirmation.DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
         expect(result.claimExpenses[0].ExpenseType).to.equal(expenseHelper.EXPENSE_TYPE)
         expect(result.claimExpenses[0].Cost).to.equal(Number(expenseHelper.COST).toFixed(2))
       })
@@ -35,6 +41,9 @@ describe('services/data/get-claim-summary', function () {
 
   after(function () {
     return expenseHelper.delete(claimId)
+      .then(function () {
+        return claimDocumentHelper.delete(claimId)
+      })
       .then(function () {
         return claimHelper.delete(claimId)
       })
