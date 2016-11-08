@@ -31,5 +31,6 @@ module.exports = {
   'duration': 'Travel Duration',
   'ticket-type': 'Ticket Type',
   'toll-cost': 'Toll Cost',
-  'parking-charge-cost': 'Parking Charge Cost'
+  'parking-charge-cost': 'Parking Charge Cost',
+  'is-child': 'Child Expense'
 }

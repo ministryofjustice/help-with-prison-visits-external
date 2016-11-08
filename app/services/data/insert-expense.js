@@ -16,6 +16,7 @@ module.exports = function (expense) {
     To: expense.to || null,
     IsReturn: expense.isReturn === 'yes',
     DurationOfTravel: expense.durationOfTravel || null,
-    TicketType: expense.ticketType || null
+    TicketType: expense.ticketType || null,
+    IsChild: expense.isChild === 'yes'
   })
 }

@@ -23,7 +23,8 @@ module.exports = function (router) {
         req.body.cost,
         req.body.from,
         req.body.to,
-        req.body['return-journey']
+        req.body['return-journey'],
+        req.body['is-child']
       )
 
       insertExpense(expense)

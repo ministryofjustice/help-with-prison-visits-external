@@ -24,7 +24,8 @@ module.exports = function (router) {
         req.body.from,
         req.body.to,
         req.body['return-journey'],
-        req.body['ticket-type']
+        req.body['ticket-type'],
+        req.body['is-child']
       )
 
       insertExpense(expense)
