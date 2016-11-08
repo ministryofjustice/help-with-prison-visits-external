@@ -1,5 +1,7 @@
 const expect = require('chai').expect
 const eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
+const AboutThePrisoner = require('../../../../app/services/domain/about-the-prisoner')
+const prisonerHelper = require('../../../helpers/data/prisoner-helper')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const config = require('../../../../knexfile').migrations
@@ -10,15 +12,11 @@ const uniqueReference1 = '1234567'
 const uniqueReference2 = '2345678'
 const nonuniqueReference = 'AAAAAAA'
 
-const prisonerData = {
-  FirstName: 'John   ',
-  LastName: '   Smith',
-  'dob-year': '1980',
-  'dob-month': '01',
-  'dob-day': '13',
-  PrisonerNumber: 'A3 456Tb ',
-  NameOfPrison: '  Whitemoor  '
-}
+const aboutThePrisoner = new AboutThePrisoner(prisonerHelper.FIRST_NAME,
+  prisonerHelper.LAST_NAME,
+  '13', '01', '1980',
+  prisonerHelper.PRISON_NUMBER,
+  prisonerHelper.NAME_OF_PRISON)
 
 var stubReferenceGenerator = sinon.stub()
 
@@ -34,7 +32,7 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
   it('should insert a new Eligibility and Prisoner returning reference', function () {
     const stubReferenceGeneratorGenerate = sinon.stub(stubReferenceGenerator, 'generate').returns(uniqueReference1)
 
-    return insertNewEligibilityAndPrisoner(prisonerData)
+    return insertNewEligibilityAndPrisoner(aboutThePrisoner)
       .then(function (newReference) {
         expect(newReference).to.equal(uniqueReference1)
 
@@ -42,10 +40,10 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
           expect(newEligibilityRow.Status).to.equal(eligibilityStatusEnum.IN_PROGRESS)
           return knex('ExtSchema.Prisoner').where('Reference', uniqueReference1).first().then(function (newPrisonerRow) {
             expect(stubReferenceGeneratorGenerate.calledOnce).to.be.true
-            expect(newPrisonerRow.FirstName, 'did not trim name').to.equal('John')
-            expect(newPrisonerRow.LastName, 'did not trim name').to.equal('Smith')
-            expect(newPrisonerRow.PrisonNumber, 'did not replace space/uppercase prison number').to.equal('A3456TB')
-            expect(newPrisonerRow.NameOfPrison, 'did not trim name of prison').to.equal('Whitemoor')
+            expect(newPrisonerRow.FirstName).to.equal(aboutThePrisoner.firstName)
+            expect(newPrisonerRow.LastName).to.equal(aboutThePrisoner.lastName)
+            expect(newPrisonerRow.PrisonNumber).to.equal(aboutThePrisoner.prisonerNumber)
+            expect(newPrisonerRow.NameOfPrison).to.equal(aboutThePrisoner.nameOfPrison)
             expect(newPrisonerRow.DateOfBirth, 'did not set date correctly').to.be.within(moment('1980-01-12 11:59:59').toDate(), moment('1980-01-13 00:00:01').toDate())
           })
         })
@@ -59,11 +57,11 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
     stubReferenceGeneratorGenerate.onCall(2).returns(uniqueReference2)   // New unique ref generated
 
     // First call uses nonuniqueReference
-    return insertNewEligibilityAndPrisoner(prisonerData)
+    return insertNewEligibilityAndPrisoner(aboutThePrisoner)
       .then(function (usedNonuniqueReference) {
         expect(usedNonuniqueReference).to.equal(nonuniqueReference)
         // Second call gets nonuniqueReference first time generate is called, uniqueReference2 after that
-        return insertNewEligibilityAndPrisoner(prisonerData)
+        return insertNewEligibilityAndPrisoner(aboutThePrisoner)
           .then(function (shouldHaveUsedUniqueReference2) {
             expect(shouldHaveUsedUniqueReference2).to.equal(uniqueReference2)
           })
