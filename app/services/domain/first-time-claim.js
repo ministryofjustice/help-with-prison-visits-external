@@ -24,6 +24,7 @@ class FirstTimeClaim {
 
     FieldsetValidator(this.dateOfJourney, 'DateOfJourney', errors)
       .isValidDate(this.dateOfJourney)
+      .isPastDate(this.dateOfJourney)
 
     var validationErrors = errors.get()
 
