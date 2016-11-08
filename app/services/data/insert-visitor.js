@@ -25,7 +25,6 @@ module.exports = function (reference, aboutYou) {
     PhoneNumber: aboutYou.phoneNumber,
     DateOfBirth: dateOfBirth,
     Relationship: aboutYou.relationship,
-    JourneyAssistance: 'no', // TODO remove from visitor
     Benefit: aboutYou.benefit
   })
 }
