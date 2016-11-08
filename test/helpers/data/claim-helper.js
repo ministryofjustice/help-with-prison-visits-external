@@ -9,9 +9,9 @@ const DAY = '01'
 const MONTH = '11'
 const YEAR = '2016'
 
-module.exports.DATE_OF_JOURNEY = dateFormatter.build(DAY, MONTH, YEAR).toDate()
-module.exports.DATE_CREATED = dateFormatter.now().toDate()
-module.exports.DATE_SUBMITTED = dateFormatter.now().toDate()
+module.exports.DATE_OF_JOURNEY = dateFormatter.build(DAY, MONTH, YEAR)
+module.exports.DATE_CREATED = dateFormatter.now()
+module.exports.DATE_SUBMITTED = dateFormatter.now()
 module.exports.STATUS = claimStatusEnum.IN_PROGRESS
 
 module.exports.build = function (reference) {

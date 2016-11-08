@@ -1,5 +1,5 @@
 const expect = require('chai').expect
-const moment = require('moment')
+const dateFormatter = require('../../../../app/services/date-formatter')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const AboutThePrisoner = require('../../../../app/services/domain/about-the-prisoner')
 
@@ -40,8 +40,8 @@ describe('services/domain/about-the-prisoner', function () {
     expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAMEOFPRISON.trim())
 
     expect(aboutThePrisoner.dob).to.be.within(
-      moment('1995-01-01').subtract(1, 'seconds').toDate(),
-      moment('1995-01-01').add(1, 'seconds').toDate())
+      dateFormatter.buildFromDateString('1995-01-01').subtract(1, 'seconds').toDate(),
+      dateFormatter.buildFromDateString('1995-01-01').add(1, 'seconds').toDate())
 
     done()
   })
