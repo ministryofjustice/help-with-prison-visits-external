@@ -5,16 +5,16 @@ const visitorHelper = require('./visitor-helper')
 const prisonerHelper = require('./prisoner-helper')
 const dateFormatter = require('../../../app/services/date-formatter')
 
-module.exports.DATE_CREATED = dateFormatter.now().toDate()
-module.exports.DATE_SUBMITTED = dateFormatter.now().toDate()
+module.exports.DATE_CREATED = dateFormatter.now()
+module.exports.DATE_SUBMITTED = dateFormatter.now()
 module.exports.STATUS = eligiblityStatusEnum.IN_PROGRESS
 
 module.exports.insert = function (reference) {
   return knex('ExtSchema.Eligibility')
     .insert({
       Reference: reference,
-      DateCreated: this.DATE_CREATED,
-      DateSubmitted: this.DATE_SUBMITTED,
+      DateCreated: this.DATE_CREATED.toDate(),
+      DateSubmitted: this.DATE_SUBMITTED.toDate(),
       Status: this.STATUS
     })
 }

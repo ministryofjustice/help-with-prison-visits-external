@@ -4,7 +4,7 @@ const dateFormatter = require('../../../app/services/date-formatter')
 
 module.exports.FIRST_NAME = 'John'
 module.exports.LAST_NAME = 'Smith'
-module.exports.DATE_OF_BIRTH = dateFormatter.now().toDate()
+module.exports.DATE_OF_BIRTH = dateFormatter.now()
 module.exports.PRISON_NUMBER = '0123456789'
 module.exports.NAME_OF_PRISON = 'Hewell'
 
@@ -14,7 +14,7 @@ module.exports.insert = function (reference) {
       Reference: reference,
       FirstName: this.FIRST_NAME,
       LastName: this.LAST_NAME,
-      DateOfBirth: this.DATE_OF_BIRTH,
+      DateOfBirth: this.DATE_OF_BIRTH.toDate(),
       PrisonNumber: this.PRISON_NUMBER,
       NameOfPrison: this.NAME_OF_PRISON
     })
