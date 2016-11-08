@@ -12,18 +12,17 @@ describe('services/data/insert-visitor', function () {
   })
 
   it('should insert a new Visitor for a reference', function () {
-    return insertVisitor(REFERENCE, visitorHelper.build())
+    var visitorInserted = visitorHelper.build()
+    return insertVisitor(REFERENCE, visitorInserted)
       .then(function () {
         return visitorHelper.get(REFERENCE)
       })
       .then(function (visitor) {
-        var dateExpected = dateFormatter.buildFromDateString(visitorHelper.DATE_OF_BIRTH)
-
         expect(visitor.Reference).to.equal(REFERENCE)
         expect(visitor.FirstName).to.equal(visitorHelper.FIRST_NAME)
         expect(visitor.LastName).to.equal(visitorHelper.LAST_NAME)
         expect(visitor.NationalInsuranceNumber).to.equal(visitorHelper.NATIONAL_INSURANCE_NUMBER)
-        expect(visitor.DateOfBirth).to.deep.equal(dateExpected.toDate())
+        expect(visitor.DateOfBirth).to.deep.equal(visitorInserted.dob.toDate())
         expect(visitor.PostCode).to.equal(visitorHelper.POST_CODE)
         expect(visitor.Benefit).to.equal(visitorHelper.BENEFIT)
         expect(visitor.RequireBenefitUpload, 'should set RequireBenefitUpload based on benefit').to.be.false
@@ -48,8 +47,8 @@ describe('services/data/insert-visitor', function () {
       .then(function () {
         return visitorHelper.get(REFERENCE)
       })
-      .then(function (visitorReturned) {
-        expect(visitorReturned.DateOfBirth).to.deep.equal(dateExpected.toDate())
+      .then(function (visitor) {
+        expect(visitor.DateOfBirth).to.deep.equal(dateExpected.toDate())
       })
   })
 
