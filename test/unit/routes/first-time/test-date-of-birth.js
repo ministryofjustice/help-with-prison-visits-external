@@ -13,6 +13,7 @@ describe('routes/first-time/new-eligibility/date-of-birth', function () {
 
   beforeEach(function () {
     stubDateOfBirth = sinon.stub()
+
     var route = proxyquire(
       '../../../../app/routes/first-time/new-eligibility/date-of-birth', {
         '../../../services/domain/date-of-birth': stubDateOfBirth
@@ -33,7 +34,7 @@ describe('routes/first-time/new-eligibility/date-of-birth', function () {
     describe('for over-sixteen date', function () {
       it('should respond with a 302 and redirect /first-time/new-eligibility/:dob', function () {
         var dob = '1980-10-10'
-        stubDateOfBirth.returns({dobFormatted: dob, sixteenOrUnder: false})
+        stubDateOfBirth.returns({getDobFormatted: dob, sixteenOrUnder: false})
         return supertest(app)
           .post(ROUTE)
           .expect(302)

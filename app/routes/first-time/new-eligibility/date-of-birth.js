@@ -15,7 +15,7 @@ module.exports = function (router) {
       if (dateOfBirth.sixteenOrUnder) {
         return res.redirect('/eligibility-fail')
       } else {
-        return res.redirect(`/first-time/new-eligibility/${dateOfBirth.dobFormatted}`)
+        return res.redirect(`/first-time/new-eligibility/${dateOfBirth.getDobFormatted}`)
       }
     } catch (error) {
       if (error instanceof ValidationError) {

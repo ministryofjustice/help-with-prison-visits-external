@@ -12,15 +12,14 @@ class DateOfBirth {
       year
     ]
     this.dob = dateFormatter.build(day, month, year)
-    this.dobFormatted = dateFormatter.buildFormatted(day, month, year)
+    this.getDobFormatted = dateFormatter.buildFormatted(day, month, year)
     this.sixteenOrUnder = this.isSixteenOrUnder()
     this.IsValid()
   }
 
   isSixteenOrUnder () {
     const AGE_MUST_BE_OVER = 16
-    const CURRENT_YEAR = moment().year()
-    if ((this.dob.year() + AGE_MUST_BE_OVER) >= CURRENT_YEAR) {
+    if (this.dob >= moment().subtract(AGE_MUST_BE_OVER, 'years')) {
       return true
     }
     return false
