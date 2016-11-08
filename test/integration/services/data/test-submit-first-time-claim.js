@@ -3,7 +3,7 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
-const moment = require('moment')
+const dateFormatter = require('../../../../app/services/date-formatter')
 const eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
 const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
 require('sinon-bluebird')
@@ -23,14 +23,14 @@ describe('services/data/submit-first-time-claim', function () {
   before(function () {
     return knex('ExtSchema.Eligibility').insert({
       Reference: reference,
-      DateCreated: moment().toDate(),
+      DateCreated: dateFormatter.now().toDate(),
       Status: eligibilityStatusEnum.IN_PROGRESS
     })
     .then(function () {
       return knex('ExtSchema.Claim').insert({
         Reference: reference,
-        DateOfJourney: moment().toDate(),
-        DateCreated: moment().toDate(),
+        DateOfJourney: dateFormatter.now().toDate(),
+        DateCreated: dateFormatter.now().toDate(),
         Status: claimStatusEnum.IN_PROGRESS
       })
       .returning('ClaimId')
