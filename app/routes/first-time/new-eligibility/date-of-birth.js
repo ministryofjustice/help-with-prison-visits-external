@@ -1,6 +1,5 @@
-const DateOfBirthValidator = require('../../../services/validators/eligibility/date-of-birth-validator')
-const dateFormatter = require('../../../services/date-formatter')
-const moment = require('moment')
+const DateOfBirth = require('../../../services/domain/date-of-birth')
+const ValidationError = require('../../../services/errors/validation-error')
 
 module.exports = function (router) {
   router.get('/first-time/new-eligibility/', function (req, res) {
@@ -8,39 +7,23 @@ module.exports = function (router) {
   })
 
   router.post('/first-time/new-eligibility/', function (req, res) {
-    var validationErrors = DateOfBirthValidator(req.body)
+    try {
+      var dateOfBirth = new DateOfBirth(req.body['dob-day'],
+        req.body['dob-month'],
+        req.body['dob-year'])
 
-    if (validationErrors) {
-      return res.status(400).render('first-time/new-eligibility/date-of-birth', {
-        claimant: req.body,
-        errors: validationErrors })
-    }
-
-    var dobAsDateAndFormattedString = parseDobAsDateAndFormattedString(req)
-
-    if (isSixteenOrUnder(dobAsDateAndFormattedString.date)) {
-      return res.redirect('/eligibility-fail')
-    } else {
-      return res.redirect(`/first-time/new-eligibility/${dobAsDateAndFormattedString.formattedString}`)
+      if (dateOfBirth.sixteenOrUnder) {
+        return res.redirect('/eligibility-fail')
+      } else {
+        return res.redirect(`/first-time/new-eligibility/${dateOfBirth.getDobFormatted}`)
+      }
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return res.status(400).render('first-time/new-eligibility/date-of-birth', {
+          claimant: req.body,
+          errors: error.validationErrors
+        })
+      }
     }
   })
-}
-
-function parseDobAsDateAndFormattedString (req) {
-  var day = req.body['dob-day']
-  var month = req.body['dob-month']
-  var year = req.body['dob-year']
-  return {
-    date: dateFormatter.build(day, month, year),
-    formattedString: dateFormatter.buildFormatted(day, month, year)
-  }
-}
-
-function isSixteenOrUnder (dobDate) {
-  const AGE_MUST_BE_OVER = 16
-  const CURRENT_YEAR = moment().year()
-  if ((dobDate.year() + AGE_MUST_BE_OVER) >= CURRENT_YEAR) {
-    return true
-  }
-  return false
 }
