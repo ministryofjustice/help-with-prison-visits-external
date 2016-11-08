@@ -14,7 +14,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId/train', function (req, res) {
+  router.post('/first-time/eligibility/:reference/claim/:claimId/train', function (req, res, next) {
     UrlPathValidator(req.params)
 
     try {
@@ -29,6 +29,9 @@ module.exports = function (router) {
       insertExpense(expense)
         .then(function () {
           return res.redirect(expenseUrlRouter.getRedirectUrl(req))
+        })
+        .catch(function (error) {
+          next(error)
         })
     } catch (error) {
       if (error instanceof ValidationError) {

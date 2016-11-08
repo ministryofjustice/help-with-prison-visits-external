@@ -6,7 +6,7 @@ const claimExpenseHelper = require('../../../../views/helpers/claim-expense-help
 const benefitsEnum = require('../../../../constants/benefits-enum')
 
 module.exports = function (router) {
-  router.get('/first-time/eligibility/:reference/claim/:claimId/summary', function (req, res) {
+  router.get('/first-time/eligibility/:reference/claim/:claimId/summary', function (req, res, next) {
     UrlPathValidator(req.params)
 
     getClaimSummary(req.params.claimId)
@@ -21,6 +21,9 @@ module.exports = function (router) {
             benefitsEnum: benefitsEnum
           })
       })
+      .catch(function (error) {
+        next(error)
+      })
   })
 
   router.post('/first-time/eligibility/:reference/claim/:claimId/summary', function (req, res) {
@@ -28,12 +31,15 @@ module.exports = function (router) {
     return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}/bank-account-details`)
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId/summary/remove/:claimExpenseId', function (req, res) {
+  router.post('/first-time/eligibility/:reference/claim/:claimId/summary/remove/:claimExpenseId', function (req, res, next) {
     UrlPathValidator(req.params)
 
     removeClaimExpense(req.params.claimId, req.params.claimExpenseId)
       .then(function () {
         return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}/summary`)
+      })
+      .catch(function (error) {
+        next(error)
       })
   })
 }

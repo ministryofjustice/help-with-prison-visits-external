@@ -13,7 +13,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/new-eligibility/:dob/:relationship/:benefit', function (req, res) {
+  router.post('/first-time/new-eligibility/:dob/:relationship/:benefit', function (req, res, next) {
     UrlPathValidator(req.params)
 
     var dob = req.params.dob
@@ -33,6 +33,9 @@ module.exports = function (router) {
       insertNewEligibilityAndPrisoner(aboutThePrisoner)
         .then(function (newReference) {
           return res.redirect(`/first-time/new-eligibility/${dob}/${relationship}/${benefit}/${newReference}`)
+        })
+        .catch(function (error) {
+          next(error)
         })
     } catch (error) {
       if (error instanceof ValidationError) {

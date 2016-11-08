@@ -11,7 +11,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/eligibility/:reference/new-claim/past', function (req, res) {
+  router.post('/first-time/eligibility/:reference/new-claim/past', function (req, res, next) {
     UrlPathValidator(req.params)
 
     try {
@@ -25,6 +25,9 @@ module.exports = function (router) {
         .then(function (newClaimId) {
           var claimId = newClaimId
           return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}`)
+        })
+        .catch(function (error) {
+          next(error)
         })
     } catch (error) {
       if (error instanceof ValidationError) {
