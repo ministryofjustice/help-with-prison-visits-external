@@ -34,5 +34,8 @@ describe('services/data/insert-task-send-first-time-claim-notification', functio
 
   after(function () {
     return eligiblityHelper.deleteEligibilityVisitorAndPrisoner(reference)
+      .then(function () {
+        return knex('ExtSchema.Task').where({Reference: reference, ClaimId: claimId}).del()
+      })
   })
 })
