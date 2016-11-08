@@ -34,6 +34,9 @@ var routes = [
   // Claim Summary
   require('./first-time/eligibility/claim/claim-summary'),
 
+  // File Upload
+  require('./first-time/eligibility/claim/file-upload'),
+
   // Health check routes
   require('./health-check/status'),
 
