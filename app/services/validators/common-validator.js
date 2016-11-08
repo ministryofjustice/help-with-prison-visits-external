@@ -44,7 +44,7 @@ exports.isValidDate = function (date) {
 
 exports.isDateInThePast = function (date) {
   return this.isValidDate(date) &&
-         moment(date) < dateFormatter.now()
+         date < dateFormatter.now()
 }
 
 exports.isRange = function (value, min, max) {
