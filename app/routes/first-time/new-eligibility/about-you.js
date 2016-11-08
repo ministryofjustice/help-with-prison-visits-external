@@ -15,7 +15,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function (req, res) {
+  router.post('/first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function (req, res, next) {
     UrlPathValidator(req.params)
 
     var dob = req.params.dob
@@ -41,6 +41,9 @@ module.exports = function (router) {
       insertVisitor(req.params.reference, aboutYou)
       .then(function () {
         return res.redirect(`/first-time/eligibility/${req.params.reference}/new-claim`)
+      })
+      .catch(function (error) {
+        next(error)
       })
     } catch (error) {
       if (error instanceof ValidationError) {
