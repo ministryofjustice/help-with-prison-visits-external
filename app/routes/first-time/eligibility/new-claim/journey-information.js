@@ -23,8 +23,12 @@ module.exports = function (router) {
       )
       insertFirstTimeClaim(firstTimeClaim)
         .then(function (newClaimId) {
-          var claimId = newClaimId
-          return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}`)
+          // TODO: Update unit test to cover this branch.
+          if (req.body['child-visitor'] === 'yes') {
+            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${newClaimId}/child`)
+          } else {
+            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${newClaimId}`)
+          }
         })
         .catch(function (error) {
           next(error)

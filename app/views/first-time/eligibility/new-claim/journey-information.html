@@ -26,7 +26,7 @@
             <legend id="DateOfJourney" class="form-label-bold">Date of prison visit</legend>
 
             {% if errors['DateOfJourney'][0] %}
-            <span class="error-message" id="error-message-benefit">{{ errors['DateOfJourney'][0] }}</span>
+              <span class="error-message" id="error-message-benefit">{{ errors['DateOfJourney'][0] }}</span>
             {% endif %}
 
             <div class="form-date">
@@ -61,7 +61,39 @@
           </fieldset>
         </div>
 
+        <div class="form-group {% if errors['child-visitor'][0] %} error {% endif %}">
+
+          <h2 id="child-visitor" class="form-label-bold">Did you bring any children on this visit?</h2>
+
+          {% if errors['child-visitor'][0] %}
+            <span class="error-message">{{ errors['child-visitor'][0] }}</span>
+          {% endif %}
+
+          <fieldset>
+
+            <label for="child-yes" class="block-label inline">
+              <input id="child-yes"
+                     type="radio"
+                     name="child-visitor"
+                     value="yes"
+                     {% if expense['child-visitor'] == 'yes' %} checked {% endif %}>
+              Yes
+            </label>
+            <label for="child-no" class="block-label inline">
+              <input id="child-no"
+                     type="radio"
+                     name="child-visitor"
+                     value="no"
+                     {% if expense['child-visitor'] == 'no' %} checked {% endif %}>
+              No
+            </label>
+
+          </fieldset>
+
+        </div>
+
         <input id="journey-information-submit" type="submit" class="button" value="Continue">
+
       </form>
 
     </div>

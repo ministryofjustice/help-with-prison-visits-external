@@ -1,0 +1,27 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <h1>Placeholder HTML</h1>
+
+  <!-- TODO: Replace with real HTML from UX prototype. -->
+  <!-- TODO: Need ability to return to this page to add another child.. -->
+
+  <form action="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/child" method="post">
+
+    <input id="about-child-submit"
+           type="submit"
+           value="Continue"
+           class="button">
+  </form>
+</main>
+
+{% endblock %}
