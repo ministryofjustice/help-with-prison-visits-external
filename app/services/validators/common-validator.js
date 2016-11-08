@@ -34,9 +34,6 @@ exports.isValidDate = function (date) {
   if (this.isNullOrUndefined(date)) {
     return false
   }
-  if (date instanceof Date) {
-    date = moment(date)
-  }
   return date instanceof moment &&
          date.isValid() &&
          dateFormatter.now().diff(date, 'years') < NUM_YEARS_LIMIT

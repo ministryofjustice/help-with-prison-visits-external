@@ -12,7 +12,7 @@ class FirstTimeClaim {
     year
   ) {
     this.reference = reference
-    this.dateOfJourney = dateFormatter.build(day, month, year).toDate()
+    this.dateOfJourney = dateFormatter.build(day, month, year)
     this.IsValid()
   }
 

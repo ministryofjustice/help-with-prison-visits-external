@@ -10,7 +10,7 @@ module.exports = function (claim) {
   }
   return knex('Claim').insert({
     Reference: claim.reference,
-    DateOfJourney: claim.dateOfJourney,
+    DateOfJourney: claim.dateOfJourney.toDate(),
     DateCreated: dateFormatter.now().toDate(),
     DateSubmitted: null,
     Status: claimStatusEnum.IN_PROGRESS
