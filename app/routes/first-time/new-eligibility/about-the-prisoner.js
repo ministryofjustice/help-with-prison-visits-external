@@ -1,6 +1,7 @@
-const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
-const validator = require('../../../services/validators/first-time/about-the-prisoner-validator')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
+const AboutThePrisoner = require('../../../services/domain/about-the-prisoner')
+const ValidationError = require('../../../services/errors/validation-error')
+const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
 
 module.exports = function (router) {
   router.get('/first-time/new-eligibility/:dob/:relationship/:benefit', function (req, res) {
@@ -15,25 +16,36 @@ module.exports = function (router) {
   router.post('/first-time/new-eligibility/:dob/:relationship/:benefit', function (req, res) {
     UrlPathValidator(req.params)
 
-    var validationErrors = validator(req.body)
     var dob = req.params.dob
     var relationship = req.params.relationship
     var benefit = req.params.benefit
     var prisoner = req.body
 
-    if (validationErrors) {
-      return res.status(400).render('first-time/new-eligibility/about-the-prisoner', {
-        dob: dob,
-        relationship: relationship,
-        benefit: benefit,
-        prisoner: prisoner,
-        errors: validationErrors
-      })
-    }
+    try {
+      var aboutThePrisoner = new AboutThePrisoner(req.body['FirstName'],
+        req.body['LastName'],
+        req.body['dob-day'],
+        req.body['dob-month'],
+        req.body['dob-year'],
+        req.body['PrisonerNumber'],
+        req.body['NameOfPrison'])
 
-    insertNewEligibilityAndPrisoner(prisoner)
-      .then(function (newReference) {
-        return res.redirect(`/first-time/new-eligibility/${dob}/${relationship}/${benefit}/${newReference}`)
-      })
+      insertNewEligibilityAndPrisoner(aboutThePrisoner)
+        .then(function (newReference) {
+          return res.redirect(`/first-time/new-eligibility/${dob}/${relationship}/${benefit}/${newReference}`)
+        })
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return res.status(400).render('first-time/new-eligibility/about-the-prisoner', {
+          dob: dob,
+          relationship: relationship,
+          benefit: benefit,
+          prisoner: prisoner,
+          errors: error.validationErrors
+        })
+      } else {
+        throw error
+      }
+    }
   })
 }

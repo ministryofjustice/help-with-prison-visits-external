@@ -273,6 +273,42 @@ describe('services/validators/common-validator', function () {
     })
   })
 
+  describe('isDateWithinDays', function () {
+    const DAYS = 28
+    const DATE_WITHIN_28_DAYS = moment().subtract(1, 'day')
+    const DATE_OUTSIDE_28_DAYS = moment().subtract(29, 'day')
+
+    it('should return false if passed null', function (done) {
+      var result = validator.isDateInThePast(null)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed undefined', function (done) {
+      var result = validator.isDateInThePast(undefined)
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return false if passed an object', function (done) {
+      var result = validator.isDateInThePast({})
+      expect(result).to.equal(false)
+      done()
+    })
+
+    it('should return true if passed a valid Date object', function (done) {
+      var result = validator.isDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
+      expect(result).to.equal(true)
+      done()
+    })
+
+    it('should return false if passed an invalid Date object', function (done) {
+      var result = validator.isDateWithinDays(DATE_OUTSIDE_28_DAYS, DAYS)
+      expect(result).to.equal(false)
+      done()
+    })
+  })
+
   describe('isRange', function () {
     const ACCEPTED_MIN = '2'
     const ACCEPTED_MAX = '5'

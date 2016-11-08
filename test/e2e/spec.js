@@ -1,5 +1,7 @@
 // TODO: Will need to add check on each of the pages that has a constructed URL path.
+const moment = require('moment')
 
+var todaysDate = moment()
 describe('First time claim flow', () => {
   it('should display each page in the first time eligibility flow', () => {
     return browser.url('/')
@@ -62,9 +64,9 @@ describe('First time claim flow', () => {
 
       // Journey information
       .waitForExist('#journey-information-submit')
-      .setValue('#date-of-journey-day', '26')
-      .setValue('#date-of-journey-month', '10')
-      .setValue('#date-of-journey-year', '2016')
+      .setValue('#date-of-journey-day', todaysDate.date())
+      .setValue('#date-of-journey-month', todaysDate.month() + 1)
+      .setValue('#date-of-journey-year', todaysDate.year())
       .click('#journey-information-submit')
 
       // Expense
