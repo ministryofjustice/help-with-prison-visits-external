@@ -35,13 +35,13 @@ exports.isValidDate = function (date) {
     return false
   }
   return date instanceof moment &&
-         date.isValid() &&
-         dateFormatter.now().diff(date, 'years') < NUM_YEARS_LIMIT
+    date.isValid() &&
+    dateFormatter.now().diff(date, 'years') < NUM_YEARS_LIMIT
 }
 
 exports.isDateInThePast = function (date) {
   return this.isValidDate(date) &&
-         date < dateFormatter.now()
+    date < dateFormatter.now()
 }
 
 exports.isDateWithinDays = function (date, days) {
