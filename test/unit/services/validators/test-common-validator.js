@@ -275,8 +275,8 @@ describe('services/validators/common-validator', function () {
 
   describe('isDateWithinDays', function () {
     const DAYS = 28
-    const DATE_WITHIN_28_DAYS = moment().subtract(1, 'day')
-    const DATE_OUTSIDE_28_DAYS = moment().subtract(29, 'day')
+    const DATE_WITHIN_28_DAYS = dateFormatter.now().subtract(1, 'day')
+    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().subtract(29, 'day')
 
     it('should return false if passed null', function (done) {
       var result = validator.isDateInThePast(null)
