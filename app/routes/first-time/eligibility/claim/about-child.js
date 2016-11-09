@@ -13,7 +13,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId/child', function (req, res) {
+  router.post('/first-time/eligibility/:reference/claim/:claimId/child', function (req, res, next) {
     UrlPathValidator(req.params)
 
     try {
@@ -25,13 +25,17 @@ module.exports = function (router) {
         req.body['child-relationship']
       )
 
-      // TODO: Only redirect if persisting the child details domain object was successful.
       insertChild(req.params.claimId, child)
-      if (req.body['add-another-child']) {
-        return res.redirect(req.originalUrl)
-      } else {
-        return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}`)
-      }
+        .then(function () {
+          if (req.body['add-another-child']) {
+            return res.redirect(req.originalUrl)
+          } else {
+            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}`)
+          }
+        })
+        .catch(function (error) {
+          next(error)
+        })
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('first-time/eligibility/claim/about-child', {
