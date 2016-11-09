@@ -1,7 +1,7 @@
 const expect = require('chai').expect
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
-const moment = require('moment')
+const dateFormatter = require('../../../../app/services/date-formatter')
 const tasksEnum = require('../../../../app/constants/tasks-enum')
 const taskStatusEnum = require('../../../../app/constants/task-status-enum')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
@@ -26,7 +26,10 @@ describe('services/data/insert-task-send-first-time-claim-notification', functio
             expect(task.Reference).to.equal(reference)
             expect(task.ClaimId).to.equal(claimId)
             expect(task.AdditionalData).to.equal(visitorHelper.EMAIL_ADDRESS)
-            expect(task.DateCreated).to.be.within(moment().add(-2, 'minutes').toDate(), moment().add(2, 'minutes').toDate())
+            expect(task.DateCreated).to.be.within(
+              dateFormatter.now().add(-2, 'minutes').toDate(),
+              dateFormatter.now().add(2, 'minutes').toDate()
+            )
             expect(task.Status).to.equal(taskStatusEnum.PENDING)
           })
       })

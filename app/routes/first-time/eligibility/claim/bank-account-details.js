@@ -13,7 +13,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId/bank-account-details', function (req, res) {
+  router.post('/first-time/eligibility/:reference/claim/:claimId/bank-account-details', function (req, res, next) {
     UrlPathValidator(req.params)
     try {
       var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode)
@@ -23,6 +23,9 @@ module.exports = function (router) {
             .then(function () {
               return res.redirect(`/application-submitted/${req.params.reference}`)
             })
+        })
+        .catch(function (error) {
+          next(error)
         })
     } catch (error) {
       if (error instanceof ValidationError) {

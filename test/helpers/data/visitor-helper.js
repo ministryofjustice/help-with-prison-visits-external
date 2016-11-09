@@ -1,6 +1,5 @@
 const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
-const moment = require('moment')
 const insertVisitor = require('../../../app/services/data/insert-visitor')
 const AboutYou = require('../../../app/services/domain/about-you')
 
@@ -15,7 +14,7 @@ module.exports.POST_CODE = 'BT137RT'
 module.exports.COUNTRY = 'United Kingdom'
 module.exports.EMAIL_ADDRESS = 'john.smith@gmail.com'
 module.exports.PHONE_NUMBER = '02153245564'
-module.exports.DATE_OF_BIRTH = moment().toDate()
+module.exports.DATE_OF_BIRTH = '1990-01-01'
 module.exports.RELATIONSHIP = 'partner'
 module.exports.JOURNEY_ASSISTANCE = 'yes'
 module.exports.REQURE_BENEFIT_UPLOAD = false

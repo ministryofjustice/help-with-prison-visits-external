@@ -1,8 +1,8 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
-const moment = require('moment')
 const FirstTimeClaim = require('../domain/first-time-claim')
 const claimStatusEnum = require('../../constants/claim-status-enum')
+const dateFormatter = require('../date-formatter')
 
 module.exports = function (claim) {
   if (!(claim instanceof FirstTimeClaim)) {
@@ -10,8 +10,8 @@ module.exports = function (claim) {
   }
   return knex('Claim').insert({
     Reference: claim.reference,
-    DateOfJourney: claim.dateOfJourney,
-    DateCreated: moment().toDate(),
+    DateOfJourney: claim.dateOfJourney.toDate(),
+    DateCreated: dateFormatter.now().toDate(),
     DateSubmitted: null,
     Status: claimStatusEnum.IN_PROGRESS
   }).returning('ClaimId')

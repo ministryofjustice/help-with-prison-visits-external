@@ -11,6 +11,7 @@ module.exports.TO = 'Edinburgh'
 module.exports.IS_RETURN = 'yes'
 module.exports.DURATION_OF_TRAVEL = null
 module.exports.TICKET_TYPE = null
+module.exports.IS_CHILD = 'yes'
 
 module.exports.build = function (claimId) {
   return new BusExpense(
@@ -18,7 +19,8 @@ module.exports.build = function (claimId) {
     this.COST,
     this.FROM,
     this.TO,
-    this.IS_RETURN
+    this.IS_RETURN,
+    this.IS_CHILD
   )
 }
 

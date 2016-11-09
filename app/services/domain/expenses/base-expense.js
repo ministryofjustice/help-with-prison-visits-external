@@ -1,8 +1,8 @@
 /**
  * This is a base class for all of the expense domain objects.
  */
-class ExpenseBase {
-  constructor (claimId, expenseType, cost, travelTime, from, to, isReturn, durationOfTravel, ticketType) {
+class BaseExpense {
+  constructor (claimId, expenseType, cost, travelTime, from, to, isReturn, durationOfTravel, ticketType, isChild) {
     this.createField('claimId', claimId)
     this.createField('expenseType', expenseType)
     this.createField('cost', cost)
@@ -12,6 +12,7 @@ class ExpenseBase {
     this.createField('isReturn', isReturn)
     this.createField('durationOfTravel', durationOfTravel)
     this.createField('ticketType', ticketType)
+    this.createField('isChild', isChild)
   }
 
   createField (key, value) {
@@ -19,4 +20,4 @@ class ExpenseBase {
   }
 }
 
-module.exports = ExpenseBase
+module.exports = BaseExpense

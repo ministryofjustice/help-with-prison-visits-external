@@ -1,14 +1,14 @@
 const Promise = require('bluebird')
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
-const moment = require('moment')
 const insertTaskCompleteFirstTimeClaim = require('./insert-task-complete-first-time-claim')
 const insertTaskSendFirstTimeClaimNotification = require('./insert-task-send-first-time-claim-notification')
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const claimStatusEnum = require('../../constants/claim-status-enum')
+const dateFormatter = require('../date-formatter')
 
 module.exports = function (reference, claimId) {
-  var dateSubmitted = moment().toDate()
+  var dateSubmitted = dateFormatter.now().toDate()
 
   return Promise.all([updateEligibility(reference, dateSubmitted),
                       updateClaim(claimId, dateSubmitted),

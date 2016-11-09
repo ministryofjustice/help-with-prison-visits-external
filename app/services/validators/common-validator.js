@@ -7,8 +7,8 @@ const moment = require('moment')
 const prisonerRelationshipsEnum = require('../../constants/prisoner-relationships-enum')
 const benefitsEnum = require('../../constants/benefits-enum')
 const referenceNumber = require('../../constants/reference-number-enum')
+const dateFormatter = require('../date-formatter')
 const NUM_YEARS_LIMIT = 120
-const DATE_FORMAT = 'YYYY-MM-DD'
 
 exports.isNullOrUndefined = function (value) {
   return !value
@@ -30,25 +30,22 @@ exports.isLessThanLength = function (value, length) {
   return validator.isLength(value, { max: length })
 }
 
-exports.isDateValid = function (date) {
+exports.isValidDate = function (date) {
   if (this.isNullOrUndefined(date)) {
     return false
   }
-  if (date instanceof Date) {
-    date = moment(date)
-  }
   return date instanceof moment &&
     date.isValid() &&
-    moment().diff(date, 'years') < NUM_YEARS_LIMIT
+    dateFormatter.now().diff(date, 'years') < NUM_YEARS_LIMIT
 }
 
 exports.isDateInThePast = function (date) {
-  return this.isDateValid(date) &&
-    moment(date) < moment()
+  return this.isValidDate(date) &&
+    date < dateFormatter.now()
 }
 
 exports.isDateWithinDays = function (date, days) {
-  return moment().diff(date, 'days') <= days
+  return dateFormatter.now().diff(date, 'days') <= days
 }
 
 exports.isRange = function (value, min, max) {
@@ -79,8 +76,10 @@ exports.isValidDateOfBirth = function (dob) {
   if (this.isNullOrUndefined(dob)) {
     return false
   }
-  var date = moment(dob, DATE_FORMAT)
-  return this.isDateInThePast(date)
+  if (!(dob instanceof moment)) {
+    dob = dateFormatter.buildFromDateString(dob)
+  }
+  return this.isValidDate(dob) && this.isDateInThePast(dob)
 }
 
 exports.isValidPrisonerRelationship = function (relationship) {

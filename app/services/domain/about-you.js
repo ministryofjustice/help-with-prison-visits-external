@@ -1,12 +1,13 @@
 const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
+const dateFormatter = require('../date-formatter')
 
 class AboutYou {
   constructor (dob, relationship, benefit, title, firstName, lastName,
     nationalInsuranceNumber, houseNumberAndStreet, town, county, postCode,
     country, emailAddress, phoneNumber) {
-    this.dob = dob
+    this.dob = dateFormatter.buildFromDateString(dob)
     this.relationship = relationship
     this.benefit = benefit
 

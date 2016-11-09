@@ -1,9 +1,9 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
-const ExpenseBase = require('../../services/domain/expenses/base-expense')
+const BaseExpense = require('../../services/domain/expenses/base-expense')
 
 module.exports = function (expense) {
-  if (!(expense instanceof ExpenseBase)) {
+  if (!(expense instanceof BaseExpense)) {
     throw new Error('Provided object is not an instance of the expected class')
   }
 
@@ -16,6 +16,7 @@ module.exports = function (expense) {
     To: expense.to || null,
     IsReturn: expense.isReturn === 'yes',
     DurationOfTravel: expense.durationOfTravel || null,
-    TicketType: expense.ticketType || null
+    TicketType: expense.ticketType || null,
+    IsChild: expense.isChild === 'yes'
   })
 }
