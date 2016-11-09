@@ -9,6 +9,7 @@ describe('services/domain/expenses/ferry-expense', function () {
   const VALID_TO = 'some to'
   const VALID_IS_RETURN = 'yes'
   const VALID_TICKET_TYPE = 'car passenger'
+  const VALID_IS_CHILD = 'yes'
   const INVALID_COST = '0'
 
   it('should construct a domain object given valid input', function () {
@@ -18,7 +19,8 @@ describe('services/domain/expenses/ferry-expense', function () {
       VALID_FROM,
       VALID_TO,
       VALID_IS_RETURN,
-      VALID_TICKET_TYPE
+      VALID_TICKET_TYPE,
+      VALID_IS_CHILD
     )
     expect(expense.claimId).to.equal(VALID_CLAIM_ID)
     expect(expense.cost).to.equal(VALID_COST)
@@ -26,6 +28,7 @@ describe('services/domain/expenses/ferry-expense', function () {
     expect(expense.to).to.equal(VALID_TO)
     expect(expense.isReturn).to.equal(VALID_IS_RETURN)
     expect(expense.ticketType).to.equal(VALID_TICKET_TYPE)
+    expect(expense.isChild).to.equal(VALID_IS_CHILD)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -36,7 +39,8 @@ describe('services/domain/expenses/ferry-expense', function () {
         VALID_FROM,
         VALID_TO,
         VALID_IS_RETURN,
-        VALID_TICKET_TYPE
+        VALID_TICKET_TYPE,
+        VALID_IS_CHILD
       ).isValid()
     }).to.throw(ValidationError)
   })
