@@ -11,35 +11,42 @@
   <div class="grid-row">
     <div class="column-two-thirds">
       <h2 class="heading-large">
-        Please upload
+        Please upload your {{ fileUploadGuidingText[document].displayname }}
       </h2>
-      <ul class="list list-number">
-        <li>Photograph or capture your document using a camera, mobile phone, scanner or other device</li>
-        <li>Transfer the image to your computer, or attach your camera to your computer</li>
-        <li>Click “Choose File”</li>
-        <li>Locate and select the file</li>
-        <li>Click “Continue"</li>
-      </ul>
-      <label class="block-label" data-target="escort">
-        <input type="radio" name="escort" value="Yes" id="escort-yes">
-        <span class="heading-small">Upload now</span>
-        <br> Uploading your information is the fastest way to process your application
+
+      <h3 class="heading-medium">Upload now</h3>
+      <p>Uploading your {{ fileUploadGuidingText[document].type }} is the fastest way to process your application.</p>
+
+      <label class="custom-file-upload">
+        <input type="file" />
       </label>
-      <div class="panel panel-border-narrow js-hidden" id="escort">
-        <h3 class="heading-small">Select file</h3>
-        <input type="file" name="benefit" value="Income Support" id="Income Support">
+
+      <div class="form-group">
+        <details role="group">
+          <summary role="button" aria-controls="details-content-0" aria-expanded="true"><span class="summary">Help with upload</span></summary>
+          <div class="panel panel-border-narrow" id="details-content-0" aria-hidden="false">
+            <ul class="list list-number">
+              <li>Photograph or capture your document using a camera, mobile phone, scanner or other device</li>
+              <li>Transfer the image to your computer, or attach your camera to your computer</li>
+              <li>Click “Choose File”</li>
+              <li>Locate and select the file</li>
+              <li>Click “Continue"</li>
+            </ul>
+          </div>
+        </details>
       </div>
+
       <div class="form-group">
         <br>
         <h4 class="heading-small">Cannot Upload now?</h4>
         <p>Your application will not be processed until we receive your file </p>
         <label class="block-label">
-          <input type="radio" name="escort" value="Yes" id="escort-yes">
+          <input type="radio" name="alternative-to-upload" value="Post" id="Post">
           <span class="heading-small">Send by post</span>
           <br> Posting will add 10 days or more to the processing time
         </label>
         <label class="block-label">
-          <input type="radio" name="escort" value="Yes" id="escort-yes">
+          <input type="radio" name="alternative-to-upload" value="Later" id="UploadLater">
           <span class="heading-small">Upload later</span>
           <br> You can upload later, you will receive a reference number which you will use to finish your application
         </label>
