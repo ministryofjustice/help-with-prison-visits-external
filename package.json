@@ -59,6 +59,7 @@
     "knex": "^0.12.5",
     "moment": "^2.15.1",
     "mssql": "^3.3.0",
+    "multer": "^1.2.0",
     "node-sass": "^3.10.1",
     "nunjucks": "^2.5.1",
     "on-finished": "^2.3.0",
