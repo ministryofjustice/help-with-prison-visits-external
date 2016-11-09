@@ -6,7 +6,7 @@ require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('/first-time/eligibility/:reference/claim/:claimId/child', function () {
+describe('routes/first-time/eligibility/claim/about-child', function () {
   const REFERENCE = 'APVS123'
   const CLAIM_ID = '123'
   const ROUTE = `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}/child`
