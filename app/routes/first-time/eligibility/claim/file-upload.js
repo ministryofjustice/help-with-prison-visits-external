@@ -11,7 +11,7 @@ module.exports = function (router) {
         fileUploadGuidingText: fileUploadGuidingText
       })
     } else {
-      return next()
+      throw new Error('Not a valid document type')
     }
   })
 }

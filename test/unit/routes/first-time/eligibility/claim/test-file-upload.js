@@ -34,10 +34,17 @@ describe('routes/first-time/eligibility/claim/file-upload', function () {
         .expect(200)
     })
 
+<<<<<<< HEAD
     it('should respond with a 404 if passed invalid document type', function () {
       return supertest(app)
         .get(`${ROUTE}TEST`)
         .expect(404)
+=======
+    it('should respond with a 500 if passed invalid document type', function () {
+      return supertest(app)
+        .get(`${ROUTE}TEST`)
+        .expect(500)
+>>>>>>> d075179d77c651d65336132c9546863d690d1883
     })
   })
 })
