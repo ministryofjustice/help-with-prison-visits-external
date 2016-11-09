@@ -61,9 +61,9 @@
           </fieldset>
         </div>
 
-        <div class="form-group {% if errors['child-visitor'][0] %} error {% endif %}">
+        <div id="child-visitor" class="form-group {% if errors['child-visitor'][0] %} error {% endif %}">
 
-          <h2 id="child-visitor" class="form-label-bold">Did you bring any children on this visit?</h2>
+          <h2 class="form-label-bold">Did you bring any children on this visit?</h2>
 
           {% if errors['child-visitor'][0] %}
             <span class="error-message">{{ errors['child-visitor'][0] }}</span>

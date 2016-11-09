@@ -35,7 +35,7 @@ class AboutChild {
       .isRequired()
       .isValidDate(this.dob)
       .isPastDate(this.dob)
-      .isOlderThan(this.dob, CHILD_MAXIMUM_AGE)
+      .isYoungerThan(this.dob, CHILD_MAXIMUM_AGE)
 
     FieldValidator(this.childRelationship, 'child-relationship', errors)
       .isRequired()

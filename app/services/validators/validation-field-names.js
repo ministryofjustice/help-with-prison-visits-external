@@ -33,6 +33,7 @@ module.exports = {
   'toll-cost': 'Toll Cost',
   'parking-charge-cost': 'Parking Charge Cost',
   'is-child': 'Child Expense',
+  'child-visitor': 'Children on visit',
   'child-name': 'Child Name',
   'child-relationship': 'Child Relationship'
 }

@@ -19,7 +19,8 @@ module.exports = function (router) {
         req.params.reference,
         req.body['date-of-journey-day'],
         req.body['date-of-journey-month'],
-        req.body['date-of-journey-year']
+        req.body['date-of-journey-year'],
+        req.body['child-visitor']
       )
       insertFirstTimeClaim(firstTimeClaim)
         .then(function (claimId) {

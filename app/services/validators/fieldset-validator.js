@@ -56,9 +56,9 @@ class FieldsetValidator {
   }
 
   // TODO: Unit test for this.
-  isOlderThan (dob, years) {
-    if (!validator.isOlderThan(dob, years)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsOlderThan, { years: years })
+  isYoungerThan (dob, years) {
+    if (validator.isOlderThan(dob, years)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsYoungerThan, { years: years })
     }
     return this
   }

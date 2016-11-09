@@ -17,7 +17,6 @@ module.exports = function (router) {
 
     // TODO: Add integration test for peristance module.
     // TODO: Need to reload the page if the user selects add another child.
-    // TODO: Update end-to-end test to hit the child page and add two children.
 
     try {
       var child = new AboutChild(
