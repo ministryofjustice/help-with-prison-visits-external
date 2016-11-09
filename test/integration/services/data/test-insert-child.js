@@ -1,10 +1,10 @@
 const expect = require('chai').expect
-const insertExpense = require('../../../../app/services/data/insert-expense')
+const insertChild = require('../../../../app/services/data/insert-child')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const claimHelper = require('../../../helpers/data/claim-helper')
-const expenseHelper = require('../../../helpers/data/expense-helper')
+const claimChildHelper = require('../../../helpers/data/claim-child-helper')
 
-describe('services/data/insert-expense', function () {
+describe('services/data/insert-child', function () {
   const REFERENCE = 'V123467'
   var claimId
 
@@ -12,39 +12,36 @@ describe('services/data/insert-expense', function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
       .then(function () {
         return claimHelper.insert(REFERENCE)
-          .then(function (newClaimId) {
-            claimId = newClaimId
-          })
+      })
+      .then(function (newClaimId) {
+        claimId = newClaimId
       })
   })
 
-  it('should insert a new expense', function () {
-    return insertExpense(expenseHelper.build(claimId))
+  it('should insert a new child', function () {
+    return insertChild(claimId, claimChildHelper.build())
       .then(function () {
-        return expenseHelper.get(claimId)
+        return claimChildHelper.get(claimId)
       })
-      .then(function (expense) {
-        expect(expense.ClaimId).to.equal(claimId)
-        expect(expense.ExpenseType.toString()).to.equal(expenseHelper.EXPENSE_TYPE)
-        expect(expense.Cost.toString()).to.equal(expenseHelper.COST)
-        expect(expense.TravelTime).to.equal(expenseHelper.TRAVEL_TIME)
-        expect(expense.From.toString()).to.equal(expenseHelper.FROM)
-        expect(expense.To.toString()).to.equal(expenseHelper.TO)
-        expect(expense.IsReturn).to.equal(expenseHelper.IS_RETURN === 'yes')
-        expect(expense.DurationOfTravel).to.equal(expenseHelper.DURATION_OF_TRAVEL)
-        expect(expense.TicketType).to.equal(expenseHelper.TICKET_TYPE)
-        expect(expense.IsChild).to.equal(expenseHelper.IS_CHILD === 'yes')
+      .then(function (child) {
+        expect(child.ClaimId).to.equal(claimId)
+        expect(child.Name).to.equal(claimChildHelper.CHILD_NAME)
+        expect(child.DateOfBirth).to.be.within(
+          claimChildHelper.DOB.subtract(1, 'seconds').toDate(),
+          claimChildHelper.DOB.add(1, 'seconds').toDate()
+        )
+        expect(child.Relationship).to.equal(claimChildHelper.CHILD_RELATIONSHIP)
       })
   })
 
-  it('should throw an error if passed a non-expense object.', function () {
+  it('should throw an error if passed a non-AboutChild object.', function () {
     return expect(function () {
-      insertExpense({})
+      insertChild({})
     }).to.throw(Error)
   })
 
   after(function () {
-    return expenseHelper.delete(claimId)
+    return claimChildHelper.delete(claimId)
       .then(function () {
         return claimHelper.delete(claimId)
       })
