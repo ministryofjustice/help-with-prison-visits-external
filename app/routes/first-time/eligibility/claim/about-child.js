@@ -3,7 +3,6 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const ValidationError = require('../../../../services/errors/validation-error')
 const insertChild = require('../../../../services/data/insert-child')
 
-// TODO: Add route unit test.
 module.exports = function (router) {
   router.get('/first-time/eligibility/:reference/claim/:claimId/child', function (req, res) {
     UrlPathValidator(req.params)
