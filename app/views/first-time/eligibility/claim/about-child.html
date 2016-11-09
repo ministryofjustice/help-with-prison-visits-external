@@ -21,7 +21,7 @@
 
       <form action="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/child" method="post">
 
-        <div class="form-group">
+        <div class="form-group {% if errors['child-name'][0] %} error {% endif %}">
           <label class="form-label-bold" for="child-name-input">Child name</label>
 
           {% if errors['from'][0] %}
@@ -60,7 +60,7 @@
               <div class="form-group form-group-month">
                 <label for="dob-month-input">Month</label>
                 <input id="dob-month-input"
-                       name="dob-day"
+                       name="dob-month"
                        value="{{ claimant['dob-month'] }}"
                        class="form-control">
               </div>
@@ -68,7 +68,7 @@
               <div class="form-group form-group-year">
                 <label for="dob-year-input">Year</label>
                 <input id="dob-year-input"
-                       name="dob-day"
+                       name="dob-year"
                        value="{{ claimant['dob-year'] }}"
                        class="form-control">
               </div>
@@ -81,7 +81,7 @@
 
         <div class="form-group">
 
-          <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
+          <div class="form-group {% if errors['child-relationship'][0] %} error {% endif %}">
 
             <h2 class="form-label-bold">Relationship</h2>
 
@@ -96,7 +96,7 @@
                        type="radio"
                        name="child-relationship"
                        value="claimants-child"
-                       {% if expense['return-journey'] == 'claimants-child' %} checked {% endif %}>
+                       {% if claimant['return-journey'] == 'claimants-child' %} checked {% endif %}>
                 My child
               </label>
               <label for="prisoners-child" class="block-label">
@@ -104,7 +104,7 @@
                        type="radio"
                        name="child-relationship"
                        value="prisoners-child"
-                       {% if expense['return-journey'] == 'prisoners-child' %} checked {% endif %}>
+                       {% if claimant['return-journey'] == 'prisoners-child' %} checked {% endif %}>
                 Prisoner's child
               </label>
 
