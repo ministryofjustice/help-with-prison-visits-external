@@ -1,5 +1,6 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
+const documentTypeEnum = require('../../constants/document-type-enum')
 
 module.exports = function (claimId) {
   return knex('Claim')
@@ -11,17 +12,24 @@ module.exports = function (claimId) {
       'Prisoner.FirstName AS PrisonerFirstName', 'Prisoner.LastName AS PrisonerLastName',
       'Prisoner.DateOfBirth AS PrisonerDateOfBirth', 'Prisoner.PrisonNumber', 'Prisoner.NameOfPrison')
     .then(function (claim) {
-      return knex('Claim')
-        .join('ClaimExpense', 'Claim.ClaimId', '=', 'ClaimExpense.ClaimId')
-        .where({'Claim.ClaimId': claimId, 'ClaimExpense.IsEnabled': true})
-        .select('ClaimExpense.ClaimExpenseId', 'ClaimExpense.ExpenseType', 'ClaimExpense.Cost', 'ClaimExpense.To', 'ClaimExpense.From', 'ClaimExpense.IsReturn', 'ClaimExpense.TravelTime',
-          'ClaimExpense.DurationOfTravel', 'ClaimExpense.TicketType')
-        .orderBy('ClaimExpense.ClaimExpenseId')
-        .then(function (claimExpenses) {
-          claimExpenses.forEach(function (expense) {
-            expense.Cost = Number(expense.Cost).toFixed(2)
-          })
-          return {claim: claim, claimExpenses: claimExpenses}
+      return knex('ClaimDocument')
+        .join('Claim', 'ClaimDocument.ClaimId', '=', 'Claim.ClaimId')
+        .where({'ClaimDocument.DocumentType': documentTypeEnum.VISIT_CONFIRMATION, 'Claim.ClaimId': claimId})
+        .first('ClaimDocument.DocumentStatus')
+        .then(function (visitConfirmationDocumentStatus) {
+          return knex('Claim')
+            .join('ClaimExpense', 'Claim.ClaimId', '=', 'ClaimExpense.ClaimId')
+            .where({'Claim.ClaimId': claimId, 'ClaimExpense.IsEnabled': true})
+            .select('ClaimExpense.ClaimExpenseId', 'ClaimExpense.ExpenseType', 'ClaimExpense.Cost', 'ClaimExpense.To', 'ClaimExpense.From', 'ClaimExpense.IsReturn', 'ClaimExpense.TravelTime',
+              'ClaimExpense.DurationOfTravel', 'ClaimExpense.TicketType')
+            .orderBy('ClaimExpense.ClaimExpenseId')
+            .then(function (claimExpenses) {
+              claimExpenses.forEach(function (expense) {
+                expense.Cost = Number(expense.Cost).toFixed(2)
+              })
+              claim.visitConfirmation = visitConfirmationDocumentStatus
+              return {claim: claim, claimExpenses: claimExpenses}
+            })
         })
     })
 }
