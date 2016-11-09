@@ -1,0 +1,3 @@
+module.exports = {
+  VISIT_CONFIRMATION: 'VISIT-CONFIRMATION'
+}
