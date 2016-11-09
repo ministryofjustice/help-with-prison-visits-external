@@ -51,46 +51,32 @@
           <p class="form-hint">For example, Birmingham New Street</p>
         </div>
 
-        <div class="form-group">
+        {% include "partials/expenses/return-journey.html" %}
 
-          {% include "partials/expenses/return-journey.html" %}
+        {% include "partials/expenses/is-child.html" %}
 
-          {% include "partials/expenses/is-child.html" %}
+        <div class="form-group {% if errors['cost'][0] %} error {% endif %}">
+          <label id="cost" for="cost-input" class="form-label-bold">Cost</label>
 
-          <div class="form-group {% if errors['cost'][0] %} error {% endif %}">
-            <label id="cost" for="cost-input" class="form-label-bold">Cost</label>
+          {% if errors['cost'][0] %}
+            <span class="error-message">{{ errors['cost'][0] }}</span>
+          {% endif %}
 
-            {% if errors['cost'][0] %}
-              <span class="error-message">{{ errors['cost'][0] }}</span>
-            {% endif %}
-
-            <input id="cost-input"
-                   type="text"
-                   name="cost"
-                   value="{{ expense['cost'] }}"
-                   class="form-control">
-            <p class="form-hint">For example, £20</p>
-          </div>
-
-          <div class="form-group">
-            <fieldset>
-
-              <label for="add-another-journey" class="block-label">
-                <input id="add-another-journey"
-                       type="checkbox"
-                       name="add-another-journey"
-                       {% if expense['add-another-journey'] == 'on' %} checked {% endif %}>
-                Add another train journey
-              </label>
-
-            </fieldset>
-          </div>
-
-          <input id="train-details-submit"
-                 type="submit"
-                 class="button"
-                 value="Continue">
+          <input id="cost-input"
+                 type="text"
+                 name="cost"
+                 value="{{ expense['cost'] }}"
+                 class="form-control">
+          <p class="form-hint">For example, £20</p>
         </div>
+
+        {% include "partials/expenses/add-another-journey.html" %}
+
+        <input id="train-details-submit"
+               type="submit"
+               class="button"
+               value="Continue">
+
       </form>
 
     </div>
