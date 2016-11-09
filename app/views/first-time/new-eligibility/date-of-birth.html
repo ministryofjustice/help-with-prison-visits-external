@@ -65,7 +65,8 @@
           <br>
           <p class="form-hint">You must be over 16 to be eligible for assistance</p>
         </div>
-
+        
+        <input type='hidden' name='_csrf' value='{{ csrfToken }}'>
         <input id="date-of-birth-submit" type="submit" class="button" value="Continue">
       </form>
 
