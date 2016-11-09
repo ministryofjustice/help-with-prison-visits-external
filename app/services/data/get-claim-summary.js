@@ -1,5 +1,6 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
+const documentTypeEnum = require('../../constants/document-type-enum')
 
 module.exports = function (claimId) {
   return knex('Claim')
@@ -13,9 +14,9 @@ module.exports = function (claimId) {
     .then(function (claim) {
       return knex('ClaimDocument')
         .join('Claim', 'ClaimDocument.ClaimId', '=', 'Claim.ClaimId')
-        .where({'ClaimDocument.DocumentType': 'prisonConfirmation', 'Claim.ClaimId': claimId})
+        .where({'ClaimDocument.DocumentType': documentTypeEnum.VISIT_CONFIRMATION, 'Claim.ClaimId': claimId})
         .first('ClaimDocument.DocumentStatus')
-        .then(function (prisonConfirmationStatus) {
+        .then(function (visitConfirmationDocumentStatus) {
           return knex('Claim')
             .join('ClaimExpense', 'Claim.ClaimId', '=', 'ClaimExpense.ClaimId')
             .where({'Claim.ClaimId': claimId, 'ClaimExpense.IsEnabled': true})
@@ -26,7 +27,7 @@ module.exports = function (claimId) {
               claimExpenses.forEach(function (expense) {
                 expense.Cost = Number(expense.Cost).toFixed(2)
               })
-              claim.prisonConfirmation = prisonConfirmationStatus
+              claim.visitConfirmation = visitConfirmationDocumentStatus
               return {claim: claim, claimExpenses: claimExpenses}
             })
         })

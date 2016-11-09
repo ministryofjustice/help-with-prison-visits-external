@@ -33,7 +33,7 @@ describe('services/data/get-claim-summary', function () {
           moment(claimHelper.DATE_OF_JOURNEY).subtract(1, 'seconds').toDate(),
           moment(claimHelper.DATE_OF_JOURNEY).add(1, 'seconds').toDate()
         )
-        expect(result.claim.prisonConfirmation.DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
+        expect(result.claim.visitConfirmation.DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
         expect(result.claimExpenses[0].ExpenseType).to.equal(expenseHelper.EXPENSE_TYPE)
         expect(result.claimExpenses[0].Cost).to.equal(Number(expenseHelper.COST).toFixed(2))
       })

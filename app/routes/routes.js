@@ -18,7 +18,6 @@ var routes = [
   require('./first-time/eligibility/new-claim/future-or-past-visit.js'),
   require('./first-time/eligibility/new-claim/journey-information.js'),
   require('./first-time/eligibility/claim/expenses'),
-  require('./first-time/eligibility/claim/bank-account-details'),
 
   // Expenses
   require('./first-time/eligibility/claim/car-details'),
@@ -33,9 +32,8 @@ var routes = [
 
   // Claim Summary
   require('./first-time/eligibility/claim/claim-summary'),
-
-  // File Upload
   require('./first-time/eligibility/claim/file-upload'),
+  require('./first-time/eligibility/claim/bank-account-details'),
 
   // Health check routes
   require('./health-check/status'),
