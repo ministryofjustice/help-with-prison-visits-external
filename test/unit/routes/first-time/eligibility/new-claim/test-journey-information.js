@@ -1,11 +1,9 @@
+const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
-const express = require('express')
-const expect = require('chai').expect
-const bodyParser = require('body-parser')
-const mockViewEngine = require('../../../mock-view-engine')
 const sinon = require('sinon')
 require('sinon-bluebird')
+
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/first-time/eligibility/new-claim/journey-information', function () {
@@ -13,79 +11,95 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
   const CLAIM_ID = '123'
   const ROUTE = `/first-time/eligibility/${REFERENCE}/new-claim/past`
 
-  var request
-  var urlValidatorCalled = false
-  var day = 26
-  var month = 10
-  var year = 2016
+  var app
 
-  var VALID_DATA = {
-    'date-of-journey-day': day,
-    'date-of-journey-month': month,
-    'date-of-journey-year': year
-  }
-
-  var stubClaim
-  var stubInsertClaim
+  var urlPathValidatorStub
+  var firstTimeClaimStub
+  var insertFirstTimeClaimStub
 
   beforeEach(function () {
-    stubClaim = sinon.stub()
-    stubInsertClaim = sinon.stub()
-    var app = express()
-    app.use(bodyParser.json())
-    mockViewEngine(app, '../../../app/views')
+    urlPathValidatorStub = sinon.stub()
+    firstTimeClaimStub = sinon.stub()
+    insertFirstTimeClaimStub = sinon.stub()
+
     var route = proxyquire('../../../../../../app/routes/first-time/eligibility/new-claim/journey-information', {
-      '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
-      '../../../../services/domain/first-time-claim': stubClaim,
-      '../../../../services/data/insert-first-time-claim': stubInsertClaim
+      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
+      '../../../../services/domain/first-time-claim': firstTimeClaimStub,
+      '../../../../services/data/insert-first-time-claim': insertFirstTimeClaimStub
     })
-    route(app)
-    request = supertest(app)
-    urlValidatorCalled = false
+    app = routeHelper.buildApp(route)
   })
 
   describe(`GET ${ROUTE}`, function () {
-    it('should respond with a 200', function (done) {
-      request
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should respond with a 200', function () {
+      return supertest(app)
         .get(ROUTE)
         .expect(200)
-        .end(function (error, response) {
-          expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
-          done()
-        })
     })
   })
 
   describe(`POST ${ROUTE}`, function () {
-    it('should redirect to /first-time-claim/eligibility/:reference/claim/:claimId', function (done) {
-      var newClaim = {}
-      stubClaim.returns(newClaim)
-      stubInsertClaim.resolves(CLAIM_ID)
-      request
+    const FIRST_TIME_CLAIM = {}
+
+    it('should call the URL Path Validator', function () {
+      insertFirstTimeClaimStub.resolves()
+      return supertest(app)
         .post(ROUTE)
-        .send(VALID_DATA)
-        .expect(302)
-        .end(function (error, response) {
-          expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
-          expect(stubClaim.calledWith(REFERENCE, day, month, year)).to.be.true
-          expect(stubInsertClaim.calledWithExactly(newClaim)).to.be.true
-          expect(response.header.location).to.equal(`/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}`)
-          done()
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
         })
     })
 
-    it('should response with a 400 for invalid data', function (done) {
-      stubClaim.throws(new ValidationError({ 'Reference': [] }))
-      request
+    it('should insert valid FirstTimeClaim domain object', function () {
+      firstTimeClaimStub.returns(FIRST_TIME_CLAIM)
+      insertFirstTimeClaimStub.resolves(CLAIM_ID)
+      return supertest(app)
+        .post(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(firstTimeClaimStub)
+          sinon.assert.calledOnce(insertFirstTimeClaimStub)
+          sinon.assert.calledWith(insertFirstTimeClaimStub, FIRST_TIME_CLAIM)
+        })
+        .expect(302)
+    })
+
+    it('should redirect to expenses page if child-visitor is set to no', function () {
+      insertFirstTimeClaimStub.resolves(CLAIM_ID)
+      return supertest(app)
+        .post(ROUTE)
+        .expect('location', `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}`)
+    })
+
+    it('should redirect to about-child page if child-visitor is set to yes', function () {
+      insertFirstTimeClaimStub.resolves(CLAIM_ID)
+      return supertest(app)
+        .post(ROUTE)
+        .send({
+          'child-visitor': 'yes'
+        })
+        .expect('location', `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}/child`)
+    })
+
+    it('should respond with a 400 if domain object validation fails.', function () {
+      insertFirstTimeClaimStub.throws(new ValidationError())
+      return supertest(app)
         .post(ROUTE)
         .expect(400)
-        .end(function (error, response) {
-          expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
-          done()
-        })
+    })
+
+    it('should respond with a 500 if any non-validation error occurs.', function () {
+      insertFirstTimeClaimStub.throws(new Error())
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
     })
   })
 })
