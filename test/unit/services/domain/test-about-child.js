@@ -3,7 +3,7 @@ const ValidationError = require('../../../../app/services/errors/validation-erro
 const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 
-describe('services/domain/expenses/bus-expense', function () {
+describe('services/domain/about-child', function () {
   const VALID_CHILD_NAME = 'child name'
   const VALID_DAY = '15'
   const VALID_MONTH = '05'
