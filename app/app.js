@@ -10,8 +10,8 @@ const i18n = require('i18n')
 const routes = require('./routes/routes')
 const log = require('./services/log')
 const onFinished = require('on-finished')
-var session = require('express-session')
-var csurf = require('csurf')
+const session = require('express-session')
+const csurf = require('csurf')
 
 var app = express()
 
