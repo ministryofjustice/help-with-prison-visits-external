@@ -1,5 +1,6 @@
 const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
+const childRelationshipEnum = require('../../../app/constants/child-relationship-enum')
 const AboutChild = require('../../../app/services/domain/about-child')
 const insertChild = require('../../../app/services/data/insert-child')
 const dateFormatter = require('../../../app/services/date-formatter')
@@ -8,7 +9,7 @@ module.exports.CHILD_NAME = 'Joe Bloggs'
 module.exports.DAY = '15'
 module.exports.MONTH = '05'
 module.exports.YEAR = '2014'
-module.exports.CHILD_RELATIONSHIP = 'prisoners-child' // TODO: use enum
+module.exports.CHILD_RELATIONSHIP = childRelationshipEnum.PRISONER_CHILD
 module.exports.DOB = dateFormatter.build(this.DAY, this.MONTH, this.YEAR)
 
 module.exports.build = function () {
