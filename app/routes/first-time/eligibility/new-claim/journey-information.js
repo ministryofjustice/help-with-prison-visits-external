@@ -22,11 +22,11 @@ module.exports = function (router) {
         req.body['date-of-journey-year']
       )
       insertFirstTimeClaim(firstTimeClaim)
-        .then(function (newClaimId) {
+        .then(function (claimId) {
           if (req.body['child-visitor'] === 'yes') {
-            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${newClaimId}/child`)
+            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}/child`)
           } else {
-            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${newClaimId}`)
+            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}`)
           }
         })
         .catch(function (error) {
