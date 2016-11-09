@@ -5,7 +5,6 @@ const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 const CHILD_MAXIMUM_AGE = 18
 
-// TODO: Add unit test for this domain object.
 class AboutChild {
   constructor (childName, day, month, year, childRelationship) {
     this.childName = childName ? childName.trim() : ''
@@ -16,10 +15,10 @@ class AboutChild {
     ]
     this.dob = dateFormatter.build(day, month, year)
     this.childRelationship = childRelationship ? childRelationship.trim() : ''
-    this.IsValid()
+    this.isValid()
   }
 
-  IsValid () {
+  isValid () {
     var errors = ErrorHandler()
 
     FieldValidator(this.childName, 'child-name', errors)
