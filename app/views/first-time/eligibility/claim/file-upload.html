@@ -11,11 +11,12 @@
   <div class="grid-row">
     <div class="column-two-thirds">
       <h2 class="heading-large">
-        Please upload your {{ fileUploadGuidingText[document].displayname }}
+      {{ fileUploadGuidingText[document].title }}
       </h2>
+      <p>{{ fileUploadGuidingText[document].guidingText }}</p>
 
       <h3 class="heading-medium">Upload now</h3>
-      <p>Uploading your {{ fileUploadGuidingText[document].type }} is the fastest way to process your application.</p>
+      <p>Uploading your documentation is the fastest way to process your application.</p>
 
       <label class="custom-file-upload">
         <input type="file" />
