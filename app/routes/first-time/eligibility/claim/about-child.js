@@ -15,7 +15,7 @@ module.exports = function (router) {
   router.post('/first-time/eligibility/:reference/claim/:claimId/child', function (req, res) {
     UrlPathValidator(req.params)
 
-    // TODO: Add inegration test for peristance module.
+    // TODO: Add integration test for peristance module.
     // TODO: Need to reload the page if the user selects add another child.
     // TODO: Update end-to-end test to hit the child page and add two children.
 
@@ -28,7 +28,7 @@ module.exports = function (router) {
         req.body['child-relationship']
       )
       console.log(child) // TODO: Temp
-      // TODO: Pass the claimId and domain object to the insert function to create the child record should be associated with claim.
+      // TODO: Pass the claimId and domain object to the insert function to create the child record, it should be associated with the claim.
       // TODO: Only redirect if persisting the child details domain object was successful.
 
       return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}`)

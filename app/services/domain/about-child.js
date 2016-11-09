@@ -3,6 +3,7 @@ const FieldsetValidator = require('../validators/fieldset-validator')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
+const CHILD_MAXIMUM_AGE = 18
 
 // TODO: Add unit test for this domain object.
 class AboutChild {
@@ -34,13 +35,12 @@ class AboutChild {
       .isRequired()
       .isValidDate(this.dob)
       .isPastDate(this.dob)
-      // TODO: Add isChild check (i.e. under 18).
-
-    var validationErrors = errors.get()
+      .isOlderThan(this.dob, CHILD_MAXIMUM_AGE)
 
     FieldValidator(this.childRelationship, 'child-relationship', errors)
       .isRequired()
 
+    var validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }
