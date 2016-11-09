@@ -48,9 +48,7 @@ exports.isDateWithinDays = function (date, days) {
   return dateFormatter.now().diff(date, 'days') <= days
 }
 
-// TODO: Unit test.
 exports.isOlderThan = function (dob, years) {
-  // TODO: Error Handling.
   var age = dateFormatter.now().diff(dob, 'years')
   return age >= years
 }
