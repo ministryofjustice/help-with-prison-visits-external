@@ -3,7 +3,7 @@ const fileUploadGuidingText = require('../../../../constants/file-upload-guiding
 const documentTypeEnum = require('../../../../constants/document-type-enum')
 
 module.exports = function (router) {
-  router.get('/first-time/eligibility/:reference/claim/:claimId/file-upload', function (req, res, next) {
+  router.get('/first-time/eligibility/:reference/claim/:claimId/file-upload', function (req, res) {
     UrlPathValidator(req.params)
     if (documentTypeEnum.hasOwnProperty(req.query.document)) {
       res.render('first-time/eligibility/claim/file-upload', {
@@ -11,7 +11,7 @@ module.exports = function (router) {
         fileUploadGuidingText: fileUploadGuidingText
       })
     } else {
-      return next()
+      throw new Error('Not a valid document type')
     }
   })
 }
