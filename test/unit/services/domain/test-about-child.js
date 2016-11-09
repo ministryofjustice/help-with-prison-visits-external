@@ -26,7 +26,7 @@ describe('services/domain/expenses/bus-expense', function () {
 
   it('should throw an error if passed invalid data', function () {
     expect(function () {
-      new new AboutChild(
+      new AboutChild(
         VALID_CHILD_NAME,
         INVALID_DAY,
         VALID_MONTH,

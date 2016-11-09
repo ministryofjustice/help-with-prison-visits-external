@@ -1,6 +1,7 @@
+const AboutChild = require('../../../../services/domain/about-child')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const ValidationError = require('../../../../services/errors/validation-error')
-const AboutChild = require('../../../../services/domain/about-child')
+const insertChild = require('../../../../services/data/insert-child')
 
 // TODO: Add route unit test.
 module.exports = function (router) {
@@ -15,8 +16,6 @@ module.exports = function (router) {
   router.post('/first-time/eligibility/:reference/claim/:claimId/child', function (req, res) {
     UrlPathValidator(req.params)
 
-    // TODO: Add integration test for peristance module.
-
     try {
       var child = new AboutChild(
         req.body['child-name'],
@@ -25,10 +24,9 @@ module.exports = function (router) {
         req.body['dob-year'],
         req.body['child-relationship']
       )
-      console.log(child) // TODO: Temp
-      // TODO: Pass the claimId and domain object to the insert function to create the child record, it should be associated with the claim.
-      // TODO: Only redirect if persisting the child details domain object was successful.
 
+      // TODO: Only redirect if persisting the child details domain object was successful.
+      insertChild(req.params.claimId, child)
       if (req.body['add-another-child']) {
         return res.redirect(req.originalUrl)
       } else {
