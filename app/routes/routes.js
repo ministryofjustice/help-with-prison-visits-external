@@ -17,7 +17,7 @@ var routes = [
   require('./first-time/new-eligibility/about-you.js'),
   require('./first-time/eligibility/new-claim/future-or-past-visit.js'),
   require('./first-time/eligibility/new-claim/journey-information.js'),
-  require('./first-time/eligibility/new-claim/about-child.js'),
+  require('./first-time/eligibility/claim/about-child.js'),
   require('./first-time/eligibility/claim/expenses'),
   require('./first-time/eligibility/claim/bank-account-details'),
 
