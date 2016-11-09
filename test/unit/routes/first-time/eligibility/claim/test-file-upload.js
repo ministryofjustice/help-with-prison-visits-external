@@ -5,7 +5,7 @@ const sinon = require('sinon')
 require('sinon-bluebird')
 
 describe('routes/first-time/eligibility/claim/file-upload', function () {
-  const ROUTE = `/first-time/eligibility/A123456/claim/1/file-upload`
+  const ROUTE = `/first-time/eligibility/A123456/claim/1/file-upload?document=`
 
   var app
   var urlPathValidatorStub
@@ -28,10 +28,16 @@ describe('routes/first-time/eligibility/claim/file-upload', function () {
         })
     })
 
-    it('should respond with a 200', function () {
+    it('should respond with a 200 if passed valid document type', function () {
       return supertest(app)
-        .get(ROUTE)
+        .get(`${ROUTE}VISIT_CONFIRMATION`)
         .expect(200)
+    })
+
+    it('should respond with a 404 if passed invalid document type', function () {
+      return supertest(app)
+        .get(`${ROUTE}TEST`)
+        .expect(404)
     })
   })
 })
