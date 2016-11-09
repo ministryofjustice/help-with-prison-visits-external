@@ -80,11 +80,12 @@ describe('First time claim flow', () => {
       .waitForExist('#car-details-submit')
       .click('#car-details-submit')
 
-      // Bus #1
+      // Bus #1 (adult expense)
       .waitForExist('#bus-details-submit')
       .setValue('#from-input', 'Euston')
       .setValue('#to-input', 'Birmingham New Street')
       .click('#return-no')
+      .click('#is-child-no')
       .setValue('#cost-input', '20')
       .click('#add-another-journey')
       .click('#bus-details-submit')
@@ -92,11 +93,12 @@ describe('First time claim flow', () => {
       // Allow second bus page to load
       .pause(3000)
 
-      // Bus #2 (add another journey)
+      // Bus #2 (add another journey) (child expense)
       .waitForExist('#bus-details-submit')
       .setValue('#from-input', 'Birmingham New Street')
       .setValue('#to-input', 'Euston')
       .click('#return-no')
+      .click('#is-child-yes')
       .setValue('#cost-input', '20')
       .click('#bus-details-submit')
 
