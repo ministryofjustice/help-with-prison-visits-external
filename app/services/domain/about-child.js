@@ -8,12 +8,6 @@ const CHILD_MAXIMUM_AGE = 18
 // TODO: Add unit test for this domain object.
 class AboutChild {
   constructor (childName, day, month, year, childRelationship) {
-    console.log(childName)
-    console.log(day)
-    console.log(month)
-    console.log(year)
-    console.log(childRelationship)
-
     this.childName = childName ? childName.trim() : ''
     this.dobFields = [
       day ? day.trim() : '',

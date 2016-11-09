@@ -57,7 +57,6 @@ class FieldsetValidator {
 
   isYoungerThan (dob, years) {
     if (validator.isOlderThan(dob, years)) {
-      console.log('here')
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsYoungerThan, { years: years })
     }
     return this
