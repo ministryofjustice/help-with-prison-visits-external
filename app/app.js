@@ -10,7 +10,7 @@ const i18n = require('i18n')
 const routes = require('./routes/routes')
 const log = require('./services/log')
 const onFinished = require('on-finished')
-const session = require('express-session')
+var cookieParser = require('cookie-parser')
 const csurf = require('csurf')
 
 var app = express()
@@ -75,15 +75,11 @@ app.use(function (req, res, next) {
   next()
 })
 
-// Use session middleware (required for csurf).
-app.use(session({
-  secret: 'test',
-  resave: false,
-  saveUninitialized: true
-}))
+// Use cookie parser middleware (required for csurf)
+app.use(cookieParser())
 
 // Check for valid CSRF tokens on state-changing methods.
-app.use(csurf())
+app.use(csurf({ cookie: true }))
 
 // Generate tokens for all get requests
 app.get('*', function (req, res, next) {
