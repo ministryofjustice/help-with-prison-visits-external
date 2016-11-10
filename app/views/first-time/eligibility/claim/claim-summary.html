@@ -22,9 +22,7 @@
       <td>{{ claimDetails.claim['FirstName'] }} {{ claimDetails.claim['LastName'] }}</td>
     </tr>
 
-    <!-- TODO: Replace with iteration over real values retrieved from the database. -->
-    {% set claimChild = [{ Name: "Example Child 1" }, { Name: "Example Chile 2" }] %}
-    {% for child in claimChild %}
+    {% for child in claimDetails.claimChild %}
     <tr>
       <td>Child</td>
       <td>{{ child['Name'] }}</td>

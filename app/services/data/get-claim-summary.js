@@ -2,7 +2,6 @@ const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const documentTypeEnum = require('../../constants/document-type-enum')
 
-// TODO: Need to add ability to retrieve claimChild table contents.
 module.exports = function (claimId) {
   return knex('Claim')
     .join('Eligibility', 'Claim.Reference', '=', 'Eligibility.Reference')
@@ -25,7 +24,7 @@ module.exports = function (claimId) {
     .then(function (claim) {
       return knex('ClaimDocument')
         .join('Claim', 'ClaimDocument.ClaimId', '=', 'Claim.ClaimId')
-        .where({ 'ClaimDocument.DocumentType': documentTypeEnum.VISIT_CONFIRMATION, 'Claim.ClaimId': claimId} )
+        .where({ 'ClaimDocument.DocumentType': documentTypeEnum.VISIT_CONFIRMATION, 'Claim.ClaimId': claimId })
         .first('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType')
         .then(function (visitConfirmationDocumentStatus) {
           return knex('Claim')
@@ -48,7 +47,26 @@ module.exports = function (claimId) {
                 expense.Cost = Number(expense.Cost).toFixed(2)
               })
               claim.visitConfirmation = visitConfirmationDocumentStatus
-              return {claim: claim, claimExpenses: claimExpenses}
+              return claimExpenses
+            })
+        })
+        .then(function (claimExpenses) {
+          return knex('Claim')
+            .join('ClaimChild', 'Claim.ClaimId', '=', 'ClaimChild.ClaimId')
+            .where({ 'Claim.ClaimId': claimId, 'ClaimChild.IsEnabled': true })
+            .select(
+              'ClaimChild.ClaimChildId',
+              'ClaimChild.Name',
+              'ClaimChild.DateOfBirth',
+              'ClaimChild.Relationship'
+            )
+            .orderBy('ClaimChild.Name')
+            .then(function (claimChild) {
+              return {
+                claim: claim,
+                claimExpenses: claimExpenses,
+                claimChild: claimChild
+              }
             })
         })
     })
