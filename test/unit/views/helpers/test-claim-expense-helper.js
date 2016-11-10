@@ -12,7 +12,7 @@ describe('views/helpers/claim-expense-helper', function () {
   describe('FormattedDetail', function () {
     const FROM = 'PointA'
     const TO = 'PointB'
-    const DURATION_OF_TRAVAL = 2
+    const DURATION_OF_TRAVEL = '2'
     const TICKET_TYPE = 'foot-passenger'
 
     const CHILD_PREFIX = 'Child - '
@@ -20,7 +20,7 @@ describe('views/helpers/claim-expense-helper', function () {
 
     it('should return formatted detail string for ClaimExpense', function () {
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'car hire', From: FROM, To: TO, DurationOfTravel: 2 }))
-        .to.equal(`${FROM} to ${TO} for ${DURATION_OF_TRAVAL} days`)
+        .to.equal(`${FROM} to ${TO} for ${DURATION_OF_TRAVEL} days`)
 
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'bus', From: FROM, To: TO }))
         .to.equal(`${FROM} to ${TO}`)
@@ -34,8 +34,8 @@ describe('views/helpers/claim-expense-helper', function () {
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'light refreshment', TravelTime: 'over-ten' }))
         .to.equal('Over ten hours away')
 
-      expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'accommodation', DurationOfTravel: DURATION_OF_TRAVAL }))
-        .to.equal(`Nights stayed: ${DURATION_OF_TRAVAL}`)
+      expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'accommodation', DurationOfTravel: DURATION_OF_TRAVEL }))
+        .to.equal(`Nights stayed: ${DURATION_OF_TRAVEL}`)
 
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'ferry', From: FROM, To: TO, TicketType: TICKET_TYPE }))
         .to.equal(`${FROM} to ${TO} as a foot passenger`)
