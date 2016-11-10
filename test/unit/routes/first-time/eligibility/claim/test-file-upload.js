@@ -2,6 +2,8 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+// const bodyParser = require('body-parser')
+// const ValidationError = require('../../../../../../app/services/errors/validation-error')
 require('sinon-bluebird')
 
 describe('routes/first-time/eligibility/claim/file-upload', function () {
@@ -9,12 +11,24 @@ describe('routes/first-time/eligibility/claim/file-upload', function () {
 
   var app
   var urlPathValidatorStub
+  var directoryCheckStub
+  var uploadStub
+  var fileUploadStub
+  var claimDocumentInsertStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
+    directoryCheckStub = sinon.stub()
+    uploadStub = sinon.stub()
+    fileUploadStub = sinon.stub()
+    claimDocumentInsertStub = sinon.stub()
 
     var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/file-upload', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub
+      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
+      '../../../../services/directory-check': directoryCheckStub,
+      '../../../../services/upload': uploadStub,
+      '../../../../services/domain/file-upload': fileUploadStub,
+      '../../../../services/data/insert-file-upload-details-for-claim': claimDocumentInsertStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -34,10 +48,29 @@ describe('routes/first-time/eligibility/claim/file-upload', function () {
         .expect(200)
     })
 
+    it('should call the directory check', function () {
+      return supertest(app)
+        .get(`${ROUTE}VISIT_CONFIRMATION`)
+        .expect(function () {
+          sinon.assert.calledOnce(directoryCheckStub)
+        })
+    })
+
     it('should respond with a 500 if passed invalid document type', function () {
       return supertest(app)
         .get(`${ROUTE}TEST`)
         .expect(500)
+    })
+  })
+
+  describe(`POST ${ROUTE}`, function () {
+    it('should call the URL Path Validator', function () {
+      uploadStub.callsArg(2)
+      return supertest(app)
+        .post(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
     })
   })
 })

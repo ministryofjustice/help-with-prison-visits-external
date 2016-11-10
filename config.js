@@ -9,6 +9,7 @@ module.exports = {
   EXT_MIGRATION_PASSWORD: process.env.APVS_EXT_MIGRATION_PASSWORD,
   // i18n
   I18N_UPDATEFILES: process.env.I18N_UPDATEFILES,
-  // File upload location
-  FILE_UPLOAD_LOCATION: process.env.FILE_UPLOAD_LOCATION
+  // File upload
+  FILE_UPLOAD_LOCATION: process.env.FILE_UPLOAD_LOCATION,
+  FILE_UPLOAD_MAXSIZE: process.env.FILE_UPLOAD_MAXSIZE
 }

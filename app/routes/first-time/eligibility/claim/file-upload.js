@@ -22,28 +22,34 @@ module.exports = function (router) {
     }
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId/file-upload', Upload, function (req, res) {
+  router.post('/first-time/eligibility/:reference/claim/:claimId/file-upload', function (req, res) {
     UrlPathValidator(req.params)
-    try {
-      if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
-        var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.fileTypeError, req.body.alternative)
-        ClaimDocumentInsert(fileUpload).then(function () {
-          res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}/summary`)
-        })
-      } else {
-        throw new Error('Not a valid document type')
+    Upload(req, res, function (error) {
+      try {
+        if (error) {
+          throw new ValidationError({upload: ['File uploaded too large']})
+        } else {
+          if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
+            var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.fileTypeError, req.body.alternative)
+            ClaimDocumentInsert(fileUpload).then(function () {
+              res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}/summary`)
+            })
+          } else {
+            throw new Error('Not a valid document type')
+          }
+        }
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          return res.status(400).render('first-time/eligibility/claim/file-upload', {
+            document: req.query.document,
+            fileUploadGuidingText: FileUploadGuidingText,
+            errors: error.validationErrors,
+            URL: req.url
+          })
+        } else {
+          throw error
+        }
       }
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        return res.status(400).render('first-time/eligibility/claim/file-upload', {
-          document: req.query.document,
-          fileUploadGuidingText: FileUploadGuidingText,
-          errors: error.validationErrors,
-          URL: req.url
-        })
-      } else {
-        throw error
-      }
-    }
+    })
   })
 }
