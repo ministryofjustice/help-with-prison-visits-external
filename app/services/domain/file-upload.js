@@ -3,6 +3,7 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const fs = require('fs')
 const dateFormatter = require('../date-formatter')
+const documentTypeEnum = require('../../constants/document-type-enum')
 
 class FileUpload {
   constructor (claimId, documentType, claimExpenseId, file, fileTypeError, alternative) {
@@ -12,7 +13,7 @@ class FileUpload {
     this.IsValid()
     this.path = file.path
     this.claimId = claimId
-    this.documentType = documentType
+    this.documentType = documentTypeEnum[documentType]
     this.claimExpenseId = claimExpenseId
     this.dateSubmitted = dateFormatter.now().toDate()
 
