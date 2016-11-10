@@ -32,6 +32,7 @@ class AboutChild {
 
     FieldValidator(this.childRelationship, 'child-relationship', errors)
       .isRequired()
+      .isValidChildRelationship()
 
     var validationErrors = errors.get()
     if (validationErrors) {

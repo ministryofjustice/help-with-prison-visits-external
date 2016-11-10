@@ -2,16 +2,18 @@ const AboutChild = require('../../../../app/services/domain/about-child')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
+const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
 
 describe('services/domain/about-child', function () {
   const VALID_CHILD_NAME = 'child name'
   const VALID_DAY = '15'
   const VALID_MONTH = '05'
   const VALID_YEAR = '2014'
-  const VALID_CHILD_RELATIONSHIP = 'yes'
+  const VALID_CHILD_RELATIONSHIP = childRelationshipEnum.PRISONER_CHILD
   const INVALID_DAY = 'invalid day'
 
   it('should construct a domain object given valid input', function () {
+    console.log(childRelationshipEnum.PRISONER_CHILD)
     var child = new AboutChild(
       VALID_CHILD_NAME,
       VALID_DAY,

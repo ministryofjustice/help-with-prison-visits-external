@@ -105,6 +105,12 @@ class FieldValidator {
     return this
   }
 
+  isValidChildRelationship () {
+    if (!validator.isValidChildRelationship(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidRadioOption)
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {
