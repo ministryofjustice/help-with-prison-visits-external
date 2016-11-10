@@ -113,7 +113,14 @@
           </fieldset>
         </div>
 
-        <input id="benefit-submit" type="submit" value="Continue" class="button">
+        <input type="hidden"
+               name="_csrf"
+               value="{{ csrfToken }}">
+
+        <input id="benefit-submit"
+               type="submit"
+               value="Continue"
+               class="button">
       </form>
 
     </div>

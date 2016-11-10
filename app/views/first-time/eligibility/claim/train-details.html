@@ -72,6 +72,10 @@
 
         {% include "partials/expenses/add-another-journey.html" %}
 
+        <input type="hidden"
+               name="_csrf"
+               value="{{ csrfToken }}">
+
         <input id="train-details-submit"
                type="submit"
                class="button"

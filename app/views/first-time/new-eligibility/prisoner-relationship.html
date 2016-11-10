@@ -102,7 +102,14 @@
 
         </div>
 
-        <input id="prisoner-relationship-submit" type="submit" class="button" value="Continue">
+        <input type="hidden"
+               name="_csrf"
+               value="{{ csrfToken }}">
+
+        <input id="prisoner-relationship-submit"
+               type="submit"
+               class="button"
+               value="Continue">
       </form>
 
     </div>

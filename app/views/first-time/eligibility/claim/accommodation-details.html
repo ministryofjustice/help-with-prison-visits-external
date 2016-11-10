@@ -53,6 +53,10 @@
           <p class="form-hint">For example, £50</p>
         </div>
 
+        <input type="hidden"
+               name="_csrf"
+               value="{{ csrfToken }}">
+
         <input id="accommodation-details-submit"
                type="submit"
                value="Continue"

@@ -47,7 +47,14 @@
                  value="{{ bankDetails['SortCode'] }}">
         </div>
 
-        <input id="bank-account-details-submit" type="submit" class="button" value="Submit application">
+        <input type="hidden"
+               name="_csrf"
+               value="{{ csrfToken }}">
+
+        <input id="bank-account-details-submit" 
+               type="submit"
+               class="button"
+               value="Submit application">
       </form>
 
     </div>

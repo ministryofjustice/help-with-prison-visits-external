@@ -57,7 +57,14 @@
       </div>
       <form action="" method="get" class="form">
         <div class="form-group">
-            <input type="submit" name="commit" value="Continue" class="button">
+          <input type="hidden"
+                 name="_csrf"
+                 value="{{ csrfToken }}">
+
+          <input type="submit" 
+                 name="commit"
+                 value="Continue"
+                 class="button">
         </div>
       </form>
     </div>

@@ -73,11 +73,14 @@
 
         {% include "partials/expenses/add-another-journey.html" %}
 
+        <input type="hidden"
+               name="_csrf"
+               value="{{ csrfToken }}">
+
         <input id="taxi-details-submit"
                type="submit"
                value="Continue"
                class="button">
-
       </form>
 
     </div>

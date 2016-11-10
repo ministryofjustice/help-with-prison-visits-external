@@ -76,7 +76,14 @@
         <br>
 
         <div class="form-group">
-          <input id="already-registered-submit" type="submit" value="Continue" class="button">
+          <input type="hidden"
+               name="_csrf"
+               value="{{ csrfToken }}">
+
+          <input id="already-registered-submit"
+                 type="submit"
+                 value="Continue"
+                 class="button">
         </div>
 
       </form>

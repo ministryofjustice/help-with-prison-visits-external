@@ -114,7 +114,14 @@
                  class="form-control">
         </div>
 
-        <input id="about-the-prisoner-submit" type="submit" class="button" value="Continue">
+        <input type="hidden"
+               name="_csrf"
+               value="{{ csrfToken }}">
+
+        <input id="about-the-prisoner-submit"
+               type="submit"
+               class="button"
+               value="Continue">
       </form>
 
     </div>
