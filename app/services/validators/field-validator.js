@@ -107,14 +107,14 @@ class FieldValidator {
 
   isValidChildRelationship () {
     if (!validator.isValidChildRelationship(this.data)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidRadioOption)
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
     }
     return this
   }
 
   isValidBooleanSelect () {
     if (!validator.isValidBooleanSelect(this.data)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidRadioOption)
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
     }
     return this
   }

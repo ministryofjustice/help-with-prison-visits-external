@@ -14,5 +14,5 @@ module.exports = {
   getIsGreaterThan: function (displayName) { return `${displayName} must be greater than zero` },
   getDateSetDaysAway: function (displayName, options) { return `${displayName} must be within ${options.days} days` },
   getIsYoungerThan: function (displayName, options) { return `Must be under ${options.years} years of age` },
-  getIsValidRadioOption: function (displayName) { return `${displayName} must be one of the valid options in the drop down` }
+  getIsValidOption: function (displayName) { return `${displayName} must be a valid option` }
 }

@@ -80,6 +80,9 @@ describe('First time claim flow', () => {
       .click('#add-another-child')
       .click('#about-child-submit')
 
+      // Allow second bus page to load
+      .pause(3000)
+
       // About Child #2
       .waitForExist('#about-child-submit')
       .setValue('#child-name-input', 'Lewis Bloggs')
