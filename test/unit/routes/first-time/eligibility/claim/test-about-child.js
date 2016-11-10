@@ -6,26 +6,26 @@ require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('routes/first-time/eligibility/new-claim/journey-information', function () {
+describe('routes/first-time/eligibility/claim/about-child', function () {
   const REFERENCE = 'APVS123'
   const CLAIM_ID = '123'
-  const ROUTE = `/first-time/eligibility/${REFERENCE}/new-claim/past`
+  const ROUTE = `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}/child`
 
   var app
 
   var urlPathValidatorStub
-  var firstTimeClaimStub
-  var insertFirstTimeClaimStub
+  var aboutChildStub
+  var insertChildStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
-    firstTimeClaimStub = sinon.stub()
-    insertFirstTimeClaimStub = sinon.stub()
+    aboutChildStub = sinon.stub()
+    insertChildStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/new-claim/journey-information', {
+    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/about-child', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/first-time-claim': firstTimeClaimStub,
-      '../../../../services/data/insert-first-time-claim': insertFirstTimeClaimStub
+      '../../../../services/domain/about-child': aboutChildStub,
+      '../../../../services/data/insert-child': insertChildStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -47,10 +47,10 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
   })
 
   describe(`POST ${ROUTE}`, function () {
-    const FIRST_TIME_CLAIM = {}
+    const ABOUT_CHILD = {}
 
     it('should call the URL Path Validator', function () {
-      insertFirstTimeClaimStub.resolves()
+      insertChildStub.resolves()
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
@@ -59,44 +59,44 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
     })
 
     it('should insert valid FirstTimeClaim domain object', function () {
-      firstTimeClaimStub.returns(FIRST_TIME_CLAIM)
-      insertFirstTimeClaimStub.resolves(CLAIM_ID)
+      aboutChildStub.returns(ABOUT_CHILD)
+      insertChildStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
-          sinon.assert.calledOnce(firstTimeClaimStub)
-          sinon.assert.calledOnce(insertFirstTimeClaimStub)
-          sinon.assert.calledWith(insertFirstTimeClaimStub, FIRST_TIME_CLAIM)
+          sinon.assert.calledOnce(aboutChildStub)
+          sinon.assert.calledOnce(insertChildStub)
+          sinon.assert.calledWith(insertChildStub, CLAIM_ID, ABOUT_CHILD)
         })
         .expect(302)
     })
 
-    it('should redirect to expenses page if child-visitor is set to no', function () {
-      insertFirstTimeClaimStub.resolves(CLAIM_ID)
+    it('should redirect to expenses page if add-another-child is set to no', function () {
+      insertChildStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
         .expect('location', `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}`)
     })
 
-    it('should redirect to about-child page if child-visitor is set to yes', function () {
-      insertFirstTimeClaimStub.resolves(CLAIM_ID)
+    it('should redirect to the about-child page if add-another-child is set to yes', function () {
+      insertChildStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
         .send({
-          'child-visitor': 'yes'
+          'add-another-child': 'yes'
         })
-        .expect('location', `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}/child`)
+        .expect('location', ROUTE)
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      insertFirstTimeClaimStub.throws(new ValidationError())
+      insertChildStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      insertFirstTimeClaimStub.throws(new Error())
+      insertChildStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .expect(500)

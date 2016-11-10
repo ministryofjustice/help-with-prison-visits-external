@@ -21,42 +21,37 @@ describe('services/validators/fieldset-validator', function () {
   })
 
   describe('isRequired', function () {
-    it('should return false if data is null', function (done) {
+    it('should return false if data is null', function () {
       FieldsetValidator(null, FIELD_NAME, ERROR_HANDLER)
         .isRequired()
       var errors = ERROR_HANDLER.get()
       expect(errors).to.be.equal(false)
-      done()
     })
 
-    it('should return false if data is undefined', function (done) {
+    it('should return false if data is undefined', function () {
       FieldsetValidator(undefined, FIELD_NAME, ERROR_HANDLER)
         .isRequired()
       var errors = ERROR_HANDLER.get()
       expect(errors).to.be.equal(false)
-      done()
     })
 
-    it('should return false if data is an object', function (done) {
+    it('should return false if data is an object', function () {
       FieldsetValidator({}, FIELD_NAME, ERROR_HANDLER)
         .isRequired()
       var errors = ERROR_HANDLER.get()
       expect(errors).to.be.equal(false)
-      done()
     })
 
-    it('should return an error object if passed an array containing invalid data', function (done) {
+    it('should return an error object if passed an array containing invalid data', function () {
       FieldsetValidator(DATA, FIELD_NAME, ERROR_HANDLER)
         .isRequired()
       var errors = ERROR_HANDLER.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return the fieldsetValidator after being called to allow function chaining.', function (done) {
+    it('should return the fieldsetValidator after being called to allow function chaining.', function () {
       var result = this.fieldsetValidator.isRequired()
       expect(result).to.be.equal(this.fieldsetValidator)
-      done()
     })
   })
 
@@ -95,45 +90,39 @@ describe('services/validators/fieldset-validator', function () {
     const PAST_DATE = dateFormatter.now().subtract(1, 'day')
     const FUTURE_DATE = dateFormatter.now().add(1, 'day')
 
-    it('should return error object if data is null', function (done) {
+    it('should return error object if data is null', function () {
       this.fieldsetValidator.isPastDate(null)
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return error object if data is undefined', function (done) {
+    it('should return error object if data is undefined', function () {
       this.fieldsetValidator.isPastDate(undefined)
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return error object if data is not a valid date object', function (done) {
+    it('should return error object if data is not a valid date object', function () {
       this.fieldsetValidator.isPastDate({})
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return error object if the date given is in the future', function (done) {
+    it('should return error object if the date given is in the future', function () {
       this.fieldsetValidator.isPastDate(FUTURE_DATE)
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return false if the date given is in the past', function (done) {
+    it('should return false if the date given is in the past', function () {
       this.fieldsetValidator.isPastDate(PAST_DATE)
       var errors = this.error.get()
       expect(errors).to.equal(false)
-      done()
     })
 
-    it('should return the fieldsetValidator after being called to allow function chaining.', function (done) {
+    it('should return the fieldsetValidator after being called to allow function chaining.', function () {
       var result = this.fieldsetValidator.isPastDate(dateFormatter.now())
       expect(result).to.be.equal(this.fieldsetValidator)
-      done()
     })
   })
 
@@ -142,38 +131,67 @@ describe('services/validators/fieldset-validator', function () {
     const DATE_WITHIN_28_DAYS = dateFormatter.now().subtract(1, 'day')
     const DATE_OUTSIDE_28_DAYS = dateFormatter.now().subtract(29, 'day')
 
-    it('should return error object if data is null', function (done) {
+    it('should return error object if data is null', function () {
       this.fieldsetValidator.isDateWithinDays(null)
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return error object if data is undefined', function (done) {
+    it('should return error object if data is undefined', function () {
       this.fieldsetValidator.isDateWithinDays(undefined)
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return error object if data is not a valid date object', function (done) {
+    it('should return error object if data is not a valid date object', function () {
       this.fieldsetValidator.isDateWithinDays({})
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return error object if the date given over the given days away', function (done) {
+    it('should return error object if the date given over the given days away', function () {
       this.fieldsetValidator.isDateWithinDays(DATE_OUTSIDE_28_DAYS, DAYS)
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
-      done()
     })
 
-    it('should return the fieldsetValidator after being called to allow function chaining.', function (done) {
+    it('should return the fieldsetValidator after being called to allow function chaining.', function () {
       var result = this.fieldsetValidator.isDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
       expect(result).to.be.equal(this.fieldsetValidator)
-      done()
+    })
+  })
+
+  describe('isYoungerThanInYears', function () {
+    const YEARS = 18
+    const OLDER_THAN_DOB = dateFormatter.now().subtract(YEARS, 'years')
+
+    it('should return error object if data is null', function () {
+      this.fieldsetValidator.isYoungerThanInYears(null)
+      var errors = this.error.get()
+      expect(errors).to.equal(false)
+    })
+
+    it('should return error object if data is undefined', function () {
+      this.fieldsetValidator.isYoungerThanInYears(undefined)
+      var errors = this.error.get()
+      expect(errors).to.equal(false)
+    })
+
+    it('should return error object if data is not a valid date object', function () {
+      this.fieldsetValidator.isYoungerThanInYears({})
+      var errors = this.error.get()
+      expect(errors).to.equal(false)
+    })
+
+    it(`should return error object if the DOB passed has an age greater than ${YEARS} years`, function () {
+      this.fieldsetValidator.isYoungerThanInYears(OLDER_THAN_DOB, YEARS)
+      var errors = this.error.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return the fieldsetValidator after being called to allow function chaining.', function () {
+      var result = this.fieldsetValidator.isYoungerThanInYears(OLDER_THAN_DOB, YEARS)
+      expect(result).to.be.equal(this.fieldsetValidator)
     })
   })
 })

@@ -12,5 +12,7 @@ module.exports = {
   getIsValidFormat: function (displayName) { return `${displayName} must have valid format` },
   getIsCurrency: function (displayName) { return `${displayName} must be a valid amount` },
   getIsGreaterThan: function (displayName) { return `${displayName} must be greater than zero` },
-  getDateSetDaysAway: function (displayName, options) { return `${displayName} must be within ${options.days} days` }
+  getDateSetDaysAway: function (displayName, options) { return `${displayName} must be within ${options.days} days` },
+  getIsYoungerThan: function (displayName, options) { return `Must be under ${options.years} years of age` },
+  getIsValidOption: function (displayName) { return `${displayName} must be a valid option` }
 }
