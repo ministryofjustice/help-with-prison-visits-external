@@ -25,6 +25,7 @@ class FirstTimeClaim {
 
     FieldValidator(this.childVisitor, 'child-visitor', errors)
       .isRequired()
+      .isValidBooleanSelect()
 
     var validationErrors = errors.get()
     if (validationErrors) {

@@ -2,6 +2,7 @@ const expect = require('chai').expect
 const validator = require('../../../../app/services/validators/common-validator')
 const dateFormatter = require('../../../../app/services/date-formatter')
 const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
+const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
 
 describe('services/validators/common-validator', function () {
   const ALPHA_STRING = 'alpha'
@@ -684,6 +685,36 @@ describe('services/validators/common-validator', function () {
 
     it('should return false if passed an invalid child relationship value', function () {
       var result = validator.isValidChildRelationship(INVALID_INPUT)
+      expect(result).to.equal(false)
+    })
+  })
+
+  describe('isValidBooleanSelect', function () {
+    const VALID_INPUT = booleanSelectEnum.YES
+    const INVALID_INPUT = 'some invalid input'
+
+    it('should return false if passed null', function () {
+      var result = validator.isValidBooleanSelect(null)
+      expect(result).to.equal(false)
+    })
+
+    it('should return false if passed undefined', function () {
+      var result = validator.isValidBooleanSelect(undefined)
+      expect(result).to.equal(false)
+    })
+
+    it('should throw Error if passed an object', function () {
+      var result = validator.isValidBooleanSelect({})
+      expect(result).to.equal(false)
+    })
+
+    it('should return true if passed a valid value', function () {
+      var result = validator.isValidBooleanSelect(VALID_INPUT)
+      expect(result).to.equal(true)
+    })
+
+    it('should return false if passed an invalid value', function () {
+      var result = validator.isValidBooleanSelect(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })

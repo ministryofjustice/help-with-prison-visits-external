@@ -111,6 +111,13 @@ class FieldValidator {
     }
     return this
   }
+
+  isValidBooleanSelect () {
+    if (!validator.isValidBooleanSelect(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidRadioOption)
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {
