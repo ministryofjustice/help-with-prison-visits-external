@@ -12,15 +12,15 @@ describe('views/helpers/claim-expense-helper', function () {
   describe('FormattedDetail', function () {
     const FROM = 'PointA'
     const TO = 'PointB'
-    const DURATION_OF_TRAVBL = 2
+    const DURATION_OF_TRAVAL = 2
     const TICKET_TYPE = 'foot-passenger'
 
     const CHILD_PREFIX = 'Child - '
-    const RETURN_PREFIX = ' - Return'
+    const RETURN_POSTFIX = ' - Return'
 
     it('should return formatted detail string for ClaimExpense', function () {
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'car hire', From: FROM, To: TO, DurationOfTravel: 2 }))
-        .to.equal(`${FROM} to ${TO} for ${DURATION_OF_TRAVBL} days`)
+        .to.equal(`${FROM} to ${TO} for ${DURATION_OF_TRAVAL} days`)
 
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'bus', From: FROM, To: TO }))
         .to.equal(`${FROM} to ${TO}`)
@@ -34,8 +34,8 @@ describe('views/helpers/claim-expense-helper', function () {
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'light refreshment', TravelTime: 'over-ten' }))
         .to.equal('Over ten hours away')
 
-      expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'accommodation', DurationOfTravel: DURATION_OF_TRAVBL }))
-        .to.equal(`Nights stayed: ${DURATION_OF_TRAVBL}`)
+      expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'accommodation', DurationOfTravel: DURATION_OF_TRAVAL }))
+        .to.equal(`Nights stayed: ${DURATION_OF_TRAVAL}`)
 
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'ferry', From: FROM, To: TO, TicketType: TICKET_TYPE }))
         .to.equal(`${FROM} to ${TO} as a foot passenger`)
@@ -44,7 +44,7 @@ describe('views/helpers/claim-expense-helper', function () {
         .to.equal(`${FROM} to ${TO}`)
     })
 
-    it('should prepand child prefix for bus, train, plane, and ferry expenses', function () {
+    it('should prepend child prefix for bus, train, plane, and ferry expenses', function () {
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'bus', From: FROM, To: TO, IsChild: true }))
         .to.equal(`${CHILD_PREFIX}${FROM} to ${TO}`)
 
@@ -60,16 +60,16 @@ describe('views/helpers/claim-expense-helper', function () {
 
     it('should append return postfix for bus, train, plane, and ferry expenses', function () {
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'bus', From: FROM, To: TO, IsReturn: true }))
-        .to.equal(`${FROM} to ${TO}${RETURN_PREFIX}`)
+        .to.equal(`${FROM} to ${TO}${RETURN_POSTFIX}`)
 
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'train', From: FROM, To: TO, IsReturn: true }))
-        .to.equal(`${FROM} to ${TO}${RETURN_PREFIX}`)
+        .to.equal(`${FROM} to ${TO}${RETURN_POSTFIX}`)
 
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'plane', From: FROM, To: TO, IsReturn: true }))
-        .to.equal(`${FROM} to ${TO}${RETURN_PREFIX}`)
+        .to.equal(`${FROM} to ${TO}${RETURN_POSTFIX}`)
 
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'ferry', From: FROM, To: TO, IsReturn: true, TicketType: TICKET_TYPE }))
-        .to.equal(`${FROM} to ${TO} as a foot passenger${RETURN_PREFIX}`)
+        .to.equal(`${FROM} to ${TO} as a foot passenger${RETURN_POSTFIX}`)
     })
   })
 })
