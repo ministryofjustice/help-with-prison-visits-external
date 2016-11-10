@@ -1,7 +1,9 @@
 const FirstTimeClaim = require('../../../../app/services/domain/first-time-claim')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const dateFormatter = require('../../../../app/services/date-formatter')
+const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
 const expect = require('chai').expect
+
 var claim
 
 describe('services/domain/first-time-claim', function () {
@@ -9,6 +11,7 @@ describe('services/domain/first-time-claim', function () {
   const VALID_DAY = dateFormatter.now().date()
   const VALID_MONTH = dateFormatter.now().month() + 1 // Needed for zero indexed month
   const VALID_YEAR = dateFormatter.now().year()
+  const VALID_CHILD_VISITOR = booleanSelectEnum.YES
   var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
 
   it('should construct a domain object given valid input', function () {
@@ -16,7 +19,8 @@ describe('services/domain/first-time-claim', function () {
       VALID_REFERENCE,
       VALID_DAY,
       VALID_MONTH,
-      VALID_YEAR
+      VALID_YEAR,
+      VALID_CHILD_VISITOR
     )
     expect(claim.reference).to.equal(VALID_REFERENCE)
     expect(claim.dateOfJourney).to.be.within(
@@ -56,7 +60,8 @@ describe('services/domain/first-time-claim', function () {
         VALID_REFERENCE,
         futureDate.date(),
         futureDate.month() + 1,
-        futureDate.year()
+        futureDate.year(),
+        VALID_CHILD_VISITOR
       )
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
@@ -71,7 +76,8 @@ describe('services/domain/first-time-claim', function () {
         VALID_REFERENCE,
         dateFurtherThan28Days.date(),
         dateFurtherThan28Days.month() + 1,
-        dateFurtherThan28Days.year()
+        dateFurtherThan28Days.year(),
+        VALID_CHILD_VISITOR
       )
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)

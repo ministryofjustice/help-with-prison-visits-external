@@ -105,6 +105,19 @@ class FieldValidator {
     return this
   }
 
+  isValidChildRelationship () {
+    if (!validator.isValidChildRelationship(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
+    }
+    return this
+  }
+
+  isValidBooleanSelect () {
+    if (!validator.isValidBooleanSelect(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {

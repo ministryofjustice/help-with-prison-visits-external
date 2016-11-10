@@ -50,7 +50,14 @@ class FieldsetValidator {
 
   isDateWithinDays (date, days) {
     if (!validator.isDateWithinDays(date, days)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getDateSetDaysAway, {days: days})
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getDateSetDaysAway, { days: days })
+    }
+    return this
+  }
+
+  isYoungerThanInYears (dob, years) {
+    if (validator.isOlderThanInYears(dob, years)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsYoungerThan, { years: years })
     }
     return this
   }

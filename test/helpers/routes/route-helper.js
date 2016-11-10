@@ -6,9 +6,8 @@ const VIEWS_DIRECTORY = '../../../app/views'
 
 module.exports.buildApp = function (route) {
   var app = express()
-  app.use(bodyParser.urlencoded({
-    extended: false
-  }))
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: false }))
 
   route(app)
   mockViewEngine(app, VIEWS_DIRECTORY)

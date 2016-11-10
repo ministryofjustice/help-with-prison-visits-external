@@ -5,14 +5,10 @@ const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 
 class FirstTimeClaim {
-  constructor (
-    reference,
-    day,
-    month,
-    year
-  ) {
+  constructor (reference, day, month, year, childVisitor) {
     this.reference = reference
     this.dateOfJourney = dateFormatter.build(day, month, year)
+    this.childVisitor = childVisitor ? childVisitor.trim() : ''
     this.IsValid()
   }
 
@@ -27,8 +23,11 @@ class FirstTimeClaim {
       .isPastDate(this.dateOfJourney)
       .isDateWithinDays(this.dateOfJourney, 28)
 
-    var validationErrors = errors.get()
+    FieldValidator(this.childVisitor, 'child-visitor', errors)
+      .isRequired()
+      .isValidBooleanSelect()
 
+    var validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

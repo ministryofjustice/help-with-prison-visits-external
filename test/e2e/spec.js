@@ -67,7 +67,30 @@ describe('First time claim flow', () => {
       .setValue('#date-of-journey-day', todaysDate.date())
       .setValue('#date-of-journey-month', todaysDate.month() + 1)
       .setValue('#date-of-journey-year', todaysDate.year())
+      .click('#child-yes')
       .click('#journey-information-submit')
+
+      // About Child #1
+      .waitForExist('#about-child-submit')
+      .setValue('#child-name-input', 'Sam Bloggs')
+      .setValue('#dob-day-input', '15')
+      .setValue('#dob-month-input', '05')
+      .setValue('#dob-year-input', '2014')
+      .click('#my-child')
+      .click('#add-another-child')
+      .click('#about-child-submit')
+
+      // Allow second bus page to load
+      .pause(3000)
+
+      // About Child #2
+      .waitForExist('#about-child-submit')
+      .setValue('#child-name-input', 'Lewis Bloggs')
+      .setValue('#dob-day-input', '20')
+      .setValue('#dob-month-input', '12')
+      .setValue('#dob-year-input', '2013')
+      .click('#prisoners-child')
+      .click('#about-child-submit')
 
       // Expense
       .waitForExist('#expenses-submit')
