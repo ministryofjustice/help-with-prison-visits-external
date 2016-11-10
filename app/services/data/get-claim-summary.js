@@ -39,7 +39,8 @@ module.exports = function (claimId) {
               'ClaimExpense.IsReturn',
               'ClaimExpense.TravelTime',
               'ClaimExpense.DurationOfTravel',
-              'ClaimExpense.TicketType'
+              'ClaimExpense.TicketType',
+              'ClaimExpense.IsChild'
             )
             .orderBy('ClaimExpense.ClaimExpenseId')
             .then(function (claimExpenses) {
