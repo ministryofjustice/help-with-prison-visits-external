@@ -9,8 +9,8 @@ module.exports = function (claimId, aboutChild) {
 
   return knex('ClaimChild').insert({
     ClaimId: claimId,
-    Name: aboutChild.childName || null,
+    Name: aboutChild.childName,
     DateOfBirth: aboutChild.dob.toDate(),
-    Relationship: aboutChild.childRelationship || null
+    Relationship: aboutChild.childRelationship
   })
 }
