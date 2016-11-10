@@ -13,13 +13,10 @@ module.exports.DATE_OF_JOURNEY = dateFormatter.build(DAY, MONTH, YEAR)
 module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
 module.exports.STATUS = claimStatusEnum.IN_PROGRESS
+module.exports.CHILD_VISITOR = 'yes'
 
 module.exports.build = function (reference) {
-  return new FirstTimeClaim(
-    reference,
-    DAY,
-    MONTH,
-    YEAR
+  return new FirstTimeClaim(reference, DAY, MONTH, YEAR, this.CHILD_VISITOR
   )
 }
 

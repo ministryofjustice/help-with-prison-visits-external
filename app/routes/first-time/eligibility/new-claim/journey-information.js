@@ -19,12 +19,16 @@ module.exports = function (router) {
         req.params.reference,
         req.body['date-of-journey-day'],
         req.body['date-of-journey-month'],
-        req.body['date-of-journey-year']
+        req.body['date-of-journey-year'],
+        req.body['child-visitor']
       )
       insertFirstTimeClaim(firstTimeClaim)
-        .then(function (newClaimId) {
-          var claimId = newClaimId
-          return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}`)
+        .then(function (claimId) {
+          if (req.body['child-visitor'] === 'yes') {
+            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}/child`)
+          } else {
+            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}`)
+          }
         })
         .catch(function (error) {
           next(error)
