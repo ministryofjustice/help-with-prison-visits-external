@@ -30,18 +30,7 @@ module.exports = function (claimId) {
           return knex('Claim')
             .join('ClaimExpense', 'Claim.ClaimId', '=', 'ClaimExpense.ClaimId')
             .where({ 'Claim.ClaimId': claimId, 'ClaimExpense.IsEnabled': true })
-            .select(
-              'ClaimExpense.ClaimExpenseId',
-              'ClaimExpense.ExpenseType',
-              'ClaimExpense.Cost',
-              'ClaimExpense.To',
-              'ClaimExpense.From',
-              'ClaimExpense.IsReturn',
-              'ClaimExpense.TravelTime',
-              'ClaimExpense.DurationOfTravel',
-              'ClaimExpense.TicketType',
-              'ClaimExpense.IsChild'
-            )
+            .select()
             .orderBy('ClaimExpense.ClaimExpenseId')
             .then(function (claimExpenses) {
               claimExpenses.forEach(function (expense) {
@@ -55,12 +44,7 @@ module.exports = function (claimId) {
           return knex('Claim')
             .join('ClaimChild', 'Claim.ClaimId', '=', 'ClaimChild.ClaimId')
             .where({ 'Claim.ClaimId': claimId, 'ClaimChild.IsEnabled': true })
-            .select(
-              'ClaimChild.ClaimChildId',
-              'ClaimChild.Name',
-              'ClaimChild.DateOfBirth',
-              'ClaimChild.Relationship'
-            )
+            .select()
             .orderBy('ClaimChild.Name')
             .then(function (claimChild) {
               return {
