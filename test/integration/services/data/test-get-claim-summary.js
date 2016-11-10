@@ -1,6 +1,7 @@
 const expect = require('chai').expect
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const claimHelper = require('../../../helpers/data/claim-helper')
+const claimChildHelper = require('../../../helpers/data/claim-child-helper')
 const expenseHelper = require('../../../helpers/data/expense-helper')
 const claimDocumentHelper = require('../../../helpers/data/claim-document-helper')
 
@@ -19,6 +20,9 @@ describe('services/data/get-claim-summary', function () {
             return expenseHelper.insert(claimId)
           })
           .then(function () {
+            return claimChildHelper.insert(claimId)
+          })
+          .then(function () {
             return claimDocumentHelper.insertPrisonConfirmation(claimId)
           })
       })
@@ -35,11 +39,15 @@ describe('services/data/get-claim-summary', function () {
         expect(result.claim.visitConfirmation.DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
         expect(result.claimExpenses[0].ExpenseType).to.equal(expenseHelper.EXPENSE_TYPE)
         expect(result.claimExpenses[0].Cost).to.equal(Number(expenseHelper.COST).toFixed(2))
+        expect(result.claimChild[0].Name).to.equal(claimChildHelper.CHILD_NAME)
       })
   })
 
   after(function () {
     return expenseHelper.delete(claimId)
+      .then(function () {
+        return claimChildHelper.delete(claimId)
+      })
       .then(function () {
         return claimDocumentHelper.delete(claimId)
       })

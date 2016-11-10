@@ -12,12 +12,9 @@ module.exports.FormattedDetail = function (expense) {
       formattedDetail = `${expense.From} to ${expense.To} for ${expense.DurationOfTravel} days`
       break
     case 'bus':
+    case 'plane':
     case 'train':
-      if (expense.IsReturn) {
-        formattedDetail = `${expense.From} to ${expense.To} - Return`
-      } else {
-        formattedDetail = `${expense.From} to ${expense.To}`
-      }
+      formattedDetail = `${addChildPrefix(expense)}${expense.From} to ${expense.To}${addReturnPostfix(expense)}`
       break
     case 'light refreshment':
       if (expense.TravelTime === 'over-five') {
@@ -30,11 +27,27 @@ module.exports.FormattedDetail = function (expense) {
       formattedDetail = `Nights stayed: ${expense.DurationOfTravel}`
       break
     case 'ferry':
-      formattedDetail = `${expense.From} to ${expense.To} as ${displayFieldNames[expense.TicketType]}`
+      formattedDetail = `${addChildPrefix(expense)}${expense.From} to ${expense.To} as ${displayFieldNames[expense.TicketType]}${addReturnPostfix(expense)}`
       break
     default:
       formattedDetail = `${expense.From} to ${expense.To}`
   }
 
   return formattedDetail
+}
+
+function addChildPrefix (expense) {
+  if (expense.IsChild) {
+    return 'Child - '
+  } else {
+    return ''
+  }
+}
+
+function addReturnPostfix (expense) {
+  if (expense.IsReturn) {
+    return ' - Return'
+  } else {
+    return ''
+  }
 }
