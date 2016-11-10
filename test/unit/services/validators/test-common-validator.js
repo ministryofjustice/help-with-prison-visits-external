@@ -266,33 +266,33 @@ describe('services/validators/common-validator', function () {
     })
   })
 
-  describe('isOlderThan', function () {
+  describe('isOlderThanInYears', function () {
     const YEARS = 18
     const OLDER_THAN_DOB = dateFormatter.now().subtract(YEARS, 'years')
     const YOUNGER_THAN_DOB = dateFormatter.now()
 
     it('should return false if passed null', function () {
-      var result = validator.isOlderThan(null)
+      var result = validator.isOlderThanInYears(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isOlderThan(undefined)
+      var result = validator.isOlderThanInYears(undefined)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isOlderThan({})
+      var result = validator.isOlderThanInYears({})
       expect(result).to.equal(false)
     })
 
     it(`should return true if passed a DOB whose age is greater than ${YEARS} years.`, function () {
-      var result = validator.isOlderThan(OLDER_THAN_DOB, YEARS)
+      var result = validator.isOlderThanInYears(OLDER_THAN_DOB, YEARS)
       expect(result).to.equal(true)
     })
 
     it(`should return false if passed a DOB whose age is less than ${YEARS} years.`, function () {
-      var result = validator.isOlderThan(YOUNGER_THAN_DOB, YEARS)
+      var result = validator.isOlderThanInYears(YOUNGER_THAN_DOB, YEARS)
       expect(result).to.equal(false)
     })
   })

@@ -3,7 +3,7 @@ const FieldsetValidator = require('../validators/fieldset-validator')
 const commonValidator = require('../validators/common-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
-const MINIMUM_AGE = 16
+const MINIMUM_AGE_IN_YEARS = 16
 
 class DateOfBirth {
   constructor (day, month, year) {
@@ -14,7 +14,7 @@ class DateOfBirth {
     ]
     this.dob = dateFormatter.build(day, month, year)
     this.getDobFormatted = dateFormatter.buildFormatted(day, month, year)
-    this.sixteenOrUnder = !commonValidator.isOlderThan(this.dob, MINIMUM_AGE)
+    this.sixteenOrUnder = !commonValidator.isOlderThanInYears(this.dob, MINIMUM_AGE_IN_YEARS)
     this.IsValid()
   }
 

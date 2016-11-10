@@ -161,36 +161,36 @@ describe('services/validators/fieldset-validator', function () {
     })
   })
 
-  describe('isYoungerThan', function () {
+  describe('isYoungerThanInYears', function () {
     const YEARS = 18
     const OLDER_THAN_DOB = dateFormatter.now().subtract(YEARS, 'years')
 
     it('should return error object if data is null', function () {
-      this.fieldsetValidator.isYoungerThan(null)
+      this.fieldsetValidator.isYoungerThanInYears(null)
       var errors = this.error.get()
       expect(errors).to.equal(false)
     })
 
     it('should return error object if data is undefined', function () {
-      this.fieldsetValidator.isYoungerThan(undefined)
+      this.fieldsetValidator.isYoungerThanInYears(undefined)
       var errors = this.error.get()
       expect(errors).to.equal(false)
     })
 
     it('should return error object if data is not a valid date object', function () {
-      this.fieldsetValidator.isYoungerThan({})
+      this.fieldsetValidator.isYoungerThanInYears({})
       var errors = this.error.get()
       expect(errors).to.equal(false)
     })
 
     it(`should return error object if the DOB passed has an age greater than ${YEARS} years`, function () {
-      this.fieldsetValidator.isYoungerThan(OLDER_THAN_DOB, YEARS)
+      this.fieldsetValidator.isYoungerThanInYears(OLDER_THAN_DOB, YEARS)
       var errors = this.error.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return the fieldsetValidator after being called to allow function chaining.', function () {
-      var result = this.fieldsetValidator.isYoungerThan(OLDER_THAN_DOB, YEARS)
+      var result = this.fieldsetValidator.isYoungerThanInYears(OLDER_THAN_DOB, YEARS)
       expect(result).to.be.equal(this.fieldsetValidator)
     })
   })

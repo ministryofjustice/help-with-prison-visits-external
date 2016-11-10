@@ -3,7 +3,7 @@ const FieldsetValidator = require('../validators/fieldset-validator')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
-const CHILD_MAXIMUM_AGE = 18
+const CHILD_MAXIMUM_AGE_IN_YEARS = 18
 
 class AboutChild {
   constructor (childName, day, month, year, childRelationship) {
@@ -28,7 +28,7 @@ class AboutChild {
       .isRequired()
       .isValidDate(this.dob)
       .isPastDate(this.dob)
-      .isYoungerThan(this.dob, CHILD_MAXIMUM_AGE)
+      .isYoungerThanInYears(this.dob, CHILD_MAXIMUM_AGE_IN_YEARS)
 
     FieldValidator(this.childRelationship, 'child-relationship', errors)
       .isRequired()
