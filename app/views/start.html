@@ -76,9 +76,7 @@
         <br>
 
         <div class="form-group">
-          <input type="hidden"
-                 name="_csrf"
-                 value="{{ csrfToken }}">
+          {% include "partials/csrf-hidden-input.html" %}
 
           <input id="already-registered-submit"
                  type="submit"

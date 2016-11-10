@@ -103,9 +103,7 @@
           <p class="form-hint">For example, £100</p>
         </div>
 
-        <input type="hidden"
-               name="_csrf"
-               value="{{ csrfToken }}">
+        {% include "partials/csrf-hidden-input.html" %}
 
         <input id="ferry-details-submit"
                type="submit"

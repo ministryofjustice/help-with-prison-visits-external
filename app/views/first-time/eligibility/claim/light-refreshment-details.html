@@ -85,9 +85,7 @@
           <p class="form-hint">For example, £5</p>
         </div>
 
-        <input type="hidden"
-               name="_csrf"
-               value="{{ csrfToken }}">
+        {% include "partials/csrf-hidden-input.html" %}
 
         <input id="light-refreshment-details-submit"
                type="submit"

@@ -57,9 +57,7 @@
       </div>
       <form action="" method="get" class="form">
         <div class="form-group">
-          <input type="hidden"
-                 name="_csrf"
-                 value="{{ csrfToken }}">
+          {% include "partials/csrf-hidden-input.html" %}
 
           <input type="submit" 
                  name="commit"

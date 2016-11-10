@@ -114,9 +114,7 @@
                  class="form-control">
         </div>
 
-        <input type="hidden"
-               name="_csrf"
-               value="{{ csrfToken }}">
+        {% include "partials/csrf-hidden-input.html" %}
 
         <input id="about-the-prisoner-submit"
                type="submit"

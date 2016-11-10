@@ -72,9 +72,7 @@
 
         {% include "partials/expenses/add-another-journey.html" %}
 
-        <input type="hidden"
-               name="_csrf"
-               value="{{ csrfToken }}">
+        {% include "partials/csrf-hidden-input.html" %}
 
         <input id="bus-details-submit"
                type="submit"

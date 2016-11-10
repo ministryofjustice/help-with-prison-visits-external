@@ -102,9 +102,7 @@
         </fieldset>
         <br/>
 
-        <input type="hidden"
-               name="_csrf"
-               value="{{ csrfToken }}">
+        {% include "partials/csrf-hidden-input.html" %}
 
         <input id="car-details-submit"
                type="submit"
