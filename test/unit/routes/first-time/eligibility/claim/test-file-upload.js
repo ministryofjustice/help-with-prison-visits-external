@@ -2,8 +2,7 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-// const bodyParser = require('body-parser')
-// const ValidationError = require('../../../../../../app/services/errors/validation-error')
+const ValidationError = require('../../../../../../app/services/errors/validation-error')
 require('sinon-bluebird')
 
 describe('routes/first-time/eligibility/claim/file-upload', function () {
@@ -71,6 +70,34 @@ describe('routes/first-time/eligibility/claim/file-upload', function () {
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
+    })
+
+    it('should create a file upload object, insert it to DB and give 302', function () {
+      uploadStub.callsArg(2).returns({})
+      claimDocumentInsertStub.resolves()
+      return supertest(app)
+        .post(`${ROUTE}VISIT_CONFIRMATION`)
+        .expect(function () {
+          sinon.assert.calledOnce(uploadStub)
+          sinon.assert.calledOnce(fileUploadStub)
+          sinon.assert.calledOnce(claimDocumentInsertStub)
+        })
+        .expect(302)
+    })
+
+    it('should catch a validation error', function () {
+      uploadStub.callsArg(2).returns({})
+      fileUploadStub.throws(new ValidationError())
+      return supertest(app)
+        .post(`${ROUTE}VISIT_CONFIRMATION`)
+        .expect(400)
+    })
+
+    it('should respond with a 500 if passed invalid document type', function () {
+      uploadStub.callsArg(2).returns({})
+      return supertest(app)
+        .post(`${ROUTE}TEST`)
+        .expect(500)
     })
   })
 })
