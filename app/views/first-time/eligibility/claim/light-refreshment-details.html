@@ -85,11 +85,12 @@
           <p class="form-hint">For example, £5</p>
         </div>
 
+        {% include "partials/csrf-hidden-input.html" %}
+
         <input id="light-refreshment-details-submit"
                type="submit"
                value="Continue"
                class="button">
-
       </form>
 
     </div>

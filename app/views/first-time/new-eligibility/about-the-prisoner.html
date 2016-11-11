@@ -114,7 +114,12 @@
                  class="form-control">
         </div>
 
-        <input id="about-the-prisoner-submit" type="submit" class="button" value="Continue">
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="about-the-prisoner-submit"
+               type="submit"
+               class="button"
+               value="Continue">
       </form>
 
     </div>

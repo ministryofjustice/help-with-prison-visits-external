@@ -66,6 +66,8 @@
           <p class="form-hint">You must be over 16 to be eligible for assistance</p>
         </div>
 
+        {% include "partials/csrf-hidden-input.html" %}
+
         <input id="date-of-birth-submit"
                type="submit"
                value="Continue"

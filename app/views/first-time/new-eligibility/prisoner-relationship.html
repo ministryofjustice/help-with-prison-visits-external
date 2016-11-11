@@ -102,7 +102,12 @@
 
         </div>
 
-        <input id="prisoner-relationship-submit" type="submit" class="button" value="Continue">
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="prisoner-relationship-submit"
+               type="submit"
+               class="button"
+               value="Continue">
       </form>
 
     </div>

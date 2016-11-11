@@ -113,7 +113,12 @@
           </fieldset>
         </div>
 
-        <input id="benefit-submit" type="submit" value="Continue" class="button">
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="benefit-submit"
+               type="submit"
+               value="Continue"
+               class="button">
       </form>
 
     </div>

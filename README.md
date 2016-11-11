@@ -83,6 +83,16 @@ To rollback the last batch of changes:
 ./node_modules/.bin/knex migrate:rollback --env migrations
 ```
 
+## Security
+
+We are using [csurf](https://github.com/expressjs/csurf) for CSRF protection. All `POST` requests must have a valid CSRF token, which is added as a hidden input on HTML forms.
+
+Use the following partial to add the hidden input:
+
+```
+{% include "partials/csrf-hidden-input.html" %}
+```
+
 ## Notes
 
 ### Localisation
