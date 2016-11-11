@@ -10,7 +10,7 @@ const i18n = require('i18n')
 const routes = require('./routes/routes')
 const log = require('./services/log')
 const onFinished = require('on-finished')
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 const csurf = require('csurf')
 
 var app = express()
