@@ -3,7 +3,7 @@ var multer = require('multer')
 var crypto = require('crypto')
 var path = require('path')
 
-const maxFileSize = config.FILE_UPLOAD_MAXSIZE || 5242880 // 5MB in Bytes.
+const maxFileSize = config.FILE_UPLOAD_MAXSIZE
 const allowedFileTypes = [ 'image/png', 'image/jpeg', 'application/pdf' ]
 
 var storage = multer.diskStorage({

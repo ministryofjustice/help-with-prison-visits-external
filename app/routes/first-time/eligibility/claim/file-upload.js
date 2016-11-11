@@ -4,6 +4,7 @@ const DocumentTypeEnum = require('../../../../constants/document-type-enum')
 const DirectoryCheck = require('../../../../services/directory-check')
 const Upload = require('../../../../services/upload')
 const ValidationError = require('../../../../services/errors/validation-error')
+const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
 const FileUpload = require('../../../../services/domain/file-upload')
 const ClaimDocumentInsert = require('../../../../services/data/insert-file-upload-details-for-claim')
 
@@ -27,7 +28,7 @@ module.exports = function (router) {
     Upload(req, res, function (error) {
       try {
         if (error) {
-          throw new ValidationError({upload: ['File uploaded too large']})
+          throw new ValidationError({upload: [ERROR_MESSAGES.getUploadTooLarge]})
         } else {
           if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
             var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.fileTypeError, req.body.alternative)

@@ -4,6 +4,7 @@ const ErrorHandler = require('../validators/error-handler')
 const fs = require('fs')
 const dateFormatter = require('../date-formatter')
 const documentTypeEnum = require('../../constants/document-type-enum')
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class FileUpload {
   constructor (claimId, documentType, claimExpenseId, file, fileTypeError, alternative) {
@@ -11,7 +12,9 @@ class FileUpload {
     this.alternative = alternative
     this.fileTypeError = fileTypeError
     this.IsValid()
-    this.path = file.path
+    if (!this.alternative) {
+      this.path = file.path
+    }
     this.claimId = claimId
     this.documentType = documentTypeEnum[documentType]
     this.claimExpenseId = claimExpenseId
@@ -28,7 +31,7 @@ class FileUpload {
     var errors = ErrorHandler()
 
     if (this.fileTypeError) {
-      throw new ValidationError({upload: ['File uploaded was not an image or pdf']})
+      throw new ValidationError({upload: [ERROR_MESSAGES.getUploadIncorrectType]})
     }
 
     if (!this.file) {
@@ -38,7 +41,7 @@ class FileUpload {
 
     if (this.file && this.alternative) {
       fs.unlinkSync(this.file.path)
-      throw new ValidationError({upload: ['Both file uploaded and alternative option selected, please do just one']})
+      throw new ValidationError({upload: [ERROR_MESSAGES.getUploadFileAndAlternativeSelected]})
     }
 
     var validationErrors = errors.get()
