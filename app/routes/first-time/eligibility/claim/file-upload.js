@@ -8,11 +8,12 @@ const ERROR_MESSAGES = require('../../../../services/validators/validation-error
 const FileUpload = require('../../../../services/domain/file-upload')
 const ClaimDocumentInsert = require('../../../../services/data/insert-file-upload-details-for-claim')
 const csrfProtection = require('csurf')({ cookie: true })
+const generateCSRFToken = require('../../../../services/generate-csrf-token')
 var csrfToken
 
 module.exports = function (router) {
   router.get('/first-time/eligibility/:reference/claim/:claimId/file-upload', function (req, res) {
-    csrfToken = req.csrfToken()
+    csrfToken = generateCSRFToken(req)
     UrlPathValidator(req.params)
     if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
       DirectoryCheck(req.params.reference, req.params.claimId, req.query.claimExpenseId, req.query.document)
