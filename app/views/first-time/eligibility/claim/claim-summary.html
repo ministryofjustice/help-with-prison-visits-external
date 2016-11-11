@@ -22,6 +22,13 @@
       <td>{{ claimDetails.claim['FirstName'] }} {{ claimDetails.claim['LastName'] }}</td>
     </tr>
 
+    {% for child in claimDetails.claimChild %}
+    <tr>
+      <td>Child</td>
+      <td>{{ child['Name'] }}</td>
+    </tr>
+    {% endfor %}
+
     <tr>
       <td>Benefit information</td>
       <td>
