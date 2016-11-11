@@ -36,13 +36,15 @@ var routes = [
   require('./first-time/eligibility/claim/file-upload'),
   require('./first-time/eligibility/claim/bank-account-details'),
 
+  // Your Claims Flow
+  require('./your-claims/your-claims'),
+
   // Health check routes
   require('./health-check/status'),
 
   // These are temporary UX routes.
   require('./ux/file-upload'),
-  require('./ux/eligibility/confirm-your-details'),
-  require('./ux/claim/profile')
+  require('./ux/eligibility/confirm-your-details')
 ]
 
 module.exports = function (router) {

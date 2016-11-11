@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-{% if serviceName %} {{ serviceName }} {% endif %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -22,7 +22,7 @@
       <p>Please select from the following options:</p>
 
       {% if errors['benefit'][0] %}
-      <span class="error-message" id="error-message-benefit">{{ errors['benefit'][0] }}</span>
+        <span class="error-message">{{ errors['benefit'][0] }}</span>
       {% endif %}
 
       <form action="/first-time/new-eligibility/{{dob}}/{{relationship}}" method="post">

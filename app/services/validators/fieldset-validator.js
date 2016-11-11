@@ -61,6 +61,13 @@ class FieldsetValidator {
     }
     return this
   }
+
+  isOlderThanInYears (dob, years) {
+    if (!validator.isOlderThanInYears(dob, years)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsOlderThan, { years: years })
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {
