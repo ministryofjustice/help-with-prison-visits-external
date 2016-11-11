@@ -76,7 +76,12 @@
         <br>
 
         <div class="form-group">
-          <input id="already-registered-submit" type="submit" value="Continue" class="button">
+          {% include "partials/csrf-hidden-input.html" %}
+
+          <input id="already-registered-submit"
+                 type="submit"
+                 value="Continue"
+                 class="button">
         </div>
 
       </form>

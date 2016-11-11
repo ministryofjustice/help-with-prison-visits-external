@@ -118,7 +118,12 @@
   <form action="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/summary" method="post" class="form">
 
     <div class="form-group">
-      <input id="claim-summary-submit" type="submit" value="Continue" class="button">
+      {% include "partials/csrf-hidden-input.html" %}
+
+      <input id="claim-summary-submit" 
+             type="submit"
+             value="Continue"
+             class="button">
     </div>
 
   </form>

@@ -10,6 +10,8 @@ const i18n = require('i18n')
 const routes = require('./routes/routes')
 const log = require('./services/log')
 const onFinished = require('on-finished')
+const cookieParser = require('cookie-parser')
+const csurf = require('csurf')
 
 var app = express()
 
@@ -70,7 +72,18 @@ app.use(function (req, res, next) {
   onFinished(res, function () {
     log.info({ response: res }, 'Route Complete.')
   })
+  next()
+})
 
+// Use cookie parser middleware (required for csurf)
+app.use(cookieParser())
+
+// Check for valid CSRF tokens on state-changing methods.
+app.use(csurf({ cookie: true }))
+
+// Generate tokens for all get requests
+app.get('*', function (req, res, next) {
+  res.locals.csrfToken = req.csrfToken()
   next()
 })
 
@@ -85,6 +98,15 @@ app.use(function (req, res, next) {
   err.status = 404
   res.status(404)
   next(err)
+})
+
+// catch CSRF token errors
+app.use(function (err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err)
+  res.status(403)
+  res.render('includes/error', {
+    error: 'Invalid CSRF token'
+  })
 })
 
 // Development error handler.

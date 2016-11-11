@@ -161,7 +161,12 @@
                  value="{{ visitor['PhoneNumber'] }}">
         </div>
 
-        <input id="about-you-submit" type="submit" class="button" value="Continue">
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="about-you-submit"
+               type="submit"
+               class="button"
+               value="Continue">
       </form>
 
     </div>

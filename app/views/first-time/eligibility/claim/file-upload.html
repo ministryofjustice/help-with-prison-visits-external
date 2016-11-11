@@ -57,7 +57,12 @@
       </div>
       <form action="" method="get" class="form">
         <div class="form-group">
-            <input type="submit" name="commit" value="Continue" class="button">
+          {% include "partials/csrf-hidden-input.html" %}
+
+          <input type="submit" 
+                 name="commit"
+                 value="Continue"
+                 class="button">
         </div>
       </form>
     </div>
