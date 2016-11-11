@@ -20,7 +20,10 @@
 
       <h3 id="upload" class="heading-medium">Upload now</h3>
       <p>Uploading your documentation is the fastest way to process your application.</p>
-      <form action="{{ URL }}" method="post" class="form" enctype="multipart/form-data">
+      <form action="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/file-upload?document={{ document }}" method="post" class="form" enctype="multipart/form-data">
+
+        {% include "partials/csrf-hidden-input.html" %}
+
         <label class="custom-file-upload">
           <input type="file" name="document" />
           Choose file
@@ -39,7 +42,20 @@
               </ul>
             </div>
           </details>
+
+          </div>
+          <div class="form-group">
+
+          <input type="submit" 
+                name="commit"
+                value="Continue"
+                class="button">
         </div>
+      </form>
+
+      <form action="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/post-upload-later/?document={{ document }}" method="post" class="form">
+
+        {% include "partials/csrf-hidden-input.html" %}
 
         <div class="form-group">
           <br>
@@ -57,9 +73,9 @@
             <span class="heading-small">Upload later</span>
             <br> You can upload later, you will receive a reference number which you will use to finish your application
           </label>
-        </div>
-        <div class="form-group">
-          {% include "partials/csrf-hidden-input.html" %}
+
+          </div>
+          <div class="form-group">
 
           <input type="submit" 
                  name="commit"

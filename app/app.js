@@ -14,6 +14,8 @@ const cookieParser = require('cookie-parser')
 const csurf = require('csurf')
 const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
 
+const fileUploadRoute = require('./routes/first-time/eligibility/claim/file-upload')
+
 var app = express()
 
 // Use gzip compression - remove if possible via reverse proxy/Azure gateway.
@@ -79,12 +81,19 @@ app.use(function (req, res, next) {
 // Use cookie parser middleware (required for csurf)
 app.use(cookieParser())
 
+var router = express.Router()
+fileUploadRoute(router)
+
 // Check for valid CSRF tokens on state-changing methods.
 var csrfProtection = csurf({ cookie: true })
 
+// app.use(function (req, res, next) {
+//   csrfProtection(req, res, next)
+// })
+
 app.use(function (req, res, next) {
   csrfExcludeRoutes.forEach(function (route) {
-    if (req.originalUrl.includes(route)) {
+    if (req.originalUrl.includes(route) && req.method === 'POST') {
       next()
     } else {
       csrfProtection(req, res, next)
@@ -101,7 +110,6 @@ app.use(function (req, res, next) {
 })
 
 // Build the router to route all HTTP requests and pass to the routes file for route configuration.
-var router = express.Router()
 routes(router)
 app.use('/', router)
 

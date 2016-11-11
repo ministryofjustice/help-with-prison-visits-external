@@ -2,6 +2,8 @@ const config = require('../../config')
 var multer = require('multer')
 var crypto = require('crypto')
 var path = require('path')
+var UploadError = require('./errors/upload-error')
+var csrfProtection = require('csurf')({ cookie: true })
 
 const maxFileSize = config.FILE_UPLOAD_MAXSIZE
 const allowedFileTypes = [ 'image/png', 'image/jpeg', 'application/pdf' ]
@@ -21,12 +23,18 @@ var storage = multer.diskStorage({
 })
 
 function fileFilter (req, file, cb) {
-  if (!allowedFileTypes.includes(file.mimetype)) {
-    var error = 'Uploaded file was not an image.'
-    req.fileTypeError = error
-    return cb(null, false, new Error(error))
-  }
-  cb(null, true)
+  csrfProtection(req, file, function (csrfError) {
+    if (csrfError) {
+      req.error = csrfError
+      return cb(null, false, csrfError)
+    }
+    if (!allowedFileTypes.includes(file.mimetype)) {
+      var error = new UploadError('File type error')
+      req.error = error
+      return cb(null, false, error)
+    }
+    cb(null, true)
+  })
 }
 
 module.exports = multer({

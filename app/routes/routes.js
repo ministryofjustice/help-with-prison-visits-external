@@ -33,7 +33,6 @@ var routes = [
 
   // Claim Summary
   require('./first-time/eligibility/claim/claim-summary'),
-  require('./first-time/eligibility/claim/file-upload'),
   require('./first-time/eligibility/claim/bank-account-details'),
 
   // Health check routes
