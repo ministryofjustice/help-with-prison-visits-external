@@ -33,7 +33,7 @@ module.exports = function (router) {
       try {
         // If there was no file attached, we still need to check the CSRF token
         if (!req.file) {
-          csrfProtection(req, res, error => {
+          csrfProtection(req, res, function (error) {
             if (error) { throw error }
           })
         }
