@@ -23,7 +23,7 @@ module.exports = function (router) {
     }
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId/file-upload', function (req, res) {
+  router.post('/first-time/eligibility/:reference/claim/:claimId/file-upload', function (req, res, next) {
     UrlPathValidator(req.params)
     Upload(req, res, function (error) {
       try {
@@ -34,6 +34,8 @@ module.exports = function (router) {
             var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.fileTypeError, req.body.alternative)
             ClaimDocumentInsert(fileUpload).then(function () {
               res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}/summary`)
+            }).catch(function (error) {
+              next(error)
             })
           } else {
             throw new Error('Not a valid document type')
