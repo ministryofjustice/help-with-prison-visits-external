@@ -20,7 +20,7 @@
 
       <h3 id="upload" class="heading-medium">Upload now</h3>
       <p>Uploading your documentation is the fastest way to process your application.</p>
-      <form action="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/file-upload?document={{ document }}" method="post" class="form" enctype="multipart/form-data">
+      <form action="{{ URL }}" method="post" class="form" enctype="multipart/form-data">
 
         {% include "partials/csrf-hidden-input.html" %}
 

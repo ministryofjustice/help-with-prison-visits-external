@@ -19,8 +19,7 @@ module.exports = function (router) {
       res.render('first-time/eligibility/claim/file-upload', {
         document: req.query.document,
         fileUploadGuidingText: FileUploadGuidingText,
-        reference: req.params.reference,
-        claimId: req.params.claimId
+        URL: req.url
       })
     } else {
       throw new Error('Not a valid document type')
@@ -58,8 +57,7 @@ module.exports = function (router) {
             document: req.query.document,
             fileUploadGuidingText: FileUploadGuidingText,
             errors: error.validationErrors,
-            reference: req.params.reference,
-            claimId: req.params.claimId,
+            URL: req.url,
             csrfToken: csrfToken
           })
         } else {
