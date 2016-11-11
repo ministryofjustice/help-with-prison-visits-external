@@ -68,30 +68,4 @@ module.exports = function (router) {
       }
     })
   })
-
-  // Send by post or upload later
-  router.post('/first-time/eligibility/:reference/claim/:claimId/post-upload-later', function (req, res, next) {
-    UrlPathValidator(req.params)
-    try {
-      var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.error, req.body.alternative)
-
-      ClaimDocumentInsert(fileUpload).then(function () {
-        res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}/summary`)
-      }).catch(function (error) {
-        next(error)
-      })
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        return res.status(400).render('first-time/eligibility/claim/file-upload', {
-          document: req.query.document,
-          fileUploadGuidingText: FileUploadGuidingText,
-          errors: error.validationErrors,
-          reference: req.params.reference,
-          claimId: req.params.claimId
-        })
-      } else {
-        next(error)
-      }
-    }
-  })
 }
