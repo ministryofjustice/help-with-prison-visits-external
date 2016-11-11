@@ -67,6 +67,8 @@
       <td>
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
           <span class="text-success">Visit confirmation uploaded</span>
+        {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] %}
+          <span class="text-success">Visit confirmation option chosen</span>
         {% else %}
           <span class="text-warning">Visit confirmation required</span>
           <a href="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/file-upload?document=VISIT_CONFIRMATION" class="button grey pull-right">Add</a>
