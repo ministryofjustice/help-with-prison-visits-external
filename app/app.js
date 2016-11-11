@@ -81,8 +81,8 @@ app.use(cookieParser())
 // Check for valid CSRF tokens on state-changing methods.
 app.use(csurf({ cookie: true }))
 
-// Generate tokens for all get requests
-app.get('*', function (req, res, next) {
+// Generate CSRF tokens to be sent in POST requests
+app.use(function (req, res, next) {
   res.locals.csrfToken = req.csrfToken()
   next()
 })
