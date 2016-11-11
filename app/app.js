@@ -12,6 +12,7 @@ const log = require('./services/log')
 const onFinished = require('on-finished')
 const cookieParser = require('cookie-parser')
 const csurf = require('csurf')
+const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
 
 var app = express()
 
@@ -79,11 +80,23 @@ app.use(function (req, res, next) {
 app.use(cookieParser())
 
 // Check for valid CSRF tokens on state-changing methods.
-app.use(csurf({ cookie: true }))
+var csrfProtection = csurf({ cookie: true })
 
-// Generate tokens for all get requests
-app.get('*', function (req, res, next) {
-  res.locals.csrfToken = req.csrfToken()
+app.use(function (req, res, next) {
+  csrfExcludeRoutes.forEach(function (route) {
+    if (req.originalUrl.includes(route)) {
+      next()
+    } else {
+      csrfProtection(req, res, next)
+    }
+  })
+})
+
+// Generate CSRF tokens to be sent in POST requests
+app.use(function (req, res, next) {
+  if (req.hasOwnProperty('csrfToken')) {
+    res.locals.csrfToken = req.csrfToken()
+  }
   next()
 })
 

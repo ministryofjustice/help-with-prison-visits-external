@@ -4,7 +4,7 @@ exports.up = function (knex, Promise) {
     table.integer('ClaimId').notNullable().references('Claim.ClaimId')
     table.string('DocumentType', 20).notNullable()
     table.integer('ClaimExpenseId').references('ClaimExpense.ClaimExpenseId')
-    table.string('DocumentStatus', 10).notNullable()
+    table.string('DocumentStatus', 20).notNullable()
     table.string('Filepath', 250)
     table.dateTime('DateSubmitted')
   })

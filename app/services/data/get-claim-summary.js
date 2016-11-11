@@ -20,18 +20,18 @@ module.exports = function (claimId) {
       'Prisoner.DateOfBirth AS PrisonerDateOfBirth',
       'Prisoner.PrisonNumber',
       'Prisoner.NameOfPrison'
-    )
+  )
     .then(function (claim) {
       return knex('ClaimDocument')
         .join('Claim', 'ClaimDocument.ClaimId', '=', 'Claim.ClaimId')
         .where({ 'ClaimDocument.DocumentType': documentTypeEnum.VISIT_CONFIRMATION, 'Claim.ClaimId': claimId })
         .first('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType')
+        .orderBy('ClaimDocument.DateSubmitted', 'desc')
         .then(function (visitConfirmationDocumentStatus) {
           return knex('Claim')
             .join('ClaimExpense', 'Claim.ClaimId', '=', 'ClaimExpense.ClaimId')
             .where({ 'Claim.ClaimId': claimId, 'ClaimExpense.IsEnabled': true })
             .select()
-            .orderBy('ClaimExpense.ClaimExpenseId')
             .then(function (claimExpenses) {
               claimExpenses.forEach(function (expense) {
                 expense.Cost = Number(expense.Cost).toFixed(2)
