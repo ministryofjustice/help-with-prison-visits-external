@@ -16,13 +16,13 @@ describe('services/directory-check', function () {
     directoryCheck('1', '1', '1', '1')
     expect(fs.existsSync(claimExpensePath)).to.equal(true)
   })
-})
 
-afterEach(function () {
-  if (fs.existsSync(claimExpensePath)) {
-    fs.rmdirSync(claimExpensePath)
-  }
-  fs.rmdirSync(normalDocumentPath)
-  fs.rmdirSync(`${config.FILE_UPLOAD_LOCATION}/1/1`)
-  fs.rmdirSync(`${config.FILE_UPLOAD_LOCATION}/1`)
+  after(function () {
+    if (fs.existsSync(claimExpensePath)) {
+      fs.rmdirSync(claimExpensePath)
+    }
+    fs.rmdirSync(normalDocumentPath)
+    fs.rmdirSync(`${config.FILE_UPLOAD_LOCATION}/1/1`)
+    fs.rmdirSync(`${config.FILE_UPLOAD_LOCATION}/1`)
+  })
 })

@@ -11,7 +11,7 @@ module.exports = function (fileUpload) {
     DocumentType: fileUpload.documentType,
     ClaimExpenseId: fileUpload.claimExpenseId,
     DocumentStatus: fileUpload.documentStatus,
-    FilePath: fileUpload.path,
+    Filepath: fileUpload.path,
     DateSubmitted: fileUpload.dateSubmitted
   })
 }

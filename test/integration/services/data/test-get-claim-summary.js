@@ -23,7 +23,7 @@ describe('services/data/get-claim-summary', function () {
             return claimChildHelper.insert(claimId)
           })
           .then(function () {
-            return claimDocumentHelper.insertPrisonConfirmation(claimId)
+            return claimDocumentHelper.insert(claimId)
           })
       })
   })
