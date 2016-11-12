@@ -8,22 +8,25 @@ const claimDocumentHelper = require('../../../helpers/data/claim-document-helper
 const getClaimSummary = require('../../../../app/services/data/get-claim-summary')
 
 var reference = 'V123456'
+var eligiblityId
 var claimId
 
 describe('services/data/get-claim-summary', function () {
   before(function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(reference)
-      .then(function () {
-        return claimHelper.insert(reference)
+      .then(function (newEligiblityId) {
+        eligiblityId = newEligiblityId
+
+        return claimHelper.insert(reference, eligiblityId)
           .then(function (newClaimId) {
             claimId = newClaimId
-            return expenseHelper.insert(claimId)
+            return expenseHelper.insert(reference, eligiblityId, claimId)
           })
           .then(function () {
-            return claimChildHelper.insert(claimId)
+            return claimChildHelper.insert(reference, eligiblityId, claimId)
           })
           .then(function () {
-            return claimDocumentHelper.insert(claimId)
+            return claimDocumentHelper.insert(reference, eligiblityId, claimId)
           })
       })
   })
@@ -44,18 +47,6 @@ describe('services/data/get-claim-summary', function () {
   })
 
   after(function () {
-    return expenseHelper.delete(claimId)
-      .then(function () {
-        return claimChildHelper.delete(claimId)
-      })
-      .then(function () {
-        return claimDocumentHelper.delete(claimId)
-      })
-      .then(function () {
-        return claimHelper.delete(claimId)
-      })
-      .then(function () {
-        return eligiblityHelper.deleteEligibilityVisitorAndPrisoner(reference)
-      })
+    return eligiblityHelper.deleteAll(reference)
   })
 })

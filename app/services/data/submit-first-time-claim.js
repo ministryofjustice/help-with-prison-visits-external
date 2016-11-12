@@ -7,17 +7,17 @@ const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const dateFormatter = require('../date-formatter')
 
-module.exports = function (reference, claimId) {
+module.exports = function (reference, eligibilityId, claimId) {
   var dateSubmitted = dateFormatter.now().toDate()
 
-  return Promise.all([updateEligibility(reference, dateSubmitted),
+  return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
                       updateClaim(claimId, dateSubmitted),
                       insertTaskCompleteFirstTimeClaim(reference, claimId),
                       insertTaskSendFirstTimeClaimNotification(reference, claimId)])
 }
 
-function updateEligibility (reference, dateSubmitted) {
-  return knex('Eligibility').where('Reference', reference).update({
+function updateEligibility (reference, eligibilityId, dateSubmitted) {
+  return knex('Eligibility').where({'Reference': reference, 'EligibilityId': eligibilityId}).update({
     'Status': eligibilityStatusEnum.SUBMITTED,
     'DateSubmitted': dateSubmitted
   })

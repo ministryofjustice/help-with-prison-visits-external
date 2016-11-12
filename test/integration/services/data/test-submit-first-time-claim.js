@@ -3,12 +3,13 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
-const dateFormatter = require('../../../../app/services/date-formatter')
+const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
 const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
 require('sinon-bluebird')
 
-const reference = 'S123456'
+const reference = 'SUBMITF'
+var eligibilityId
 var claimId
 
 var stubInsertTaskCompleteFirstTimeClaim = sinon.stub().resolves()
@@ -21,29 +22,17 @@ const submitFirstTimeClaim = proxyquire('../../../../app/services/data/submit-fi
 
 describe('services/data/submit-first-time-claim', function () {
   before(function () {
-    return knex('ExtSchema.Eligibility').insert({
-      Reference: reference,
-      DateCreated: dateFormatter.now().toDate(),
-      Status: 'TEST'
-    })
-    .then(function () {
-      return knex('ExtSchema.Claim').insert({
-        Reference: reference,
-        DateOfJourney: dateFormatter.now().toDate(),
-        DateCreated: dateFormatter.now().toDate(),
-        Status: 'TEST'
+    return eligiblityHelper.insertEligibilityClaim(reference)
+      .then(function (ids) {
+        eligibilityId = ids.eligibilityId
+        claimId = ids.claimId
       })
-      .returning('ClaimId')
-      .then(function (result) {
-        claimId = result[0]
-      })
-    })
   })
 
   it('should update Eligibility and Claim status and DateSubmitted then call insertTaskSendFirstTimeClaimNotification', function () {
     var currentDate = new Date()
 
-    submitFirstTimeClaim(reference, claimId)
+    submitFirstTimeClaim(reference, eligibilityId, claimId)
       .then(function () {
         knex.first().from('ExtSchema.Eligibility').where('Reference', reference)
           .then(function (eligibility) {
@@ -63,9 +52,6 @@ describe('services/data/submit-first-time-claim', function () {
   })
 
   after(function () {
-    return knex('ExtSchema.Claim').where('ClaimId', claimId).del()
-      .then(function () {
-        return knex('ExtSchema.Eligibility').where('Reference', reference).del()
-      })
+    return eligiblityHelper.deleteAll(reference)
   })
 })

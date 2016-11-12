@@ -24,6 +24,6 @@ describe('services/data/insert-task-complete-first-time-claim', function () {
   })
 
   after(function () {
-    return taskHelper.delete(REFERENCE, CLAIM_ID)
+    return taskHelper.delete(REFERENCE)
   })
 })

@@ -1,25 +1,23 @@
 const expect = require('chai').expect
 const insertBankAccountDetailsForClaim = require('../../../../app/services/data/insert-bank-account-details-for-claim')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
-const claimHelper = require('../../../helpers/data/claim-helper')
 const bankHelper = require('../../../helpers/data/bank-helper')
 
 describe('services/data/insert-bank-account-details-for-claim', function () {
   const REFERENCE = 'V123456'
+  var eligibilityId
   var claimId
 
   before(function () {
-    return eligiblityHelper.insert(REFERENCE)
-      .then(function () {
-        return claimHelper.insert(REFERENCE)
-          .then(function (newClaimId) {
-            claimId = newClaimId
-          })
+    return eligiblityHelper.insertEligibilityClaim(REFERENCE)
+      .then(function (ids) {
+        eligibilityId = ids.eligibilityId
+        claimId = ids.claimId
       })
   })
 
   it('should insert a new Bank Details record for a claim', function () {
-    return insertBankAccountDetailsForClaim(claimId, bankHelper.build())
+    return insertBankAccountDetailsForClaim(REFERENCE, eligibilityId, claimId, bankHelper.build())
       .then(function () {
         return bankHelper.get(claimId)
       })
@@ -31,17 +29,11 @@ describe('services/data/insert-bank-account-details-for-claim', function () {
 
   it('should throw error if called with incorrect domain object type', function () {
     expect(function () {
-      insertBankAccountDetailsForClaim(claimId, {})
+      insertBankAccountDetailsForClaim(REFERENCE, eligibilityId, claimId, {})
     }).to.throw(Error)
   })
 
   after(function () {
-    return bankHelper.delete(claimId)
-      .then(function () {
-        return claimHelper.delete(claimId)
-      })
-      .then(function () {
-        return eligiblityHelper.delete(REFERENCE)
-      })
+    return eligiblityHelper.deleteAll(REFERENCE)
   })
 })
