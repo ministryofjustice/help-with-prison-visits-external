@@ -659,6 +659,37 @@ describe('services/validators/common-validator', function () {
     })
   })
 
+  describe('isValidReferenceId', function () {
+    const VALID_INPUT = '49CCADM-1234'
+    const INVALID_INPUT = '49CCADM321321dsadad'
+
+    it('should return false if passed null', function () {
+      var result = validator.isValidReferenceId(null)
+      expect(result).to.equal(false)
+    })
+
+    it('should return false if passed undefined', function () {
+      var result = validator.isValidReferenceId(undefined)
+      expect(result).to.equal(false)
+    })
+
+    it('should throw Error if passed an object', function () {
+      expect(function () {
+        validator.isValidReference({})
+      }).to.throw(TypeError)
+    })
+
+    it('should return true if passed a valid referenceId value', function () {
+      var result = validator.isValidReferenceId(VALID_INPUT)
+      expect(result).to.equal(true)
+    })
+
+    it('should return false if passed an invalid referenceId value', function () {
+      var result = validator.isValidReferenceId(INVALID_INPUT)
+      expect(result).to.equal(false)
+    })
+  })
+
   describe('isValidChildRelationship', function () {
     const VALID_INPUT = childRelationshipEnum.PRISONER_CHILD
     const INVALID_INPUT = 'some invalid input'
