@@ -12,8 +12,8 @@ module.exports = function (reference, eligibilityId, claimId) {
 
   return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
                       updateClaim(claimId, dateSubmitted),
-                      insertTaskCompleteFirstTimeClaim(reference, claimId),
-                      insertTaskSendFirstTimeClaimNotification(reference, claimId)])
+                      insertTaskCompleteFirstTimeClaim(reference, eligibilityId, claimId),
+                      insertTaskSendFirstTimeClaimNotification(reference, eligibilityId, claimId)])
 }
 
 function updateEligibility (reference, eligibilityId, dateSubmitted) {

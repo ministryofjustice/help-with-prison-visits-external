@@ -8,25 +8,25 @@ const claimDocumentHelper = require('../../../helpers/data/claim-document-helper
 const getClaimSummary = require('../../../../app/services/data/get-claim-summary')
 
 var reference = 'V123456'
-var eligiblityId
+var eligibilityId
 var claimId
 
 describe('services/data/get-claim-summary', function () {
   before(function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(reference)
-      .then(function (newEligiblityId) {
-        eligiblityId = newEligiblityId
+      .then(function (newEligibilityId) {
+        eligibilityId = newEligibilityId
 
-        return claimHelper.insert(reference, eligiblityId)
+        return claimHelper.insert(reference, eligibilityId)
           .then(function (newClaimId) {
             claimId = newClaimId
-            return expenseHelper.insert(reference, eligiblityId, claimId)
+            return expenseHelper.insert(reference, eligibilityId, claimId)
           })
           .then(function () {
-            return claimChildHelper.insert(reference, eligiblityId, claimId)
+            return claimChildHelper.insert(reference, eligibilityId, claimId)
           })
           .then(function () {
-            return claimDocumentHelper.insert(reference, eligiblityId, claimId)
+            return claimDocumentHelper.insert(reference, eligibilityId, claimId)
           })
       })
   })

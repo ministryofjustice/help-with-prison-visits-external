@@ -6,7 +6,7 @@ const expect = require('chai').expect
 
 describe('services/data/get-travelling-from-and-to', function () {
   const REFERENCE = 'V123467'
-  var eligiblityId
+  var eligibilityId
   const EXPECTED_RESULT = {
     from: visitorHelper.TOWN,
     to: prisonerHelper.NAME_OF_PRISON
@@ -15,12 +15,12 @@ describe('services/data/get-travelling-from-and-to', function () {
   before(function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
       .then(function (newEligibilityId) {
-        eligiblityId = newEligibilityId
+        eligibilityId = newEligibilityId
       })
   })
 
   it('should retrieve to and from information for the given reference and id', function () {
-    getTravellingFromAndTo(REFERENCE, eligiblityId)
+    getTravellingFromAndTo(REFERENCE, eligibilityId)
       .then(function (result) {
         expect(result).to.deep.equal(EXPECTED_RESULT)
       })

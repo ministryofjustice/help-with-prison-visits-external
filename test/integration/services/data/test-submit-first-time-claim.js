@@ -44,8 +44,8 @@ describe('services/data/submit-first-time-claim', function () {
                 expect(claim.Status).to.equal(claimStatusEnum.SUBMITTED)
                 expect(claim.DateSubmitted).to.be.within(currentDate.setMinutes(currentDate.getMinutes() - 2), currentDate.setMinutes(currentDate.getMinutes() + 2))
 
-                expect(stubInsertTaskCompleteFirstTimeClaim.calledWith(reference, claimId)).to.be.true
-                expect(stubInsertTaskSendFirstTimeClaimNotification.calledWith(reference, claimId)).to.be.true
+                expect(stubInsertTaskCompleteFirstTimeClaim.calledWith(reference, eligibilityId, claimId)).to.be.true
+                expect(stubInsertTaskSendFirstTimeClaimNotification.calledWith(reference, eligibilityId, claimId)).to.be.true
               })
           })
       })

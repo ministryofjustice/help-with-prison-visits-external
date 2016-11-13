@@ -10,20 +10,25 @@ const visitorHelper = require('../../../helpers/data/visitor-helper')
 const insertTaskSendFirstTimeClaimNotification = require('../../../../app/services/data/insert-task-send-first-time-claim-notification')
 
 const reference = 'S123456'
+var eligibilityId
 var claimId = 123
 
 describe('services/data/insert-task-send-first-time-claim-notification', function () {
   before(function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(reference)
+      .then(function (newEligibilityId) {
+        eligibilityId = newEligibilityId
+      })
   })
 
   it('should insert a new task to send the first time claim notification', function () {
-    return insertTaskSendFirstTimeClaimNotification(reference, claimId)
+    return insertTaskSendFirstTimeClaimNotification(reference, eligibilityId, claimId)
       .then(function () {
         return knex.first().from('ExtSchema.Task').where({Reference: reference, ClaimId: claimId})
           .then(function (task) {
             expect(task.Task).to.equal(tasksEnum.FIRST_TIME_CLAIM_NOTIFICATION)
             expect(task.Reference).to.equal(reference)
+            expect(task.EligibilityId).to.equal(eligibilityId)
             expect(task.ClaimId).to.equal(claimId)
             expect(task.AdditionalData).to.equal(visitorHelper.EMAIL_ADDRESS)
             expect(task.DateCreated).to.be.within(
