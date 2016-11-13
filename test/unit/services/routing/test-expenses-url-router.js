@@ -24,7 +24,7 @@ describe('services/routing/expenses-url-router', function () {
   describe('getRedirectUrl', function () {
     const VALID_PARAM_ONE = 'bus'
     const VALID_PARAM_TWO = 'hire'
-    const REFERENCE = '123'
+    const REFERENCEID = 'URLROUT-123'
     const CLAIM_ID = '456'
     const ORIGINAL_URL = 'some url'
     var validRequest = {
@@ -37,11 +37,11 @@ describe('services/routing/expenses-url-router', function () {
       originalUrl: ORIGINAL_URL,
       query: {},
       params: {
-        reference: REFERENCE,
+        referenceId: REFERENCEID,
         claimId: CLAIM_ID
       }
     }
-    const VALID_REQUEST_OUTPUT = `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}/${VALID_PARAM_ONE}?${VALID_PARAM_TWO}=`
+    const VALID_REQUEST_OUTPUT = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/${VALID_PARAM_ONE}?${VALID_PARAM_TWO}=`
 
     it('should throw an error if req is invalid', function (done) {
       expect(function () {
@@ -69,11 +69,11 @@ describe('services/routing/expenses-url-router', function () {
       done()
     })
 
-    it('should throw an error if req.params.reference is invalid', function (done) {
+    it('should throw an error if req.params.referenceId is invalid', function (done) {
       expect(function () {
         expensesUrlRouter.getRedirectUrl({
           params: {
-            reference: null
+            referenceId: null
           }
         })
       }).to.throw(Error)

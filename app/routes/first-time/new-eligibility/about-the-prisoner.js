@@ -1,8 +1,8 @@
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
+const referenceIdHelper = require('../../helpers/reference-id-helper')
 const AboutThePrisoner = require('../../../services/domain/about-the-prisoner')
 const ValidationError = require('../../../services/errors/validation-error')
 const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
-const referenceIdHelper = require('../../helpers/reference-id-helper')
 
 module.exports = function (router) {
   router.get('/first-time/new-eligibility/:dob/:relationship/:benefit', function (req, res) {

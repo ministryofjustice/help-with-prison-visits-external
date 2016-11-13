@@ -7,9 +7,11 @@ require('sinon-bluebird')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/first-time/eligibility/claim/about-child', function () {
-  const REFERENCE = 'APVS123'
+  const REFERENCE = 'ABOUTCH'
+  const ELIGIBILITYID = '1234'
+  const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIM_ID = '123'
-  const ROUTE = `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}/child`
+  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/child`
 
   var app
 
@@ -66,7 +68,7 @@ describe('routes/first-time/eligibility/claim/about-child', function () {
         .expect(function () {
           sinon.assert.calledOnce(aboutChildStub)
           sinon.assert.calledOnce(insertChildStub)
-          sinon.assert.calledWith(insertChildStub, CLAIM_ID, ABOUT_CHILD)
+          sinon.assert.calledWith(insertChildStub, REFERENCE, ELIGIBILITYID, CLAIM_ID, ABOUT_CHILD)
         })
         .expect(302)
     })
@@ -75,7 +77,7 @@ describe('routes/first-time/eligibility/claim/about-child', function () {
       insertChildStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
-        .expect('location', `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}`)
+        .expect('location', `/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}`)
     })
 
     it('should redirect to the about-child page if add-another-child is set to yes', function () {

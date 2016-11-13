@@ -1,18 +1,21 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
+const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const ValidationError = require('../../../../services/errors/validation-error')
 const FirstTimeClaim = require('../../../../services/domain/first-time-claim')
 const insertFirstTimeClaim = require('../../../../services/data/insert-first-time-claim')
 
 module.exports = function (router) {
-  router.get('/first-time/eligibility/:reference/new-claim/past', function (req, res) {
+  router.get('/first-time/eligibility/:referenceId/new-claim/past', function (req, res) {
     UrlPathValidator(req.params)
+
     return res.render('first-time/eligibility/new-claim/journey-information', {
-      reference: req.params.reference
+      referenceId: req.params.referenceId
     })
   })
 
-  router.post('/first-time/eligibility/:reference/new-claim/past', function (req, res, next) {
+  router.post('/first-time/eligibility/:referenceId/new-claim/past', function (req, res, next) {
     UrlPathValidator(req.params)
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
 
     try {
       var firstTimeClaim = new FirstTimeClaim(
@@ -22,12 +25,12 @@ module.exports = function (router) {
         req.body['date-of-journey-year'],
         req.body['child-visitor']
       )
-      insertFirstTimeClaim(firstTimeClaim)
+      insertFirstTimeClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, firstTimeClaim)
         .then(function (claimId) {
           if (req.body['child-visitor'] === 'yes') {
-            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}/child`)
+            return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${claimId}/child`)
           } else {
-            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${claimId}`)
+            return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${claimId}`)
           }
         })
         .catch(function (error) {
@@ -36,7 +39,7 @@ module.exports = function (router) {
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('first-time/eligibility/new-claim/journey-information', {
-          reference: req.params.reference,
+          referenceId: req.params.referenceId,
           claim: req.body,
           errors: error.validationErrors
         })

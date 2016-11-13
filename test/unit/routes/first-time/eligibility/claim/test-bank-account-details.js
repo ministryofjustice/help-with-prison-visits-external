@@ -11,8 +11,10 @@ var ValidationError = require('../../../../../../app/services/errors/validation-
 
 describe('routes/first-time/eligibility/claim/bank-account-details', function () {
   const REFERENCE = 'V123456'
+  const ELIGIBILITYID = '1234'
+  const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIM_ID = '1'
-  const ROUTE = `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}/bank-account-details`
+  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/bank-account-details`
 
   var request
   var stubBankAccountDetails
@@ -72,10 +74,10 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(stubBankAccountDetails.calledWithExactly(VALID_DATA.AccountNumber, VALID_DATA.SortCode)).to.be.true
-          expect(stubInsertBankAccountDetailsForClaim.calledWithExactly(CLAIM_ID, newBankAccountDetails)).to.be.true
-          expect(stubSubmitFirstTimeClaim.calledWithExactly(REFERENCE, CLAIM_ID)).to.be.true
-          expect(response.headers['location']).to.be.equal(`/application-submitted/${REFERENCE}`)
+          sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
+          sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIM_ID, newBankAccountDetails)
+          sinon.assert.calledWith(stubSubmitFirstTimeClaim, REFERENCE, ELIGIBILITYID, CLAIM_ID)
+          expect(response.headers['location']).to.be.equal(`/application-submitted/${REFERENCEID}`)
           done()
         })
     })
