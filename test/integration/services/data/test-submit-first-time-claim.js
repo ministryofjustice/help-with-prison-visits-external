@@ -51,6 +51,13 @@ describe('services/data/submit-first-time-claim', function () {
       })
   })
 
+  it('should throw an error if no valid claim', function () {
+    return submitFirstTimeClaim('NONE123', 4321, 123456)
+      .catch(function (error) {
+        expect(error.message).to.contain('Could not find Claim')
+      })
+  })
+
   after(function () {
     return eligiblityHelper.deleteAll(reference)
   })

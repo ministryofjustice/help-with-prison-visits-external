@@ -10,10 +10,19 @@ const dateFormatter = require('../date-formatter')
 module.exports = function (reference, eligibilityId, claimId) {
   var dateSubmitted = dateFormatter.now().toDate()
 
-  return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
-                      updateClaim(claimId, dateSubmitted),
-                      insertTaskCompleteFirstTimeClaim(reference, eligibilityId, claimId),
-                      insertTaskSendFirstTimeClaimNotification(reference, eligibilityId, claimId)])
+  return knex('Claim')
+    .where({'Reference': reference, 'EligibilityId': eligibilityId, 'ClaimId': claimId, 'Status': claimStatusEnum.IN_PROGRESS})
+    .first('ClaimId')
+    .then(function (result) {
+      if (!result) {
+        throw new Error(`Could not find Claim reference: ${reference} - claimId: ${claimId} - status: IN-PROGRESS`)
+      }
+
+      return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
+                          updateClaim(claimId, dateSubmitted),
+                          insertTaskCompleteFirstTimeClaim(reference, eligibilityId, claimId),
+                          insertTaskSendFirstTimeClaimNotification(reference, eligibilityId, claimId)])
+    })
 }
 
 function updateEligibility (reference, eligibilityId, dateSubmitted) {
