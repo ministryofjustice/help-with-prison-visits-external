@@ -25,7 +25,7 @@ module.exports = function (router) {
         .then(function () {
           return submitFirstTimeClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId)
             .then(function () {
-              return res.redirect(`/application-submitted/${req.params.referenceId}`)
+              return res.redirect(`/application-submitted/${referenceAndEligibilityId.reference}`)
             })
         })
         .catch(function (error) {

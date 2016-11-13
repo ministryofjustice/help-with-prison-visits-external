@@ -39,7 +39,7 @@ module.exports = function (router) {
         req.body['EmailAddress'],
         req.body['PhoneNumber'])
 
-      insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.eligibilityId, aboutYou)
+      insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou)
       .then(function () {
         return res.redirect(`/first-time/eligibility/${req.params.referenceId}/new-claim`)
       })

@@ -19,7 +19,7 @@ module.exports = function (router) {
 
     try {
       var firstTimeClaim = new FirstTimeClaim(
-        req.params.reference,
+        req.params.referenceId,
         req.body['date-of-journey-day'],
         req.body['date-of-journey-month'],
         req.body['date-of-journey-year'],
