@@ -60,35 +60,22 @@ module.exports.get = function (reference) {
 }
 
 module.exports.delete = function (reference) {
-  return knex('ExtSchema.Eligibility')
-    .where('Reference', reference)
-    .del()
+  return deleteByReference('ExtSchema.Eligibility', reference)
+}
+
+function deleteByReference (schemaTable, reference) {
+  return knex(schemaTable).where('Reference', reference).del()
 }
 
 module.exports.deleteAll = function (reference) {
-  return knex('ExtSchema.Task').where('Reference', reference).del()
-    .then(function () {
-      return knex('ExtSchema.ClaimBankDetail').where('Reference', reference).del()
-    })
-    .then(function () {
-      return knex('ExtSchema.ClaimDocument').where('Reference', reference).del()
-    })
-    .then(function () {
-      return knex('ExtSchema.ClaimExpense').where('Reference', reference).del()
-    })
-    .then(function () {
-      return knex('ExtSchema.ClaimChild').where('Reference', reference).del()
-    })
-    .then(function () {
-      return knex('ExtSchema.Claim').where('Reference', reference).del()
-    })
-    .then(function () {
-      return knex('ExtSchema.Visitor').where('Reference', reference).del()
-    })
-    .then(function () {
-      return knex('ExtSchema.Prisoner').where('Reference', reference).del()
-    })
-    .then(function () {
-      return knex('ExtSchema.Eligibility').where('Reference', reference).del()
-    })
+  return deleteByReference('ExtSchema.Task', reference)
+    .then(function () { return deleteByReference('ExtSchema.Task', reference) })
+    .then(function () { return deleteByReference('ExtSchema.ClaimBankDetail', reference) })
+    .then(function () { return deleteByReference('ExtSchema.ClaimDocument', reference) })
+    .then(function () { return deleteByReference('ExtSchema.ClaimExpense', reference) })
+    .then(function () { return deleteByReference('ExtSchema.ClaimChild', reference) })
+    .then(function () { return deleteByReference('ExtSchema.Claim', reference) })
+    .then(function () { return deleteByReference('ExtSchema.Visitor', reference) })
+    .then(function () { return deleteByReference('ExtSchema.Prisoner', reference) })
+    .then(function () { return deleteByReference('ExtSchema.Eligibility', reference) })
 }
