@@ -5,7 +5,7 @@ var path = require('path')
 var UploadError = require('./errors/upload-error')
 var csrfProtection = require('csurf')({ cookie: true })
 
-const maxFileSize = config.FILE_UPLOAD_MAXSIZE
+const maxFileSize = parseInt(config.FILE_UPLOAD_MAXSIZE)
 const allowedFileTypes = [ 'image/png', 'image/jpeg', 'application/pdf' ]
 
 var storage = multer.diskStorage({
