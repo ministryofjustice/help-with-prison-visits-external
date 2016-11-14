@@ -7,10 +7,11 @@ const mockViewEngine = require('../../../mock-view-engine')
 const bodyParser = require('body-parser')
 require('sinon-bluebird')
 
-var reference = 'V123456'
-var eligibilityId = '1234'
-var claimId = '1'
-var claimExpenseId = '1234'
+const REFERENCE = 'V123456'
+const ELIGIBILITYID = '1234'
+const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
+const CLAIMID = '1'
+const CLAIMEXPENSEID = '1234'
 
 describe('routes/first-time/eligibility/claim/claim-summary', function () {
   var request
@@ -40,12 +41,12 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
   describe('GET /first-time/eligibility/:referenceId/claim/:claimId/summary', function () {
     it('should respond with a 200', function (done) {
       request
-        .get(`/first-time/eligibility/${reference}-${eligibilityId}/claim/${claimId}/summary`)
+        .get(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(getClaimSummary.calledWith(claimId)).to.be.true
+          expect(getClaimSummary.calledWith(CLAIMID)).to.be.true
           done()
         })
     })
@@ -54,12 +55,12 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
   describe('POST /first-time/eligibility/:referenceId/claim/:claimId/summary', function () {
     it('should respond with a 302', function (done) {
       request
-        .post(`/first-time/eligibility/${reference}-${eligibilityId}/claim/${claimId}/summary`)
+        .post(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${reference}-${eligibilityId}/claim/${claimId}/bank-account-details`)
+          expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`)
           done()
         })
     })
@@ -68,13 +69,13 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
   describe('POST /first-time/eligibility/:referenceId/claim/:claimId/summary/remove/:claimExpenseId', function () {
     it('should respond with a 302 and call removeClaimExpense', function (done) {
       request
-        .post(`/first-time/eligibility/${reference}-${eligibilityId}/claim/${claimId}/summary/remove/${claimExpenseId}`)
+        .post(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/remove/${CLAIMEXPENSEID}`)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(removeClaimExpense.calledWith(claimId, claimExpenseId)).to.be.true
-          expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${reference}-${eligibilityId}/claim/${claimId}/summary`)
+          expect(removeClaimExpense.calledWith(CLAIMID, CLAIMEXPENSEID)).to.be.true
+          expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
           done()
         })
     })

@@ -1,4 +1,4 @@
 exports.VALID_CHARACTERS = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'
 exports.VALID_LENGTH = 7
-exports.IS_VALID_REGEX = new RegExp('[' + this.VALID_CHARACTERS + ']{7}')
-exports.IS_VALID_REFERENCE_ID_REGEX = new RegExp('[' + this.VALID_CHARACTERS + ']{7}-[0-9]*')
+exports.IS_VALID_REGEX = new RegExp(`[${this.VALID_CHARACTERS}]{7}`)
+exports.IS_VALID_REFERENCE_ID_REGEX = new RegExp(`[${this.VALID_CHARACTERS}]{7}-[0-9]*`)

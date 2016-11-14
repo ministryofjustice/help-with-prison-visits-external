@@ -11,7 +11,9 @@ exports.up = function (knex, Promise) {
   })
   .then(function () {
     return knex.schema.alterTable('Prisoner', function (table) {
-      table.foreign(['EligibilityId', 'Reference']).references(['Eligibility.EligibilityId', 'Eligibility.Reference'])
+      table
+        .foreign(['EligibilityId', 'Reference'])
+        .references(['Eligibility.EligibilityId', 'Eligibility.Reference'])
     })
   })
   .catch(function (error) {

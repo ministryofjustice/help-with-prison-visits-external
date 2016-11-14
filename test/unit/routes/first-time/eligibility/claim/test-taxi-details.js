@@ -7,11 +7,11 @@ require('sinon-bluebird')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/first-time/eligibility/claim/taxi-details', function () {
-  const reference = 'A123456'
-  const eligibilityId = '1234'
-  const referenceId = `${reference}-${eligibilityId}`
-  const claimId = '1'
-  const ROUTE = `/first-time/eligibility/${referenceId}/claim/${claimId}/taxi`
+  const REFERENCE = 'V123456'
+  const ELIGIBILITYID = '1234'
+  const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
+  const CLAIMID = '1'
+  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/taxi`
 
   var app
 
@@ -81,7 +81,7 @@ describe('routes/first-time/eligibility/claim/taxi-details', function () {
         .expect(function () {
           sinon.assert.calledOnce(taxiExpenseStub)
           sinon.assert.calledOnce(insertExpenseStub)
-          sinon.assert.calledWith(insertExpenseStub, reference, eligibilityId, claimId, TAXI_EXPENSE)
+          sinon.assert.calledWith(insertExpenseStub, REFERENCE, ELIGIBILITYID, CLAIMID, TAXI_EXPENSE)
         })
         .expect(302)
     })

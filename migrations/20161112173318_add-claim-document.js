@@ -13,7 +13,9 @@ exports.up = function (knex, Promise) {
   })
   .then(function () {
     return knex.schema.alterTable('ClaimDocument', function (table) {
-      table.foreign(['ClaimId', 'EligibilityId', 'Reference']).references(['Claim.ClaimId', 'Claim.EligibilityId', 'Claim.Reference'])
+      table
+        .foreign(['ClaimId', 'EligibilityId', 'Reference'])
+        .references(['Claim.ClaimId', 'Claim.EligibilityId', 'Claim.Reference'])
     })
   })
   .catch(function (error) {

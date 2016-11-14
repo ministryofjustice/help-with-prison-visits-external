@@ -13,8 +13,8 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
   const REFERENCE = 'V123456'
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
-  const CLAIM_ID = '1'
-  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/bank-account-details`
+  const CLAIMID = '1'
+  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`
 
   var request
   var stubBankAccountDetails
@@ -75,8 +75,8 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
-          sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIM_ID, newBankAccountDetails)
-          sinon.assert.calledWith(stubSubmitFirstTimeClaim, REFERENCE, ELIGIBILITYID, CLAIM_ID)
+          sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newBankAccountDetails)
+          sinon.assert.calledWith(stubSubmitFirstTimeClaim, REFERENCE, ELIGIBILITYID, CLAIMID)
           expect(response.headers['location']).to.be.equal(`/application-submitted/${REFERENCE}`)
           done()
         })

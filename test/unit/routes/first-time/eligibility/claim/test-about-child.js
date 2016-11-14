@@ -10,8 +10,8 @@ describe('routes/first-time/eligibility/claim/about-child', function () {
   const REFERENCE = 'ABOUTCH'
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
-  const CLAIM_ID = '123'
-  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/child`
+  const CLAIMID = '123'
+  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/child`
 
   var app
 
@@ -62,26 +62,26 @@ describe('routes/first-time/eligibility/claim/about-child', function () {
 
     it('should insert valid FirstTimeClaim domain object', function () {
       aboutChildStub.returns(ABOUT_CHILD)
-      insertChildStub.resolves(CLAIM_ID)
+      insertChildStub.resolves(CLAIMID)
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(aboutChildStub)
           sinon.assert.calledOnce(insertChildStub)
-          sinon.assert.calledWith(insertChildStub, REFERENCE, ELIGIBILITYID, CLAIM_ID, ABOUT_CHILD)
+          sinon.assert.calledWith(insertChildStub, REFERENCE, ELIGIBILITYID, CLAIMID, ABOUT_CHILD)
         })
         .expect(302)
     })
 
     it('should redirect to expenses page if add-another-child is set to no', function () {
-      insertChildStub.resolves(CLAIM_ID)
+      insertChildStub.resolves(CLAIMID)
       return supertest(app)
         .post(ROUTE)
-        .expect('location', `/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}`)
+        .expect('location', `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}`)
     })
 
     it('should redirect to the about-child page if add-another-child is set to yes', function () {
-      insertChildStub.resolves(CLAIM_ID)
+      insertChildStub.resolves(CLAIMID)
       return supertest(app)
         .post(ROUTE)
         .send({
