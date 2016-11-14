@@ -64,7 +64,7 @@
       <td>{{ dateHelper(claimDetails.claim['DateOfJourney']) }}</td>
     </tr>
 
-    <tr>
+    <tr id="VisitConfirmation" {% if errors['VisitConfirmation'][0] %} class="warning" {% endif %}>
       <td>Visit confirmation</td>
       <td>
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
@@ -75,7 +75,7 @@
           <span class="text-success">Post later</span>
         {% else %}
           <span class="text-warning">Visit confirmation required</span>
-          <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=VISIT_CONFIRMATION" class="button grey pull-right">Add</a>
+          <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=VISIT_CONFIRMATION" id="add-visit-confirmation" class="button grey pull-right">Add</a>
         {% endif %}
       </td>
     </tr>

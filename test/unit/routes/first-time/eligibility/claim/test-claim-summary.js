@@ -76,7 +76,7 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
     it('should respond with a 400 if validation errors', function (done) {
       claimSummaryStub.throws(new ValidationError())
       request
-        .post(`/first-time/eligibility/${reference}/claim/${claimId}/summary`)
+        .post(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
         .expect(400)
         .end(function (error, response) {
           expect(error).to.be.null

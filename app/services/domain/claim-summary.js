@@ -3,8 +3,8 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 
 class ClaimSummary {
-  constructor (visitConfirmationStatus) {
-    this.visitConfirmationStatus = visitConfirmationStatus
+  constructor (visitConfirmation) {
+    this.visitConfirmationStatus = visitConfirmation ? visitConfirmation.DocumentStatus : ''
     this.IsValid()
   }
 

@@ -34,13 +34,13 @@ module.exports = function (router) {
     getClaimSummary(req.params.claimId)
       .then(function (claimDetails) {
         savedClaimDetails = claimDetails
-        var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation.DocumentStatus) // eslint-disable-line no-unused-vars
+        var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation) // eslint-disable-line no-unused-vars
         return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/bank-account-details`)
       })
       .catch(function (error) {
         if (error instanceof ValidationError) {
           return res.status(400).render('first-time/eligibility/claim/claim-summary', {
-            reference: req.params.reference,
+            referenceId: req.params.referenceId,
             claimId: req.params.claimId,
             claimDetails: savedClaimDetails,
             dateHelper: dateHelper,
@@ -49,7 +49,7 @@ module.exports = function (router) {
             errors: error.validationErrors
           })
         } else {
-          throw error
+          next(error)
         }
       })
   })
