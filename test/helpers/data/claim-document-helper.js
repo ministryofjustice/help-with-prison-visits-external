@@ -27,7 +27,8 @@ module.exports.insert = function (reference, eligibilityId, claimId, date) {
       DocumentType: this.DOCUMENT_TYPE,
       DocumentStatus: this.DOCUMENT_STATUS,
       DateSubmitted: moment().toDate(),
-      Filepath: this.PATH
+      Filepath: this.PATH,
+      IsEnabled: true
     })
 }
 
