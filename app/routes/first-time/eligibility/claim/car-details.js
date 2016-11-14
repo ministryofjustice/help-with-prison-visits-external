@@ -31,7 +31,6 @@ module.exports = function (router) {
 
     try {
       var expense = new CarExpense(
-        req.params.claimId,
         req.body.from,
         req.body.to,
         req.body.toll,

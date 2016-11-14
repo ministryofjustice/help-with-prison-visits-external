@@ -22,7 +22,6 @@ module.exports = function (router) {
 
     try {
       var expense = new TaxiExpense(
-        req.params.claimId,
         req.body.cost,
         req.body.from,
         req.body.to
