@@ -22,7 +22,6 @@ module.exports = function (router) {
 
     try {
       var expense = new AccommodationExpense(
-        req.params.claimId,
         req.body.cost,
         req.body.duration
       )

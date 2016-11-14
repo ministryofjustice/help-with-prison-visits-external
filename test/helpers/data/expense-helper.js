@@ -13,9 +13,8 @@ module.exports.DURATION_OF_TRAVEL = null
 module.exports.TICKET_TYPE = null
 module.exports.IS_CHILD = 'yes'
 
-module.exports.build = function (claimId) {
+module.exports.build = function () {
   return new BusExpense(
-    claimId,
     this.COST,
     this.FROM,
     this.TO,
@@ -25,7 +24,7 @@ module.exports.build = function (claimId) {
 }
 
 module.exports.insert = function (reference, eligibilityId, claimId) {
-  return insertExpense(reference, eligibilityId, claimId, this.build(claimId))
+  return insertExpense(reference, eligibilityId, claimId, this.build())
 }
 
 module.exports.get = function (claimId) {
