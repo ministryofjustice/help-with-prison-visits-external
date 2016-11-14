@@ -45,9 +45,12 @@
 
     {% for claim in claims %}
       <tr>
-        <td>{{ claim.DateOfClaim }}</td>
+        <!-- TODO: Need to format this date. -->
+        <!-- TODO: Which date (or dates) do we want to display here. -->
+        <td>{{ claim.DateOfJourney }}</td>
         <td>{{ claim.Status }}</td>
-        <td><a href="{{ claim.Link }}">View</a></td>
+        <!-- TODO: Need to redirect to a real page. -->
+        <td><a href="#{{ claim.ClaimId }}">View</a></td>
       </tr>
     {% endfor %}
 
