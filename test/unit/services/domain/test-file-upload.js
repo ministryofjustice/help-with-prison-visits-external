@@ -2,14 +2,14 @@ const FileUpload = require('../../../../app/services/domain/file-upload')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 const documentTypeEnum = require('../../../../app/constants/document-type-enum')
+const UploadError = require('../../../../app/services/errors/upload-error')
 
 describe('services/domain/file-upload', function () {
   const VALID_ID = '1'
   const VALID_DOCUMENT_TYPE = documentTypeEnum.VISIT_CONFIRMATION
   const VALID_FILE = {path: 'path'}
   const VALID_DOCUMENT_STATUS = 'uploaded'
-  const FILETYPE_ERROR = 'error'
-  // const VALID_ALTERNATIVE_WHEN_NO_FILE = undefined
+  const UPLOAD_ERROR = new UploadError('File type error')
 
   it('should construct a domain object given valid input', function () {
     var fileUpload = new FileUpload(
@@ -39,14 +39,14 @@ describe('services/domain/file-upload', function () {
     }).to.throw(ValidationError)
   })
 
-  it('should throw an error if passed file type error', function () {
+  it('should throw an error if passed UploadError', function () {
     expect(function () {
       new FileUpload(
         VALID_ID,
         VALID_DOCUMENT_TYPE,
         VALID_ID,
         VALID_FILE,
-        FILETYPE_ERROR,
+        UPLOAD_ERROR,
         undefined
       ).isValid()
     }).to.throw(ValidationError)
