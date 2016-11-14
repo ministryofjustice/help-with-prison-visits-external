@@ -7,8 +7,6 @@ const benefitsEnum = require('../../../../constants/benefits-enum')
 const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
 
-var savedClaimDetails
-
 module.exports = function (router) {
   router.get('/first-time/eligibility/:reference/claim/:claimId/summary', function (req, res, next) {
     UrlPathValidator(req.params)
@@ -32,15 +30,15 @@ module.exports = function (router) {
 
   router.post('/first-time/eligibility/:reference/claim/:claimId/summary', function (req, res, next) {
     UrlPathValidator(req.params)
+    var savedClaimDetails
     getClaimSummary(req.params.claimId)
       .then(function (claimDetails) {
         savedClaimDetails = claimDetails
-        var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation) // eslint-disable-line no-unused-vars
+        var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation.DocumentStatus) // eslint-disable-line no-unused-vars
         return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}/bank-account-details`)
       })
       .catch(function (error) {
         if (error instanceof ValidationError) {
-          console.log('setting status to 400..')
           return res.status(400).render('first-time/eligibility/claim/claim-summary', {
             reference: req.params.reference,
             claimId: req.params.claimId,
