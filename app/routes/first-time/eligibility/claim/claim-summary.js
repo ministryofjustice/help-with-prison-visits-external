@@ -4,6 +4,10 @@ const removeClaimExpense = require('../../../../services/data/remove-claim-expen
 const dateHelper = require('../../../../views/helpers/date-helper')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
 const benefitsEnum = require('../../../../constants/benefits-enum')
+const ClaimSummary = require('../../../../services/domain/claim-summary')
+const ValidationError = require('../../../../services/errors/validation-error')
+
+var savedClaimDetails
 
 module.exports = function (router) {
   router.get('/first-time/eligibility/:reference/claim/:claimId/summary', function (req, res, next) {
@@ -26,9 +30,30 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId/summary', function (req, res) {
+  router.post('/first-time/eligibility/:reference/claim/:claimId/summary', function (req, res, next) {
     UrlPathValidator(req.params)
-    return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}/bank-account-details`)
+    getClaimSummary(req.params.claimId)
+      .then(function (claimDetails) {
+        savedClaimDetails = claimDetails
+        var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation) // eslint-disable-line no-unused-vars
+        return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}/bank-account-details`)
+      })
+      .catch(function (error) {
+        if (error instanceof ValidationError) {
+          console.log('setting status to 400..')
+          return res.status(400).render('first-time/eligibility/claim/claim-summary', {
+            reference: req.params.reference,
+            claimId: req.params.claimId,
+            claimDetails: savedClaimDetails,
+            dateHelper: dateHelper,
+            claimExpenseHelper: claimExpenseHelper,
+            benefitsEnum: benefitsEnum,
+            errors: error.validationErrors
+          })
+        } else {
+          throw error
+        }
+      })
   })
 
   router.post('/first-time/eligibility/:reference/claim/:claimId/summary/remove/:claimExpenseId', function (req, res, next) {
