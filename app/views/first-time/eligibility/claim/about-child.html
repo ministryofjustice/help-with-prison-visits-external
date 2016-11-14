@@ -24,8 +24,8 @@
         <div id="child-name" class="form-group {% if errors['child-name'][0] %} error {% endif %}">
           <label class="form-label-bold" for="child-name-input">Child name</label>
 
-          {% if errors['from'][0] %}
-            <span class="error-message">{{ errors['from'][0] }}</span>
+          {% if errors['child-name'][0] %}
+            <span class="error-message">{{ errors['child-name'][0] }}</span>
           {% endif %}
 
           <input id="child-name-input"
@@ -39,13 +39,13 @@
 
           <fieldset>
 
-            {% if errors['dob'][0] %}
-              <span class="error-message">{{ errors['dob'][0] }}</span>
-            {% endif %}
-
             <div class="form-date">
 
               <h2 class="form-label-bold">Date of birth</h2>
+
+              {% if errors['dob'][0] %}
+                <span class="error-message">{{ errors['dob'][0] }}</span>
+              {% endif %}
 
               <p class="form-hint">For example, 18 08 1989</p>
 
