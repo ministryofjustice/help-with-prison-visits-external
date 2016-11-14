@@ -22,8 +22,8 @@ module.exports.build = function () {
   )
 }
 
-module.exports.insert = function (claimId) {
-  return insertChild(claimId, this.build())
+module.exports.insert = function (reference, eligibilityId, claimId) {
+  return insertChild(reference, eligibilityId, claimId, this.build())
 }
 
 module.exports.get = function (claimId) {

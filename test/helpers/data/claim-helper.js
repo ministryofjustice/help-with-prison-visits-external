@@ -20,8 +20,8 @@ module.exports.build = function (reference) {
   )
 }
 
-module.exports.insert = function (reference) {
-  return insertFirstTimeClaim(this.build(reference))
+module.exports.insert = function (reference, eligibilityId) {
+  return insertFirstTimeClaim(reference, eligibilityId, this.build(reference))
 }
 
 module.exports.get = function (claimId) {

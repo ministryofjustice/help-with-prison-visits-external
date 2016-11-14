@@ -1,29 +1,29 @@
 const expect = require('chai').expect
 const insertChild = require('../../../../app/services/data/insert-child')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
-const claimHelper = require('../../../helpers/data/claim-helper')
 const claimChildHelper = require('../../../helpers/data/claim-child-helper')
 
 describe('services/data/insert-child', function () {
   const REFERENCE = 'V123467'
+  var eligibilityId
   var claimId
 
   before(function () {
-    return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
-      .then(function () {
-        return claimHelper.insert(REFERENCE)
-      })
-      .then(function (newClaimId) {
-        claimId = newClaimId
+    return eligiblityHelper.insertEligibilityClaim(REFERENCE)
+      .then(function (ids) {
+        eligibilityId = ids.eligibilityId
+        claimId = ids.claimId
       })
   })
 
   it('should insert a new child', function () {
-    return insertChild(claimId, claimChildHelper.build())
+    return insertChild(REFERENCE, eligibilityId, claimId, claimChildHelper.build())
       .then(function () {
         return claimChildHelper.get(claimId)
       })
       .then(function (child) {
+        expect(child.EligibilityId).to.equal(eligibilityId)
+        expect(child.Reference).to.equal(REFERENCE)
         expect(child.ClaimId).to.equal(claimId)
         expect(child.Name).to.equal(claimChildHelper.CHILD_NAME)
         expect(child.DateOfBirth).to.be.within(
@@ -36,17 +36,11 @@ describe('services/data/insert-child', function () {
 
   it('should throw an error if passed a non-AboutChild object.', function () {
     return expect(function () {
-      insertChild({})
+      insertChild(REFERENCE, eligibilityId, claimId, {})
     }).to.throw(Error)
   })
 
   after(function () {
-    return claimChildHelper.delete(claimId)
-      .then(function () {
-        return claimHelper.delete(claimId)
-      })
-      .then(function () {
-        return eligiblityHelper.deleteEligibilityVisitorAndPrisoner(REFERENCE)
-      })
+    return eligiblityHelper.deleteAll(REFERENCE)
   })
 })

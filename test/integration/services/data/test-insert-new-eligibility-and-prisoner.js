@@ -33,8 +33,12 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
     const stubReferenceGeneratorGenerate = sinon.stub(stubReferenceGenerator, 'generate').returns(uniqueReference1)
 
     return insertNewEligibilityAndPrisoner(aboutThePrisoner)
-      .then(function (newReference) {
+      .then(function (result) {
+        var newReference = result.reference
+        var newEligibilityId = result.eligibilityId
+
         expect(newReference).to.equal(uniqueReference1)
+        expect(newEligibilityId).to.exist
 
         return knex('ExtSchema.Eligibility').where('Reference', uniqueReference1).first().then(function (newEligibilityRow) {
           expect(newEligibilityRow.Status).to.equal(eligibilityStatusEnum.IN_PROGRESS)
@@ -58,11 +62,13 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
 
     // First call uses nonuniqueReference
     return insertNewEligibilityAndPrisoner(aboutThePrisoner)
-      .then(function (usedNonuniqueReference) {
+      .then(function (result) {
+        var usedNonuniqueReference = result.reference
         expect(usedNonuniqueReference).to.equal(nonuniqueReference)
         // Second call gets nonuniqueReference first time generate is called, uniqueReference2 after that
         return insertNewEligibilityAndPrisoner(aboutThePrisoner)
-          .then(function (shouldHaveUsedUniqueReference2) {
+          .then(function (result) {
+            var shouldHaveUsedUniqueReference2 = result.reference
             expect(shouldHaveUsedUniqueReference2).to.equal(uniqueReference2)
           })
       })

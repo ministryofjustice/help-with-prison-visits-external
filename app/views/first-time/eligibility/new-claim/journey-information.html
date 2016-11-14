@@ -19,7 +19,7 @@
         Your journey information
       </h2>
 
-      <form action="/first-time/eligibility/{{reference}}/new-claim/past" method="post">
+      <form action="/first-time/eligibility/{{referenceId}}/new-claim/past" method="post">
 
         <div class="form-group {% if errors['DateOfJourney'][0] %} error {% endif %}">
           <fieldset>
@@ -76,7 +76,7 @@
                      type="radio"
                      name="child-visitor"
                      value="yes"
-                     {% if expense['child-visitor'] == 'yes' %} checked {% endif %}>
+                     {% if claim['child-visitor'] == 'yes' %} checked {% endif %}>
               Yes
             </label>
             <label for="child-no" class="block-label inline">
@@ -84,7 +84,7 @@
                      type="radio"
                      name="child-visitor"
                      value="no"
-                     {% if expense['child-visitor'] == 'no' %} checked {% endif %}>
+                     {% if claim['child-visitor'] == 'no' %} checked {% endif %}>
               No
             </label>
 

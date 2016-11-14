@@ -6,6 +6,7 @@ const dateFormatter = require('../date-formatter')
 
 module.exports = function (aboutThePrisoner) {
   var reference = referenceGenerator.generate()
+  var newEligibilityId
 
   return knex('Eligibility')
     .where('Reference', reference)
@@ -25,8 +26,12 @@ module.exports = function (aboutThePrisoner) {
         Status: eligibilityStatusEnum.IN_PROGRESS
       })
         .into('Eligibility')
-        .then(function () {
+        .returning('EligibilityId')
+        .then(function (insertedIds) {
+          newEligibilityId = insertedIds[0]
+
           return knex.insert({
+            EligibilityId: newEligibilityId,
             Reference: uniqueReference,
             FirstName: aboutThePrisoner.firstName,
             LastName: aboutThePrisoner.lastName,
@@ -36,7 +41,7 @@ module.exports = function (aboutThePrisoner) {
           })
             .into('Prisoner')
             .then(function () {
-              return uniqueReference
+              return { reference: uniqueReference, eligibilityId: newEligibilityId }
             })
             .catch(function (error) {
               // Will leave orphaned Eligibility but will be cleaned up by worker

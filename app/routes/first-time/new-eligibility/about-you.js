@@ -1,27 +1,28 @@
 const AboutYou = require('../../../services/domain/about-you')
 const ValidationError = require('../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
+const referenceIdHelper = require('../../helpers/reference-id-helper')
 const insertVisitor = require('../../../services/data/insert-visitor')
 
 module.exports = function (router) {
-  router.get('/first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function (req, res) {
+  router.get('/first-time/new-eligibility/:dob/:relationship/:benefit/:referenceId', function (req, res) {
     UrlPathValidator(req.params)
 
     return res.render('first-time/new-eligibility/about-you', {
       dob: req.params.dob,
       relationship: req.params.relationship,
       benefit: req.params.benefit,
-      reference: req.params.reference
+      referenceId: req.params.referenceId
     })
   })
 
-  router.post('/first-time/new-eligibility/:dob/:relationship/:benefit/:reference', function (req, res, next) {
+  router.post('/first-time/new-eligibility/:dob/:relationship/:benefit/:referenceId', function (req, res, next) {
     UrlPathValidator(req.params)
 
     var dob = req.params.dob
     var relationship = req.params.relationship
     var benefit = req.params.benefit
-    var reference = req.params.reference
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     var visitorDetails = req.body
 
     try {
@@ -38,9 +39,9 @@ module.exports = function (router) {
         req.body['EmailAddress'],
         req.body['PhoneNumber'])
 
-      insertVisitor(req.params.reference, aboutYou)
+      insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou)
       .then(function () {
-        return res.redirect(`/first-time/eligibility/${req.params.reference}/new-claim`)
+        return res.redirect(`/first-time/eligibility/${req.params.referenceId}/new-claim`)
       })
       .catch(function (error) {
         next(error)
@@ -51,7 +52,7 @@ module.exports = function (router) {
           dob: dob,
           relationship: relationship,
           benefit: benefit,
-          reference: reference,
+          referenceId: req.params.referenceId,
           visitor: visitorDetails,
           errors: error.validationErrors
         })
