@@ -11,8 +11,8 @@ var stubAboutYou
 var app
 
 describe('routes/first-time/new-eligibility/about-you', function () {
-  const REFERENCE = '1234567'
-  const ROUTE = `/first-time/new-eligibility/1980-01-01/partner/income-support/${REFERENCE}`
+  const REFERENCEID = 'ABOUTYO-1234'
+  const ROUTE = `/first-time/new-eligibility/1980-01-01/partner/income-support/${REFERENCEID}`
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -52,7 +52,7 @@ describe('routes/first-time/new-eligibility/about-you', function () {
           sinon.assert.calledOnce(stubAboutYou)
           sinon.assert.calledOnce(stubInsertVisitor)
         })
-        .expect('location', `/first-time/eligibility/${REFERENCE}/new-claim`)
+        .expect('location', `/first-time/eligibility/${REFERENCEID}/new-claim`)
     })
 
     it('should respond with a 400 for invalid data', function () {

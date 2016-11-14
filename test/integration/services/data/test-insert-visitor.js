@@ -6,18 +6,23 @@ const dateFormatter = require('../../../../app/services/date-formatter')
 
 describe('services/data/insert-visitor', function () {
   var REFERENCE = 'V123456'
+  var eligibilityId
 
   before(function () {
     return eligiblityHelper.insert(REFERENCE)
+      .then(function (newEligibilityId) {
+        eligibilityId = newEligibilityId
+      })
   })
 
   it('should insert a new Visitor for a reference', function () {
     var visitorInserted = visitorHelper.build()
-    return insertVisitor(REFERENCE, visitorInserted)
+    return insertVisitor(REFERENCE, eligibilityId, visitorInserted)
       .then(function () {
         return visitorHelper.get(REFERENCE)
       })
       .then(function (visitor) {
+        expect(visitor.EligibilityId).to.equal(eligibilityId)
         expect(visitor.Reference).to.equal(REFERENCE)
         expect(visitor.FirstName).to.equal(visitorHelper.FIRST_NAME)
         expect(visitor.LastName).to.equal(visitorHelper.LAST_NAME)
@@ -42,7 +47,7 @@ describe('services/data/insert-visitor', function () {
     var visitorInserted = visitorHelper.build()
     visitorInserted.dob = dateExpected
 
-    return insertVisitor(REFERENCE, visitorInserted)
+    return insertVisitor(REFERENCE, eligibilityId, visitorInserted)
       .then(function () {
         return visitorHelper.get(REFERENCE)
       })
@@ -52,9 +57,6 @@ describe('services/data/insert-visitor', function () {
   })
 
   after(function () {
-    return visitorHelper.delete(REFERENCE)
-      .then(function () {
-        return eligiblityHelper.delete(REFERENCE)
-      })
+    return eligiblityHelper.deleteAll(REFERENCE)
   })
 })
