@@ -18,6 +18,7 @@ describe('routes/first-time/eligibility/claim/file-upload', function () {
   var uploadStub
   var fileUploadStub
   var claimDocumentInsertStub
+  var generateCSRFTokenStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -25,13 +26,16 @@ describe('routes/first-time/eligibility/claim/file-upload', function () {
     uploadStub = sinon.stub()
     fileUploadStub = sinon.stub()
     claimDocumentInsertStub = sinon.stub()
+    generateCSRFTokenStub = sinon.stub()
 
     var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/file-upload', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/directory-check': directoryCheckStub,
       '../../../../services/upload': uploadStub,
       '../../../../services/domain/file-upload': fileUploadStub,
-      '../../../../services/data/insert-file-upload-details-for-claim': claimDocumentInsertStub
+      '../../../../services/data/insert-file-upload-details-for-claim': claimDocumentInsertStub,
+      '../../../../services/generate-csrf-token': generateCSRFTokenStub,
+      'csurf': function () { return function () { } }
     })
     app = routeHelper.buildApp(route)
   })
@@ -42,6 +46,14 @@ describe('routes/first-time/eligibility/claim/file-upload', function () {
         .get(ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should call the CSRFToken generator', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(generateCSRFTokenStub)
         })
     })
 

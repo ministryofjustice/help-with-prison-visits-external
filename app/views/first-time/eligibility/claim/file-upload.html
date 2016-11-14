@@ -21,10 +21,18 @@
       <h3 id="upload" class="heading-medium">Upload now</h3>
       <p>Uploading your documentation is the fastest way to process your application.</p>
       <form action="{{ URL }}" method="post" class="form" enctype="multipart/form-data">
-        <label class="custom-file-upload">
-          <input type="file" name="document" />
-          Choose file
-        </label>
+
+      {% include "partials/csrf-hidden-input.html" %}
+
+        <div class="grid-row">
+          <div class="column-one-quarter">
+            <label class="custom-file-upload">
+              <input id="document" type="file" name="document" />
+              Choose file
+            </label>
+          </div>
+          <div id='document-name' class="column-two-quarter"></div>
+        </div>
 
         <div class="form-group">
           <details role="group">
@@ -41,7 +49,7 @@
           </details>
         </div>
 
-        <div class="form-group">
+        <div id="alternative" class="form-group">
           <br>
           <h4 class="heading-small">Cannot Upload now?</h4>
           <p>Your application will not be processed until we receive your file </p>
@@ -57,9 +65,8 @@
             <span class="heading-small">Upload later</span>
             <br> You can upload later, you will receive a reference number which you will use to finish your application
           </label>
-        </div>
-        <div class="form-group">
-          {% include "partials/csrf-hidden-input.html" %}
+          </div>
+          <div class="form-group">
 
           <input id="file-upload-submit"
                  type="submit"

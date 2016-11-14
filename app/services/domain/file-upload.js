@@ -5,12 +5,13 @@ const fs = require('fs')
 const dateFormatter = require('../date-formatter')
 const documentTypeEnum = require('../../constants/document-type-enum')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
+const UploadError = require('../errors/upload-error')
 
 class FileUpload {
-  constructor (claimId, documentType, claimExpenseId, file, fileTypeError, alternative) {
+  constructor (claimId, documentType, claimExpenseId, file, error, alternative) {
     this.file = file
     this.alternative = alternative
-    this.fileTypeError = fileTypeError
+    this.error = error
     this.IsValid()
     if (!this.alternative) {
       this.path = file.path
@@ -30,8 +31,12 @@ class FileUpload {
   IsValid () {
     var errors = ErrorHandler()
 
-    if (this.fileTypeError) {
-      throw new ValidationError({upload: [ERROR_MESSAGES.getUploadIncorrectType]})
+    if (this.error) {
+      if (this.error instanceof UploadError) {
+        throw new ValidationError({upload: [ERROR_MESSAGES.getUploadIncorrectType]})
+      } else {
+        throw this.error
+      }
     }
 
     if (!this.file) {
