@@ -46,7 +46,6 @@ describe('routes/start', function () {
 
     it('should redirect to the your-claims page with the reference and the dob set in the domain object', function () {
       alreadyRegisteredStub.returns(ALREADY_REGISTERED)
-      console.log(ALREADY_REGISTERED)
       return supertest(app)
         .post(ROUTE)
         .send({

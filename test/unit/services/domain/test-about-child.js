@@ -13,7 +13,6 @@ describe('services/domain/about-child', function () {
   const INVALID_DAY = 'invalid day'
 
   it('should construct a domain object given valid input', function () {
-    console.log(childRelationshipEnum.PRISONER_CHILD)
     var child = new AboutChild(
       VALID_CHILD_NAME,
       VALID_DAY,
