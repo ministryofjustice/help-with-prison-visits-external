@@ -99,8 +99,9 @@
         <span class="bold">{{ claimExpenseHelper.DisplayName(claimExpense) }} </span>
         <div>{{ claimExpenseHelper.FormattedDetail(claimExpense) }}</div>
         <form
-          action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claimId }}/summary/remove/{{ claimExpense.ClaimExpenseId}}"
+          action="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/summary/remove/{{ claimExpense.ClaimExpenseId}}"
           method="post" class="form">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
           <button class="link" name="remove">remove</button>
         </form>
       </td>
