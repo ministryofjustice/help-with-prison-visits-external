@@ -84,7 +84,7 @@ var csrfProtection = csurf({ cookie: true })
 
 app.use(function (req, res, next) {
   csrfExcludeRoutes.forEach(function (route) {
-    if (req.originalUrl.includes(route)) {
+    if (req.originalUrl.includes(route) && req.method === 'POST') {
       next()
     } else {
       csrfProtection(req, res, next)

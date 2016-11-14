@@ -9,6 +9,7 @@ services:
       - "./app:/usr/src/app/app"
       - "./cache_node_modules:/usr/src/app/node_modules"
       - "./logs:/usr/src/app/logs"
+      - "./uploads:/usr/src/app/uploads"
     ports:
       - "3000:3000"
     environment:
@@ -19,3 +20,6 @@ services:
     - APVS_EXT_WEB_PASSWORD
     - APVS_EXT_MIGRATION_USERNAME
     - APVS_EXT_MIGRATION_PASSWORD
+    - I18N_UPDATEFILES
+    - FILE_UPLOAD_LOCATION=/usr/src/app/uploads
+    - FILE_UPLOAD_MAXSIZE

@@ -8,9 +8,13 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
 const FileUpload = require('../../../../services/domain/file-upload')
 const ClaimDocumentInsert = require('../../../../services/data/insert-file-upload-details-for-claim')
+const csrfProtection = require('csurf')({ cookie: true })
+const generateCSRFToken = require('../../../../services/generate-csrf-token')
+var csrfToken
 
 module.exports = function (router) {
   router.get('/first-time/eligibility/:referenceId/claim/:claimId/file-upload', function (req, res) {
+    csrfToken = generateCSRFToken(req)
     UrlPathValidator(req.params)
 
     if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
@@ -31,11 +35,17 @@ module.exports = function (router) {
 
     Upload(req, res, function (error) {
       try {
+        // If there was no file attached, we still need to check the CSRF token
+        if (!req.file) {
+          csrfProtection(req, res, function (error) {
+            if (error) { throw error }
+          })
+        }
         if (error) {
           throw new ValidationError({upload: [ERROR_MESSAGES.getUploadTooLarge]})
         } else {
           if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
-            var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.fileTypeError, req.body.alternative)
+            var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.error, req.body.alternative)
 
             ClaimDocumentInsert(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, fileUpload).then(function () {
               res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
@@ -52,10 +62,11 @@ module.exports = function (router) {
             document: req.query.document,
             fileUploadGuidingText: FileUploadGuidingText,
             errors: error.validationErrors,
-            URL: req.url
+            URL: req.url,
+            csrfToken: csrfToken
           })
         } else {
-          throw error
+          next(error)
         }
       }
     })
