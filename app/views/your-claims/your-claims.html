@@ -1,0 +1,58 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+
+    <div class="column-one-quarter">
+      <h1 class="heading-large push-top">
+        <span class="heading-secondary">Reference no.</span>{{ reference }}
+      </h1>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="column-one-quarter">
+      <input id="your-claims-submit"
+             type="submit"
+             value="Start a new claim"
+             class="button">
+    </div>
+
+  </div>
+
+  <h3 class="heading-medium">
+    Your claim(s)
+  </h3>
+
+  <table>
+
+    <tr>
+      <th>Date of claim</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+
+    {% for claim in claims %}
+      <tr>
+        <td>{{ claim.DateOfClaim }}</td>
+        <td>{{ claim.Status }}</td>
+        <td><a href="{{ claim.Link }}">View</a></td>
+      </tr>
+    {% endfor %}
+
+  </table>
+
+</main>
+
+{% endblock %}

@@ -14,6 +14,7 @@ module.exports = {
   getIsGreaterThan: function (displayName) { return `${displayName} must be greater than zero` },
   getDateSetDaysAway: function (displayName, options) { return `${displayName} must be within ${options.days} days` },
   getIsYoungerThan: function (displayName, options) { return `Must be under ${options.years} years of age` },
+  getIsOlderThan: function (displayName, options) { return `Must be over ${options.years} years of age` },
   getIsValidOption: function (displayName) { return `${displayName} must be a valid option` },
   getUploadTooLarge: 'File uploaded too large',
   getUploadIncorrectType: 'File uploaded was not an image or pdf',

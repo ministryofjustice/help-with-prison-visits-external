@@ -1,16 +1,20 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-{% if serviceName %} {{ serviceName }} {% endif %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
 {% endblock %}
 
 {% block content %}
+
 <main id="content" role="main">
 
   {% include "includes/phase_banner_beta.html" %}
 
   <div class="grid-row">
     <div class="column-half">
+
+      {% include "includes/validation-error-messages.html" %}
+
       <h2 class="heading-large">
         First time here?
       </h2>
@@ -18,7 +22,10 @@
       <p>Apply for help and your details will be saved for next time.</p>
       <p>You’ll get a reference number at the end of your application.</p>
 
-      <a id="first-time-submit" href="first-time/new-eligibility/" role="button" class="button">Apply</a>
+      <a id="first-time-submit"
+         href="first-time/new-eligibility/"
+         role="button"
+         class="button">Apply</a>
 
     </div>
 
@@ -36,46 +43,74 @@
 
       <br>
 
-      <form action="profile">
-        <div class="form-group">
-          <label class="form-label-bold" for="reference-number">Reference number</label>
-          <p class="form-hint">for example, APVS1234</p>
-          <input id="reference-number" type="text" class="form-control"/>
+      <form action="/start" method="post">
+
+        <div class="form-group {% if errors['reference'][0] %} error {% endif %}">
+          <label class="form-label-bold" for="reference">Reference number</label>
+
+          {% if errors['reference'][0] %}
+            <span class="error-message">{{ errors['reference'][0] }}</span>
+          {% endif %}
+
+          <p class="form-hint">for example, APVS123</p>
+          <input id="reference"
+                 name="reference"
+                 type="text"
+                 value="{{ reference }}"
+                 class="form-control"/>
           <br>
+          <!-- TODO: Needs to link to real page. Awaiting UX. -->
           <br><a href="">Forgotten your reference number?</a>
         </div>
 
-        <div class="form-group">
+        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
+
           <fieldset>
-            <div class="form-date">
+
+            {% if errors['dob'][0] %}
+              <span class="error-message">{{ errors['dob'][0] }}</span>
+            {% endif %}
+
+            <div id="dob" class="form-date">
+
               <label class="form-label-bold">Date of birth</label>
               <p class="form-hint">For example, 18 08 1989</p>
+
               <div class="form-group form-group-day">
-                <label for="dob-day">Day</label>
-                <input id="dob-day"
-                       type="number"
+                <label id="dob-day" for="dob-day-input">Day</label>
+                <input id="dob-day-input"
+                       name="dob-day"
+                       value="{{ dobDay }}"
                        class="form-control"/>
               </div>
+
               <div class="form-group form-group-month">
-                <label for="dob-month">Month</label>
-                <input id="dob-month"
-                       type="number"
+                <label id="dob-month" for="dob-month-input">Month</label>
+                <input id="dob-month-input"
+                       name="dob-month"
+                       value="{{ dobMonth }}"
                        class="form-control"/>
               </div>
+
               <div class="form-group form-group-year">
-                <label for="dob-year">Year</label>
-                <input id="dob-year"
-                       type="number"
+                <label id="dob-year" for="dob-year-input">Year</label>
+                <input id="dob-year-input"
+                       name="dob-year"
+                       value="{{ dobYear }}"
                        class="form-control"/>
               </div>
+
             </div>
+
           </fieldset>
+
         </div>
 
         <br>
         <br>
 
         <div class="form-group">
+
           {% include "partials/csrf-hidden-input.html" %}
 
           <input id="already-registered-submit"
@@ -85,6 +120,7 @@
         </div>
 
       </form>
+
     </div>
   </div>
 </main>
