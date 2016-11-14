@@ -77,12 +77,7 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
       claimSummaryStub.throws(new ValidationError())
       request
         .post(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
-        .expect(400)
-        .end(function (error, response) {
-          expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
-          done()
-        })
+        .expect(400, done)
     })
   })
 
