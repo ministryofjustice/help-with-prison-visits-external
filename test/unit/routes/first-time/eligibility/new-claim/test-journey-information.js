@@ -7,9 +7,11 @@ require('sinon-bluebird')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/first-time/eligibility/new-claim/journey-information', function () {
-  const REFERENCE = 'APVS123'
+  const REFERENCE = 'JOURNEY'
+  const ELIGIBILITYID = '1234'
+  const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIM_ID = '123'
-  const ROUTE = `/first-time/eligibility/${REFERENCE}/new-claim/past`
+  const ROUTE = `/first-time/eligibility/${REFERENCEID}/new-claim/past`
 
   var app
 
@@ -66,7 +68,7 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
         .expect(function () {
           sinon.assert.calledOnce(firstTimeClaimStub)
           sinon.assert.calledOnce(insertFirstTimeClaimStub)
-          sinon.assert.calledWith(insertFirstTimeClaimStub, FIRST_TIME_CLAIM)
+          sinon.assert.calledWith(insertFirstTimeClaimStub, REFERENCE, ELIGIBILITYID, FIRST_TIME_CLAIM)
         })
         .expect(302)
     })
@@ -75,7 +77,7 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
       insertFirstTimeClaimStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
-        .expect('location', `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}`)
+        .expect('location', `/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}`)
     })
 
     it('should redirect to about-child page if child-visitor is set to yes', function () {
@@ -85,7 +87,7 @@ describe('routes/first-time/eligibility/new-claim/journey-information', function
         .send({
           'child-visitor': 'yes'
         })
-        .expect('location', `/first-time/eligibility/${REFERENCE}/claim/${CLAIM_ID}/child`)
+        .expect('location', `/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/child`)
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {

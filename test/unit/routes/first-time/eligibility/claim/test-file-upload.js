@@ -6,7 +6,11 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 require('sinon-bluebird')
 
 describe('routes/first-time/eligibility/claim/file-upload', function () {
-  const ROUTE = `/first-time/eligibility/A123456/claim/1/file-upload?document=`
+  const REFERENCE = 'V123456'
+  const ELIGIBILITYID = '1234'
+  const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
+  const CLAIMID = '1'
+  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/file-upload?document=`
 
   var app
   var urlPathValidatorStub

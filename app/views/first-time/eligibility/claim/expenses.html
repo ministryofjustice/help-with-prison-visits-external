@@ -19,10 +19,10 @@
         What kind of transport did you use?
       </h2>
 
-      <p>You can select more than one. You will need to show us receipts or tickets 
+      <p>You can select more than one. You will need to show us receipts or tickets
         for all parts of the journey, except for car or motorcycle travel.</p>
 
-      <form action="/first-time/eligibility/{{reference}}/claim/{{claimId}}" method="post">
+      <form action="/first-time/eligibility/{{referenceId}}/claim/{{claimId}}" method="post">
         <div class="form-group">
 
           <fieldset>
@@ -108,7 +108,7 @@
 
         {% include "partials/csrf-hidden-input.html" %}
 
-        <input id="expenses-submit" 
+        <input id="expenses-submit"
                type="submit"
                class="button"
                value="Continue">

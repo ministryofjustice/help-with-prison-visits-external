@@ -3,21 +3,23 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const expenseUrlRouter = require('../../../../services/routing/expenses-url-router')
 
 module.exports = function (router) {
-  router.get('/first-time/eligibility/:reference/claim/:claimId', function (req, res) {
+  router.get('/first-time/eligibility/:referenceId/claim/:claimId', function (req, res) {
     UrlPathValidator(req.params)
+
     return res.render('first-time/eligibility/claim/expenses', {
-      reference: req.params.reference,
+      referenceId: req.params.referenceId,
       claimId: req.params.claimId
     })
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId', function (req, res) {
+  router.post('/first-time/eligibility/:referenceId/claim/:claimId', function (req, res) {
     UrlPathValidator(req.params)
+
     var validationErrors = ExpensesValidator(req.body)
     if (validationErrors) {
       return res.status(400).render('first-time/eligibility/claim/expenses', {
         errors: validationErrors,
-        reference: req.params.reference,
+        referenceId: req.params.referenceId,
         claimId: req.params.claimId
       })
     }

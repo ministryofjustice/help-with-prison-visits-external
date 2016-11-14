@@ -5,8 +5,8 @@ const FieldValidator = require('../../validators/field-validator')
 const ErrorHandler = require('../../validators/error-handler')
 
 class CarExpense extends BaseExpense {
-  constructor (claimId, from, to, toll, tollCost, parking, parkingCost) {
-    super(claimId, EXPENSE_TYPE.CAR, null, null, from, to, null, null, null, null)
+  constructor (from, to, toll, tollCost, parking, parkingCost) {
+    super(EXPENSE_TYPE.CAR, null, null, from, to, null, null, null, null)
     this.toll = toll
     this.createField('tollCost', tollCost)
     this.parking = parking
@@ -16,7 +16,6 @@ class CarExpense extends BaseExpense {
 
   get tollExpense () {
     return this.toll ? new BaseExpense(
-      this.claimId,
       EXPENSE_TYPE.CAR_TOLL,
       this.tollCost,
       null,
@@ -30,7 +29,6 @@ class CarExpense extends BaseExpense {
 
   get parkingExpense () {
     return this.parking ? new BaseExpense(
-      this.claimId,
       EXPENSE_TYPE.CAR_PARKING_CHARGE,
       this.parkingCost,
       null,

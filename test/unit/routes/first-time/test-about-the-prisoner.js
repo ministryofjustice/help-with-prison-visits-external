@@ -40,8 +40,9 @@ describe('routes/first-time/new-eligibility/about-the-prisoner', function () {
 
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to first-time/about-you for valid data', function () {
-      var newReference = '1234567'
-      stubInsertNewEligibilityAndPrisoner.resolves(newReference)
+      var newReference = 'NEWREF1'
+      var newEligibilityId = 1234
+      stubInsertNewEligibilityAndPrisoner.resolves({reference: newReference, eligibilityId: newEligibilityId})
       stubAboutThePrisoner.returns({})
 
       return supertest(app)
@@ -52,7 +53,7 @@ describe('routes/first-time/new-eligibility/about-the-prisoner', function () {
           sinon.assert.calledOnce(stubAboutThePrisoner)
           sinon.assert.calledOnce(stubInsertNewEligibilityAndPrisoner)
         })
-        .expect('location', `${ROUTE}/${newReference}`)
+        .expect('location', `${ROUTE}/${newReference}-${newEligibilityId}`)
     })
 
     it('should respond with a 400 for invalid data', function () {

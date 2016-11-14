@@ -8,9 +8,10 @@ module.exports.DATE_OF_BIRTH = dateFormatter.now()
 module.exports.PRISON_NUMBER = '0123456789'
 module.exports.NAME_OF_PRISON = 'Hewell'
 
-module.exports.insert = function (reference) {
+module.exports.insert = function (reference, eligibilityId) {
   return knex('ExtSchema.Prisoner')
     .insert({
+      EligibilityId: eligibilityId,
       Reference: reference,
       FirstName: this.FIRST_NAME,
       LastName: this.LAST_NAME,

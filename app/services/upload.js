@@ -8,7 +8,7 @@ const allowedFileTypes = [ 'image/png', 'image/jpeg', 'application/pdf' ]
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, `${config.FILE_UPLOAD_LOCATION}/${req.params.reference}/${req.params.claimId}/${req.query.document}`)
+    cb(null, `${config.FILE_UPLOAD_LOCATION}/${req.params.referenceId}/${req.params.claimId}/${req.query.document}`)
   },
   filename: function (req, file, cb) {
     crypto.pseudoRandomBytes(16, function (err, raw) {

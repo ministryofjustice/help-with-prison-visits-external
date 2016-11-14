@@ -1,19 +1,22 @@
 const AboutChild = require('../../../../services/domain/about-child')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
+const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const ValidationError = require('../../../../services/errors/validation-error')
 const insertChild = require('../../../../services/data/insert-child')
 
 module.exports = function (router) {
-  router.get('/first-time/eligibility/:reference/claim/:claimId/child', function (req, res) {
+  router.get('/first-time/eligibility/:referenceId/claim/:claimId/child', function (req, res) {
     UrlPathValidator(req.params)
+
     return res.render('first-time/eligibility/claim/about-child', {
-      reference: req.params.reference,
+      referenceId: req.params.referenceId,
       claimId: req.params.claimId
     })
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId/child', function (req, res, next) {
+  router.post('/first-time/eligibility/:referenceId/claim/:claimId/child', function (req, res, next) {
     UrlPathValidator(req.params)
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
 
     try {
       var child = new AboutChild(
@@ -24,12 +27,12 @@ module.exports = function (router) {
         req.body['child-relationship']
       )
 
-      insertChild(req.params.claimId, child)
+      insertChild(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, child)
         .then(function () {
           if (req.body['add-another-child']) {
             return res.redirect(req.originalUrl)
           } else {
-            return res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}`)
+            return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}`)
           }
         })
         .catch(function (error) {
@@ -39,7 +42,7 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         return res.status(400).render('first-time/eligibility/claim/about-child', {
           errors: error.validationErrors,
-          reference: req.params.reference,
+          referenceId: req.params.referenceId,
           claimId: req.params.claimId,
           claimant: req.body
         })

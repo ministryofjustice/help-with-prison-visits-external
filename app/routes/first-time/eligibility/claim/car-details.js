@@ -1,4 +1,5 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
+const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const ValidationError = require('../../../../services/errors/validation-error')
 const expenseUrlRouter = require('../../../../services/routing/expenses-url-router')
 const CarExpense = require('../../../../services/domain/expenses/car-expense')
@@ -6,12 +7,14 @@ const getTravellingFromAndTo = require('../../../../services/data/get-travelling
 const insertCarExpenses = require('../../../../services/data/insert-car-expenses')
 
 module.exports = function (router) {
-  router.get('/first-time/eligibility/:reference/claim/:claimId/car', function (req, res, next) {
+  router.get('/first-time/eligibility/:referenceId/claim/:claimId/car', function (req, res, next) {
     UrlPathValidator(req.params)
-    getTravellingFromAndTo(req.params.reference)
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+
+    getTravellingFromAndTo(referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
       .then(function (result) {
         return res.render('first-time/eligibility/claim/car-details', {
-          reference: req.params.reference,
+          referenceId: req.params.referenceId,
           claimId: req.params.claimId,
           params: expenseUrlRouter.parseParams(req.query),
           expense: result
@@ -22,12 +25,12 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId/car', function (req, res, next) {
+  router.post('/first-time/eligibility/:referenceId/claim/:claimId/car', function (req, res, next) {
     UrlPathValidator(req.params)
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
 
     try {
       var expense = new CarExpense(
-        req.params.claimId,
         req.body.from,
         req.body.to,
         req.body.toll,
@@ -36,7 +39,7 @@ module.exports = function (router) {
         req.body[ 'parking-charge-cost' ]
       )
 
-      insertCarExpenses(expense)
+      insertCarExpenses(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, expense)
         .then(function () {
           return res.redirect(expenseUrlRouter.getRedirectUrl(req))
         })
@@ -47,7 +50,7 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         return res.status(400).render('first-time/eligibility/claim/car-details', {
           errors: error.validationErrors,
-          reference: req.params.reference,
+          referenceId: req.params.referenceId,
           claimId: req.params.claimId,
           params: expenseUrlRouter.parseParams(req.query),
           expense: req.body

@@ -3,7 +3,6 @@ const ValidationError = require('../../../../../app/services/errors/validation-e
 const expect = require('chai').expect
 
 describe('services/domain/expenses/car-expense', function () {
-  const VALID_CLAIM_ID = '1'
   const VALID_FROM = 'some from'
   const VALID_TO = 'some to'
   const VALID_TOLL = 'yes'
@@ -15,7 +14,6 @@ describe('services/domain/expenses/car-expense', function () {
 
   it('should construct a domain object given valid input', function () {
     var expense = new CarExpense(
-      VALID_CLAIM_ID,
       VALID_FROM,
       VALID_TO,
       VALID_TOLL,
@@ -23,7 +21,6 @@ describe('services/domain/expenses/car-expense', function () {
       VALID_PARKING,
       VALID_PARKING_COST
     )
-    expect(expense.claimId).to.equal(VALID_CLAIM_ID)
     expect(expense.from).to.equal(VALID_FROM)
     expect(expense.to).to.equal(VALID_TO)
     expect(expense.toll).to.equal(VALID_TOLL)
@@ -36,7 +33,6 @@ describe('services/domain/expenses/car-expense', function () {
 
   it('should not return null for toll cost if toll was not set', function () {
     var expense = new CarExpense(
-      VALID_CLAIM_ID,
       VALID_FROM,
       VALID_TO
     )
@@ -45,7 +41,6 @@ describe('services/domain/expenses/car-expense', function () {
 
   it('should not return null for parking cost if parking was not set', function () {
     var expense = new CarExpense(
-      VALID_CLAIM_ID,
       VALID_FROM,
       VALID_TO
     )
@@ -55,7 +50,6 @@ describe('services/domain/expenses/car-expense', function () {
   it('should throw an error if passed invalid toll cost', function () {
     expect(function () {
       new CarExpense(
-        VALID_CLAIM_ID,
         VALID_FROM,
         VALID_TO,
         VALID_TOLL,
@@ -69,7 +63,6 @@ describe('services/domain/expenses/car-expense', function () {
   it('should throw an error if passed invalid parking cost', function () {
     expect(function () {
       new CarExpense(
-        VALID_CLAIM_ID,
         VALID_FROM,
         VALID_TO,
         VALID_TOLL,

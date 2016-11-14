@@ -7,23 +7,26 @@ const claimDocumentHelper = require('../../../helpers/data/claim-document-helper
 
 const getClaimSummary = require('../../../../app/services/data/get-claim-summary')
 
-var reference = 'V123456'
+var REFERENCE = 'V123456'
+var eligibilityId
 var claimId
 
 describe('services/data/get-claim-summary', function () {
   before(function () {
-    return eligiblityHelper.insertEligibilityVisitorAndPrisoner(reference)
-      .then(function () {
-        return claimHelper.insert(reference)
+    return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
+      .then(function (newEligibilityId) {
+        eligibilityId = newEligibilityId
+
+        return claimHelper.insert(REFERENCE, eligibilityId)
           .then(function (newClaimId) {
             claimId = newClaimId
-            return expenseHelper.insert(claimId)
+            return expenseHelper.insert(REFERENCE, eligibilityId, claimId)
           })
           .then(function () {
-            return claimChildHelper.insert(claimId)
+            return claimChildHelper.insert(REFERENCE, eligibilityId, claimId)
           })
           .then(function () {
-            return claimDocumentHelper.insert(claimId)
+            return claimDocumentHelper.insert(REFERENCE, eligibilityId, claimId)
           })
       })
   })
@@ -31,7 +34,7 @@ describe('services/data/get-claim-summary', function () {
   it('should return summary of claim details', function () {
     return getClaimSummary(claimId)
       .then(function (result) {
-        expect(result.claim.Reference).to.equal(reference)
+        expect(result.claim.Reference).to.equal(REFERENCE)
         expect(result.claim.DateOfJourney).to.be.within(
           claimHelper.DATE_OF_JOURNEY.subtract(1, 'seconds').toDate(),
           claimHelper.DATE_OF_JOURNEY.add(1, 'seconds').toDate()
@@ -44,18 +47,6 @@ describe('services/data/get-claim-summary', function () {
   })
 
   after(function () {
-    return expenseHelper.delete(claimId)
-      .then(function () {
-        return claimChildHelper.delete(claimId)
-      })
-      .then(function () {
-        return claimDocumentHelper.delete(claimId)
-      })
-      .then(function () {
-        return claimHelper.delete(claimId)
-      })
-      .then(function () {
-        return eligiblityHelper.deleteEligibilityVisitorAndPrisoner(reference)
-      })
+    return eligiblityHelper.deleteAll(REFERENCE)
   })
 })

@@ -1,4 +1,5 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
+const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const FileUploadGuidingText = require('../../../../constants/file-upload-guiding-text-enum')
 const DocumentTypeEnum = require('../../../../constants/document-type-enum')
 const DirectoryCheck = require('../../../../services/directory-check')
@@ -9,10 +10,11 @@ const FileUpload = require('../../../../services/domain/file-upload')
 const ClaimDocumentInsert = require('../../../../services/data/insert-file-upload-details-for-claim')
 
 module.exports = function (router) {
-  router.get('/first-time/eligibility/:reference/claim/:claimId/file-upload', function (req, res) {
+  router.get('/first-time/eligibility/:referenceId/claim/:claimId/file-upload', function (req, res) {
     UrlPathValidator(req.params)
+
     if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
-      DirectoryCheck(req.params.reference, req.params.claimId, req.query.claimExpenseId, req.query.document)
+      DirectoryCheck(req.params.referenceId, req.params.claimId, req.query.claimExpenseId, req.query.document)
       res.render('first-time/eligibility/claim/file-upload', {
         document: req.query.document,
         fileUploadGuidingText: FileUploadGuidingText,
@@ -23,8 +25,10 @@ module.exports = function (router) {
     }
   })
 
-  router.post('/first-time/eligibility/:reference/claim/:claimId/file-upload', function (req, res, next) {
+  router.post('/first-time/eligibility/:referenceId/claim/:claimId/file-upload', function (req, res, next) {
     UrlPathValidator(req.params)
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+
     Upload(req, res, function (error) {
       try {
         if (error) {
@@ -32,8 +36,9 @@ module.exports = function (router) {
         } else {
           if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
             var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.fileTypeError, req.body.alternative)
-            ClaimDocumentInsert(fileUpload).then(function () {
-              res.redirect(`/first-time/eligibility/${req.params.reference}/claim/${req.params.claimId}/summary`)
+
+            ClaimDocumentInsert(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, fileUpload).then(function () {
+              res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
             }).catch(function (error) {
               next(error)
             })

@@ -7,8 +7,8 @@ const mockViewEngine = require('../../../mock-view-engine')
 var request
 
 describe('routes/first-time/eligibility/new-claim/future-or-past-visit', function () {
-  const REFERENCE = '1234567'
-  const ROUTE = `/first-time/eligibility/${REFERENCE}/new-claim`
+  const REFERENCEID = 'FUTPAST-1234'
+  const ROUTE = `/first-time/eligibility/${REFERENCEID}/new-claim`
   var urlValidatorCalled = false
 
   beforeEach(function () {

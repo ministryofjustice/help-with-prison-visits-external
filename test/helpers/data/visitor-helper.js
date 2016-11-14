@@ -38,8 +38,8 @@ module.exports.build = function () {
     this.PHONE_NUMBER)
 }
 
-module.exports.insert = function (reference) {
-  return insertVisitor(reference, this.build())
+module.exports.insert = function (reference, eligibilityId) {
+  return insertVisitor(reference, eligibilityId, this.build())
 }
 
 module.exports.get = function (reference) {

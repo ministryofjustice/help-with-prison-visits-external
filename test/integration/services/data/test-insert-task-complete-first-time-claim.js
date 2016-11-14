@@ -5,16 +5,18 @@ const dateFormatter = require('../../../../app/services/date-formatter')
 
 describe('services/data/insert-task-complete-first-time-claim', function () {
   const REFERENCE = 'COMFTC1'
+  const ELIGIBILITYID = 1234
   const CLAIM_ID = 124
 
   it('should insert a new task to complete the first time claim', function () {
-    return insertTask(REFERENCE, CLAIM_ID)
+    return insertTask(REFERENCE, ELIGIBILITYID, CLAIM_ID)
       .then(function () {
         return taskHelper.get(REFERENCE, CLAIM_ID)
       })
       .then(function (task) {
         expect(task.Task).to.equal(taskHelper.TASK)
         expect(task.Reference).to.equal(REFERENCE)
+        expect(task.EligibilityId).to.equal(ELIGIBILITYID)
         expect(task.ClaimId).to.equal(CLAIM_ID)
         expect(task.DateCreated).to.be.within(
           dateFormatter.now().add(-2, 'minutes').toDate(),
@@ -24,6 +26,6 @@ describe('services/data/insert-task-complete-first-time-claim', function () {
   })
 
   after(function () {
-    return taskHelper.delete(REFERENCE, CLAIM_ID)
+    return taskHelper.delete(REFERENCE)
   })
 })
