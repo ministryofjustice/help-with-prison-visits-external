@@ -73,7 +73,7 @@
           <span class="text-success">Post later</span>
         {% else %}
           <span class="text-warning">Visit confirmation required</span>
-          <a href="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/file-upload?document=VISIT_CONFIRMATION" class="button grey pull-right">Add</a>
+          <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=VISIT_CONFIRMATION" class="button grey pull-right">Add</a>
         {% endif %}
       </td>
     </tr>
@@ -99,7 +99,7 @@
         <span class="bold">{{ claimExpenseHelper.DisplayName(claimExpense) }} </span>
         <div>{{ claimExpenseHelper.FormattedDetail(claimExpense) }}</div>
         <form
-          action="/first-time-claim/eligibility/{{ reference }}/claim/{{ claimId }}/summary/remove/{{ claimExpense.ClaimExpenseId}}"
+          action="/first-time-claim/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove/{{ claimExpense.ClaimExpenseId}}"
           method="post" class="form">
           <button class="link" name="remove">remove</button>
         </form>
@@ -113,18 +113,18 @@
   </table>
 
   <br>
-  <a href="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}" class="link">Add another expense</a>
+  <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}" class="link">Add another expense</a>
 
   <br>
   <br>
   <br>
 
-  <form action="/first-time/eligibility/{{ reference }}/claim/{{ claimId }}/summary" method="post" class="form">
+  <form action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary" method="post" class="form">
 
     <div class="form-group">
       {% include "partials/csrf-hidden-input.html" %}
 
-      <input id="claim-summary-submit" 
+      <input id="claim-summary-submit"
              type="submit"
              value="Continue"
              class="button">

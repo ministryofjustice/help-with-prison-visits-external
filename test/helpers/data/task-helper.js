@@ -21,12 +21,9 @@ module.exports.get = function (reference, claimId) {
     })
 }
 
-module.exports.delete = function (reference, claimId) {
+module.exports.delete = function (reference) {
   return knex.select()
     .from('ExtSchema.Task')
-    .where({
-      Reference: reference,
-      ClaimId: claimId
-    })
+    .where('Reference', reference)
     .del()
 }

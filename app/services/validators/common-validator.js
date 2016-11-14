@@ -107,6 +107,13 @@ exports.isValidReference = function (reference) {
     this.isLength(reference, referenceNumber.VALID_LENGTH)
 }
 
+exports.isValidReferenceId = function (referenceId) {
+  if (this.isNullOrUndefined(referenceId)) {
+    return false
+  }
+  return referenceId.match(referenceNumber.IS_VALID_REFERENCE_ID_REGEX) !== null
+}
+
 exports.isValidChildRelationship = function (relationship) {
   var result = false
   Object.keys(childRelationshipEnum).forEach(function (key) {

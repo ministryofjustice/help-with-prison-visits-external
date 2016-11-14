@@ -1,6 +1,8 @@
 exports.up = function (knex, Promise) {
   return knex.schema.createTable('Visitor', function (table) {
-    table.string('Reference', 10).primary().references('Eligibility.Reference')
+    table.increments('VisitorId')
+    table.integer('EligibilityId').unsigned().notNullable()
+    table.string('Reference', 10).notNullable().index()
     table.string('Title', 10).notNullable()
     table.string('FirstName', 100).notNullable()
     table.string('LastName', 100).notNullable()
@@ -14,8 +16,18 @@ exports.up = function (knex, Promise) {
     table.string('PhoneNumber', 100)
     table.dateTime('DateOfBirth').notNullable()
     table.string('Relationship', 100).notNullable()
-    table.string('JourneyAssistance', 10).notNullable()
-    table.boolean('RequireBenefitUpload', 10).notNullable()
+    table.string('Benefit', 100)
+  })
+  .then(function () {
+    return knex.schema.alterTable('Visitor', function (table) {
+      table
+        .foreign(['EligibilityId', 'Reference'])
+        .references(['Eligibility.EligibilityId', 'Eligibility.Reference'])
+    })
+  })
+  .catch(function (error) {
+    console.log(error)
+    throw error
   })
 }
 

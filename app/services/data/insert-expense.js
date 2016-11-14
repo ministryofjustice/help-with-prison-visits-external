@@ -2,13 +2,15 @@ const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const BaseExpense = require('../../services/domain/expenses/base-expense')
 
-module.exports = function (expense) {
+module.exports = function (reference, eligibilityId, claimId, expense) {
   if (!(expense instanceof BaseExpense)) {
     throw new Error('Provided object is not an instance of the expected class')
   }
 
   return knex('ClaimExpense').insert({
-    ClaimId: expense.claimId,
+    EligibilityId: eligibilityId,
+    Reference: reference,
+    ClaimId: claimId,
     ExpenseType: expense.expenseType || null,
     Cost: expense.cost || 0,
     TravelTime: expense.travelTime || null,
@@ -17,6 +19,7 @@ module.exports = function (expense) {
     IsReturn: expense.isReturn === 'yes',
     DurationOfTravel: expense.durationOfTravel || null,
     TicketType: expense.ticketType || null,
-    IsChild: expense.isChild === 'yes'
+    IsChild: expense.isChild === 'yes',
+    IsEnabled: true
   })
 }

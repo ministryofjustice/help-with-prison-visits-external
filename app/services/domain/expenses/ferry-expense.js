@@ -5,8 +5,8 @@ const FieldValidator = require('../../validators/field-validator')
 const ErrorHandler = require('../../validators/error-handler')
 
 class FerryExpense extends BaseExpense {
-  constructor (claimId, cost, from, to, returnJourney, ticketType, isChild) {
-    super(claimId, EXPENSE_TYPE.FERRY, cost, null, from, to, returnJourney, null, ticketType, isChild)
+  constructor (cost, from, to, returnJourney, ticketType, isChild) {
+    super(EXPENSE_TYPE.FERRY, cost, null, from, to, returnJourney, null, ticketType, isChild)
     this.isValid()
   }
 
