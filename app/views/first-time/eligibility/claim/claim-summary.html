@@ -67,6 +67,12 @@
       <td>
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
           <span class="text-success">Evidence uploaded</span>
+          <form
+            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile?documentType=VISIT-CONFIRMATION"
+            method="post" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link" name="remove">remove file</button>
+          </form>
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' %}
           <span class="text-success">Upload later</span>
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'post-later' %}
