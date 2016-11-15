@@ -26,7 +26,10 @@ describe('services/data/get-claim-summary', function () {
             return claimChildHelper.insert(REFERENCE, eligibilityId, claimId)
           })
           .then(function () {
-            return claimDocumentHelper.insert(REFERENCE, eligibilityId, claimId)
+            return claimDocumentHelper.insert(REFERENCE, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)
+              .then(function () {
+                return claimDocumentHelper.insert(REFERENCE, eligibilityId, claimId, 'BENEFIT')
+              })
           })
       })
   })
@@ -40,6 +43,7 @@ describe('services/data/get-claim-summary', function () {
           claimHelper.DATE_OF_JOURNEY.add(1, 'seconds').toDate()
         )
         expect(result.claim.visitConfirmation.DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
+        expect(result.claim.benefitDocument[0].DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
         expect(result.claimExpenses[0].ExpenseType).to.equal(expenseHelper.EXPENSE_TYPE)
         expect(result.claimExpenses[0].Cost).to.equal(Number(expenseHelper.COST).toFixed(2))
         expect(result.claimChild[0].Name).to.equal(claimChildHelper.CHILD_NAME)

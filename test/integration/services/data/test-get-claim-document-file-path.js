@@ -27,7 +27,7 @@ describe('services/data/get-claim-document-file-path', function () {
             return claimChildHelper.insert(REFERENCE, eligibilityId, claimId)
           })
           .then(function () {
-            return claimDocumentHelper.insert(REFERENCE, eligibilityId, claimId)
+            return claimDocumentHelper.insert(REFERENCE, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)
           })
           .then(function (newClaimDocumentId) {
             claimDocumentId = newClaimDocumentId
