@@ -132,6 +132,15 @@ describe('First Time Claim Flow', () => {
 
       // Claim summary
       .waitForExist('#claim-summary-submit')
+      .click('#add-visit-confirmation')
+
+      // Upload
+      .waitForExist('#Post')
+      .click('#Post')
+      .click('#file-upload-submit')
+
+      // Claim summary
+      .waitForExist('#claim-summary-submit')
       .click('#claim-summary-submit')
 
       // Bank account details
