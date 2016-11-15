@@ -21,8 +21,8 @@ describe('services/domain/bank-account-details', function () {
       bankAccountDetails = new BankAccountDetails('', '')
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['AccountNumber'][0]).to.equal('Account Number is required')
-      expect(e.validationErrors['SortCode'][0]).to.equal('Sort Code is required')
+      expect(e.validationErrors['AccountNumber'][0]).to.equal('Account number is required')
+      expect(e.validationErrors['SortCode'][0]).to.equal('Sort code is required')
     }
     done()
   })
@@ -32,8 +32,8 @@ describe('services/domain/bank-account-details', function () {
       bankAccountDetails = new BankAccountDetails('asdf', 'asdf')
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['AccountNumber'][0]).to.equal('Account Number must only contain numbers')
-      expect(e.validationErrors['SortCode'][0]).to.equal('Sort Code must only contain numbers')
+      expect(e.validationErrors['AccountNumber'][0]).to.equal('Account number must only contain numbers')
+      expect(e.validationErrors['SortCode'][0]).to.equal('Sort code must only contain numbers')
     }
     done()
   })
@@ -43,8 +43,8 @@ describe('services/domain/bank-account-details', function () {
       bankAccountDetails = new BankAccountDetails('123456789', '123')
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['AccountNumber'][0]).to.equal('Account Number must be 8 characters in length')
-      expect(e.validationErrors['SortCode'][0]).to.equal('Sort Code must be 6 characters in length')
+      expect(e.validationErrors['AccountNumber'][0]).to.equal('Account number must be 8 characters in length')
+      expect(e.validationErrors['SortCode'][0]).to.equal('Sort code must be 6 characters in length')
     }
     done()
   })

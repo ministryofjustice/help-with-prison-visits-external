@@ -2,7 +2,7 @@ const expect = require('chai').expect
 const claimStatusHelper = require('../../../../app/views/helpers/claim-status-helper')
 const claimDecisionEnum = require('../../../../app/constants/claim-decision-enum')
 
-describe('views/child-helper', function () {
+describe('views/helpers/claim-status-helper', function () {
   const APPROVED = claimDecisionEnum['APPROVED']
   const REQUEST_INFORMATION = claimDecisionEnum['REQUEST_INFORMATION']
   const REJECTED = claimDecisionEnum['REJECTED']
@@ -14,7 +14,7 @@ describe('views/child-helper', function () {
   })
 
   it(`should return the expected value when passed ${REQUEST_INFORMATION}`, function () {
-    expect(claimStatusHelper(REQUEST_INFORMATION)).to.equal('Information Requested')
+    expect(claimStatusHelper(REQUEST_INFORMATION)).to.equal('Information requested')
   })
 
   it(`should return the expected value when passed ${REJECTED}`, function () {
@@ -22,7 +22,7 @@ describe('views/child-helper', function () {
   })
 
   it(`should return the expected value when passed ${NEW}`, function () {
-    expect(claimStatusHelper(NEW)).to.equal('In Progress')
+    expect(claimStatusHelper(NEW)).to.equal('In progress')
   })
 
   it(`should return the original input if passed a non-matching value`, function () {
