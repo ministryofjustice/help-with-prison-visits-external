@@ -1,6 +1,7 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const getClaimSummary = require('../../../../services/data/get-claim-summary')
 const removeClaimExpense = require('../../../../services/data/remove-claim-expense')
+const removeClaimDocument = require('../../../../services/data/remove-claim-document')
 const dateHelper = require('../../../../views/helpers/date-helper')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
 const benefitsEnum = require('../../../../constants/benefits-enum')
@@ -58,6 +59,17 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
 
     removeClaimExpense(req.params.claimId, req.params.claimExpenseId)
+      .then(function () {
+        return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+      })
+      .catch(function (error) {
+        next(error)
+      })
+  })
+
+  router.post('/first-time/eligibility/:referenceId/claim/:claimId/summary/removeFile/:claimDocumentId', function (req, res, next) {
+    UrlPathValidator(req.params)
+    removeClaimDocument(req.params.claimDocumentId)
       .then(function () {
         return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
       })
