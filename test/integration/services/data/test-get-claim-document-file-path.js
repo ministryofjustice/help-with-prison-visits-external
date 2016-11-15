@@ -12,9 +12,6 @@ var eligibilityId
 var claimId
 var claimDocumentId
 
-claimDocumentHelper.PATH = '/files/test-file.jpg'
-var filePath = claimDocumentHelper.PATH
-
 describe('services/data/get-claim-document-file-path', function () {
   before(function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
@@ -41,7 +38,7 @@ describe('services/data/get-claim-document-file-path', function () {
   it('should return a ClaimDocument file path', function () {
     return getClaimDocumentFilePath(claimDocumentId)
       .then(function (result) {
-        expect(result.Filepath).to.equal(filePath)
+        expect(result.Filepath).to.equal(claimDocumentHelper.PATH)
       })
   })
 
