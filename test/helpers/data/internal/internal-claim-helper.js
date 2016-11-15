@@ -12,11 +12,10 @@ module.exports.DATE_OF_JOURNEY = dateFormatter.build(DAY, MONTH, YEAR)
 module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
 module.exports.STATUS = claimStatusEnum.IN_PROGRESS
+module.exports.REASON = null
+module.exports.NOTE = null
 
 module.exports.insert = function (reference, eligibilityId) {
-  console.log('reference: ' + reference)
-  console.log('eligibilityId: ' + eligibilityId)
-
   return knex('IntSchema.Claim').insert({
     ClaimId: this.CLAIM_ID,
     EligibilityId: eligibilityId,
@@ -24,7 +23,9 @@ module.exports.insert = function (reference, eligibilityId) {
     DateOfJourney: this.DATE_OF_JOURNEY.toDate(),
     DateCreated: this.DATE_CREATED.toDate(),
     DateSubmitted: this.DATE_SUBMITTED.toDate(),
-    Status: claimStatusEnum.IN_PROGRESS
+    Status: this.STATUS,
+    Reason: this.REASON,
+    Note: this.NOTE
   }).returning('ClaimId')
   .then(function (insertedIds) {
     return insertedIds[0]
