@@ -37,8 +37,25 @@
         {{ benefitsEnum[claimDetails.claim['Benefit']].displayName }}
 
         {% if benefitsEnum[claimDetails.claim['Benefit']].requireBenefitUpload %}
-        <span class="text-warning">Benefit documentation required</span>
-        <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document={{ claimDetails.claim['Benefit'] }}" id="add-benefit" class="button grey pull-right">Add Page</a>
+          <br>
+          {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'uploaded' %}
+            <span class="text-success">Benefit documentation uploaded</span>
+            <form
+              action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile/{{ claimDetails.claim.benefitDocument[0]['ClaimDocumentId'] }}"
+              method="post" class="form pull-right">
+              <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+              <button class="link" name="remove">remove</button>
+            </form>
+
+          {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' %}
+            <span class="text-pending">Uploading benefit documentation later</span>
+          {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'post-later' %}
+            <span class="text-pending">Sending benefit documentation by post</span>
+
+          {% else %}
+            <span class="text-warning">Benefit documentation required</span>
+            <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document={{ claimDetails.claim['Benefit'] }}" id="add-benefit" class="button grey pull-right">Add</a>
+          {% endif %}
         {% endif %}
       </td>
     </tr>

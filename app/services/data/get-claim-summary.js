@@ -24,10 +24,10 @@ module.exports = function (claimId) {
     .then(function (claim) {
       return knex('ClaimDocument')
         .join('Claim', 'ClaimDocument.ClaimId', '=', 'Claim.ClaimId')
-        .where({'ClaimDocument.DocumentType': documentTypeEnum.VISIT_CONFIRMATION, 'Claim.ClaimId': claimId, 'ClaimDocument.IsEnabled': true})
-        .first('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType')
+        .where({'Claim.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null})
+        .select('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
         .orderBy('ClaimDocument.DateSubmitted', 'desc')
-        .then(function (visitConfirmationDocumentStatus) {
+        .then(function (claimDocuments) {
           return knex('Claim')
             .join('ClaimExpense', 'Claim.ClaimId', '=', 'ClaimExpense.ClaimId')
             .where({ 'Claim.ClaimId': claimId, 'ClaimExpense.IsEnabled': true })
@@ -36,7 +36,14 @@ module.exports = function (claimId) {
               claimExpenses.forEach(function (expense) {
                 expense.Cost = Number(expense.Cost).toFixed(2)
               })
-              claim.visitConfirmation = visitConfirmationDocumentStatus
+              claim.benefitDocument = []
+              claimDocuments.forEach(function (document) {
+                if (document.DocumentType === documentTypeEnum['VISIT_CONFIRMATION']) {
+                  claim.visitConfirmation = document
+                } else {
+                  claim.benefitDocument.push(document)
+                }
+              })
               return claimExpenses
             })
         })
