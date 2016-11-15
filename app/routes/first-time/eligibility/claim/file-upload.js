@@ -1,6 +1,5 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
-const FileUploadGuidingText = require('../../../../constants/file-upload-guiding-text-enum')
 const DocumentTypeEnum = require('../../../../constants/document-type-enum')
 const DirectoryCheck = require('../../../../services/directory-check')
 const Upload = require('../../../../services/upload')
@@ -21,7 +20,7 @@ module.exports = function (router) {
       DirectoryCheck(req.params.referenceId, req.params.claimId, req.query.claimExpenseId, req.query.document)
       res.render('first-time/eligibility/claim/file-upload', {
         document: req.query.document,
-        fileUploadGuidingText: FileUploadGuidingText,
+        fileUploadGuidingText: DocumentTypeEnum,
         URL: req.url
       })
     } else {
@@ -60,7 +59,7 @@ module.exports = function (router) {
         if (error instanceof ValidationError) {
           return res.status(400).render('first-time/eligibility/claim/file-upload', {
             document: req.query.document,
-            fileUploadGuidingText: FileUploadGuidingText,
+            fileUploadGuidingText: DocumentTypeEnum,
             errors: error.validationErrors,
             URL: req.url,
             csrfToken: csrfToken
