@@ -68,7 +68,7 @@
       <td>Visit confirmation</td>
       <td>
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
-          <span class="text-success">Evidence uploaded</span>
+          <span class="text-success">Visit confirmation uploaded</span>
           <form
             action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile?documentType=VISIT-CONFIRMATION"
             method="post" class="form pull-right">
@@ -76,9 +76,9 @@
             <button class="link" name="remove">remove</button>
           </form>
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' %}
-          <span class="text-success">Upload later</span>
+          <span class="text-pending">Uploading visit confirmation later</span>
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'post-later' %}
-          <span class="text-success">Post later</span>
+          <span class="text-pending">Sending visit confirmation by post</span>
         {% else %}
           <span class="text-warning">Visit confirmation required</span>
           <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=VISIT_CONFIRMATION" id="add-visit-confirmation" class="button grey pull-right">Add</a>
