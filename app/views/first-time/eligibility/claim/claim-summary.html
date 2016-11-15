@@ -35,8 +35,14 @@
       <td>Benefit information</td>
       <td>
         {{ benefitsEnum[claimDetails.claim['Benefit']].displayName }}
+
+        {% if benefitsEnum[claimDetails.claim['Benefit']].requireBenefitUpload %}
+        <span class="text-warning">Benefit documentation required</span>
+        <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document={{ claimDetails.claim['Benefit'] }}" id="add-benefit" class="button grey pull-right">Add Page</a>
+        {% endif %}
       </td>
     </tr>
+
 
   </table>
 
