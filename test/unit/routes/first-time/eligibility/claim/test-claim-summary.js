@@ -12,7 +12,7 @@ const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
 const CLAIMID = '1'
 const CLAIMEXPENSEID = '1234'
 const CLAIMDOCUMENTID = '123'
-const FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.jpg' }
+const FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.txt' }
 
 describe('routes/first-time/eligibility/claim/claim-summary', function () {
   var request
