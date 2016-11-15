@@ -45,10 +45,9 @@
 
     {% for claim in claims %}
       <tr>
-        <!-- TODO: Need to format this date. -->
-        <!-- TODO: Which date (or dates) do we want to display here. -->
-        <td>{{ claim.DateOfJourney }}</td>
-        <td>{{ claim.Status }}</td>
+        <!-- TODO: Which date (or dates) do we want to display here? -->
+        <td>{{ dateHelper(claim.DateOfJourney) }}</td>
+        <td>{{ claimStatusHelper(claim.Status) }}</td>
         <!-- TODO: Need to redirect to a real page. -->
         <td><a href="#{{ claim.ClaimId }}">View</a></td>
       </tr>

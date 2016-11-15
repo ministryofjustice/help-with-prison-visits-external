@@ -1,5 +1,17 @@
-// TODO: We will need to persist test data to the database prior to running this test once the check on the reference number/dob combination existing is in place.
+const eligibilityHelper = require('../helpers/data/eligibility-helper')
+
+// TODO: This won't work as the eligibility created here will never be copied over to the internal database.
 describe('Repeat Claim Flow', () => {
+  const REFERENCE = 'REP1234'
+
+  before(function () {
+    eligibilityHelper.insert(REFERENCE)
+  })
+
+  after(function () {
+    eligibilityHelper.deleteAll(REFERENCE)
+  })
+
   it('should display each page in the repeat claim flow', () => {
     return browser.url('/')
 
@@ -9,7 +21,7 @@ describe('Repeat Claim Flow', () => {
 
       // Start
       .waitForExist('#already-registered-submit')
-      .setValue('#reference', 'APVS123') // TODO: This should be replaced with the persisted reference.
+      .setValue('#reference', REFERENCE)
       .setValue('#dob-day-input', '01')
       .setValue('#dob-month-input', '05')
       .setValue('#dob-year-input', '1955')

@@ -3,7 +3,14 @@ const ValidationError = require('../services/errors/validation-error')
 
 module.exports = function (router) {
   router.get('/start', function (req, res) {
-    return res.render('start')
+    if (req.query.error !== 'yes') {
+      return res.render('start')
+    }
+    return res.render('start', {
+      errors: {
+        invalid: [ 'The reference number date of birth combination you provided was invalid' ]
+      }
+    })
   })
 
   router.post('/start', function (req, res) {

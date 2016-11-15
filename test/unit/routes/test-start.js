@@ -23,9 +23,16 @@ describe('routes/start', function () {
   })
 
   describe(`GET ${ROUTE}`, function () {
-    it('should respond with a 200', function () {
+    it('should respond with a 200 if the error query parameter is not set', function () {
       return supertest(app)
         .get(ROUTE)
+        .expect(200)
+    })
+
+    it('should respond with a 200 if the error query paramater is set', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .query('error=yes')
         .expect(200)
     })
   })
