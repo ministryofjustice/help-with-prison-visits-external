@@ -100,19 +100,19 @@
       <td>
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
           <span class="text-success">Visit confirmation uploaded</span>
-            <form
-              action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/viewFile/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}"
-              method="get" class="form pull-right">
-              <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-              <button class="link">view</button>
-            </form>
-            <span class="button-separator"></span>
-            <form
-              action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile/{{ claimDetails.claim.visitConfirmation['ClaimDocumentId'] }}"
-              method="post" class="form pull-right">
-              <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-              <button class="link" name="remove">remove</button>
-            </form>
+          <form
+            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/viewFile/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}"
+            method="get" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link">view</button>
+          </form>
+          <span class="button-separator"></span>
+          <form
+            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile/{{ claimDetails.claim.visitConfirmation['ClaimDocumentId'] }}"
+            method="post" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link" name="remove">remove</button>
+          </form>
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' %}
           <span class="text-pending">Uploading visit confirmation later</span>
           <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/change/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}?document=VISIT_CONFIRMATION" id="change-visit-confirmation-upload-later" class="pull-right">change</a>
