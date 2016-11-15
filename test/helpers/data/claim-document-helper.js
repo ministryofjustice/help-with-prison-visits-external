@@ -5,7 +5,7 @@ const FileUpload = require('../../../app/services/domain/file-upload')
 
 module.exports.DOCUMENT_TYPE = 'VISIT-CONFIRMATION'
 module.exports.DOCUMENT_STATUS = 'uploaded'
-module.exports.PATH = 'path'
+module.exports.PATH = ''
 
 module.exports.build = function (claimId) {
   return new FileUpload(
@@ -18,7 +18,7 @@ module.exports.build = function (claimId) {
   )
 }
 
-module.exports.insert = function (reference, eligibilityId, claimId, date) {
+module.exports.insert = function (reference, eligibilityId, claimId) {
   return knex('ExtSchema.ClaimDocument')
     .insert({
       EligibilityId: eligibilityId,

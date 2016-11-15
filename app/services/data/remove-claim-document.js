@@ -16,7 +16,6 @@ module.exports = function (claimId, claimDocumentDetails) {
       'IsEnabled': false
     })
     .then(function (filepath) {
-      console.log(filepath)
       filepath.forEach(function (path) {
         if (path) {
           fs.unlinkSync(path)
