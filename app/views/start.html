@@ -13,8 +13,6 @@
   <div class="grid-row">
     <div class="column-half">
 
-      {% include "includes/validation-error-messages.html" %}
-
       <h2 class="heading-large">
         First time here?
       </h2>
@@ -30,6 +28,9 @@
     </div>
 
     <div class="column-half">
+
+      {% include "includes/validation-error-messages.html" %}
+
       <h2 class="heading-large">
         Already registered?
       </h2>
@@ -67,13 +68,14 @@
 
           <fieldset>
 
-            {% if errors['dob'][0] %}
-              <span class="error-message">{{ errors['dob'][0] }}</span>
-            {% endif %}
-
             <div id="dob" class="form-date">
 
               <label class="form-label-bold">Date of birth</label>
+
+              {% if errors['dob'][0] %}
+                <span class="error-message">{{ errors['dob'][0] }}</span>
+              {% endif %}
+
               <p class="form-hint">For example, 18 08 1989</p>
 
               <div class="form-group form-group-day">
