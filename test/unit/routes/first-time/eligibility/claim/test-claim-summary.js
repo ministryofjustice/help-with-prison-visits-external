@@ -68,6 +68,8 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
+          expect(getClaimSummary.calledWith(CLAIMID)).to.be.true
+          expect(claimSummaryStub.calledOnce, 'Should have called to check validation').to.be.true
           expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`)
           done()
         })
