@@ -69,6 +69,7 @@
       <td>
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
           <span class="text-success">Evidence uploaded</span>
+          <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/viewFile/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}" class="link pull-right">view</a>
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' %}
           <span class="text-success">Upload later</span>
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'post-later' %}

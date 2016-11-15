@@ -14,6 +14,7 @@ class UrlPathValidator {
     this.validateParam(path['reference'], 'isValidReference')
     this.validateParam(path['referenceId'], 'isValidReferenceId')
     this.validateParam(path['claimId'], 'isNumeric')
+    this.validateParam(path['claimDocumentId'], 'isNumeric')
   }
 
   static validateParam (param, validateFunction) {
