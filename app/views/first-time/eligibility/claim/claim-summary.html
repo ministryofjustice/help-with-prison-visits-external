@@ -66,14 +66,26 @@
 
     <tr id="VisitConfirmation" {% if errors['VisitConfirmation'][0] %} class="warning" {% endif %}>
       <td>Visit confirmation</td>
-      <td>
+      <td class="enforce-line-height">
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
-          <span class="text-success">Evidence uploaded</span>
-          <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/viewFile/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}" class="link pull-right">view</a>
+          <span class="text-success">Visit confirmation uploaded</span>
+          <form
+            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/viewFile/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}"
+            method="get" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link">view</button>
+          </form>
+          <form
+            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile/{{ claimDetails.claim.visitConfirmation['ClaimDocumentId'] }}"
+            method="post" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="remove link" name="remove">remove</button>
+          </form>
+
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' %}
-          <span class="text-success">Upload later</span>
+          <span class="text-pending">Uploading visit confirmation later</span>
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'post-later' %}
-          <span class="text-success">Post later</span>
+          <span class="text-pending">Sending visit confirmation by post</span>
         {% else %}
           <span class="text-warning">Visit confirmation required</span>
           <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=VISIT_CONFIRMATION" id="add-visit-confirmation" class="button grey pull-right">Add</a>

@@ -19,8 +19,9 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
   var urlValidatorCalled
   var getClaimSummary
   var getClaimDocumentFilePath
-  var removeClaimExpense
   var claimSummaryDomainObjectStub
+  var removeClaimExpense
+  var removeClaimDocument
 
   beforeEach(function () {
     getClaimSummary = sinon.stub().resolves({
@@ -29,16 +30,18 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
       }
     })
     getClaimDocumentFilePath = sinon.stub().resolves(FILEPATH_RESULT)
-    removeClaimExpense = sinon.stub().resolves()
     claimSummaryDomainObjectStub = sinon.stub()
+    removeClaimExpense = sinon.stub().resolves()
+    removeClaimDocument = sinon.stub().resolves()
 
     var route = proxyquire(
       '../../../../../../app/routes/first-time/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
         '../../../../services/data/get-claim-summary': getClaimSummary,
         '../../../../services/data/get-claim-document-file-path': getClaimDocumentFilePath,
+        '../../../../services/domain/claim-summary': claimSummaryDomainObjectStub,
         '../../../../services/data/remove-claim-expense': removeClaimExpense,
-        '../../../../services/domain/claim-summary': claimSummaryDomainObjectStub
+        '../../../../services/data/remove-claim-document': removeClaimDocument
       })
 
     var app = routeHelper.buildApp(route)
@@ -116,6 +119,21 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
       request
         .get(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/viewFile/${CLAIMDOCUMENTID}`)
         .expect(500, done)
+    })
+  })
+
+  describe('POST /first-time/eligibility/:referenceId/claim/:claimId/summary/removeFile/:claimDocumentId', function () {
+    it('should respond with a 302 and call removeClaimDocument', function (done) {
+      request
+        .post(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/removeFile/${CLAIMDOCUMENTID}`)
+        .expect(302)
+        .end(function (error, response) {
+          expect(error).to.be.null
+          expect(urlValidatorCalled).to.be.true
+          expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
+          expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
+          done()
+        })
     })
   })
 })
