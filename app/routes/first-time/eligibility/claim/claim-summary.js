@@ -67,10 +67,9 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/first-time/eligibility/:referenceId/claim/:claimId/summary/removeFile/', function (req, res, next) {
+  router.post('/first-time/eligibility/:referenceId/claim/:claimId/summary/removeFile/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
-    console.log(req.query)
-    removeClaimDocument(req.params.claimId, req.query)
+    removeClaimDocument(req.params.claimDocumentId)
       .then(function () {
         return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
       })

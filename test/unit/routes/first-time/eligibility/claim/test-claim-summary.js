@@ -13,7 +13,7 @@ const ELIGIBILITYID = '1234'
 const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
 const CLAIMID = '1'
 const CLAIMEXPENSEID = '1234'
-const CLAIMDOCUMENTDETAILS = {documentType: 'VISIT_CONFIRMATION'}
+const CLAIMDOCUMENTID = '123'
 
 describe('routes/first-time/eligibility/claim/claim-summary', function () {
   var request
@@ -102,15 +102,15 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
     })
   })
 
-  describe('POST /first-time/eligibility/:referenceId/claim/:claimId/summary/removeFile', function () {
+  describe('POST /first-time/eligibility/:referenceId/claim/:claimId/summary/removeFile/:claimDocumentId', function () {
     it('should respond with a 302 and call removeClaimDocument', function (done) {
       request
-        .post(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/removeFile?documentType=VISIT_CONFIRMATION`)
+        .post(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/removeFile/${CLAIMDOCUMENTID}`)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(removeClaimDocument.calledWith(CLAIMID, CLAIMDOCUMENTDETAILS)).to.be.true
+          expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
           expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
           done()
         })

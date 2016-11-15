@@ -7,6 +7,7 @@ describe('services/data/remove-claim-document', function () {
   const REFERENCE = 'V123467'
   var eligibilityId
   var claimId
+  var claimDocumentId
 
   before(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)
@@ -14,11 +15,14 @@ describe('services/data/remove-claim-document', function () {
         eligibilityId = ids.eligibilityId
         claimId = ids.claimId
         return claimDocumentHelper.insert(REFERENCE, eligibilityId, claimId)
+          .then(function (claimDocId) {
+            claimDocumentId = claimDocId
+          })
       })
   })
 
   it('should disable a claim document', function () {
-    return removeClaimDocument(claimId, {documentType: claimDocumentHelper.DOCUMENT_TYPE})
+    return removeClaimDocument(claimDocumentId)
       .then(function () {
         return claimDocumentHelper.get(claimId)
       })

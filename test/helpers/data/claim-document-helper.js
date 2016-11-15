@@ -20,6 +20,7 @@ module.exports.build = function (claimId) {
 
 module.exports.insert = function (reference, eligibilityId, claimId) {
   return knex('ExtSchema.ClaimDocument')
+    .returning('ClaimDocumentId')
     .insert({
       EligibilityId: eligibilityId,
       Reference: reference,

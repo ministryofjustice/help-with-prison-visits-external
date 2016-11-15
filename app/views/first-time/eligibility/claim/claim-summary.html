@@ -70,7 +70,7 @@
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
           <span class="text-success">Evidence uploaded</span>
           <form
-            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile?documentType=VISIT-CONFIRMATION"
+            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile/{{ claimDetails.claim.visitConfirmation['ClaimDocumentId'] }}"
             method="post" class="form pull-right">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             <button class="link" name="remove">remove</button>
