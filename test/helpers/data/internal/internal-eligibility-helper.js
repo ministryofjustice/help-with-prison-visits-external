@@ -1,6 +1,7 @@
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 const claimHelper = require('./internal-claim-helper')
+const visitorHelper = require('./internal-visitor-helper')
 const eligiblityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
@@ -28,13 +29,10 @@ module.exports.insertEligibilityAndClaim = function (reference) {
   var eligibilityId
 
   return this.insert(reference)
-    .then(function (newEligibilityId) {
-      eligibilityId = newEligibilityId
-      return claimHelper.insert(reference, newEligibilityId)
-    })
-    .then(function (newClaimId) {
-      return { eligibilityId: eligibilityId, claimId: newClaimId }
-    })
+    .then(function (id) { eligibilityId = id })
+    .then(function () { return visitorHelper.insert(reference, eligibilityId) })
+    .then(function () { return claimHelper.insert(reference, eligibilityId) })
+    .then(function (newClaimId) { return { eligibilityId: eligibilityId, claimId: newClaimId } })
 }
 
 module.exports.get = function (reference) {
@@ -53,5 +51,6 @@ function deleteByReference (schemaTable, reference) {
 
 module.exports.deleteAll = function (reference) {
   return deleteByReference('IntSchema.Claim', reference)
+    .then(function () { return deleteByReference('IntSchema.Visitor', reference) })
     .then(function () { return deleteByReference('IntSchema.Eligibility', reference) })
 }

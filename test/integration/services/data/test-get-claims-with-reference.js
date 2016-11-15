@@ -22,7 +22,7 @@ describe('services/data/get-claims-with-reference', function () {
 
   it('should retrieve all claims with the given reference', function () {
     return getClaimsWithReference(REFERENCE)
-      .then(function(claims) {
+      .then(function (claims) {
         expect(claims[0].ClaimId).to.equal(claimId)
         expect(claims[0].EligibilityId).to.equal(eligibilityId)
         expect(claims[0].Reference).to.equal(REFERENCE)

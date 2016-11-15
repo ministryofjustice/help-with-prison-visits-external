@@ -1,6 +1,5 @@
 const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
-
-// TODO: Will need a helper for visitor.
+const internalVisitorHelper = require('../helpers/data/internal/internal-visitor-helper')
 
 describe('Repeat Claim Flow', function () {
   const REFERENCE = 'REP1234'
@@ -20,14 +19,12 @@ describe('Repeat Claim Flow', function () {
       .waitForExist('#start')
       .click('#start')
 
-      // TODO: Will need the Correct day month year here. This information is on the visitor table.
-
       // Start
       .waitForExist('#already-registered-submit')
       .setValue('#reference', REFERENCE)
-      .setValue('#dob-day-input', '01')
-      .setValue('#dob-month-input', '05')
-      .setValue('#dob-year-input', '1955')
+      .setValue('#dob-day-input', internalVisitorHelper.DAY)
+      .setValue('#dob-month-input', internalVisitorHelper.MONTH)
+      .setValue('#dob-year-input', internalVisitorHelper.YEAR)
       .click('#already-registered-submit')
 
       // Your Claims
