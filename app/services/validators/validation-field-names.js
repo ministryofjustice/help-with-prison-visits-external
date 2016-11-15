@@ -35,7 +35,8 @@ module.exports = {
   'is-child': 'Child expense',
   'child-visitor': 'Children on visit',
   'child-name': 'Child name',
-  'child-relationship': 'Child celationship',
+  'child-relationship': 'Child relationship',
   'upload': 'A document uploaded or alternative option',
-  'reference': 'Reference number'
+  'reference': 'Reference number',
+  'VisitConfirmation': 'Visit confirmation'
 }

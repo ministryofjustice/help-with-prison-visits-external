@@ -17,7 +17,7 @@ class FileUpload {
       this.path = file.path
     }
     this.claimId = claimId
-    this.documentType = documentTypeEnum[documentType]
+    this.documentType = documentTypeEnum[documentType].documentType
     this.claimExpenseId = claimExpenseId
     this.dateSubmitted = dateFormatter.now().toDate()
 

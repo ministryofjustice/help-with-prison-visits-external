@@ -11,5 +11,5 @@ module.exports = {
   I18N_UPDATEFILES: process.env.I18N_UPDATEFILES,
   // File upload
   FILE_UPLOAD_LOCATION: process.env.FILE_UPLOAD_LOCATION || './uploads',
-  FILE_UPLOAD_MAXSIZE: process.env.FILE_UPLOAD_MAXSIZE || 5242880 // 5MB in Bytes.
+  FILE_UPLOAD_MAXSIZE: process.env.FILE_UPLOAD_MAXSIZE || '5242880' // 5MB in Bytes.
 }
