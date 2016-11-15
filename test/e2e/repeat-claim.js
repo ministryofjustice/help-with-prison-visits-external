@@ -1,18 +1,17 @@
-const eligibilityHelper = require('../helpers/data/eligibility-helper')
+const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
 
-// TODO: This won't work as the eligibility created here will never be copied over to the internal database.
-describe('Repeat Claim Flow', () => {
+describe('Repeat Claim Flow', function () {
   const REFERENCE = 'REP1234'
 
   before(function () {
-    eligibilityHelper.insert(REFERENCE)
+    return internalEligibilityHelper.insertEligibilityAndClaim(REFERENCE)
   })
 
   after(function () {
-    eligibilityHelper.deleteAll(REFERENCE)
+    return internalEligibilityHelper.deleteAll(REFERENCE)
   })
 
-  it('should display each page in the repeat claim flow', () => {
+  it('should display each page in the repeat claim flow', function () {
     return browser.url('/')
 
       // Index
