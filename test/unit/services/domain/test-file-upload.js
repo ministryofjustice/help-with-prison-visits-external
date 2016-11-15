@@ -1,12 +1,11 @@
 const FileUpload = require('../../../../app/services/domain/file-upload')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
-// const documentTypeEnum = require('../../../../app/constants/document-type-enum')
 const UploadError = require('../../../../app/services/errors/upload-error')
 
 describe('services/domain/file-upload', function () {
   const VALID_ID = '1'
-  const VALID_DOCUMENT_TYPE = 'VISIT_CONFIRMATION' // documentTypeEnum['VISIT_CONFIRMATION'].documentType
+  const VALID_DOCUMENT_TYPE = 'VISIT_CONFIRMATION'
   const VALID_FILE = {path: 'path'}
   const VALID_DOCUMENT_STATUS = 'uploaded'
   const UPLOAD_ERROR = new UploadError('File type error')
