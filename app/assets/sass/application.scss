@@ -20,6 +20,10 @@ button.link {
   cursor: pointer;
 }
 
+button.remove {
+  padding-right: 25px !important;
+}
+
 // Related items
 .govuk-related-items {
   margin-top: $gutter;
@@ -258,6 +262,10 @@ span.updated {
 
 td.text-right {
     text-align:right;
+}
+
+td.enforce-line-height {
+  line-height: 12px;
 }
 
 .orange {
