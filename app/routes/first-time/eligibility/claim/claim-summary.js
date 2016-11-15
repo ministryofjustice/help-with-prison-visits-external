@@ -7,6 +7,7 @@ const claimExpenseHelper = require('../../../../views/helpers/claim-expense-help
 const benefitsEnum = require('../../../../constants/benefits-enum')
 const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
+const getClaimDocumentFilePath = require('../../../../services/data/get-claim-document-file-path')
 
 module.exports = function (router) {
   router.get('/first-time/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
@@ -61,6 +62,24 @@ module.exports = function (router) {
     removeClaimExpense(req.params.claimId, req.params.claimExpenseId)
       .then(function () {
         return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+      })
+      .catch(function (error) {
+        next(error)
+      })
+  })
+
+  router.get('/first-time/eligibility/:referenceId/claim/:claimId/summary/viewFile/:claimDocumentId', function (req, res, next) {
+    UrlPathValidator(req.params)
+
+    getClaimDocumentFilePath(req.params.claimDocumentId)
+      .then(function (result) {
+        var path = result.Filepath
+        if (path) {
+          var fileName = 'APVS-Upload.' + path.split('.').pop()
+          return res.download(path, fileName)
+        } else {
+          throw new Error('No path to file provided')
+        }
       })
       .catch(function (error) {
         next(error)
