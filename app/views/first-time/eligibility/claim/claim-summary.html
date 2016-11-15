@@ -46,11 +46,12 @@
               <input type="hidden" name="_csrf" value="{{ csrfToken }}">
               <button class="link">view</button>
             </form>
+            <span class="button-separator"></span>
             <form
               action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile/{{ claimDetails.claim.benefitDocument[0]['ClaimDocumentId'] }}"
               method="post" class="form pull-right">
               <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-              <button class="remove link" name="remove">remove</button>
+              <button class="link" name="remove">remove</button>
             </form>
 
           {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' %}
