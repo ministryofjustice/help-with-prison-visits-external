@@ -37,5 +37,6 @@ module.exports = {
   'child-name': 'Child name',
   'child-relationship': 'Child relationship',
   'upload': 'A document uploaded or alternative option',
-  'reference': 'Reference'
+  'reference': 'Reference',
+  'VisitConfirmation': 'Visit confirmation'
 }

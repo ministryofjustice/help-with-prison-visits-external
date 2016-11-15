@@ -5,6 +5,7 @@ const express = require('express')
 const expect = require('chai').expect
 const mockViewEngine = require('../../../mock-view-engine')
 const bodyParser = require('body-parser')
+const ValidationError = require('../../../../../../app/services/errors/validation-error')
 require('sinon-bluebird')
 
 const REFERENCE = 'V123456'
@@ -20,18 +21,25 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
   var getClaimSummary
   var removeClaimExpense
   var removeClaimDocument
+  var claimSummaryStub
 
   beforeEach(function () {
-    getClaimSummary = sinon.stub().resolves()
+    getClaimSummary = sinon.stub().resolves({
+      claim: {
+        visitConfirmation: ''
+      }
+    })
     removeClaimExpense = sinon.stub().resolves()
     removeClaimDocument = sinon.stub().resolves()
+    claimSummaryStub = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/first-time/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
         '../../../../services/data/get-claim-summary': getClaimSummary,
         '../../../../services/data/remove-claim-expense': removeClaimExpense,
-        '../../../../services/data/remove-claim-document': removeClaimDocument
+        '../../../../services/data/remove-claim-document': removeClaimDocument,
+        '../../../../services/domain/claim-summary': claimSummaryStub
       })
 
     var app = express()
@@ -64,9 +72,18 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
+          expect(getClaimSummary.calledWith(CLAIMID)).to.be.true
+          expect(claimSummaryStub.calledOnce, 'Should have called to check validation').to.be.true
           expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`)
           done()
         })
+    })
+
+    it('should respond with a 400 if validation errors', function (done) {
+      claimSummaryStub.throws(new ValidationError())
+      request
+        .post(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
+        .expect(400, done)
     })
   })
 
