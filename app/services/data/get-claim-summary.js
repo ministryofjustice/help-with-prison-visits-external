@@ -38,7 +38,7 @@ module.exports = function (claimId) {
               })
               claim.benefitDocument = []
               claimDocuments.forEach(function (document) {
-                if (document.DocumentType === documentTypeEnum['VISIT_CONFIRMATION']) {
+                if (document.DocumentType === documentTypeEnum['VISIT_CONFIRMATION'].documentType) {
                   claim.visitConfirmation = document
                 } else {
                   claim.benefitDocument.push(document)
