@@ -97,6 +97,36 @@ span.mileage input{
     padding-top:0px;
     margin-top:0px;
 }
+
+.text-pending {
+    color:#d2841c;
+    padding-top:6px;
+    display:inline-block;
+}
+
+.text-pending:before {
+    background-color: #d2841c;
+    color:#d2841c;
+}
+
+.text-pending:before {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    content: '!';
+    color: #fff;
+    display: inline-block;
+    font-family: arial;
+    font-weight: bold;
+    height: 1em;
+    line-height: 1;
+    margin-left: 0px;
+    margin-right: 5px;
+    padding: 2px;
+    text-align: center;
+    width: 1em;
+}
+
 .text-warning {
     color:#b10e1e;
     padding-top:6px;
@@ -107,7 +137,8 @@ span.mileage input{
     background-color: #b10e1e;
     color:#b10e1e;
 }
-.text-warning:before, .text-pending:before {
+
+.text-warning:before {
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
