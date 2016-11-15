@@ -12,7 +12,7 @@ $path: "/public/images/";
 button.link {
   color: #005ea5;
   text-decoration: underline;
-  font-size:18px;
+  font-size:16px;
   line-height:24px;
   background:none!important;
   border:none;
@@ -20,8 +20,13 @@ button.link {
   cursor: pointer;
 }
 
-button.remove {
-  padding-right: 25px !important;
+button.expense {
+  font-size: 18px;
+}
+
+span.button-separator {
+  padding:1px 25px 1px 0px;
+  float:right
 }
 
 // Related items

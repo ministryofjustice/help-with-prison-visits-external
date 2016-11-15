@@ -96,4 +96,15 @@ module.exports = function (router) {
         next(error)
       })
   })
+
+  router.get('/first-time/eligibility/:referenceId/claim/:claimId/summary/change/:claimDocumentId', function (req, res, next) {
+    UrlPathValidator(req.params)
+    removeClaimDocument(req.params.claimDocumentId)
+      .then(function () {
+        return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}`)
+      })
+      .catch(function (error) {
+        next(error)
+      })
+  })
 }

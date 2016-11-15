@@ -136,4 +136,19 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
         })
     })
   })
+
+  describe('GET /first-time/eligibility/:referenceId/claim/:claimId/summary/change/:claimDocumentId', function () {
+    it('should respond with a 302, call removeClaimDocument and redirect to upload page', function (done) {
+      request
+        .get(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/change/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION`)
+        .expect(302)
+        .end(function (error, response) {
+          expect(error).to.be.null
+          expect(urlValidatorCalled).to.be.true
+          expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
+          expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/file-upload?document=VISIT_CONFIRMATION`)
+          done()
+        })
+    })
+  })
 })
