@@ -56,9 +56,10 @@
 
           {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' %}
             <span class="text-pending">Uploading benefit documentation later</span>
+            <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/change/{{ claimDetails.claim.benefitDocument[0].ClaimDocumentId }}?document={{ claimDetails.claim['Benefit'] }}" id="change-{{ claimDetails.claim['Benefit'] }}-upload-later" class="pull-right">change</a>
           {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'post-later' %}
             <span class="text-pending">Sending benefit documentation by post</span>
-
+            <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/change/{{ claimDetails.claim.benefitDocument[0].ClaimDocumentId }}?document={{ claimDetails.claim['Benefit'] }}" id="change-{{ claimDetails.claim['Benefit'] }}-post" class="pull-right">change</a>
           {% else %}
             <span class="text-warning">Benefit documentation required</span>
             <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document={{ claimDetails.claim['Benefit'] }}" id="add-benefit" class="button grey pull-right">Add</a>
