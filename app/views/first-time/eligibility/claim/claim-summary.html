@@ -66,7 +66,7 @@
 
     <tr id="VisitConfirmation" {% if errors['VisitConfirmation'][0] %} class="warning" {% endif %}>
       <td>Visit confirmation</td>
-      <td class="enforce-line-height">
+      <td>
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
           <span class="text-success">Visit confirmation uploaded</span>
           <form
