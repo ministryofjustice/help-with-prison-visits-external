@@ -1,5 +1,7 @@
 const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
 
+// TODO: Will need a helper for visitor.
+
 describe('Repeat Claim Flow', function () {
   const REFERENCE = 'REP1234'
 
@@ -17,6 +19,8 @@ describe('Repeat Claim Flow', function () {
       // Index
       .waitForExist('#start')
       .click('#start')
+
+      // TODO: Will need the Correct day month year here. This information is on the visitor table.
 
       // Start
       .waitForExist('#already-registered-submit')
