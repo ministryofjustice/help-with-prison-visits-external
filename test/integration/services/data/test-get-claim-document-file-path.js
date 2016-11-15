@@ -5,13 +5,14 @@ const claimChildHelper = require('../../../helpers/data/claim-child-helper')
 const expenseHelper = require('../../../helpers/data/expense-helper')
 const claimDocumentHelper = require('../../../helpers/data/claim-document-helper')
 
-const getClaimSummary = require('../../../../app/services/data/get-claim-summary')
+const getClaimDocumentFilePath = require('../../../../app/services/data/get-claim-document-file-path')
 
 var REFERENCE = 'V123456'
 var eligibilityId
 var claimId
+var claimDocumentId
 
-describe('services/data/get-claim-summary', function () {
+describe('services/data/get-claim-document-file-path', function () {
   before(function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
       .then(function (newEligibilityId) {
@@ -28,21 +29,16 @@ describe('services/data/get-claim-summary', function () {
           .then(function () {
             return claimDocumentHelper.insert(REFERENCE, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)
           })
+          .then(function (newClaimDocumentId) {
+            claimDocumentId = newClaimDocumentId
+          })
       })
   })
 
-  it('should return summary of claim details', function () {
-    return getClaimSummary(claimId)
+  it('should return a ClaimDocument file path', function () {
+    return getClaimDocumentFilePath(claimDocumentId)
       .then(function (result) {
-        expect(result.claim.Reference).to.equal(REFERENCE)
-        expect(result.claim.DateOfJourney).to.be.within(
-          claimHelper.DATE_OF_JOURNEY.subtract(1, 'seconds').toDate(),
-          claimHelper.DATE_OF_JOURNEY.add(1, 'seconds').toDate()
-        )
-        expect(result.claim.visitConfirmation.DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
-        expect(result.claimExpenses[0].ExpenseType).to.equal(expenseHelper.EXPENSE_TYPE)
-        expect(result.claimExpenses[0].Cost).to.equal(Number(expenseHelper.COST).toFixed(2))
-        expect(result.claimChild[0].Name).to.equal(claimChildHelper.CHILD_NAME)
+        expect(result.Filepath).to.equal(claimDocumentHelper.PATH)
       })
   })
 

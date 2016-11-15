@@ -20,6 +20,10 @@ button.link {
   cursor: pointer;
 }
 
+button.remove {
+  padding-right: 25px !important;
+}
+
 // Related items
 .govuk-related-items {
   margin-top: $gutter;
