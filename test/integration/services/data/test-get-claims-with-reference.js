@@ -7,14 +7,14 @@ describe('services/data/get-claims-with-reference', function () {
   const REFERENCE = 'V123467'
   var claimId
 
-  beforeEach(function () {
+  before(function () {
     return internalEligiblityHelper.insertEligibilityAndClaim(REFERENCE)
       .then(function (ids) {
         claimId = ids.claimId
       })
   })
 
-  afterEach(function () {
+  after(function () {
     return internalEligiblityHelper.deleteAll(REFERENCE)
   })
 
