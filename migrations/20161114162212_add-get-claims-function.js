@@ -11,7 +11,7 @@ exports.up = function (knex, Promise) {
         RETURNS TABLE
         AS
             RETURN
-            SELECT ClaimId, DateOfJourney, Status 
+            SELECT *
             FROM IntSchema.Claim
             WHERE Reference = @reference
       `
