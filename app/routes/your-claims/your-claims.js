@@ -10,7 +10,7 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     getClaimsWithReference(req.params.reference)
       .then(function (claims) {
-        if (claims.length == 0) {
+        if (claims.length === 0) {
           return res.redirect(`/start${REFERENCE_DOB_ERROR}`)
         }
         return res.render('your-claims/your-claims', {

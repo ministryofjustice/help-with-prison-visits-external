@@ -20,7 +20,7 @@ describe('/your-claims/your-claims', function () {
 
     var route = proxyquire('../../../../app/routes/your-claims/your-claims', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/data/get-claims-with-reference': getClaimsWithReferenceStub,
+      '../../services/data/get-claims-with-reference': getClaimsWithReferenceStub
     })
     app = routeHelper.buildApp(route)
   })
