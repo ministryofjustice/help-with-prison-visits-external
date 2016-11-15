@@ -24,8 +24,8 @@ module.exports = function (claimId) {
     .then(function (claim) {
       return knex('ClaimDocument')
         .join('Claim', 'ClaimDocument.ClaimId', '=', 'Claim.ClaimId')
-        .where({ 'ClaimDocument.DocumentType': documentTypeEnum.VISIT_CONFIRMATION, 'Claim.ClaimId': claimId })
-        .first('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType')
+        .where({'ClaimDocument.DocumentType': documentTypeEnum.VISIT_CONFIRMATION, 'Claim.ClaimId': claimId, 'ClaimDocument.IsEnabled': true})
+        .first('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
         .orderBy('ClaimDocument.DateSubmitted', 'desc')
         .then(function (visitConfirmationDocumentStatus) {
           return knex('Claim')

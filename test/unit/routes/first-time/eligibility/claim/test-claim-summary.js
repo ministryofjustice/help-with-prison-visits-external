@@ -13,12 +13,14 @@ const ELIGIBILITYID = '1234'
 const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
 const CLAIMID = '1'
 const CLAIMEXPENSEID = '1234'
+const CLAIMDOCUMENTID = '123'
 
 describe('routes/first-time/eligibility/claim/claim-summary', function () {
   var request
   var urlValidatorCalled
   var getClaimSummary
   var removeClaimExpense
+  var removeClaimDocument
   var claimSummaryStub
 
   beforeEach(function () {
@@ -28,6 +30,7 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
       }
     })
     removeClaimExpense = sinon.stub().resolves()
+    removeClaimDocument = sinon.stub().resolves()
     claimSummaryStub = sinon.stub()
 
     var route = proxyquire(
@@ -35,6 +38,7 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
         '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
         '../../../../services/data/get-claim-summary': getClaimSummary,
         '../../../../services/data/remove-claim-expense': removeClaimExpense,
+        '../../../../services/data/remove-claim-document': removeClaimDocument,
         '../../../../services/domain/claim-summary': claimSummaryStub
       })
 
@@ -92,6 +96,21 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(removeClaimExpense.calledWith(CLAIMID, CLAIMEXPENSEID)).to.be.true
+          expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
+          done()
+        })
+    })
+  })
+
+  describe('POST /first-time/eligibility/:referenceId/claim/:claimId/summary/removeFile/:claimDocumentId', function () {
+    it('should respond with a 302 and call removeClaimDocument', function (done) {
+      request
+        .post(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/removeFile/${CLAIMDOCUMENTID}`)
+        .expect(302)
+        .end(function (error, response) {
+          expect(error).to.be.null
+          expect(urlValidatorCalled).to.be.true
+          expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
           expect(response.headers['location']).to.be.equal(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
           done()
         })
