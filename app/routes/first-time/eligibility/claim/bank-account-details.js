@@ -18,12 +18,13 @@ module.exports = function (router) {
   router.post('/first-time/eligibility/:referenceId/claim/:claimId/bank-account-details', function (req, res, next) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+    var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
 
     try {
       var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode)
       insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, bankAccountDetails)
         .then(function () {
-          return submitFirstTimeClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId)
+          return submitFirstTimeClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, assistedDigitalCaseWorker)
             .then(function () {
               return res.redirect(`/application-submitted/${referenceAndEligibilityId.reference}`)
             })
