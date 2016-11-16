@@ -21,7 +21,8 @@ module.exports = function (router) {
       res.render('first-time/eligibility/claim/file-upload', {
         document: req.query.document,
         fileUploadGuidingText: DocumentTypeEnum,
-        URL: req.url
+        URL: req.url,
+        hideAlternative: req.query.hideAlt
       })
     } else {
       throw new Error('Not a valid document type')
