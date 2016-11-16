@@ -14,9 +14,18 @@ exports.up = function (knex, Promise) {
         AS
         RETURN
         (
-          SELECT Claim.ClaimId, Claim.DateOfJourney, Claim.Status, Visitor.DateOfBirth
+          SELECT 
+            Claim.ClaimId, 
+            Claim.DateOfJourney, 
+            Claim.Status, 
+            Visitor.DateOfBirth,
+            Prisoner.FirstName, 
+            Prisoner.LastName,
+            Prisoner.NameOfPrison,
+            Prisoner.PrisonNumber
           FROM IntSchema.Claim AS Claim
-            JOIN IntSchema.Visitor AS Visitor ON Visitor.Reference = Claim.Reference
+            JOIN IntSchema.Visitor AS Visitor ON Visitor.EligibilityId = Claim.EligibilityId
+            JOIN IntSchema.Prisoner AS Prisoner ON Prisoner.EligibilityId = Claim.EligibilityId
           WHERE 
             Claim.Reference = @reference AND
             Visitor.DateOfBirth = @dob
