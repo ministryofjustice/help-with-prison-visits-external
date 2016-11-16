@@ -24,6 +24,7 @@ describe('services/routing/expenses-url-router', function () {
   describe('getRedirectUrl', function () {
     const VALID_PARAM_ONE = 'bus'
     const VALID_PARAM_TWO = 'hire'
+    const CLAIM_TYPE = 'first-time'
     const REFERENCEID = 'URLROUT-123'
     const CLAIM_ID = '456'
     const ORIGINAL_URL = 'some url'
@@ -37,11 +38,12 @@ describe('services/routing/expenses-url-router', function () {
       originalUrl: ORIGINAL_URL,
       query: {},
       params: {
+        claimType: CLAIM_TYPE,
         referenceId: REFERENCEID,
         claimId: CLAIM_ID
       }
     }
-    const VALID_REQUEST_OUTPUT = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/${VALID_PARAM_ONE}?${VALID_PARAM_TWO}=`
+    const VALID_REQUEST_OUTPUT = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/${VALID_PARAM_ONE}?${VALID_PARAM_TWO}=`
 
     it('should throw an error if req is invalid', function (done) {
       expect(function () {

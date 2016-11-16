@@ -1,0 +1,141 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        About child
+      </h2>
+
+      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/child" method="post">
+
+        <div id="child-name" class="form-group {% if errors['child-name'][0] %} error {% endif %}">
+          <label class="form-label-bold" for="child-name-input">Child name</label>
+
+          {% if errors['child-name'][0] %}
+            <span class="error-message">{{ errors['child-name'][0] }}</span>
+          {% endif %}
+
+          <input id="child-name-input"
+                 type="text"
+                 name="child-name"
+                 value="{{ claimant['child-name'] }}"
+                 class="form-control">
+        </div>
+
+        <div id="dob" class="form-group {% if errors['dob'][0] %} error {% endif %}">
+
+          <fieldset>
+
+            <div class="form-date">
+
+              <h2 class="form-label-bold">Date of birth</h2>
+
+              {% if errors['dob'][0] %}
+                <span class="error-message">{{ errors['dob'][0] }}</span>
+              {% endif %}
+
+              <p class="form-hint">For example, 18 08 1989</p>
+
+              <div class="form-group form-group-day">
+                <label for="dob-day-input">Day</label>
+                <input id="dob-day-input"
+                       name="dob-day"
+                       value="{{ claimant['dob-day'] }}"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-month">
+                <label for="dob-month-input">Month</label>
+                <input id="dob-month-input"
+                       name="dob-month"
+                       value="{{ claimant['dob-month'] }}"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-year">
+                <label for="dob-year-input">Year</label>
+                <input id="dob-year-input"
+                       name="dob-year"
+                       value="{{ claimant['dob-year'] }}"
+                       class="form-control">
+              </div>
+
+            </div>
+
+          </fieldset>
+
+        </div>
+
+        <div class="form-group">
+
+          <div id="child-relationship" class="form-group {% if errors['child-relationship'][0] %} error {% endif %}">
+
+            <h2 class="form-label-bold">Relationship</h2>
+
+            {% if errors['child-relationship'][0] %}
+              <span class="error-message">{{ errors['child-relationship'][0] }}</span>
+            {% endif %}
+
+            <fieldset>
+
+              <label for="my-child" class="block-label">
+                <input id="my-child"
+                       type="radio"
+                       name="child-relationship"
+                       value="claimants-child"
+                       {% if claimant['child-relationship'] == 'claimants-child' %} checked {% endif %}>
+                My child
+              </label>
+              <label for="prisoners-child" class="block-label">
+                <input id="prisoners-child"
+                       type="radio"
+                       name="child-relationship"
+                       value="prisoners-child"
+                       {% if claimant['child-relationship'] == 'prisoners-child' %} checked {% endif %}>
+                Prisoner's child
+              </label>
+
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <fieldset>
+
+            <label for="add-another-child" class="block-label">
+              <input id="add-another-child"
+                     type="checkbox"
+                     name="add-another-child"
+                     {% if expense['add-another-child'] == 'on' %} checked {% endif %}>
+              Add another child
+            </label>
+
+          </fieldset>
+        </div>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="about-child-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

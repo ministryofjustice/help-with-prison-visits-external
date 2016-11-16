@@ -1,0 +1,82 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        What is your date of birth?
+      </h2>
+
+      <form action="/apply/{{ claimType }}/new-eligibility" method="post">
+
+        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
+          <fieldset>
+
+            {% if errors['dob'][0] %}
+              <span class="error-message">{{ errors['dob'][0] }}</span>
+            {% endif %}
+
+            <div id="dob" class="form-date">
+
+              <p class="form-hint">For example, 18 08 1989</p>
+
+              <div class="form-group form-group-day">
+                <label id="dob-day" for="dob-day-input">Day</label>
+                <input id="dob-day-input"
+                       type="number"
+                       name="dob-day"
+                       value="{{ claimant['dob-day'] }}"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-month">
+                <label id="dob-month" for="dob-month-input">Month</label>
+                <input id="dob-month-input"
+                       type="number"
+                       name="dob-month"
+                       value="{{ claimant['dob-month'] }}"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-year">
+                <label id="dob-year" for="dob-year-input">Year</label>
+                <input id="dob-year-input"
+                       type="number"
+                       name="dob-year"
+                       value="{{ claimant['dob-year'] }}"
+                       class="form-control">
+              </div>
+
+            </div>
+
+          </fieldset>
+          <br>
+          <p class="form-hint">You must be over 16 to be eligible for assistance</p>
+        </div>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="date-of-birth-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

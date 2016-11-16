@@ -18,7 +18,7 @@ module.exports.getRedirectUrl = function (req) {
     return req.originalUrl
   }
   var params = getParams(req.body.expenses, toArray(req.query))
-  return buildUrl(params, req.params.referenceId, req.params.claimId)
+  return buildUrl(params, req.params.claimType, req.params.referenceId, req.params.claimId)
 }
 
 function getParams (expenseParams, queryParams) {
@@ -42,14 +42,14 @@ function getPath (params) {
 }
 
 // Shift the array to remove the first param as we will be redirecting to this page.
-function buildUrl (params, referenceId, claimId) {
+function buildUrl (params, claimType, referenceId, claimId) {
   var path = getPath(params)
   params.shift()
-  return `/first-time/eligibility/${referenceId}/claim/${claimId}/${path}${paramBuilder.format(params)}`
+  return `/apply/${claimType}/eligibility/${referenceId}/claim/${claimId}/${path}${paramBuilder.format(params)}`
 }
 
 function isValid (req) {
-  return req && req.body && req.query && req.originalUrl && req.params && req.params.referenceId && req.params.claimId
+  return req && req.body && req.query && req.originalUrl && req.params && req.params.claimType && req.params.referenceId && req.params.claimId
 }
 
 function isEmpty (array) {
