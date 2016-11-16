@@ -1,3 +1,5 @@
+const config = require('../config')
+
 /**
  * Adds a table function to the IntSchema that retrieves all claims with the given reference number and dob and grants
  * the external web user permissions to call it.
@@ -9,30 +11,30 @@ exports.up = function (knex, Promise) {
   return knex.schema
     .raw(
       `
-        CREATE FUNCTION IntSchema.getHistoricClaims(@reference varchar(7), @dob datetime) 
+        CREATE FUNCTION IntSchema.getHistoricClaims(@reference varchar(7), @dob datetime)
         RETURNS TABLE
         AS
         RETURN
         (
-          SELECT 
-            Claim.ClaimId, 
-            Claim.DateOfJourney, 
-            Claim.Status, 
+          SELECT
+            Claim.ClaimId,
+            Claim.DateOfJourney,
+            Claim.Status,
             Visitor.DateOfBirth,
-            Prisoner.FirstName, 
+            Prisoner.FirstName,
             Prisoner.LastName,
             Prisoner.NameOfPrison,
             Prisoner.PrisonNumber
           FROM IntSchema.Claim AS Claim
             JOIN IntSchema.Visitor AS Visitor ON Visitor.EligibilityId = Claim.EligibilityId
             JOIN IntSchema.Prisoner AS Prisoner ON Prisoner.EligibilityId = Claim.EligibilityId
-          WHERE 
+          WHERE
             Claim.Reference = @reference AND
             Visitor.DateOfBirth = @dob
         )
       `
     )
-    .raw('GRANT SELECT ON IntSchema.getHistoricClaims TO ??;', [process.env.APVS_EXT_WEB_USERNAME])
+    .raw('GRANT SELECT ON IntSchema.getHistoricClaims TO ??;', [config.EXT_WEB_USERNAME])
     .catch(function (error) {
       console.log(error)
       throw error
