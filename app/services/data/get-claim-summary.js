@@ -31,7 +31,13 @@ module.exports = function (claimId) {
           return knex('Claim')
             .join('ClaimExpense', 'Claim.ClaimId', '=', 'ClaimExpense.ClaimId')
             .where({ 'Claim.ClaimId': claimId, 'ClaimExpense.IsEnabled': true })
-            .select()
+            .select('ClaimExpense.*', 'ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
+            .leftJoin('ClaimDocument', function () {
+              this
+                .on('ClaimExpense.ClaimId', 'ClaimDocument.ClaimId')
+                .on('ClaimExpense.ClaimExpenseId', 'ClaimDocument.ClaimExpenseId')
+                .on('ClaimExpense.IsEnabled', 'ClaimDocument.IsEnabled')
+            })
             .then(function (claimExpenses) {
               claimExpenses.forEach(function (expense) {
                 expense.Cost = Number(expense.Cost).toFixed(2)
