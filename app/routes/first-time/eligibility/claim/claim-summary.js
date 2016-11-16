@@ -60,7 +60,7 @@ module.exports = function (router) {
       })
   })
 
-  router.get('/first-time/eligibility/:referenceId/claim/:claimId/summary/view-file/:claimDocumentId', function (req, res, next) {
+  router.get('/first-time/eligibility/:referenceId/claim/:claimId/summary/view-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
 
     getClaimDocumentFilePath(req.params.claimDocumentId)

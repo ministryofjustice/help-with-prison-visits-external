@@ -45,7 +45,7 @@
                 <li>
                   <span class="text-success">Benefit documentation uploaded</span>
                   <form
-                    action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-file/{{ benefit['ClaimDocumentId'] }}"
+                    action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-document/{{ benefit['ClaimDocumentId'] }}"
                     method="get" class="form pull-right">
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     <button class="link">view</button>
@@ -64,7 +64,7 @@
             {% else %}
               <span class="text-success">Benefit documentation uploaded</span>
               <form
-                action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-file/{{ claimDetails.claim.benefitDocument[0]['ClaimDocumentId'] }}"
+                action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-document/{{ claimDetails.claim.benefitDocument[0]['ClaimDocumentId'] }}"
                 method="get" class="form pull-right">
                 <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                 <button class="link">view</button>
@@ -134,7 +134,7 @@
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
           <span class="text-success">Visit confirmation uploaded</span>
           <form
-            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-file/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}"
+            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-document/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}"
             method="get" class="form pull-right">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             <button class="link">view</button>

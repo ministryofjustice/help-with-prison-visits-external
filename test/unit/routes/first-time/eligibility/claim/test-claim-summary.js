@@ -89,10 +89,10 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
     })
   })
 
-  describe('GET /first-time/eligibility/:referenceId/claim/:claimId/summary/view-file/:claimDocumentId', function () {
+  describe('GET /first-time/eligibility/:referenceId/claim/:claimId/summary/view-document/:claimDocumentId', function () {
     it('should respond respond with 200 if valid path entered', function (done) {
       request
-        .get(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/view-file/${CLAIMDOCUMENTID}`)
+        .get(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/view-document/${CLAIMDOCUMENTID}`)
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
@@ -104,7 +104,7 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
     it('should respond with 500 if invalid path provided', function (done) {
       getClaimDocumentFilePath.resolves('invalid-filepath')
       request
-        .get(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/view-file/${CLAIMDOCUMENTID}`)
+        .get(`/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/view-document/${CLAIMDOCUMENTID}`)
         .expect(500, done)
     })
   })
