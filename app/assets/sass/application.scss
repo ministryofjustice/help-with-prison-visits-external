@@ -241,6 +241,23 @@ span.mileage input{
  text-align:right;
  }
 
+ ul.doc-upload li {
+    display:block;
+    margin:5px 0 10px 0;
+    padding:0;
+    width:100%;
+    float:left;
+    overflow:auto;
+}
+
+ul.doc-upload {
+    width:100%;
+    float:left;
+    position:relative;
+    margin:0 0 0px 0;
+}
+
+
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 
 span.bold {

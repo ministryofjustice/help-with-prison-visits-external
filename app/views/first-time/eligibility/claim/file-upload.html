@@ -49,7 +49,7 @@
           </details>
         </div>
 
-        <div id="alternative" class="form-group">
+        <div id="alternative" class="form-group" {% if hideAlternative %} hidden {% endif %}>
           <br>
           <h4 class="heading-small">Cannot Upload now?</h4>
           <p>Your application will not be processed until we receive your file </p>
@@ -64,7 +64,7 @@
             <input type="radio" name="alternative" value="upload-later" id="UploadLater">
             <span class="heading-small">Upload later</span>
             <br> You can upload later, you will receive a reference number which you will use to finish your application
-          </label>  
+          </label>
         </div>
 
         <div class="form-group">

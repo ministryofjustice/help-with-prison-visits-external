@@ -1,9 +1,10 @@
-var supertest = require('supertest')
-var proxyquire = require('proxyquire')
-var express = require('express')
+const supertest = require('supertest')
+const proxyquire = require('proxyquire')
+const express = require('express')
 const expect = require('chai').expect
-var mockViewEngine = require('../../../mock-view-engine')
-var bodyParser = require('body-parser')
+const mockViewEngine = require('../../../mock-view-engine')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const sinon = require('sinon')
 require('sinon-bluebird')
 
@@ -41,6 +42,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
 
     var app = express()
     app.use(bodyParser.json())
+    app.use(cookieParser())
     mockViewEngine(app, '../../../app/views')
     route(app)
     request = supertest(app)
@@ -48,50 +50,57 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
   })
 
   describe(`GET ${ROUTE}`, function () {
-    it('should respond with a 200', function (done) {
-      request
+    it('should respond with a 200', function () {
+      return request
         .get(ROUTE)
         .expect(200)
-        .end(function (error, response) {
-          expect(error).to.be.null
+        .expect(function () {
           expect(urlValidatorCalled).to.be.true
-          done()
         })
     })
   })
 
   describe(`POST ${ROUTE}`, function () {
-    it('should respond with a 302', function (done) {
+    it('should respond with a 302', function () {
       var newBankAccountDetails = {}
       stubBankAccountDetails.returns(newBankAccountDetails)
       stubInsertBankAccountDetailsForClaim.resolves()
       stubSubmitFirstTimeClaim.resolves()
 
-      request
+      return request
         .post(ROUTE)
         .send(VALID_DATA)
         .expect(302)
-        .end(function (error, response) {
-          expect(error).to.be.null
+        .expect(function (response) {
           expect(urlValidatorCalled).to.be.true
           sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
           sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newBankAccountDetails)
-          sinon.assert.calledWith(stubSubmitFirstTimeClaim, REFERENCE, ELIGIBILITYID, CLAIMID)
+          sinon.assert.calledWith(stubSubmitFirstTimeClaim, REFERENCE, ELIGIBILITYID, CLAIMID, undefined)
           expect(response.headers['location']).to.be.equal(`/application-submitted/${REFERENCE}`)
-          done()
         })
     })
 
-    it('should respond with a 400 if validation fails', function (done) {
+    it('should use assisted digital cookie value', function () {
+      var assistedDigitalCaseWorker = 'a@b.com'
+      stubBankAccountDetails.returns({})
+      stubInsertBankAccountDetailsForClaim.resolves()
+      stubSubmitFirstTimeClaim.resolves()
+
+      return request
+        .post(ROUTE)
+        .send(VALID_DATA)
+        .set('Cookie', [`apvs-assisted-digital=${assistedDigitalCaseWorker}`])
+        .expect(302)
+        .expect(function () {
+          sinon.assert.calledWith(stubSubmitFirstTimeClaim, REFERENCE, ELIGIBILITYID, CLAIMID, assistedDigitalCaseWorker)
+        })
+    })
+
+    it('should respond with a 400 if validation fails', function () {
       stubBankAccountDetails.throws(new ValidationError({ 'firstName': {} }))
-      request
+      return request
         .post(ROUTE)
         .expect(400)
-        .end(function (error, response) {
-          expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
-          done()
-        })
     })
   })
 })
