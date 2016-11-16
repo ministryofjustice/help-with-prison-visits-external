@@ -3,5 +3,6 @@ $('#document').change(function () {
   if (document) {
     $('#alternative').hide()
     $('#document-name').html(document)
+    $('#choose-file').html('Choose a different file')
   }
 })

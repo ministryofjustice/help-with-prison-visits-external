@@ -15,6 +15,8 @@ module.exports = function (router) {
 
     getClaimSummary(req.params.claimId)
       .then(function (claimDetails) {
+        console.log(claimDetails.claimExpenses)
+        console.log(claimDetails.claim.benefitDocument)
         return res.render('first-time/eligibility/claim/claim-summary',
           {
             referenceId: req.params.referenceId,
@@ -60,19 +62,7 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/first-time/eligibility/:referenceId/claim/:claimId/summary/remove/:claimExpenseId', function (req, res, next) {
-    UrlPathValidator(req.params)
-
-    removeClaimExpense(req.params.claimId, req.params.claimExpenseId)
-      .then(function () {
-        return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
-      })
-      .catch(function (error) {
-        next(error)
-      })
-  })
-
-  router.get('/first-time/eligibility/:referenceId/claim/:claimId/summary/viewFile/:claimDocumentId', function (req, res, next) {
+  router.get('/first-time/eligibility/:referenceId/claim/:claimId/summary/view-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
@@ -90,11 +80,28 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/first-time/eligibility/:referenceId/claim/:claimId/summary/removeFile/:claimDocumentId', function (req, res, next) {
+  router.post('/first-time/eligibility/:referenceId/claim/:claimId/summary/remove-expense/:claimExpenseId', function (req, res, next) {
     UrlPathValidator(req.params)
-    removeClaimDocument(req.params.claimDocumentId)
+
+    removeClaimExpense(req.params.claimId, req.params.claimExpenseId)
       .then(function () {
         return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+      })
+      .catch(function (error) {
+        next(error)
+      })
+  })
+
+  router.post('/first-time/eligibility/:referenceId/claim/:claimId/summary/remove-document/:claimDocumentId', function (req, res, next) {
+    UrlPathValidator(req.params)
+
+    removeClaimDocument(req.params.claimDocumentId)
+      .then(function () {
+        if (req.query.multipage) {
+          return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+        } else {
+          return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
+        }
       })
       .catch(function (error) {
         next(error)
