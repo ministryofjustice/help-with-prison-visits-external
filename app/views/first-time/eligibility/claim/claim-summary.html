@@ -31,7 +31,7 @@
     </tr>
     {% endfor %}
 
-    <tr>
+    <tr id='benefit-information'{% if errors['benefit-information'][0] %} class="warning" {% endif %}>
       <td>Benefit information</td>
       <td>
         {{ benefitsEnum[claimDetails.claim['Benefit']].displayName }}

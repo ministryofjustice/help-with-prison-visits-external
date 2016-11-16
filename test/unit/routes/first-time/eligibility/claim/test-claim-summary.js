@@ -26,7 +26,9 @@ describe('routes/first-time/eligibility/claim/claim-summary', function () {
   beforeEach(function () {
     getClaimSummary = sinon.stub().resolves({
       claim: {
-        visitConfirmation: ''
+        visitConfirmation: '',
+        Benefit: '',
+        benefitDocument: []
       }
     })
     getClaimDocumentFilePath = sinon.stub().resolves(FILEPATH_RESULT)
