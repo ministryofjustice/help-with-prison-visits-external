@@ -1,6 +1,18 @@
-// TODO: We will need to persist test data to the database prior to running this test once the check on the reference number/dob combination existing is in place.
-describe('Repeat Claim Flow', () => {
-  it('should display each page in the repeat claim flow', () => {
+const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
+const internalVisitorHelper = require('../helpers/data/internal/internal-visitor-helper')
+
+describe('Repeat Claim Flow', function () {
+  const REFERENCE = 'REP1234'
+
+  before(function () {
+    return internalEligibilityHelper.insertEligibilityAndClaim(REFERENCE)
+  })
+
+  after(function () {
+    return internalEligibilityHelper.deleteAll(REFERENCE)
+  })
+
+  it('should display each page in the repeat claim flow', function () {
     return browser.url('/')
 
       // Index
@@ -9,10 +21,10 @@ describe('Repeat Claim Flow', () => {
 
       // Start
       .waitForExist('#already-registered-submit')
-      .setValue('#reference', 'APVS123') // TODO: This should be replaced with the persisted reference.
-      .setValue('#dob-day-input', '01')
-      .setValue('#dob-month-input', '05')
-      .setValue('#dob-year-input', '1955')
+      .setValue('#reference', REFERENCE)
+      .setValue('#dob-day-input', internalVisitorHelper.DAY)
+      .setValue('#dob-month-input', internalVisitorHelper.MONTH)
+      .setValue('#dob-year-input', internalVisitorHelper.YEAR)
       .click('#already-registered-submit')
 
       // Your Claims

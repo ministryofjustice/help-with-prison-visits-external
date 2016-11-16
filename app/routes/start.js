@@ -1,9 +1,15 @@
 const AlreadyRegistered = require('../services/domain/already-registered')
 const ValidationError = require('../services/errors/validation-error')
+const ERROR_MESSAGES = require('../services/validators/validation-error-messages')
 
 module.exports = function (router) {
   router.get('/start', function (req, res) {
-    return res.render('start')
+    if (req.query.error !== 'yes') {
+      return res.render('start')
+    }
+    return res.render('start', {
+      errors: { invalidReferenceNumberAndDob: [ ERROR_MESSAGES.getInvalidReferenceNumberAndDob ] }
+    })
   })
 
   router.post('/start', function (req, res) {

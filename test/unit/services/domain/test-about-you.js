@@ -124,7 +124,7 @@ describe('services/domain/about-you', function () {
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
 
-      expect(e.validationErrors['NationalInsuranceNumber'][0]).to.equal('National Insurance number must have valid format')
+      expect(e.validationErrors['NationalInsuranceNumber'][0]).to.equal('National insurance number must have valid format')
     }
     done()
   })

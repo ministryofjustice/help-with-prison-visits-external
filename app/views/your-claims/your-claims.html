@@ -20,7 +20,29 @@
 
     <br>
     <br>
-    <br>
+
+    <div class="column-one-half">
+
+      <ul class="visit-info">
+
+        <li>
+          <span class="text-secondary">Prisoner name</span>
+          <div class="bold-small">{{ claims[0].FirstName }} {{ claims[0].LastName }}</div>
+        </li>
+
+        <li>
+          <span class="text-secondary">Prison</span>
+          <div class="bold-small">{{ claims[0].NameOfPrison }}</div>
+        </li>
+
+        <li>
+          <span class="text-secondary">Prisoner no.</span>
+          <div class="bold-small">{{ claims[0].PrisonNumber }}</div>
+        </li>
+
+      </ul>
+
+    </div>
 
     <div class="column-one-quarter">
       <input id="your-claims-submit"
@@ -45,9 +67,10 @@
 
     {% for claim in claims %}
       <tr>
-        <td>{{ claim.DateOfClaim }}</td>
-        <td>{{ claim.Status }}</td>
-        <td><a href="{{ claim.Link }}">View</a></td>
+        <td>{{ dateHelper(claim.DateOfJourney) }}</td>
+        <td>{{ claimStatusHelper(claim.Status) }}</td>
+        <!-- TODO: Need to redirect to a real page. -->
+        <td><a href="#{{ claim.ClaimId }}">View</a></td>
       </tr>
     {% endfor %}
 

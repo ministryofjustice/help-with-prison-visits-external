@@ -18,5 +18,6 @@ module.exports = {
   getIsValidOption: function (displayName) { return `${displayName} must be a valid option` },
   getUploadTooLarge: 'File uploaded too large',
   getUploadIncorrectType: 'File uploaded was not an image or pdf',
-  getUploadFileAndAlternativeSelected: 'Both file uploaded and alternative option selected'
+  getUploadFileAndAlternativeSelected: 'Both file uploaded and alternative option selected',
+  getInvalidReferenceNumberAndDob: 'Could not find any claims for these details'
 }

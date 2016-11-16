@@ -12,12 +12,15 @@ describe('/your-claims/your-claims', function () {
   var app
 
   var urlPathValidatorStub
+  var getHistoricClaimsStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
+    getHistoricClaimsStub = sinon.stub()
 
     var route = proxyquire('../../../../app/routes/your-claims/your-claims', {
-      '../../services/validators/url-path-validator': urlPathValidatorStub
+      '../../services/validators/url-path-validator': urlPathValidatorStub,
+      '../../services/data/get-historic-claims': getHistoricClaimsStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -31,10 +34,19 @@ describe('/your-claims/your-claims', function () {
         })
     })
 
-    it('should respond with a 200', function () {
+    it('should respond with a 200 if the database query returns a result', function () {
+      getHistoricClaimsStub.resolves([''])
       return supertest(app)
         .get(ROUTE)
         .expect(200)
+    })
+
+    it('should respond with a 302 and redirect if passed a non-matching reference number dob combination', function () {
+      getHistoricClaimsStub.resolves([])
+      return supertest(app)
+        .get(ROUTE)
+        .expect(302)
+        .expect('location', '/start?error=yes')
     })
   })
 })
