@@ -1,5 +1,5 @@
-const claimDescionEnum = require('../../constants/claim-decision-enum')
+const claimDecisionEnum = require('../../constants/claim-decision-enum')
 
 module.exports = function (status) {
-  return claimDescionEnum[status] ? claimDescionEnum[status] : status
+  return claimDecisionEnum[status] ? claimDecisionEnum[status] : status
 }
