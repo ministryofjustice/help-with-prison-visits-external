@@ -24,12 +24,20 @@ describe('routes/index', function () {
   })
 
   describe('GET /', function () {
-    it('should respond with a 200', function (done) {
-      request
+    it('should respond with a 200', function () {
+      return request
         .get('/')
-        .expect(200, function (error) {
-          expect(error).to.be.null
-          done()
+        .expect(200)
+    })
+  })
+
+  describe('GET /assisted-digital?caseworker=a@b.com', function () {
+    it('should respond with a 302 and set cookie', function () {
+      return request
+        .get('/assisted-digital?caseworker=a@b.com')
+        .expect(302)
+        .expect(function (response) {
+          expect(response.header['set-cookie'][0]).to.contain('apvs-assisted-digital')
         })
     })
   })
