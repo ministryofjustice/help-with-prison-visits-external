@@ -97,7 +97,15 @@ module.exports = function (router) {
 
     removeClaimDocument(req.params.claimDocumentId)
       .then(function () {
-        return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}`)
+        if (req.query.multipage) {
+          return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+        } else {
+          if (req.query.claimExpenseId) {
+            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
+          } else {
+            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}`)
+          }
+        }
       })
       .catch(function (error) {
         next(error)

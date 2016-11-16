@@ -124,8 +124,8 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
   })
 
-  describe('POST /apply/first-time/eligibility/:referenceId/claim/:claimId/summary/remove-document/:claimDocumentId', function () {
-    it('should respond with a 302 and call removeClaimDocument', function (done) {
+  describe('POST apply/first-time/eligibility/:referenceId/claim/:claimId/summary/remove-document/:claimDocumentId', function () {
+    it('should respond with a 302, call removeClaimDocument and redirect to file upload', function (done) {
       request
         .post(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION`)
         .expect(302)
@@ -134,6 +134,19 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           expect(urlValidatorCalled).to.be.true
           expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
           expect(response.headers['location']).to.be.equal(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/file-upload?document=VISIT_CONFIRMATION`)
+          done()
+        })
+    })
+
+    it('should respond with a 302, call removeClaimDocument and redirect to claim summary', function (done) {
+      request
+        .post(`apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION&multipage=true`)
+        .expect(302)
+        .end(function (error, response) {
+          expect(error).to.be.null
+          expect(urlValidatorCalled).to.be.true
+          expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
+          expect(response.headers['location']).to.be.equal(`apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
           done()
         })
     })
