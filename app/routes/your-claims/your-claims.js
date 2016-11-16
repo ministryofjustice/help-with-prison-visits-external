@@ -8,7 +8,7 @@ const REFERENCE_DOB_ERROR = '?error=yes'
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference', function (req, res, next) {
     UrlPathValidator(req.params)
-    getClaimsWithReference(req.params.reference)
+    getClaimsWithReference(req.params.reference, req.params.dob)
       .then(function (claims) {
         if (claims.length === 0) {
           return res.redirect(`/start${REFERENCE_DOB_ERROR}`)

@@ -2,6 +2,7 @@ const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 const dateFormatter = require('../../../../app/services/date-formatter')
 
+module.exports.VISITOR_ID = Math.floor(Date.now() / 100) - 14000000000
 module.exports.TITLE = 'Mr'
 module.exports.FIRST_NAME = 'John'
 module.exports.LAST_NAME = 'Smith'
@@ -23,7 +24,8 @@ module.exports.REQURE_BENEFIT_UPLOAD = false
 module.exports.BENEFIT = 'income-support'
 
 module.exports.insert = function (reference, eligibilityId) {
-  return knex('Visitor').insert({
+  return knex('IntSchema.Visitor').insert({
+    VisitorId: this.VISITOR_ID,
     EligibilityId: eligibilityId,
     Reference: reference,
     Title: this.TITLE,
@@ -45,12 +47,12 @@ module.exports.insert = function (reference, eligibilityId) {
 
 module.exports.get = function (reference) {
   return knex.first()
-    .from('ExtSchema.Visitor')
+    .from('IntSchema.Visitor')
     .where('Reference', reference)
 }
 
 module.exports.delete = function (reference) {
-  return knex('ExtSchema.Visitor')
+  return knex('IntSchema.Visitor')
     .where('Reference', reference)
     .del()
 }
