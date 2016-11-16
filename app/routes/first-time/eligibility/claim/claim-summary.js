@@ -37,9 +37,7 @@ module.exports = function (router) {
       .then(function (claimDetails) {
         savedClaimDetails = claimDetails
         var benefitDocument
-        if (claimDetails.claim.benefitDocument === []) {
-          benefitDocument = {DocumentStatus: null}
-        } else {
+        if (claimDetails.claim.benefitDocument.length > 0) {
           benefitDocument = claimDetails.claim.benefitDocument[0]
         }
         var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation, claimDetails.claim.Benefit, benefitDocument) // eslint-disable-line no-unused-vars
