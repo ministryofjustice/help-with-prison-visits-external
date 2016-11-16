@@ -18,7 +18,7 @@ describe('services/data/get-historic-claims', function () {
   })
 
   it('should retrieve all claims with the given reference', function () {
-    return getClaimsWithReference(REFERENCE, internalVisitorHelper.DATE_OF_BIRTH)
+    return getClaimsWithReference(REFERENCE, internalVisitorHelper.DATE_OF_BIRTH.toDate())
       .then(function (claims) {
         expect(claims[0].ClaimId).to.equal(claimId)
         expect(claims[0].DateOfJourney).to.deep.equal(internalClaimHelper.DATE_OF_JOURNEY.toDate())
