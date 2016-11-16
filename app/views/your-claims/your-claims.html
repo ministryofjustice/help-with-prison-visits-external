@@ -21,16 +21,27 @@
     <br>
     <br>
 
-    <div class="column-one-quarter">
-      <span class="text-secondary">Prisoner name</span>
-      <div class="bold-small">{{ claims[0].FirstName }} {{ claims[0].LastName }}</div>
-    </div>
+    <div class="column-one-half">
 
-    <div class="column-one-quarter">
-      <span class="text-secondary">Prison</span>
-      <div class="bold-small">{{ claims[0].NameOfPrison }}</div>
-      <span class="text-secondary">Prisoner no.</span>
-      <div class="bold-small">{{ claims[0].PrisonNumber }}</div>
+      <ul class="visit-info">
+
+        <li>
+          <span class="text-secondary">Prisoner name</span>
+          <div class="bold-small">{{ claims[0].FirstName }} {{ claims[0].LastName }}</div>
+        </li>
+
+        <li>
+          <span class="text-secondary">Prison</span>
+          <div class="bold-small">{{ claims[0].NameOfPrison }}</div>
+        </li>
+
+        <li>
+          <span class="text-secondary">Prisoner no.</span>
+          <div class="bold-small">{{ claims[0].PrisonNumber }}</div>
+        </li>
+
+      </ul>
+
     </div>
 
     <div class="column-one-quarter">
