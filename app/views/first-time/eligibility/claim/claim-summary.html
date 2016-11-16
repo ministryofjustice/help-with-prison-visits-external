@@ -187,7 +187,7 @@
     {% for claimExpense in claimDetails.claimExpenses %}
     <tr>
       <td>
-        <span class="bold pull-left">{{ claimExpenseHelper.DisplayName(claimExpense) }} - </span>
+        <span class="bold pull-left expense-padding">{{ claimExpenseHelper.DisplayName(claimExpense) }} - </span>
         <form
           action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-expense/{{ claimExpense.ClaimExpenseId}}"
           method="post" class="form">
