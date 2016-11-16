@@ -7,7 +7,7 @@ const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const dateFormatter = require('../date-formatter')
 
-module.exports = function (reference, eligibilityId, claimId) {
+module.exports = function (reference, eligibilityId, claimId, assistedDigitalCaseworker) {
   var dateSubmitted = dateFormatter.now().toDate()
 
   return knex('Claim')
@@ -19,7 +19,7 @@ module.exports = function (reference, eligibilityId, claimId) {
       }
 
       return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
-                          updateClaim(claimId, dateSubmitted),
+                          updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker),
                           insertTaskCompleteFirstTimeClaim(reference, eligibilityId, claimId),
                           insertTaskSendFirstTimeClaimNotification(reference, eligibilityId, claimId)])
     })
@@ -32,9 +32,10 @@ function updateEligibility (reference, eligibilityId, dateSubmitted) {
   })
 }
 
-function updateClaim (claimId, dateSubmitted) {
+function updateClaim (claimId, dateSubmitted, assistedDigitalCaseworker) {
   return knex('Claim').where('ClaimId', claimId).update({
     'Status': claimStatusEnum.SUBMITTED,
-    'DateSubmitted': dateSubmitted
+    'DateSubmitted': dateSubmitted,
+    'AssistedDigitalCaseworker': assistedDigitalCaseworker
   })
 }

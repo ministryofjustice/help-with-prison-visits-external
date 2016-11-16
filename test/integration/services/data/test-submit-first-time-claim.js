@@ -31,8 +31,9 @@ describe('services/data/submit-first-time-claim', function () {
 
   it('should update Eligibility and Claim status and DateSubmitted then call insertTaskSendFirstTimeClaimNotification', function () {
     var currentDate = new Date()
+    var assistedDigitalCaseworker = 'a@b.com'
 
-    submitFirstTimeClaim(REFERENCE, eligibilityId, claimId)
+    submitFirstTimeClaim(REFERENCE, eligibilityId, claimId, assistedDigitalCaseworker)
       .then(function () {
         knex.first().from('ExtSchema.Eligibility').where('Reference', REFERENCE)
           .then(function (eligibility) {
@@ -42,6 +43,7 @@ describe('services/data/submit-first-time-claim', function () {
                 expect(eligibility.DateSubmitted).to.be.within(currentDate.setMinutes(currentDate.getMinutes() - 2), currentDate.setMinutes(currentDate.getMinutes() + 2))
 
                 expect(claim.Status).to.equal(claimStatusEnum.SUBMITTED)
+                expect(claim.AssistedDigitalCaseworker).to.equal(assistedDigitalCaseworker)
                 expect(claim.DateSubmitted).to.be.within(currentDate.setMinutes(currentDate.getMinutes() - 2), currentDate.setMinutes(currentDate.getMinutes() + 2))
 
                 expect(stubInsertTaskCompleteFirstTimeClaim.calledWith(REFERENCE, eligibilityId, claimId)).to.be.true
@@ -52,7 +54,7 @@ describe('services/data/submit-first-time-claim', function () {
   })
 
   it('should throw an error if no valid claim', function () {
-    return submitFirstTimeClaim('NONE123', 4321, 123456)
+    return submitFirstTimeClaim('NONE123', 4321, 123456, undefined)
       .catch(function (error) {
         expect(error.message).to.contain('Could not find Claim')
       })
