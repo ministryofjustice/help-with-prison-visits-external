@@ -1,5 +1,6 @@
 const AlreadyRegistered = require('../services/domain/already-registered')
 const ValidationError = require('../services/errors/validation-error')
+const ERROR_MESSAGES = require('../services/validators/validation-error-messages')
 
 module.exports = function (router) {
   router.get('/start', function (req, res) {
@@ -7,9 +8,7 @@ module.exports = function (router) {
       return res.render('start')
     }
     return res.render('start', {
-      errors: {
-        invalid: [ 'The reference number date of birth combination you provided was invalid' ]
-      }
+      errors: { invalidReferenceNumberAndDob: [ ERROR_MESSAGES.getInvalidReferenceNumberAndDob ] }
     })
   })
 
