@@ -36,7 +36,11 @@ module.exports = function (router) {
     getClaimSummary(req.params.claimId)
       .then(function (claimDetails) {
         savedClaimDetails = claimDetails
-        var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation, claimDetails.claim.Benefit, claimDetails.claim.benefitDocument[0]) // eslint-disable-line no-unused-vars
+        var benefitDocument = claimDetails.claim.benefitDocument[0]
+        if (!benefitDocument) {
+          benefitDocument = {DocumentStatus: null}
+        }
+        var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation, claimDetails.claim.Benefit, benefitDocument) // eslint-disable-line no-unused-vars
         return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/bank-account-details`)
       })
       .catch(function (error) {
