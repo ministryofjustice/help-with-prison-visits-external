@@ -41,14 +41,14 @@
           {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'uploaded' %}
             <span class="text-success">Benefit documentation uploaded</span>
             <form
-              action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/viewFile/{{ claimDetails.claim.benefitDocument[0]['ClaimDocumentId'] }}"
+              action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-file/{{ claimDetails.claim.benefitDocument[0]['ClaimDocumentId'] }}"
               method="get" class="form pull-right">
               <input type="hidden" name="_csrf" value="{{ csrfToken }}">
               <button class="link">view</button>
             </form>
             <span class="button-separator"></span>
             <form
-              action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile/{{ claimDetails.claim.benefitDocument[0]['ClaimDocumentId'] }}"
+              action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimDetails.claim.benefitDocument[0]['ClaimDocumentId'] }}"
               method="post" class="form pull-right">
               <input type="hidden" name="_csrf" value="{{ csrfToken }}">
               <button class="link" name="remove">remove</button>
@@ -56,10 +56,10 @@
 
           {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' %}
             <span class="text-pending">Uploading benefit documentation later</span>
-            <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/change/{{ claimDetails.claim.benefitDocument[0].ClaimDocumentId }}?document={{ claimDetails.claim['Benefit'] }}" id="change-{{ claimDetails.claim['Benefit'] }}-upload-later" class="pull-right">change</a>
+            <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimDetails.claim.benefitDocument[0].ClaimDocumentId }}?document={{ claimDetails.claim['Benefit'] }}" id="change-{{ claimDetails.claim['Benefit'] }}-upload-later" class="pull-right">change</a>
           {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'post-later' %}
             <span class="text-pending">Sending benefit documentation by post</span>
-            <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/change/{{ claimDetails.claim.benefitDocument[0].ClaimDocumentId }}?document={{ claimDetails.claim['Benefit'] }}" id="change-{{ claimDetails.claim['Benefit'] }}-post" class="pull-right">change</a>
+            <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimDetails.claim.benefitDocument[0].ClaimDocumentId }}?document={{ claimDetails.claim['Benefit'] }}" id="change-{{ claimDetails.claim['Benefit'] }}-post" class="pull-right">change</a>
           {% else %}
             <span class="text-warning">Benefit documentation required</span>
             <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document={{ claimDetails.claim['Benefit'] }}" id="add-benefit" class="button grey pull-right">Add</a>
@@ -101,24 +101,24 @@
         {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
           <span class="text-success">Visit confirmation uploaded</span>
           <form
-            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/viewFile/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}"
+            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-file/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}"
             method="get" class="form pull-right">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             <button class="link">view</button>
           </form>
           <span class="button-separator"></span>
           <form
-            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/removeFile/{{ claimDetails.claim.visitConfirmation['ClaimDocumentId'] }}"
+            action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimDetails.claim.visitConfirmation['ClaimDocumentId'] }}"
             method="post" class="form pull-right">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             <button class="link" name="remove">remove</button>
           </form>
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' %}
           <span class="text-pending">Uploading visit confirmation later</span>
-          <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/change/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}?document=VISIT_CONFIRMATION" id="change-visit-confirmation-upload-later" class="pull-right">change</a>
+          <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}?document=VISIT_CONFIRMATION" id="change-visit-confirmation-upload-later" class="pull-right">change</a>
         {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'post-later' %}
           <span class="text-pending">Sending visit confirmation by post</span>
-          <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/change/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}?document=VISIT_CONFIRMATION" id="change-visit-confirmation-post" class="pull-right">change</a>
+          <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}?document=VISIT_CONFIRMATION" id="change-visit-confirmation-post" class="pull-right">change</a>
         {% else %}
           <span class="text-warning">Visit confirmation required</span>
           <a href="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=VISIT_CONFIRMATION" id="add-visit-confirmation" class="button grey pull-right">Add</a>
@@ -147,7 +147,7 @@
         <span class="bold">{{ claimExpenseHelper.DisplayName(claimExpense) }} </span>
         <div>{{ claimExpenseHelper.FormattedDetail(claimExpense) }}</div>
         <form
-          action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove/{{ claimExpense.ClaimExpenseId}}"
+          action="/first-time/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-expense/{{ claimExpense.ClaimExpenseId}}"
           method="post" class="form">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}">
           <button class="expense link" name="remove">remove</button>
