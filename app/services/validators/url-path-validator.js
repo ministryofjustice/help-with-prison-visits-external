@@ -8,6 +8,7 @@ const VALIDATION_ERROR = new Error('An error has occured')
 class UrlPathValidator {
 
   static validate (path) {
+    this.validateParam(path['claimType'], 'isValidClaimType')
     this.validateParam(path['dob'], 'isValidDateOfBirth')
     this.validateParam(path['relationship'], 'isValidPrisonerRelationship')
     this.validateParam(path['benefit'], 'isValidBenefitResponse')

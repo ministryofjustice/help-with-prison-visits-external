@@ -5,6 +5,7 @@ const sinon = require('sinon')
 require('sinon-bluebird')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
+var urlPathValidatorStub
 var stubDateOfBirth
 var app
 
@@ -12,17 +13,27 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
   const ROUTE = '/apply/first-time/new-eligibility'
 
   beforeEach(function () {
+    urlPathValidatorStub = sinon.stub()
     stubDateOfBirth = sinon.stub()
 
     var route = proxyquire(
       '../../../../../app/routes/apply/new-eligibility/date-of-birth', {
-        '../../../services/domain/date-of-birth': stubDateOfBirth
+        '../../../services/domain/date-of-birth': stubDateOfBirth,
+        '../../../services/validators/url-path-validator': urlPathValidatorStub
       })
 
     app = routeHelper.buildApp(route)
   })
 
   describe(`GET ${ROUTE}`, function () {
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
     it('should respond with a 200', function () {
       return supertest(app)
         .get(ROUTE)
@@ -32,6 +43,14 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
 
   describe(`POST ${ROUTE}`, function () {
     describe('for over-sixteen date', function () {
+      it('should call the URL Path Validator', function () {
+        return supertest(app)
+          .get(ROUTE)
+          .expect(function () {
+            sinon.assert.calledOnce(urlPathValidatorStub)
+          })
+      })
+
       it('should respond with a 302 and redirect to /apply/first-time/new-eligibility/:dob', function () {
         var dob = '1980-10-10'
         stubDateOfBirth.returns({getDobFormatted: dob, sixteenOrUnder: false})

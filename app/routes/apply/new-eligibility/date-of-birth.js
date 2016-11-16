@@ -1,14 +1,17 @@
 const DateOfBirth = require('../../../services/domain/date-of-birth')
+const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const ValidationError = require('../../../services/errors/validation-error')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility', function (req, res) {
+    UrlPathValidator(req.params)
     return res.render('apply/new-eligibility/date-of-birth', {
       claimType: req.params.claimType
     })
   })
 
   router.post('/apply/:claimType/new-eligibility', function (req, res) {
+    UrlPathValidator(req.params)
     try {
       var dateOfBirth = new DateOfBirth(
         req.body['dob-day'],
