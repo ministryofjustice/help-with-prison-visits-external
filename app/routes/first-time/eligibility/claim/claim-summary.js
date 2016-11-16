@@ -15,7 +15,6 @@ module.exports = function (router) {
 
     getClaimSummary(req.params.claimId)
       .then(function (claimDetails) {
-        console.log(benefitsEnum[claimDetails.claim['Benefit']])
         return res.render('first-time/eligibility/claim/claim-summary',
           {
             referenceId: req.params.referenceId,
