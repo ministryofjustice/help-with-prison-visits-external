@@ -1,7 +1,9 @@
 /**
- * Adds a table function to the IntSchema that retrieves all claims with the given reference and grants the external
- * web user permissions to call it. We need to retrieve the claims from the Internal database as each successfuly
- * submitted claim is removed from the external database and copied to the internal database on submission.
+ * Adds a table function to the IntSchema that retrieves all claims with the given reference number and dob and grants
+ * the external web user permissions to call it.
+ *
+ * We need to retrieve the claims from the Internal database as each successfuly submitted application is copied to the
+ * internal database and then removed from the external database.
  */
 exports.up = function (knex, Promise) {
   return knex.schema
