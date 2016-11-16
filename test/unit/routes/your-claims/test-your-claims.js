@@ -41,17 +41,11 @@ describe('/your-claims/your-claims', function () {
         .expect(200)
     })
 
-    it('should respond with a 302 if passed a non-matching reference number', function () {
+    it('should respond with a 302 and redirect if passed a non-matching reference number dob combination', function () {
       getHistoricClaimsStub.resolves([])
       return supertest(app)
         .get(ROUTE)
         .expect(302)
-    })
-
-    it('should redirect to the start page with error query string set if passed a non-matching reference number', function () {
-      getHistoricClaimsStub.resolves([])
-      return supertest(app)
-        .get(ROUTE)
         .expect('location', '/start?error=yes')
     })
   })
