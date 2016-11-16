@@ -9,7 +9,7 @@ exports.up = function (knex, Promise) {
   return knex.schema
     .raw(
       `
-        CREATE FUNCTION IntSchema.getClaims(@reference varchar(7), @dob datetime) 
+        CREATE FUNCTION IntSchema.getHistoricClaims(@reference varchar(7), @dob datetime) 
         RETURNS TABLE
         AS
         RETURN
@@ -23,7 +23,7 @@ exports.up = function (knex, Promise) {
         )
       `
     )
-    .raw('GRANT SELECT ON IntSchema.getClaims TO ??;', [process.env.APVS_EXT_WEB_USERNAME])
+    .raw('GRANT SELECT ON IntSchema.getHistoricClaims TO ??;', [process.env.APVS_EXT_WEB_USERNAME])
     .catch(function (error) {
       console.log(error)
       throw error
@@ -32,7 +32,7 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
   return knex.schema
-    .raw('DROP FUNCTION IntSchema.getClaims')
+    .raw('DROP FUNCTION IntSchema.getHistoricClaims')
     .catch(function (error) {
       console.log(error)
       throw error
