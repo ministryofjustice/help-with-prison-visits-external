@@ -9,12 +9,13 @@ const receiptRequiredEnum = require('../../../../constants/receipt-required-enum
 const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimDocumentFilePath = require('../../../../services/data/get-claim-document-file-path')
+const referenceIdHelper = require('../../../helpers/reference-id-helper')
 
 module.exports = function (router) {
   router.get('/first-time/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
     UrlPathValidator(req.params)
-
-    getClaimSummary(req.params.claimId)
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+    getClaimSummary(req.params.claimId, referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
       .then(function (claimDetails) {
         return res.render('first-time/eligibility/claim/claim-summary',
           {
@@ -35,7 +36,8 @@ module.exports = function (router) {
   router.post('/first-time/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
     UrlPathValidator(req.params)
     var savedClaimDetails
-    getClaimSummary(req.params.claimId)
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+    getClaimSummary(req.params.claimId, referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
       .then(function (claimDetails) {
         savedClaimDetails = claimDetails
         var benefitDocument
