@@ -110,14 +110,15 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
   })
 
   describe('POST /apply/first-time/eligibility/:referenceId/claim/:claimId/summary/remove-expense/:claimExpenseId', function () {
-    it('should respond with a 302 and call removeClaimExpense', function (done) {
+    it('should respond with a 302 and call removeClaimExpense and removeClaimDocument', function (done) {
       request
-        .post(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/remove-expense/${CLAIMEXPENSEID}`)
+        .post(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/remove-expense/${CLAIMEXPENSEID}?claimDocumentId=${CLAIMDOCUMENTID}`)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(removeClaimExpense.calledWith(CLAIMID, CLAIMEXPENSEID)).to.be.true
+          expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
           expect(response.headers['location']).to.be.equal(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
           done()
         })

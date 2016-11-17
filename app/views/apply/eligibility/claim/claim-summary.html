@@ -189,7 +189,7 @@
       <td>
         <span class="bold pull-left expense-padding">{{ claimExpenseHelper.DisplayName(claimExpense) }} - </span>
         <form
-          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-expense/{{ claimExpense.ClaimExpenseId}}"
+          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-expense/{{ claimExpense.ClaimExpenseId}}?claimDocumentId={{ claimExpense.ClaimDocumentId }}"
           method="post" class="form">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}">
           <button class="expense link" name="remove">remove expense</button>
