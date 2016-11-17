@@ -86,7 +86,10 @@ module.exports = function (router) {
 
     removeClaimExpense(req.params.claimId, req.params.claimExpenseId)
       .then(function () {
-        return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+        removeClaimDocument(req.query.claimDocumentId)
+          .then(function () {
+            return res.redirect(`/first-time/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+          })
       })
       .catch(function (error) {
         next(error)
