@@ -8,6 +8,7 @@ const prisonerRelationshipsEnum = require('../../constants/prisoner-relationship
 const benefitsEnum = require('../../constants/benefits-enum')
 const childRelationshipEnum = require('../../constants/child-relationship-enum')
 const booleanSelectEnum = require('../../constants/boolean-select-enum')
+const claimTypeEnum = require('../../constants/claim-type-enum')
 const referenceNumber = require('../../constants/reference-number-enum')
 const dateFormatter = require('../date-formatter')
 const NUM_YEARS_LIMIT = 120
@@ -138,6 +139,16 @@ exports.isValidBooleanSelect = function (value) {
   var result = false
   Object.keys(booleanSelectEnum).forEach(function (key) {
     if (booleanSelectEnum[key] === value) {
+      result = true
+    }
+  })
+  return result
+}
+
+exports.isValidClaimType = function (relationship) {
+  var result = false
+  Object.keys(claimTypeEnum).forEach(function (key) {
+    if (claimTypeEnum[key] === relationship) {
       result = true
     }
   })

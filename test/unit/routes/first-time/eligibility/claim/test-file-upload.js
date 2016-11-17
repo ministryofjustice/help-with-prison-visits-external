@@ -5,12 +5,12 @@ const sinon = require('sinon')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 require('sinon-bluebird')
 
-describe('routes/first-time/eligibility/claim/file-upload', function () {
+describe('routes/apply/eligibility/claim/file-upload', function () {
   const REFERENCE = 'V123456'
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIMID = '1'
-  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/file-upload?document=`
+  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/file-upload?document=`
 
   var app
   var urlPathValidatorStub
@@ -28,7 +28,7 @@ describe('routes/first-time/eligibility/claim/file-upload', function () {
     claimDocumentInsertStub = sinon.stub()
     generateCSRFTokenStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/file-upload', {
+    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/file-upload', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/directory-check': directoryCheckStub,
       '../../../../services/upload': uploadStub,

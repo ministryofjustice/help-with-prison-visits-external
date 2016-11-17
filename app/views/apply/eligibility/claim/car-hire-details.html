@@ -1,0 +1,102 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        About your car hire
+      </h2>
+
+      <p>You can get up to £40 a day for car hire, or the amount that public transport would have cost - whichever is
+        cheaper.</p>
+
+      <p>You will also get 13p per mile based on the shortest return journey.</p>
+
+      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/hire{{ params }}"
+            method="post">
+
+        <div class="form-group {% if errors['duration'][0] %} error {% endif %}">
+          <label id="duration" for="duration-input" class="form-label-bold">Number of days</label>
+
+          {% if errors['duration'][0] %}
+            <span class="error-message">{{ errors['duration'][0] }}</span>
+          {% endif %}
+
+          <input id="duration-input"
+                 type="text"
+                 name="duration"
+                 value="{{ expense['duration'] }}"
+                 class="form-control">
+        </div>
+
+        <div class="form-group {% if errors['from'][0] %} error {% endif %}">
+          <label id="from" for="from-input" class="form-label-bold">From</label>
+
+          {% if errors['from'][0] %}
+            <span class="error-message">{{ errors['from'][0] }}</span>
+          {% endif %}
+
+          <input id="from-input"
+                 type="text"
+                 name="from"
+                 value="{{ expense['from'] }}"
+                 class="form-control">
+          <p class="form-hint">For example, Euston</p>
+        </div>
+
+        <div class="form-group {% if errors['to'][0] %} error {% endif %}">
+          <label id="to" for="to-input" class="form-label-bold">To</label>
+
+          {% if errors['to'][0] %}
+            <span class="error-message">{{ errors['to'][0] }}</span>
+          {% endif %}
+
+          <input id="to-input"
+                 type="text"
+                 name="to"
+                 value="{{ expense['to'] }}"
+                 class="form-control">
+          <p class="form-hint">For example, Birmingham New Street</p>
+        </div>
+
+        <div class="form-group {% if errors['cost'][0] %} error {% endif %}">
+          <label id="cost" for="cost-input" class="form-label-bold">Rental cost</label>
+
+          {% if errors['cost'][0] %}
+            <span class="error-message">{{ errors['cost'][0] }}</span>
+          {% endif %}
+
+          <input id="cost-input"
+                 type="text"
+                 name="cost"
+                 value="{{ expense['cost'] }}"
+                 class="form-control">
+          <p class="form-hint">For example, £10</p>
+        </div>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="car-hire-details-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

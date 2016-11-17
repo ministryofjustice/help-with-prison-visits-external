@@ -6,16 +6,16 @@ const bodyParser = require('body-parser')
 const mockViewEngine = require('../../../mock-view-engine')
 var request
 
-describe('routes/first-time/eligibility/new-claim/future-or-past-visit', function () {
+describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () {
   const REFERENCEID = 'FUTPAST-1234'
-  const ROUTE = `/first-time/eligibility/${REFERENCEID}/new-claim`
+  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/new-claim`
   var urlValidatorCalled = false
 
   beforeEach(function () {
     var app = express()
     app.use(bodyParser.urlencoded({ extended: false }))
     mockViewEngine(app, '../../../app/views')
-    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/new-claim/future-or-past-visit', {
+    var route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/future-or-past-visit', {
       '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
     })
     route(app)
@@ -37,7 +37,7 @@ describe('routes/first-time/eligibility/new-claim/future-or-past-visit', functio
   })
 
   describe(`POST ${ROUTE}`, function () {
-    it('should redirect to /first-time/eligibility/:reference/new-claim/past', function (done) {
+    it('should redirect to /apply/first-time/eligibility/:reference/new-claim/past', function (done) {
       request
         .post(ROUTE)
         .expect(302)

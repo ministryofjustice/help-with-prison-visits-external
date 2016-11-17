@@ -4,6 +4,7 @@ const dateFormatter = require('../../../../app/services/date-formatter')
 const benefitsEnum = require('../../../../app/constants/benefits-enum')
 const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
 const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
+const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 
 describe('services/validators/common-validator', function () {
   const ALPHA_STRING = 'alpha'
@@ -747,6 +748,36 @@ describe('services/validators/common-validator', function () {
 
     it('should return false if passed an invalid value', function () {
       var result = validator.isValidBooleanSelect(INVALID_INPUT)
+      expect(result).to.equal(false)
+    })
+  })
+
+  describe('isValidClaimType', function () {
+    const VALID_INPUT = claimTypeEnum.FIRST_TIME
+    const INVALID_INPUT = 'some invalid input'
+
+    it('should return false if passed null', function () {
+      var result = validator.isValidClaimType(null)
+      expect(result).to.equal(false)
+    })
+
+    it('should return false if passed undefined', function () {
+      var result = validator.isValidClaimType(undefined)
+      expect(result).to.equal(false)
+    })
+
+    it('should throw Error if passed an object', function () {
+      var result = validator.isValidClaimType({})
+      expect(result).to.equal(false)
+    })
+
+    it('should return true if passed a valid value', function () {
+      var result = validator.isValidClaimType(VALID_INPUT)
+      expect(result).to.equal(true)
+    })
+
+    it('should return false if passed an invalid value', function () {
+      var result = validator.isValidClaimType(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })

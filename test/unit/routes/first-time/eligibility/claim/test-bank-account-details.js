@@ -10,12 +10,12 @@ require('sinon-bluebird')
 
 var ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('routes/first-time/eligibility/claim/bank-account-details', function () {
+describe('routes/apply/eligibility/claim/bank-account-details', function () {
   const REFERENCE = 'V123456'
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIMID = '1'
-  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`
+  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`
 
   var request
   var stubBankAccountDetails
@@ -33,7 +33,7 @@ describe('routes/first-time/eligibility/claim/bank-account-details', function ()
     stubSubmitFirstTimeClaim = sinon.stub()
 
     var route = proxyquire(
-      '../../../../../../app/routes/first-time/eligibility/claim/bank-account-details', {
+      '../../../../../../app/routes/apply/eligibility/claim/bank-account-details', {
         '../../../../services/domain/bank-account-details': stubBankAccountDetails,
         '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
         '../../../../services/data/submit-first-time-claim': stubSubmitFirstTimeClaim,

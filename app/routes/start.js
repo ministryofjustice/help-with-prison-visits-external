@@ -1,6 +1,7 @@
 const AlreadyRegistered = require('../services/domain/already-registered')
 const ValidationError = require('../services/errors/validation-error')
 const ERROR_MESSAGES = require('../services/validators/validation-error-messages')
+const claimTypeEnum = require('../constants/claim-type-enum')
 
 module.exports = function (router) {
   router.get('/start', function (req, res) {
@@ -12,7 +13,11 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/start', function (req, res) {
+  router.post('/start-first-time', function (req, res) {
+    res.redirect(`/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility`)
+  })
+
+  router.post('/start-already-registered', function (req, res) {
     var reference = req.body.reference
     var day = req.body['dob-day']
     var month = req.body['dob-month']
@@ -24,6 +29,7 @@ module.exports = function (router) {
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('start', {
+          claimType: req.params.claimType,
           dobDay: day,
           dobMonth: month,
           dobYear: year,

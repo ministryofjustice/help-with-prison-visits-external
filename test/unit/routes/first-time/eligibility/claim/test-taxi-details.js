@@ -6,12 +6,12 @@ require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('routes/first-time/eligibility/claim/taxi-details', function () {
+describe('routes/apply/eligibility/claim/taxi-details', function () {
   const REFERENCE = 'V123456'
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIMID = '1'
-  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/taxi`
+  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/taxi`
 
   var app
 
@@ -26,7 +26,7 @@ describe('routes/first-time/eligibility/claim/taxi-details', function () {
     insertExpenseStub = sinon.stub()
     taxiExpenseStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/taxi-details', {
+    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/taxi-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-expense': insertExpenseStub,

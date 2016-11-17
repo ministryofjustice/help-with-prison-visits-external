@@ -20,10 +20,16 @@
       <p>Apply for help and your details will be saved for next time.</p>
       <p>You’ll get a reference number at the end of your application.</p>
 
-      <a id="first-time-submit"
-         href="first-time/new-eligibility/"
-         role="button"
-         class="button">Apply</a>
+      <form action="/start-first-time" method="post">
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="first-time-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+
+      </form>
 
     </div>
 
@@ -44,7 +50,7 @@
 
       <br>
 
-      <form action="/start" method="post">
+      <form action="/start-already-registered" method="post">
 
         <div class="form-group {% if errors['reference'][0] %} error {% endif %}">
           <label class="form-label-bold" for="reference">Reference number</label>

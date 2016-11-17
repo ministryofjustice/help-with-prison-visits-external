@@ -1,0 +1,89 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        About your bus journey
+      </h2>
+
+      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/bus{{ params }}"
+            method="post">
+
+        <div class="form-group {% if errors['from'][0] %} error {% endif %}">
+          <label id="from" for="from-input" class="form-label-bold">From</label>
+
+          {% if errors['from'][0] %}
+            <span class="error-message">{{ errors['from'][0] }}</span>
+          {% endif %}
+
+          <input id="from-input"
+                 type="text"
+                 name="from"
+                 value="{{ expense['from'] }}"
+                 class="form-control">
+          <p class="form-hint">For example, Euston</p>
+        </div>
+
+        <div class="form-group {% if errors['to'][0] %} error {% endif %}">
+          <label id="to" for="to-input" class="form-label-bold">To</label>
+
+          {% if errors['to'][0] %}
+            <span class="error-message">{{ errors['to'][0] }}</span>
+          {% endif %}
+
+          <input id="to-input"
+                 type="text"
+                 name="to"
+                 value="{{ expense['to'] }}"
+                 class="form-control">
+          <p class="form-hint">For example, Birmingham New Street</p>
+        </div>
+
+        {% include "partials/expenses/return-journey.html" %}
+
+        {% include "partials/expenses/is-child.html" %}
+
+        <div class="form-group {% if errors['cost'][0] %} error {% endif %}">
+          <label id="cost" for="cost-input" class="form-label-bold">Cost</label>
+
+          {% if errors['cost'][0] %}
+            <span class="error-message">{{ errors['cost'][0] }}</span>
+          {% endif %}
+
+          <input id="cost-input"
+                 type="text"
+                 name="cost"
+                 value="{{ expense['cost'] }}"
+                 class="form-control">
+          <p class="form-hint">For example, £20</p>
+        </div>
+
+        {% include "partials/expenses/add-another-journey.html" %}
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="bus-details-submit"
+               type="submit"
+               class="button"
+               value="Continue">
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}
