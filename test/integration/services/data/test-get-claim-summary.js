@@ -35,7 +35,7 @@ describe('services/data/get-claim-summary', function () {
   })
 
   it('should return summary of claim details', function () {
-    return getClaimSummary(claimId)
+    return getClaimSummary(claimId, REFERENCE, eligibilityId)
       .then(function (result) {
         expect(result.claim.Reference).to.equal(REFERENCE)
         expect(result.claim.DateOfJourney).to.be.within(
@@ -48,6 +48,30 @@ describe('services/data/get-claim-summary', function () {
         expect(result.claimExpenses[0].Cost).to.equal(Number(expenseHelper.COST).toFixed(2))
         expect(result.claimExpenses[0].DocumentStatus).to.equal(null)
         expect(result.claimChild[0].Name).to.equal(claimChildHelper.CHILD_NAME)
+      })
+  })
+
+  it('should throw an error if reference does not match', function () {
+    // Unable to use .to.throw syntax because of async function call.
+    return getClaimSummary(claimId, REFERENCE + 'A', eligibilityId)
+      .then(function () {
+        expect.fail(0, 1, 'Error not thrown')
+      }, function () {})
+  })
+
+  it('should throw an error if eligibility id does not match', function () {
+    // Unable to use .to.throw syntax because of async function call.
+    return getClaimSummary(claimId, REFERENCE, eligibilityId + 'A')
+      .then(function () {
+        expect.fail(0, 1, 'Error not thrown')
+      }, function () {})
+  })
+
+  it('should not throw an error if claim id and reference id match', function () {
+    // Unable to use .to.throw syntax because of async function call.
+    return getClaimSummary(claimId, REFERENCE, eligibilityId)
+      .then(function () {}, function () {
+        expect.fail(0, 1, 'Error thrown')
       })
   })
 
