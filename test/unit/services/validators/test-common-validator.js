@@ -1,6 +1,7 @@
 const expect = require('chai').expect
 const validator = require('../../../../app/services/validators/common-validator')
 const dateFormatter = require('../../../../app/services/date-formatter')
+const benefitsEnum = require('../../../../app/constants/benefits-enum')
 const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
 const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
 
@@ -598,32 +599,32 @@ describe('services/validators/common-validator', function () {
     })
   })
 
-  describe('isValidBenefitResponse', function () {
-    const VALID_INPUT = 'income-support'
+  describe('isValidBenefit', function () {
+    const VALID_INPUT = benefitsEnum.INCOME_SUPPORT.value
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidBenefitResponse(null)
+      var result = validator.isValidBenefit(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidBenefitResponse(undefined)
+      var result = validator.isValidBenefit(undefined)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isValidBenefitResponse({})
+      var result = validator.isValidBenefit({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid benefit value', function () {
-      var result = validator.isValidBenefitResponse(VALID_INPUT)
+      var result = validator.isValidBenefit(VALID_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid benefit value', function () {
-      var result = validator.isValidBenefitResponse(INVALID_INPUT)
+      var result = validator.isValidBenefit(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })

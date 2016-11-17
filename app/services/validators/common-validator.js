@@ -94,9 +94,14 @@ exports.isValidPrisonerRelationship = function (relationship) {
   return validPrisonerRelationships.includes(relationship)
 }
 
-exports.isValidBenefitResponse = function (benefit) {
-  var validBenefits = Object.keys(benefitsEnum)
-  return validBenefits.includes(benefit)
+exports.isValidBenefit = function (benefit) {
+  var result = false
+  Object.keys(benefitsEnum).forEach(function (key) {
+    if (key !== 'getByValue' && benefitsEnum[key].value === benefit) {
+      result = true
+    }
+  })
+  return result
 }
 
 exports.isValidReference = function (reference) {
