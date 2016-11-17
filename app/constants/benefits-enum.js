@@ -64,11 +64,13 @@ module.exports = {
 
   getByValue: function (value) {
     var self = this
+    var result = value
     Object.keys(self).forEach(function (key) {
-      if (self[key].value === value) {
-        return self[key]
+      var selfValue = self[key].value
+      if (selfValue === value) {
+        result = self[key]
       }
     })
-    return value
+    return result
   }
 }
