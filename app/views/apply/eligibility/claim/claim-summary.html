@@ -183,9 +183,9 @@
     </tr>
     </thead>
 
-    <tbody>
+    <tbody id='claim-expense'>
     {% for claimExpense in claimDetails.claimExpenses %}
-    <tr>
+    <tr {% if errors['claim-expense'][0] %} {% if claimExpense.DocumentStatus == null %} class="warning" {% endif %}{% endif %}>
       <td>
         <span class="bold pull-left expense-padding">{{ claimExpenseHelper.DisplayName(claimExpense) }} - </span>
         <form
@@ -235,7 +235,7 @@
 
       {% else %}
         <span class="text-warning">Receipt required</span>
-        <a href="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right">Add</a>
+        <a href="/apply/{{ claimType }}eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt ">Add</a>
 
       {% endif %}
 

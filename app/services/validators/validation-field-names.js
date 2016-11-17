@@ -39,5 +39,6 @@ module.exports = {
   'upload': 'A document uploaded or alternative option',
   'reference': 'Reference number',
   'VisitConfirmation': 'Visit confirmation',
-  'benefit-information': 'Benefit information'
+  'benefit-information': 'Benefit information',
+  'claim-expense': 'Claim expense receipt'
 }
