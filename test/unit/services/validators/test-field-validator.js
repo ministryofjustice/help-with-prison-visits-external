@@ -2,6 +2,7 @@ const expect = require('chai').expect
 const FieldValidator = require('../../../../app/services/validators/field-validator')
 const ErrorHandler = require('../../../../app/services/validators/error-handler')
 const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
+const prisonerRelationshipEnum = require('../../../../app/constants/prisoner-relationships-enum')
 const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
 
 describe('services/validators/field-validator', function () {
@@ -609,6 +610,51 @@ describe('services/validators/field-validator', function () {
       var errorHandler = ErrorHandler()
       FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
         .isValidBooleanSelect()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+  })
+
+  describe('isValidPrisonerRelationship', function () {
+    const VALID_INPUT = prisonerRelationshipEnum.PARTNER.value
+    const INVALID_INPUT = 'some invalid input'
+
+    it('should return an error object if passed null', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(null, FIELD_NAME, errorHandler)
+        .isValidPrisonerRelationship()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return an error object if passed undefined', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(undefined, FIELD_NAME, errorHandler)
+        .isValidPrisonerRelationship()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return an error object if passed an object', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator({}, FIELD_NAME, errorHandler)
+        .isValidPrisonerRelationship()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return false if passed a valid prisoner relationship value', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
+        .isValidPrisonerRelationship()
+      var errors = errorHandler.get()
+      expect(errors).to.equal(false)
+    })
+
+    it('should return an error object if passed an invalid prisoner relationship value', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
+        .isValidPrisonerRelationship()
       var errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
