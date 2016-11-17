@@ -1,6 +1,8 @@
 const expect = require('chai').expect
 const UrlPathValidator = require('../../../../app/services/validators/url-path-validator')
 const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
+const prisonerRelationshipEnum = require('../../../../app/constants/prisoner-relationships-enum')
+const benefitsEnum = require('../../../../app/constants/benefits-enum')
 
 describe('services/validators/url-path-validator', function () {
   const VALID_CLAIM_TYPE = { claimType: claimTypeEnum.FIRST_TIME }
@@ -9,10 +11,10 @@ describe('services/validators/url-path-validator', function () {
   const VALID_DOB = { dob: '1989-04-11' }
   const INVALID_DOB = { dob: 'invalid' }
 
-  const VALID_RELATIONSHIP = { relationship: 'partner' }
+  const VALID_RELATIONSHIP = { relationship: prisonerRelationshipEnum.PARTNER.value }
   const INVALID_RELATIONSHIP = { relationship: 'invalid' }
 
-  const VALID_BENEFIT = { benefit: 'income-support' }
+  const VALID_BENEFIT = { benefit: benefitsEnum.INCOME_SUPPORT.value }
   const INVALID_BENEFIT = { benefit: 'invalid' }
 
   const VALID_REFERENCE = { reference: '49CCADM' }

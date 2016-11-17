@@ -185,60 +185,61 @@
 
     <tbody id='claim-expense'>
     {% for claimExpense in claimDetails.claimExpenses %}
-    <tr {% if errors['claim-expense'][0] %} {% if claimExpense.DocumentStatus == null %} class="warning" {% endif %}{% endif %}>
+    <tr {% if errors['claim-expense'][0] %} {% if claimExpense.DocumentStatus == null %} {% if receiptRequiredEnum[claimExpense.ExpenseType] %} class="warning" {% endif %}{% endif %}{% endif %}>
       <td>
         <span class="bold pull-left expense-padding">{{ claimExpenseHelper.DisplayName(claimExpense) }} - </span>
         <form
           action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-expense/{{ claimExpense.ClaimExpenseId}}"
           method="post" class="form">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-          <button class="expense link" name="remove">remove journey</button>
+          <button class="expense link" name="remove">remove expense</button>
         </form>
         <div>{{ claimExpenseHelper.FormattedDetail(claimExpense) }}</div>
       </td>
       <td>£{{claimExpense.Cost}}</td>
 
       <td>
-      {% if claimExpense.DocumentStatus == 'uploaded' %}
-        <span class="text-success">Receipt uploaded</span>
-        <form
-          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-document/{{ claimExpense.ClaimDocumentId }}"
-          method="get" class="form pull-right">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-          <button class="link">view</button>
-        </form>
-        <span class="button-separator"></span>
-        <form
-          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
-          method="post" class="form pull-right">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-          <button class="link" name="remove">remove</button>
-        </form>
+      {% if receiptRequiredEnum[claimExpense.ExpenseType] %}
+        {% if claimExpense.DocumentStatus == 'uploaded' %}
+          <span class="text-success">Receipt uploaded</span>
+          <form
+            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-document/{{ claimExpense.ClaimDocumentId }}"
+            method="get" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link">view</button>
+          </form>
+          <span class="button-separator"></span>
+          <form
+            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
+            method="post" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link" name="remove">remove</button>
+          </form>
 
-      {% elif claimExpense.DocumentStatus == 'upload-later' %}
-        <span class="text-pending">Uploading receipt later</span>
-        <form
-          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
-          method="post" class="form pull-right">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-          <button class="link" name="change">change</button>
-        </form>
+        {% elif claimExpense.DocumentStatus == 'upload-later' %}
+          <span class="text-pending">Uploading receipt later</span>
+          <form
+            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
+            method="post" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link" name="change">change</button>
+          </form>
 
-      {% elif claimExpense.DocumentStatus == 'post-later' %}
-        <span class="text-pending">Sending receipt by post</span>
-        <form
-          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
-          method="post" class="form pull-right">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-          <button class="link" name="change">change</button>
-        </form>
+        {% elif claimExpense.DocumentStatus == 'post-later' %}
+          <span class="text-pending">Sending receipt by post</span>
+          <form
+            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
+            method="post" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link" name="change">change</button>
+          </form>
 
-      {% else %}
-        <span class="text-warning">Receipt required</span>
-        <a href="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt ">Add</a>
+        {% else %}
+          <span class="text-warning">Receipt required</span>
+          <a href="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt ">Add</a>
 
+        {% endif %}
       {% endif %}
-
       </td>
     </tr>
     {% endfor %}

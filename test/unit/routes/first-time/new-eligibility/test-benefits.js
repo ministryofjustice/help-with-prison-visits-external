@@ -1,94 +1,106 @@
+const routeHelper = require('../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
-const express = require('express')
-const mockViewEngine = require('../../mock-view-engine')
-const bodyParser = require('body-parser')
-const expect = require('chai').expect
+const sinon = require('sinon')
+require('sinon-bluebird')
 
-var validationErrors
+const ValidationError = require('../../../../app/services/errors/validation-error')
+const prisonerRelationshipEnum = require('../../../../app/constants/prisoner-relationships-enum')
+const benefitsEnum = require('../../../../app/constants/benefits-enum')
 
 describe('routes/apply/new-eligibility/benefits', function () {
-  const ROUTE = '/apply/first-time/new-eligibility/1980-01-01/partner'
-  var request
-  var urlValidatorCalled = false
+  const DOB = '1988-05-15'
+  const RELATIONSHIP = prisonerRelationshipEnum.CHILD.value
+  const ROUTE = `/apply/first-time/new-eligibility/${DOB}/${RELATIONSHIP}`
+
+  var app
+
+  var urlPathValidatorStub
+  var benefitsStub
 
   beforeEach(function () {
-    var app = express()
-    app.use(bodyParser.json())
-    mockViewEngine(app, '../../../app/views')
+    urlPathValidatorStub = sinon.stub()
+    benefitsStub = sinon.stub()
 
-    request = supertest(app)
-    validationErrors = false
-
-    var route = proxyquire(
-      '../../../../../app/routes/apply/new-eligibility/benefits', {
-        '../../../services/validators/eligibility/benefit-validator': function () { return validationErrors },
-        '../../../services/validators/url-path-validator': function () { urlValidatorCalled = true }
-      })
-    route(app)
-    urlValidatorCalled = false
+    var route = proxyquire('../../../../app/routes/apply/new-eligibility/benefits', {
+      '../../../services/validators/url-path-validator': urlPathValidatorStub,
+      '../../../services/domain/benefits': benefitsStub
+    })
+    app = routeHelper.buildApp(route)
   })
 
   describe(`GET ${ROUTE}`, function () {
-    it('should respond with a 200', function (done) {
-      request
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should respond with a 200', function () {
+      return supertest(app)
         .get(ROUTE)
         .expect(200)
-        .expect(function () {
-          expect(urlValidatorCalled).to.be.true
-        })
-        .end(done)
     })
   })
 
   describe(`POST ${ROUTE}`, function () {
-    it('should respond with a 302', function (done) {
-      request
+    const VALID_BENEFIT = benefitsEnum.INCOME_SUPPORT.value
+    const INVALID_BENEFIT = 'none'
+    const VALID_PRISONER_BENEFIT = {
+      benefit: VALID_BENEFIT
+    }
+    const INVALID_PRISONER_BENEFIT = {
+      benefit: INVALID_BENEFIT
+    }
+
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .post(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should respond with a 302 and redirect to benefits page if the relationship value is valid', function () {
+      benefitsStub.returns(VALID_PRISONER_BENEFIT)
+      return supertest(app)
         .post(ROUTE)
         .expect(302)
-        .end(function () {
-          expect(urlValidatorCalled).to.be.true
-          done()
-        })
+        .expect('location', `/first-time/new-eligibility/${DOB}/${RELATIONSHIP}/${VALID_BENEFIT}`)
     })
 
-    it('should response with a 400 if validation fails', function (done) {
-      validationErrors = { 'benefit': [] }
-      request
+    it('should respond with a 302 and redirect to /eligibility-fail if the benefit is set to none', function () {
+      benefitsStub.returns(INVALID_PRISONER_BENEFIT)
+      return supertest(app)
+        .post(ROUTE)
+        .expect(302)
+        .expect('location', '/eligibility-fail')
+    })
+
+    it('should respond with a 302 if domain object is built and then persisted successfully', function () {
+      benefitsStub.returns(VALID_PRISONER_BENEFIT)
+      return supertest(app)
+        .post(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(benefitsStub)
+        })
+        .expect(302)
+    })
+
+    it('should respond with a 400 if domain object validation fails', function () {
+      benefitsStub.throws(new ValidationError())
+      return supertest(app)
         .post(ROUTE)
         .expect(400)
-        .end(function () {
-          expect(urlValidatorCalled).to.be.true
-          done()
-        })
     })
 
-    it('should redirect to eligibility-fail page if benefit is none', function (done) {
-      request
+    it('should respond with a 500 if a non-validation error is thrown', function () {
+      benefitsStub.throws(new Error())
+      return supertest(app)
         .post(ROUTE)
-        .send({
-          benefit: 'none'
-        })
-        .expect('location', '/eligibility-fail')
-        .end(function () {
-          expect(urlValidatorCalled).to.be.true
-          done()
-        })
-    })
-
-    it('should redirect to /first-time/:dob/:relationship/:benefit page if benefit is any value other than none', function (done) {
-      var benefit = 'no'
-
-      request
-        .post(ROUTE)
-        .send({
-          benefit: benefit
-        })
-        .expect('location', `${ROUTE}/${benefit}`)
-        .end(function () {
-          expect(urlValidatorCalled).to.be.true
-          done()
-        })
+        .expect(500)
     })
   })
 })

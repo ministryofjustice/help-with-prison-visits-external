@@ -90,14 +90,24 @@ exports.isValidDateOfBirth = function (dob) {
   return this.isValidDate(dob) && this.isDateInThePast(dob)
 }
 
-exports.isValidPrisonerRelationship = function (relationship) {
-  var validPrisonerRelationships = Object.keys(prisonerRelationshipsEnum)
-  return validPrisonerRelationships.includes(relationship)
+exports.isValidPrisonerRelationship = function (value) {
+  var result = false
+  Object.keys(prisonerRelationshipsEnum).forEach(function (key) {
+    if (prisonerRelationshipsEnum[key].value === value) {
+      result = true
+    }
+  })
+  return result
 }
 
-exports.isValidBenefitResponse = function (benefit) {
-  var validBenefits = Object.keys(benefitsEnum)
-  return validBenefits.includes(benefit)
+exports.isValidBenefit = function (benefit) {
+  var result = false
+  Object.keys(benefitsEnum).forEach(function (key) {
+    if (key !== 'getByValue' && benefitsEnum[key].value === benefit) {
+      result = true
+    }
+  })
+  return result
 }
 
 exports.isValidReference = function (reference) {

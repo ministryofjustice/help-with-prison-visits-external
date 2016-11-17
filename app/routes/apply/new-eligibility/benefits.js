@@ -1,5 +1,6 @@
-const benefitValidator = require('../../../services/validators/eligibility/benefit-validator')
+const Benefits = require('../../../services/domain/benefits')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
+const ValidationError = require('../../../services/errors/validation-error')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/:dob/:relationship', function (req, res) {
@@ -17,21 +18,25 @@ module.exports = function (router) {
     var dob = req.params.dob
     var relationship = req.params.relationship
     var benefit = req.body.benefit
-    var validationErrors = benefitValidator(req.body)
 
-    if (validationErrors) {
-      return res.status(400).render('apply/new-eligibility/benefits', {
-        errors: validationErrors,
-        claimType: req.params.claimType,
-        dob: dob,
-        relationship: relationship
-      })
-    }
+    try {
+      var benefits = new Benefits(benefit)
 
-    if (benefit === 'none') {
-      return res.redirect('/eligibility-fail')
-    } else {
-      return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dob}/${relationship}/${benefit}`)
+      if (benefits.benefit === 'none') {
+        return res.redirect('/eligibility-fail')
+      } else {
+        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dob}/${relationship}/${benefits.benefit}`)
+      }
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return res.status(400).render('apply/new-eligibility/prisoner-relationship', {
+          errors: error.validationErrors,
+          dob: dob,
+          relationship: relationship
+        })
+      } else {
+        throw error
+      }
     }
   })
 }
