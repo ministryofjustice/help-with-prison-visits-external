@@ -1,12 +1,12 @@
-const routeHelper = require('../../../helpers/routes/route-helper')
+const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 require('sinon-bluebird')
 
-const ValidationError = require('../../../../app/services/errors/validation-error')
-const prisonerRelationshipEnum = require('../../../../app/constants/prisoner-relationships-enum')
-const benefitsEnum = require('../../../../app/constants/benefits-enum')
+const ValidationError = require('../../../../../app/services/errors/validation-error')
+const prisonerRelationshipEnum = require('../../../../../app/constants/prisoner-relationships-enum')
+const benefitsEnum = require('../../../../../app/constants/benefits-enum')
 
 describe('routes/apply/new-eligibility/benefits', function () {
   const DOB = '1988-05-15'
@@ -22,7 +22,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
     urlPathValidatorStub = sinon.stub()
     benefitsStub = sinon.stub()
 
-    var route = proxyquire('../../../../app/routes/apply/new-eligibility/benefits', {
+    var route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefits', {
       '../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../services/domain/benefits': benefitsStub
     })
@@ -68,7 +68,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(302)
-        .expect('location', `/first-time/new-eligibility/${DOB}/${RELATIONSHIP}/${VALID_BENEFIT}`)
+        .expect('location', `${ROUTE}/${VALID_BENEFIT}`)
     })
 
     it('should respond with a 302 and redirect to /eligibility-fail if the benefit is set to none', function () {
