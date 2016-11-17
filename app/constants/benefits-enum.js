@@ -1,3 +1,5 @@
+const EnumHelper = require('./helpers/enum-helper')
+
 module.exports = {
   INCOME_SUPPORT: {
     value: 'income-support',
@@ -63,14 +65,6 @@ module.exports = {
   },
 
   getByValue: function (value) {
-    var self = this
-    var result = value
-    Object.keys(self).forEach(function (key) {
-      var selfValue = self[key].value
-      if (selfValue === value) {
-        result = self[key]
-      }
-    })
-    return result
+    return EnumHelper.getKeyByValue(this, value)
   }
 }
