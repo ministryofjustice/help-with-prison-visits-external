@@ -143,15 +143,6 @@ describe('First Time Claim Flow', () => {
       .waitForExist('#claim-summary-submit')
       .click('.add-expense-receipt')
 
-      // Upload Receipt Car
-      .waitForExist('#Post')
-      .click('#Post')
-      .click('#file-upload-submit')
-
-      // Claim summary
-      .waitForExist('#claim-summary-submit')
-      .click('.add-expense-receipt')
-
       // Upload Receipt Bus Adult
       .waitForExist('#Post')
       .click('#Post')
@@ -166,14 +157,7 @@ describe('First Time Claim Flow', () => {
       .click('#Post')
       .click('#file-upload-submit')
 
-      // Claim summary
-      .waitForExist('#claim-summary-submit')
-      .click('.add-expense-receipt')
-
-      // Upload Receipt Light Refreshment
-      .waitForExist('#Post')
-      .click('#Post')
-      .click('#file-upload-submit')
+      // Car journey and light refreshment do not require receipts
 
       // Claim summary
       .waitForExist('#claim-summary-submit')

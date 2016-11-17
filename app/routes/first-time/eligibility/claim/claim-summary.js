@@ -5,6 +5,7 @@ const removeClaimDocument = require('../../../../services/data/remove-claim-docu
 const dateHelper = require('../../../../views/helpers/date-helper')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
 const benefitsEnum = require('../../../../constants/benefits-enum')
+const receiptRequiredEnum = require('../../../../constants/receipt-required-enum')
 const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimDocumentFilePath = require('../../../../services/data/get-claim-document-file-path')
@@ -22,7 +23,8 @@ module.exports = function (router) {
             claimDetails: claimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
-            benefitsEnum: benefitsEnum
+            benefitsEnum: benefitsEnum,
+            receiptRequiredEnum: receiptRequiredEnum
           })
       })
       .catch(function (error) {
@@ -52,7 +54,8 @@ module.exports = function (router) {
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
             benefitsEnum: benefitsEnum,
-            errors: error.validationErrors
+            errors: error.validationErrors,
+            receiptRequiredEnum: receiptRequiredEnum
           })
         } else {
           next(error)
