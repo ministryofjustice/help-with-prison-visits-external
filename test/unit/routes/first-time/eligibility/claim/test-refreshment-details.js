@@ -6,12 +6,12 @@ require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('routes/first-time/eligibility/claim/light-refreshment-details', function () {
+describe('routes/apply/eligibility/claim/light-refreshment-details', function () {
   const REFERENCE = 'V123456'
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIMID = '1'
-  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/refreshment`
+  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/refreshment`
 
   var app
 
@@ -26,7 +26,7 @@ describe('routes/first-time/eligibility/claim/light-refreshment-details', functi
     insertExpenseStub = sinon.stub()
     refreshmentExpenseStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/light-refreshment-details', {
+    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/light-refreshment-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-expense': insertExpenseStub,

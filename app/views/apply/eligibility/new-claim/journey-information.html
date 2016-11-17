@@ -1,0 +1,108 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Your journey information
+      </h2>
+
+      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/new-claim/past" method="post">
+
+        <div class="form-group {% if errors['DateOfJourney'][0] %} error {% endif %}">
+          <fieldset>
+            <legend id="DateOfJourney" class="form-label-bold">Date of prison visit</legend>
+
+            {% if errors['DateOfJourney'][0] %}
+              <span class="error-message" id="error-message-benefit">{{ errors['DateOfJourney'][0] }}</span>
+            {% endif %}
+
+            <div class="form-date">
+
+              <p class="form-hint">For example, 20 10 2016</p>
+
+              <div class="form-group form-group-day">
+                <label for="date-of-journey-day">Day</label>
+                <input id="date-of-journey-day"
+                       name="date-of-journey-day"
+                       value="{{ claim['date-of-journey-day'] }}"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-month">
+                <label for="date-of-journey-month">Month</label>
+                <input id="date-of-journey-month"
+                       name="date-of-journey-month"
+                       value="{{ claim['date-of-journey-month'] }}"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-year">
+                <label for="date-of-journey-year">Year</label>
+                <input id="date-of-journey-year"
+                       name="date-of-journey-year"
+                       value="{{ claim['date-of-journey-year'] }}"
+                       class="form-control">
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+
+        <div id="child-visitor" class="form-group {% if errors['child-visitor'][0] %} error {% endif %}">
+
+          <h2 class="form-label-bold">Did you bring any children on this visit?</h2>
+
+          {% if errors['child-visitor'][0] %}
+            <span class="error-message">{{ errors['child-visitor'][0] }}</span>
+          {% endif %}
+
+          <fieldset>
+
+            <label for="child-yes" class="block-label inline">
+              <input id="child-yes"
+                     type="radio"
+                     name="child-visitor"
+                     value="yes"
+                     {% if claim['child-visitor'] == 'yes' %} checked {% endif %}>
+              Yes
+            </label>
+            <label for="child-no" class="block-label inline">
+              <input id="child-no"
+                     type="radio"
+                     name="child-visitor"
+                     value="no"
+                     {% if claim['child-visitor'] == 'no' %} checked {% endif %}>
+              No
+            </label>
+
+          </fieldset>
+
+        </div>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="journey-information-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}
