@@ -10,13 +10,13 @@ class ClaimSummary {
     this.claimExpenses = claimExpenses
     this.benefitDocumentStatus = benefitDocument ? benefitDocument.DocumentStatus : ''
     this.visitConfirmationStatus = visitConfirmation ? visitConfirmation.DocumentStatus : ''
-    this.IsValid()
+    this.isValid()
   }
 
-  IsValid () {
+  isValid () {
     var errors = ErrorHandler()
 
-    if (BenefitEnum[this.benefit].requireBenefitUpload) {
+    if (BenefitEnum.getByValue(this.benefit).requireBenefitUpload) {
       FieldValidator(this.benefitDocumentStatus, 'benefit-information', errors)
         .isRequired()
     }
@@ -32,7 +32,6 @@ class ClaimSummary {
     })
 
     var validationErrors = errors.get()
-
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

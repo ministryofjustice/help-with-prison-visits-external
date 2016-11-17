@@ -118,6 +118,13 @@ class FieldValidator {
     }
     return this
   }
+
+  isValidBenefit () {
+    if (!validator.isValidBenefit(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {
