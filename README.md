@@ -31,8 +31,6 @@ docker-compose up
 
 The application can be deployed to [heroku](https://www.heroku.com/) for quick preview.
 
-Deployment to heroku is automatically performed by [Travis using an encrypted deployment key](https://docs.travis-ci.com/user/deployment/heroku/) in `.travis.yml`.
-
 ```
 heroku login
 heroku create
