@@ -1,80 +1,104 @@
-var supertest = require('supertest')
-var proxyquire = require('proxyquire')
-var express = require('express')
-var mockViewEngine = require('../mock-view-engine')
-var bodyParser = require('body-parser')
-const dateFormatter = require('../../../../app/services/date-formatter')
+const routeHelper = require('../../../helpers/routes/route-helper')
+const supertest = require('supertest')
+const proxyquire = require('proxyquire')
+const sinon = require('sinon')
+require('sinon-bluebird')
 
-var validationErrors
-
-var route = proxyquire(
-  '../../../../app/routes/first-time/new-eligibility/prisoner-relationship', {
-    '../../../services/validators/eligibility/prisoner-relationship-validator': function () { return validationErrors }
-  })
+const ValidationError = require('../../../../app/services/errors/validation-error')
+const prisonerRelationshipEnum = require('../../../../app/constants/prisoner-relationships-enum')
 
 describe('routes/first-time/new-eligibility/prisoner-relationship', function () {
-  const ROUTE = '/first-time/new-eligibility'
+  const DOB = '1988-05-15'
+  const ROUTE = `/first-time/new-eligibility/${DOB}`
 
-  var request
-  var dobDay = '01'
-  var dobMonth = '05'
-  var dobYear = '1955'
-  var dob = dateFormatter.buildFormatted(dobDay, dobMonth, dobYear)
+  var app
+
+  var urlPathValidatorStub
+  var prisonerRelationshipStub
 
   beforeEach(function () {
-    var app = express()
-    app.use(bodyParser.json())
-    mockViewEngine(app, '../../../app/views')
-    route(app)
-    request = supertest(app)
-    validationErrors = false
+    urlPathValidatorStub = sinon.stub()
+    prisonerRelationshipStub = sinon.stub()
+
+    var route = proxyquire('../../../../app/routes/first-time/new-eligibility/prisoner-relationship', {
+      '../../../services/validators/url-path-validator': urlPathValidatorStub,
+      '../../../services/domain/prisoner-relationship': prisonerRelationshipStub
+    })
+    app = routeHelper.buildApp(route)
   })
 
   describe(`GET ${ROUTE}`, function () {
-    it('should respond with a 200', function (done) {
-      request
-        .get(`${ROUTE}/${dob}`)
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should respond with a 200', function () {
+      return supertest(app)
+        .get(ROUTE)
         .expect(200)
-        .end(done)
     })
   })
 
   describe(`POST ${ROUTE}`, function () {
-    it('should respond with a 302', function (done) {
-      request
-        .post(`${ROUTE}/${dob}`)
+    const VALID_RELATIONSHIP = prisonerRelationshipEnum.PARTNER.displayName
+    const INVALID_RELATIONSHIP = 'none'
+    const VALID_PRISONER_RELATIONSHIP = {
+      relationship: VALID_RELATIONSHIP
+    }
+    const INVALID_PRISONER_RELATIONSHIP = {
+      relationship: INVALID_RELATIONSHIP
+    }
+
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .post(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should respond with a 302 and redirect to benefits page if the relationship value is valid', function () {
+      prisonerRelationshipStub.returns(VALID_PRISONER_RELATIONSHIP)
+      return supertest(app)
+        .post(ROUTE)
         .expect(302)
-        .end(done)
+        .expect('location', `/first-time/new-eligibility/${DOB}/${VALID_RELATIONSHIP}`)
     })
 
-    it('should respond with a 400 if validation fails', function (done) {
-      validationErrors = { 'relationship': [] }
-      request
-        .post(`${ROUTE}/${dob}`)
-        .expect(400)
-        .end(done)
-    })
-
-    it('should redirect to eligibility-fail page if relationship is None of the above', function (done) {
-      request
-        .post(`${ROUTE}/${dob}`)
-        .send({
-          relationship: 'none'
-        })
+    it('should respond with a 302 and redirect to /eligibility-fail if the relationship is set to none', function () {
+      prisonerRelationshipStub.returns(INVALID_PRISONER_RELATIONSHIP)
+      return supertest(app)
+        .post(ROUTE)
+        .expect(302)
         .expect('location', '/eligibility-fail')
-        .end(done)
     })
 
-    it('should redirect to /first-time/:dob/:relationship page if relationship is any value other than None of the above', function (done) {
-      var relationship = 'not-none-of-the-above'
-
-      request
-        .post(`${ROUTE}/${dob}`)
-        .send({
-          relationship: relationship
+    it('should respond with a 302 if domain object is built and then persisted successfully', function () {
+      prisonerRelationshipStub.returns(VALID_PRISONER_RELATIONSHIP)
+      return supertest(app)
+        .post(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(prisonerRelationshipStub)
         })
-        .expect('location', `${ROUTE}/${dob}/${relationship}`)
-        .end(done)
+        .expect(302)
+    })
+
+    it('should respond with a 400 if domain object validation fails', function () {
+      prisonerRelationshipStub.throws(new ValidationError())
+      return supertest(app)
+        .post(ROUTE)
+        .expect(400)
+    })
+
+    it('should respond with a 500 if a non-validation error is thrown', function () {
+      prisonerRelationshipStub.throws(new Error())
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
     })
   })
 })

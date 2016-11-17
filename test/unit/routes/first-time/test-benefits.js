@@ -10,7 +10,7 @@ const benefitsEnum = require('../../../../app/constants/benefits-enum')
 
 describe('routes/first-time/new-eligibility/benefits', function () {
   const DOB = '1988-05-15'
-  const RELATIONSHIP = prisonerRelationshipEnum.child
+  const RELATIONSHIP = prisonerRelationshipEnum.CHILD.value
   const ROUTE = `/first-time/new-eligibility/${DOB}/${RELATIONSHIP}`
 
   var app

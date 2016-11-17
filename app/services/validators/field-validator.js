@@ -119,6 +119,13 @@ class FieldValidator {
     return this
   }
 
+  isValidPrisonerRelationship () {
+    if (!validator.isValidPrisonerRelationship(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
+    }
+    return this
+  }
+
   isValidBenefit () {
     if (!validator.isValidBenefit(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
