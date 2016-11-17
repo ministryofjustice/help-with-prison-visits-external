@@ -63,7 +63,8 @@ module.exports = function (router) {
             fileUploadGuidingText: DocumentTypeEnum,
             errors: error.validationErrors,
             URL: req.url,
-            csrfToken: csrfToken
+            csrfToken: csrfToken,
+            hideAlternative: req.query.hideAlt
           })
         } else {
           next(error)
