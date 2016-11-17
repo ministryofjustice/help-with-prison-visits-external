@@ -4,6 +4,7 @@ const ErrorHandler = require('../../../../app/services/validators/error-handler'
 const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
 const prisonerRelationshipEnum = require('../../../../app/constants/prisoner-relationships-enum')
 const benefitsEnum = require('../../../../app/constants/benefits-enum')
+const expensesEnum = require('../../../../app/constants/expense-type-enum')
 const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
 
 describe('services/validators/field-validator', function () {
@@ -698,6 +699,51 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return an error object if passed an invalid benefits value', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
+        .isValidBenefit()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+  })
+
+  describe('isValidExpenseArray', function () {
+    const VALID_INPUT = [ expensesEnum.BUS.value, expensesEnum.PLANE.value ]
+    const INVALID_INPUT = [ 'some invalid input', expensesEnum.PLANE.value ]
+
+    it('should return an error object if passed null', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(null, FIELD_NAME, errorHandler)
+        .isValidExpenseArray()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return an error object if passed undefined', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(undefined, FIELD_NAME, errorHandler)
+        .isValidExpenseArray()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return an error object if passed an object', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator({}, FIELD_NAME, errorHandler)
+        .isValidExpenseArray()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return false if passed all valid expenses', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
+        .isValidExpenseArray()
+      var errors = errorHandler.get()
+      expect(errors).to.equal(false)
+    })
+
+    it('should return an error object if passed any invalid expenses', function () {
       var errorHandler = ErrorHandler()
       FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
         .isValidBenefit()
