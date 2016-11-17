@@ -6,12 +6,12 @@ require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('routes/first-time/eligibility/claim/about-child', function () {
+describe('routes/apply/eligibility/claim/about-child', function () {
   const REFERENCE = 'ABOUTCH'
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIMID = '123'
-  const ROUTE = `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/child`
+  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/child`
 
   var app
 
@@ -24,7 +24,7 @@ describe('routes/first-time/eligibility/claim/about-child', function () {
     aboutChildStub = sinon.stub()
     insertChildStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/first-time/eligibility/claim/about-child', {
+    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/about-child', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/domain/about-child': aboutChildStub,
       '../../../../services/data/insert-child': insertChildStub
@@ -77,7 +77,7 @@ describe('routes/first-time/eligibility/claim/about-child', function () {
       insertChildStub.resolves(CLAIMID)
       return supertest(app)
         .post(ROUTE)
-        .expect('location', `/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}`)
+        .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}`)
     })
 
     it('should redirect to the about-child page if add-another-child is set to yes', function () {

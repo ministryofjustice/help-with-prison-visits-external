@@ -5,9 +5,12 @@ const sinon = require('sinon')
 require('sinon-bluebird')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
+const claimTypeEnum = require('../../../app/constants/claim-type-enum')
 
 describe('routes/start', function () {
   const ROUTE = '/start'
+  const FIRST_TIME_ROUTE = '/start-first-time'
+  const ALREADY_REGISTERED_ROUTE = '/start-already-registered'
 
   var app
 
@@ -37,14 +40,23 @@ describe('routes/start', function () {
     })
   })
 
-  describe(`POST ${ROUTE}`, function () {
+  describe(`POST ${FIRST_TIME_ROUTE}`, function () {
+    it('should respond with a 302 and redirect to the correct location', function () {
+      return supertest(app)
+        .post(FIRST_TIME_ROUTE)
+        .expect(302)
+        .expect('location', `/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility`)
+    })
+  })
+
+  describe(`POST ${ALREADY_REGISTERED_ROUTE}`, function () {
     const REFERENCE = 'APVS123'
     const DOB = '2015-05-15'
     const ALREADY_REGISTERED = { getDobFormatted: DOB }
 
     it('should respond with a 302 if domain object is built successfully', function () {
       return supertest(app)
-        .post(ROUTE)
+        .post(ALREADY_REGISTERED_ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(alreadyRegisteredStub)
         })
@@ -54,7 +66,7 @@ describe('routes/start', function () {
     it('should redirect to the your-claims page with the reference and the dob set in the domain object', function () {
       alreadyRegisteredStub.returns(ALREADY_REGISTERED)
       return supertest(app)
-        .post(ROUTE)
+        .post(ALREADY_REGISTERED_ROUTE)
         .send({
           reference: REFERENCE
         })
@@ -64,14 +76,14 @@ describe('routes/start', function () {
     it('should respond with a 400 if domain object validation fails.', function () {
       alreadyRegisteredStub.throws(new ValidationError())
       return supertest(app)
-        .post(ROUTE)
+        .post(ALREADY_REGISTERED_ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
       alreadyRegisteredStub.throws(new Error())
       return supertest(app)
-        .post(ROUTE)
+        .post(ALREADY_REGISTERED_ROUTE)
         .expect(500)
     })
   })
