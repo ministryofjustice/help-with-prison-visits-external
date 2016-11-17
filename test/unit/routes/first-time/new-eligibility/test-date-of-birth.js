@@ -63,14 +63,18 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
           .expect('location', `/apply/first-time/new-eligibility/${dob}`)
       })
 
-      it('should respond with a 400 for invalid data', function () {
-        stubDateOfBirth.throws(new ValidationError({ 'dob': {} }))
+      it('should respond with a 400 for a validation error', function () {
+        stubDateOfBirth.throws(new ValidationError())
         return supertest(app)
           .post(ROUTE)
           .expect(400)
-          .expect(function () {
-            sinon.assert.calledOnce(stubDateOfBirth)
-          })
+      })
+
+      it('should respond with a 500 for a non-validation error', function () {
+        stubDateOfBirth.throws(new Error())
+        return supertest(app)
+          .post(ROUTE)
+          .expect(500)
       })
     })
 
