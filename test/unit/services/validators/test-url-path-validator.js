@@ -1,5 +1,6 @@
 const expect = require('chai').expect
 const UrlPathValidator = require('../../../../app/services/validators/url-path-validator')
+const benefitsEnum = require('../../../../app/constants/benefits-enum')
 
 describe('services/validators/url-path-validator', function () {
   const VALID_DOB = { dob: '1989-04-11' }
@@ -8,7 +9,7 @@ describe('services/validators/url-path-validator', function () {
   const VALID_RELATIONSHIP = { relationship: 'partner' }
   const INVALID_RELATIONSHIP = { relationship: 'invalid' }
 
-  const VALID_BENEFIT = { benefit: 'income-support' }
+  const VALID_BENEFIT = { benefit: benefitsEnum.INCOME_SUPPORT.value }
   const INVALID_BENEFIT = { benefit: 'invalid' }
 
   const VALID_REFERENCE = { reference: '49CCADM' }
