@@ -1,3 +1,4 @@
+// TODO refactor to merge these values into expense-type-enum so expense data is stored in a single place
 module.exports = {
   'car': false,
   'toll': false,
