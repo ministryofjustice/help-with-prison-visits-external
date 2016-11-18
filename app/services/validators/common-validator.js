@@ -93,7 +93,7 @@ exports.isValidDateOfBirth = function (dob) {
 exports.isValidPrisonerRelationship = function (value) {
   var result = false
   Object.keys(prisonerRelationshipsEnum).forEach(function (key) {
-    if (prisonerRelationshipsEnum[key].value === value) {
+    if (key !== 'getByValue' && prisonerRelationshipsEnum[key].value === value) {
       result = true
     }
   })

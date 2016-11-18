@@ -1,3 +1,5 @@
+const EnumHelper = require('./helpers/enum-helper')
+
 module.exports = {
   HUSBAND_WIFE_CIVIL: {
     value: 'husband-wife-civil',
@@ -32,5 +34,9 @@ module.exports = {
   NONE: {
     value: 'none',
     displayName: ''
+  },
+
+  getByValue: function (value) {
+    return EnumHelper.getKeyByValue(this, value)
   }
 }
