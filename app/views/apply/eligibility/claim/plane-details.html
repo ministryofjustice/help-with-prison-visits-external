@@ -60,20 +60,8 @@
 
         {% include "partials/expenses/is-child.html" %}
 
-        <div class="form-group {% if errors['cost'][0] %} error {% endif %}">
-          <label id="cost" for="cost-input" class="form-label-bold">Cost</label>
-
-          {% if errors['cost'][0] %}
-            <span class="error-message">{{ errors['cost'][0] }}</span>
-          {% endif %}
-
-          <input id="cost-input"
-                 type="text"
-                 name="cost"
-                 value="{{ expense['cost'] }}"
-                 class="form-control">
-          <p class="form-hint">For example, £100</p>
-        </div>
+        {% set costExample = 100 %}
+        {% include "partials/expenses/cost.html" %}
 
         {% include "partials/expenses/add-another-journey.html" %}
 
