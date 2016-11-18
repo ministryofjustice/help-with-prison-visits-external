@@ -1,44 +1,48 @@
-var supertest = require('supertest')
-var expect = require('chai').expect
-var proxyquire = require('proxyquire')
-var express = require('express')
-var mockViewEngine = require('./mock-view-engine')
-var log = {
-  info: function (text) {}
-}
-var route = proxyquire('../../../app/routes/index', {
-  '../services/log': log
-})
+const routeHelper = require('../../helpers/routes/route-helper')
+const supertest = require('supertest')
+const route = require('../../../app/routes/index')
+const expect = require('chai').expect
 
 describe('routes/index', function () {
-  var request
+  const ROUTE = '/'
+  const ASSISTED_DIGITAL_ROUTE = '/assisted-digital'
+
+  var app
 
   beforeEach(function () {
-    var app = express()
-
-    mockViewEngine(app, '../../../app/views')
-
-    route(app)
-
-    request = supertest(app)
+    app = routeHelper.buildApp(route)
   })
 
-  describe('GET /', function () {
+  describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200', function () {
-      return request
-        .get('/')
+      return supertest(app)
+        .get(ROUTE)
         .expect(200)
     })
   })
 
-  describe('GET /assisted-digital?caseworker=a@b.com', function () {
-    it('should respond with a 302 and set cookie', function () {
-      return request
-        .get('/assisted-digital?caseworker=a@b.com')
-        .expect(302)
+  describe(`GET ${ASSISTED_DIGITAL_ROUTE}`, function () {
+    const COOKIE_NAME = 'apvs-assisted-digital'
+    const CASEWORKER_EMAIL = 'a@b.com'
+    const COOKIE = { caseworker: CASEWORKER_EMAIL }
+
+    it('should set the assisted digital cookie if the query paramater is passed and respond with a 302', function () {
+      return supertest(app)
+        .get(ASSISTED_DIGITAL_ROUTE)
+        .query(COOKIE)
         .expect(function (response) {
-          expect(response.header['set-cookie'][0]).to.contain('apvs-assisted-digital')
+          expect(response.header['set-cookie'][0]).to.contain(COOKIE_NAME)
         })
+        .expect(302)
+    })
+
+    it('should not set the assisted digital cookie if the query paramater is not passed and respond with a 302', function () {
+      return supertest(app)
+        .get(ASSISTED_DIGITAL_ROUTE)
+        .expect(function (response) {
+          expect(response.header['set-cookie']).to.equal(undefined)
+        })
+        .expect(302)
     })
   })
 })
