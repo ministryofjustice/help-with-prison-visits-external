@@ -25,35 +25,11 @@
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/ferry{{ params }}"
             method="post">
 
-        <div class="form-group {% if errors['from'][0] %} error {% endif %}">
-          <label id="from" for="from-input" class="form-label-bold">From</label>
+        {% set exampleFrom = 'Portsmouth' %}
+        {% include "partials/expenses/from.html" %}
 
-          {% if errors['from'][0] %}
-            <span class="error-message">{{ errors['from'][0] }}</span>
-          {% endif %}
-
-          <input id="from-input"
-                 type="text"
-                 name="from"
-                 value="{{ expense['from'] }}"
-                 class="form-control">
-          <p class="form-hint">For example, Portsmouth</p>
-        </div>
-
-        <div class="form-group {% if errors['to'][0] %} error {% endif %}">
-          <label id="to" for="to-input" class="form-label-bold">To</label>
-
-          {% if errors['to'][0] %}
-            <span class="error-message">{{ errors['to'][0] }}</span>
-          {% endif %}
-
-          <input id="to-input"
-                 type="text"
-                 name="to"
-                 value="{{ expense['to'] }}"
-                 class="form-control">
-          <p class="form-hint">For example, Isle of Wight</p>
-        </div>
+        {% set exampleTo = 'Isle of Wight' %}
+        {% include "partials/expenses/to.html" %}
 
         {% include "partials/expenses/return-journey.html" %}
 
