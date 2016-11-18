@@ -13,7 +13,8 @@ var log = bunyan.createLogger({
   streams: [],
   serializers: {
     'request': requestSerializer,
-    'response': responseSerializer
+    'response': responseSerializer,
+    'error': errorSerializer
   }
 })
 
@@ -43,6 +44,14 @@ function requestSerializer (request) {
 function responseSerializer (response) {
   return {
     statusCode: response.statusCode
+  }
+}
+
+function errorSerializer (error) {
+  return {
+    message: error.message,
+    name: error.name,
+    stack: error.stack
   }
 }
 
