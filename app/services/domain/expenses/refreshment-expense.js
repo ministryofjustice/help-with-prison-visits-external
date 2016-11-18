@@ -6,7 +6,7 @@ const ErrorHandler = require('../../validators/error-handler')
 
 class RefreshmentExpense extends BaseExpense {
   constructor (cost, travelTime) {
-    super(EXPENSE_TYPE.LIGHT_REFRESHMENT, cost, travelTime, null, null, null, null, null, null)
+    super(EXPENSE_TYPE.LIGHT_REFRESHMENT.value, cost, travelTime, null, null, null, null, null, null)
     this.isValid()
   }
 

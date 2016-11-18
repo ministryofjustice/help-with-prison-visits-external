@@ -9,6 +9,7 @@ const benefitsEnum = require('../../constants/benefits-enum')
 const childRelationshipEnum = require('../../constants/child-relationship-enum')
 const booleanSelectEnum = require('../../constants/boolean-select-enum')
 const claimTypeEnum = require('../../constants/claim-type-enum')
+const expenseTypeEnum = require('../../constants/expense-type-enum')
 const referenceNumber = require('../../constants/reference-number-enum')
 const dateFormatter = require('../date-formatter')
 const NUM_YEARS_LIMIT = 120
@@ -145,11 +146,37 @@ exports.isValidBooleanSelect = function (value) {
   return result
 }
 
-exports.isValidClaimType = function (relationship) {
+exports.isValidClaimType = function (claimType) {
   var result = false
   Object.keys(claimTypeEnum).forEach(function (key) {
-    if (claimTypeEnum[key] === relationship) {
+    if (claimTypeEnum[key] === claimType) {
       result = true
+    }
+  })
+  return result
+}
+
+exports.isValidExpense = function (expense) {
+  var result = false
+  Object.keys(expenseTypeEnum).forEach(function (key) {
+    if (expenseTypeEnum[key].value === expense) {
+      result = true
+    }
+  })
+  return result
+}
+
+exports.isValidExpenseArray = function (expenseArray) {
+  var self = this
+  var result = true
+
+  if (!(expenseArray instanceof Array)) {
+    return false
+  }
+
+  expenseArray.forEach(function (expense) {
+    if (!self.isValidExpense(expense)) {
+      result = false
     }
   })
   return result

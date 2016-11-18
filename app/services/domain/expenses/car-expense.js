@@ -6,7 +6,7 @@ const ErrorHandler = require('../../validators/error-handler')
 
 class CarExpense extends BaseExpense {
   constructor (from, to, toll, tollCost, parking, parkingCost) {
-    super(EXPENSE_TYPE.CAR, null, null, from, to, null, null, null, null)
+    super(EXPENSE_TYPE.CAR.value, null, null, from, to, null, null, null, null)
     this.toll = toll
     this.createField('tollCost', tollCost)
     this.parking = parking
@@ -16,7 +16,7 @@ class CarExpense extends BaseExpense {
 
   get tollExpense () {
     return this.toll ? new BaseExpense(
-      EXPENSE_TYPE.CAR_TOLL,
+      EXPENSE_TYPE.CAR_TOLL.value,
       this.tollCost,
       null,
       this.from,
@@ -29,7 +29,7 @@ class CarExpense extends BaseExpense {
 
   get parkingExpense () {
     return this.parking ? new BaseExpense(
-      EXPENSE_TYPE.CAR_PARKING_CHARGE,
+      EXPENSE_TYPE.CAR_PARKING_CHARGE.value,
       this.parkingCost,
       null,
       this.from,
