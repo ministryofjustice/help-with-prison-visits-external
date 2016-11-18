@@ -31,6 +31,8 @@ module.exports = function (router) {
           claimType: req.params.claimType,
           claimant: req.body
         })
+      } else {
+        throw error
       }
     }
   })
