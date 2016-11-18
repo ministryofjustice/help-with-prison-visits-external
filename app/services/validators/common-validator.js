@@ -171,7 +171,7 @@ exports.isValidExpenseArray = function (expenseArray) {
   var result = true
 
   if (!(expenseArray instanceof Array)) {
-    return false
+    return this.isValidExpense(expenseArray)
   }
 
   expenseArray.forEach(function (expense) {
