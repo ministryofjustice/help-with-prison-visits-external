@@ -814,8 +814,11 @@ describe('services/validators/common-validator', function () {
   })
 
   describe('isValidExpenseArray', function () {
-    const VALID_INPUT = [ expenseTypeEnum.PLANE.value, expenseTypeEnum.LIGHT_REFRESHMENT.value ]
-    const INVALID_INPUT = [ 'some invalid input', expenseTypeEnum.ACCOMMODATION.value ]
+    const VALID_ARRAY_INPUT = [ expenseTypeEnum.PLANE.value, expenseTypeEnum.LIGHT_REFRESHMENT.value ]
+    const VALID_STRING_INPUT = expenseTypeEnum.PLANE.value
+
+    const INVALID_ARRAY_INPUT = [ 'some invalid input', expenseTypeEnum.ACCOMMODATION.value ]
+    const INVALID_STRING_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
       var result = validator.isValidExpenseArray(null)
@@ -833,12 +836,22 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed all valid values', function () {
-      var result = validator.isValidExpenseArray(VALID_INPUT)
+      var result = validator.isValidExpenseArray(VALID_ARRAY_INPUT)
+      expect(result).to.equal(true)
+    })
+
+    it('should return true if passed a valid value', function () {
+      var result = validator.isValidExpenseArray(VALID_STRING_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed any invalid values', function () {
-      var result = validator.isValidExpenseArray(INVALID_INPUT)
+      var result = validator.isValidExpenseArray(INVALID_ARRAY_INPUT)
+      expect(result).to.equal(false)
+    })
+
+    it('should return false if passed an invalid value', function () {
+      var result = validator.isValidExpenseArray(INVALID_STRING_INPUT)
       expect(result).to.equal(false)
     })
   })
