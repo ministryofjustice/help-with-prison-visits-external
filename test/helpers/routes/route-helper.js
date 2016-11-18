@@ -1,6 +1,7 @@
 const mockViewEngine = require('../../unit/routes/mock-view-engine')
 const express = require('express')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
 const VIEWS_DIRECTORY = '../../../app/views'
 
@@ -8,6 +9,7 @@ module.exports.buildApp = function (route) {
   var app = express()
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(cookieParser())
 
   route(app)
   mockViewEngine(app, VIEWS_DIRECTORY)
