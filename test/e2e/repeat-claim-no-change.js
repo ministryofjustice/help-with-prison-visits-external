@@ -1,6 +1,8 @@
 const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
 const internalVisitorHelper = require('../helpers/data/internal/internal-visitor-helper')
+const dateFormatter = require('../../app/services/date-formatter')
 
+var todaysDate = dateFormatter.now()
 describe('Repeat claim with no change flow', function () {
   const REFERENCE = 'REP1234'
 
@@ -29,5 +31,38 @@ describe('Repeat claim with no change flow', function () {
 
       // Your Claims
       .waitForExist('#new-claim')
+      .click('#new-claim')
+
+      // Check your information
+      .waitForExist('#continue')
+      .click('[for="confirm-correct"]')
+      .click('#continue')
+
+      // Future or past visit
+      .waitForExist('#future-or-past-submit')
+      .click('[for="past"]')
+      .click('#future-or-past-submit')
+
+      // Journey information
+      .waitForExist('#journey-information-submit')
+      .setValue('#date-of-journey-day', todaysDate.date())
+      .setValue('#date-of-journey-month', todaysDate.month() + 1)
+      .setValue('#date-of-journey-year', todaysDate.year())
+      .click('[for="child-no"]')
+      .click('#journey-information-submit')
+
+      // Expense
+      .waitForExist('#expenses-submit')
+      .click('[for="bus"]')
+      .click('#expenses-submit')
+
+      // Bus #1 (adult expense)
+      .waitForExist('#bus-details-submit')
+      .setValue('#from-input', 'Euston')
+      .setValue('#to-input', 'Birmingham New Street')
+      .click('[for="return-no"]')
+      .click('[for="is-child-no"]')
+      .setValue('#cost-input', '20')
+      // .click('#bus-details-submit')
   })
 })
