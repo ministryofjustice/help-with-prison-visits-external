@@ -22,12 +22,12 @@ describe('First Time Claim Flow', () => {
 
       // Prisoner relationship
       .waitForExist('#prisoner-relationship-submit')
-      .click('#partner')
+      .click('[for="partner"]')
       .click('#prisoner-relationship-submit')
 
       // Benefit
       .waitForExist('#benefit-submit')
-      .click('#income-support')
+      .click('[for="income-support"]')
       .click('#benefit-submit')
 
       // About the Prisoner
@@ -58,7 +58,7 @@ describe('First Time Claim Flow', () => {
 
       // Future or past visit
       .waitForExist('#future-or-past-submit')
-      .click('#past')
+      .click('[for="past"]')
       .click('#future-or-past-submit')
 
       // Journey information
@@ -66,7 +66,7 @@ describe('First Time Claim Flow', () => {
       .setValue('#date-of-journey-day', todaysDate.date())
       .setValue('#date-of-journey-month', todaysDate.month() + 1)
       .setValue('#date-of-journey-year', todaysDate.year())
-      .click('#child-yes')
+      .click('[for="child-yes"]')
       .click('#journey-information-submit')
 
       // About Child #1
@@ -75,8 +75,8 @@ describe('First Time Claim Flow', () => {
       .setValue('#dob-day-input', '15')
       .setValue('#dob-month-input', '05')
       .setValue('#dob-year-input', '2014')
-      .click('#my-child')
-      .click('#add-another-child')
+      .click('[for="my-child"]')
+      .click('[for="add-another-child"]')
       .click('#about-child-submit')
 
       // Allow second bus page to load
@@ -88,14 +88,14 @@ describe('First Time Claim Flow', () => {
       .setValue('#dob-day-input', '20')
       .setValue('#dob-month-input', '12')
       .setValue('#dob-year-input', '2013')
-      .click('#prisoners-child')
+      .click('[for="prisoners-child"]')
       .click('#about-child-submit')
 
       // Expense
       .waitForExist('#expenses-submit')
-      .click('#car')
-      .click('#bus')
-      .click('#refreshment')
+      .click('[for="car"]')
+      .click('[for="bus"]')
+      .click('[for="refreshment"]')
       .click('#expenses-submit')
 
       // Car
@@ -106,10 +106,10 @@ describe('First Time Claim Flow', () => {
       .waitForExist('#bus-details-submit')
       .setValue('#from-input', 'Euston')
       .setValue('#to-input', 'Birmingham New Street')
-      .click('#return-no')
-      .click('#is-child-no')
+      .click('[for="return-no"]')
+      .click('[for="is-child-no"]')
       .setValue('#cost-input', '20')
-      .click('#add-another-journey')
+      .click('[for="add-another-journey"]')
       .click('#bus-details-submit')
 
       // Allow second bus page to load
@@ -119,14 +119,14 @@ describe('First Time Claim Flow', () => {
       .waitForExist('#bus-details-submit')
       .setValue('#from-input', 'Birmingham New Street')
       .setValue('#to-input', 'Euston')
-      .click('#return-no')
-      .click('#is-child-yes')
+      .click('[for="return-no"]')
+      .click('[for="is-child-yes"]')
       .setValue('#cost-input', '20')
       .click('#bus-details-submit')
 
       // Light refreshment
       .waitForExist('#light-refreshment-details-submit')
-      .click('#travel-time-over-five')
+      .click('[for="travel-time-over-five"]')
       .setValue('#cost-input', '7.99')
       .click('#light-refreshment-details-submit')
 
@@ -136,7 +136,7 @@ describe('First Time Claim Flow', () => {
 
       // Upload visit confirmation
       .waitForExist('#Post')
-      .click('#Post')
+      .click('[for="Post"]')
       .click('#file-upload-submit')
 
       // Claim summary
@@ -145,7 +145,7 @@ describe('First Time Claim Flow', () => {
 
       // Upload Receipt Bus Adult
       .waitForExist('#Post')
-      .click('#Post')
+      .click('[for="Post"]')
       .click('#file-upload-submit')
 
       // Claim summary
@@ -154,7 +154,7 @@ describe('First Time Claim Flow', () => {
 
       // Upload Receipt Bus Child
       .waitForExist('#Post')
-      .click('#Post')
+      .click('[for="Post"]')
       .click('#file-upload-submit')
 
       // Car journey and light refreshment do not require receipts
