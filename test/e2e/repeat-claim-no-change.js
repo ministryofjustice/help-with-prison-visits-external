@@ -1,7 +1,7 @@
 const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
 const internalVisitorHelper = require('../helpers/data/internal/internal-visitor-helper')
 
-describe('Repeat Claim Flow', function () {
+describe('Repeat claim with no change flow', function () {
   const REFERENCE = 'REP1234'
 
   before(function () {
@@ -28,6 +28,6 @@ describe('Repeat Claim Flow', function () {
       .click('#already-registered-submit')
 
       // Your Claims
-      .waitForExist('#your-claims-submit')
+      .waitForExist('#new-claim')
   })
 })

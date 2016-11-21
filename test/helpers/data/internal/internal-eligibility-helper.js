@@ -3,13 +3,12 @@ const knex = require('knex')(config)
 const claimHelper = require('./internal-claim-helper')
 const visitorHelper = require('./internal-visitor-helper')
 const prisonerHelper = require('./internal-prisoner-helper')
-const eligiblityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 module.exports.ELIGIBILITY_ID = Math.floor(Date.now() / 100) - 14000000000
 module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
-module.exports.STATUS = eligiblityStatusEnum.IN_PROGRESS
+module.exports.STATUS = 'APPROVED'
 
 module.exports.insert = function (reference) {
   return knex('IntSchema.Eligibility')

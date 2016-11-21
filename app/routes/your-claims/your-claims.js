@@ -15,6 +15,7 @@ module.exports = function (router) {
           return res.redirect(`/start${REFERENCE_DOB_ERROR}`)
         }
         return res.render('your-claims/your-claims', {
+          dob: req.params.dob,
           reference: req.params.reference,
           claims: claims,
           dateHelper: dateHelper,
@@ -25,7 +26,4 @@ module.exports = function (router) {
         next(error)
       })
   })
-
-  // TODO: Implement POST route. Should redirect to confirm-your-details page.
-  // TODO: Implement POST route. Should redirect to page displaying details of the selected claim.
 }

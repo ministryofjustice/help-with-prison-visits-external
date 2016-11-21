@@ -1,7 +1,7 @@
 const dateFormatter = require('../../app/services/date-formatter')
 
 var todaysDate = dateFormatter.now()
-describe('First Time Claim Flow', () => {
+describe('First time claim flow', () => {
   it('should display each page in the first time eligibility flow', () => {
     return browser.url('/')
 
