@@ -3,8 +3,8 @@ const knex = require('knex')(config)
 const claimChildHelper = require('./claim-child-helper')
 const expenseHelper = require('./expense-helper')
 const claimDocumentHelper = require('./claim-document-helper')
-const insertFirstTimeClaim = require('../../../app/services/data/insert-first-time-claim')
-const FirstTimeClaim = require('../../../app/services/domain/first-time-claim')
+const insertNewClaim = require('../../../app/services/data/insert-new-claim')
+const NewClaim = require('../../../app/services/domain/new-claim')
 const claimStatusEnum = require('../../../app/constants/claim-status-enum')
 const dateFormatter = require('../../../app/services/date-formatter')
 
@@ -19,12 +19,12 @@ module.exports.STATUS = claimStatusEnum.IN_PROGRESS
 module.exports.CHILD_VISITOR = 'yes'
 
 module.exports.build = function (reference) {
-  return new FirstTimeClaim(reference, DAY, MONTH, YEAR, this.CHILD_VISITOR
+  return new NewClaim(reference, DAY, MONTH, YEAR, this.CHILD_VISITOR
   )
 }
 
 module.exports.insert = function (reference, eligibilityId) {
-  return insertFirstTimeClaim(reference, eligibilityId, this.build(reference))
+  return insertNewClaim(reference, eligibilityId, this.build(reference))
 }
 
 module.exports.insertWithExpenseChildDocuments = function (reference, eligibilityId) {
