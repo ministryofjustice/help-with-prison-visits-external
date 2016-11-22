@@ -1,13 +1,13 @@
 const Promise = require('bluebird')
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
-const insertTaskCompleteFirstTimeClaim = require('./insert-task-complete-first-time-claim')
-const insertTaskSendFirstTimeClaimNotification = require('./insert-task-send-first-time-claim-notification')
+const insertTask = require('./insert-task')
+const tasksEnum = require('../../constants/tasks-enum')
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const dateFormatter = require('../date-formatter')
 
-module.exports = function (reference, eligibilityId, claimId, assistedDigitalCaseworker) {
+module.exports = function (reference, eligibilityId, claimId, claimType, assistedDigitalCaseworker) {
   var dateSubmitted = dateFormatter.now().toDate()
 
   return knex('Claim')
@@ -20,8 +20,8 @@ module.exports = function (reference, eligibilityId, claimId, assistedDigitalCas
 
       return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
                           updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker),
-                          insertTaskCompleteFirstTimeClaim(reference, eligibilityId, claimId),
-                          insertTaskSendFirstTimeClaimNotification(reference, eligibilityId, claimId)])
+                          insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType),
+                          insertTask(reference, eligibilityId, claimId, tasksEnum.SEND_CLAIM_NOTIFICATION, null)])
     })
 }
 

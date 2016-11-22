@@ -85,7 +85,15 @@ describe('Repeat claim with no change flow', function () {
 
       // Claim summary
       .waitForExist('#claim-summary-submit')
+      .click('#claim-summary-submit')
 
-      // TODO Submit
+      // Bank account details
+      .waitForExist('#bank-account-details-submit')
+      .setValue('#account-number-input', '00123456')
+      .setValue('#sort-code-input', '001122')
+      .click('#bank-account-details-submit')
+
+      // Application submitted
+      .waitForExist('#reference')
   })
 })

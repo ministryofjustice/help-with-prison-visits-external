@@ -11,7 +11,8 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIMID = '1'
-  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`
+  const CLAIM_TYPE = 'first-time'
+  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`
   const VALID_DATA = {
     'AccountNumber': '12345678',
     'SortCode': '123456'
@@ -21,20 +22,20 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
 
   var stubBankAccountDetails
   var stubInsertBankAccountDetailsForClaim
-  var stubSubmitFirstTimeClaim
+  var stubSubmitClaim
   var stubUrlPathValidator
 
   beforeEach(function () {
     stubBankAccountDetails = sinon.stub()
     stubInsertBankAccountDetailsForClaim = sinon.stub()
-    stubSubmitFirstTimeClaim = sinon.stub()
+    stubSubmitClaim = sinon.stub()
     stubUrlPathValidator = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/bank-account-details', {
         '../../../../services/domain/bank-account-details': stubBankAccountDetails,
         '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
-        '../../../../services/data/submit-first-time-claim': stubSubmitFirstTimeClaim,
+        '../../../../services/data/submit-claim': stubSubmitClaim,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator
       })
     app = routeHelper.buildApp(route)
@@ -69,7 +70,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
       var newBankAccountDetails = {}
       stubBankAccountDetails.returns(newBankAccountDetails)
       stubInsertBankAccountDetailsForClaim.resolves()
-      stubSubmitFirstTimeClaim.resolves()
+      stubSubmitClaim.resolves()
 
       return supertest(app)
         .post(ROUTE)
@@ -78,7 +79,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
         .expect(function () {
           sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
           sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newBankAccountDetails)
-          sinon.assert.calledWith(stubSubmitFirstTimeClaim, REFERENCE, ELIGIBILITYID, CLAIMID, undefined)
+          sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined)
         })
         .expect('location', `/application-submitted/${REFERENCE}`)
     })
@@ -87,7 +88,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
       var assistedDigitalCaseWorker = 'a@b.com'
       stubBankAccountDetails.returns({})
       stubInsertBankAccountDetailsForClaim.resolves()
-      stubSubmitFirstTimeClaim.resolves()
+      stubSubmitClaim.resolves()
 
       return supertest(app)
         .post(ROUTE)
@@ -95,7 +96,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
         .set('Cookie', [`apvs-assisted-digital=${assistedDigitalCaseWorker}`])
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubSubmitFirstTimeClaim, REFERENCE, ELIGIBILITYID, CLAIMID, assistedDigitalCaseWorker)
+          sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, assistedDigitalCaseWorker)
         })
     })
 

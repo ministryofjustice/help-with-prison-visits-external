@@ -4,23 +4,23 @@ const sinon = require('sinon')
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
+const tasksEnum = require('../../../../app/constants/tasks-enum')
 const eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
 const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
 require('sinon-bluebird')
 
 const REFERENCE = 'SUBMITF'
+const CLAIM_TYPE = 'first-time'
 var eligibilityId
 var claimId
 
-var stubInsertTaskCompleteFirstTimeClaim = sinon.stub().resolves()
-var stubInsertTaskSendFirstTimeClaimNotification = sinon.stub().resolves()
+var stubInsertTask = sinon.stub().resolves()
 
-const submitFirstTimeClaim = proxyquire('../../../../app/services/data/submit-first-time-claim', {
-  './insert-task-complete-first-time-claim': stubInsertTaskCompleteFirstTimeClaim,
-  './insert-task-send-first-time-claim-notification': stubInsertTaskSendFirstTimeClaimNotification
+const submitClaim = proxyquire('../../../../app/services/data/submit-claim', {
+  './insert-task': stubInsertTask
 })
 
-describe('services/data/submit-first-time-claim', function () {
+describe('services/data/submit-claim', function () {
   before(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)
       .then(function (ids) {
@@ -29,11 +29,11 @@ describe('services/data/submit-first-time-claim', function () {
       })
   })
 
-  it('should update Eligibility and Claim status and DateSubmitted then call insertTaskSendFirstTimeClaimNotification', function () {
+  it('should update Eligibility/Claim Status, DateSubmitted and insert tasks', function () {
     var currentDate = new Date()
     var assistedDigitalCaseworker = 'a@b.com'
 
-    submitFirstTimeClaim(REFERENCE, eligibilityId, claimId, assistedDigitalCaseworker)
+    submitClaim(REFERENCE, eligibilityId, claimId, CLAIM_TYPE, assistedDigitalCaseworker)
       .then(function () {
         knex.first().from('ExtSchema.Eligibility').where('Reference', REFERENCE)
           .then(function (eligibility) {
@@ -46,15 +46,15 @@ describe('services/data/submit-first-time-claim', function () {
                 expect(claim.AssistedDigitalCaseworker).to.equal(assistedDigitalCaseworker)
                 expect(claim.DateSubmitted).to.be.within(currentDate.setMinutes(currentDate.getMinutes() - 2), currentDate.setMinutes(currentDate.getMinutes() + 2))
 
-                expect(stubInsertTaskCompleteFirstTimeClaim.calledWith(REFERENCE, eligibilityId, claimId)).to.be.true
-                expect(stubInsertTaskSendFirstTimeClaimNotification.calledWith(REFERENCE, eligibilityId, claimId)).to.be.true
+                expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.SEND_CLAIM_NOTIFICATION, null)).to.be.true
+                expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true
               })
           })
       })
   })
 
   it('should throw an error if no valid claim', function () {
-    return submitFirstTimeClaim('NONE123', 4321, 123456, undefined)
+    return submitClaim('NONE123', 4321, 123456, CLAIM_TYPE, undefined)
       .catch(function (error) {
         expect(error.message).to.contain('Could not find Claim')
       })

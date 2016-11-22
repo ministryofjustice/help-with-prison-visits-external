@@ -36,7 +36,7 @@ module.exports = function (router) {
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
     UrlPathValidator(req.params)
     var savedClaimDetails
-    getClaimSummary(req.params.claimId)
+    getClaimSummary(req.params.claimId, req.params.claimType)
       .then(function (claimDetails) {
         savedClaimDetails = claimDetails
         var benefitDocument
