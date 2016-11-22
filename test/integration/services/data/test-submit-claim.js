@@ -15,9 +15,11 @@ var eligibilityId
 var claimId
 
 var stubInsertTask = sinon.stub().resolves()
+var stubInsertTaskSendClaimNotification = sinon.stub().resolves()
 
 const submitClaim = proxyquire('../../../../app/services/data/submit-claim', {
-  './insert-task': stubInsertTask
+  './insert-task': stubInsertTask,
+  './insert-task-send-claim-notification': stubInsertTaskSendClaimNotification
 })
 
 describe('services/data/submit-claim', function () {
@@ -46,8 +48,8 @@ describe('services/data/submit-claim', function () {
                 expect(claim.AssistedDigitalCaseworker).to.equal(assistedDigitalCaseworker)
                 expect(claim.DateSubmitted).to.be.within(currentDate.setMinutes(currentDate.getMinutes() - 2), currentDate.setMinutes(currentDate.getMinutes() + 2))
 
-                expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.SEND_CLAIM_NOTIFICATION, null)).to.be.true
                 expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true
+                expect(stubInsertTaskSendClaimNotification.calledWith(REFERENCE, eligibilityId, claimId)).to.be.true
               })
           })
       })
