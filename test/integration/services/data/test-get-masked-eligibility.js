@@ -21,19 +21,27 @@ describe('services/data/get-masked-eligibility', function () {
   })
 
   it('should retrieve eligibility data for the given reference and dob', function () {
-    return getMaskedEligibility(REFERENCE, internalVisitorHelper.DATE_OF_BIRTH.toDate())
+    return getMaskedEligibility(REFERENCE, internalVisitorHelper.DATE_OF_BIRTH.toDate(), null)
       .then(function (eligibility) {
         expect(eligibility.EligibilityId).to.equal(eligibilityId)
 
         // Visitor Details
         expect(eligibility.FirstName).to.equal(internalVisitorHelper.FIRST_NAME)
-        expect(eligibility.LastName).to.equal(internalVisitorHelper.LAST_NAME)
+        expect(eligibility.LastName, 'should be masked').to.equal('S****')
+        expect(eligibility.PhoneNumber, 'should be masked').to.equal('******5564')
 
         // Prisoner Details
         expect(eligibility.PrisonerFirstName).to.equal(internalPrisonerHelper.FIRST_NAME)
-        expect(eligibility.PrisonerLastName).to.equal(internalPrisonerHelper.LAST_NAME)
+        expect(eligibility.PrisonerLastName, 'should be masked').to.equal('S****')
         expect(eligibility.NameOfPrison).to.equal(internalPrisonerHelper.NAME_OF_PRISON)
         expect(eligibility.PrisonNumber).to.equal(internalPrisonerHelper.PRISON_NUMBER)
+      })
+  })
+
+  it('should retrieve eligibility data for the given reference and eligibilityId', function () {
+    return getMaskedEligibility(REFERENCE, null, eligibilityId)
+      .then(function (eligibility) {
+        expect(eligibility.EligibilityId).to.equal(eligibilityId)
       })
   })
 

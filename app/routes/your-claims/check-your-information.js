@@ -9,7 +9,7 @@ module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    getMaskedEligibility(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate())
+    getMaskedEligibility(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
       .then(function (eligibility) {
         return res.render('your-claims/check-your-information', {
           dob: req.params.dob,
@@ -33,7 +33,7 @@ module.exports = function (router) {
       res.redirect(`/apply/repeat/eligibility/${referenceId}/new-claim`)
     } catch (error) {
       if (error instanceof ValidationError) {
-        getMaskedEligibility(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate())
+        getMaskedEligibility(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
           .then(function (eligibility) {
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,

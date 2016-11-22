@@ -14,7 +14,7 @@ module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    getClaimSummary(req.params.claimId)
+    getClaimSummary(req.params.claimId, req.params.claimType)
       .then(function (claimDetails) {
         return res.render('apply/eligibility/claim/claim-summary',
           {

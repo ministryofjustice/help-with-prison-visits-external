@@ -1,5 +1,8 @@
 const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
+const claimChildHelper = require('./claim-child-helper')
+const expenseHelper = require('./expense-helper')
+const claimDocumentHelper = require('./claim-document-helper')
 const insertFirstTimeClaim = require('../../../app/services/data/insert-first-time-claim')
 const FirstTimeClaim = require('../../../app/services/domain/first-time-claim')
 const claimStatusEnum = require('../../../app/constants/claim-status-enum')
@@ -22,6 +25,27 @@ module.exports.build = function (reference) {
 
 module.exports.insert = function (reference, eligibilityId) {
   return insertFirstTimeClaim(reference, eligibilityId, this.build(reference))
+}
+
+module.exports.insertWithExpenseChildDocuments = function (reference, eligibilityId) {
+  var claimId
+  return this.insert(reference, eligibilityId)
+    .then(function (newClaimId) {
+      claimId = newClaimId
+      return expenseHelper.insert(reference, eligibilityId, claimId)
+    })
+    .then(function () {
+      return claimChildHelper.insert(reference, eligibilityId, claimId)
+    })
+    .then(function () {
+      return claimDocumentHelper.insert(reference, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)
+        .then(function () {
+          return claimDocumentHelper.insert(reference, eligibilityId, claimId, 'BENEFIT')
+        })
+    })
+    .then(function () {
+      return claimId
+    })
 }
 
 module.exports.get = function (claimId) {

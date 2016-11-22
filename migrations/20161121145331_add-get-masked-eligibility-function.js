@@ -1,8 +1,8 @@
 const config = require('../config')
 
 /**
- * Adds a table function to the IntSchema that retrieves eligibility data for a reference number and dob and grants
- * the external web user permissions to call it.
+ * Adds a table function to the IntSchema that retrieves eligibility data for a reference number and
+ * dob or eligibilityId and grants the external web user permissions to call it.
  *
  * This information should be masked so the external web cannot query personal information
  */
@@ -10,7 +10,7 @@ exports.up = function (knex, Promise) {
   return knex.schema
     .raw(
       `
-        CREATE FUNCTION IntSchema.getMaskedEligibility(@reference varchar(7), @dob datetime)
+        CREATE FUNCTION IntSchema.getMaskedEligibility(@reference varchar(7), @dob datetime, @eligibiltyId int)
         RETURNS TABLE
         AS
         RETURN
@@ -19,16 +19,19 @@ exports.up = function (knex, Promise) {
             Eligibility.EligibilityId,
             Visitor.Title,
             Visitor.FirstName,
-            Visitor.LastName,
+            STUFF(Visitor.LastName, 2, 100, REPLICATE('*', LEN(Visitor.LastName) - 1)) AS LastName,
             Visitor.HouseNumberAndStreet,
             Visitor.Town,
             Visitor.PostCode,
             Visitor.Benefit,
             Visitor.Relationship,
             Visitor.EmailAddress,
-            Visitor.PhoneNumber,
+            CASE
+              WHEN ISNULL(Visitor.PhoneNumber, '') = '' THEN ''
+              ELSE '******' + RIGHT(Visitor.PhoneNumber, 4)
+            END AS PhoneNumber,
             Prisoner.FirstName AS PrisonerFirstName,
-            Prisoner.LastName AS PrisonerLastName,
+            STUFF(Prisoner.LastName, 2, 100, REPLICATE('*', LEN(Prisoner.LastName) - 1)) AS PrisonerLastName,
             Prisoner.NameOfPrison,
             Prisoner.PrisonNumber
           FROM IntSchema.Eligibility AS Eligibility
@@ -36,7 +39,7 @@ exports.up = function (knex, Promise) {
             JOIN IntSchema.Prisoner AS Prisoner ON Prisoner.EligibilityId = Eligibility.EligibilityId
           WHERE
             Eligibility.Reference = @reference AND
-            Visitor.DateOfBirth = @dob AND
+            (Visitor.DateOfBirth = @dob OR Eligibility.EligibilityId = @eligibiltyId) AND
             Eligibility.Status = 'APPROVED'
           ORDER BY Eligibility.DateSubmitted DESC
         )
