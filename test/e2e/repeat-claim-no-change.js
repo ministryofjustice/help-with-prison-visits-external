@@ -1,17 +1,14 @@
 const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
 const internalVisitorHelper = require('../helpers/data/internal/internal-visitor-helper')
 const dateFormatter = require('../../app/services/date-formatter')
+const referenceGenerator = require('../../app/services/reference-generator')
 
 var todaysDate = dateFormatter.now()
 describe('Repeat claim with no change flow', function () {
-  const REFERENCE = 'REP1234'
+  const REFERENCE = referenceGenerator.generate()
 
   before(function () {
     return internalEligibilityHelper.insertEligibilityAndClaim(REFERENCE)
-  })
-
-  after(function () {
-    return internalEligibilityHelper.deleteAll(REFERENCE)
   })
 
   it('should display each page in the repeat claim flow', function () {
