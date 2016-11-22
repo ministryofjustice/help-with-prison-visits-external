@@ -2,12 +2,16 @@ const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const documentTypeEnum = require('../../constants/document-type-enum')
 
-module.exports = function (claimId) {
+module.exports = function (claimId, referenceId, eligibilityId) {
   return knex('Claim')
     .join('Eligibility', 'Claim.Reference', '=', 'Eligibility.Reference')
     .join('Visitor', 'Eligibility.Reference', '=', 'Visitor.Reference')
     .join('Prisoner', 'Eligibility.Reference', '=', 'Prisoner.Reference')
-    .where('Claim.ClaimId', claimId)
+    .where({
+      'Claim.ClaimId': claimId,
+      'Claim.Reference': referenceId,
+      'Claim.EligibilityId': eligibilityId
+    })
     .first(
       'Eligibility.Reference',
       'Claim.DateSubmitted',
@@ -22,6 +26,10 @@ module.exports = function (claimId) {
       'Prisoner.NameOfPrison'
   )
     .then(function (claim) {
+      // Throw error if no claim found
+      if (claim == null || claim === undefined) {
+        throw new Error('Unable to find Claim details')
+      }
       return knex('ClaimDocument')
         .join('Claim', 'ClaimDocument.ClaimId', '=', 'Claim.ClaimId')
         .where({'Claim.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null})

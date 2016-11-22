@@ -60,7 +60,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(getClaimSummary.calledWith(CLAIMID)).to.be.true
+          expect(getClaimSummary.calledWith(CLAIMID, REFERENCE, ELIGIBILITYID)).to.be.true
           done()
         })
     })
@@ -74,7 +74,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(getClaimSummary.calledWith(CLAIMID)).to.be.true
+          expect(getClaimSummary.calledWith(CLAIMID, REFERENCE, ELIGIBILITYID)).to.be.true
           expect(claimSummaryDomainObjectStub.calledOnce, 'Should have called to check validation').to.be.true
           expect(response.headers['location']).to.be.equal(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`)
           done()
