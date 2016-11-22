@@ -18,15 +18,15 @@
 
   <p>Please add the relevant documentation associated with your claim.</p>
 
-  {% include "apply/eligibility/claim/claim-summary-partials/claim-summary-visitor.html" %}
+  {% include "partials/claim-summary/claim-summary-visitor.html" %}
 
   <h2 class="heading-medium">Your visit</h2>
 
-  {% include "apply/eligibility/claim/claim-summary-partials/claim-summary-visit.html" %}
+  {% include "partials/claim-summary/claim-summary-visit.html" %}
 
   <br>
 
-  {% include "apply/eligibility/claim/claim-summary-partials/claim-summary-expenses.html" %}
+  {% include "partials/claim-summary/claim-summary-expenses.html" %}
 
   <br>
   <a href="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}" class="link">Add another expense</a>
