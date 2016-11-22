@@ -1,0 +1,64 @@
+<table class="col-2">
+
+  <tr>
+    <td>Prisoner name</td>
+    <td>{{ claimDetails.claim['PrisonerFirstName']}} {{ claimDetails.claim['PrisonerLastName'] }}</td>
+  </tr>
+
+  <tr>
+    <td>Prisoner number</td>
+    <td>{{ claimDetails.claim['PrisonNumber'] }}</td>
+  </tr>
+
+  <tr>
+    <td>Prison</td>
+    <td>{{ claimDetails.claim['NameOfPrison'] }}</td>
+  </tr>
+
+  <tr>
+    <td>Date of visit</td>
+    <td>{{ dateHelper(claimDetails.claim['DateOfJourney']) }}</td>
+  </tr>
+
+  <tr id="VisitConfirmation" {% if errors['VisitConfirmation'][0] %} class="warning" {% endif %}>
+    <td>Visit confirmation</td>
+    <td>
+      {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
+        <span class="text-success">Visit confirmation uploaded</span>
+        <form
+          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-document/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}"
+          method="get" class="form pull-right">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+          <button class="link">view</button>
+        </form>
+        <span class="button-separator"></span>
+        <form
+          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimDetails.claim.visitConfirmation['ClaimDocumentId'] }}?document=VISIT_CONFIRMATION"
+          method="post" class="form pull-right">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+          <button class="link" name="remove">remove</button>
+        </form>
+      {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' %}
+        <span class="text-pending">Uploading visit confirmation later</span>
+        <form
+          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}?document=VISIT_CONFIRMATION"
+          method="post" class="form pull-right">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+          <button class="link" name="change" id="change-visit-confirmation-upload-later">change</button>
+        </form>
+      {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'post-later' %}
+        <span class="text-pending">Sending visit confirmation by post</span>
+        <form
+          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}?document=VISIT_CONFIRMATION"
+          method="post" class="form pull-right">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+          <button class="link" name="change" id="change-visit-confirmation-post">change</button>
+        </form>
+      {% else %}
+        <span class="text-warning">Visit confirmation required</span>
+        <a href="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=VISIT_CONFIRMATION" id="add-visit-confirmation" class="button grey pull-right">Add</a>
+      {% endif %}
+    </td>
+  </tr>
+
+</table>
