@@ -38,6 +38,7 @@ var routes = [
 
   // Your Claims Flow
   require('./your-claims/your-claims'),
+  require('./your-claims/check-your-information'),
 
   // Health check routes
   require('./health-check/status')

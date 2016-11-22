@@ -6,6 +6,7 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 require('sinon-bluebird')
 
+const CLAIM_TYPE = 'first-time'
 const REFERENCE = 'V123456'
 const ELIGIBILITYID = '1234'
 const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
@@ -13,6 +14,8 @@ const CLAIMID = '1'
 const CLAIMEXPENSEID = '1234'
 const CLAIMDOCUMENTID = '123'
 const FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.txt' }
+
+const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`
 
 describe('routes/apply/eligibility/claim/claim-summary', function () {
   var request
@@ -52,31 +55,31 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     urlValidatorCalled = false
   })
 
-  describe('GET /apply/first-time/eligibility/:referenceId/claim/:claimId/summary', function () {
+  describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200', function (done) {
       request
-        .get(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
+        .get(ROUTE)
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(getClaimSummary.calledWith(CLAIMID)).to.be.true
+          expect(getClaimSummary.calledWith(CLAIMID, CLAIM_TYPE)).to.be.true
           done()
         })
     })
   })
 
-  describe('POST /apply/first-time/eligibility/:referenceId/claim/:claimId/summary', function () {
+  describe(`POST ${ROUTE}`, function () {
     it('should respond with a 302', function (done) {
       request
-        .post(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
+        .post(ROUTE)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
-          expect(getClaimSummary.calledWith(CLAIMID)).to.be.true
+          expect(getClaimSummary.calledWith(CLAIMID, CLAIM_TYPE)).to.be.true
           expect(claimSummaryDomainObjectStub.calledOnce, 'Should have called to check validation').to.be.true
-          expect(response.headers['location']).to.be.equal(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`)
+          expect(response.headers['location']).to.be.equal(`/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`)
           done()
         })
     })
@@ -84,15 +87,15 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     it('should respond with a 400 if validation errors', function (done) {
       claimSummaryDomainObjectStub.throws(new ValidationError())
       request
-        .post(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
+        .post(ROUTE)
         .expect(400, done)
     })
   })
 
-  describe('GET /apply/first-time/eligibility/:referenceId/claim/:claimId/summary/view-document/:claimDocumentId', function () {
+  describe(`GET ${ROUTE}/view-document/:claimDocumentId`, function () {
     it('should respond respond with 200 if valid path entered', function (done) {
       request
-        .get(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/view-document/${CLAIMDOCUMENTID}`)
+        .get(`${ROUTE}/view-document/${CLAIMDOCUMENTID}`)
         .expect(200)
         .end(function (error, response) {
           expect(error).to.be.null
@@ -104,50 +107,50 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     it('should respond with 500 if invalid path provided', function (done) {
       getClaimDocumentFilePath.resolves('invalid-filepath')
       request
-        .get(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/view-document/${CLAIMDOCUMENTID}`)
+        .get(`${ROUTE}/view-document/${CLAIMDOCUMENTID}`)
         .expect(500, done)
     })
   })
 
-  describe('POST /apply/first-time/eligibility/:referenceId/claim/:claimId/summary/remove-expense/:claimExpenseId', function () {
+  describe(`POST ${ROUTE}/remove-expense/:claimExpenseId`, function () {
     it('should respond with a 302 and call removeClaimExpense and removeClaimDocument', function (done) {
       request
-        .post(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/remove-expense/${CLAIMEXPENSEID}?claimDocumentId=${CLAIMDOCUMENTID}`)
+        .post(`${ROUTE}/remove-expense/${CLAIMEXPENSEID}?claimDocumentId=${CLAIMDOCUMENTID}`)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(removeClaimExpense.calledWith(CLAIMID, CLAIMEXPENSEID)).to.be.true
           expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
-          expect(response.headers['location']).to.be.equal(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
+          expect(response.headers['location']).to.be.equal(ROUTE)
           done()
         })
     })
   })
 
-  describe('POST apply/first-time/eligibility/:referenceId/claim/:claimId/summary/remove-document/:claimDocumentId', function () {
+  describe(`POST ${ROUTE}/remove-document/:claimDocumentId`, function () {
     it('should respond with a 302, call removeClaimDocument and redirect to file upload', function (done) {
       request
-        .post(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION`)
+        .post(`${ROUTE}/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION`)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
-          expect(response.headers['location']).to.be.equal(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/file-upload?document=VISIT_CONFIRMATION`)
+          expect(response.headers['location']).to.be.equal(`/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/file-upload?document=VISIT_CONFIRMATION`)
           done()
         })
     })
 
     it('should respond with a 302, call removeClaimDocument and redirect to claim summary', function (done) {
       request
-        .post(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION&multipage=true`)
+        .post(`${ROUTE}/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION&multipage=true`)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
-          expect(response.headers['location']).to.be.equal(`/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`)
+          expect(response.headers['location']).to.be.equal(ROUTE)
           done()
         })
     })

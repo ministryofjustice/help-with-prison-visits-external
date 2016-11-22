@@ -40,5 +40,6 @@ module.exports = {
   'reference': 'Reference number',
   'VisitConfirmation': 'Visit confirmation',
   'benefit-information': 'Benefit information',
-  'claim-expense': 'Claim expense receipt'
+  'claim-expense': 'Claim expense receipt',
+  'confirm-correct': 'Confirmation'
 }

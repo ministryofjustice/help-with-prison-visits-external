@@ -1,6 +1,6 @@
 const BankAccountDetails = require('../../../../services/domain/bank-account-details')
 const insertBankAccountDetailsForClaim = require('../../../../services/data/insert-bank-account-details-for-claim')
-const submitFirstTimeClaim = require('../../../../services/data/submit-first-time-claim')
+const submitClaim = require('../../../../services/data/submit-claim')
 const ValidationError = require('../../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
@@ -25,7 +25,7 @@ module.exports = function (router) {
       var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode)
       insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, bankAccountDetails)
         .then(function () {
-          return submitFirstTimeClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, assistedDigitalCaseWorker)
+          return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker)
             .then(function () {
               return res.redirect(`/application-submitted/${referenceAndEligibilityId.reference}`)
             })

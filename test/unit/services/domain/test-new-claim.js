@@ -1,4 +1,4 @@
-const FirstTimeClaim = require('../../../../app/services/domain/first-time-claim')
+const NewClaim = require('../../../../app/services/domain/new-claim')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const dateFormatter = require('../../../../app/services/date-formatter')
 const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
@@ -6,7 +6,7 @@ const expect = require('chai').expect
 
 var claim
 
-describe('services/domain/first-time-claim', function () {
+describe('services/domain/new-claim', function () {
   const VALID_REFERENCE = 'APVS123'
   const VALID_DAY = dateFormatter.now().date()
   const VALID_MONTH = dateFormatter.now().month() + 1 // Needed for zero indexed month
@@ -15,7 +15,7 @@ describe('services/domain/first-time-claim', function () {
   var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
 
   it('should construct a domain object given valid input', function () {
-    claim = new FirstTimeClaim(
+    claim = new NewClaim(
       VALID_REFERENCE,
       VALID_DAY,
       VALID_MONTH,
@@ -31,7 +31,7 @@ describe('services/domain/first-time-claim', function () {
 
   it('should return isRequired errors given empty strings', function () {
     try {
-      claim = new FirstTimeClaim('', '', '', '')
+      claim = new NewClaim('', '', '', '')
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
       expect(e.validationErrors['Reference'][0]).to.equal('Reference is required')
@@ -41,7 +41,7 @@ describe('services/domain/first-time-claim', function () {
 
   it('should return isValidDate error given an invalid type for date', function () {
     try {
-      claim = new FirstTimeClaim(
+      claim = new NewClaim(
         VALID_REFERENCE,
         'invalid day',
         'invalid month',
@@ -56,7 +56,7 @@ describe('services/domain/first-time-claim', function () {
   it('should return isValidDate error given a date in the future', function () {
     try {
       var futureDate = dateFormatter.now().add(1)
-      claim = new FirstTimeClaim(
+      claim = new NewClaim(
         VALID_REFERENCE,
         futureDate.date(),
         futureDate.month() + 1,
@@ -72,7 +72,7 @@ describe('services/domain/first-time-claim', function () {
   it('should return isDateWithinDays error given a date more than 28 days away', function () {
     try {
       var dateFurtherThan28Days = dateFormatter.now().subtract(29)
-      claim = new FirstTimeClaim(
+      claim = new NewClaim(
         VALID_REFERENCE,
         dateFurtherThan28Days.date(),
         dateFurtherThan28Days.month() + 1,
