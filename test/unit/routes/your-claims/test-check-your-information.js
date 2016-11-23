@@ -5,7 +5,7 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 require('sinon-bluebird')
 
-describe('/your-claims/your-claims', function () {
+describe('/your-claims/check-your-information', function () {
   const DOB = '2000-05-15'
   const REFERENCE = 'APVS123'
   const ROUTE = `/your-claims/${DOB}/${REFERENCE}/check-your-information`
