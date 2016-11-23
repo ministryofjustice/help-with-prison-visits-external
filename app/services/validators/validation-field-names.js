@@ -41,5 +41,6 @@ module.exports = {
   'VisitConfirmation': 'Visit confirmation',
   'benefit-information': 'Benefit information',
   'claim-expense': 'Claim expense receipt',
-  'confirm-correct': 'Confirmation'
+  'confirm-correct': 'Confirmation',
+  'same-journey-as-last-claim': 'Same journey as last claim'
 }

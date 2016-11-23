@@ -1,0 +1,66 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+  <main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Do you want to claim for the same journey as your last claim?
+      </h2>
+
+      <form action="/apply/repeat/eligibility/{{ referenceId }}/new-claim/same-journey-as-last-claim" method="post" class="form">
+
+        <div class="form-group">
+          <fieldset>
+            <label for="yes" class="block-label">
+              <input type="radio"
+                     name="same-journey-as-last-claim"
+                     value="yes"
+                     id="yes">
+              Yes
+            </label>
+
+          </fieldset>
+        </div>
+
+        <div class="form-group">
+          <fieldset>
+            <label for="no" class="block-label">
+              <input type="radio"
+                     name="same-journey-as-last-claim"
+                     value="no"
+                     id="no">
+              No
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="form-group">
+          {% include "partials/csrf-hidden-input.html" %}
+
+          <input type="submit"
+                 id="same-journey-as-last-claim-submit"
+                 name="commit"
+                 value="Continue"
+                 class="button">
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  </main>
+
+{% endblock %}

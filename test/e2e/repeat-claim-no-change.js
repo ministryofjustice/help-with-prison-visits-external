@@ -40,6 +40,11 @@ describe('Repeat claim with no change flow', function () {
       .click('[for="past"]')
       .click('#future-or-past-submit')
 
+      // Same journey as your last claim
+      .waitForExist('#same-journey-as-last-claim-submit')
+      .click('[for="no"]')
+      .click('#same-journey-as-last-claim-submit')
+
       // Journey information
       .waitForExist('#journey-information-submit')
       .setValue('#date-of-journey-day', todaysDate.date())

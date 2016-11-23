@@ -1,4 +1,5 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
+const claimTypeEnum = require('../../../../constants/claim-type-enum')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/new-claim', function (req, res) {
@@ -13,6 +14,11 @@ module.exports = function (router) {
   router.post('/apply/:claimType/eligibility/:referenceId/new-claim', function (req, res) {
     UrlPathValidator(req.params)
 
-    return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/new-claim/past`)
+    var nextPage = 'past'
+    if (req.params.claimType === claimTypeEnum.REPEAT_CLAIM) {
+      nextPage = 'same-journey-as-last-claim'
+    }
+
+    return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/new-claim/${nextPage}`)
   })
 }

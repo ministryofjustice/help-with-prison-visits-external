@@ -10,14 +10,15 @@ var routes = [
   require('./application-submitted'),
 
   // First Time Flow.
-  require('./apply/new-eligibility/date-of-birth.js'),
+  require('./apply/new-eligibility/date-of-birth'),
   require('./apply/new-eligibility/prisoner-relationship'),
   require('./apply/new-eligibility/benefits'),
-  require('./apply/new-eligibility/about-the-prisoner.js'),
-  require('./apply/new-eligibility/about-you.js'),
-  require('./apply/eligibility/new-claim/future-or-past-visit.js'),
-  require('./apply/eligibility/new-claim/journey-information.js'),
-  require('./apply/eligibility/claim/about-child.js'),
+  require('./apply/new-eligibility/about-the-prisoner'),
+  require('./apply/new-eligibility/about-you'),
+  require('./apply/eligibility/new-claim/future-or-past-visit'),
+  require('./apply/eligibility/new-claim/same-journey-as-last-claim'),
+  require('./apply/eligibility/new-claim/journey-information'),
+  require('./apply/eligibility/claim/about-child'),
   require('./apply/eligibility/claim/expenses'),
 
   // Expenses
