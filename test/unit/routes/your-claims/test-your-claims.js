@@ -1,3 +1,4 @@
+const expect = require('chai').expect
 const routeHelper = require('../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
@@ -8,6 +9,9 @@ describe('/your-claims/your-claims', function () {
   const DOB = '2000-05-15'
   const REFERENCE = 'APVS123'
   const ROUTE = `/your-claims/${DOB}/${REFERENCE}`
+
+  const CLAIMS_CAN_START_NEW_CLAIM = [{Status: 'APPROVED'}, {Status: 'REJECTED'}]
+  const CLAIMS_CANNOT_START_NEW_CLAIM = [{Status: 'INPROGRESS'}]
 
   var app
 
@@ -35,10 +39,28 @@ describe('/your-claims/your-claims', function () {
     })
 
     it('should respond with a 200 if the database query returns a result', function () {
-      getHistoricClaimsStub.resolves([''])
+      getHistoricClaimsStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
       return supertest(app)
         .get(ROUTE)
         .expect(200)
+    })
+
+    it('should set canStartNewClaim to true if no claims in progress', function () {
+      getHistoricClaimsStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function (response) {
+          expect(response.text).to.contain('"canStartNewClaim":true')
+        })
+    })
+
+    it('should set canStartNewClaim to false if claims in progress', function () {
+      getHistoricClaimsStub.resolves(CLAIMS_CANNOT_START_NEW_CLAIM)
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function (response) {
+          expect(response.text).to.contain('"canStartNewClaim":false')
+        })
     })
 
     it('should respond with a 302 and redirect if passed a non-matching reference number dob combination', function () {

@@ -1,6 +1,7 @@
 const UrlPathValidator = require('../../services/validators/url-path-validator')
 const getHistoricClaims = require('../../services/data/get-historic-claims')
 const dateHelper = require('../../views/helpers/date-helper')
+const claimStatusEnum = require('../../constants/claim-status-enum')
 const claimStatusHelper = require('../../views/helpers/claim-status-helper')
 const dateFormatter = require('../../services/date-formatter')
 
@@ -14,16 +15,33 @@ module.exports = function (router) {
         if (claims.length === 0) {
           return res.redirect(`/start${REFERENCE_DOB_ERROR}`)
         }
+
+        var canStartNewClaim = noClaimsInProgress(claims)
+
         return res.render('your-claims/your-claims', {
           dob: req.params.dob,
           reference: req.params.reference,
           claims: claims,
           dateHelper: dateHelper,
-          claimStatusHelper: claimStatusHelper
+          claimStatusHelper: claimStatusHelper,
+          canStartNewClaim: canStartNewClaim
         })
       })
       .catch(function (error) {
         next(error)
       })
   })
+
+  function noClaimsInProgress (claims) {
+    var result = true
+
+    claims.forEach(function (claim) {
+      if (claim.Status !== claimStatusEnum.APPROVED &&
+          claim.Status !== claimStatusEnum.REJECTED) {
+        result = false
+      }
+    })
+
+    return result
+  }
 }
