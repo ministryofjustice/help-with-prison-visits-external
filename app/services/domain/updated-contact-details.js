@@ -2,10 +2,10 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 
-class UpdateContactDetails {
+class UpdatedContactDetails {
   constructor (emailAddress, phoneNumber) {
-    this.emailAddress = emailAddress
-    this.phoneNumber = phoneNumber
+    this.emailAddress = emailAddress ? emailAddress.trim() : ''
+    this.phoneNumber = phoneNumber ? phoneNumber.trim() : ''
     this.isValid()
   }
 
@@ -27,4 +27,4 @@ class UpdateContactDetails {
   }
 }
 
-module.exports = UpdateContactDetails
+module.exports = UpdatedContactDetails
