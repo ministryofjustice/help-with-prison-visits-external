@@ -111,17 +111,17 @@
             <option>select</option>
             <optgroup label="England / Wales">
             {% for key, prison in prisonsByRegion['england-wales'] %}
-              <option {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
             {% endfor %}
             </optgroup>
             <optgroup label="Scotland">
             {% for key, prison in prisonsByRegion['scotland'] %}
-              <option {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
             {% endfor %}
             </optgroup>
             <optgroup label="Northern Ireland">
             {% for key, prison in prisonsByRegion['northern-ireland'] %}
-              <option {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
             {% endfor %}
             </optgroup>
           </select>

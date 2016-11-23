@@ -6,6 +6,7 @@ const dateHelper = require('../../../../views/helpers/date-helper')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
 const benefitsEnum = require('../../../../constants/benefits-enum')
 const receiptRequiredEnum = require('../../../../constants/receipt-required-enum')
+const prisonsEnum = require('../../../../constants/prisons-enum')
 const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimDocumentFilePath = require('../../../../services/data/get-claim-document-file-path')
@@ -25,7 +26,8 @@ module.exports = function (router) {
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
             benefitsEnum: benefitsEnum,
-            receiptRequiredEnum: receiptRequiredEnum
+            receiptRequiredEnum: receiptRequiredEnum,
+            prisonsEnum: prisonsEnum
           })
       })
       .catch(function (error) {
@@ -57,7 +59,8 @@ module.exports = function (router) {
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
             benefitsEnum: benefitsEnum,
-            receiptRequiredEnum: receiptRequiredEnum
+            receiptRequiredEnum: receiptRequiredEnum,
+            prisonsEnum: prisonsEnum
           })
         } else {
           next(error)

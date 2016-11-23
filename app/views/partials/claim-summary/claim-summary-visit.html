@@ -12,7 +12,7 @@
 
   <tr>
     <td>Prison</td>
-    <td>{{ claimDetails.claim['NameOfPrison'] }}</td>
+    <td>{{ prisonsEnum.getByValue(claimDetails.claim['NameOfPrison']).displayName }}</td>
   </tr>
 
   <tr>
