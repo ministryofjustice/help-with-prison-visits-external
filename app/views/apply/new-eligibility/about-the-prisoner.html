@@ -107,11 +107,24 @@
           {% if errors['NameOfPrison'][0] %}
           <span class="error-message" id="error-message-NameOfPrison">{{ errors['NameOfPrison'][0] }}</span>
           {% endif %}
-          <input id="prison-name"
-                 name="NameOfPrison"
-                 value="{{ prisoner['NameOfPrison'] }}"
-                 type="text"
-                 class="form-control">
+          <select id="prison-name" class="form-control" name="NameOfPrison">
+            <option>select</option>
+            <optgroup label="England / Wales">
+            {% for key, prison in prisonsByRegion['england-wales'] %}
+              <option {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+            {% endfor %}
+            </optgroup>
+            <optgroup label="Scotland">
+            {% for key, prison in prisonsByRegion['scotland'] %}
+              <option {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+            {% endfor %}
+            </optgroup>
+            <optgroup label="Northern Ireland">
+            {% for key, prison in prisonsByRegion['northern-ireland'] %}
+              <option {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+            {% endfor %}
+            </optgroup>
+          </select>
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}
