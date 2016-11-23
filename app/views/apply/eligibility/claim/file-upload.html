@@ -23,17 +23,15 @@
       <form action="{{ URL }}" method="post" class="form" enctype="multipart/form-data">
 
       {% include "partials/csrf-hidden-input.html" %}
-
-        <div class="grid-row">
-          <div class="column-one-quarter">
+        <div>
+          <div id='document-name' class="column-two-quarter"></div>
+          <div>
             <label class="custom-file-upload">
               <input id="document" type="file" name="document" />
               <div id='choose-file'>Choose file</div>
             </label>
           </div>
-          <div id='document-name' class="column-two-quarter"></div>
         </div>
-
         <div class="form-group">
           <details role="group">
             <summary role="button" aria-controls="details-content-0" aria-expanded="true"><span class="summary">Help with upload</span></summary>
