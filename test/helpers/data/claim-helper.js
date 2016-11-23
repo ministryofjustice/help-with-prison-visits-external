@@ -1,7 +1,10 @@
 const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
-const insertFirstTimeClaim = require('../../../app/services/data/insert-first-time-claim')
-const FirstTimeClaim = require('../../../app/services/domain/first-time-claim')
+const claimChildHelper = require('./claim-child-helper')
+const expenseHelper = require('./expense-helper')
+const claimDocumentHelper = require('./claim-document-helper')
+const insertNewClaim = require('../../../app/services/data/insert-new-claim')
+const NewClaim = require('../../../app/services/domain/new-claim')
 const claimStatusEnum = require('../../../app/constants/claim-status-enum')
 const dateFormatter = require('../../../app/services/date-formatter')
 
@@ -16,12 +19,33 @@ module.exports.STATUS = claimStatusEnum.IN_PROGRESS
 module.exports.CHILD_VISITOR = 'yes'
 
 module.exports.build = function (reference) {
-  return new FirstTimeClaim(reference, DAY, MONTH, YEAR, this.CHILD_VISITOR
+  return new NewClaim(reference, DAY, MONTH, YEAR, this.CHILD_VISITOR
   )
 }
 
 module.exports.insert = function (reference, eligibilityId) {
-  return insertFirstTimeClaim(reference, eligibilityId, this.build(reference))
+  return insertNewClaim(reference, eligibilityId, this.build(reference))
+}
+
+module.exports.insertWithExpenseChildDocuments = function (reference, eligibilityId) {
+  var claimId
+  return this.insert(reference, eligibilityId)
+    .then(function (newClaimId) {
+      claimId = newClaimId
+      return expenseHelper.insert(reference, eligibilityId, claimId)
+    })
+    .then(function () {
+      return claimChildHelper.insert(reference, eligibilityId, claimId)
+    })
+    .then(function () {
+      return claimDocumentHelper.insert(reference, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)
+        .then(function () {
+          return claimDocumentHelper.insert(reference, eligibilityId, claimId, 'BENEFIT')
+        })
+    })
+    .then(function () {
+      return claimId
+    })
 }
 
 module.exports.get = function (claimId) {

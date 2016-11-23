@@ -1,6 +1,5 @@
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
-const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 const DAY = '01'
@@ -11,7 +10,7 @@ module.exports.CLAIM_ID = Math.floor(Date.now() / 100) - 14000000000
 module.exports.DATE_OF_JOURNEY = dateFormatter.build(DAY, MONTH, YEAR)
 module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
-module.exports.STATUS = claimStatusEnum.IN_PROGRESS
+module.exports.STATUS = 'APPROVED'
 module.exports.REASON = null
 module.exports.NOTE = null
 

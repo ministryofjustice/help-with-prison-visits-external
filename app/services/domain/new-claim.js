@@ -4,7 +4,7 @@ const FieldsetValidator = require('../validators/fieldset-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 
-class FirstTimeClaim {
+class NewClaim {
   constructor (reference, day, month, year, childVisitor) {
     this.reference = reference
     this.dateOfJourney = dateFormatter.build(day, month, year)
@@ -34,4 +34,4 @@ class FirstTimeClaim {
   }
 }
 
-module.exports = FirstTimeClaim
+module.exports = NewClaim

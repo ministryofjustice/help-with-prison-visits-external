@@ -1,15 +1,18 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
+const claimTypeEnum = require('../../constants/claim-type-enum')
 const documentTypeEnum = require('../../constants/document-type-enum')
+const getMaskedEligibility = require('./get-masked-eligibility')
 
-module.exports = function (claimId) {
+module.exports = function (claimId, claimType) {
   return knex('Claim')
-    .join('Eligibility', 'Claim.Reference', '=', 'Eligibility.Reference')
-    .join('Visitor', 'Eligibility.Reference', '=', 'Visitor.Reference')
-    .join('Prisoner', 'Eligibility.Reference', '=', 'Prisoner.Reference')
+    .leftJoin('Eligibility', 'Claim.EligibilityId', '=', 'Eligibility.EligibilityId')
+    .leftJoin('Visitor', 'Eligibility.EligibilityId', '=', 'Visitor.EligibilityId')
+    .leftJoin('Prisoner', 'Eligibility.EligibilityId', '=', 'Prisoner.EligibilityId')
     .where('Claim.ClaimId', claimId)
     .first(
-      'Eligibility.Reference',
+      'Claim.EligibilityId',
+      'Claim.Reference',
       'Claim.DateSubmitted',
       'Claim.DateOfJourney',
       'Visitor.FirstName',
@@ -19,8 +22,28 @@ module.exports = function (claimId) {
       'Prisoner.LastName AS PrisonerLastName',
       'Prisoner.DateOfBirth AS PrisonerDateOfBirth',
       'Prisoner.PrisonNumber',
-      'Prisoner.NameOfPrison'
-  )
+      'Prisoner.NameOfPrison',
+      'Eligibility.Status AS EligibilityStatus'
+    )
+    .then(function (claim) {
+      if (claimType === claimTypeEnum.REPEAT_CLAIM && claim.EligibilityStatus == null) {
+        // Repeat claim using existing eligibility data, retrieve from IntSchema
+        return getMaskedEligibility(claim.Reference, null, claim.EligibilityId)
+          .then(function (eligibility) {
+            claim.FirstName = eligibility.FirstName
+            claim.LastName = eligibility.LastName
+            claim.Benefit = eligibility.Benefit
+            claim.PrisonerFirstName = eligibility.PrisonerFirstName
+            claim.PrisonerLastName = eligibility.PrisonerLastName
+            claim.PrisonerDateOfBirth = eligibility.PrisonerDateOfBirth
+            claim.PrisonNumber = eligibility.PrisonNumber
+            claim.NameOfPrison = eligibility.NameOfPrison
+
+            return claim
+          })
+      }
+      return claim
+    })
     .then(function (claim) {
       return knex('ClaimDocument')
         .join('Claim', 'ClaimDocument.ClaimId', '=', 'Claim.ClaimId')

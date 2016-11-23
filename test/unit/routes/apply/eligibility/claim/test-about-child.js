@@ -60,7 +60,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
         })
     })
 
-    it('should insert valid FirstTimeClaim domain object', function () {
+    it('should insert valid NewClaim domain object', function () {
       aboutChildStub.returns(ABOUT_CHILD)
       insertChildStub.resolves(CLAIMID)
       return supertest(app)

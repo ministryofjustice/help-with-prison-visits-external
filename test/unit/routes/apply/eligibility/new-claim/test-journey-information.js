@@ -16,18 +16,18 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
   var app
 
   var urlPathValidatorStub
-  var firstTimeClaimStub
-  var insertFirstTimeClaimStub
+  var newClaimStub
+  var insertNewClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
-    firstTimeClaimStub = sinon.stub()
-    insertFirstTimeClaimStub = sinon.stub()
+    newClaimStub = sinon.stub()
+    insertNewClaimStub = sinon.stub()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/journey-information', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/first-time-claim': firstTimeClaimStub,
-      '../../../../services/data/insert-first-time-claim': insertFirstTimeClaimStub
+      '../../../../services/domain/new-claim': newClaimStub,
+      '../../../../services/data/insert-new-claim': insertNewClaimStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -52,7 +52,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     const FIRST_TIME_CLAIM = {}
 
     it('should call the URL Path Validator', function () {
-      insertFirstTimeClaimStub.resolves()
+      insertNewClaimStub.resolves()
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
@@ -60,28 +60,28 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
         })
     })
 
-    it('should insert valid FirstTimeClaim domain object', function () {
-      firstTimeClaimStub.returns(FIRST_TIME_CLAIM)
-      insertFirstTimeClaimStub.resolves(CLAIM_ID)
+    it('should insert valid NewClaim domain object', function () {
+      newClaimStub.returns(FIRST_TIME_CLAIM)
+      insertNewClaimStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
-          sinon.assert.calledOnce(firstTimeClaimStub)
-          sinon.assert.calledOnce(insertFirstTimeClaimStub)
-          sinon.assert.calledWith(insertFirstTimeClaimStub, REFERENCE, ELIGIBILITYID, FIRST_TIME_CLAIM)
+          sinon.assert.calledOnce(newClaimStub)
+          sinon.assert.calledOnce(insertNewClaimStub)
+          sinon.assert.calledWith(insertNewClaimStub, REFERENCE, ELIGIBILITYID, FIRST_TIME_CLAIM)
         })
         .expect(302)
     })
 
     it('should redirect to expenses page if child-visitor is set to no', function () {
-      insertFirstTimeClaimStub.resolves(CLAIM_ID)
+      insertNewClaimStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}`)
     })
 
     it('should redirect to about-child page if child-visitor is set to yes', function () {
-      insertFirstTimeClaimStub.resolves(CLAIM_ID)
+      insertNewClaimStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
         .send({
@@ -91,14 +91,14 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      insertFirstTimeClaimStub.throws(new ValidationError())
+      insertNewClaimStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      insertFirstTimeClaimStub.throws(new Error())
+      insertNewClaimStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .expect(500)
