@@ -1,6 +1,6 @@
 exports.up = function (knex, Promise) {
-  return knex.schema.createTable('UpdateContactDetails', function (table) {
-    table.increments('UpdateContactDetailsId')
+  return knex.schema.createTable('EligibilityVisitorUpdateContactDetail', function (table) {
+    table.increments('EligibilityVisitorUpdateContactDetailId')
     table.string('Reference', 10).notNullable().index()
     table.integer('EligibilityId').unsigned().notNullable()
     table.string('EmailAddress', 100).notNullable()
@@ -14,5 +14,5 @@ exports.up = function (knex, Promise) {
 }
 
 exports.down = function (knex, Promise) {
-  return knex.schema.dropTable('UpdateContactDetails')
+  return knex.schema.dropTable('EligibilityVisitorUpdateContactDetail')
 }
