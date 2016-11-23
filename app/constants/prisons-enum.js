@@ -1,5 +1,3 @@
-const EnumHelper = require('./helpers/enum-helper')
-
 module.exports = {
   // England and Wales
 
@@ -863,9 +861,5 @@ module.exports = {
     value: 'hydebank',
     displayName: 'Hydebank',
     region: 'northern-ireland'
-  },
-
-  getByValue: function (value) {
-    return EnumHelper.getKeyByValue(this, value)
   }
 }

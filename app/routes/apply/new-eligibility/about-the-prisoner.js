@@ -3,20 +3,7 @@ const referenceIdHelper = require('../../helpers/reference-id-helper')
 const AboutThePrisoner = require('../../../services/domain/about-the-prisoner')
 const ValidationError = require('../../../services/errors/validation-error')
 const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
-const prisonsEnum = require('../../../constants/prisons-enum')
-
-var prisonsByRegion = {
-  'england-wales': {},
-  'scotland': {},
-  'northern-ireland': {}
-}
-
-for (var prisonKey in prisonsEnum) {
-  var element = prisonsEnum[prisonKey]
-  if (typeof element === 'object') {
-    prisonsByRegion[element.region][prisonKey] = element
-  }
-}
+const displayHelper = require('../../../views/helpers/display-helper')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit', function (req, res) {
@@ -26,7 +13,7 @@ module.exports = function (router) {
       dob: req.params.dob,
       relationship: req.params.relationship,
       benefit: req.params.benefit,
-      prisonsByRegion: prisonsByRegion
+      displayHelper: displayHelper
     })
   })
 
@@ -64,7 +51,7 @@ module.exports = function (router) {
           relationship: relationship,
           benefit: benefit,
           prisoner: prisoner,
-          prisonsByRegion: prisonsByRegion
+          displayHelper: displayHelper
         })
       } else {
         throw error
