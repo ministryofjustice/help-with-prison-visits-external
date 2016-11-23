@@ -45,7 +45,9 @@
     </div>
 
     <div class="column-one-quarter">
+      {% if canStartNewClaim %}
       <a id="new-claim" class="button" href="/your-claims/{{ dob }}/{{ reference }}/check-your-information" role="button">Start a new claim</a>
+      {% endif %}
     </div>
 
   </div>
