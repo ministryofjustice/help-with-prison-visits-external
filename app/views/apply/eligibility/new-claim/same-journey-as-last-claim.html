@@ -19,6 +19,36 @@
         Do you want to claim for the same journey as your last claim?
       </h2>
 
+      <table>
+        <thead>
+          <tr>
+            <th>Expense</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for claimExpense in lastClaimDetails.expenses %}
+          <tr>
+            <td>
+              <div class="bold">{{ claimExpenseHelper.DisplayName(claimExpense) }}</div>
+              {{ claimExpenseHelper.FormattedDetail(claimExpense) }}
+            </td>
+            <td>
+              £{{claimExpense.Cost}}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+      <p>
+        <div class="bold">Children</div>
+        {% for claimChild in lastClaimDetails.children %}
+        <div>{{ claimChild.Name }}</div>
+        {% endfor %}
+      </p>
+
       <form action="/apply/repeat/eligibility/{{ referenceId }}/new-claim/same-journey-as-last-claim" method="post" class="form">
 
         <div class="form-group">

@@ -3,6 +3,7 @@ const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const ValidationError = require('../../../../services/errors/validation-error')
 const SameJourneyAsLastClaim = require('../../../../services/domain/same-journey-as-last-claim')
 const getLastClaimDetails = require('../../../../services/data/get-last-claim-details')
+const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
 
 module.exports = function (router) {
   router.get('/apply/repeat/eligibility/:referenceId/new-claim/same-journey-as-last-claim', function (req, res, next) {
@@ -13,7 +14,8 @@ module.exports = function (router) {
       .then(function (lastClaimDetails) {
         return res.render('apply/eligibility/new-claim/same-journey-as-last-claim', {
           referenceId: req.params.referenceId,
-          lastClaimDetails: lastClaimDetails
+          lastClaimDetails: lastClaimDetails,
+          claimExpenseHelper: claimExpenseHelper
         })
       })
       .catch(function (error) {
