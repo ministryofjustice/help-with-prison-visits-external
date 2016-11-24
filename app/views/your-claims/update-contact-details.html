@@ -42,7 +42,7 @@
 
         {% include "partials/csrf-hidden-input.html" %}
 
-        <input type="hidden" name="EligibilityId" value="{{ eligibility['EligibilityId'] }}">
+        <input type="hidden" name="EligibilityId" value="{{ eligibilityId }}">
 
         <div class="form-group"><input type="submit" name="commit" value="Save" class="button"></div>
         <a href="/your-claims/{{ dob }}/{{ reference }}/check-your-information" class="link">Cancel</a>

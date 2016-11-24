@@ -13,17 +13,17 @@ describe('/your-claims/check-your-information', function () {
   var app
 
   var urlPathValidatorStub
-  var getMaskedEligibility
+  var getRepeatEligibility
   var CheckYourInformation
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
-    getMaskedEligibility = sinon.stub()
+    getRepeatEligibility = sinon.stub()
     CheckYourInformation = sinon.stub()
 
     var route = proxyquire('../../../../app/routes/your-claims/check-your-information', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/data/get-masked-eligibility': getMaskedEligibility,
+      '../../services/get-repeat-eligibility': getRepeatEligibility,
       '../../services/domain/check-your-information': CheckYourInformation
     })
     app = routeHelper.buildApp(route)
@@ -39,12 +39,12 @@ describe('/your-claims/check-your-information', function () {
     })
 
     it('should call to get masked eligibility and respond with a 200', function () {
-      getMaskedEligibility.resolves({})
+      getRepeatEligibility.resolves({})
       return supertest(app)
         .get(ROUTE)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(getMaskedEligibility)
+          sinon.assert.calledOnce(getRepeatEligibility)
         })
     })
   })
@@ -75,12 +75,12 @@ describe('/your-claims/check-your-information', function () {
 
     it('should respond with a 400 for a validation error', function () {
       CheckYourInformation.throws(new ValidationError())
-      getMaskedEligibility.resolves({})
+      getRepeatEligibility.resolves({})
       return supertest(app)
         .post(ROUTE)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(getMaskedEligibility)
+          sinon.assert.calledOnce(getRepeatEligibility)
         })
     })
 
