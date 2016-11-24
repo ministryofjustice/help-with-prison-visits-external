@@ -14,17 +14,31 @@ module.exports.STATUS = 'APPROVED'
 module.exports.REASON = null
 module.exports.NOTE = null
 
-module.exports.insert = function (reference, eligibilityId) {
-  return knex('IntSchema.Claim').insert({
+module.exports.build = function () {
+  return {
     ClaimId: this.CLAIM_ID,
-    EligibilityId: eligibilityId,
-    Reference: reference,
     DateOfJourney: this.DATE_OF_JOURNEY.toDate(),
     DateCreated: this.DATE_CREATED.toDate(),
     DateSubmitted: this.DATE_SUBMITTED.toDate(),
     Status: this.STATUS,
     Reason: this.REASON,
     Note: this.NOTE
+  }
+}
+
+module.exports.insert = function (reference, eligibilityId, data) {
+  var claim = data || this.build()
+
+  return knex('IntSchema.Claim').insert({
+    ClaimId: claim.ClaimId,
+    EligibilityId: eligibilityId,
+    Reference: reference,
+    DateOfJourney: claim.DateOfJourney,
+    DateCreated: claim.DateCreated,
+    DateSubmitted: claim.DateSubmitted,
+    Status: claim.Status,
+    Reason: claim.Reason,
+    Note: claim.Note
   }).returning('ClaimId')
   .then(function (insertedIds) {
     return insertedIds[0]
