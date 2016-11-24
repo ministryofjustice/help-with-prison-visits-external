@@ -1,8 +1,14 @@
 module.exports = {
+  // Basic auth (for public test environments)
+  BASIC_AUTH_ENABLED: process.env.BASIC_AUTH_ENABLED || 'false',
+  BASIC_AUTH_USERNAME: process.env.BASIC_AUTH_USERNAME,
+  BASIC_AUTH_PASSWORD: process.env.BASIC_AUTH_PASSWORD,
+
   LOGGING_PATH: process.env.LOGGING_PATH,
   LOGGING_LEVEL: process.env.LOGGING_LEVEL || 'DEBUG',
   LOGSTASH_HOST: process.env.LOGSTASH_HOST,
   LOGSTASH_PORT: process.env.LOGSTASH_PORT,
+
   // DB
   DATABASE_SERVER: process.env.APVS_DATABASE_SERVER,
   DATABASE: process.env.APVS_DATABASE,
@@ -10,8 +16,10 @@ module.exports = {
   EXT_WEB_PASSWORD: process.env.APVS_EXT_WEB_PASSWORD,
   EXT_MIGRATION_USERNAME: process.env.APVS_EXT_MIGRATION_USERNAME,
   EXT_MIGRATION_PASSWORD: process.env.APVS_EXT_MIGRATION_PASSWORD,
+
   // i18n
   I18N_UPDATEFILES: process.env.I18N_UPDATEFILES,
+
   // File upload
   FILE_UPLOAD_LOCATION: process.env.FILE_UPLOAD_LOCATION || './uploads',
   FILE_UPLOAD_MAXSIZE: process.env.FILE_UPLOAD_MAXSIZE || '5242880' // 5MB in Bytes.
