@@ -23,6 +23,24 @@ app.use(compression())
 // Set security headers.
 app.use(helmet())
 
+var packageJson = require('../package.json')
+var developmentMode = app.get('env') === 'development'
+var releaseVersion = packageJson.version
+var serviceName = 'Assisted Prison Visit Service'
+
+app.set('view engine', 'html')
+app.set('views', path.join(__dirname, 'views'))
+
+nunjucks(app, {
+  watch: developmentMode,
+  noCache: developmentMode
+})
+
+app.use('/public', express.static(path.join(__dirname, 'public')))
+app.use('/public', express.static(path.join(__dirname, 'govuk_modules', 'govuk_template')))
+app.use('/public', express.static(path.join(__dirname, 'govuk_modules', 'govuk_frontend_toolkit')))
+app.use(favicon(path.join(__dirname, 'govuk_modules', 'govuk_template', 'images', 'favicon.ico')))
+
 // Basic auth
 if (config.BASIC_AUTH_ENABLED === 'true') {
   app.use(function (req, res, next) {
@@ -43,24 +61,6 @@ if (config.BASIC_AUTH_ENABLED === 'true') {
     }
   })
 }
-
-var packageJson = require('../package.json')
-var developmentMode = app.get('env') === 'development'
-var releaseVersion = packageJson.version
-var serviceName = 'Assisted Prison Visit Service'
-
-app.set('view engine', 'html')
-app.set('views', path.join(__dirname, 'views'))
-
-nunjucks(app, {
-  watch: developmentMode,
-  noCache: developmentMode
-})
-
-app.use('/public', express.static(path.join(__dirname, 'public')))
-app.use('/public', express.static(path.join(__dirname, 'govuk_modules', 'govuk_template')))
-app.use('/public', express.static(path.join(__dirname, 'govuk_modules', 'govuk_frontend_toolkit')))
-app.use(favicon(path.join(__dirname, 'govuk_modules', 'govuk_template', 'images', 'favicon.ico')))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
