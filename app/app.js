@@ -13,6 +13,7 @@ const onFinished = require('on-finished')
 const cookieParser = require('cookie-parser')
 const csurf = require('csurf')
 const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
+const auth = require('basic-auth')
 
 var app = express()
 
@@ -21,6 +22,23 @@ app.use(compression())
 
 // Set security headers.
 app.use(helmet())
+
+// Basic auth
+if (config.BASIC_AUTH_ENABLED === 'true') {
+  app.use(function (req, res, next) {
+    var credentials = auth(req)
+
+    if (!credentials ||
+      credentials.name !== config.BASIC_AUTH_USERNAME ||
+      credentials.pass !== config.BASIC_AUTH_PASSWORD) {
+      res.statusCode = 401
+      res.setHeader('WWW-Authenticate', 'Basic realm="APVS External Web"')
+      res.end('Access denied')
+    } else {
+      next()
+    }
+  })
+}
 
 var packageJson = require('../package.json')
 var developmentMode = app.get('env') === 'development'
