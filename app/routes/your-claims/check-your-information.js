@@ -1,5 +1,5 @@
 const UrlPathValidator = require('../../services/validators/url-path-validator')
-const getRepeatEligibility = require('../../services/get-repeat-eligibility')
+const getRepeatEligibility = require('../../services/data/get-repeat-eligibility')
 const dateFormatter = require('../../services/date-formatter')
 const CheckYourInformation = require('../../services/domain/check-your-information')
 const ValidationError = require('../../services/errors/validation-error')

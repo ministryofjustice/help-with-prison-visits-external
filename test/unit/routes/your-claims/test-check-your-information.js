@@ -23,7 +23,7 @@ describe('/your-claims/check-your-information', function () {
 
     var route = proxyquire('../../../../app/routes/your-claims/check-your-information', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/get-repeat-eligibility': getRepeatEligibility,
+      '../../services/data/get-repeat-eligibility': getRepeatEligibility,
       '../../services/domain/check-your-information': CheckYourInformation
     })
     app = routeHelper.buildApp(route)

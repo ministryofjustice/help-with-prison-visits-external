@@ -26,7 +26,7 @@
           {% if errors['EmailAddress'][0] %}
             <span class="error-message">{{ errors['EmailAddress'][0] }}</span>
           {% endif %}
-          <input type="text" class="form-control" name="email-address" id="email-address">
+          <input type="text" class="form-control" name="email-address" id="email-address" value="{{ contactDetails['email-address'] }}">
         </div>
 
         <div class="form-group {% if errors['PhoneNumber'][0] %} error {% endif %}">
@@ -34,7 +34,7 @@
           {% if errors['PhoneNumber'][0] %}
             <span class="error-message">{{ errors['PhoneNumber'][0] }}</span>
           {% endif %}
-          <input type="text" class="form-control" name="phone-number"  id="phone-number">
+          <input type="text" class="form-control" name="phone-number"  id="phone-number" value="{{ contactDetails['phone-number'] }}">
         </div>
 
         <br>

@@ -12,7 +12,7 @@ const stubInsertTask = sinon.stub().resolves()
 
 const insertTaskSendClaimNotification = proxyquire('../../../../app/services/data/insert-task-send-claim-notification', {
   './insert-task': stubInsertTask,
-  '../get-repeat-eligibility': stubGetRepeatEligibility
+  './get-repeat-eligibility': stubGetRepeatEligibility
 })
 
 const reference = 'S123456'

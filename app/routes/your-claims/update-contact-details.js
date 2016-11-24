@@ -31,7 +31,8 @@ module.exports = function (router) {
           errors: error.validationErrors,
           dob: req.params.dob,
           reference: req.params.reference,
-          eligibilityId: req.body.EligibilityId
+          eligibilityId: req.body.EligibilityId,
+          contactDetails: req.body
         })
       } else {
         throw error

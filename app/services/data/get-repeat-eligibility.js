@@ -1,5 +1,5 @@
-const getMaskedEligibility = require('./data/get-masked-eligibility')
-const getEligibilityVisitorUpdatedContactDetail = require('./data/get-eligibility-visitor-updated-contact-detail')
+const getMaskedEligibility = require('./get-masked-eligibility')
+const getEligibilityVisitorUpdatedContactDetail = require('./get-eligibility-visitor-updated-contact-detail')
 
 module.exports = function (reference, dob, eligibilityId) {
   return getMaskedEligibility(reference, dob, eligibilityId)

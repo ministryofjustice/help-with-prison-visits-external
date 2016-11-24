@@ -2,7 +2,7 @@ const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const tasksEnum = require('../../constants/tasks-enum')
 const insertTask = require('./insert-task')
-const getRepeatEligibility = require('../get-repeat-eligibility')
+const getRepeatEligibility = require('./get-repeat-eligibility')
 
 module.exports = function (reference, eligibilityId, claimId) {
   return knex('Visitor')

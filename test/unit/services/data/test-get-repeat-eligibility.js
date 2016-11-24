@@ -9,7 +9,7 @@ const REFERENCE = 'V123456'
 const ELIGIBILITYID = null
 const DOB = '10-10-1990'
 
-describe('services/get-repeat-eligibility', function () {
+describe('services/data/get-repeat-eligibility', function () {
   var getRepeatEligibility
   var getMaskedEligibilityStub
   var getEligibilityVisitorUpdateContactDetailStub
@@ -18,9 +18,9 @@ describe('services/get-repeat-eligibility', function () {
     getMaskedEligibilityStub = sinon.stub()
     getEligibilityVisitorUpdateContactDetailStub = sinon.stub()
 
-    getRepeatEligibility = proxyquire('../../../app/services/get-repeat-eligibility', {
-      './data/get-masked-eligibility': getMaskedEligibilityStub,
-      './data/get-eligibility-visitor-updated-contact-detail': getEligibilityVisitorUpdateContactDetailStub
+    getRepeatEligibility = proxyquire('../../../../app/services/data/get-repeat-eligibility', {
+      './get-masked-eligibility': getMaskedEligibilityStub,
+      './get-eligibility-visitor-updated-contact-detail': getEligibilityVisitorUpdateContactDetailStub
     })
   })
 
