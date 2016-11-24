@@ -28,14 +28,18 @@ if (config.BASIC_AUTH_ENABLED === 'true') {
   app.use(function (req, res, next) {
     var credentials = auth(req)
 
-    if (!credentials ||
-      credentials.name !== config.BASIC_AUTH_USERNAME ||
-      credentials.pass !== config.BASIC_AUTH_PASSWORD) {
-      res.statusCode = 401
-      res.setHeader('WWW-Authenticate', 'Basic realm="APVS External Web"')
-      res.end('Access denied')
+    if (req.url === '' || req.url === '/') {
+      next() // must leave root url free for Azure gateway
     } else {
-      next()
+      if (!credentials ||
+        credentials.name !== config.BASIC_AUTH_USERNAME ||
+        credentials.pass !== config.BASIC_AUTH_PASSWORD) {
+        res.statusCode = 401
+        res.setHeader('WWW-Authenticate', 'Basic realm="APVS External Web"')
+        res.end('Access denied')
+      } else {
+        next()
+      }
     }
   })
 }
