@@ -5,26 +5,26 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 require('sinon-bluebird')
 
-describe('/your-claims/check-your-information', function () {
+describe('/your-claims/update-contact-details', function () {
   const DOB = '2000-05-15'
   const REFERENCE = 'APVS123'
-  const ROUTE = `/your-claims/${DOB}/${REFERENCE}/check-your-information`
+  const ELIGIBILITYID = '1'
+  const ROUTE = `/your-claims/${DOB}/${REFERENCE}/update-contact-details?eligibility=${ELIGIBILITYID}`
 
   var app
-
   var urlPathValidatorStub
-  var getRepeatEligibility
-  var CheckYourInformation
+  var updatedContactDetailsStub
+  var insertEligibilityVisitorUpdatedContactDetailStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
-    getRepeatEligibility = sinon.stub()
-    CheckYourInformation = sinon.stub()
+    updatedContactDetailsStub = sinon.stub()
+    insertEligibilityVisitorUpdatedContactDetailStub = sinon.stub()
 
-    var route = proxyquire('../../../../app/routes/your-claims/check-your-information', {
+    var route = proxyquire('../../../../app/routes/your-claims/update-contact-details', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/data/get-repeat-eligibility': getRepeatEligibility,
-      '../../services/domain/check-your-information': CheckYourInformation
+      '../../services/domain/updated-contact-details': updatedContactDetailsStub,
+      '../../services/data/insert-eligibility-visitor-updated-contact-detail': insertEligibilityVisitorUpdatedContactDetailStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -38,19 +38,17 @@ describe('/your-claims/check-your-information', function () {
         })
     })
 
-    it('should call to get masked eligibility and respond with a 200', function () {
-      getRepeatEligibility.resolves({})
+    it('should respond with a 200', function () {
       return supertest(app)
         .get(ROUTE)
         .expect(200)
-        .expect(function () {
-          sinon.assert.calledOnce(getRepeatEligibility)
-        })
     })
   })
 
   describe(`POST ${ROUTE}`, function () {
     it('should call the URL Path Validator', function () {
+      updatedContactDetailsStub.returns({})
+      insertEligibilityVisitorUpdatedContactDetailStub.resolves({})
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
@@ -58,34 +56,30 @@ describe('/your-claims/check-your-information', function () {
         })
     })
 
-    it('should respond with a 302 and redirect to /apply/repeat/eligibility/:referenceId/new-claim', function () {
-      CheckYourInformation.returns({})
-      var eligibilityId = '1234'
-      var referenceId = `${REFERENCE}-${eligibilityId}`
+    it('should respond with a 302 and redirect to /your-claims/:dob/:reference/check-your-information', function () {
+      updatedContactDetailsStub.returns({})
+      insertEligibilityVisitorUpdatedContactDetailStub.resolves({})
 
       return supertest(app)
         .post(ROUTE)
-        .send({EligibilityId: eligibilityId})
+        .send({'email-address': 'test@test.com', 'phone-number': '5553425172'})
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(CheckYourInformation)
+          sinon.assert.calledOnce(updatedContactDetailsStub)
+          sinon.assert.calledOnce(insertEligibilityVisitorUpdatedContactDetailStub)
         })
-        .expect('location', `/apply/repeat/eligibility/${referenceId}/new-claim`)
+        .expect('location', `/your-claims/${DOB}/${REFERENCE}/check-your-information`)
     })
 
     it('should respond with a 400 for a validation error', function () {
-      CheckYourInformation.throws(new ValidationError())
-      getRepeatEligibility.resolves({})
+      updatedContactDetailsStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .expect(400)
-        .expect(function () {
-          sinon.assert.calledOnce(getRepeatEligibility)
-        })
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      CheckYourInformation.throws(new Error())
+      updatedContactDetailsStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .expect(500)

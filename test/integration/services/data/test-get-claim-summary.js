@@ -10,10 +10,10 @@ const sinon = require('sinon')
 require('sinon-bluebird')
 
 const MASKED_ELIGIBILITY = {LastName: 'MASKED_LAST_NAME'}
-const getMaskedEligibilityStub = sinon.stub().resolves(MASKED_ELIGIBILITY)
+const getRepeatEligibilityStub = sinon.stub().resolves(MASKED_ELIGIBILITY)
 
 const getClaimSummary = proxyquire('../../../../app/services/data/get-claim-summary', {
-  './get-masked-eligibility': getMaskedEligibilityStub
+  './get-repeat-eligibility': getRepeatEligibilityStub
 })
 
 const REFERENCE = 'V123456'
@@ -70,7 +70,7 @@ describe('services/data/get-claim-summary', function () {
     it('should call to get existing masked eligibility details from Internal Schema', function () {
       return getClaimSummary(repeatClaimId, claimTypeEnum.REPEAT_CLAIM)
         .then(function (result) {
-          expect(getMaskedEligibilityStub.calledOnce).to.be.true
+          expect(getRepeatEligibilityStub.calledOnce).to.be.true
           expect(result.claim.LastName).to.equal(MASKED_ELIGIBILITY.LastName)
         })
     })

@@ -2,7 +2,7 @@ const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const claimTypeEnum = require('../../constants/claim-type-enum')
 const documentTypeEnum = require('../../constants/document-type-enum')
-const getMaskedEligibility = require('./get-masked-eligibility')
+const getRepeatEligibility = require('./get-repeat-eligibility')
 
 module.exports = function (claimId, claimType) {
   return knex('Claim')
@@ -28,7 +28,7 @@ module.exports = function (claimId, claimType) {
     .then(function (claim) {
       if (claimType === claimTypeEnum.REPEAT_CLAIM && claim.EligibilityStatus == null) {
         // Repeat claim using existing eligibility data, retrieve from IntSchema
-        return getMaskedEligibility(claim.Reference, null, claim.EligibilityId)
+        return getRepeatEligibility(claim.Reference, null, claim.EligibilityId)
           .then(function (eligibility) {
             claim.FirstName = eligibility.FirstName
             claim.LastName = eligibility.LastName

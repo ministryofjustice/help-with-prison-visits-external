@@ -6,13 +6,13 @@ const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const visitorHelper = require('../../../helpers/data/visitor-helper')
 require('sinon-bluebird')
 
-const MASKED_ELIGIBILITY = {EmailAddress: 'test@test.com'}
-const stubGetMaskedEligibility = sinon.stub()
+const REPEAT_ELIGIBILITY = {EmailAddress: 'test@test.com'}
+const stubGetRepeatEligibility = sinon.stub()
 const stubInsertTask = sinon.stub().resolves()
 
 const insertTaskSendClaimNotification = proxyquire('../../../../app/services/data/insert-task-send-claim-notification', {
   './insert-task': stubInsertTask,
-  './get-masked-eligibility': stubGetMaskedEligibility
+  './get-repeat-eligibility': stubGetRepeatEligibility
 })
 
 const reference = 'S123456'
@@ -42,18 +42,18 @@ describe('services/data/insert-task-send-claim-notification', function () {
 
   describe('called for repeat claim with no Eligibility data in External Schema', function () {
     it('should call to get Masked Eligibility and insert a new task to send the claim notification', function () {
-      stubGetMaskedEligibility.resolves(MASKED_ELIGIBILITY)
+      stubGetRepeatEligibility.resolves(REPEAT_ELIGIBILITY)
       return insertTaskSendClaimNotification(reference, eligibilityId, claimId)
         .then(function () {
-          expect(stubGetMaskedEligibility.calledOnce).to.be.true
-          expect(stubInsertTask.calledWith(reference, eligibilityId, claimId, tasksEnum.SEND_CLAIM_NOTIFICATION, MASKED_ELIGIBILITY.EmailAddress))
+          expect(stubGetRepeatEligibility.calledOnce).to.be.true
+          expect(stubInsertTask.calledWith(reference, eligibilityId, claimId, tasksEnum.SEND_CLAIM_NOTIFICATION, REPEAT_ELIGIBILITY.EmailAddress))
         })
     })
   })
 
   describe('called for claim with no contact data', function () {
     it('should throw an error', function () {
-      stubGetMaskedEligibility.resolves()
+      stubGetRepeatEligibility.resolves()
       return insertTaskSendClaimNotification(reference, eligibilityId, claimId)
         .then(function () {
           expect(false, 'should have thrown an error').to.be.true
