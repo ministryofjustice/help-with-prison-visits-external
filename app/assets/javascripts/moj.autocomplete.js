@@ -49,7 +49,10 @@
           key, value, i, attrs, raw_attrs;
 
       var selectID = this.$select.attr('id');
-      this.$select.attr('id', selectID+'_select');
+      var textInputID = selectID + '-text-input';
+
+      var selectName = this.$select.attr('name');
+      this.$select.attr('name', selectID + '-select');
 
       this.$text = $( '<input>' )
         .attr('type', 'text') // give it a field type
@@ -57,7 +60,8 @@
         .val(val) // set value if already selected
         .data('select', this.$select) // assoc select with this input
         .addClass('form-control')
-        .attr('id', selectID);
+        .attr('id', textInputID)
+        .attr('name', selectName);
 
       // if required, copy across attributes - useful for using [placeholder]
       if (this.settings.copyAttr) {

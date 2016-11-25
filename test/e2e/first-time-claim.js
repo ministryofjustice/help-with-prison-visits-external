@@ -38,7 +38,7 @@ describe('First Time Claim Flow', () => {
       .setValue('#dob-month', '05')
       .setValue('#dob-year', '1955')
       .setValue('#prisoner-number', 'A1234BC')
-      .setValue('#prison-name', 'Hewell')
+      .setValue('#prison-name-text-input', 'Hewell')
       .click('#about-the-prisoner-submit')
 
       // About you
