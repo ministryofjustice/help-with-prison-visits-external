@@ -6,7 +6,7 @@ module.exports.FIRST_NAME = 'John'
 module.exports.LAST_NAME = 'Smith'
 module.exports.DATE_OF_BIRTH = dateFormatter.now()
 module.exports.PRISON_NUMBER = '0123456789'
-module.exports.NAME_OF_PRISON = 'Hewell'
+module.exports.NAME_OF_PRISON = 'hewell'
 
 module.exports.insert = function (reference, eligibilityId) {
   return knex('ExtSchema.Prisoner')
