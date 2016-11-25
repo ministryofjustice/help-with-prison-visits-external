@@ -6,6 +6,7 @@ var routes = [
   require('./index'),
   require('./eligibility-requirements'),
   require('./start'),
+  require('./start-already-registered'),
   require('./eligibility-fail'),
   require('./application-submitted'),
 

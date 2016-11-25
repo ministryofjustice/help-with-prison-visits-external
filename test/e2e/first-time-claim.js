@@ -10,8 +10,9 @@ describe('First Time Claim Flow', () => {
       .click('#start')
 
       // Start
-      .waitForExist('#first-time-submit')
-      .click('#first-time-submit')
+      .waitForExist('#start-submit')
+      .click('[for="no"]')
+      .click('#start-submit')
 
       // Date of birth
       .waitForExist('#date-of-birth-submit')

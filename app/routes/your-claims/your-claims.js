@@ -13,7 +13,7 @@ module.exports = function (router) {
     getHistoricClaims(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate())
       .then(function (claims) {
         if (claims.length === 0) {
-          return res.redirect(`/start${REFERENCE_DOB_ERROR}`)
+          return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
         }
 
         var canStartNewClaim = noClaimsInProgress(claims)

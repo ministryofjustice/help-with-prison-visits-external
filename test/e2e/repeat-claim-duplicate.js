@@ -19,6 +19,11 @@ describe('Repeat claim with no change flow', function () {
       .click('#start')
 
       // Start
+      .waitForExist('#start-submit')
+      .click('[for="yes"]')
+      .click('#start-submit')
+
+      // Start already registered
       .waitForExist('#already-registered-submit')
       .setValue('#reference', REFERENCE)
       .setValue('#dob-day-input', internalVisitorHelper.DAY)
