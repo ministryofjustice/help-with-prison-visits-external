@@ -4,7 +4,7 @@ const displayHelper = require('../../../../app/views/helpers/display-helper')
 const prisonsEnum = require('../../../../app/constants/prisons-enum')
 const benefitsEnum = require('../../../../app/constants/benefits-enum')
 
-describe('constants/helpers/display-helper', function () {
+describe('views/helpers/display-helper', function () {
   const VALID_BENEFIT_VALUE = benefitsEnum.INCOME_SUPPORT.value
   const VALID_PRISON_VALUE = prisonsEnum.ALTCOURSE.value
 
