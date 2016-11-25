@@ -14,12 +14,12 @@
   <tr id='benefit-information'{% if errors['benefit-information'][0] %} class="warning" {% endif %}>
     <td>Benefit information</td>
     <td>
-      {{ benefitsEnum.getByValue(claimDetails.claim['Benefit']).displayName }}
+      {{ displayHelper.getBenefitDisplayName(claimDetails.claim['Benefit']) }}
 
-      {% if benefitsEnum.getByValue(claimDetails.claim['Benefit']).requireBenefitUpload %}
+      {% if displayHelper.getBenefitRequireUpload(claimDetails.claim['Benefit']) %}
         <br>
         {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'uploaded' %}
-          {% if benefitsEnum.getByValue(claimDetails.claim['Benefit']).multipage %}
+          {% if displayHelper.getBenefitMultipage(claimDetails.claim['Benefit']) %}
           <ul class="list doc-upload">
             {% for benefit in claimDetails.claim['benefitDocument'] %}
               <li>

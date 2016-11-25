@@ -3,6 +3,7 @@ const referenceIdHelper = require('../../helpers/reference-id-helper')
 const AboutThePrisoner = require('../../../services/domain/about-the-prisoner')
 const ValidationError = require('../../../services/errors/validation-error')
 const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
+const displayHelper = require('../../../views/helpers/display-helper')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit', function (req, res) {
@@ -11,7 +12,8 @@ module.exports = function (router) {
       claimType: req.params.claimType,
       dob: req.params.dob,
       relationship: req.params.relationship,
-      benefit: req.params.benefit
+      benefit: req.params.benefit,
+      displayHelper: displayHelper
     })
   })
 
@@ -48,7 +50,8 @@ module.exports = function (router) {
           dob: dob,
           relationship: relationship,
           benefit: benefit,
-          prisoner: prisoner
+          prisoner: prisoner,
+          displayHelper: displayHelper
         })
       } else {
         throw error

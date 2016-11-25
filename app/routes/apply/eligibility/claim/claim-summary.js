@@ -4,11 +4,11 @@ const removeClaimExpense = require('../../../../services/data/remove-claim-expen
 const removeClaimDocument = require('../../../../services/data/remove-claim-document')
 const dateHelper = require('../../../../views/helpers/date-helper')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
-const benefitsEnum = require('../../../../constants/benefits-enum')
 const receiptRequiredEnum = require('../../../../constants/receipt-required-enum')
 const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimDocumentFilePath = require('../../../../services/data/get-claim-document-file-path')
+const displayHelper = require('../../../../views/helpers/display-helper')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
@@ -24,8 +24,8 @@ module.exports = function (router) {
             claimDetails: claimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
-            benefitsEnum: benefitsEnum,
-            receiptRequiredEnum: receiptRequiredEnum
+            receiptRequiredEnum: receiptRequiredEnum,
+            displayHelper: displayHelper
           })
       })
       .catch(function (error) {
@@ -56,8 +56,8 @@ module.exports = function (router) {
             claimDetails: savedClaimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
-            benefitsEnum: benefitsEnum,
-            receiptRequiredEnum: receiptRequiredEnum
+            receiptRequiredEnum: receiptRequiredEnum,
+            displayHelper: displayHelper
           })
         } else {
           next(error)
