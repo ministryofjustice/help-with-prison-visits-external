@@ -824,6 +824,10 @@ only screen and (min-resolution: 2dppx) {
     display: none;
 }
 
+.remove-upload {
+    display: none;
+}
+
 label.custom-file-upload {
    display:inline-block;
    margin-bottom:20px;

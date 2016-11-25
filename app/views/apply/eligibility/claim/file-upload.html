@@ -24,14 +24,19 @@
 
       {% include "partials/csrf-hidden-input.html" %}
         <div>
-          <div id='document-name' class="column-two-quarter"></div>
           <div>
-            <label class="custom-file-upload">
+            <p id='document-name' class="column-two-quarter"></p>
+            <a id="remove-file-upload" class="link pull-right remove-upload" href="{{ URL }}">remove</a>
+          </div>
+          <div>
+            <label id="label" class="custom-file-upload">
               <input id="document" type="file" name="document" />
               <div id='choose-file'>Choose file</div>
             </label>
           </div>
+
         </div>
+        <br>
         <div class="form-group">
           <details role="group">
             <summary role="button" aria-controls="details-content-0" aria-expanded="true"><span class="summary">Help with upload</span></summary>
