@@ -51,9 +51,6 @@
       var selectID = this.$select.attr('id');
       var textInputID = selectID + '-text-input';
 
-      var selectName = this.$select.attr('name');
-      this.$select.attr('name', selectID + '-select');
-
       this.$text = $( '<input>' )
         .attr('type', 'text') // give it a field type
         .attr('data-input-name', this.$select.attr('name'))
@@ -61,7 +58,6 @@
         .data('select', this.$select) // assoc select with this input
         .addClass('form-control')
         .attr('id', textInputID)
-        .attr('name', selectName);
 
       // if required, copy across attributes - useful for using [placeholder]
       if (this.settings.copyAttr) {
