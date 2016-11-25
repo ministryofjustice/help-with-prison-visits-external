@@ -9,6 +9,9 @@ $path: "/public/images/";
 @import 'patterns/check-your-answers';
 @import 'patterns/unbranded';
 
+// Autocomplete styles from https://github.com/ministryofjustice/prison-visits-public
+@import "moj.autocomplete";
+
 button.link {
   color: #005ea5;
   text-decoration: underline;

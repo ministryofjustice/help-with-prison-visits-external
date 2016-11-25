@@ -107,7 +107,7 @@
           {% if errors['NameOfPrison'][0] %}
           <span class="error-message" id="error-message-NameOfPrison">{{ errors['NameOfPrison'][0] }}</span>
           {% endif %}
-          <select id="prison-name" class="form-control" name="NameOfPrison">
+          <select id="prison-name" class="form-control js-autocomplete" name="prisoner_step[prison_id]">
             <option>select</option>
             <optgroup label="England / Wales">
             {% for key, prison in displayHelper.getPrisonsByRegion('england-wales') %}
