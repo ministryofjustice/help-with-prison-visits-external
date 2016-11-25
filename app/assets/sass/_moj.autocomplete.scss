@@ -1,16 +1,6 @@
 /* Select box to text autocomplete styles */
 .moj-autocomplete {
   position: relative;
-
-  .dd-btn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    display: block;
-    height: 21px;
-    width: 35px;
-    background: image-url("down-arrow.png") right center no-repeat;
-  }
 }
 
 .ui-autocomplete {
