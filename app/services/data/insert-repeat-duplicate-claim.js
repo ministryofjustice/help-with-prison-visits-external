@@ -17,16 +17,16 @@ module.exports = function (reference, eligibilityId, claim) {
     .then(function () { return claimId })
 }
 
-function insertClaimDetail (tableName, reference, eligibilityId, claimId, objects) {
-  if (objects && objects.length > 0) {
-    objects.forEach(function (object) {
-      object.Reference = reference
-      object.EligibilityId = eligibilityId
-      object.ClaimId = claimId
-      object.IsEnabled = true
+function insertClaimDetail (tableName, reference, eligibilityId, claimId, claimDetails) {
+  if (claimDetails && claimDetails.length > 0) {
+    claimDetails.forEach(function (claimDetail) {
+      claimDetail.Reference = reference
+      claimDetail.EligibilityId = eligibilityId
+      claimDetail.ClaimId = claimId
+      claimDetail.IsEnabled = true
     })
 
-    return knex(tableName).insert(objects)
+    return knex(tableName).insert(claimDetails)
   } else {
     return Promise.resolve()
   }
