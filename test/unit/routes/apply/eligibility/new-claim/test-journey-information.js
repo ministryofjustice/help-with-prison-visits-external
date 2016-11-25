@@ -1,3 +1,4 @@
+const expect = require('chai').expect
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
@@ -12,22 +13,26 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIM_ID = '123'
   const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/new-claim/past`
+  const REPEAT_DUPLICATE_ROUTE = `/apply/repeat-duplicate/eligibility/${REFERENCEID}/new-claim/past`
 
   var app
 
   var urlPathValidatorStub
   var newClaimStub
   var insertNewClaimStub
+  var insertRepeatDuplicateClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     newClaimStub = sinon.stub()
     insertNewClaimStub = sinon.stub()
+    insertRepeatDuplicateClaimStub = sinon.stub()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/journey-information', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/domain/new-claim': newClaimStub,
-      '../../../../services/data/insert-new-claim': insertNewClaimStub
+      '../../../../services/data/insert-new-claim': insertNewClaimStub,
+      '../../../../services/data/insert-repeat-duplicate-claim': insertRepeatDuplicateClaimStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -46,10 +51,27 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
         .get(ROUTE)
         .expect(200)
     })
+
+    it('should set isRepeatDuplicateClaim to false if claim type is not repeat duplicate', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function (response) {
+          expect(response.text).to.contain('"isRepeatDuplicateClaim":false')
+        })
+    })
+
+    it('should set isRepeatDuplicateClaim to true if claim type is repeat duplicate', function () {
+      return supertest(app)
+        .get(REPEAT_DUPLICATE_ROUTE)
+        .expect(function (response) {
+          expect(response.text).to.contain('"isRepeatDuplicateClaim":true')
+        })
+    })
   })
 
   describe(`POST ${ROUTE}`, function () {
     const FIRST_TIME_CLAIM = {}
+    const REPEAT_DUPLICATE_CLAIM = {}
 
     it('should call the URL Path Validator', function () {
       insertNewClaimStub.resolves()
@@ -88,6 +110,17 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
           'child-visitor': 'yes'
         })
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/child`)
+    })
+
+    it('should redirect to claim summary page if claim is repeat duplicate', function () {
+      newClaimStub.returns(REPEAT_DUPLICATE_CLAIM)
+      insertRepeatDuplicateClaimStub.resolves(CLAIM_ID)
+      return supertest(app)
+        .post(REPEAT_DUPLICATE_ROUTE)
+        .expect('location', `/apply/repeat-duplicate/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/summary`)
+        .expect(function () {
+          sinon.assert.calledWith(insertRepeatDuplicateClaimStub, REFERENCE, ELIGIBILITYID, REPEAT_DUPLICATE_CLAIM)
+        })
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {

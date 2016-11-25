@@ -9,6 +9,8 @@ var request
 describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () {
   const REFERENCEID = 'FUTPAST-1234'
   const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/new-claim`
+  const REPEAT_ROUTE = `/apply/repeat/eligibility/${REFERENCEID}/new-claim`
+
   var urlValidatorCalled = false
 
   beforeEach(function () {
@@ -37,13 +39,24 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
   })
 
   describe(`POST ${ROUTE}`, function () {
-    it('should redirect to /apply/first-time/eligibility/:reference/new-claim/past', function (done) {
+    it('should redirect to /apply/first-time/eligibility/:reference/new-claim/past for first-time claim', function (done) {
       request
         .post(ROUTE)
         .expect(302)
         .end(function (error, response) {
           expect(error).to.be.null
           expect(response.header.location).to.equal(`${ROUTE}/past`)
+          done()
+        })
+    })
+
+    it('should redirect to /apply/first-time/eligibility/:reference/new-claim/same-journey-as-last-claim for repeat claim', function (done) {
+      request
+        .post(REPEAT_ROUTE)
+        .expect(302)
+        .end(function (error, response) {
+          expect(error).to.be.null
+          expect(response.header.location).to.equal(`${REPEAT_ROUTE}/same-journey-as-last-claim`)
           done()
         })
     })

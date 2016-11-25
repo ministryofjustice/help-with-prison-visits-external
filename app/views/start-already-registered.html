@@ -1,0 +1,112 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Already registered?
+      </h2>
+
+      <p>With your reference number, you can sign in and:</p>
+
+      <ul class="list-bullet">
+        <li>apply without having to enter all of the information again</li>
+        <li>return to saved applications</li>
+      </ul>
+
+      <br>
+
+      <form action="/start-already-registered" method="post">
+
+        <div class="form-group {% if errors['reference'][0] %} error {% endif %}">
+          <label class="form-label-bold" for="reference">Reference number</label>
+
+          {% if errors['reference'][0] %}
+            <span class="error-message">{{ errors['reference'][0] }}</span>
+          {% endif %}
+
+          <p class="form-hint">for example, APVS123</p>
+          <input id="reference"
+                 name="reference"
+                 type="text"
+                 value="{{ reference }}"
+                 class="form-control"/>
+          <br>
+        </div>
+
+        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
+
+          <fieldset>
+
+            <div id="dob" class="form-date">
+
+              <label class="form-label-bold">Date of birth</label>
+
+              {% if errors['dob'][0] %}
+                <span class="error-message">{{ errors['dob'][0] }}</span>
+              {% endif %}
+
+              <p class="form-hint">For example, 18 08 1989</p>
+
+              <div class="form-group form-group-day">
+                <label id="dob-day" for="dob-day-input">Day</label>
+                <input id="dob-day-input"
+                       name="dob-day"
+                       value="{{ dobDay }}"
+                       class="form-control"/>
+              </div>
+
+              <div class="form-group form-group-month">
+                <label id="dob-month" for="dob-month-input">Month</label>
+                <input id="dob-month-input"
+                       name="dob-month"
+                       value="{{ dobMonth }}"
+                       class="form-control"/>
+              </div>
+
+              <div class="form-group form-group-year">
+                <label id="dob-year" for="dob-year-input">Year</label>
+                <input id="dob-year-input"
+                       name="dob-year"
+                       value="{{ dobYear }}"
+                       class="form-control"/>
+              </div>
+
+            </div>
+
+          </fieldset>
+
+        </div>
+
+        <br>
+        <br>
+
+        <div class="form-group">
+
+          {% include "partials/csrf-hidden-input.html" %}
+
+          <input id="already-registered-submit"
+                 type="submit"
+                 value="Continue"
+                 class="button">
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</main>
+
+{% endblock %}

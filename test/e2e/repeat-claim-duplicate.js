@@ -47,7 +47,7 @@ describe('Repeat claim with no change flow', function () {
 
       // Same journey as your last claim
       .waitForExist('#same-journey-as-last-claim-submit')
-      .click('[for="no"]')
+      .click('[for="yes"]')
       .click('#same-journey-as-last-claim-submit')
 
       // Journey information
@@ -55,22 +55,7 @@ describe('Repeat claim with no change flow', function () {
       .setValue('#date-of-journey-day', todaysDate.date())
       .setValue('#date-of-journey-month', todaysDate.month() + 1)
       .setValue('#date-of-journey-year', todaysDate.year())
-      .click('[for="child-no"]')
       .click('#journey-information-submit')
-
-      // Expense
-      .waitForExist('#expenses-submit')
-      .click('[for="bus"]')
-      .click('#expenses-submit')
-
-      // Bus #1 (adult expense)
-      .waitForExist('#bus-details-submit')
-      .setValue('#from-input', 'Euston')
-      .setValue('#to-input', 'Birmingham New Street')
-      .click('[for="return-no"]')
-      .click('[for="is-child-no"]')
-      .setValue('#cost-input', '20')
-      .click('#bus-details-submit')
 
       // Claim summary
       .waitForExist('#claim-summary-submit')

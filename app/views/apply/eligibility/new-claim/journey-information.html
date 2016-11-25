@@ -61,6 +61,7 @@
           </fieldset>
         </div>
 
+        {% if not isRepeatDuplicateClaim %}
         <div id="child-visitor" class="form-group {% if errors['child-visitor'][0] %} error {% endif %}">
 
           <h2 class="form-label-bold">Did you bring any children on this visit?</h2>
@@ -91,6 +92,7 @@
           </fieldset>
 
         </div>
+        {% endif %}
 
         {% include "partials/csrf-hidden-input.html" %}
 

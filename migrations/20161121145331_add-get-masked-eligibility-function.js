@@ -39,8 +39,7 @@ exports.up = function (knex, Promise) {
             JOIN IntSchema.Prisoner AS Prisoner ON Prisoner.EligibilityId = Eligibility.EligibilityId
           WHERE
             Eligibility.Reference = @reference AND
-            (Visitor.DateOfBirth = @dob OR Eligibility.EligibilityId = @eligibiltyId) AND
-            Eligibility.Status = 'APPROVED'
+            (Visitor.DateOfBirth = @dob OR Eligibility.EligibilityId = @eligibiltyId)
           ORDER BY Eligibility.DateSubmitted DESC
         )
       `

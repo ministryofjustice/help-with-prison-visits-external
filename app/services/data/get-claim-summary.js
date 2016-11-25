@@ -26,7 +26,8 @@ module.exports = function (claimId, claimType) {
       'Eligibility.Status AS EligibilityStatus'
     )
     .then(function (claim) {
-      if (claimType === claimTypeEnum.REPEAT_CLAIM && claim.EligibilityStatus == null) {
+      if ((claimType === claimTypeEnum.REPEAT_CLAIM || claimType === claimTypeEnum.REPEAT_DUPLICATE) &&
+        claim.EligibilityStatus == null) {
         // Repeat claim using existing eligibility data, retrieve from IntSchema
         return getRepeatEligibility(claim.Reference, null, claim.EligibilityId)
           .then(function (eligibility) {

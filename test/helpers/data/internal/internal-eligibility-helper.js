@@ -1,6 +1,8 @@
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 const claimHelper = require('./internal-claim-helper')
+const claimChildHelper = require('./internal-claim-child-helper')
+const claimExpenseHelper = require('./internal-claim-expense-helper')
 const visitorHelper = require('./internal-visitor-helper')
 const prisonerHelper = require('./internal-prisoner-helper')
 const dateFormatter = require('../../../../app/services/date-formatter')
@@ -27,13 +29,17 @@ module.exports.insert = function (reference) {
 
 module.exports.insertEligibilityAndClaim = function (reference) {
   var eligibilityId
+  var claimId
 
   return this.insert(reference)
     .then(function (id) { eligibilityId = id })
     .then(function () { return visitorHelper.insert(reference, eligibilityId) })
     .then(function () { return prisonerHelper.insert(reference, eligibilityId) })
     .then(function () { return claimHelper.insert(reference, eligibilityId) })
-    .then(function (newClaimId) { return { eligibilityId: eligibilityId, claimId: newClaimId } })
+    .then(function (newClaimId) { claimId = newClaimId })
+    .then(function () { return claimChildHelper.insert(reference, eligibilityId, claimId) })
+    .then(function () { return claimExpenseHelper.insert(reference, eligibilityId, claimId) })
+    .then(function () { return { eligibilityId: eligibilityId, claimId: claimId } })
 }
 
 module.exports.get = function (reference) {
@@ -51,7 +57,9 @@ function deleteByReference (schemaTable, reference) {
 }
 
 module.exports.deleteAll = function (reference) {
-  return deleteByReference('IntSchema.Claim', reference)
+  return deleteByReference('IntSchema.ClaimExpense', reference)
+    .then(function () { return deleteByReference('IntSchema.ClaimChild', reference) })
+    .then(function () { return deleteByReference('IntSchema.Claim', reference) })
     .then(function () { return deleteByReference('IntSchema.Visitor', reference) })
     .then(function () { return deleteByReference('IntSchema.Prisoner', reference) })
     .then(function () { return deleteByReference('IntSchema.Eligibility', reference) })

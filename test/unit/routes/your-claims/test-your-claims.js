@@ -68,7 +68,7 @@ describe('/your-claims/your-claims', function () {
       return supertest(app)
         .get(ROUTE)
         .expect(302)
-        .expect('location', '/start?error=yes')
+        .expect('location', '/start-already-registered?error=yes')
     })
   })
 })
