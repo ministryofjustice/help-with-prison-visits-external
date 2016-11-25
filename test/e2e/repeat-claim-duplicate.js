@@ -54,6 +54,24 @@ describe('Repeat claim with no change flow', function () {
 
       // Claim summary
       .waitForExist('#claim-summary-submit')
+      .click('#add-visit-confirmation')
+
+      // Upload visit confirmation
+      .waitForExist('#Post')
+      .click('[for="Post"]')
+      .click('#file-upload-submit')
+
+      // Claim summary
+      .waitForExist('#claim-summary-submit')
+      .click('.add-expense-receipt')
+
+      // Upload Receipt Bus Adult
+      .waitForExist('#Post')
+      .click('[for="Post"]')
+      .click('#file-upload-submit')
+
+      // Claim summary
+      .waitForExist('#claim-summary-submit')
       .click('#claim-summary-submit')
 
       // Bank account details

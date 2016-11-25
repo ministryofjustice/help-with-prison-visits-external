@@ -60,14 +60,14 @@ describe('services/data/get-claim-summary', function () {
   })
 
   describe('repeat claim with existing eligibility', function () {
-    before(function () {
+    beforeEach(function () {
       return claimHelper.insertWithExpenseChildDocuments(REPEAT_REFERENCE, REPEAT_ELIGIBILITYID)
         .then(function (newClaimId) {
           repeatClaimId = newClaimId
         })
     })
 
-    it('should call to get existing masked eligibility details from Internal Schema', function () {
+    it('should call to get existing repeat eligibility details from Internal Schema for repeat claims', function () {
       return getClaimSummary(repeatClaimId, claimTypeEnum.REPEAT_CLAIM)
         .then(function (result) {
           expect(getRepeatEligibilityStub.calledOnce).to.be.true
@@ -75,7 +75,16 @@ describe('services/data/get-claim-summary', function () {
         })
     })
 
-    after(function () {
+    it('should call to get existing repeat eligibility details from Internal Schema for repeat-duplicate claims', function () {
+      return getClaimSummary(repeatClaimId, claimTypeEnum.REPEAT_DUPLICATE)
+        .then(function (result) {
+          expect(getRepeatEligibilityStub.calledOnce).to.be.true
+          expect(result.claim.LastName).to.equal(MASKED_ELIGIBILITY.LastName)
+        })
+    })
+
+    afterEach(function () {
+      getRepeatEligibilityStub.reset()
       return eligiblityHelper.deleteAll(REPEAT_REFERENCE)
     })
   })
