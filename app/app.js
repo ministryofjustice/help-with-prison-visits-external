@@ -13,6 +13,7 @@ const onFinished = require('on-finished')
 const cookieParser = require('cookie-parser')
 const csurf = require('csurf')
 const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
+const auth = require('basic-auth')
 
 var app = express()
 
@@ -39,6 +40,27 @@ app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use('/public', express.static(path.join(__dirname, 'govuk_modules', 'govuk_template')))
 app.use('/public', express.static(path.join(__dirname, 'govuk_modules', 'govuk_frontend_toolkit')))
 app.use(favicon(path.join(__dirname, 'govuk_modules', 'govuk_template', 'images', 'favicon.ico')))
+
+// Basic auth
+if (config.BASIC_AUTH_ENABLED === 'true') {
+  app.use(function (req, res, next) {
+    var credentials = auth(req)
+
+    if (req.url === '' || req.url === '/') {
+      next() // must leave root url free for Azure gateway
+    } else {
+      if (!credentials ||
+        credentials.name !== config.BASIC_AUTH_USERNAME ||
+        credentials.pass !== config.BASIC_AUTH_PASSWORD) {
+        res.statusCode = 401
+        res.setHeader('WWW-Authenticate', 'Basic realm="APVS External Web"')
+        res.end('Access denied')
+      } else {
+        next()
+      }
+    }
+  })
+}
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))

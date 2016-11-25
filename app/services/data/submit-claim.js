@@ -20,9 +20,9 @@ module.exports = function (reference, eligibilityId, claimId, claimType, assiste
       }
 
       return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
-                          updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker),
-                          insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType),
-                          insertTaskSendClaimNotification(reference, eligibilityId, claimId)])
+        updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker),
+        insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType),
+        insertTaskSendClaimNotification(reference, eligibilityId, claimId)])
     })
 }
 

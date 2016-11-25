@@ -1,5 +1,5 @@
 const UrlPathValidator = require('../../services/validators/url-path-validator')
-const getMaskedEligibility = require('../../services/data/get-masked-eligibility')
+const getRepeatEligibility = require('../../services/data/get-repeat-eligibility')
 const dateFormatter = require('../../services/date-formatter')
 const CheckYourInformation = require('../../services/domain/check-your-information')
 const ValidationError = require('../../services/errors/validation-error')
@@ -9,7 +9,7 @@ module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    getMaskedEligibility(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
+    getRepeatEligibility(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
       .then(function (eligibility) {
         return res.render('your-claims/check-your-information', {
           dob: req.params.dob,
@@ -33,7 +33,7 @@ module.exports = function (router) {
       res.redirect(`/apply/repeat/eligibility/${referenceId}/new-claim`)
     } catch (error) {
       if (error instanceof ValidationError) {
-        getMaskedEligibility(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
+        getRepeatEligibility(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
           .then(function (eligibility) {
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,
