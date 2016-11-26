@@ -32,10 +32,6 @@
     },
 
     _create: function(){
-      // create and hide el
-      this.$wrapper = $('<span>')
-        .addClass('moj-autocomplete')
-        .insertAfter(this.$select);
       // build autocomplete field
       this._createAutocomplete();
       // hide original select el
@@ -56,7 +52,7 @@
         .attr('data-input-name', this.$select.attr('name'))
         .val(val) // set value if already selected
         .data('select', this.$select) // assoc select with this input
-        .addClass('form-control')
+        .addClass('form-control moj-autocomplete')
         .attr('id', textInputID)
 
       // if required, copy across attributes - useful for using [placeholder]
@@ -97,8 +93,8 @@
         autocompletefocus: this._autocompletefocus
       });
 
-      // append input to wrapper
-      this.$wrapper.append(this.$text);
+      // insert input
+      this.$text.insertAfter(this.$select)
     },
 
     _source: function(request, response){
