@@ -42,8 +42,9 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     it('should persist data and redirect to first-time/about-you for valid data', function () {
       var newReference = 'NEWREF1'
       var newEligibilityId = 1234
+      var newAboutThePrisoner = {}
       stubInsertNewEligibilityAndPrisoner.resolves({reference: newReference, eligibilityId: newEligibilityId})
-      stubAboutThePrisoner.returns({})
+      stubAboutThePrisoner.returns(newAboutThePrisoner)
 
       return supertest(app)
         .post(ROUTE)
@@ -51,7 +52,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
           sinon.assert.calledOnce(stubAboutThePrisoner)
-          sinon.assert.calledOnce(stubInsertNewEligibilityAndPrisoner)
+          sinon.assert.calledWith(stubInsertNewEligibilityAndPrisoner, newAboutThePrisoner, 'first-time', undefined)
         })
         .expect('location', `${ROUTE}/${newReference}-${newEligibilityId}`)
     })

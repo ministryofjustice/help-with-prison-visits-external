@@ -1,4 +1,5 @@
 const expect = require('chai').expect
+const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
 const AboutThePrisoner = require('../../../../app/services/domain/about-the-prisoner')
 const prisonerHelper = require('../../../helpers/data/prisoner-helper')
@@ -8,9 +9,10 @@ const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 const moment = require('moment')
 
-const uniqueReference1 = '1234567'
-const uniqueReference2 = '2345678'
-const nonuniqueReference = 'AAAAAAA'
+const UNIQUE_REFERENCE1 = '1234567'
+const UNIQUE_REFERENCE2 = '2345678'
+const NON_UNIQUE_REFERENCE = 'AAAAAAA'
+const EXISTING_REFERENCE = 'EXREF01'
 
 const aboutThePrisoner = new AboutThePrisoner(prisonerHelper.FIRST_NAME,
   prisonerHelper.LAST_NAME,
@@ -30,19 +32,19 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
   })
 
   it('should insert a new Eligibility and Prisoner returning reference', function () {
-    const stubReferenceGeneratorGenerate = sinon.stub(stubReferenceGenerator, 'generate').returns(uniqueReference1)
+    const stubReferenceGeneratorGenerate = sinon.stub(stubReferenceGenerator, 'generate').returns(UNIQUE_REFERENCE1)
 
-    return insertNewEligibilityAndPrisoner(aboutThePrisoner)
+    return insertNewEligibilityAndPrisoner(aboutThePrisoner, claimTypeEnum.FIRST_TIME, undefined)
       .then(function (result) {
         var newReference = result.reference
         var newEligibilityId = result.eligibilityId
 
-        expect(newReference).to.equal(uniqueReference1)
+        expect(newReference).to.equal(UNIQUE_REFERENCE1)
         expect(newEligibilityId).to.exist
 
-        return knex('ExtSchema.Eligibility').where('Reference', uniqueReference1).first().then(function (newEligibilityRow) {
+        return knex('ExtSchema.Eligibility').where('Reference', UNIQUE_REFERENCE1).first().then(function (newEligibilityRow) {
           expect(newEligibilityRow.Status).to.equal(eligibilityStatusEnum.IN_PROGRESS)
-          return knex('ExtSchema.Prisoner').where('Reference', uniqueReference1).first().then(function (newPrisonerRow) {
+          return knex('ExtSchema.Prisoner').where('Reference', UNIQUE_REFERENCE1).first().then(function (newPrisonerRow) {
             expect(stubReferenceGeneratorGenerate.calledOnce).to.be.true
             expect(newPrisonerRow.FirstName).to.equal(aboutThePrisoner.firstName)
             expect(newPrisonerRow.LastName).to.equal(aboutThePrisoner.lastName)
@@ -56,28 +58,33 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
 
   it('should call referenceGenerator again if first reference is in use to ensure unique', function () {
     const stubReferenceGeneratorGenerate = sinon.stub(stubReferenceGenerator, 'generate')
-    stubReferenceGeneratorGenerate.onCall(0).returns(nonuniqueReference) // Already used ref
-    stubReferenceGeneratorGenerate.onCall(1).returns(nonuniqueReference) // Somehow duplicate ref generated
-    stubReferenceGeneratorGenerate.onCall(2).returns(uniqueReference2)   // New unique ref generated
+    stubReferenceGeneratorGenerate.onCall(0).returns(NON_UNIQUE_REFERENCE) // Already used ref
+    stubReferenceGeneratorGenerate.onCall(1).returns(NON_UNIQUE_REFERENCE) // Somehow duplicate ref generated
+    stubReferenceGeneratorGenerate.onCall(2).returns(UNIQUE_REFERENCE2)   // New unique ref generated
 
-    // First call uses nonuniqueReference
-    return insertNewEligibilityAndPrisoner(aboutThePrisoner)
+    // First call uses NON_UNIQUE_REFERENCE
+    return insertNewEligibilityAndPrisoner(aboutThePrisoner, claimTypeEnum.FIRST_TIME, undefined)
       .then(function (result) {
-        var usedNonuniqueReference = result.reference
-        expect(usedNonuniqueReference).to.equal(nonuniqueReference)
-        // Second call gets nonuniqueReference first time generate is called, uniqueReference2 after that
+        expect(result.reference).to.equal(NON_UNIQUE_REFERENCE)
+        // Second call gets NON_UNIQUE_REFERENCE first time generate is called, UNIQUE_REFERENCE2 after that
         return insertNewEligibilityAndPrisoner(aboutThePrisoner)
           .then(function (result) {
-            var shouldHaveUsedUniqueReference2 = result.reference
-            expect(shouldHaveUsedUniqueReference2).to.equal(uniqueReference2)
+            expect(result.reference).to.equal(UNIQUE_REFERENCE2)
           })
+      })
+  })
+
+  it('should use existingReference if claimType is repeat-new-eligibility', function () {
+    return insertNewEligibilityAndPrisoner(aboutThePrisoner, claimTypeEnum.REPEAT_NEW_ELIGIBILITY, EXISTING_REFERENCE)
+      .then(function (result) {
+        expect(result.reference).to.equal(EXISTING_REFERENCE)
       })
   })
 
   after(function () {
     // Clean up
-    return knex('ExtSchema.Prisoner').whereIn('Reference', [uniqueReference1, uniqueReference2, nonuniqueReference]).del().then(function () {
-      return knex('ExtSchema.Eligibility').whereIn('Reference', [uniqueReference1, uniqueReference2, nonuniqueReference]).del()
+    return knex('ExtSchema.Prisoner').whereIn('Reference', [UNIQUE_REFERENCE1, UNIQUE_REFERENCE2, NON_UNIQUE_REFERENCE, EXISTING_REFERENCE]).del().then(function () {
+      return knex('ExtSchema.Eligibility').whereIn('Reference', [UNIQUE_REFERENCE1, UNIQUE_REFERENCE2, NON_UNIQUE_REFERENCE, EXISTING_REFERENCE]).del()
     })
   })
 })

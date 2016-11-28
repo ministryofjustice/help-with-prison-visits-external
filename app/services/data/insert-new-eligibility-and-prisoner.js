@@ -1,11 +1,18 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
+const claimTypeEnum = require('../../constants/claim-type-enum')
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const referenceGenerator = require('../reference-generator')
 const dateFormatter = require('../date-formatter')
 
-module.exports = function (aboutThePrisoner) {
-  var reference = referenceGenerator.generate()
+module.exports = function (aboutThePrisoner, claimType, existingReference) {
+  var reference
+  if (claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY && existingReference) {
+    reference = existingReference
+  } else {
+    reference = referenceGenerator.generate()
+  }
+
   var newEligibilityId
 
   return knex('Eligibility')

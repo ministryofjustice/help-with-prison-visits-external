@@ -63,12 +63,25 @@ describe('routes/apply/new-eligibility/benefits', function () {
         })
     })
 
-    it('should respond with a 302 and redirect to benefits page if the relationship value is valid', function () {
+    it('should respond with a 302 and redirect to prisoner page if the relationship value is valid', function () {
       benefitsStub.returns(VALID_PRISONER_BENEFIT)
       return supertest(app)
         .post(ROUTE)
         .expect(302)
         .expect('location', `${ROUTE}/${VALID_BENEFIT}`)
+    })
+
+    it('should respond with a 302 and redirect to prisoner page with reference/prisoner-number query params if repeat-new-eligibility', function () {
+      const REFERENCE = 'REP1234'
+      const PRISONER_NUMBER = '12345678'
+      const REPEAT_NEW_ELIGIBILITY_ROUTE = `/apply/repeat-new-eligibility/new-eligibility/${DOB}/${RELATIONSHIP}?reference=${REFERENCE}&prisoner-number=${PRISONER_NUMBER}`
+
+      benefitsStub.returns(VALID_PRISONER_BENEFIT)
+
+      return supertest(app)
+        .post(REPEAT_NEW_ELIGIBILITY_ROUTE)
+        .expect(302)
+        .expect('location', `/apply/repeat-new-eligibility/new-eligibility/${DOB}/${RELATIONSHIP}/${VALID_BENEFIT}?reference=${REFERENCE}&prisoner-number=${PRISONER_NUMBER}`)
     })
 
     it('should respond with a 302 and redirect to /eligibility-fail if the benefit is set to none', function () {

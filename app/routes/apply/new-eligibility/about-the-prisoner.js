@@ -8,11 +8,10 @@ const displayHelper = require('../../../views/helpers/display-helper')
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit', function (req, res) {
     UrlPathValidator(req.params)
+
     return res.render('apply/new-eligibility/about-the-prisoner', {
-      claimType: req.params.claimType,
-      dob: req.params.dob,
-      relationship: req.params.relationship,
-      benefit: req.params.benefit,
+      URL: req.url,
+      prisonerNumber: req.query['prisoner-number'],
       displayHelper: displayHelper
     })
   })
@@ -34,7 +33,7 @@ module.exports = function (router) {
         req.body['PrisonerNumber'],
         req.body['NameOfPrison'])
 
-      insertNewEligibilityAndPrisoner(aboutThePrisoner)
+      insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.query.reference)
         .then(function (result) {
           var referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
           return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dob}/${relationship}/${benefit}/${referenceId}`)
@@ -46,10 +45,8 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/new-eligibility/about-the-prisoner', {
           errors: error.validationErrors,
-          claimType: req.params.claimType,
-          dob: dob,
-          relationship: relationship,
-          benefit: benefit,
+          URL: req.url,
+          prisonerNumber: req.query['prisoner-number'],
           prisoner: prisoner,
           displayHelper: displayHelper
         })

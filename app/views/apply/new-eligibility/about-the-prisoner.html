@@ -19,7 +19,7 @@
         About the person you're visiting
       </h2>
 
-      <form action="/apply/{{ claimType }}/new-eligibility/{{ dob }}/{{ relationship }}/{{ benefit }}" method="post">
+      <form action="{{ URL }}" method="post">
 
         <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
           <label id="FirstName" class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
@@ -90,15 +90,21 @@
 
         <div class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
           <label id="PrisonerNumber" class="form-label-bold" for="prisoner-number">Prisoner number</label>
+        {% if not prisonerNumber %}
           <p class="form-hint">For example, A1234BC</p>
           {% if errors['PrisonerNumber'][0] %}
           <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
           {% endif %}
+
           <input id="prisoner-number"
                  name="PrisonerNumber"
                  value="{{ prisoner['PrisonerNumber'] }}"
                  type="text"
                  class="form-control">
+        {% else %}
+          <span>{{ prisonerNumber }}</span>
+          <input id="prisoner-number" name="PrisonerNumber" value="{{ prisonerNumber }}" type="hidden">
+        {% endif %}
         </div>
 
         <div class="form-group {% if errors['NameOfPrison'][0] %} error {% endif %}">
