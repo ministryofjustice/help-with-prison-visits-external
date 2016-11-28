@@ -40,6 +40,7 @@ describe('First Time Claim Flow', () => {
       .setValue('#dob-year', '1955')
       .setValue('#prisoner-number', 'A1234BC')
       .setValue('#prison-name-text-input', 'Hewell')
+      .click('#NameOfPrison') // click label to remove input focus
       .click('#about-the-prisoner-submit')
 
       // About you
