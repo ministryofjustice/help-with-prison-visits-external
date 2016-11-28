@@ -37,6 +37,16 @@ describe('Repeat claim with no change flow', function () {
 
       // Check your information
       .waitForExist('#continue')
+      .click('#change-contact-details')
+
+      // Change contact details
+      .waitForExist('#submit')
+      .setValue('#email-address', 'donotsend@apvs.com')
+      .setValue('#phone-number', '9876543210')
+      .click('#submit')
+
+      // Check your information
+      .waitForExist('#continue')
       .click('[for="confirm-correct"]')
       .click('#continue')
 
