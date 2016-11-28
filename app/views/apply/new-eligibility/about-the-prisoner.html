@@ -110,17 +110,17 @@
           <select id="prison-name" class="form-control js-autocomplete" name="NameOfPrison">
             <option>select</option>
             <optgroup label="England / Wales">
-            {% for key, prison in displayHelper.getPrisonsByRegion('england-wales') %}
+            {% for key, prison in displayHelper.getPrisonsByRegion('ENG/WAL') %}
               <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
             {% endfor %}
             </optgroup>
             <optgroup label="Scotland">
-            {% for key, prison in displayHelper.getPrisonsByRegion('scotland') %}
+            {% for key, prison in displayHelper.getPrisonsByRegion('SCO') %}
               <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
             {% endfor %}
             </optgroup>
             <optgroup label="Northern Ireland">
-            {% for key, prison in displayHelper.getPrisonsByRegion('northern-ireland') %}
+            {% for key, prison in displayHelper.getPrisonsByRegion('NI') %}
               <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
             {% endfor %}
             </optgroup>
