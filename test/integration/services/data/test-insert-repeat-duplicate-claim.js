@@ -2,6 +2,7 @@ const expect = require('chai').expect
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
+const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 require('sinon-bluebird')
@@ -60,7 +61,7 @@ describe('services/data/insert-repeat-duplicate-claim', function () {
 
     return insertRepeatDuplicateClaim(REFERENCE, eligibilityId, NEW_CLAIM)
       .then(function () {
-        expect(insertNewClaimStub.calledWith(REFERENCE, eligibilityId, NEW_CLAIM)).to.be.true
+        expect(insertNewClaimStub.calledWith(REFERENCE, eligibilityId, claimTypeEnum.REPEAT_DUPLICATE, NEW_CLAIM)).to.be.true
         expect(getLastClaimDetailsStub.calledWith(REFERENCE, eligibilityId)).to.be.true
       })
       .then(function () {

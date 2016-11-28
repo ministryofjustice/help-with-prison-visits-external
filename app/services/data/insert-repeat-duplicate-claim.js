@@ -1,6 +1,7 @@
 const Promise = require('bluebird')
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
+const claimTypeEnum = require('../../constants/claim-type-enum')
 const insertNewClaim = require('./insert-new-claim')
 const getLastClaimDetails = require('./get-last-claim-details')
 
@@ -8,7 +9,7 @@ module.exports = function (reference, eligibilityId, claim) {
   var claimId
   var lastClaimDetails
 
-  return insertNewClaim(reference, eligibilityId, claim)
+  return insertNewClaim(reference, eligibilityId, claimTypeEnum.REPEAT_DUPLICATE, claim)
     .then(function (newClaimId) { claimId = newClaimId })
     .then(function () { return getLastClaimDetails(reference, eligibilityId) })
     .then(function (claimDetails) { lastClaimDetails = claimDetails })
