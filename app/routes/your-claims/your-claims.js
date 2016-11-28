@@ -4,6 +4,7 @@ const dateHelper = require('../../views/helpers/date-helper')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const claimStatusHelper = require('../../views/helpers/claim-status-helper')
 const dateFormatter = require('../../services/date-formatter')
+const displayHelper = require('../../views/helpers/display-helper')
 
 const REFERENCE_DOB_ERROR = '?error=yes'
 
@@ -24,7 +25,8 @@ module.exports = function (router) {
           claims: claims,
           dateHelper: dateHelper,
           claimStatusHelper: claimStatusHelper,
-          canStartNewClaim: canStartNewClaim
+          canStartNewClaim: canStartNewClaim,
+          displayHelper: displayHelper
         })
       })
       .catch(function (error) {

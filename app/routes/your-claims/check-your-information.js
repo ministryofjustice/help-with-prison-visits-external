@@ -4,6 +4,7 @@ const dateFormatter = require('../../services/date-formatter')
 const CheckYourInformation = require('../../services/domain/check-your-information')
 const ValidationError = require('../../services/errors/validation-error')
 const referenceIdHelper = require('../helpers/reference-id-helper')
+const displayHelper = require('../../views/helpers/display-helper')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/check-your-information', function (req, res, next) {
@@ -14,7 +15,8 @@ module.exports = function (router) {
         return res.render('your-claims/check-your-information', {
           dob: req.params.dob,
           reference: req.params.reference,
-          eligibility: eligibility})
+          eligibility: eligibility,
+          displayHelper: displayHelper})
       })
       .catch(function (error) {
         next(error)
@@ -39,7 +41,8 @@ module.exports = function (router) {
               errors: error.validationErrors,
               dob: req.params.dob,
               reference: req.params.reference,
-              eligibility: eligibility
+              eligibility: eligibility,
+              displayHelper: displayHelper
             })
           })
           .catch(function (error) {
