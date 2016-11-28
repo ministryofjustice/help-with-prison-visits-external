@@ -12,7 +12,8 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIM_ID = '123'
-  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/new-claim/past`
+  const CLAIM_TYPE = 'first-time'
+  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/new-claim/past`
   const REPEAT_DUPLICATE_ROUTE = `/apply/repeat-duplicate/eligibility/${REFERENCEID}/new-claim/past`
 
   var app
@@ -90,7 +91,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
         .expect(function () {
           sinon.assert.calledOnce(newClaimStub)
           sinon.assert.calledOnce(insertNewClaimStub)
-          sinon.assert.calledWith(insertNewClaimStub, REFERENCE, ELIGIBILITYID, FIRST_TIME_CLAIM)
+          sinon.assert.calledWith(insertNewClaimStub, REFERENCE, ELIGIBILITYID, CLAIM_TYPE, FIRST_TIME_CLAIM)
         })
         .expect(302)
     })
