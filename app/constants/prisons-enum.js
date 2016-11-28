@@ -4,751 +4,751 @@ module.exports = {
   ALTCOURSE: {
     value: 'altcourse',
     displayName: 'Altcourse',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   ASHFIELD: {
     value: 'ashfield',
     displayName: 'Ashfield',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   ASKHAM_GRANGE: {
     value: 'askham-grange',
     displayName: 'Askham Grange',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   AYLESBURY: {
     value: 'aylesbury',
     displayName: 'Aylesbury',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BEDFORD: {
     value: 'bedford',
     displayName: 'Bedford',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BELMARSH: {
     value: 'belmarsh',
     displayName: 'Belmarsh',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BERWYN: {
     value: 'berwyn',
     displayName: 'Berwyn',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BIRMINGHAM: {
     value: 'birmingham',
     displayName: 'Birmingham',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BLANTYRE_HOUSE: {
     value: 'blantyre-house',
     displayName: 'Blantyre House',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BRINSFORD: {
     value: 'brinsford',
     displayName: 'Brinsford',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BRISTOL: {
     value: 'bristol',
     displayName: 'Bristol',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BRIXTON: {
     value: 'brixton',
     displayName: 'Brixton',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BRONZEFIELD: {
     value: 'bronzefield',
     displayName: 'Bronzefield',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BUCKLEY_HALL: {
     value: 'buckley-hall',
     displayName: 'Buckley Hall',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BULLINGDON: {
     value: 'bullingdon',
     displayName: 'Bullingdon',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BULLWOOD_HALL: {
     value: 'bullwood-hall',
     displayName: 'Bullwood Hall',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   BURE: {
     value: 'bure',
     displayName: 'Bure',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   CARDIFF: {
     value: 'cardiff',
     displayName: 'Cardiff',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   CHANNINGS_WOOD: {
     value: 'channings-wood',
     displayName: 'Channings Wood',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   CHELMSFORD: {
     value: 'chelmsford',
     displayName: 'Chelmsford',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   COLDINGLEY: {
     value: 'coldingley',
     displayName: 'Coldingley',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   COOKHAM_WOOD: {
     value: 'cookham-wood',
     displayName: 'Cookham Wood',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   DARTMOOR: {
     value: 'dartmoor',
     displayName: 'Dartmoor',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   DEERBOLT: {
     value: 'deerbolt',
     displayName: 'Deerbolt',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   DONCASTER: {
     value: 'doncaster',
     displayName: 'Doncaster',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   DOVEGATE: {
     value: 'dovegate',
     displayName: 'Dovegate',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   DOVER: {
     value: 'dover',
     displayName: 'Dover',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   DOWNVIEW: {
     value: 'downview',
     displayName: 'Downview',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   DRAKE_HALL: {
     value: 'drake-hall',
     displayName: 'Drake Hall',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   DURHAM: {
     value: 'durham',
     displayName: 'Durham',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   EAST_SUTTON_PARK: {
     value: 'east-sutton-park',
     displayName: 'East Sutton Park',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   EASTWOOD_PARK: {
     value: 'eastwood-park',
     displayName: 'Eastwood Park',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   ELMLEY: {
     value: 'elmley',
     displayName: 'Elmley',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   ERLESTOKE: {
     value: 'erlestoke',
     displayName: 'Erlestoke',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   EXETER: {
     value: 'exeter',
     displayName: 'Exeter',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   FEATHERSTONE: {
     value: 'featherstone',
     displayName: 'Featherstone',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   FELTHAM: {
     value: 'feltham',
     displayName: 'Feltham',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   FORD: {
     value: 'ford',
     displayName: 'Ford',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   FOREST_BANK: {
     value: 'forest-bank',
     displayName: 'Forest Bank',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   FOSTON_HALL: {
     value: 'foston-hall',
     displayName: 'Foston Hall',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   FRANKLAND: {
     value: 'frankland',
     displayName: 'Frankland',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   FULL_SUTTON: {
     value: 'full-sutton',
     displayName: 'Full Sutton',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   GARTH: {
     value: 'garth',
     displayName: 'Garth',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   GARTREE: {
     value: 'gartree',
     displayName: 'Gartree',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   GLEN_PARVA: {
     value: 'glen-parva',
     displayName: 'Glen Parva',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   GRENDON_SPRING_HILL: {
     value: 'grendon/spring-hill',
     displayName: 'Grendon/Spring Hill',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   GUYS_MARSH: {
     value: 'guys-marsh',
     displayName: 'Guys Marsh',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HASLAR: {
     value: 'haslar',
     displayName: 'Haslar',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HATFIELD: {
     value: 'hatfield',
     displayName: 'Hatfield',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HAVERIGG: {
     value: 'haverigg',
     displayName: 'Haverigg',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HEWELL: {
     value: 'hewell',
     displayName: 'Hewell',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HIGH_DOWN: {
     value: 'high-down',
     displayName: 'High Down',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HIGHPOINT: {
     value: 'highpoint',
     displayName: 'Highpoint',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HINDLEY: {
     value: 'hindley',
     displayName: 'Hindley',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HOLLESLEY_BAY: {
     value: 'hollesley-bay',
     displayName: 'Hollesley Bay',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HOLME_HOUSE: {
     value: 'holme-house',
     displayName: 'Holme House',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HULL: {
     value: 'hull',
     displayName: 'Hull',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HMP_HUMBER: {
     value: 'hmp-humber',
     displayName: 'Hmp Humber',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   HUNTERCOMBE: {
     value: 'huntercombe',
     displayName: 'Huntercombe',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   ISIS: {
     value: 'isis',
     displayName: 'Isis',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   ISLE_OF_WIGHT: {
     value: 'isle-of-wight',
     displayName: 'Isle Of Wight',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   KENNET: {
     value: 'kennet',
     displayName: 'Kennet',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   KIRKHAM: {
     value: 'kirkham',
     displayName: 'Kirkham',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   KIRKLEVINGTON_GRANGE: {
     value: 'kirklevington-grange',
     displayName: 'Kirklevington Grange',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LANCASTER_FARMS: {
     value: 'lancaster-farms',
     displayName: 'Lancaster Farms',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LEEDS: {
     value: 'leeds',
     displayName: 'Leeds',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LEICESTER: {
     value: 'leicester',
     displayName: 'Leicester',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LEWES: {
     value: 'lewes',
     displayName: 'Lewes',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LEYHILL: {
     value: 'leyhill',
     displayName: 'Leyhill',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LINCOLN: {
     value: 'lincoln',
     displayName: 'Lincoln',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LINDHOLME: {
     value: 'lindholme',
     displayName: 'Lindholme',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LITTLEHEY: {
     value: 'littlehey',
     displayName: 'Littlehey',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LIVERPOOL: {
     value: 'liverpool',
     displayName: 'Liverpool',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LONG_LARTIN: {
     value: 'long-lartin',
     displayName: 'Long Lartin',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LOWDHAM_GRANGE: {
     value: 'lowdham-grange',
     displayName: 'Lowdham Grange',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   LOW_NEWTON: {
     value: 'low-newton',
     displayName: 'Low Newton',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   MAIDSTONE: {
     value: 'maidstone',
     displayName: 'Maidstone',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   MANCHESTER: {
     value: 'manchester',
     displayName: 'Manchester',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   MOORLAND: {
     value: 'moorland',
     displayName: 'Moorland',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   MORTON_HALL: {
     value: 'morton-hall',
     displayName: 'Morton Hall',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   THE_MOUNT: {
     value: 'the-mount',
     displayName: 'The Mount',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   NEW_HALL: {
     value: 'new-hall',
     displayName: 'New Hall',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   NORTH_SEA_CAMP: {
     value: 'north-sea-camp',
     displayName: 'North Sea Camp',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   NORTHUMBERLAND: {
     value: 'northumberland',
     displayName: 'Northumberland',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   NORWICH: {
     value: 'norwich',
     displayName: 'Norwich',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   NOTTINGHAM: {
     value: 'nottingham',
     displayName: 'Nottingham',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   OAKWOOD: {
     value: 'oakwood',
     displayName: 'Oakwood',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   ONLEY: {
     value: 'onley',
     displayName: 'Onley',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   PARC: {
     value: 'parc',
     displayName: 'Parc',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   PENTONVILLE: {
     value: 'pentonville',
     displayName: 'Pentonville',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   PETERBOROUGH: {
     value: 'peterborough',
     displayName: 'Peterborough',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   PORTLAND: {
     value: 'portland',
     displayName: 'Portland',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   PRESCOED: {
     value: 'prescoed',
     displayName: 'Prescoed',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   PRESTON: {
     value: 'preston',
     displayName: 'Preston',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   RANBY: {
     value: 'ranby',
     displayName: 'Ranby',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   RISLEY: {
     value: 'risley',
     displayName: 'Risley',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   ROCHESTER: {
     value: 'rochester',
     displayName: 'Rochester',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   RYE_HILL: {
     value: 'rye-hill',
     displayName: 'Rye Hill',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   SEND: {
     value: 'send',
     displayName: 'Send',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   STAFFORD: {
     value: 'stafford',
     displayName: 'Stafford',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   STANDFORD_HILL: {
     value: 'standford-hill',
     displayName: 'Standford Hill',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   STOCKEN: {
     value: 'stocken',
     displayName: 'Stocken',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   STOKE_HEATH: {
     value: 'stoke-heath',
     displayName: 'Stoke Heath',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   STYAL: {
     value: 'styal',
     displayName: 'Styal',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   SUDBURY: {
     value: 'sudbury',
     displayName: 'Sudbury',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   SWALESIDE: {
     value: 'swaleside',
     displayName: 'Swaleside',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   SWANSEA: {
     value: 'swansea',
     displayName: 'Swansea',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   SWINFEN_HALL: {
     value: 'swinfen-hall',
     displayName: 'Swinfen Hall',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   THAMESIDE: {
     value: 'thameside',
     displayName: 'Thameside',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   THORN_CROSS: {
     value: 'thorn-cross',
     displayName: 'Thorn Cross',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   USK: {
     value: 'usk',
     displayName: 'Usk',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   THE_VERNE: {
     value: 'the-verne',
     displayName: 'The Verne',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WAKEFIELD: {
     value: 'wakefield',
     displayName: 'Wakefield',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WANDSWORTH: {
     value: 'wandsworth',
     displayName: 'Wandsworth',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WARREN_HILL: {
     value: 'warren-hill',
     displayName: 'Warren Hill',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WAYLAND: {
     value: 'wayland',
     displayName: 'Wayland',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WEALSTUN: {
     value: 'wealstun',
     displayName: 'Wealstun',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WERRINGTON: {
     value: 'werrington',
     displayName: 'Werrington',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WETHERBY: {
     value: 'wetherby',
     displayName: 'Wetherby',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WHATTON: {
     value: 'whatton',
     displayName: 'Whatton',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WHITEMOOR: {
     value: 'whitemoor',
     displayName: 'Whitemoor',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WINCHESTER: {
     value: 'winchester',
     displayName: 'Winchester',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WOODHILL: {
     value: 'woodhill',
     displayName: 'Woodhill',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WORMWOOD_SCRUBS: {
     value: 'wormwood-scrubs',
     displayName: 'Wormwood Scrubs',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   WYMOTT: {
     value: 'wymott',
     displayName: 'Wymott',
-    region: 'england-wales'
+    region: 'ENG/WAL'
   },
 
   // Scotland
@@ -756,91 +756,91 @@ module.exports = {
   ADDIEWELL: {
     value: 'addiewell',
     displayName: 'Addiewell',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   BARLINNIE: {
     value: 'barlinnie',
     displayName: 'Barlinnie',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   CASTLE_HUNTLY: {
     value: 'castle-huntly',
     displayName: 'Castle Huntly',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   CORNTON_VALE: {
     value: 'cornton-vale',
     displayName: 'Cornton Vale',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   DUMFRIES: {
     value: 'dumfries',
     displayName: 'Dumfries',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   EDINBURGH: {
     value: 'edinburgh',
     displayName: 'Edinburgh',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   GLENOCHIL: {
     value: 'glenochil',
     displayName: 'Glenochil',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   GRAMPIAN: {
     value: 'grampian',
     displayName: 'Grampian',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   GREENOCK: {
     value: 'greenock',
     displayName: 'Greenock',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   INVERNESS: {
     value: 'inverness',
     displayName: 'Inverness',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   KILMARNOCK: {
     value: 'kilmarnock',
     displayName: 'Kilmarnock',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   LOW_MOSS: {
     value: 'low-moss',
     displayName: 'Low Moss',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   PERTH: {
     value: 'perth',
     displayName: 'Perth',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   POLMONT: {
     value: 'polmont',
     displayName: 'Polmont',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   SHOTTS: {
     value: 'shotts',
     displayName: 'Shotts',
-    region: 'scotland'
+    region: 'SCO'
   },
 
   // Northern Ireland
@@ -848,18 +848,18 @@ module.exports = {
   MAGHABERRY: {
     value: 'maghaberry',
     displayName: 'Maghaberry',
-    region: 'northern-ireland'
+    region: 'NI'
   },
 
   MAGILLIGAN: {
     value: 'magilligan',
     displayName: 'Magilligan',
-    region: 'northern-ireland'
+    region: 'NI'
   },
 
   HYDEBANK: {
     value: 'hydebank',
     displayName: 'Hydebank',
-    region: 'northern-ireland'
+    region: 'NI'
   }
 }

@@ -23,9 +23,9 @@ module.exports.getPrisonDisplayName = function (value) {
 }
 
 var prisonsByRegion = {
-  'england-wales': {},
-  'scotland': {},
-  'northern-ireland': {}
+  'ENG/WAL': {},
+  'SCO': {},
+  'NI': {}
 }
 
 for (var prisonKey in prisonsEnum) {
