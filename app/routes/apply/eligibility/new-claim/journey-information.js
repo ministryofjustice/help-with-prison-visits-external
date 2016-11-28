@@ -33,7 +33,7 @@ module.exports = function (router) {
       )
 
       if (!repeatDuplicateClaim) {
-        insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, newClaim)
+        insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimType, newClaim)
           .then(function (claimId) {
             if (req.body['child-visitor'] === 'yes') {
               return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${claimId}/child`)

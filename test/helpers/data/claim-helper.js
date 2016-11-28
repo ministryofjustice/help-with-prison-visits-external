@@ -12,6 +12,7 @@ const DAY = '01'
 const MONTH = '11'
 const YEAR = '2016'
 
+module.exports.CLAIM_TYPE = 'first-time'
 module.exports.DATE_OF_JOURNEY = dateFormatter.build(DAY, MONTH, YEAR)
 module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
@@ -24,7 +25,7 @@ module.exports.build = function (reference) {
 }
 
 module.exports.insert = function (reference, eligibilityId) {
-  return insertNewClaim(reference, eligibilityId, this.build(reference))
+  return insertNewClaim(reference, eligibilityId, this.CLAIM_TYPE, this.build(reference))
 }
 
 module.exports.insertWithExpenseChildDocuments = function (reference, eligibilityId) {
