@@ -33,6 +33,8 @@ describe('services/data/submit-claim', function () {
 
   it('should update Eligibility/Claim Status, DateSubmitted and insert tasks', function () {
     var currentDate = new Date()
+    var twoMinutesAgo = new Date().setMinutes(currentDate.getMinutes() - 2)
+    var twoMinutesAhead = new Date().setMinutes(currentDate.getMinutes() + 2)
     var assistedDigitalCaseworker = 'a@b.com'
 
     submitClaim(REFERENCE, eligibilityId, claimId, CLAIM_TYPE, assistedDigitalCaseworker)
@@ -42,11 +44,11 @@ describe('services/data/submit-claim', function () {
             return knex.first().from('ExtSchema.Claim').where('Reference', REFERENCE)
               .then(function (claim) {
                 expect(eligibility.Status).to.equal(eligibilityStatusEnum.SUBMITTED)
-                expect(eligibility.DateSubmitted).to.be.within(currentDate.setMinutes(currentDate.getMinutes() - 2), currentDate.setMinutes(currentDate.getMinutes() + 2))
+                expect(eligibility.DateSubmitted).to.be.within(twoMinutesAgo, twoMinutesAhead)
 
                 expect(claim.Status).to.equal(claimStatusEnum.SUBMITTED)
                 expect(claim.AssistedDigitalCaseworker).to.equal(assistedDigitalCaseworker)
-                expect(claim.DateSubmitted).to.be.within(currentDate.setMinutes(currentDate.getMinutes() - 2), currentDate.setMinutes(currentDate.getMinutes() + 2))
+                expect(claim.DateSubmitted).to.be.within(twoMinutesAgo, twoMinutesAhead)
 
                 expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true
                 expect(stubInsertTaskSendClaimNotification.calledWith(REFERENCE, eligibilityId, claimId)).to.be.true
