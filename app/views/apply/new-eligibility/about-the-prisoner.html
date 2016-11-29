@@ -130,6 +130,16 @@
               <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
             {% endfor %}
             </optgroup>
+            <optgroup label="Jersey">
+            {% for key, prison in displayHelper.getPrisonsByRegion('JSY') %}
+              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+            {% endfor %}
+            </optgroup>
+            <optgroup label="Guernsey">
+            {% for key, prison in displayHelper.getPrisonsByRegion('GSY') %}
+              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+            {% endfor %}
+            </optgroup>
           </select>
         </div>
 

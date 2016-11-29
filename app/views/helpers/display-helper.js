@@ -25,7 +25,9 @@ module.exports.getPrisonDisplayName = function (value) {
 var prisonsByRegion = {
   'ENG/WAL': {},
   'SCO': {},
-  'NI': {}
+  'NI': {},
+  'JSY': {},
+  'GSY': {}
 }
 
 for (var prisonKey in prisonsEnum) {
