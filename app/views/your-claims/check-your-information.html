@@ -24,9 +24,9 @@
 
     <p>Your address: <span class="bold">{{ eligibility['HouseNumberAndStreet'] }}, {{ eligibility['Town'] }}, {{ eligibility['PostCode'] }}</span></p>
 
-    <p>You receive: <span class="bold">{{ eligibility['Benefit'] }}</span></p> <!-- TODO use display value -->
+    <p>You receive: <span class="bold">{{ displayHelper.getBenefitDisplayName(eligibility['Benefit']) }}</span></p>
 
-    <p>You're the prisoner's: <span class="bold">{{ eligibility['Relationship'] }}</span></p> <!-- TODO use display value -->
+    <p>You're the prisoner's: <span class="bold">{{ displayHelper.getPrisonerRelationshipDisplayName(eligibility['Relationship']) }}</span></p>
 
     <p>You're visiting: <span class="bold">{{ eligibility['PrisonerFirstName'] }} {{ eligibility['PrisonerLastName'] }}</span></p>
 
