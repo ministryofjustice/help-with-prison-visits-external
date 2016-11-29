@@ -2,7 +2,7 @@ module.exports = {
   'car': 'Car Journey',
   'toll': 'Toll',
   'parking charge': 'Parking Charge',
-  'car hire': 'Car Hire',
+  'hire': 'Car Hire',
   'bus': 'Bus Journey',
   'train': 'Train Journey',
   'taxi': 'Taxi Journey',

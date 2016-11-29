@@ -15,7 +15,7 @@ module.exports = {
   },
 
   CAR_HIRE: {
-    value: 'car hire',
+    value: 'hire',
     displayName: 'Car hire'
   },
 
