@@ -861,5 +861,21 @@ module.exports = {
     value: 'hydebank',
     displayName: 'Hydebank',
     region: 'NI'
+  },
+
+  // Jersey
+
+  LA_MOYE: {
+    value: 'la_moye',
+    displayName: 'La Moye',
+    region: 'JSY'
+  },
+
+  // Guernsey
+
+  LES_NICOLLES: {
+    value: 'les_nicolles',
+    displayName: 'Les Nicolles',
+    region: 'GSY'
   }
 }
