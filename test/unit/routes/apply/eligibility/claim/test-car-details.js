@@ -12,6 +12,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIMID = '1'
   const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/car`
+  const ROUTE_REPEAT = `/apply/repeat/eligibility/${REFERENCEID}/claim/${CLAIMID}/car`
 
   var app
 
@@ -20,6 +21,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
   var insertCarExpensesStub
   var getTravellingFromAndToStub
   var carExpenseStub
+  var getMaskedEligibilityStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -27,13 +29,15 @@ describe('routes/apply/eligibility/claim/car-details', function () {
     insertCarExpensesStub = sinon.stub()
     getTravellingFromAndToStub = sinon.stub()
     carExpenseStub = sinon.stub()
+    getMaskedEligibilityStub = sinon.stub()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/car-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-car-expenses': insertCarExpensesStub,
       '../../../../services/data/get-travelling-from-and-to': getTravellingFromAndToStub,
-      '../../../../services/domain/expenses/car-expense': carExpenseStub
+      '../../../../services/domain/expenses/car-expense': carExpenseStub,
+      '../../../../services/data/get-masked-eligibility': getMaskedEligibilityStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -59,6 +63,33 @@ describe('routes/apply/eligibility/claim/car-details', function () {
       var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
       return supertest(app)
         .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(parseParams)
+        })
+    })
+  })
+
+  describe(`GET ${ROUTE_REPEAT}`, function () {
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .get(ROUTE_REPEAT)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should respond with a 200', function () {
+      getMaskedEligibilityStub.resolves({from: '', to: ''})
+      return supertest(app)
+        .get(ROUTE_REPEAT)
+        .expect(200)
+    })
+
+    it('should call parseParams', function () {
+      getMaskedEligibilityStub.resolves({from: '', to: ''})
+      var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
+      return supertest(app)
+        .get(ROUTE_REPEAT)
         .expect(function () {
           sinon.assert.calledOnce(parseParams)
         })

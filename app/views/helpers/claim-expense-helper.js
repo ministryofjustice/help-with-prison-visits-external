@@ -8,7 +8,7 @@ module.exports.FormattedDetail = function (expense) {
   var formattedDetail
 
   switch (expense.ExpenseType) {
-    case 'car hire':
+    case 'hire':
       formattedDetail = `${expense.From} to ${expense.To} for ${expense.DurationOfTravel} days`
       break
     case 'bus':

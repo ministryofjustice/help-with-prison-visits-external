@@ -19,7 +19,7 @@ describe('views/helpers/claim-expense-helper', function () {
     const RETURN_POSTFIX = ' - Return'
 
     it('should return formatted detail string for ClaimExpense', function () {
-      expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'car hire', From: FROM, To: TO, DurationOfTravel: 2 }))
+      expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'hire', From: FROM, To: TO, DurationOfTravel: 2 }))
         .to.equal(`${FROM} to ${TO} for ${DURATION_OF_TRAVEL} days`)
 
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'bus', From: FROM, To: TO }))
