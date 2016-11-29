@@ -28,10 +28,10 @@ describe('views/helpers/claim-expense-helper', function () {
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'train', From: FROM, To: TO }))
         .to.equal(`${FROM} to ${TO}`)
 
-      expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'light refreshment', TravelTime: 'over-five' }))
+      expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'refreshment', TravelTime: 'over-five' }))
         .to.equal('Over five hours away but under ten hours')
 
-      expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'light refreshment', TravelTime: 'over-ten' }))
+      expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'refreshment', TravelTime: 'over-ten' }))
         .to.equal('Over ten hours away')
 
       expect(claimExpenseHelper.FormattedDetail({ ExpenseType: 'accommodation', DurationOfTravel: DURATION_OF_TRAVEL }))
