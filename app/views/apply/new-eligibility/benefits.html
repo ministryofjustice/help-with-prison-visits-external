@@ -25,7 +25,7 @@
         <span class="error-message">{{ errors['benefit'][0] }}</span>
       {% endif %}
 
-      <form action="/apply/{{ claimType }}/new-eligibility/{{ dob }}/{{ relationship }}" method="post">
+      <form action="{{ URL }}" method="post">
         <div class="form-group {% if errors['benefit'][0] %} error {% endif %}">
           <fieldset>
 

@@ -69,6 +69,19 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
         .expect('location', `${ROUTE}/${VALID_RELATIONSHIP}`)
     })
 
+    it('should respond with a 302 and redirect to benefits page with reference/prisoner-number query params if repeat-new-eligibility', function () {
+      const REFERENCE = 'REP1234'
+      const PRISONER_NUMBER = '12345678'
+      const REPEAT_NEW_ELIGIBILITY_ROUTE = `/apply/repeat-new-eligibility/new-eligibility/${DOB}?reference=${REFERENCE}&prisoner-number=${PRISONER_NUMBER}`
+
+      prisonerRelationshipStub.returns(VALID_PRISONER_RELATIONSHIP)
+
+      return supertest(app)
+        .post(REPEAT_NEW_ELIGIBILITY_ROUTE)
+        .expect(302)
+        .expect('location', `/apply/repeat-new-eligibility/new-eligibility/${DOB}/${VALID_RELATIONSHIP}?reference=${REFERENCE}&prisoner-number=${PRISONER_NUMBER}`)
+    })
+
     it('should respond with a 302 and redirect to /eligibility-fail if the relationship is set to none', function () {
       prisonerRelationshipStub.returns(INVALID_PRISONER_RELATIONSHIP)
       return supertest(app)

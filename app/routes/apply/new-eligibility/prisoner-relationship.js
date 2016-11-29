@@ -1,13 +1,13 @@
 const PrisonerRelationship = require('../../../services/domain/prisoner-relationship')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const ValidationError = require('../../../services/errors/validation-error')
+const claimTypeEnum = require('../../../constants/claim-type-enum')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/:dob', function (req, res) {
     UrlPathValidator(req.params)
     return res.render('apply/new-eligibility/prisoner-relationship', {
-      claimType: req.params.claimType,
-      dob: req.params.dob
+      URL: req.url
     })
   })
 
@@ -23,13 +23,17 @@ module.exports = function (router) {
       if (prisonerRelationship.relationship === 'none') {
         return res.redirect('/eligibility-fail')
       } else {
-        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dob}/${prisonerRelationship.relationship}`)
+        var params = ''
+        if (req.params.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
+          params = `?reference=${req.query.reference}&prisoner-number=${req.query['prisoner-number']}`
+        }
+        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dob}/${prisonerRelationship.relationship}${params}`)
       }
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/new-eligibility/prisoner-relationship', {
           errors: error.validationErrors,
-          dob: dob
+          URL: req.url
         })
       } else {
         throw error
