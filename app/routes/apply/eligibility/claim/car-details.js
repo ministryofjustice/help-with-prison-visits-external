@@ -6,13 +6,14 @@ const CarExpense = require('../../../../services/domain/expenses/car-expense')
 const getTravellingFromAndTo = require('../../../../services/data/get-travelling-from-and-to')
 const getMaskedEligibility = require('../../../../services/data/get-masked-eligibility')
 const insertCarExpenses = require('../../../../services/data/insert-car-expenses')
+const claimTypeEnum = require('../../../../constants/claim-type-enum')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/car', function (req, res, next) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
 
-    if (req.params.claimType === 'first-time') {
+    if (req.params.claimType === claimTypeEnum.FIRST_TIME || req.params.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
       getTravellingFromAndTo(referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
         .then(function (result) {
           return res.render('apply/eligibility/claim/car-details', {
