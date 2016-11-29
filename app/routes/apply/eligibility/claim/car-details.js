@@ -4,6 +4,7 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const expenseUrlRouter = require('../../../../services/routing/expenses-url-router')
 const CarExpense = require('../../../../services/domain/expenses/car-expense')
 const getTravellingFromAndTo = require('../../../../services/data/get-travelling-from-and-to')
+const getMaskedEligibility = require('../../../../services/data/get-masked-eligibility')
 const insertCarExpenses = require('../../../../services/data/insert-car-expenses')
 
 module.exports = function (router) {
@@ -11,19 +12,36 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
 
-    getTravellingFromAndTo(referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
-      .then(function (result) {
-        return res.render('apply/eligibility/claim/car-details', {
-          claimType: req.params.claimType,
-          referenceId: req.params.referenceId,
-          claimId: req.params.claimId,
-          params: expenseUrlRouter.parseParams(req.query),
-          expense: result
+    if (req.params.claimType === 'first-time') {
+      getTravellingFromAndTo(referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
+        .then(function (result) {
+          return res.render('apply/eligibility/claim/car-details', {
+            claimType: req.params.claimType,
+            referenceId: req.params.referenceId,
+            claimId: req.params.claimId,
+            params: expenseUrlRouter.parseParams(req.query),
+            expense: result
+          })
         })
-      })
-      .catch(function (error) {
-        next(error)
-      })
+        .catch(function (error) {
+          next(error)
+        })
+    } else {
+      getMaskedEligibility(referenceAndEligibilityId.reference, null, referenceAndEligibilityId.id)
+        .then(function (result) {
+          var fromAndTo = {from: result.Town, to: result.NameOfPrison}
+          return res.render('apply/eligibility/claim/car-details', {
+            claimType: req.params.claimType,
+            referenceId: req.params.referenceId,
+            claimId: req.params.claimId,
+            params: expenseUrlRouter.parseParams(req.query),
+            expense: fromAndTo
+          })
+        })
+        .catch(function (error) {
+          next(error)
+        })
+    }
   })
 
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/car', function (req, res, next) {
