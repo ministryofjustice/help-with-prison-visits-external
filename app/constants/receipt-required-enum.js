@@ -3,7 +3,7 @@ module.exports = {
   'car': false,
   'toll': false,
   'parking charge': false,
-  'car hire': true,
+  'hire': true,
   'bus': true,
   'train': true,
   'taxi': true,
