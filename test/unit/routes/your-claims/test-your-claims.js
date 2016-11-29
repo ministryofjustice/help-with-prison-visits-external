@@ -10,7 +10,7 @@ describe('/your-claims/your-claims', function () {
   const REFERENCE = 'APVS123'
   const ROUTE = `/your-claims/${DOB}/${REFERENCE}`
 
-  const CLAIMS_CAN_START_NEW_CLAIM = [{Status: 'APPROVED'}, {Status: 'REJECTED'}]
+  const CLAIMS_CAN_START_NEW_CLAIM = [{Status: 'APPROVED'}, {Status: 'AUTO-APPROVED'}, {Status: 'REJECTED'}]
   const CLAIMS_CANNOT_START_NEW_CLAIM = [{Status: 'INPROGRESS'}]
 
   var app
