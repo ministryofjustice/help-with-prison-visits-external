@@ -16,7 +16,7 @@ module.exports.FormattedDetail = function (expense) {
     case 'train':
       formattedDetail = `${addChildPrefix(expense)}${expense.From} to ${expense.To}${addReturnPostfix(expense)}`
       break
-    case 'light refreshment':
+    case 'refreshment':
       if (expense.TravelTime === 'over-five') {
         formattedDetail = 'Over five hours away but under ten hours'
       } else {

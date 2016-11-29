@@ -7,7 +7,7 @@ module.exports = {
   'train': 'Train Journey',
   'taxi': 'Taxi Journey',
   'plane': 'Plane Journey',
-  'light refreshment': 'Light Refreshment',
+  'refreshment': 'Light Refreshment',
   'accommodation': 'Accommodation',
   'ferry': 'Ferry Journey',
   'foot-passenger': 'a foot passenger',
