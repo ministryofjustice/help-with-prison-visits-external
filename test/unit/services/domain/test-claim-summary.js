@@ -10,8 +10,8 @@ describe('services/domain/claim-summary', function () {
   const VALID_BENEFIT_DOCUMENT = {DocumentStatus: 'uploaded'}
   const INVALID_VISIT_CONFIRMATION = ''
   const INVALID_BENEFIT_DOCUMENT = ''
-  const VALID_CLAIM_EXPENSE_DOCUMENT = [{DocumentStatus: 'uploaded'}]
-  const INVALID_CLAIM_EXPENSE_DOCUMENT = [{DocumentStatus: null}]
+  const VALID_CLAIM_EXPENSE_DOCUMENT = [{ExpenseType: 'bus', DocumentStatus: 'uploaded'}]
+  const INVALID_CLAIM_EXPENSE_DOCUMENT = [{ExpenseType: 'test', DocumentStatus: null}]
 
   it('should construct a domain object given valid input', function () {
     claimSummary = new ClaimSummary(VALID_VISIT_CONFIRMATION, VALID_BENEFIT_UPLOAD_NEEDED, VALID_BENEFIT_DOCUMENT, VALID_CLAIM_EXPENSE_DOCUMENT)

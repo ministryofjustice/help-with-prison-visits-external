@@ -24,7 +24,6 @@ module.exports = function (router) {
             claimDetails: claimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
-            receiptRequiredEnum: receiptRequiredEnum,
             displayHelper: displayHelper
           })
       })
