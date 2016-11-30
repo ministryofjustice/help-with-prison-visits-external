@@ -3,10 +3,17 @@ const expect = require('chai').expect
 const displayHelper = require('../../../../app/views/helpers/display-helper')
 const prisonsEnum = require('../../../../app/constants/prisons-enum')
 const benefitsEnum = require('../../../../app/constants/benefits-enum')
+const prisonerRelationshipsEnum = require('../../../../app/constants/prisoner-relationships-enum')
 
 describe('views/helpers/display-helper', function () {
+  const VALID_PRISONER_RELATIONSHIP_VALUE = prisonerRelationshipsEnum.HUSBAND_WIFE_CIVIL.value
   const VALID_BENEFIT_VALUE = benefitsEnum.INCOME_SUPPORT.value
   const VALID_PRISON_VALUE = prisonsEnum.ALTCOURSE.value
+
+  it('should return the correct prisoner relationship display name given a valid value', function () {
+    var result = displayHelper.getPrisonerRelationshipDisplayName(VALID_PRISONER_RELATIONSHIP_VALUE)
+    expect(result).to.equal(prisonerRelationshipsEnum.HUSBAND_WIFE_CIVIL.displayName)
+  })
 
   it('should return the correct benefit display name given a valid value', function () {
     var result = displayHelper.getBenefitDisplayName(VALID_BENEFIT_VALUE)

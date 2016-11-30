@@ -44,7 +44,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
   })
 
   describe(`POST ${ROUTE}`, function () {
-    const VALID_RELATIONSHIP = prisonerRelationshipEnum.PARTNER.displayName
+    const VALID_RELATIONSHIP = prisonerRelationshipEnum.PARTNER.value
     const INVALID_RELATIONSHIP = 'none'
     const VALID_PRISONER_RELATIONSHIP = {
       relationship: VALID_RELATIONSHIP

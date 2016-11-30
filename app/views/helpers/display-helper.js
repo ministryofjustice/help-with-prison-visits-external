@@ -1,6 +1,12 @@
 const prisonsEnum = require('../../constants/prisons-enum')
 const benefitsEnum = require('../../constants/benefits-enum')
+const prisonerRelationshipsEnum = require('../../constants/prisoner-relationships-enum')
 const enumHelper = require('../../constants/helpers/enum-helper')
+
+module.exports.getPrisonerRelationshipDisplayName = function (value) {
+  var element = enumHelper.getKeyByValue(prisonerRelationshipsEnum, value)
+  return element.displayName
+}
 
 module.exports.getBenefitDisplayName = function (value) {
   var element = enumHelper.getKeyByValue(benefitsEnum, value)
