@@ -866,7 +866,7 @@ module.exports = {
   // Jersey
 
   LA_MOYE: {
-    value: 'la_moye',
+    value: 'la-moye',
     displayName: 'La Moye',
     region: 'JSY'
   },
@@ -874,7 +874,7 @@ module.exports = {
   // Guernsey
 
   LES_NICOLLES: {
-    value: 'les_nicolles',
+    value: 'les-nicolles',
     displayName: 'Les Nicolles',
     region: 'GSY'
   }
