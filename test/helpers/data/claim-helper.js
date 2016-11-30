@@ -7,21 +7,21 @@ const insertNewClaim = require('../../../app/services/data/insert-new-claim')
 const NewClaim = require('../../../app/services/domain/new-claim')
 const claimStatusEnum = require('../../../app/constants/claim-status-enum')
 const dateFormatter = require('../../../app/services/date-formatter')
-
-const DAY = '01'
-const MONTH = '11'
-const YEAR = '2016'
+const moment = require('moment')
 
 module.exports.CLAIM_TYPE = 'first-time'
-module.exports.DATE_OF_JOURNEY = dateFormatter.build(DAY, MONTH, YEAR)
+module.exports.DATE_OF_JOURNEY = moment().subtract(7, 'days').startOf('day')
 module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
 module.exports.STATUS = claimStatusEnum.IN_PROGRESS
 module.exports.CHILD_VISITOR = 'yes'
 
+const DAY = this.DATE_OF_JOURNEY.format('DD')
+const MONTH = this.DATE_OF_JOURNEY.format('MM')
+const YEAR = this.DATE_OF_JOURNEY.format('YYYY')
+
 module.exports.build = function (reference) {
-  return new NewClaim(reference, DAY, MONTH, YEAR, this.CHILD_VISITOR
-  )
+  return new NewClaim(reference, DAY, MONTH, YEAR, this.CHILD_VISITOR, false)
 }
 
 module.exports.insert = function (reference, eligibilityId) {
