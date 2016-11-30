@@ -2,7 +2,7 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const BenefitEnum = require('../../constants/benefits-enum')
-const ReceiptRequiredEnum = require('../../constants/receipt-required-enum')
+const DisplayHelper = require('../../views/helpers/display-helper')
 
 class ClaimSummary {
   constructor (visitConfirmation, benefit, benefitDocument, claimExpenses) {
@@ -25,7 +25,7 @@ class ClaimSummary {
       .isRequired()
 
     this.claimExpenses.forEach(function (expense) {
-      if (ReceiptRequiredEnum[expense.ExpenseType]) {
+      if (DisplayHelper.getExpenseReceiptRequired(expense.ExpenseType)) {
         FieldValidator(expense.DocumentStatus, 'claim-expense', errors)
           .isRequired()
       }

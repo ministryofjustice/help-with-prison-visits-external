@@ -1,6 +1,7 @@
 const prisonsEnum = require('../../constants/prisons-enum')
 const benefitsEnum = require('../../constants/benefits-enum')
 const prisonerRelationshipsEnum = require('../../constants/prisoner-relationships-enum')
+const expenseTypeEnum = require('../../constants/expense-type-enum')
 const enumHelper = require('../../constants/helpers/enum-helper')
 
 module.exports.getPrisonerRelationshipDisplayName = function (value) {
@@ -26,6 +27,16 @@ module.exports.getBenefitMultipage = function (value) {
 module.exports.getPrisonDisplayName = function (value) {
   var element = enumHelper.getKeyByValue(prisonsEnum, value)
   return element.displayName
+}
+
+module.exports.getExpenseDisplayName = function (value) {
+  var element = enumHelper.getKeyByValue(expenseTypeEnum, value)
+  return element.displayName
+}
+
+module.exports.getExpenseReceiptRequired = function (value) {
+  var element = enumHelper.getKeyByValue(expenseTypeEnum, value)
+  return element.receiptRequired
 }
 
 var prisonsByRegion = {

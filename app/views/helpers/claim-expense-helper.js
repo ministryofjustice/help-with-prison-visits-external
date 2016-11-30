@@ -1,10 +1,6 @@
-const displayFieldNames = require('./display-field-names')
+const ExpenseTypeEnum = require('../../constants/expense-type-enum')
 
-module.exports.DisplayName = function (expense) {
-  return displayFieldNames[expense.ExpenseType]
-}
-
-module.exports.FormattedDetail = function (expense) {
+module.exports = function (expense) {
   var formattedDetail
 
   switch (expense.ExpenseType) {
@@ -27,7 +23,7 @@ module.exports.FormattedDetail = function (expense) {
       formattedDetail = `Nights stayed: ${expense.DurationOfTravel}`
       break
     case 'ferry':
-      formattedDetail = `${addChildPrefix(expense)}${expense.From} to ${expense.To} as ${displayFieldNames[expense.TicketType]}${addReturnPostfix(expense)}`
+      formattedDetail = `${addChildPrefix(expense)}${expense.From} to ${expense.To} as ${ExpenseTypeEnum.FERRY.ticketType[expense.TicketType]}${addReturnPostfix(expense)}`
       break
     default:
       formattedDetail = `${expense.From} to ${expense.To}`

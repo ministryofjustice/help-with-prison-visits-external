@@ -1,56 +1,71 @@
 module.exports = {
   CAR: {
     value: 'car',
-    displayName: 'Car'
+    displayName: 'Car',
+    receiptRequired: false
   },
 
   CAR_TOLL: {
     value: 'toll',
-    displayName: 'Toll'
+    displayName: 'Toll',
+    receiptRequired: false
   },
 
   CAR_PARKING_CHARGE: {
     value: 'parking',
-    displayName: 'Parking charge'
+    displayName: 'Parking charge',
+    receiptRequired: false
   },
 
   CAR_HIRE: {
     value: 'hire',
-    displayName: 'Car hire'
+    displayName: 'Car hire',
+    receiptRequired: true
   },
 
   BUS: {
     value: 'bus',
-    displayName: 'Bus'
+    displayName: 'Bus',
+    receiptRequired: true
   },
 
   TRAIN: {
     value: 'train',
-    displayName: 'Train'
+    displayName: 'Train',
+    receiptRequired: true
   },
 
   TAXI: {
     value: 'taxi',
-    displayName: 'Taxi'
+    displayName: 'Taxi',
+    receiptRequired: true
   },
 
   PLANE: {
     value: 'plane',
-    displayName: 'Plane'
+    displayName: 'Plane',
+    receiptRequired: true
   },
 
   FERRY: {
     value: 'ferry',
-    displayName: 'Ferry'
+    displayName: 'Ferry',
+    receiptRequired: true,
+    ticketType: {
+      'foot-passenger': 'a foot passenger',
+      'car-passenger': 'a car passenger'
+    }
   },
 
   LIGHT_REFRESHMENT: {
     value: 'refreshment',
-    displayName: 'Light refreshment'
+    displayName: 'Light refreshment',
+    receiptRequired: false
   },
 
   ACCOMMODATION: {
     value: 'accommodation',
-    displayName: 'Accommodation'
+    displayName: 'Accommodation',
+    receiptRequired: true
   }
 }
