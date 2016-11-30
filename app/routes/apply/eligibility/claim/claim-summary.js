@@ -4,7 +4,6 @@ const removeClaimExpense = require('../../../../services/data/remove-claim-expen
 const removeClaimDocument = require('../../../../services/data/remove-claim-document')
 const dateHelper = require('../../../../views/helpers/date-helper')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
-const receiptRequiredEnum = require('../../../../constants/receipt-required-enum')
 const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimDocumentFilePath = require('../../../../services/data/get-claim-document-file-path')
@@ -55,7 +54,6 @@ module.exports = function (router) {
             claimDetails: savedClaimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
-            receiptRequiredEnum: receiptRequiredEnum,
             displayHelper: displayHelper
           })
         } else {
