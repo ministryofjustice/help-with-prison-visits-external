@@ -31,8 +31,8 @@
         {% for claimExpense in lastClaimDetails.expenses %}
           <tr>
             <td>
-              <div class="bold">{{ claimExpenseHelper.DisplayName(claimExpense) }}</div>
-              {{ claimExpenseHelper.FormattedDetail(claimExpense) }}
+              <div class="bold">{{ displayHelper.getExpenseDisplayName(claimExpense.ExpenseType) }}</div>
+              {{ claimExpenseHelper(claimExpense) }}
             </td>
             <td>
               £{{claimExpense.Cost}}

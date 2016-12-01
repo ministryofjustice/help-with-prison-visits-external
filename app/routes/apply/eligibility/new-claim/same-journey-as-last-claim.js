@@ -4,6 +4,7 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const SameJourneyAsLastClaim = require('../../../../services/domain/same-journey-as-last-claim')
 const getLastClaimDetails = require('../../../../services/data/get-last-claim-details')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
+const displayHelper = require('../../../../views/helpers/display-helper')
 
 module.exports = function (router) {
   router.get('/apply/repeat/eligibility/:referenceId/new-claim/same-journey-as-last-claim', function (req, res, next) {
@@ -15,7 +16,8 @@ module.exports = function (router) {
         return res.render('apply/eligibility/new-claim/same-journey-as-last-claim', {
           referenceId: req.params.referenceId,
           lastClaimDetails: lastClaimDetails,
-          claimExpenseHelper: claimExpenseHelper
+          claimExpenseHelper: claimExpenseHelper,
+          displayHelper: displayHelper
         })
       })
       .catch(function (error) {
@@ -42,7 +44,9 @@ module.exports = function (router) {
             return res.status(400).render('apply/eligibility/new-claim/same-journey-as-last-claim', {
               errors: error.validationErrors,
               referenceId: req.params.referenceId,
-              lastClaimDetails: lastClaimDetails
+              lastClaimDetails: lastClaimDetails,
+              claimExpenseHelper: claimExpenseHelper,
+              displayHelper: displayHelper
             })
           })
           .catch(function (error) {
