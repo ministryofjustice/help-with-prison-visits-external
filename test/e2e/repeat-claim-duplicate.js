@@ -4,7 +4,7 @@ const dateFormatter = require('../../app/services/date-formatter')
 const referenceGenerator = require('../../app/services/reference-generator')
 
 var todaysDate = dateFormatter.now()
-describe('Repeat claim with no change flow', function () {
+describe('Repeat claim duplicate claim', function () {
   const REFERENCE = referenceGenerator.generate()
 
   before(function () {
