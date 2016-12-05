@@ -42,6 +42,7 @@ var routes = [
   require('./your-claims/your-claims'),
   require('./your-claims/check-your-information'),
   require('./your-claims/update-contact-details'),
+  require('./your-claims/view-claim'),
 
   // Health check routes
   require('./health-check/status')
