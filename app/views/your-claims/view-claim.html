@@ -1,0 +1,16 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+  This is your claim
+
+</main>
+
+{% endblock %}
