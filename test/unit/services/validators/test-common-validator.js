@@ -272,8 +272,8 @@ describe('services/validators/common-validator', function () {
 
   describe('isDateWithinDays', function () {
     const DAYS = 28
-    const DATE_WITHIN_28_DAYS = dateFormatter.now().subtract(1, 'days')
-    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().subtract(29, 'days')
+    const DATE_WITHIN_28_DAYS = dateFormatter.now().startOf('day').subtract(1, 'days')
+    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().startOf('day').subtract(29, 'days')
 
     it('should return true if passed a valid Date object', function () {
       var result = validator.isDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
@@ -288,8 +288,8 @@ describe('services/validators/common-validator', function () {
 
   describe('isNotDateWithinDays', function () {
     const DAYS = 5
-    const DATE_WITHIN_5_DAYS = dateFormatter.now().add(1, 'days')
-    const DATE_OUTSIDE_5_DAYS = dateFormatter.now().add(6, 'days')
+    const DATE_WITHIN_5_DAYS = dateFormatter.now().startOf('day').add(1, 'days')
+    const DATE_OUTSIDE_5_DAYS = dateFormatter.now().startOf('day').add(6, 'days')
 
     it('should return true if passed a valid Date object', function () {
       var result = validator.isNotDateWithinDays(DATE_OUTSIDE_5_DAYS, DAYS)
