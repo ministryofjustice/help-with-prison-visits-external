@@ -7,20 +7,23 @@ const insertNewClaim = require('../../../../services/data/insert-new-claim')
 const insertRepeatDuplicateClaim = require('../../../../services/data/insert-repeat-duplicate-claim')
 
 module.exports = function (router) {
-  router.get('/apply/:claimType/eligibility/:referenceId/new-claim/past', function (req, res) {
+  router.get('/apply/:claimType/eligibility/:referenceId/new-claim/:advanceOrPast', function (req, res) {
     UrlPathValidator(req.params)
 
     return res.render('apply/eligibility/new-claim/journey-information', {
       claimType: req.params.claimType,
       referenceId: req.params.referenceId,
+      advanceOrPast: req.params.advanceOrPast,
       isRepeatDuplicateClaim: isRepeatDuplicateClaim(req.params.claimType)
     })
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/new-claim/past', function (req, res, next) {
+  router.post('/apply/:claimType/eligibility/:referenceId/new-claim/:advanceOrPast', function (req, res, next) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     var repeatDuplicateClaim = isRepeatDuplicateClaim(req.params.claimType)
+
+    var isAdvancedClaim = req.params.advanceOrPast === 'advance'
 
     try {
       var newClaim = new NewClaim(
@@ -29,7 +32,8 @@ module.exports = function (router) {
         req.body['date-of-journey-month'],
         req.body['date-of-journey-year'],
         req.body['child-visitor'],
-        repeatDuplicateClaim
+        repeatDuplicateClaim,
+        isAdvancedClaim
       )
 
       if (!repeatDuplicateClaim) {
@@ -59,6 +63,7 @@ module.exports = function (router) {
           errors: error.validationErrors,
           claimType: req.params.claimType,
           referenceId: req.params.referenceId,
+          advanceOrPast: req.params.advanceOrPast,
           isRepeatDuplicateClaim: repeatDuplicateClaim,
           claim: req.body
         })

@@ -7,7 +7,7 @@ const claimExpenseHelper = require('../../../../views/helpers/claim-expense-help
 const displayHelper = require('../../../../views/helpers/display-helper')
 
 module.exports = function (router) {
-  router.get('/apply/repeat/eligibility/:referenceId/new-claim/same-journey-as-last-claim', function (req, res, next) {
+  router.get('/apply/repeat/eligibility/:referenceId/new-claim/same-journey-as-last-claim/:advanceOrPast', function (req, res, next) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
 
@@ -15,6 +15,7 @@ module.exports = function (router) {
       .then(function (lastClaimDetails) {
         return res.render('apply/eligibility/new-claim/same-journey-as-last-claim', {
           referenceId: req.params.referenceId,
+          advanceOrPast: req.params.advanceOrPast,
           lastClaimDetails: lastClaimDetails,
           claimExpenseHelper: claimExpenseHelper,
           displayHelper: displayHelper
@@ -25,7 +26,7 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/apply/repeat/eligibility/:referenceId/new-claim/same-journey-as-last-claim', function (req, res, next) {
+  router.post('/apply/repeat/eligibility/:referenceId/new-claim/same-journey-as-last-claim/:advanceOrPast', function (req, res, next) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
 
@@ -36,7 +37,7 @@ module.exports = function (router) {
       if (req.body['same-journey-as-last-claim'] === 'yes') {
         claimType = 'repeat-duplicate'
       }
-      return res.redirect(`/apply/${claimType}/eligibility/${req.params.referenceId}/new-claim/past`)
+      return res.redirect(`/apply/${claimType}/eligibility/${req.params.referenceId}/new-claim/${req.params.advanceOrPast}`)
     } catch (error) {
       if (error instanceof ValidationError) {
         getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
@@ -44,6 +45,7 @@ module.exports = function (router) {
             return res.status(400).render('apply/eligibility/new-claim/same-journey-as-last-claim', {
               errors: error.validationErrors,
               referenceId: req.params.referenceId,
+              advanceOrPast: req.params.advanceOrPast,
               lastClaimDetails: lastClaimDetails,
               claimExpenseHelper: claimExpenseHelper,
               displayHelper: displayHelper

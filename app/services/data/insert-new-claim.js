@@ -12,6 +12,7 @@ module.exports = function (reference, eligibilityId, claimType, claim) {
     EligibilityId: eligibilityId,
     Reference: reference,
     ClaimType: claimType,
+    IsAdvanceClaim: claim.isAdvanceClaim,
     DateOfJourney: claim.dateOfJourney.toDate(),
     DateCreated: dateFormatter.now().toDate(),
     DateSubmitted: null,

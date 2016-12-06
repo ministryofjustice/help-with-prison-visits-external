@@ -10,6 +10,8 @@ const dateFormatter = require('../../../app/services/date-formatter')
 const moment = require('moment')
 
 module.exports.CLAIM_TYPE = 'first-time'
+module.exports.IS_REPEAT_DUPLICATE_CLAIM = false
+module.exports.IS_ADVANCE_CLAIM = false
 module.exports.DATE_OF_JOURNEY = moment().subtract(7, 'days').startOf('day')
 module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
@@ -21,7 +23,7 @@ const MONTH = this.DATE_OF_JOURNEY.format('MM')
 const YEAR = this.DATE_OF_JOURNEY.format('YYYY')
 
 module.exports.build = function (reference) {
-  return new NewClaim(reference, DAY, MONTH, YEAR, this.CHILD_VISITOR, false)
+  return new NewClaim(reference, DAY, MONTH, YEAR, this.CHILD_VISITOR, this.IS_REPEAT_DUPLICATE_CLAIM, this.IS_ADVANCE_CLAIM)
 }
 
 module.exports.insert = function (reference, eligibilityId) {

@@ -15,6 +15,7 @@ module.exports = function (claimId, claimType) {
       'Claim.Reference',
       'Claim.DateSubmitted',
       'Claim.DateOfJourney',
+      'Claim.IsAdvanceClaim',
       'Visitor.FirstName',
       'Visitor.LastName',
       'Visitor.Benefit',

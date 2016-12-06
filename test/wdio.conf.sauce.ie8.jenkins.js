@@ -9,7 +9,7 @@ exports.config = {
   capabilities: [{
     maxInstances: 1,
     browserName: 'internet explorer',
-    platform: 'Windows 7',
+    platform: 'Windows XP',
     version: '8.0'
   }],
   sync: false,

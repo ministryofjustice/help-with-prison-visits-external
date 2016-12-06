@@ -126,10 +126,50 @@ describe('services/validators/fieldset-validator', function () {
     })
   })
 
+  describe('isFutureDate', function () {
+    const PAST_DATE = dateFormatter.now().subtract(1, 'day')
+    const FUTURE_DATE = dateFormatter.now().add(1, 'day')
+
+    it('should return error object if data is null', function () {
+      this.fieldsetValidator.isFutureDate(null)
+      var errors = this.error.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return error object if data is undefined', function () {
+      this.fieldsetValidator.isFutureDate(undefined)
+      var errors = this.error.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return error object if data is not a valid date object', function () {
+      this.fieldsetValidator.isFutureDate({})
+      var errors = this.error.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return error object if the date given is in the past', function () {
+      this.fieldsetValidator.isFutureDate(PAST_DATE)
+      var errors = this.error.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return false if the date given is in the past', function () {
+      this.fieldsetValidator.isFutureDate(FUTURE_DATE)
+      var errors = this.error.get()
+      expect(errors).to.equal(false)
+    })
+
+    it('should return the fieldsetValidator after being called to allow function chaining.', function () {
+      var result = this.fieldsetValidator.isFutureDate(dateFormatter.now())
+      expect(result).to.be.equal(this.fieldsetValidator)
+    })
+  })
+
   describe('isDateWithinDays', function () {
     const DAYS = 28
-    const DATE_WITHIN_28_DAYS = dateFormatter.now().subtract(1, 'day')
-    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().subtract(29, 'day')
+    const DATE_WITHIN_28_DAYS = dateFormatter.now().startOf('day').subtract(1, 'day')
+    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().startOf('day').subtract(29, 'day')
 
     it('should return error object if data is null', function () {
       this.fieldsetValidator.isDateWithinDays(null)
@@ -157,6 +197,23 @@ describe('services/validators/fieldset-validator', function () {
 
     it('should return the fieldsetValidator after being called to allow function chaining.', function () {
       var result = this.fieldsetValidator.isDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
+      expect(result).to.be.equal(this.fieldsetValidator)
+    })
+  })
+
+  describe('isNotDateWithinDays', function () {
+    const DAYS = 28
+    const DATE_WITHIN_28_DAYS = dateFormatter.now().startOf('day').subtract(1, 'day')
+    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().startOf('day').subtract(29, 'day')
+
+    it('should return error object if the date given is not over the given days away', function () {
+      this.fieldsetValidator.isNotDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
+      var errors = this.error.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return the fieldsetValidator after being called to allow function chaining.', function () {
+      var result = this.fieldsetValidator.isNotDateWithinDays(DATE_OUTSIDE_28_DAYS, DAYS)
       expect(result).to.be.equal(this.fieldsetValidator)
     })
   })

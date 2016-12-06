@@ -25,44 +25,48 @@
 
     <td>
     {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %}
-      {% if claimExpense.DocumentStatus == 'uploaded' %}
-        <span class="text-success">Receipt uploaded</span>
-        <form
-          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-document/{{ claimExpense.ClaimDocumentId }}"
-          method="get" class="form pull-right">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-          <button class="link">view</button>
-        </form>
-        <span class="button-separator"></span>
-        <form
-          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
-          method="post" class="form pull-right">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-          <button class="link" name="remove">remove</button>
-        </form>
-
-      {% elif claimExpense.DocumentStatus == 'upload-later' %}
-        <span class="text-pending">Uploading receipt later</span>
-        <form
-          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
-          method="post" class="form pull-right">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-          <button class="link" name="change">change</button>
-        </form>
-
-      {% elif claimExpense.DocumentStatus == 'post-later' %}
-        <span class="text-pending">Sending receipt by post</span>
-        <form
-          action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
-          method="post" class="form pull-right">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-          <button class="link" name="change">change</button>
-        </form>
-
+      {% if claimDetails.claim.IsAdvanceClaim %}
+        <span class="text-pending">Receipt must be supplied after visit</span>
       {% else %}
-        <span class="text-warning">Receipt required</span>
-        <a href="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt ">Add</a>
+        {% if claimExpense.DocumentStatus == 'uploaded' %}
+          <span class="text-success">Receipt uploaded</span>
+          <form
+            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-document/{{ claimExpense.ClaimDocumentId }}"
+            method="get" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link">view</button>
+          </form>
+          <span class="button-separator"></span>
+          <form
+            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
+            method="post" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link" name="remove">remove</button>
+          </form>
 
+        {% elif claimExpense.DocumentStatus == 'upload-later' %}
+          <span class="text-pending">Uploading receipt later</span>
+          <form
+            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
+            method="post" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link" name="change">change</button>
+          </form>
+
+        {% elif claimExpense.DocumentStatus == 'post-later' %}
+          <span class="text-pending">Sending receipt by post</span>
+          <form
+            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}"
+            method="post" class="form pull-right">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button class="link" name="change">change</button>
+          </form>
+
+        {% else %}
+          <span class="text-warning">Receipt required</span>
+          <a href="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt ">Add</a>
+
+        {% endif %}
       {% endif %}
     {% endif %}
     </td>
