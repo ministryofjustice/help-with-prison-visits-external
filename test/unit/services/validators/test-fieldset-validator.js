@@ -168,8 +168,8 @@ describe('services/validators/fieldset-validator', function () {
 
   describe('isDateWithinDays', function () {
     const DAYS = 28
-    const DATE_WITHIN_28_DAYS = dateFormatter.now().subtract(1, 'day')
-    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().subtract(29, 'day')
+    const DATE_WITHIN_28_DAYS = dateFormatter.now().startOf('day').subtract(1, 'day')
+    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().startOf('day').subtract(29, 'day')
 
     it('should return error object if data is null', function () {
       this.fieldsetValidator.isDateWithinDays(null)
@@ -203,8 +203,8 @@ describe('services/validators/fieldset-validator', function () {
 
   describe('isNotDateWithinDays', function () {
     const DAYS = 28
-    const DATE_WITHIN_28_DAYS = dateFormatter.now().subtract(1, 'day')
-    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().subtract(29, 'day')
+    const DATE_WITHIN_28_DAYS = dateFormatter.now().startOf('day').subtract(1, 'day')
+    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().startOf('day').subtract(29, 'day')
 
     it('should return error object if the date given is not over the given days away', function () {
       this.fieldsetValidator.isNotDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
