@@ -26,6 +26,7 @@ describe('services/data/insert-new-claim', function () {
         expect(claim.EligibilityId).to.be.equal(eligibilityId)
         expect(claim.Reference).to.be.equal(REFERENCE)
         expect(claim.ClaimType).to.be.equal(CLAIM_TYPE)
+        expect(claim.IsAdvanceClaim).to.be.equal(claimHelper.IS_ADVANCE_CLAIM)
         expect(claim.DateOfJourney).to.be.within(
           claimHelper.DATE_OF_JOURNEY.subtract(1, 'seconds').toDate(),
           claimHelper.DATE_OF_JOURNEY.add(1, 'seconds').toDate()

@@ -43,6 +43,13 @@ class FieldsetValidator {
 
   isPastDate (date) {
     if (!validator.isDateInThePast(date)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getPastDateMessage)
+    }
+    return this
+  }
+
+  isFutureDate (date) {
+    if (!validator.isDateInTheFuture(date)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getFutureDateMessage)
     }
     return this
@@ -51,6 +58,13 @@ class FieldsetValidator {
   isDateWithinDays (date, days) {
     if (!validator.isDateWithinDays(date, days)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getDateSetDaysAway, { days: days })
+    }
+    return this
+  }
+
+  isNotDateWithinDays (date, days) {
+    if (validator.isDateWithinDays(date, days)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getNotDateSetDaysAway, { days: days })
     }
     return this
   }

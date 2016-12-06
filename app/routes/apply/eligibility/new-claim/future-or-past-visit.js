@@ -14,9 +14,10 @@ module.exports = function (router) {
   router.post('/apply/:claimType/eligibility/:referenceId/new-claim', function (req, res) {
     UrlPathValidator(req.params)
 
-    var nextPage = 'past'
+    var advanceOrPast = req.body['advance-past']
+    var nextPage = advanceOrPast
     if (req.params.claimType === claimTypeEnum.REPEAT_CLAIM) {
-      nextPage = 'same-journey-as-last-claim'
+      nextPage = `same-journey-as-last-claim/${advanceOrPast}`
     }
 
     return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/new-claim/${nextPage}`)
