@@ -25,6 +25,7 @@ function insertClaimDetail (tableName, reference, eligibilityId, claimId, claimD
       claimDetail.EligibilityId = eligibilityId
       claimDetail.ClaimId = claimId
       claimDetail.IsEnabled = true
+      delete claimDetail.ClaimExpenseId
     })
 
     return knex(tableName).insert(claimDetails)

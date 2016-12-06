@@ -18,6 +18,7 @@ exports.up = function (knex, Promise) {
             RETURN
             (
               SELECT
+                ClaimExpense.ClaimExpenseId,
                 ClaimExpense.ExpenseType,
                 ClaimExpense.Cost,
                 ClaimExpense.TravelTime,
