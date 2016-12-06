@@ -272,23 +272,8 @@ describe('services/validators/common-validator', function () {
 
   describe('isDateWithinDays', function () {
     const DAYS = 28
-    const DATE_WITHIN_28_DAYS = dateFormatter.now().subtract(1, 'day')
-    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().subtract(29, 'day')
-
-    it('should return false if passed null', function () {
-      var result = validator.isDateWithinDays(null)
-      expect(result).to.equal(false)
-    })
-
-    it('should return false if passed undefined', function () {
-      var result = validator.isDateWithinDays(undefined)
-      expect(result).to.equal(false)
-    })
-
-    it('should return false if passed an object', function () {
-      var result = validator.isDateWithinDays({})
-      expect(result).to.equal(false)
-    })
+    const DATE_WITHIN_28_DAYS = dateFormatter.now().subtract(1, 'days')
+    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().subtract(29, 'days')
 
     it('should return true if passed a valid Date object', function () {
       var result = validator.isDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
@@ -302,32 +287,17 @@ describe('services/validators/common-validator', function () {
   })
 
   describe('isNotDateWithinDays', function () {
-    const DAYS = 28
-    const DATE_WITHIN_28_DAYS = dateFormatter.now().subtract(1, 'day')
-    const DATE_OUTSIDE_28_DAYS = dateFormatter.now().subtract(29, 'day')
-
-    it('should return false if passed null', function () {
-      var result = validator.isNotDateWithinDays(null)
-      expect(result).to.equal(false)
-    })
-
-    it('should return false if passed undefined', function () {
-      var result = validator.isNotDateWithinDays(undefined)
-      expect(result).to.equal(false)
-    })
-
-    it('should return false if passed an object', function () {
-      var result = validator.isNotDateWithinDays({})
-      expect(result).to.equal(false)
-    })
+    const DAYS = 5
+    const DATE_WITHIN_5_DAYS = dateFormatter.now().add(1, 'days')
+    const DATE_OUTSIDE_5_DAYS = dateFormatter.now().add(6, 'days')
 
     it('should return true if passed a valid Date object', function () {
-      var result = validator.isNotDateWithinDays(DATE_OUTSIDE_28_DAYS, DAYS)
+      var result = validator.isNotDateWithinDays(DATE_OUTSIDE_5_DAYS, DAYS)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid Date object', function () {
-      var result = validator.isNotDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
+      var result = validator.isNotDateWithinDays(DATE_WITHIN_5_DAYS, DAYS)
       expect(result).to.equal(false)
     })
   })

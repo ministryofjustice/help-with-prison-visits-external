@@ -54,11 +54,11 @@ exports.isDateInTheFuture = function (date) {
 }
 
 exports.isDateWithinDays = function (date, days) {
-  return dateFormatter.now().diff(date, 'days') <= days
+  return Math.abs(dateFormatter.now().diff(date, 'days')) <= days
 }
 
 exports.isNotDateWithinDays = function (date, days) {
-  return dateFormatter.now().diff(date, 'days') >= days
+  return Math.abs(dateFormatter.now().diff(date, 'days')) >= days
 }
 
 exports.isOlderThanInYears = function (dob, years) {
