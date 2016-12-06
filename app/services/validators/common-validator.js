@@ -48,8 +48,17 @@ exports.isDateInThePast = function (date) {
     date < dateFormatter.now()
 }
 
+exports.isDateInTheFuture = function (date) {
+  return this.isValidDate(date) &&
+    date > dateFormatter.now()
+}
+
 exports.isDateWithinDays = function (date, days) {
-  return dateFormatter.now().diff(date, 'days') <= days
+  return Math.abs(dateFormatter.now().startOf('day').diff(date, 'days')) <= days
+}
+
+exports.isNotDateWithinDays = function (date, days) {
+  return Math.abs(dateFormatter.now().startOf('day').diff(date, 'days')) >= days
 }
 
 exports.isOlderThanInYears = function (dob, years) {

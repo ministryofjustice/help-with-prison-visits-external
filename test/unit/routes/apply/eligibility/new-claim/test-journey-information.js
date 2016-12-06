@@ -13,8 +13,9 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
   const CLAIM_ID = '123'
   const CLAIM_TYPE = 'first-time'
-  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/new-claim/past`
-  const REPEAT_DUPLICATE_ROUTE = `/apply/repeat-duplicate/eligibility/${REFERENCEID}/new-claim/past`
+  const ADVANCE_OR_PAST = 'advance'
+  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/new-claim/${ADVANCE_OR_PAST}`
+  const REPEAT_DUPLICATE_ROUTE = `/apply/repeat-duplicate/eligibility/${REFERENCEID}/new-claim/${ADVANCE_OR_PAST}`
 
   var app
 
