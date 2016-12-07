@@ -101,12 +101,24 @@ module.exports = function (router) {
     removeClaimDocument(req.params.claimDocumentId)
       .then(function () {
         if (req.query.multipage) {
-          return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+          if (req.params.claimType === 'updating') {
+
+          } else {
+            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+          }
         } else {
           if (req.query.claimExpenseId) {
-            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
+            if (req.params.claimType === 'updating') {
+              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}&dob=${req.query.dob}`)
+            } else {
+              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
+            }
           } else {
-            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}`)
+            if (req.params.claimType === 'updating') {
+              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}&dob=${req.query.dob}`)
+            } else {
+              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}`)
+            }
           }
         }
       })

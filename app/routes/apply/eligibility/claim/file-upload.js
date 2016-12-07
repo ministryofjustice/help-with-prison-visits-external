@@ -49,7 +49,11 @@ module.exports = function (router) {
             var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.error, req.body.alternative)
 
             ClaimDocumentInsert(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, fileUpload).then(function () {
-              res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+              if (req.params.claimType === 'updating') {
+                res.redirect(`/your-claims/${req.query.dob}/${referenceAndEligibilityId.reference}/${req.params.claimId}`)
+              } else {
+                res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+              }
             }).catch(function (error) {
               next(error)
             })
