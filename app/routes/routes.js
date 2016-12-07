@@ -9,6 +9,7 @@ var routes = [
   require('./start-already-registered'),
   require('./eligibility-fail'),
   require('./application-submitted'),
+  require('./application-updated'),
 
   // First Time Flow.
   require('./apply/new-eligibility/date-of-birth'),
