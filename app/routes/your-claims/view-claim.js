@@ -14,6 +14,7 @@ module.exports = function (router) {
         console.log(claimDetails)
         return res.render('your-claims/view-claim',
           {
+            reference: req.params.reference,
             referenceId: referenceId,
             dob: req.params.dob,
             claimId: req.params.claimId,
@@ -24,5 +25,12 @@ module.exports = function (router) {
             claimType: 'updating'
           })
       })
+  })
+
+  router.post('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
+    UrlPathValidator(req.params)
+    // TODO domain check
+    // TODO task insertion
+    // TODO redirect to claim updated page
   })
 }
