@@ -52,19 +52,24 @@ module.exports = function (claimId, reference, dob) {
                       claimExpenses.forEach(function (expense) {
                         if (document.ClaimExpenseId === expense.ClaimExpenseId) {
                           if (key in externalDocumentMap) {
-                            expense.DocumentType = externalClaimDocuments[key].DocumentType
-                            expense.DocumentStatus = externalClaimDocuments[key].DocumentStatus
+                            expense.DocumentType = externalDocumentMap[key].DocumentType
+                            expense.DocumentStatus = externalDocumentMap[key].DocumentStatus
+                            expense.ClaimDocumentId = externalDocumentMap[key].ClaimDocumentId
+                            expense.fromInternalWeb = false
                           } else {
                             expense.DocumentType = document.DocumentType
                             expense.DocumentStatus = document.DocumentStatus
+                            expense.fromInternalWeb = true
                           }
                         }
                       })
                     } else {
-                      // TODO check when multipage benefit
                       if (key in externalDocumentMap) {
-                        claim.benefitDocument.push(externalClaimDocuments[key])
+                        // TODO check when multipage benefit
+                        externalDocumentMap[key].fromInternalWeb = false
+                        claim.benefitDocument.push(externalDocumentMap[key])
                       } else {
+                        document.fromInternalWeb = true
                         claim.benefitDocument.push(document)
                       }
                     }
