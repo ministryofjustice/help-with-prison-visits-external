@@ -137,7 +137,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
-          expect(response.headers['location']).to.be.equal(`/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/file-upload?document=VISIT_CONFIRMATION`)
+          expect(response.headers['location']).to.be.equal(`/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/file-upload?document=VISIT_CONFIRMATION`)
           done()
         })
     })

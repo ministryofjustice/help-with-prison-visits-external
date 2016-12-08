@@ -19,7 +19,7 @@
     <td>
       <span class="bold pull-left expense-padding">{{ displayHelper.getExpenseDisplayName(claimExpense.ExpenseType) }} - </span>
       <form
-        action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-expense/{{ claimExpense.ClaimExpenseId}}?claimDocumentId={{ claimExpense.ClaimDocumentId }}"
+        action="{{ URL }}/remove-expense/{{ claimExpense.ClaimExpenseId}}?claimDocumentId={{ claimExpense.ClaimDocumentId }}"
         method="post" class="form">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
         <button class="expense link" name="remove">remove expense</button>
@@ -38,29 +38,24 @@
           <span class="text-success">Receipt uploaded</span>
         {% elif claimExpense['DocumentStatus'] == 'upload-later' %}
           <span class="text-warning">Receipt pending upload</span>
-          <a href="/apply/updating/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&dob={{ dob }}" id="update-receipt" class="button grey pull-right">Add</a>
+          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
         {% elif claimExpense['DocumentStatus'] == 'post-later' %}
           <span class="text-pending">Sending receipt by post</span>
-          <form
-            action="/your-claims/dob/{{ referenceId }}/{{ claimId }}/change/{{ claimExpense.ClaimDocumentId }}?document=VISIT_CONFIRMATION&claimExpenseId={{ claimExpense.ClaimExpenseId }}&dob={{ dob }}"
-            method="post" class="form pull-right">
-            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-            <button class="link" name="change" id="change-receipt-post">change</button>
-          </form>
+          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">change</button>
         {% endif %}
 
       {% else %}
         {% if claimExpense.DocumentStatus == 'uploaded' %}
           <span class="text-success">Receipt uploaded</span>
           <form
-            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/view-document/{{ claimExpense.ClaimDocumentId }}"
+            action="{{ URL }}/view-document/{{ claimExpense.ClaimDocumentId }}"
             method="get" class="form pull-right">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             <button class="link">view</button>
           </form>
           <span class="button-separator"></span>
           <form
-            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&dob={{ dob }}"
+            action="{{ URL }}/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}"
             method="post" class="form pull-right">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             <button class="link" name="remove">remove</button>
@@ -69,7 +64,7 @@
         {% elif claimExpense.DocumentStatus == 'upload-later' %}
           <span class="text-pending">Uploading receipt later</span>
           <form
-            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&dob={{ dob }}"
+            action="{{ URL }}/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}"
             method="post" class="form pull-right">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             <button class="link" name="change">change</button>
@@ -78,7 +73,7 @@
         {% elif claimExpense.DocumentStatus == 'post-later' %}
           <span class="text-pending">Sending receipt by post</span>
           <form
-            action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&dob={{ dob }}"
+            action="{{ URL }}/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}"
             method="post" class="form pull-right">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             <button class="link" name="change">change</button>
@@ -86,7 +81,7 @@
 
         {% else %}
           <span class="text-warning">Receipt required</span>
-          <a href="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}&dob={{ dob }}" class="button grey pull-right add-expense-receipt ">Add</a>
+          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt ">Add</a>
 
         {% endif %}
       {% endif %}

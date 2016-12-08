@@ -2,10 +2,11 @@ const ValidationError = require('../errors/validation-error')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class ViewClaim {
-  constructor (visitConfirmationDocumentNotUpdated, benefitDocumentNotUpdated, claimExpenses) {
+  constructor (visitConfirmationDocumentNotUpdated, benefitDocumentNotUpdated, claimExpenses, message) {
     this.visitConfirmationDocumentNotUpdated = visitConfirmationDocumentNotUpdated
     this.benefitDocumentNotUpdated = benefitDocumentNotUpdated
     this.claimExpenses = claimExpenses
+    this.message = message
     this.updated = false
     this.isValid()
   }
@@ -19,7 +20,7 @@ class ViewClaim {
       }
     })
 
-    if (!this.updated && this.visitConfirmationDocumentNotUpdated && this.benefitDocumentNotUpdated) {
+    if (!this.updated && this.visitConfirmationDocumentNotUpdated && this.benefitDocumentNotUpdated && this.message !== '') {
       throw new ValidationError({updates: [ERROR_MESSAGES.getNoUpdatesMade]})
     }
   }

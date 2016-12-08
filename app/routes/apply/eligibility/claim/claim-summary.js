@@ -23,7 +23,8 @@ module.exports = function (router) {
             claimDetails: claimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
-            displayHelper: displayHelper
+            displayHelper: displayHelper,
+            URL: req.url
           })
       })
       .catch(function (error) {
@@ -54,7 +55,8 @@ module.exports = function (router) {
             claimDetails: savedClaimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
-            displayHelper: displayHelper
+            displayHelper: displayHelper,
+            URL: req.url
           })
         } else {
           next(error)
@@ -101,24 +103,12 @@ module.exports = function (router) {
     removeClaimDocument(req.params.claimDocumentId)
       .then(function () {
         if (req.query.multipage) {
-          if (req.params.claimType === 'updating') {
-
-          } else {
-            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
-          }
+          return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
         } else {
           if (req.query.claimExpenseId) {
-            if (req.params.claimType === 'updating') {
-              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}&dob=${req.query.dob}`)
-            } else {
-              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
-            }
+            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
           } else {
-            if (req.params.claimType === 'updating') {
-              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}&dob=${req.query.dob}`)
-            } else {
-              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}`)
-            }
+            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary/file-upload?document=${req.query.document}`)
           }
         }
       })

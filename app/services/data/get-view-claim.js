@@ -2,6 +2,7 @@ const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const documentTypeEnum = require('../../constants/document-type-enum')
 const getRepeatEligibility = require('./get-repeat-eligibility')
+const displayHelper = require('../../views/helpers/display-helper')
 
 module.exports = function (claimId, reference, dob) {
   return knex.raw(`SELECT * FROM [IntSchema].[getHistoricClaims] (?, ?) WHERE getHistoricClaims.ClaimId = (?)`, [ reference, dob, claimId ])
@@ -34,8 +35,14 @@ module.exports = function (claimId, reference, dob) {
                     expense.Cost = Number(expense.Cost).toFixed(2)
                   })
                   var externalDocumentMap = {}
+                  var multiPageDocuments = []
                   externalClaimDocuments.forEach(function (document) {
-                    externalDocumentMap[`${document.DocumentType}${document.ClaimExpenseId}`] = document
+                    var key = `${document.DocumentType}${document.ClaimExpenseId}`
+                    if (key in externalDocumentMap) {
+                      multiPageDocuments.push(document)
+                    } else {
+                      externalDocumentMap[key] = document
+                    }
                   })
                   claim.benefitDocument = []
                   claimDocuments.forEach(function (document) {
@@ -65,7 +72,12 @@ module.exports = function (claimId, reference, dob) {
                       })
                     } else {
                       if (key in externalDocumentMap) {
-                        // TODO check when multipage benefit
+                        console.log(document)
+                        if (displayHelper.getBenefitMultipage(document.DocumentType)) {
+                          multiPageDocuments.forEach(function (otherBenefitDocument) {
+                            claim.benefitDocument.push(otherBenefitDocument)
+                          })
+                        }
                         externalDocumentMap[key].fromInternalWeb = false
                         claim.benefitDocument.push(externalDocumentMap[key])
                       } else {
