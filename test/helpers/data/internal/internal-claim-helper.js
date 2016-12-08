@@ -12,6 +12,7 @@ module.exports.IS_ADVANCE_CLAIM = false
 module.exports.DATE_OF_JOURNEY = dateFormatter.build(DAY, MONTH, YEAR)
 module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
+module.exports.DATE_REVIEWED = dateFormatter.now()
 module.exports.STATUS = 'APPROVED'
 module.exports.REASON = null
 module.exports.NOTE = null
@@ -24,6 +25,7 @@ module.exports.build = function () {
     DateOfJourney: this.DATE_OF_JOURNEY.toDate(),
     DateCreated: this.DATE_CREATED.toDate(),
     DateSubmitted: this.DATE_SUBMITTED.toDate(),
+    DateReviewed: this.DATE_REVIEWED.toDate(),
     Status: this.STATUS,
     Reason: this.REASON,
     Note: this.NOTE
@@ -42,6 +44,7 @@ module.exports.insert = function (reference, eligibilityId, data) {
     DateOfJourney: claim.DateOfJourney,
     DateCreated: claim.DateCreated,
     DateSubmitted: claim.DateSubmitted,
+    DateReviewed: claim.DateReviewed,
     Status: claim.Status,
     Reason: claim.Reason,
     Note: claim.Note
