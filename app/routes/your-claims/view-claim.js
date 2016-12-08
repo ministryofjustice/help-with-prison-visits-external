@@ -33,15 +33,16 @@ module.exports = function (router) {
 
   router.post('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
     UrlPathValidator(req.params)
-    getViewClaim(req.params.claimId, req.params.reference, req.params.dob, req.body['message-to-caseworker'])
+    var message = req.body['message-to-caseworker']
+    getViewClaim(req.params.claimId, req.params.reference, req.params.dob)
       .then(function (claimDetails) {
         try {
           var benefit = claimDetails.claim.benefitDocument
           if (benefit.length <= 0) {
             benefit.push({fromInternalWeb: true})
           }
-          var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses) // eslint-disable-line no-unused-vars
-          submitUpdate(req.params.reference, claimDetails.claim.EligibilityId, req.params.claimId, req.body['message-to-caseworker'])
+          var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message) // eslint-disable-line no-unused-vars
+          submitUpdate(req.params.reference, claimDetails.claim.EligibilityId, req.params.claimId, message)
             .then(function () {
               return res.redirect(`/application-updated/${req.params.reference}`)
             })
@@ -55,6 +56,7 @@ module.exports = function (router) {
               claimId: req.params.claimId,
               claimDetails: claimDetails,
               dateHelper: dateHelper,
+              dob: req.params.dob,
               claimExpenseHelper: claimExpenseHelper,
               displayHelper: displayHelper,
               URL: req.url
