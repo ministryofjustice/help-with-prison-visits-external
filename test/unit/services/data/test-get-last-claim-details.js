@@ -19,7 +19,7 @@ const getLastClaimDetails = proxyquire('../../../../app/services/data/get-last-c
 
 describe('services/data/get-last-claim-details', function () {
   it('should call to get last claim children and last claim expenses', function () {
-    getLastClaimDetails(REFERENCE, ELIGIBILITYID)
+    return getLastClaimDetails(REFERENCE, ELIGIBILITYID)
       .then(function (result) {
         sinon.assert.calledWith(getClaimChildrenByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(getClaimExpenseByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
