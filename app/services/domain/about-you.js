@@ -2,7 +2,7 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
-const unsafeInputPattern = new RegExp(/>|</g)
+const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 
 class AboutYou {
   constructor (dob, relationship, benefit, title, firstName, lastName,

@@ -11,7 +11,7 @@ describe('services/domain/about-child', function () {
   const VALID_YEAR = '2014'
   const VALID_CHILD_RELATIONSHIP = childRelationshipEnum.PRISONER_CHILD
   const INVALID_DAY = 'invalid day'
-  const INVALID_CHARS_CHILD_NAME = 'child<>>name>'
+  const INVALID_CHARS_CHILD_NAME = 'child&lt>&gtname>'
 
   it('should construct a domain object given valid input', function () {
     var child = new AboutChild(
@@ -39,7 +39,7 @@ describe('services/domain/about-child', function () {
   })
 
   it('should strip illegal characters from otherwise valid input', function () {
-    const unsafeInputPattern = new RegExp(/>|</g)
+    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
     var child = new AboutChild(
       INVALID_CHARS_CHILD_NAME,
       VALID_DAY,

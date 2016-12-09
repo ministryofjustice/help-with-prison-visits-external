@@ -36,12 +36,12 @@ describe('services/domain/about-you', function () {
   const INVALID_EMAILADDRESS = ''
   const INVALID_PHONENUMBER = ''
 
-  const INVALID_CHARS_FIRSTNAME = 'Tester<<>>'
-  const INVALID_CHARS_LASTNAME = 'Test<>'
+  const INVALID_CHARS_FIRSTNAME = 'Tester<&lt>>'
+  const INVALID_CHARS_LASTNAME = 'Tesgtt<&gt'
   const INVALID_CHARS_HOUSENUMBERANDSTREET = '<Test Street>'
   const INVALID_CHARS_TOWN = 'Testing<Town>'
-  const INVALID_CHARS_COUNTY = 'Tes>t<'
-  const INVALID_CHARS_COUNTRY = 'Northern <Ireland>'
+  const INVALID_CHARS_COUNTY = 'Tes>t&lt'
+  const INVALID_CHARS_COUNTRY = 'Northernlt <Ireland>'
 
   it('should construct a domain object given valid input', function (done) {
     aboutYou = new AboutYou(VALID_DOB,
@@ -185,7 +185,7 @@ describe('services/domain/about-you', function () {
   })
 
   it('should strip illegal characters from fields which accept free text inputs', function (done) {
-    const unsafeInputPattern = new RegExp(/>|</g)
+    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
     aboutYou = new AboutYou(VALID_DOB,
       VALID_RELATIONSHIP,
       VALID_BENEFIT,

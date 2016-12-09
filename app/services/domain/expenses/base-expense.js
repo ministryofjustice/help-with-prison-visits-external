@@ -1,3 +1,4 @@
+const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 /**
  * This is a base class for all of the expense domain objects.
  */
@@ -15,7 +16,7 @@ class BaseExpense {
   }
 
   createField (key, value) {
-    this[key] = value ? value.toString().trim() : ''
+    this[key] = value ? value.toString().replace(unsafeInputPattern, '').trim() : ''
   }
 }
 

@@ -22,7 +22,7 @@ describe('services/domain/about-the-prisoner', function () {
   const INVALID_PRISONERNUMBER = ''
   const INVALID_NAMEOFPRISON = ''
 
-  const INVALID_CHARS_FIRSTNAME = 'Joe><><>'
+  const INVALID_CHARS_FIRSTNAME = 'Joe>&lt><&gt'
   const INVALID_CHARS_LASTNAME = '<Bloggs>'
 
   it('should return false for valid data', function (done) {
@@ -90,7 +90,7 @@ describe('services/domain/about-the-prisoner', function () {
   })
 
   it('should strip illegal characters from otherwise valid data', function (done) {
-    const unsafeInputPattern = new RegExp(/>|</g)
+    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
     aboutThePrisoner = new AboutThePrisoner(INVALID_CHARS_FIRSTNAME,
       INVALID_CHARS_LASTNAME,
       VALID_DOBDAY,
