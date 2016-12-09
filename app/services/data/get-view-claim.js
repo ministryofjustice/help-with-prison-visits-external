@@ -1,11 +1,14 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
 const documentTypeEnum = require('../../constants/document-type-enum')
 const getRepeatEligibility = require('./get-repeat-eligibility')
+const getClaimExpenseByIdOrLastApproved = require('./get-claim-expense-by-id-or-last-approved')
+const getClaimChildrenByIdOrLastApproved = require('./get-claim-children-by-id-or-last-approved')
+const getHistoricClaimByClaimId = require('./get-historic-claim-by-claim-id')
+const getClaimDocumentsHistoricClaim = require('./get-claim-documents-historic-claim')
+const getAllClaimDocumentsByClaimId = require('./get-all-claim-documents-by-claim-id')
 const displayHelper = require('../../views/helpers/display-helper')
 
 module.exports = function (claimId, reference, dob) {
-  return knex.raw(`SELECT * FROM [IntSchema].[getHistoricClaims] (?, ?) WHERE getHistoricClaims.ClaimId = (?)`, [ reference, dob, claimId ])
+  return getHistoricClaimByClaimId(reference, dob, claimId)
     .then(function (claim) {
       return getRepeatEligibility(reference, dob, null)
           .then(function (eligibility) {
@@ -22,14 +25,11 @@ module.exports = function (claimId, reference, dob) {
           })
     })
     .then(function (claim) {
-      return knex.raw(`SELECT * FROM [IntSchema].[getClaimDocumentsHistoricClaim] (?, ?)`, [ reference, claimId ])
+      return getClaimDocumentsHistoricClaim(reference, claimId)
         .then(function (claimDocuments) {
-          return knex.raw(`SELECT * FROM [IntSchema].[getClaimExpenseByIdOrLastApproved] (?, ?, ?)`, [ reference, null, claimId ])
+          return getClaimExpenseByIdOrLastApproved(reference, null, claimId)
             .then(function (claimExpenses) {
-              return knex('ClaimDocument')
-                .where({'ClaimDocument.ClaimId': claimId, 'ClaimDocument.IsEnabled': true})
-                .select('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId', 'ClaimDocument.ClaimExpenseId')
-                .orderBy('ClaimDocument.DateSubmitted', 'desc')
+              return getAllClaimDocumentsByClaimId(claimId)
                 .then(function (externalClaimDocuments) {
                   claimExpenses.forEach(function (expense) {
                     expense.Cost = Number(expense.Cost).toFixed(2)
@@ -91,7 +91,7 @@ module.exports = function (claimId, reference, dob) {
             })
         })
         .then(function (claimExpenses) {
-          return knex.raw(`SELECT * FROM [IntSchema].[getClaimChildrenByIdOrLastApproved] (?, ?, ?)`, [ reference, null, claimId ])
+          return getClaimChildrenByIdOrLastApproved(reference, null, claimId)
             .then(function (claimChild) {
               return {
                 claim: claim,

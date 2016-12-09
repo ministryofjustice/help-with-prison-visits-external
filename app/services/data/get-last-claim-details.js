@@ -1,13 +1,13 @@
-const getLastClaimChildren = require('./get-last-claim-children')
-const getLastClaimExpenses = require('./get-last-claim-expenses')
+const getClaimChildrenByIdOrLastApproved = require('./get-claim-children-by-id-or-last-approved')
+const getClaimExpenseByIdOrLastApproved = require('./get-claim-expense-by-id-or-last-approved')
 
-module.exports = function (reference, eligibilityId) {
+module.exports = function (reference, eligibilityId, claimId) {
   var children
 
-  return getLastClaimChildren(reference, eligibilityId)
+  return getClaimChildrenByIdOrLastApproved(reference, eligibilityId, claimId)
     .then(function (lastClaimChildren) {
       children = lastClaimChildren
-      return getLastClaimExpenses(reference, eligibilityId)
+      return getClaimExpenseByIdOrLastApproved(reference, eligibilityId, claimId)
     })
     .then(function (lastClaimExpenses) {
       return {

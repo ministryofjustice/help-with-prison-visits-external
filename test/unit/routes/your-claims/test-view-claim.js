@@ -6,11 +6,9 @@ const ValidationError = require('../../../../app/services/errors/validation-erro
 const routeHelper = require('../../../helpers/routes/route-helper')
 require('sinon-bluebird')
 
-const CLAIM_TYPE = 'first-time'
 const REFERENCE = 'V123456'
 const ELIGIBILITYID = '1234'
 const DOB = '1990-10-10'
-const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
 const CLAIMID = '1'
 const CLAIMDOCUMENTID = '123'
 const FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.txt' }
