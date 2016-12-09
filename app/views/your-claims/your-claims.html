@@ -65,7 +65,7 @@
       <tr {% if claim.Status == 'PENDING' or claim.Status == 'REQUEST-INFORMATION' %} class='warning' {% endif %}>
         <td>{{ dateHelper(claim.DateOfJourney) }}</td>
         <td>{{ claimStatusHelper(claim.Status) }}</td>
-        <td><a href="/your-claims/{{ dob }}/{{ reference }}/{{ claim.ClaimId }}"
+        <td><a id="add-info" href="/your-claims/{{ dob }}/{{ reference }}/{{ claim.ClaimId }}"
         {% if claim.Status == 'APPROVED' or claim.Status == 'REJECTED' %}
           >View
         {% else %}

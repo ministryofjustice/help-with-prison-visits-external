@@ -28,7 +28,7 @@ module.exports.insert = function (reference) {
     })
 }
 
-module.exports.insertEligibilityAndClaim = function (reference) {
+module.exports.insertEligibilityAndClaim = function (reference, status) {
   var eligibilityId
   var claimId
 
@@ -36,11 +36,11 @@ module.exports.insertEligibilityAndClaim = function (reference) {
     .then(function (id) { eligibilityId = id })
     .then(function () { return visitorHelper.insert(reference, eligibilityId) })
     .then(function () { return prisonerHelper.insert(reference, eligibilityId) })
-    .then(function () { return claimHelper.insert(reference, eligibilityId) })
+    .then(function () { return claimHelper.insert(reference, eligibilityId, undefined, status) })
     .then(function (newClaimId) { claimId = newClaimId })
     .then(function () { return claimChildHelper.insert(reference, eligibilityId, claimId) })
     .then(function () { return claimExpenseHelper.insert(reference, eligibilityId, claimId) })
-    .then(function () { return claimDocumentHelper.insert(reference, eligibilityId, claimId) })
+    .then(function () { return claimDocumentHelper.insert(reference, eligibilityId, claimId, undefined, claimExpenseHelper.CLAIM_EXPENSE_ID) })
     .then(function () { return { eligibilityId: eligibilityId, claimId: claimId } })
 }
 
@@ -59,8 +59,8 @@ function deleteByReference (schemaTable, reference) {
 }
 
 module.exports.deleteAll = function (reference) {
-  return deleteByReference('IntSchema.ClaimExpense', reference)
-    .then(function () { return deleteByReference('IntSchema.ClaimDocument', reference) })
+  return deleteByReference('IntSchema.ClaimDocument', reference)
+    .then(function () { return deleteByReference('IntSchema.ClaimExpense', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimChild', reference) })
     .then(function () { return deleteByReference('IntSchema.Claim', reference) })
     .then(function () { return deleteByReference('IntSchema.Visitor', reference) })

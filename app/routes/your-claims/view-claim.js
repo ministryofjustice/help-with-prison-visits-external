@@ -31,7 +31,8 @@ module.exports = function (router) {
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper,
             URL: req.url,
-            forEdit: forEdit
+            forEdit: forEdit,
+            viewClaim: true
           })
       })
   })
