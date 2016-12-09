@@ -32,9 +32,11 @@ module.exports.build = function () {
   }
 }
 
-module.exports.insert = function (reference, eligibilityId, data) {
+module.exports.insert = function (reference, eligibilityId, data, status) {
   var claim = data || this.build()
-
+  if (status) {
+    claim.Status = status
+  }
   return knex('IntSchema.Claim').insert({
     ClaimId: claim.ClaimId,
     EligibilityId: eligibilityId,
