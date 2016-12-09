@@ -2,19 +2,24 @@ const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 
 module.exports.CLAIM_DOCUMENT_ID = Math.floor(Date.now() / 100) - 14000000000
-module.exports.DOCUMENT_TYPE = 'VISIT-CONFRIMATION'
-module.exports.DOCUMENT_STATUS = 'PENDING'
+module.exports.DOCUMENT_TYPE = 'VISIT-CONFIRMATION'
+module.exports.DOCUMENT_STATUS = 'upload-later'
 
-module.exports.build = function () {
+module.exports.CLAIM_DOCUMENT_ID2 = (Math.floor(Date.now() / 100) - 14000000000) + 1
+module.exports.DOCUMENT_TYPE2 = 'RECEIPT'
+module.exports.DOCUMENT_STATUS2 = 'upload-later'
+
+module.exports.build = function (claimDocument, documentType, documentStatus) {
   return {
-    ClaimDocumentId: this.CLAIM_DOCUMENT_ID,
-    DocumentType: this.DOCUMENT_TYPE,
-    DocumentStatus: this.DOCUMENT_STATUS
+    ClaimDocumentId: claimDocument,
+    DocumentType: documentType,
+    DocumentStatus: documentStatus
   }
 }
 
-module.exports.insert = function (reference, eligibilityId, claimId, data) {
-  var claimDocument = data || this.build()
+module.exports.insert = function (reference, eligibilityId, claimId, data, claimExpenseId) {
+  var claimDocument = data || this.build(this.CLAIM_DOCUMENT_ID, this.DOCUMENT_TYPE, this.DOCUMENT_STATUS)
+  var claimDocument2 = data || this.build(this.CLAIM_DOCUMENT_ID2, this.DOCUMENT_TYPE2, this.DOCUMENT_STATUS2)
 
   return knex('IntSchema.ClaimDocument').insert({
     ClaimDocumentId: claimDocument.ClaimDocumentId,
@@ -23,6 +28,19 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
     Reference: reference,
     DocumentType: claimDocument.DocumentType,
     DocumentStatus: claimDocument.DocumentStatus
+  })
+  .then(function () {
+    if (claimExpenseId) {
+      return knex('IntSchema.ClaimDocument').insert({
+        ClaimDocumentId: claimDocument2.ClaimDocumentId,
+        ClaimId: claimId,
+        EligibilityId: eligibilityId,
+        Reference: reference,
+        ClaimExpenseId: claimExpenseId,
+        DocumentType: claimDocument2.DocumentType,
+        DocumentStatus: claimDocument2.DocumentStatus
+      })
+    }
   })
 }
 

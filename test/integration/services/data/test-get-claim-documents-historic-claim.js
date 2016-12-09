@@ -22,9 +22,11 @@ describe('services/data/get-claim-expense-by-id-or-last-approved', function () {
   it('should retrieve all claim documents given reference and claimId', function () {
     return getClaimDocumentsHistoricClaim(REFERENCE, claimId)
       .then(function (documents) {
-        expect(documents.length).to.be.equal(1)
+        expect(documents.length).to.be.equal(2)
         expect(documents[0].DocumentType).to.be.equal(internalClaimDocumentHelper.DOCUMENT_TYPE)
         expect(documents[0].DocumentStatus).to.be.equal(internalClaimDocumentHelper.DOCUMENT_STATUS)
+        expect(documents[1].DocumentType).to.be.equal(internalClaimDocumentHelper.DOCUMENT_TYPE2)
+        expect(documents[1].DocumentStatus).to.be.equal(internalClaimDocumentHelper.DOCUMENT_STATUS2)
       })
   })
 

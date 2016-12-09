@@ -26,7 +26,8 @@ module.exports = function (router) {
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper,
-            URL: req.url
+            URL: req.url,
+            viewClaim: true
           })
       })
   })

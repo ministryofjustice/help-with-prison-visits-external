@@ -17,13 +17,15 @@
     <tr {% if errors['claim-expense'][0] %} {% if claimExpense.DocumentStatus == null %} {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %} class="warning" {% endif %}{% endif %}{% endif %}>
   {% endif %}
     <td>
-      <span class="bold pull-left expense-padding">{{ displayHelper.getExpenseDisplayName(claimExpense.ExpenseType) }} - </span>
+      <span class="bold pull-left{% if not viewClaim %} expense-padding{% endif %}">{{ displayHelper.getExpenseDisplayName(claimExpense.ExpenseType) }}
+      {% if viewClaim %}</span><br>{% else %} - </span>
       <form
         action="{{ URL }}/remove-expense/{{ claimExpense.ClaimExpenseId}}?claimDocumentId={{ claimExpense.ClaimDocumentId }}"
         method="post" class="form">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
         <button class="expense link" name="remove">remove expense</button>
       </form>
+      {% endif %}
       <div>{{ claimExpenseHelper(claimExpense) }}</div>
     </td>
     <td>£{{claimExpense.Cost}}</td>
