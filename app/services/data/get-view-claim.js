@@ -72,9 +72,9 @@ module.exports = function (claimId, reference, dob) {
                       })
                     } else {
                       if (key in externalDocumentMap) {
-                        console.log(document)
                         if (displayHelper.getBenefitMultipage(document.DocumentType)) {
                           multiPageDocuments.forEach(function (otherBenefitDocument) {
+                            otherBenefitDocument.fromInternalWeb = false
                             claim.benefitDocument.push(otherBenefitDocument)
                           })
                         }
