@@ -4,10 +4,11 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 const CHILD_MAXIMUM_AGE_IN_YEARS = 18
+const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 
 class AboutChild {
   constructor (childName, day, month, year, childRelationship) {
-    this.childName = childName ? childName.trim() : ''
+    this.childName = childName ? childName.replace(unsafeInputPattern, '').trim() : ''
     this.dobFields = [
       day ? day.trim() : '',
       month ? month.trim() : '',

@@ -2,6 +2,7 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
+const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 
 class AboutYou {
   constructor (dob, relationship, benefit, title, firstName, lastName,
@@ -12,16 +13,16 @@ class AboutYou {
     this.benefit = benefit
 
     this.title = title ? title.trim() : ''
-    this.firstName = firstName ? firstName.trim() : ''
-    this.lastName = lastName ? lastName.trim() : ''
+    this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
+    this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''
     this.nationalInsuranceNumber = nationalInsuranceNumber ? nationalInsuranceNumber.replace(/ /g, '').toUpperCase() : ''
-    this.houseNumberAndStreet = houseNumberAndStreet ? houseNumberAndStreet.trim() : ''
-    this.town = town ? town.trim() : ''
-    this.county = county ? county.trim() : ''
+    this.houseNumberAndStreet = houseNumberAndStreet ? houseNumberAndStreet.replace(unsafeInputPattern, '').trim() : ''
+    this.town = town ? town.replace(unsafeInputPattern, '').trim() : ''
+    this.county = county ? county.replace(unsafeInputPattern, '').trim() : ''
     this.postCode = postCode ? postCode.replace(/ /g, '').toUpperCase() : ''
-    this.country = country ? country.trim() : ''
+    this.country = country ? country.replace(unsafeInputPattern, '').trim() : ''
     this.emailAddress = emailAddress ? emailAddress.trim() : ''
-    this.phoneNumber = phoneNumber ? phoneNumber.trim() : ''
+    this.phoneNumber = phoneNumber ? phoneNumber.replace(unsafeInputPattern, '').trim() : ''
 
     this.IsValid()
   }

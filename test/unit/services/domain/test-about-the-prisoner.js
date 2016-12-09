@@ -22,6 +22,9 @@ describe('services/domain/about-the-prisoner', function () {
   const INVALID_PRISONERNUMBER = ''
   const INVALID_NAMEOFPRISON = ''
 
+  const INVALID_CHARS_FIRSTNAME = 'Joe>&lt><&gt'
+  const INVALID_CHARS_LASTNAME = '<Bloggs>'
+
   it('should return false for valid data', function (done) {
     aboutThePrisoner = new AboutThePrisoner(VALID_FIRSTNAME,
       VALID_LASTNAME,
@@ -83,6 +86,31 @@ describe('services/domain/about-the-prisoner', function () {
 
       expect(e.validationErrors['dob'][0]).to.equal('Date of birth was invalid')
     }
+    done()
+  })
+
+  it('should strip illegal characters from otherwise valid data', function (done) {
+    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+    aboutThePrisoner = new AboutThePrisoner(INVALID_CHARS_FIRSTNAME,
+      INVALID_CHARS_LASTNAME,
+      VALID_DOBDAY,
+      VALID_DOBMONTH,
+      VALID_DOBYEAR,
+      VALID_PRISONERNUMBER,
+      VALID_NAMEOFPRISON)
+
+    expect(aboutThePrisoner.firstName).to.equal(INVALID_CHARS_FIRSTNAME.replace(unsafeInputPattern, ''))
+    expect(aboutThePrisoner.lastName).to.equal(INVALID_CHARS_LASTNAME.replace(unsafeInputPattern, ''))
+    expect(aboutThePrisoner.dobDay).to.equal(VALID_DOBDAY)
+    expect(aboutThePrisoner.dobMonth).to.equal(VALID_DOBMONTH)
+    expect(aboutThePrisoner.dobYear).to.equal(VALID_DOBYEAR)
+    expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONERNUMBER.replace(/ /g, '').toUpperCase())
+    expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAMEOFPRISON.trim())
+
+    expect(aboutThePrisoner.dob).to.be.within(
+      dateFormatter.buildFromDateString('1995-01-01').subtract(1, 'seconds').toDate(),
+      dateFormatter.buildFromDateString('1995-01-01').add(1, 'seconds').toDate())
+
     done()
   })
 })

@@ -36,6 +36,14 @@ describe('services/domain/about-you', function () {
   const INVALID_EMAILADDRESS = ''
   const INVALID_PHONENUMBER = ''
 
+  const INVALID_CHARS_FIRSTNAME = 'Tester<&lt>>'
+  const INVALID_CHARS_LASTNAME = 'Tesgtt<&gt'
+  const INVALID_CHARS_HOUSENUMBERANDSTREET = '<Test Street>'
+  const INVALID_CHARS_TOWN = 'Testing<Town>'
+  const INVALID_CHARS_COUNTY = 'Tes>t&lt'
+  const INVALID_CHARS_COUNTRY = 'Northernlt <Ireland>'
+  const INVALID_CHARS_PHONENUMBER = '028&lgscript&gt12345>'
+
   it('should construct a domain object given valid input', function (done) {
     aboutYou = new AboutYou(VALID_DOB,
       VALID_RELATIONSHIP,
@@ -174,6 +182,41 @@ describe('services/domain/about-you', function () {
 
       expect(e.validationErrors['EmailAddress'][0]).to.equal('Email address must have valid format')
     }
+    done()
+  })
+
+  it('should strip illegal characters from fields which accept free text inputs', function (done) {
+    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+    aboutYou = new AboutYou(VALID_DOB,
+      VALID_RELATIONSHIP,
+      VALID_BENEFIT,
+      VALID_TITLE,
+      INVALID_CHARS_FIRSTNAME,
+      INVALID_CHARS_LASTNAME,
+      VALID_NATIONALINSURANCENUMBER,
+      VALID_HOUSENUMBERANDSTREET,
+      INVALID_CHARS_TOWN,
+      INVALID_CHARS_COUNTY,
+      VALID_POSTCODE,
+      INVALID_CHARS_COUNTRY,
+      VALID_EMAILADDRESS,
+      INVALID_CHARS_PHONENUMBER)
+
+    expect(aboutYou.dob).to.deep.equal(dateFormatter.buildFromDateString(VALID_DOB))
+    expect(aboutYou.relationship).to.equal(VALID_RELATIONSHIP)
+    expect(aboutYou.benefit).to.equal(VALID_BENEFIT)
+    expect(aboutYou.title).to.equal(VALID_TITLE)
+    expect(aboutYou.firstName).to.equal(INVALID_CHARS_FIRSTNAME.replace(unsafeInputPattern, ''))
+    expect(aboutYou.lastName).to.equal(INVALID_CHARS_LASTNAME.replace(unsafeInputPattern, ''))
+    expect(aboutYou.nationalInsuranceNumber, 'should uppercase and remove whitespace').to.equal(VALID_NATIONALINSURANCENUMBER.replace(/ /g, '').toUpperCase())
+    expect(aboutYou.houseNumberAndStreet).to.equal(INVALID_CHARS_HOUSENUMBERANDSTREET.replace(unsafeInputPattern, ''))
+    expect(aboutYou.town).to.equal(INVALID_CHARS_TOWN.replace(unsafeInputPattern, ''))
+    expect(aboutYou.county).to.equal(INVALID_CHARS_COUNTY.replace(unsafeInputPattern, ''))
+    expect(aboutYou.postCode, 'should uppercase and remove whitespace').to.equal(VALID_POSTCODE.replace(/ /g, '').toUpperCase())
+    expect(aboutYou.country).to.equal(INVALID_CHARS_COUNTRY.replace(unsafeInputPattern, ''))
+    expect(aboutYou.emailAddress).to.equal(VALID_EMAILADDRESS)
+    expect(aboutYou.phoneNumber).to.equal(INVALID_CHARS_PHONENUMBER.replace(unsafeInputPattern, ''))
+
     done()
   })
 })

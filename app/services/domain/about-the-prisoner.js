@@ -3,11 +3,12 @@ const FieldValidator = require('../validators/field-validator')
 const FieldsetValidator = require('../validators/fieldset-validator')
 const dateFormatter = require('../date-formatter')
 const ErrorHandler = require('../validators/error-handler')
+const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 
 class AboutThePrisoner {
   constructor (firstName, lastName, dobDay, dobMonth, dobYear, prisonerNumber, nameOfPrison) {
-    this.firstName = firstName ? firstName.trim() : ''
-    this.lastName = lastName ? lastName.trim() : ''
+    this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
+    this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''
     this.dobDay = dobDay
     this.dobMonth = dobMonth
     this.dobYear = dobYear
