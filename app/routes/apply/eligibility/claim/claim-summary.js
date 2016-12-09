@@ -23,7 +23,8 @@ module.exports = function (router) {
             claimDetails: claimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
-            displayHelper: displayHelper
+            displayHelper: displayHelper,
+            URL: req.url
           })
       })
       .catch(function (error) {
@@ -54,7 +55,8 @@ module.exports = function (router) {
             claimDetails: savedClaimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
-            displayHelper: displayHelper
+            displayHelper: displayHelper,
+            URL: req.url
           })
         } else {
           next(error)
@@ -104,9 +106,9 @@ module.exports = function (router) {
           return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
         } else {
           if (req.query.claimExpenseId) {
-            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
+            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
           } else {
-            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/file-upload?document=${req.query.document}`)
+            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary/file-upload?document=${req.query.document}`)
           }
         }
       })

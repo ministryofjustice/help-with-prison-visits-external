@@ -9,6 +9,7 @@ var routes = [
   require('./start-already-registered'),
   require('./eligibility-fail'),
   require('./application-submitted'),
+  require('./application-updated'),
 
   // First Time Flow.
   require('./apply/new-eligibility/date-of-birth'),
@@ -42,6 +43,7 @@ var routes = [
   require('./your-claims/your-claims'),
   require('./your-claims/check-your-information'),
   require('./your-claims/update-contact-details'),
+  require('./your-claims/view-claim'),
 
   // Health check routes
   require('./health-check/status')

@@ -5,6 +5,7 @@ const claimChildHelper = require('./internal-claim-child-helper')
 const claimExpenseHelper = require('./internal-claim-expense-helper')
 const visitorHelper = require('./internal-visitor-helper')
 const prisonerHelper = require('./internal-prisoner-helper')
+const claimDocumentHelper = require('./internal-claim-document-helper')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 module.exports.ELIGIBILITY_ID = Math.floor(Date.now() / 100) - 14000000000
@@ -39,6 +40,7 @@ module.exports.insertEligibilityAndClaim = function (reference) {
     .then(function (newClaimId) { claimId = newClaimId })
     .then(function () { return claimChildHelper.insert(reference, eligibilityId, claimId) })
     .then(function () { return claimExpenseHelper.insert(reference, eligibilityId, claimId) })
+    .then(function () { return claimDocumentHelper.insert(reference, eligibilityId, claimId) })
     .then(function () { return { eligibilityId: eligibilityId, claimId: claimId } })
 }
 
@@ -58,6 +60,7 @@ function deleteByReference (schemaTable, reference) {
 
 module.exports.deleteAll = function (reference) {
   return deleteByReference('IntSchema.ClaimExpense', reference)
+    .then(function () { return deleteByReference('IntSchema.ClaimDocument', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimChild', reference) })
     .then(function () { return deleteByReference('IntSchema.Claim', reference) })
     .then(function () { return deleteByReference('IntSchema.Visitor', reference) })

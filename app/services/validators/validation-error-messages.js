@@ -22,5 +22,6 @@ module.exports = {
   getUploadIncorrectType: 'File uploaded was not an image or pdf',
   getUploadFileAndAlternativeSelected: 'Both file uploaded and alternative option selected',
   getInvalidReferenceNumberAndDob: 'Could not find any claims for these details',
-  getMadeClaimForPrisonerBeforeIsRequired: 'You must confirm if you have made a claim before'
+  getMadeClaimForPrisonerBeforeIsRequired: 'You must confirm if you have made a claim before',
+  getNoUpdatesMade: 'No updates were made, please ensure all documents are uploaded for your application to be processed or send a message to your caseworker. Otherwise press cancel to return to your claims'
 }

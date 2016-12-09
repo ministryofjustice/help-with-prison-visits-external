@@ -1,0 +1,55 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  {% include "includes/validation-error-messages.html" %}
+
+  <h2 class="heading-large">
+    Your claim details
+  </h2>
+
+  <p>Please add the relevant documentation associated with your claim.</p>
+
+  {% include "partials/claim-summary/claim-summary-visitor.html" %}
+
+  <h2 class="heading-medium">Your visit</h2>
+
+  {% include "partials/claim-summary/claim-summary-visit.html" %}
+
+  <br>
+
+  {% include "partials/claim-summary/claim-summary-expenses.html" %}
+
+  <br>
+
+  <form action="/your-claims/{{ dob }}/{{ reference }}/{{ claimId }}" method="post" class="form">
+
+    <div class="form-group">
+      {% include "partials/csrf-hidden-input.html" %}
+
+      <label id="send-message-to-caseworker" name="send-message-to-caseworker" class="form-label-bold">Send a message to your caseworker (Optional)</label>
+      <textarea id="message-to-caseworker" name="message-to-caseworker" type="text" class="form-control full"></textarea>
+
+      <br>
+
+      <input id="claim-view-submit"
+             type="submit"
+             value="Submit updates"
+             class="button">
+      <a href="/your-claims/{{ dob }}/{{ reference }}" id="cancel" class="link pull-right">cancel</a>
+    </div>
+
+  </form>
+
+
+</main>
+
+{% endblock %}
