@@ -42,6 +42,7 @@ describe('services/domain/about-you', function () {
   const INVALID_CHARS_TOWN = 'Testing<Town>'
   const INVALID_CHARS_COUNTY = 'Tes>t&lt'
   const INVALID_CHARS_COUNTRY = 'Northernlt <Ireland>'
+  const INVALID_CHARS_PHONENUMBER = '028&lgscript&gt12345>'
 
   it('should construct a domain object given valid input', function (done) {
     aboutYou = new AboutYou(VALID_DOB,
@@ -199,7 +200,7 @@ describe('services/domain/about-you', function () {
       VALID_POSTCODE,
       INVALID_CHARS_COUNTRY,
       VALID_EMAILADDRESS,
-      VALID_PHONENUMBER)
+      INVALID_CHARS_PHONENUMBER)
 
     expect(aboutYou.dob).to.deep.equal(dateFormatter.buildFromDateString(VALID_DOB))
     expect(aboutYou.relationship).to.equal(VALID_RELATIONSHIP)
@@ -214,7 +215,7 @@ describe('services/domain/about-you', function () {
     expect(aboutYou.postCode, 'should uppercase and remove whitespace').to.equal(VALID_POSTCODE.replace(/ /g, '').toUpperCase())
     expect(aboutYou.country).to.equal(INVALID_CHARS_COUNTRY.replace(unsafeInputPattern, ''))
     expect(aboutYou.emailAddress).to.equal(VALID_EMAILADDRESS)
-    expect(aboutYou.phoneNumber).to.equal(VALID_PHONENUMBER)
+    expect(aboutYou.phoneNumber).to.equal(INVALID_CHARS_PHONENUMBER.replace(unsafeInputPattern, ''))
 
     done()
   })
