@@ -16,6 +16,10 @@ module.exports = function (router) {
     getViewClaim(req.params.claimId, req.params.reference, req.params.dob)
       .then(function (claimDetails) {
         var referenceId = referenceIdHelper.getReferenceId(req.params.reference, claimDetails.claim.EligibilityId)
+        var forEdit
+        if (claimDetails.claim.Status === 'PENDING' || claimDetails.claim.Status === 'REQUEST-INFORMATION') {
+          forEdit = true
+        }
         return res.render('your-claims/view-claim',
           {
             reference: req.params.reference,
@@ -26,7 +30,8 @@ module.exports = function (router) {
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper,
-            URL: req.url
+            URL: req.url,
+            forEdit: forEdit
           })
       })
   })

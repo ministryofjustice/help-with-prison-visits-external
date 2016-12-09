@@ -34,17 +34,20 @@
 
     <div class="form-group">
       {% include "partials/csrf-hidden-input.html" %}
+      {% if forEdit %}
+        <label id="send-message-to-caseworker" name="send-message-to-caseworker" class="form-label-bold">Send a message to your caseworker (Optional)</label>
+        <textarea id="message-to-caseworker" name="message-to-caseworker" type="text" class="form-control full"></textarea>
 
-      <label id="send-message-to-caseworker" name="send-message-to-caseworker" class="form-label-bold">Send a message to your caseworker (Optional)</label>
-      <textarea id="message-to-caseworker" name="message-to-caseworker" type="text" class="form-control full"></textarea>
+        <br>
 
-      <br>
-
-      <input id="claim-view-submit"
-             type="submit"
-             value="Submit updates"
-             class="button">
-      <a href="/your-claims/{{ dob }}/{{ reference }}" id="cancel" class="link pull-right">cancel</a>
+        <input id="claim-view-submit"
+               type="submit"
+               value="Submit updates"
+               class="button">
+        <a href="/your-claims/{{ dob }}/{{ reference }}" id="cancel" class="link pull-right">cancel</a>
+      {% else %}
+        <a href="/your-claims/{{ dob }}/{{ reference }}" id="back" class="link">back</a>
+      {% endif %}
     </div>
 
   </form>
