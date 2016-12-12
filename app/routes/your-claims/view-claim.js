@@ -55,6 +55,10 @@ module.exports = function (router) {
         } catch (error) {
           if (error instanceof ValidationError) {
             var referenceId = referenceIdHelper.getReferenceId(req.params.reference, claimDetails.claim.EligibilityId)
+            var forEdit
+            if (claimDetails.claim.Status === 'PENDING' || claimDetails.claim.Status === 'REQUEST-INFORMATION') {
+              forEdit = true
+            }
             return res.status(400).render('your-claims/view-claim', {
               errors: error.validationErrors,
               reference: req.params.reference,
@@ -65,7 +69,9 @@ module.exports = function (router) {
               dob: req.params.dob,
               claimExpenseHelper: claimExpenseHelper,
               displayHelper: displayHelper,
-              URL: req.url
+              URL: req.url,
+              forEdit: forEdit,
+              viewClaim: true
             })
           } else {
             next(error)
