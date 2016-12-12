@@ -22,6 +22,7 @@ module.exports = function (router) {
         if (claimDetails.claim.Status === 'PENDING' || claimDetails.claim.Status === 'REQUEST-INFORMATION') {
           forEdit = true
         }
+        console.log(claimDetails)
         return res.render('your-claims/view-claim',
           {
             reference: req.params.reference,

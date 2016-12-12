@@ -37,9 +37,9 @@
 
       {% elif claimExpense.fromInternalWeb %}
         {% if forEdit %}
-          {% if claimExpense['DocumentStatus'] == 'uploaded' %}
+          {% if claimExpense['DocumentStatus'] == 'uploaded' and claimExpense['Status'] != 'REQUEST-INFORMATION' %}
             <span class="text-success">Receipt uploaded</span>
-          {% elif claimExpense['DocumentStatus'] == 'upload-later' %}
+          {% elif claimExpense['DocumentStatus'] == 'upload-later' or claimExpense['Status'] == 'REQUEST-INFORMATION' %}
             <span class="text-warning">Receipt pending upload</span>
             <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
           {% elif claimExpense['DocumentStatus'] == 'post-later' %}
