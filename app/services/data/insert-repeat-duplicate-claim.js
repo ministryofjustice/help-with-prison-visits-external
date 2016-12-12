@@ -14,7 +14,12 @@ module.exports = function (reference, eligibilityId, claim) {
     .then(function () { return getLastClaimDetails(reference, eligibilityId) })
     .then(function (claimDetails) { lastClaimDetails = claimDetails })
     .then(function () { return insertClaimDetail('ClaimChild', reference, eligibilityId, claimId, lastClaimDetails.children) })
-    .then(function () { return insertClaimDetail('ClaimExpense', reference, eligibilityId, claimId, lastClaimDetails.expenses) })
+    .then(function () {
+      lastClaimDetails.expenses.forEach(function (expense) {
+        delete expense.Status
+      })
+      return insertClaimDetail('ClaimExpense', reference, eligibilityId, claimId, lastClaimDetails.expenses)
+    })
     .then(function () { return claimId })
 }
 
