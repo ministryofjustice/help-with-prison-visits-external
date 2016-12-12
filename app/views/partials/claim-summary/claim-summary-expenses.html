@@ -12,7 +12,7 @@
   {% for claimExpense in claimDetails.claimExpenses %}
 
   {% if claimExpense.fromInternalWeb %}
-    <tr {% if claimExpense.DocumentStatus == 'upload-later' %} class="warning" {% endif %}>
+    <tr {% if claimExpense.DocumentStatus == 'upload-later' or claimExpense.Status == 'REQUEST-INFORMATION' %} class="warning" {% endif %}>
   {% else %}
     <tr {% if errors['claim-expense'][0] %} {% if claimExpense.DocumentStatus == null %} {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %} class="warning" {% endif %}{% endif %}{% endif %}>
   {% endif %}
@@ -36,14 +36,19 @@
         <span class="text-pending">Receipt must be supplied after visit</span>
 
       {% elif claimExpense.fromInternalWeb %}
-        {% if claimExpense['DocumentStatus'] == 'uploaded' %}
-          <span class="text-success">Receipt uploaded</span>
-        {% elif claimExpense['DocumentStatus'] == 'upload-later' %}
-          <span class="text-warning">Receipt pending upload</span>
-          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
-        {% elif claimExpense['DocumentStatus'] == 'post-later' %}
-          <span class="text-pending">Sending receipt by post</span>
-          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">change</button>
+        {% if forEdit %}
+          {% if claimExpense['DocumentStatus'] == 'uploaded' %}
+            <span class="text-success">Receipt uploaded</span>
+          {% elif claimExpense['DocumentStatus'] == 'upload-later' %}
+            <span class="text-warning">Receipt pending upload</span>
+            <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
+          {% elif claimExpense['DocumentStatus'] == 'post-later' %}
+            <span class="text-pending">Sending receipt by post</span>
+            <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">change</button>
+          {% endif %}
+
+        {% else %}
+          <span {% if claimExpense.Status == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimExpense.Status) }}</span>
         {% endif %}
 
       {% else %}

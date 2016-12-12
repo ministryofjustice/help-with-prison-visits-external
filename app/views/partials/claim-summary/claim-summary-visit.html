@@ -36,7 +36,7 @@
           {% endif %}
 
         {% else %}
-          <span class="text-success">{{ claimStatusHelper(claimDetails.claim['VisitConfirmationCheck']) }}</span>
+          <span {% if claimDetails.claim['VisitConfirmationCheck'] == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimDetails.claim['VisitConfirmationCheck']) }}</span>
         {% endif %}
       </td>
     </tr>
