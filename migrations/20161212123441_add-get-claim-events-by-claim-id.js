@@ -16,7 +16,10 @@ exports.up = function (knex, Promise) {
         (
           SELECT
             ClaimEvent.DateAdded,
-            ClaimEvent.Caseworker,
+            CASE
+              WHEN ClaimEvent.Caseworker IS NOT NULL THEN 'Caseworker'
+              ELSE NULL
+            END AS Caseworker,
             ClaimEvent.Event,
             ClaimEvent.AdditionalData,
             ClaimEvent.Note

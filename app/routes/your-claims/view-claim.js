@@ -19,6 +19,7 @@ module.exports = function (router) {
     getViewClaim(req.params.claimId, req.params.reference, req.params.dob)
       .then(function (claimDetails) {
         var referenceId = referenceIdHelper.getReferenceId(req.params.reference, claimDetails.claim.EligibilityId)
+        console.log(claimDetails)
         return res.render('your-claims/view-claim',
           {
             reference: req.params.reference,
