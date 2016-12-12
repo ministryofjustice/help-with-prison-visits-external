@@ -3,7 +3,7 @@ const getClaimDocumentsHistoricClaim = require('../../../../app/services/data/ge
 const internalEligiblityHelper = require('../../../helpers/data/internal/internal-eligibility-helper')
 const internalClaimDocumentHelper = require('../../../helpers/data/internal/internal-claim-document-helper')
 
-describe('services/data/get-claim-expense-by-id-or-last-approved', function () {
+describe('services/data/get-claim-documents-historic-claim', function () {
   const REFERENCE = 'HISTDOC'
   const INVALID_REFERENCE = 'INVALID'
   var claimId
