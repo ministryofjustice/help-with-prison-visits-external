@@ -20,7 +20,6 @@ module.exports = function (claimId, reference, dob) {
             claim[0].PrisonerLastName = eligibility.PrisonerLastName
             claim[0].PrisonNumber = eligibility.PrisonNumber
             claim[0].NameOfPrison = eligibility.NameOfPrison
-
             return claim[0]
           })
     })

@@ -9,6 +9,7 @@ const ValidationError = require('../../services/errors/validation-error')
 const getClaimDocumentFilePath = require('../../services/data/get-claim-document-file-path')
 const removeClaimDocument = require('../../services/data/remove-claim-document')
 const submitUpdate = require('../../services/data/submit-update')
+const claimStatusHelper = require('../../views/helpers/claim-status-helper')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
@@ -20,6 +21,7 @@ module.exports = function (router) {
         if (claimDetails.claim.Status === 'PENDING' || claimDetails.claim.Status === 'REQUEST-INFORMATION') {
           forEdit = true
         }
+        console.log(claimDetails)
         return res.render('your-claims/view-claim',
           {
             reference: req.params.reference,
@@ -32,7 +34,8 @@ module.exports = function (router) {
             displayHelper: displayHelper,
             URL: req.url,
             forEdit: forEdit,
-            viewClaim: true
+            viewClaim: true,
+            claimStatusHelper: claimStatusHelper
           })
       })
   })
