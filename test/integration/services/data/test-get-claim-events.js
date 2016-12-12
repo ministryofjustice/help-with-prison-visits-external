@@ -23,7 +23,7 @@ describe('services/data/get-claim-events', function () {
     return getClaimEvents(REFERENCE, claimId)
       .then(function (events) {
         expect(events.length).to.be.equal(1)
-        expect(events[0].Caseworker).to.be.equal(internalClaimEventHelper.CASEWORKER)
+        expect(events[0].Caseworker).to.be.equal('Caseworker')
         expect(events[0].Note).to.be.equal(internalClaimEventHelper.NOTE)
       })
   })
