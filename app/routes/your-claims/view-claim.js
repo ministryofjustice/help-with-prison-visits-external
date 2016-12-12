@@ -10,6 +10,7 @@ const getClaimDocumentFilePath = require('../../services/data/get-claim-document
 const removeClaimDocument = require('../../services/data/remove-claim-document')
 const submitUpdate = require('../../services/data/submit-update')
 const claimStatusHelper = require('../../views/helpers/claim-status-helper')
+const claimEventHelper = require('../../views/helpers/claim-event-helper')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
@@ -34,7 +35,8 @@ module.exports = function (router) {
             URL: req.url,
             forEdit: forEdit,
             viewClaim: true,
-            claimStatusHelper: claimStatusHelper
+            claimStatusHelper: claimStatusHelper,
+            claimEventHelper: claimEventHelper
           })
       })
   })
@@ -73,7 +75,8 @@ module.exports = function (router) {
               displayHelper: displayHelper,
               URL: req.url,
               forEdit: forEdit,
-              viewClaim: true
+              viewClaim: true,
+              claimEventHelper: claimEventHelper
             })
           } else {
             next(error)

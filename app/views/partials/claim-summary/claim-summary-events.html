@@ -7,7 +7,7 @@
   {% if event.Caseworker %}
     <li class="caseworker">
       <h2>Caseworker</h2>
-      <p>{{ event.Event }}</p>
+      <p>{{ claimEventHelper(event.Event) }}</p>
       <p>{{ event.Note }}</p>
       <p class="time">{{ dateHelper(event.DateAdded) }}</p>
 
