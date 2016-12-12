@@ -17,6 +17,7 @@ exports.up = function (knex, Promise) {
           SELECT
             ClaimEvent.DateAdded,
             ClaimEvent.Caseworker,
+            ClaimEvent.Event,
             ClaimEvent.AdditionalData,
             ClaimEvent.Note
           FROM IntSchema.ClaimEvent AS ClaimEvent
