@@ -31,7 +31,8 @@ exports.up = function (knex, Promise) {
                 Prisoner.PrisonNumber,
                 Visitor.DWPCheck AS BenefitStatus,
                 Claim.VisitConfirmationCheck,
-                Claim.IsAdvanceClaim
+                Claim.IsAdvanceClaim,
+                Prisoner.NomisCheck
               FROM IntSchema.Claim AS Claim
                 JOIN IntSchema.Visitor AS Visitor ON Visitor.EligibilityId = Claim.EligibilityId
                 JOIN IntSchema.Prisoner AS Prisoner ON Prisoner.EligibilityId = Claim.EligibilityId

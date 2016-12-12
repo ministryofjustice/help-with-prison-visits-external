@@ -5,7 +5,7 @@
     <td>{{ claimDetails.claim['PrisonerFirstName']}} {{ claimDetails.claim['PrisonerLastName'] }}</td>
   </tr>
 
-  <tr>
+  <tr {% if claimDetails.claim['NomisCheck'] == 'REQUEST-INFORMATION' %} class="text-warning" {% endif %}>
     <td>Prisoner number</td>
     <td>{{ claimDetails.claim['PrisonNumber'] }}</td>
   </tr>
