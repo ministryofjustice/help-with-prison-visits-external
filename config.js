@@ -22,5 +22,9 @@ module.exports = {
 
   // File upload
   FILE_UPLOAD_LOCATION: process.env.FILE_UPLOAD_LOCATION || './uploads',
-  FILE_UPLOAD_MAXSIZE: process.env.FILE_UPLOAD_MAXSIZE || '5242880' // 5MB in Bytes.
+  FILE_UPLOAD_MAXSIZE: process.env.FILE_UPLOAD_MAXSIZE || '5242880', // 5MB in Bytes.
+
+  // Session and Cookie security (defaults for development)
+  EXT_APPLICATION_SECRET: process.env.APVS_EXT_APPLICATION_SECRET || 'secret',
+  EXT_SECURE_COOKIE: process.env.APVS_EXT_SECURE_COOKIE || false
 }

@@ -101,10 +101,10 @@ app.use(function (req, res, next) {
 })
 
 // Use cookie parser middleware (required for csurf)
-app.use(cookieParser())
+app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: config.EXT_SECURE_COOKIE }))
 
 // Check for valid CSRF tokens on state-changing methods.
-var csrfProtection = csurf({ cookie: true })
+var csrfProtection = csurf({ cookie: { httpOnly: true, secure: config.EXT_SECURE_COOKIE } })
 
 app.use(function (req, res, next) {
   csrfExcludeRoutes.forEach(function (route) {
