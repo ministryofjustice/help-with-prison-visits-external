@@ -12,7 +12,7 @@
   {% for claimExpense in claimDetails.claimExpenses %}
 
   {% if claimExpense.fromInternalWeb %}
-    <tr {% if claimExpense.DocumentStatus == 'upload-later' or claimExpense.Status == 'REQUEST-INFORMATION' %} class="warning" {% endif %}>
+    <tr {% if forEdit %}{% if claimExpense.DocumentStatus == 'upload-later' or claimExpense.Status == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% endif %}>
   {% else %}
     <tr {% if errors['claim-expense'][0] %} {% if claimExpense.DocumentStatus == null %} {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %} class="warning" {% endif %}{% endif %}{% endif %}>
   {% endif %}
