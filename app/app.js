@@ -23,6 +23,7 @@ app.use(compression())
 
 // Set security headers.
 app.use(helmet())
+app.use(helmet.hsts({ maxAge: 5184000 }))
 
 // Configure Content Security Policy
 // Hashes for inline Gov Template script entries
