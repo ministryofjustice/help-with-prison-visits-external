@@ -11,6 +11,7 @@ const removeClaimDocument = require('../../services/data/remove-claim-document')
 const submitUpdate = require('../../services/data/submit-update')
 const claimStatusHelper = require('../../views/helpers/claim-status-helper')
 const claimEventHelper = require('../../views/helpers/claim-event-helper')
+const forEdit = require('../helpers/for-edit')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
@@ -18,10 +19,6 @@ module.exports = function (router) {
     getViewClaim(req.params.claimId, req.params.reference, req.params.dob)
       .then(function (claimDetails) {
         var referenceId = referenceIdHelper.getReferenceId(req.params.reference, claimDetails.claim.EligibilityId)
-        var forEdit
-        if (claimDetails.claim.Status === 'PENDING' || claimDetails.claim.Status === 'REQUEST-INFORMATION') {
-          forEdit = true
-        }
         return res.render('your-claims/view-claim',
           {
             reference: req.params.reference,
@@ -33,7 +30,7 @@ module.exports = function (router) {
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper,
             URL: req.url,
-            forEdit: forEdit,
+            forEdit: forEdit(claimDetails.claim.Status),
             viewClaim: true,
             claimStatusHelper: claimStatusHelper,
             claimEventHelper: claimEventHelper
@@ -59,10 +56,6 @@ module.exports = function (router) {
         } catch (error) {
           if (error instanceof ValidationError) {
             var referenceId = referenceIdHelper.getReferenceId(req.params.reference, claimDetails.claim.EligibilityId)
-            var forEdit
-            if (claimDetails.claim.Status === 'PENDING' || claimDetails.claim.Status === 'REQUEST-INFORMATION') {
-              forEdit = true
-            }
             return res.status(400).render('your-claims/view-claim', {
               errors: error.validationErrors,
               reference: req.params.reference,
@@ -74,7 +67,7 @@ module.exports = function (router) {
               claimExpenseHelper: claimExpenseHelper,
               displayHelper: displayHelper,
               URL: req.url,
-              forEdit: forEdit,
+              forEdit: forEdit(claimDetails.claim.Status),
               viewClaim: true,
               claimEventHelper: claimEventHelper
             })
