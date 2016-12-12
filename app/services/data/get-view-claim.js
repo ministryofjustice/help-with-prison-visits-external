@@ -5,6 +5,7 @@ const getClaimChildrenByIdOrLastApproved = require('./get-claim-children-by-id-o
 const getHistoricClaimByClaimId = require('./get-historic-claim-by-claim-id')
 const getClaimDocumentsHistoricClaim = require('./get-claim-documents-historic-claim')
 const getAllClaimDocumentsByClaimId = require('./get-all-claim-documents-by-claim-id')
+const getClaimEvents = require('./get-claim-events')
 const displayHelper = require('../../views/helpers/display-helper')
 
 module.exports = function (claimId, reference, dob) {
@@ -90,13 +91,17 @@ module.exports = function (claimId, reference, dob) {
             })
         })
         .then(function (claimExpenses) {
-          return getClaimChildrenByIdOrLastApproved(reference, null, claimId)
-            .then(function (claimChild) {
-              return {
-                claim: claim,
-                claimExpenses: claimExpenses,
-                claimChild: claimChild
-              }
+          return getClaimEvents(reference, claimId)
+            .then(function (claimEvents) {
+              return getClaimChildrenByIdOrLastApproved(reference, null, claimId)
+                .then(function (claimChild) {
+                  return {
+                    claim: claim,
+                    claimExpenses: claimExpenses,
+                    claimChild: claimChild,
+                    claimEvents: claimEvents
+                  }
+                })
             })
         })
     })

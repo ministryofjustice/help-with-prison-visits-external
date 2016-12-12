@@ -20,6 +20,7 @@ describe('services/data/get-view-claim', function () {
   var getHistoricClaimByClaimIdStub
   var getClaimDocumentsHistoricClaimStub
   var getAllClaimDocumentsByClaimIdStub
+  var getClaimEventsStub
 
   before(function () {
     getRepeatEligibilityStub = sinon.stub().resolves({Reference: REFERENCE})
@@ -28,6 +29,7 @@ describe('services/data/get-view-claim', function () {
     getHistoricClaimByClaimIdStub = sinon.stub().resolves([{}])
     getClaimDocumentsHistoricClaimStub = sinon.stub()
     getAllClaimDocumentsByClaimIdStub = sinon.stub()
+    getClaimEventsStub = sinon.stub().resolves([])
 
     getViewClaim = proxyquire('../../../../app/services/data/get-view-claim', {
       './get-repeat-eligibility': getRepeatEligibilityStub,
@@ -35,7 +37,8 @@ describe('services/data/get-view-claim', function () {
       './get-claim-children-by-id-or-last-approved': getClaimChildrenByIdOrLastApprovedStub,
       './get-historic-claim-by-claim-id': getHistoricClaimByClaimIdStub,
       './get-claim-documents-historic-claim': getClaimDocumentsHistoricClaimStub,
-      './get-all-claim-documents-by-claim-id': getAllClaimDocumentsByClaimIdStub
+      './get-all-claim-documents-by-claim-id': getAllClaimDocumentsByClaimIdStub,
+      './get-claim-events': getClaimEventsStub
     })
   })
 
