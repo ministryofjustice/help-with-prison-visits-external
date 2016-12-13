@@ -33,7 +33,8 @@ module.exports = function (router) {
             forEdit: forEdit(claimDetails.claim.Status),
             viewClaim: true,
             claimStatusHelper: claimStatusHelper,
-            claimEventHelper: claimEventHelper
+            claimEventHelper: claimEventHelper,
+            isRequestInfoPayment: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
           })
       })
   })

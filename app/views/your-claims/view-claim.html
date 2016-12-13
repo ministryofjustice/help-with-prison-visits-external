@@ -39,6 +39,33 @@
     <div class="form-group">
       {% include "partials/csrf-hidden-input.html" %}
       {% if forEdit %}
+
+        {% if isRequestInfoPayment %}
+          <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
+            <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account Number</label>
+            {% if errors['AccountNumber'][0] %}
+            <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
+            {% endif %}
+            <input id="account-number-input"
+                    name="AccountNumber"
+                    type="text"
+                    class="form-control"
+                    value="{{ bankDetails['AccountNumber'] }}">
+          </div>
+
+          <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
+            <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort Code</label>
+            {% if errors['SortCode'][0] %}
+            <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
+            {% endif %}
+            <input id="sort-code-input"
+                    name="SortCode"
+                    type="text"
+                    class="form-control"
+                    value="{{ bankDetails['SortCode'] }}">
+          </div>
+        {% endif %}
+
         <label id="send-message-to-caseworker" name="send-message-to-caseworker" class="form-label-bold">Send a message to your caseworker (Optional)</label>
         <textarea id="message-to-caseworker" name="message-to-caseworker" type="text" class="form-control full"></textarea>
 
