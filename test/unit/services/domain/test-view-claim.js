@@ -8,27 +8,28 @@ describe('services/domain/claim-summary', function () {
   const NOT_UPDATED_EXPENSES = [{fromInternalWeb: true}]
   const UPDATED_DOCUMENT = false
   const MESSAGE = 'Updated'
+  const NO_BANK_DETAILS = { required: false }
 
   it('should construct a domain object given all updated content and a message', function () {
-    viewClaim = new ViewClaim(UPDATED_DOCUMENT, UPDATED_DOCUMENT, UPDATED_EXPENSES, MESSAGE)
+    viewClaim = new ViewClaim(UPDATED_DOCUMENT, UPDATED_DOCUMENT, UPDATED_EXPENSES, MESSAGE, NO_BANK_DETAILS)
     expect(viewClaim.message).to.be.equal(MESSAGE)
   })
 
   it('should construct a domain object given all only expenses updated', function () {
-    viewClaim = new ViewClaim(true, true, UPDATED_EXPENSES, '')
+    viewClaim = new ViewClaim(true, true, UPDATED_EXPENSES, '', NO_BANK_DETAILS)
     expect(viewClaim.message).to.be.equal('')
     expect(viewClaim.updated).to.be.true
   })
 
   it('should construct a domain object given only a message sent', function () {
-    viewClaim = new ViewClaim(true, true, NOT_UPDATED_EXPENSES, MESSAGE)
+    viewClaim = new ViewClaim(true, true, NOT_UPDATED_EXPENSES, MESSAGE, NO_BANK_DETAILS)
     expect(viewClaim.message).to.be.equal(MESSAGE)
     expect(viewClaim.updated).to.be.false
   })
 
   it('Throw a validation error if nothing has been updated and there is no message', function () {
     expect(function () {
-      viewClaim = new ViewClaim(true, true, NOT_UPDATED_EXPENSES, '').isValid()
+      viewClaim = new ViewClaim(true, true, NOT_UPDATED_EXPENSES, '', NO_BANK_DETAILS).isValid()
     }).to.throw(ValidationError)
   })
 })

@@ -27,7 +27,7 @@ describe('services/data/submit-update', function () {
   it('should insert two tasks and retrieve email address', function () {
     getRepeatEligibilityStub.resolves(REPEAT_ELIGIBILITY)
     insertTaskStub.resolves()
-    return submitUpdate(REFERENCE, ELIGIBILITYID, CLAIMID, '')
+    return submitUpdate(REFERENCE, ELIGIBILITYID, CLAIMID, '', { required: false })
       .then(function () {
         expect(insertTaskStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '')).to.be.true
         expect(getRepeatEligibilityStub.calledWith(REFERENCE, null, ELIGIBILITYID)).to.be.true
@@ -38,7 +38,7 @@ describe('services/data/submit-update', function () {
   it('should throw an error when no email address exists', function () {
     getRepeatEligibilityStub.resolves({})
     insertTaskStub.resolves()
-    return submitUpdate(REFERENCE, ELIGIBILITYID, CLAIMID, '')
+    return submitUpdate(REFERENCE, ELIGIBILITYID, CLAIMID, '', { required: false })
       .then(function () {
         expect(insertTaskStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '')).to.be.true
       })
