@@ -2,11 +2,11 @@ const displayHelper = require('../../views/helpers/display-helper')
 const documentTypeEnum = require('../../constants/document-type-enum')
 
 module.exports = function (results) {
-  claimAndEligibility(results[0], results[1])
-  return claimDocumentsAndExpenses(results[0][0], results[2], results[3], results[4])
+  sortClaimAndEligibility(results[0], results[1])
+  return sortClaimDocumentsAndExpenses(results[0][0], results[2], results[3], results[4])
 }
 
-function claimAndEligibility (claim, eligibility) {
+function sortClaimAndEligibility (claim, eligibility) {
   claim[0].EligibilityId = eligibility.EligibilityId
   claim[0].FirstName = eligibility.FirstName
   claim[0].LastName = eligibility.LastName
@@ -18,7 +18,7 @@ function claimAndEligibility (claim, eligibility) {
   return claim[0]
 }
 
-function claimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, externalClaimDocuments) {
+function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, externalClaimDocuments) {
   claimExpenses.forEach(function (expense) {
     expense.Cost = Number(expense.Cost).toFixed(2)
   })
