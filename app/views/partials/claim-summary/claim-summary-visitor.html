@@ -11,7 +11,7 @@
   </tr>
   {% endfor %}
 
-  <tr id='benefit-information'{% if errors['benefit-information'][0] %} class="warning" {% endif %} {% if claimDetails.claim['benefitDocument'][0].fromInternalWeb %} {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' %} class="warning" {% endif %}{% endif %}>
+  <tr id='benefit-information' {% if forEdit %}{% if errors['benefit-information'][0] %} class="warning" {% endif %} {% if claimDetails.claim['benefitDocument'][0].fromInternalWeb %} {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or  claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% endif %}{% endif %}>
     <td>Benefit information</td>
     <td>
       {{ displayHelper.getBenefitDisplayName(claimDetails.claim['Benefit']) }}
@@ -20,15 +20,20 @@
       <br>
 
         {% if claimDetails.claim['benefitDocument'][0].fromInternalWeb %}
-          {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'uploaded' %}
-            <span class="text-success">Benefit documentation uploaded</span>
-          {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' %}
-            <span class="text-warning">Visit confirmation stamp pending upload</span>
-            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-benefit-documentation" class="button grey pull-right">Add</a>
-          {% else %}
-            <span class="text-pending">Sending visit confirmation by post</span>
-            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">change</a>
+          {% if forEdit %}
+            {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'uploaded' and claimDetails.claim['BenefitStatus'] != 'REQUEST-INFORMATION'%}
+              <span class="text-success">Benefit documentation uploaded</span>
+            {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION'%}
+              <span class="text-warning">Visit confirmation required</span>
+              <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-benefit-documentation" class="button grey pull-right">Add</a>
+            {% else %}
+              <span class="text-pending">Sending visit confirmation by post</span>
+              <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">change</a>
             {% endif %}
+
+          {% else %}
+            <span {% if claimDetails.claim['BenefitStatus'] == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimDetails.claim['BenefitStatus']) }}</span>
+          {% endif %}
 
         {% else %}
           {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'uploaded' %}
