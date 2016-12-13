@@ -1,21 +1,21 @@
 const displayHelper = require('../../views/helpers/display-helper')
 const documentTypeEnum = require('../../constants/document-type-enum')
 
-module.exports = function (results) {
-  sortClaimAndEligibility(results[0], results[1])
-  return sortClaimDocumentsAndExpenses(results[0][0], results[2], results[3], results[4])
+module.exports = function (claim, eligibility, claimDocuments, claimExpenses, externalClaimDocuments) {
+  sortClaimAndEligibility(claim, eligibility)
+  return sortClaimDocumentsAndExpenses(claim, claimDocuments, claimExpenses, externalClaimDocuments)
 }
 
 function sortClaimAndEligibility (claim, eligibility) {
-  claim[0].EligibilityId = eligibility.EligibilityId
-  claim[0].FirstName = eligibility.FirstName
-  claim[0].LastName = eligibility.LastName
-  claim[0].Benefit = eligibility.Benefit
-  claim[0].PrisonerFirstName = eligibility.PrisonerFirstName
-  claim[0].PrisonerLastName = eligibility.PrisonerLastName
-  claim[0].PrisonNumber = eligibility.PrisonNumber
-  claim[0].NameOfPrison = eligibility.NameOfPrison
-  return claim[0]
+  claim.EligibilityId = eligibility.EligibilityId
+  claim.FirstName = eligibility.FirstName
+  claim.LastName = eligibility.LastName
+  claim.Benefit = eligibility.Benefit
+  claim.PrisonerFirstName = eligibility.PrisonerFirstName
+  claim.PrisonerLastName = eligibility.PrisonerLastName
+  claim.PrisonNumber = eligibility.PrisonNumber
+  claim.NameOfPrison = eligibility.NameOfPrison
+  return claim
 }
 
 function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, externalClaimDocuments) {

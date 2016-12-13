@@ -18,12 +18,19 @@ module.exports = function (claimId, reference, dob) {
     getClaimChildrenByIdOrLastApproved(reference, null, claimId)
     ])
     .then(function (results) {
-      sortViewClaimResults(results)
+      var claim = results[0][0]
+      var eligibility = results[1]
+      var claimDocuments = results[2]
+      var claimExpenses = results[3]
+      var externalClaimDocuments = results[4]
+      var claimEvents = results[5]
+      var claimChild = results[6]
+      sortViewClaimResults(claim, eligibility, claimDocuments, claimExpenses, externalClaimDocuments)
       return {
-        claim: results[0][0],
-        claimExpenses: results[3],
-        claimEvents: results[5],
-        claimChild: results[6]
+        claim: claim,
+        claimExpenses: claimExpenses,
+        claimEvents: claimEvents,
+        claimChild: claimChild
       }
     })
 }
