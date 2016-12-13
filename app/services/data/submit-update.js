@@ -2,11 +2,21 @@ const Promise = require('bluebird')
 const insertTask = require('./insert-task')
 const tasksEnum = require('../../constants/tasks-enum')
 const getRepeatEligibility = require('./get-repeat-eligibility')
+const insertBankDetails = require('./insert-bank-account-details-for-claim')
+const BankAccountDetails = require('../domain/bank-account-details')
 
-module.exports = function (reference, eligibilityId, claimId, message) {
-  return Promise.all([
+module.exports = function (reference, eligibilityId, claimId, message, bankDetails) {
+  var tasks = [
     insertTask(reference, eligibilityId, claimId, tasksEnum.REQUEST_INFORMATION_RESPONSE, message),
-    insertTaskRequestInformationResponseSubmittedNotification(reference, eligibilityId, claimId)])
+    insertTaskRequestInformationResponseSubmittedNotification(reference, eligibilityId, claimId)
+  ]
+
+  if (bankDetails.required) {
+    var bankAccountDetails = new BankAccountDetails(bankDetails.accountNumber, bankDetails.sortCode)
+    tasks.concat([insertBankDetails(reference, eligibilityId, claimId, bankAccountDetails)])
+  }
+
+  return Promise.all(tasks)
 }
 
 function insertTaskRequestInformationResponseSubmittedNotification (reference, eligibilityId, claimId) {

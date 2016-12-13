@@ -34,6 +34,7 @@ module.exports = function (router) {
             viewClaim: true,
             claimStatusHelper: claimStatusHelper,
             claimEventHelper: claimEventHelper,
+            bankDetails: {},
             isRequestInfoPayment: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
           })
       })
@@ -41,7 +42,10 @@ module.exports = function (router) {
 
   router.post('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
     UrlPathValidator(req.params)
+    var SortCode = req.body['SortCode']
+    var AccountNumber = req.body['AccountNumber']
     var message = req.body['message-to-caseworker']
+
     getViewClaim(req.params.claimId, req.params.reference, req.params.dob)
       .then(function (claimDetails) {
         try {
@@ -49,8 +53,10 @@ module.exports = function (router) {
           if (benefit.length <= 0) {
             benefit.push({fromInternalWeb: true})
           }
-          var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message) // eslint-disable-line no-unused-vars
-          submitUpdate(req.params.reference, claimDetails.claim.EligibilityId, req.params.claimId, message)
+
+          var bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT' }
+          var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message, bankDetails) // eslint-disable-line no-unused-vars
+          submitUpdate(req.params.reference, claimDetails.claim.EligibilityId, req.params.claimId, message, bankDetails)
             .then(function () {
               return res.redirect(`/application-updated/${req.params.reference}`)
             })
@@ -70,7 +76,8 @@ module.exports = function (router) {
               URL: req.url,
               forEdit: forEdit(claimDetails.claim.Status),
               viewClaim: true,
-              claimEventHelper: claimEventHelper
+              claimEventHelper: claimEventHelper,
+              isRequestInfoPayment: bankDetails.required
             })
           } else {
             next(error)
