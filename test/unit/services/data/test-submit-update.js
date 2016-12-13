@@ -9,8 +9,8 @@ const REPEAT_ELIGIBILITY = {EmailAddress: 'test@test.com'}
 const REFERENCE = 'V123456'
 const ELIGIBILITYID = 1
 const CLAIMID = 1
-const BANK_DETAILS = { sortCode: 112233, accountNumber: 33445566, required: true }
-const TEST_BANK_ACCOUNT_DETAILS = new BankAccountDetails(112233, 33445566)
+const BANK_DETAILS = { sortCode: '112233', accountNumber: '33445566', required: true }
+const TEST_BANK_ACCOUNT_DETAILS = new BankAccountDetails(BANK_DETAILS.accountNumber, BANK_DETAILS.sortCode)
 const NO_BANK_DETAILS = { required: false }
 
 describe('services/data/submit-update', function () {
@@ -22,6 +22,7 @@ describe('services/data/submit-update', function () {
   before(function () {
     getRepeatEligibilityStub = sinon.stub()
     insertTaskStub = sinon.stub()
+    insertBankDetailsStub = sinon.stub()
 
     submitUpdate = proxyquire('../../../../app/services/data/submit-update', {
       './get-repeat-eligibility': getRepeatEligibilityStub,
