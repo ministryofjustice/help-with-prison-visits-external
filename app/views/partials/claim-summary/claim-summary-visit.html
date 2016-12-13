@@ -25,16 +25,22 @@
       <td>Visit confirmation</td>
       <td>
         {% if forEdit %}
-          {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' and claimDetails.claim['VisitConfirmationCheck'] != 'REQUEST-INFORMATION' %}
-            <span class="text-success">Visit confirmation uploaded</span>
-          {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' or claimDetails.claim['VisitConfirmationCheck'] == 'REQUEST-INFORMATION' %}
+          {% if claimDetails.claim.IsAdvanceClaim %}
             <span class="text-warning">Visit confirmation stamp pending upload</span>
             <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-visit-confirmation" class="button grey pull-right">Add</a>
-          {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'post-later' %}
-            <span class="text-pending">Sending visit confirmation by post</span>
-            <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-visit-confirmation-post">change</a>
-          {% endif %}
 
+          {% else %}
+            {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' and claimDetails.claim['VisitConfirmationCheck'] != 'REQUEST-INFORMATION' %}
+              <span class="text-success">Visit confirmation uploaded</span>
+            {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' or claimDetails.claim['VisitConfirmationCheck'] == 'REQUEST-INFORMATION' %}
+              <span class="text-warning">Visit confirmation stamp pending upload</span>
+              <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-visit-confirmation" class="button grey pull-right">Add</a>
+            {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'post-later' %}
+              <span class="text-pending">Sending visit confirmation by post</span>
+              <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-visit-confirmation-post">change</a>
+            {% endif %}
+
+          {% endif %}
         {% else %}
           <span {% if claimDetails.claim['VisitConfirmationCheck'] == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimDetails.claim['VisitConfirmationCheck']) }}</span>
         {% endif %}
@@ -45,8 +51,9 @@
     <tr id="VisitConfirmation" {% if errors['VisitConfirmation'][0] %} class="warning" {% endif %}>
       <td>Visit confirmation</td>
       <td>
-        {% if claimDetails.claim.IsAdvanceClaim %}
+        {% if claimDetails.claim.IsAdvanceClaim and not forEdit %}
           <span class="text-pending">Visit confirmation must be supplied after visit</span>
+
         {% else %}
           {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
             <span class="text-success">Visit confirmation uploaded</span>

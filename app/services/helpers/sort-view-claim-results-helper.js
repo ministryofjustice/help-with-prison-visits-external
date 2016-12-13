@@ -33,6 +33,10 @@ function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, ex
     }
   })
   claim.benefitDocument = []
+  if (claim.IsAdvanceClaim) {
+    addPlaceholderDocumentsForAdanceClaims(claimDocuments, claimExpenses)
+  }
+
   claimDocuments.forEach(function (document) {
     var key = `${document.DocumentType}${document.ClaimExpenseId}`
     if (document.DocumentType === documentTypeEnum['VISIT_CONFIRMATION'].documentType) {
@@ -75,4 +79,23 @@ function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, ex
     }
   })
   return claimExpenses
+}
+
+function addPlaceholderDocumentsForAdanceClaims (claimDocuments, claimExpenses) {
+  var documents = []
+  claimDocuments.forEach(function (document) {
+    if (document.ClaimExpenseId) {
+      documents.push(document.ClaimExpenseId)
+    } else {
+      documents.push(document.DocumentType)
+    }
+  })
+  if (!(documentTypeEnum['VISIT_CONFIRMATION'].documentType in documents)) {
+    claimDocuments.push({DocumentType: documentTypeEnum['VISIT_CONFIRMATION'].documentType, ClaimExpenseId: null, needDocument: true})
+  }
+  claimExpenses.forEach(function (expense) {
+    if (!(expense.ClaimExpenseId in documents)) {
+      claimDocuments.push({DocumentType: documentTypeEnum['RECEIPT'].documentType, ClaimExpenseId: expense.ClaimExpenseId, needDocument: true})
+    }
+  })
 }
