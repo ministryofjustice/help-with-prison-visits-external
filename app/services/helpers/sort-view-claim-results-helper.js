@@ -90,12 +90,12 @@ function addPlaceholderDocumentsForAdanceClaims (claimDocuments, claimExpenses) 
       documents.push(document.DocumentType)
     }
   })
-  if (!(documentTypeEnum['VISIT_CONFIRMATION'].documentType in documents)) {
-    claimDocuments.push({DocumentType: documentTypeEnum['VISIT_CONFIRMATION'].documentType, ClaimExpenseId: null, needDocument: true})
+  if (documents.indexOf(documentTypeEnum['VISIT_CONFIRMATION'].documentType) === -1) {
+    claimDocuments.push({DocumentType: documentTypeEnum['VISIT_CONFIRMATION'].documentType, ClaimExpenseId: null})
   }
   claimExpenses.forEach(function (expense) {
-    if (!(expense.ClaimExpenseId in documents)) {
-      claimDocuments.push({DocumentType: documentTypeEnum['RECEIPT'].documentType, ClaimExpenseId: expense.ClaimExpenseId, needDocument: true})
+    if (documents.indexOf(expense.ClaimExpenseId) === -1) {
+      claimDocuments.push({DocumentType: documentTypeEnum['RECEIPT'].documentType, ClaimExpenseId: expense.ClaimExpenseId})
     }
   })
 }
