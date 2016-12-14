@@ -2,7 +2,6 @@ module.exports = {
   'dob': 'Date of birth',
   'benefit': 'benefit',
   'relationship': 'relationship',
-  'Title': 'Title',
   'FirstName': 'First name',
   'LastName': 'Last name',
   'NationalInsuranceNumber': 'National insurance number',

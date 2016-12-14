@@ -45,7 +45,6 @@ describe('First Time Claim Flow', () => {
 
       // About you
       .waitForExist('#about-you-submit')
-      .setValue('#title-input', 'Mr')
       .setValue('#first-name-input', 'Joe')
       .setValue('#last-name-input', 'Bloggs')
       .setValue('#national-insurance-number-input', 'AA123456A')

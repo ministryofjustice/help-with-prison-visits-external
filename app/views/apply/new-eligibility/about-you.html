@@ -22,19 +22,6 @@
       <form action="/apply/{{ claimType }}/new-eligibility/{{ dob }}/{{ relationship }}/{{ benefit }}/{{ referenceId }}"
             method="post">
 
-        <div class="form-group {% if errors['Title'][0] %} error {% endif %}">
-          <label id="Title" class="form-label-bold" for="title-input">Title</label>
-          <p class="form-hint">(Mr/Mrs/Miss/Ms)</p>
-          {% if errors['Title'][0] %}
-          <span class="error-message" id="error-message-title">{{ errors['Title'][0] }}</span>
-          {% endif %}
-          <input id="title-input"
-                 name="Title"
-                 type="text"
-                 class="form-control"
-                 value="{{ visitor['Title'] }}">
-        </div>
-
         <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
           <label id="FirstName" class="form-label-bold" for="first-name-input">First name</label>
           {% if errors['FirstName'][0] %}
