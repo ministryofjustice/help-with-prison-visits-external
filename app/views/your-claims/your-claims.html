@@ -62,14 +62,14 @@
     </tr>
 
     {% for claim in claims %}
-      <tr {% if claim.Status == 'PENDING' or claim.Status == 'REQUEST-INFORMATION' %} class='warning' {% endif %}>
+      <tr {% if forEdit(claim.Status, claim.IsAdvanceClaim) %} class='warning' {% endif %}>
         <td>{{ dateHelper(claim.DateOfJourney) }}</td>
         <td>{{ claimStatusHelper(claim.Status) }}</td>
         <td><a id="add-info" href="/your-claims/{{ dob }}/{{ reference }}/{{ claim.ClaimId }}"
-        {% if claim.Status == 'APPROVED' or claim.Status == 'REJECTED' %}
-          >View
-        {% else %}
+        {% if forEdit(claim.Status, claim.IsAdvanceClaim) %}
           class="button grey"> Add information
+        {% else %}
+          >View
         {% endif %}
         </a></td>
       </tr>
