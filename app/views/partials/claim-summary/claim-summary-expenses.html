@@ -37,7 +37,7 @@
 
       {% elif claimExpense.fromInternalWeb %}
         {% if forEdit %}
-          {% if claimDetails.claim.IsAdvanceClaim %}
+          {% if claimDetails.claim.IsAdvanceClaim and not claimExpense['DocumentStatus'] %}
             <span class="text-warning">Receipt pending upload</span>
             <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
           {% else %}

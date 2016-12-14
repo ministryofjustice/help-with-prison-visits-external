@@ -25,7 +25,7 @@
       <td>Visit confirmation</td>
       <td>
         {% if forEdit %}
-          {% if claimDetails.claim.IsAdvanceClaim %}
+          {% if claimDetails.claim.IsAdvanceClaim and not claimDetails.claim.visitConfirmation['DocumentStatus'] %}
             <span class="text-warning">Visit confirmation stamp pending upload</span>
             <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-visit-confirmation" class="button grey pull-right">Add</a>
 
