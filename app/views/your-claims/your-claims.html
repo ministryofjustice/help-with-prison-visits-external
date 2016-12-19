@@ -70,8 +70,10 @@
           {% if claim.IsAdvanceClaim %}
             {% if claim.Status == 'APPROVED-ADVANCE-CLOSED' %}
               >Approved
+            {% elif forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
+              class ="text-warning your-claims">Information required
             {% else %}
-              class ="text-warning your-claims">Information required after visit takes place
+              class ="text-pending your-claims">Information required after visit takes place
             {% endif %}
 
           {% else %}
