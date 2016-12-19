@@ -54,7 +54,7 @@
           {% endif %}
 
         {% else %}
-          <span {% if claimExpense.Status == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>
+          <span {% if claimExpense.Status == 'APPROVED' or claimExpense.Status == 'APPROVED-DIFF-AMOUNT' %} class="text-success" {% else %} class="text-warning" {% endif %}>
             {% if claimExpense.Status == 'REQUEST-INFORMATION' and not forEdit %}
               Response with case worker
             {% else %}
@@ -105,6 +105,11 @@
 
         {% endif %}
       {% endif %}
+
+    {% elif claimExpense.Status %}
+      <span class="{% if claimExpense.Status == 'REJECTED' %}text-warning{% elif claimExpense.Status == 'REQUEST-INFORMATION'%}text-pending{% else %}text-success{% endif %}">
+        {{ claimStatusHelper(claimExpense.Status) }}
+      </span>
     {% endif %}
     </td>
   </tr>
