@@ -66,7 +66,18 @@
       <tr {% if forEdit(claim.Status) %} class='warning' {% endif %}>
         <td>{{ dateHelper(claim.DateSubmitted) }}
         <td>{{ dateHelper(claim.DateOfJourney) }}</td>
-        <td>{{ claimStatusHelper(claim.Status) }}</td>
+        <td
+          {% if claim.IsAdvanceClaim %}
+            {% if claim.Status == 'APPROVED-ADVANCE-CLOSED' %}
+              >Approved
+            {% else %}
+              class ="text-warning your-claims">Information required after visit takes place
+            {% endif %}
+
+          {% else %}
+            >{{ claimStatusHelper(claim.Status) }}
+          {% endif %}
+        </td>
         <td><a id="add-info" href="/your-claims/{{ dob }}/{{ reference }}/{{ claim.ClaimId }}"
         {% if forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
           class="button grey"> Add information
