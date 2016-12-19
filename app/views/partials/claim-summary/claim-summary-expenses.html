@@ -105,6 +105,11 @@
 
         {% endif %}
       {% endif %}
+
+    {% elif claimExpense.Status %}
+      <span class="{% if claimExpense.Status == 'REJECTED' %}text-warning{% elif claimExpense.Status == 'REQUEST-INFORMATION'%}text-pending{% else %}text-success{% endif %}">
+        {{ claimStatusHelper(claimExpense.Status) }}
+      </span>
     {% endif %}
     </td>
   </tr>
