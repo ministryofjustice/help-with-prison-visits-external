@@ -50,23 +50,25 @@
   <hr>
 
   <h3 class="heading-medium">
-    Your claim(s)
+    Your claim{% if claims[1] %}s{% endif %}
   </h3>
 
   <table>
 
     <tr>
-      <th>Date of claim</th>
+      <th>Date Submitted</th>
+      <th>Date of Journey</th>
       <th>Status</th>
       <th></th>
     </tr>
 
     {% for claim in claims %}
-      <tr {% if forEdit(claim.Status, claim.IsAdvanceClaim) %} class='warning' {% endif %}>
+      <tr {% if forEdit(claim.Status) %} class='warning' {% endif %}>
+        <td>{{ dateHelper(claim.DateSubmitted) }}
         <td>{{ dateHelper(claim.DateOfJourney) }}</td>
         <td>{{ claimStatusHelper(claim.Status) }}</td>
         <td><a id="add-info" href="/your-claims/{{ dob }}/{{ reference }}/{{ claim.ClaimId }}"
-        {% if forEdit(claim.Status, claim.IsAdvanceClaim) %}
+        {% if forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
           class="button grey"> Add information
         {% else %}
           >View
