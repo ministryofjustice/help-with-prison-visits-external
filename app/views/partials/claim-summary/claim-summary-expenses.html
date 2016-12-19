@@ -32,7 +32,7 @@
 
     <td>
     {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %}
-      {% if claimDetails.claim.IsAdvanceClaim and not forEdit %}
+      {% if claimDetails.claim.IsAdvanceClaim and not forEdit and not claimExpense['DocumentStatus'] %}
         <span class="text-pending">Receipt must be supplied after visit</span>
 
       {% elif claimExpense.fromInternalWeb %}
@@ -54,7 +54,14 @@
           {% endif %}
 
         {% else %}
-          <span {% if claimExpense.Status == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimExpense.Status) }}</span>
+          <span {% if claimExpense.Status == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>
+            {% if claimExpense.Status == 'REQUEST-INFORMATION' and not forEdit %}
+              Response with case worker
+            {% else %}
+              {{ claimStatusHelper(claimExpense.Status) }}
+            {% endif %}
+
+          </span>
         {% endif %}
 
       {% else %}

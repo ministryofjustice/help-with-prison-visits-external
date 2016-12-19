@@ -42,7 +42,13 @@
 
           {% endif %}
         {% else %}
-          <span {% if claimDetails.claim['VisitConfirmationCheck'] == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimDetails.claim['VisitConfirmationCheck']) }}</span>
+          <span {% if claimDetails.claim['VisitConfirmationCheck'] == 'APPROVED' and not claimDetails.claim.IsAdvanceClaim %} class="text-success" {% else %}{% if claimDetails.claim.IsAdvanceClaim %}class="text-pending"{% else %}class="text-warning" {% endif %}{% endif %}>
+          {% if claimDetails.claim.IsAdvanceClaim %}
+            Visit confirmation must be supplied after visit
+          {% else %}
+            {{ claimStatusHelper(claimDetails.claim['VisitConfirmationCheck']) }}
+          {% endif %}
+          </span>
         {% endif %}
       </td>
     </tr>
