@@ -9,7 +9,6 @@ describe('services/domain/about-you', function () {
   const VALID_DOB = '1980-01-01'
   const VALID_RELATIONSHIP = 'partner'
   const VALID_BENEFIT = 'income-support'
-  const VALID_TITLE = 'Mr'
   const VALID_FIRSTNAME = 'Tester'
   const VALID_LASTNAME = 'Test'
   const VALID_NATIONALINSURANCENUMBER = 'aA 123456B'
@@ -24,7 +23,6 @@ describe('services/domain/about-you', function () {
   const INVALID_DOB = ''
   const INVALID_RELATIONSHIP = ''
   const INVALID_BENEFIT = ''
-  const INVALID_TITLE = ''
   const INVALID_FIRSTNAME = ''
   const INVALID_LASTNAME = ''
   const INVALID_NATIONALINSURANCENUMBER = ''
@@ -48,7 +46,6 @@ describe('services/domain/about-you', function () {
     aboutYou = new AboutYou(VALID_DOB,
       VALID_RELATIONSHIP,
       VALID_BENEFIT,
-      VALID_TITLE,
       VALID_FIRSTNAME,
       VALID_LASTNAME,
       VALID_NATIONALINSURANCENUMBER,
@@ -63,7 +60,6 @@ describe('services/domain/about-you', function () {
     expect(aboutYou.dob).to.deep.equal(dateFormatter.buildFromDateString(VALID_DOB))
     expect(aboutYou.relationship).to.equal(VALID_RELATIONSHIP)
     expect(aboutYou.benefit).to.equal(VALID_BENEFIT)
-    expect(aboutYou.title).to.equal(VALID_TITLE)
     expect(aboutYou.firstName).to.equal(VALID_FIRSTNAME)
     expect(aboutYou.lastName).to.equal(VALID_LASTNAME)
     expect(aboutYou.nationalInsuranceNumber, 'should uppercase and remove whitespace').to.equal(VALID_NATIONALINSURANCENUMBER.replace(/ /g, '').toUpperCase())
@@ -85,7 +81,6 @@ describe('services/domain/about-you', function () {
       aboutYou = new AboutYou(INVALID_DOB,
         INVALID_RELATIONSHIP,
         INVALID_BENEFIT,
-        INVALID_TITLE,
         INVALID_FIRSTNAME,
         INVALID_LASTNAME,
         INVALID_NATIONALINSURANCENUMBER,
@@ -99,7 +94,6 @@ describe('services/domain/about-you', function () {
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
 
-      expect(e.validationErrors['Title'][0]).to.contain(IS_REQUIRED)
       expect(e.validationErrors['FirstName'][0]).to.contain(IS_REQUIRED)
       expect(e.validationErrors['LastName'][0]).to.contain(IS_REQUIRED)
       expect(e.validationErrors['NationalInsuranceNumber'][0]).to.contain(IS_REQUIRED)
@@ -118,7 +112,6 @@ describe('services/domain/about-you', function () {
       aboutYou = new AboutYou(INVALID_DOB,
         INVALID_RELATIONSHIP,
         INVALID_BENEFIT,
-        INVALID_TITLE,
         INVALID_FIRSTNAME,
         INVALID_LASTNAME,
         '123456',
@@ -142,7 +135,6 @@ describe('services/domain/about-you', function () {
       aboutYou = new AboutYou(INVALID_DOB,
         INVALID_RELATIONSHIP,
         INVALID_BENEFIT,
-        INVALID_TITLE,
         INVALID_FIRSTNAME,
         INVALID_LASTNAME,
         INVALID_NATIONALINSURANCENUMBER,
@@ -166,7 +158,6 @@ describe('services/domain/about-you', function () {
       aboutYou = new AboutYou(INVALID_DOB,
         INVALID_RELATIONSHIP,
         INVALID_BENEFIT,
-        INVALID_TITLE,
         INVALID_FIRSTNAME,
         INVALID_LASTNAME,
         INVALID_NATIONALINSURANCENUMBER,
@@ -190,7 +181,6 @@ describe('services/domain/about-you', function () {
     aboutYou = new AboutYou(VALID_DOB,
       VALID_RELATIONSHIP,
       VALID_BENEFIT,
-      VALID_TITLE,
       INVALID_CHARS_FIRSTNAME,
       INVALID_CHARS_LASTNAME,
       VALID_NATIONALINSURANCENUMBER,
@@ -205,7 +195,6 @@ describe('services/domain/about-you', function () {
     expect(aboutYou.dob).to.deep.equal(dateFormatter.buildFromDateString(VALID_DOB))
     expect(aboutYou.relationship).to.equal(VALID_RELATIONSHIP)
     expect(aboutYou.benefit).to.equal(VALID_BENEFIT)
-    expect(aboutYou.title).to.equal(VALID_TITLE)
     expect(aboutYou.firstName).to.equal(INVALID_CHARS_FIRSTNAME.replace(unsafeInputPattern, ''))
     expect(aboutYou.lastName).to.equal(INVALID_CHARS_LASTNAME.replace(unsafeInputPattern, ''))
     expect(aboutYou.nationalInsuranceNumber, 'should uppercase and remove whitespace').to.equal(VALID_NATIONALINSURANCENUMBER.replace(/ /g, '').toUpperCase())

@@ -3,7 +3,6 @@ const knex = require('knex')(config)
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 module.exports.VISITOR_ID = Math.floor(Date.now() / 100) - 14000000000
-module.exports.TITLE = 'Mr'
 module.exports.FIRST_NAME = 'John'
 module.exports.LAST_NAME = 'Smith'
 module.exports.NATIONAL_INSURANCE_NUMBER = 'BN180518D'
@@ -28,7 +27,6 @@ module.exports.insert = function (reference, eligibilityId) {
     VisitorId: this.VISITOR_ID,
     EligibilityId: eligibilityId,
     Reference: reference,
-    Title: this.TITLE,
     FirstName: this.FIRST_NAME,
     LastName: this.LAST_NAME,
     NationalInsuranceNumber: this.NATIONAL_INSURANCE_NUMBER,

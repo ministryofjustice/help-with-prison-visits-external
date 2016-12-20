@@ -5,14 +5,13 @@ const dateFormatter = require('../date-formatter')
 const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 
 class AboutYou {
-  constructor (dob, relationship, benefit, title, firstName, lastName,
+  constructor (dob, relationship, benefit, firstName, lastName,
     nationalInsuranceNumber, houseNumberAndStreet, town, county, postCode,
     country, emailAddress, phoneNumber) {
     this.dob = dateFormatter.buildFromDateString(dob)
     this.relationship = relationship
     this.benefit = benefit
 
-    this.title = title ? title.trim() : ''
     this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
     this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''
     this.nationalInsuranceNumber = nationalInsuranceNumber ? nationalInsuranceNumber.replace(/ /g, '').toUpperCase() : ''
@@ -29,11 +28,6 @@ class AboutYou {
 
   IsValid () {
     var errors = ErrorHandler()
-
-    FieldValidator(this.title, 'Title', errors)
-      .isRequired()
-      .isAlpha()
-      .isRange(2, 4)
 
     FieldValidator(this.firstName, 'FirstName', errors)
       .isRequired()

@@ -3,7 +3,6 @@ const knex = require('knex')(config)
 const insertVisitor = require('../../../app/services/data/insert-visitor')
 const AboutYou = require('../../../app/services/domain/about-you')
 
-module.exports.TITLE = 'Mr'
 module.exports.FIRST_NAME = 'John'
 module.exports.LAST_NAME = 'Smith'
 module.exports.NATIONAL_INSURANCE_NUMBER = 'BN180518D'
@@ -25,7 +24,6 @@ module.exports.build = function () {
     this.DATE_OF_BIRTH,
     this.RELATIONSHIP,
     this.BENEFIT,
-    this.TITLE,
     this.FIRST_NAME,
     this.LAST_NAME,
     this.NATIONAL_INSURANCE_NUMBER,

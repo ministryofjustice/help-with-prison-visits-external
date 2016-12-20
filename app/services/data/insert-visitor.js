@@ -12,7 +12,6 @@ module.exports = function (reference, eligibilityId, aboutYou) {
   return knex('Visitor').insert({
     EligibilityId: eligibilityId,
     Reference: reference,
-    Title: aboutYou.title,
     FirstName: aboutYou.firstName,
     LastName: aboutYou.lastName,
     NationalInsuranceNumber: aboutYou.nationalInsuranceNumber,
