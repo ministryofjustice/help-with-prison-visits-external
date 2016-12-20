@@ -63,7 +63,6 @@ exports.down = function (knex, Promise) {
         (
           SELECT TOP(1)
             Eligibility.EligibilityId,
-            Visitor.Title,
             Visitor.FirstName,
             STUFF(Visitor.LastName, 2, 100, REPLICATE('*', LEN(Visitor.LastName) - 1)) AS LastName,
             Visitor.HouseNumberAndStreet,
