@@ -1,0 +1,82 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <h1 class="heading-xlarge">Give feedback</h1>
+      <p id="service" name="service" class="heading-medium">Overall, how did you feel about the service you received today?</p>
+
+      <form action="/" method="post">
+        <div class="form-group {% if errors['service'][0] %} error {% endif %}">
+          <fieldset>
+
+            <label for="very-satisfied" class="block-label">
+              <input id="very-satisfied"
+                     type="radio"
+                     name="service"
+                     value="very-satisfied">
+              Very satisfied
+            </label>
+
+            <label for="satisfied" class="block-label">
+              <input id="satisfied"
+                     type="radio"
+                     name="service"
+                     value="satisfied">
+              Satisfied
+            </label>
+
+            <label for="neutral" class="block-label">
+              <input id="neutral"
+                     type="radio"
+                     name="service"
+                     value="neutral">
+              Neither satisfied or dissatisfied
+            </label>
+
+            <label for="dissatisfied" class="block-label">
+              <input id="dissatisfied"
+                     type="radio"
+                     name="service"
+                     value="dissatisfied">
+              Dissatisfied
+            </label>
+
+            <label for="very-dissatisfied" class="block-label">
+              <input id="very-dissatisfied"
+                     type="radio"
+                     name="service"
+                     value="very-dissatisfied">
+              Very dissatisfied
+            </label>
+          </fieldset>
+        </div>
+
+        <p id="improve-service" class="heading-small">How could we improve this service?</p>
+        <textarea id="improvements" name="improvements" class="form-control full" rows="6" ></textarea>
+        <p>(Limit is 1200 characters)</p>
+        <p>Please don't include any personal information or financial information, for example your National Insurance or bank details.</p>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="benefit-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+    </div>
+
+  </div>
+
+</main>
+
+{% endblock %}
