@@ -46,14 +46,18 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        return res.status(400).render('apply/eligibility/claim/ferry-details', {
-          errors: error.validationErrors,
-          claimType: req.params.claimType,
-          referenceId: req.params.referenceId,
-          claimId: req.params.claimId,
-          params: expenseUrlRouter.parseParams(req.query),
-          expense: req.body
-        })
+        return getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
+          .then(function (expenseOwnerData) {
+            return res.status(400).render('apply/eligibility/claim/ferry-details', {
+              errors: error.validationErrors,
+              claimType: req.params.claimType,
+              referenceId: req.params.referenceId,
+              claimId: req.params.claimId,
+              expenseOwners: expenseOwnerData,
+              params: expenseUrlRouter.parseParams(req.query),
+              expense: req.body
+            })
+          })
       } else {
         throw error
       }
