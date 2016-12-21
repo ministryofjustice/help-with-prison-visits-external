@@ -64,14 +64,14 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
     })
 
     it('should respond redirect to child page if hasEscort equals yes', function () {
-      hasEscortStub.returns({ hasEscort : 'yes' })
+      hasEscortStub.returns({ hasEscort: 'yes' })
       return supertest(app)
         .post(ROUTE)
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/escort`)
     })
 
     it('should respond redirect to expense page if hasEscort equals no', function () {
-      hasEscortStub.returns({ hasEscort : 'no' })
+      hasEscortStub.returns({ hasEscort: 'no' })
       return supertest(app)
         .post(ROUTE)
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/has-child`)

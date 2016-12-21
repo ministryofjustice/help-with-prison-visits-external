@@ -98,7 +98,7 @@ module.exports = function (claimId, claimType) {
               'ClaimEscort.IsEnabled': true
             })
             .first()
-            .then(function(claimEscort) {
+            .then(function (claimEscort) {
               return {
                 claim: claim,
                 claimExpenses: expensesAndChildren.claimExpenses,

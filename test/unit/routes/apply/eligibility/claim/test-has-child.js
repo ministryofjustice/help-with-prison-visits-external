@@ -64,14 +64,14 @@ describe('routes/apply/eligibility/claim/has-child', function () {
     })
 
     it('should respond redirect to child page if hasChild equals yes', function () {
-      hasChildStub.returns({ hasChild : 'yes' })
+      hasChildStub.returns({ hasChild: 'yes' })
       return supertest(app)
         .post(ROUTE)
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/child`)
     })
 
     it('should respond redirect to expense page if hasChild equals no', function () {
-      hasChildStub.returns({ hasChild : 'no' })
+      hasChildStub.returns({ hasChild: 'no' })
       return supertest(app)
         .post(ROUTE)
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}`)

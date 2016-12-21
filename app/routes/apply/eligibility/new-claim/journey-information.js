@@ -33,13 +33,12 @@ module.exports = function (router) {
 
       if (!isRepeatDuplicateClaim(req.params.claimType)) {
         insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimType, newClaim)
-          .then(function(claimId) {
+          .then(function (claimId) {
             return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${claimId}/has-escort`)
           })
           .catch(function (error) {
             next(error)
           })
-
       } else {
         insertRepeatDuplicateClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, newClaim)
           .then(function (claimId) {
