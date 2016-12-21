@@ -1,0 +1,90 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h1 class="heading-xlarge">Give feedback</h1>
+      <p id="rating" name="rating" class="heading-medium">Overall, how did you feel about the service you received today?</p>
+
+      <form action="/feedback" method="post">
+        <div class="form-group {% if errors['rating'][0] %} error {% endif %}">
+          <fieldset>
+
+            <label for="very-satisfied" class="block-label">
+              <input id="very-satisfied"
+                     type="radio"
+                     name="rating"
+                     value="very-satisfied"
+                     {% if rating == 'very-satisfied' %} checked {% endif %}>
+              Very satisfied
+            </label>
+
+            <label for="satisfied" class="block-label">
+              <input id="satisfied"
+                     type="radio"
+                     name="rating"
+                     value="satisfied"
+                     {% if rating == 'satisfied' %} checked {% endif %}>
+              Satisfied
+            </label>
+
+            <label for="neutral" class="block-label">
+              <input id="neutral"
+                     type="radio"
+                     name="rating"
+                     value="neutral"
+                     {% if rating == 'very-satisfied' %} checked {% endif %}>
+              Neither satisfied or dissatisfied
+            </label>
+
+            <label for="dissatisfied" class="block-label">
+              <input id="dissatisfied"
+                     type="radio"
+                     name="rating"
+                     value="dissatisfied"
+                     {% if rating == 'dissatisfied' %} checked {% endif %}>
+              Dissatisfied
+            </label>
+
+            <label for="very-dissatisfied" class="block-label">
+              <input id="very-dissatisfied"
+                     type="radio"
+                     name="rating"
+                     value="very-dissatisfied"
+                     {% if rating == 'very-dissatisfied' %} checked {% endif %}>
+              Very dissatisfied
+            </label>
+          </fieldset>
+        </div>
+
+        <p id="improve-service" class="heading-small">How could we improve this service?</p>
+        <textarea id="improvements" name="improvements" class="form-control full {% if errors['improve-service'][0] %} error {% endif %}" rows="6">{{ improvements }}</textarea>
+        <p>(Limit is 1200 characters)</p>
+        <p>Please don't include any personal information or financial information, for example your National Insurance or bank details.</p>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="benefit-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+    </div>
+
+  </div>
+
+</main>
+
+{% endblock %}

@@ -10,6 +10,7 @@ var routes = [
   require('./eligibility-fail'),
   require('./application-submitted'),
   require('./application-updated'),
+  require('./feedback'),
 
   // First Time Flow.
   require('./apply/new-eligibility/date-of-birth'),

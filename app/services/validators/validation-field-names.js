@@ -42,5 +42,7 @@ module.exports = {
   'claim-expense': 'Claim expense receipt',
   'confirm-correct': 'Confirmation',
   'same-journey-as-last-claim': 'Same journey as last claim',
-  'send-message-to-caseworker': 'Message to caseworkers'
+  'send-message-to-caseworker': 'Message to caseworkers',
+  'rating': 'Rating of service',
+  'improve-service': 'Message'
 }
