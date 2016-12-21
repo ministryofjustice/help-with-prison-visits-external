@@ -1,0 +1,68 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Are you bringing any children?
+      </h2>
+
+      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/has-child" method="post">
+
+        <div id="has-child" class="form-group {% if errors['has-child'][0] %} error {% endif %}">
+
+          <h2 class="form-label-bold">Did you bring any children on this visit?</h2>
+
+          {% if errors['has-child'][0] %}
+            <span class="error-message">{{ errors['has-child'][0] }}</span>
+          {% endif %}
+
+          <fieldset>
+
+            <label for="child-yes" class="block-label inline">
+              <input id="child-yes"
+                     type="radio"
+                     name="has-child"
+                     value="yes"
+                     {% if claim['has-child'] == 'yes' %} checked {% endif %}>
+              Yes
+            </label>
+            <label for="child-no" class="block-label inline">
+              <input id="child-no"
+                     type="radio"
+                     name="has-child"
+                     value="no"
+                     {% if claim['has-child'] == 'no' %} checked {% endif %}>
+              No
+            </label>
+
+          </fieldset>
+
+        </div>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="has-child-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

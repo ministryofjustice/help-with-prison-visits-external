@@ -86,9 +86,24 @@ module.exports = function (claimId, claimType) {
             .orderBy('ClaimChild.Name')
             .then(function (claimChild) {
               return {
-                claim: claim,
                 claimExpenses: claimExpenses,
                 claimChild: claimChild
+              }
+            })
+        })
+        .then(function (expensesAndChildren) {
+          return knex('ClaimEscort')
+            .where({
+              'ClaimEscort.ClaimId': claimId,
+              'ClaimEscort.IsEnabled': true
+            })
+            .first()
+            .then(function(claimEscort) {
+              return {
+                claim: claim,
+                claimExpenses: expensesAndChildren.claimExpenses,
+                claimChild: expensesAndChildren.claimChild,
+                claimEscort: claimEscort
               }
             })
         })

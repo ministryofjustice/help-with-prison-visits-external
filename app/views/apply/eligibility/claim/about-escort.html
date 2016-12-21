@@ -1,0 +1,122 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        About your escort
+      </h2>
+
+      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/escort" method="post">
+
+        <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
+          <label id="FirstName" class="form-label-bold" for="first-name-input">First name</label>
+
+          {% if errors['FirstName'][0] %}
+            <span class="error-message" id="error-message-first-name">{{ errors['FirstName'][0] }}</span>
+          {% endif %}
+
+          <input id="first-name-input"
+                 name="FirstName"
+                 type="text"
+                 class="form-control"
+                 value="{{ escort['FirstName'] }}">
+        </div>
+
+        <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
+          <label id="LastName" class="form-label-bold" for="last-name-input">Last name</label>
+
+          {% if errors['LastName'][0] %}
+            <span class="error-message" id="error-message-last-name">{{ errors['LastName'][0] }}</span>
+          {% endif %}
+
+          <input id="last-name-input"
+                 name="LastName"
+                 type="text"
+                 class="form-control"
+                 value="{{ escort['LastName'] }}">
+        </div>
+
+        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
+          <fieldset>
+            <legend id="dob" class="form-label-bold">Escort date of birth</legend>
+
+            {% if errors['dob'][0] %}
+              <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
+            {% endif %}
+
+            <div class="form-date">
+
+              <p class="form-hint">For example, 18 08 1989</p>
+
+              <div class="form-group form-group-day">
+                <label for="dob-day">Day</label>
+                <input id="dob-day"
+                       name="dob-day"
+                       value="{{ escort['dob-day'] }}"
+                       type="number"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-month">
+                <label for="dob-month">Month</label>
+                <input id="dob-month"
+                       name="dob-month"
+                       value="{{ escort['dob-month'] }}"
+                       type="number"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-year">
+                <label for="dob-year">Year</label>
+                <input id="dob-year"
+                       name="dob-year"
+                       value="{{ escort['dob-year'] }}"
+                       type="number"
+                       class="form-control">
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+
+        <div class="form-group {% if errors['NationalInsuranceNumber'][0] %} error {% endif %}">
+          <label id="NationalInsuranceNumber" class="form-label-bold" for="national-insurance-number-input">
+            National Insurance number</label>
+
+          {% if errors['NationalInsuranceNumber'][0] %}
+            <span class="error-message" id="error-message-national">{{ errors['NationalInsuranceNumber'][0] }}</span>
+          {% endif %}
+
+          <input id="national-insurance-number-input"
+                 name="NationalInsuranceNumber"
+                 type="text"
+                 class="form-control"
+                 value="{{ escort['NationalInsuranceNumber'] }}">
+        </div>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="about-escort-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

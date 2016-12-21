@@ -44,5 +44,7 @@ module.exports = {
   'same-journey-as-last-claim': 'Same journey as last claim',
   'send-message-to-caseworker': 'Message to caseworkers',
   'rating': 'Rating of service',
-  'improve-service': 'Message'
+  'improve-service': 'Message',
+  'has-escort': 'response',
+  'has-child': 'response'
 }
