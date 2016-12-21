@@ -15,7 +15,8 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
   const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`
   const VALID_DATA = {
     'AccountNumber': '12345678',
-    'SortCode': '123456'
+    'SortCode': '123456',
+    'terms': 'yes'
   }
 
   var app

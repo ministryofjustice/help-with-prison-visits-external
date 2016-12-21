@@ -48,6 +48,21 @@
                  class="form-control"
                  value="{{ bankDetails['SortCode'] }}">
         </div>
+        <div id="terms-and-conditions" class="form-group{% if errors['terms-and-conditions'][0] %} error {% endif %}">
+          {% if errors['terms-and-conditions'][0] %}
+          <span class="error-message" id="error-message-sort-code">{{ errors['terms-and-conditions'][0] }}</span>
+          {% endif %}
+          <label for="terms" class="block-label TC-checkbox">
+            <input id="terms"
+                   type="checkbox"
+                   name="terms"
+                   {% if bankDetails['terms'] %}
+                    checked
+                   {% endif %}
+                   value="yes">
+            Confirm you agree to our <a target="_blank" href='/terms-and-conditions'>terms and conditions</a>.
+          </label>
+        </div>
 
         {% include "partials/csrf-hidden-input.html" %}
 
