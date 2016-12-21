@@ -52,11 +52,11 @@
           {% if errors['terms-and-conditions'][0] %}
           <span class="error-message" id="error-message-sort-code">{{ errors['terms-and-conditions'][0] }}</span>
           {% endif %}
-          <label for="terms" class="block-label TC-checkbox">
-            <input id="terms"
+          <label id="tc" for="tAndC" class="block-label">
+            <input id="tAndC"
                    type="checkbox"
-                   name="terms"
-                   {% if bankDetails['terms'] %}
+                   name="tAndC"
+                   {% if bankDetails['tAndC'] %}
                     checked
                    {% endif %}
                    value="yes">

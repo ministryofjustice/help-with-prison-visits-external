@@ -22,7 +22,7 @@ module.exports = function (router) {
     var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
 
     try {
-      var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body.terms)
+      var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body.tAndC)
       insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, bankAccountDetails)
         .then(function () {
           return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker)
