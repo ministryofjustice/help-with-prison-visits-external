@@ -1,5 +1,14 @@
 module.exports = {
-  YOU: 'you',
-  CHILD: 'child',
-  ESCORT: 'escort'
+  YOU: {
+    value: 'you',
+    displayValue: 'You'
+  },
+  CHILD: {
+    value: 'child',
+    displayValue: 'Child'
+  },
+  ESCORT: {
+    value: 'escort',
+    displayValue: 'Medical Escort'
+  }
 }
