@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
@@ -53,22 +52,6 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
         .get(ROUTE)
         .expect(200)
     })
-
-    it('should set isRepeatDuplicateClaim to false if claim type is not repeat duplicate', function () {
-      return supertest(app)
-        .get(ROUTE)
-        .expect(function (response) {
-          expect(response.text).to.contain('"isRepeatDuplicateClaim":false')
-        })
-    })
-
-    it('should set isRepeatDuplicateClaim to true if claim type is repeat duplicate', function () {
-      return supertest(app)
-        .get(REPEAT_DUPLICATE_ROUTE)
-        .expect(function (response) {
-          expect(response.text).to.contain('"isRepeatDuplicateClaim":true')
-        })
-    })
   })
 
   describe(`POST ${ROUTE}`, function () {
@@ -97,21 +80,11 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
         .expect(302)
     })
 
-    it('should redirect to expenses page if child-visitor is set to no', function () {
+    it('should redirect to has-escort page if child-visitor is set to no', function () {
       insertNewClaimStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
-        .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}`)
-    })
-
-    it('should redirect to about-child page if child-visitor is set to yes', function () {
-      insertNewClaimStub.resolves(CLAIM_ID)
-      return supertest(app)
-        .post(ROUTE)
-        .send({
-          'child-visitor': 'yes'
-        })
-        .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/child`)
+        .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/has-escort`)
     })
 
     it('should redirect to claim summary page if claim is repeat duplicate', function () {

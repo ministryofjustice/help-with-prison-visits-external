@@ -12,7 +12,6 @@ describe('services/domain/new-claim', function () {
   const VALID_MONTH = dateFormatter.now().month() + 1 // Needed for zero indexed month
   const VALID_YEAR = dateFormatter.now().year()
   const VALID_CHILD_VISITOR = booleanSelectEnum.YES
-  const VALID_IS_REPEAT_DUPLICATE_CLAIM = false
   const VALID_IS_ADVANCE_CLAIM = false
 
   var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
@@ -23,8 +22,6 @@ describe('services/domain/new-claim', function () {
       VALID_DAY,
       VALID_MONTH,
       VALID_YEAR,
-      VALID_CHILD_VISITOR,
-      VALID_IS_REPEAT_DUPLICATE_CLAIM,
       VALID_IS_ADVANCE_CLAIM
     )
     expect(claim.reference).to.equal(VALID_REFERENCE)
@@ -32,20 +29,17 @@ describe('services/domain/new-claim', function () {
       expectedDateOfJourney.subtract(1, 'seconds').toDate(),
       expectedDateOfJourney.add(1, 'seconds').toDate()
     )
-    expect(claim.childVisitor).to.equal(VALID_CHILD_VISITOR)
-    expect(claim.isRepeatDuplicateClaim).to.equal(VALID_IS_REPEAT_DUPLICATE_CLAIM)
     expect(claim.isAdvanceClaim).to.equal(VALID_IS_ADVANCE_CLAIM)
   })
 
   it('should return isRequired errors given empty strings', function () {
     try {
-      claim = new NewClaim('', '', '', '', '', false, '')
+      claim = new NewClaim('', '', '', '', false)
       expect(false, 'should have throw validation error').to.be.true
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
       expect(e.validationErrors['Reference'][0]).to.equal('Reference is required')
       expect(e.validationErrors['DateOfJourney'][0]).to.equal('Date of prison visit was invalid')
-      expect(e.validationErrors['child-visitor'][0]).to.equal('Children on visit is required')
     }
   })
 
@@ -72,8 +66,6 @@ describe('services/domain/new-claim', function () {
         futureDate.date(),
         futureDate.month() + 1,
         futureDate.year(),
-        VALID_CHILD_VISITOR,
-        false,
         VALID_IS_ADVANCE_CLAIM
       )
       expect(false, 'should have throw validation error').to.be.true
@@ -131,8 +123,6 @@ describe('services/domain/new-claim', function () {
         dateFurtherThan28Days.date(),
         dateFurtherThan28Days.month() + 1,
         dateFurtherThan28Days.year(),
-        VALID_CHILD_VISITOR,
-        false,
         VALID_IS_ADVANCE_CLAIM
       )
       expect(false, 'should have throw validation error').to.be.true

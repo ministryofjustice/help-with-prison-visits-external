@@ -1,0 +1,68 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  {% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h2 class="heading-large">
+        Are you bringing an escort?
+      </h2>
+
+      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/has-escort" method="post">
+
+        <div id="has-escort" class="form-group {% if errors['has-escort'][0] %} error {% endif %}">
+
+          <h2 class="form-label-bold">Did you bring an escort on this visit?</h2>
+
+          {% if errors['has-escort'][0] %}
+            <span class="error-message">{{ errors['has-escort'][0] }}</span>
+          {% endif %}
+
+          <fieldset>
+
+            <label for="escort-yes" class="block-label inline">
+              <input id="escort-yes"
+                     type="radio"
+                     name="has-escort"
+                     value="yes"
+                     {% if claim['has-escort'] == 'yes' %} checked {% endif %}>
+              Yes
+            </label>
+            <label for="escort-no" class="block-label inline">
+              <input id="escort-no"
+                     type="radio"
+                     name="has-escort"
+                     value="no"
+                     {% if claim['has-escort'] == 'no' %} checked {% endif %}>
+              No
+            </label>
+
+          </fieldset>
+
+        </div>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="has-escort-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}
