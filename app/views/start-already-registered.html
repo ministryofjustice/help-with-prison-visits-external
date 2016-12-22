@@ -16,14 +16,14 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Already registered?
+        What is your reference number?
       </h2>
 
-      <p>With your reference number, you can sign in and:</p>
+      <p>Use your reference number to:</p>
 
       <ul class="list-bullet">
-        <li>apply without having to enter all of the information again</li>
-        <li>return to saved applications</li>
+        <li>apply for another visit without entering all of your information again</li>
+        <li>return to ongoing applications</li>
       </ul>
 
       <br>
@@ -37,7 +37,7 @@
             <span class="error-message">{{ errors['reference'][0] }}</span>
           {% endif %}
 
-          <p class="form-hint">for example, APVS123</p>
+          <p class="form-hint">For example, P1FD187</p>
           <input id="reference"
                  name="reference"
                  type="text"
@@ -52,7 +52,7 @@
 
             <div id="dob" class="form-date">
 
-              <label class="form-label-bold">Date of birth</label>
+              <label class="form-label-bold">Your date of birth</label>
 
               {% if errors['dob'][0] %}
                 <span class="error-message">{{ errors['dob'][0] }}</span>
