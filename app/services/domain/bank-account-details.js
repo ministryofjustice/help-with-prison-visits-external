@@ -3,9 +3,10 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 
 class BankAccountDetails {
-  constructor (accountNumber, sortCode) {
+  constructor (accountNumber, sortCode, termsAndConiditions) {
     this.accountNumber = accountNumber.replace(/ /g, '')
     this.sortCode = sortCode.replace(/ /g, '')
+    this.termsAndConiditions = termsAndConiditions
     this.IsValid()
   }
 
@@ -21,6 +22,9 @@ class BankAccountDetails {
       .isRequired()
       .isNumeric()
       .isLength(6)
+
+    FieldValidator(this.termsAndConiditions, 'terms-and-conditions', errors)
+      .isRequired()
 
     var validationErrors = errors.get()
 

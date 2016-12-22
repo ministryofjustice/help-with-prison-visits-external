@@ -136,6 +136,7 @@ describe('Repeat claim with new eligibility details', function () {
       .waitForExist('#bank-account-details-submit')
       .setValue('#account-number-input', '00123456')
       .setValue('#sort-code-input', '001122')
+      .click('[for="terms-and-conditions-input"]')
       .click('#bank-account-details-submit')
 
       // Application submitted
