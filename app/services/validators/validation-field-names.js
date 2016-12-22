@@ -46,6 +46,6 @@ module.exports = {
   'rating': 'Rating of service',
   'improve-service': 'Message',
   'has-escort': 'response',
-  'has-child': 'response'
+  'has-child': 'response',
   'ticket-owner': 'A ticket owner'
 }
