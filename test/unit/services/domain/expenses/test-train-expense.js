@@ -7,7 +7,7 @@ describe('services/domain/expenses/train-expense', function () {
   const VALID_FROM = 'some from'
   const VALID_TO = 'some to'
   const VALID_IS_RETURN = 'yes'
-  const VALID_IS_CHILD = 'yes'
+  const VALID_TICKET_OWNER = 'you'
   const INVALID_COST = '0'
 
   const INVALID_CHARS_FROM = '&lt>><somewhere<>>>>&gt'
@@ -19,13 +19,13 @@ describe('services/domain/expenses/train-expense', function () {
       VALID_FROM,
       VALID_TO,
       VALID_IS_RETURN,
-      VALID_IS_CHILD
+      VALID_TICKET_OWNER
     )
     expect(expense.cost).to.equal(VALID_COST)
     expect(expense.from).to.equal(VALID_FROM)
     expect(expense.to).to.equal(VALID_TO)
     expect(expense.isReturn).to.equal(VALID_IS_RETURN)
-    expect(expense.isChild).to.equal(VALID_IS_CHILD)
+    expect(expense.ticketOwner).to.equal(VALID_TICKET_OWNER)
   })
 
   it('should strip illegal characters from otherwise valid input', function () {
@@ -35,13 +35,13 @@ describe('services/domain/expenses/train-expense', function () {
       INVALID_CHARS_FROM,
       INVALID_CHARS_TO,
       VALID_IS_RETURN,
-      VALID_IS_CHILD
+      VALID_TICKET_OWNER
     )
     expect(expense.cost).to.equal(VALID_COST)
     expect(expense.from).to.equal(INVALID_CHARS_FROM.replace(unsafeInputPattern, ''))
     expect(expense.to).to.equal(INVALID_CHARS_TO.replace(unsafeInputPattern, ''))
     expect(expense.isReturn).to.equal(VALID_IS_RETURN)
-    expect(expense.isChild).to.equal(VALID_IS_CHILD)
+    expect(expense.ticketOwner).to.equal(VALID_TICKET_OWNER)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -51,7 +51,7 @@ describe('services/domain/expenses/train-expense', function () {
         VALID_FROM,
         VALID_TO,
         VALID_IS_RETURN,
-        VALID_IS_CHILD
+        VALID_TICKET_OWNER
       ).isValid()
     }).to.throw(ValidationError)
   })

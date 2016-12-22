@@ -1,6 +1,7 @@
 const expect = require('chai').expect
 
 const claimExpenseHelper = require('../../../../app/views/helpers/claim-expense-helper')
+const ticketOwnerEnum = require('../../../../app/constants/ticket-owner-enum')
 
 describe('views/helpers/claim-expense-helper', function () {
   const FROM = 'PointA'
@@ -8,7 +9,9 @@ describe('views/helpers/claim-expense-helper', function () {
   const DURATION_OF_TRAVEL = '2'
   const TICKET_TYPE = 'foot-passenger'
 
-  const CHILD_PREFIX = 'Child - '
+  const CHILD_PREFIX = ticketOwnerEnum.CHILD.displayValue + ' - '
+  const YOU_PREFIX = ticketOwnerEnum.YOU.displayValue + ' - '
+  const ESCORT_PREFIX = ticketOwnerEnum.ESCORT.displayValue + ' - '
   const RETURN_POSTFIX = ' - Return'
 
   it('should return formatted detail string for ClaimExpense', function () {
@@ -38,17 +41,45 @@ describe('views/helpers/claim-expense-helper', function () {
   })
 
   it('should prepend child prefix for bus, train, plane, and ferry expenses', function () {
-    expect(claimExpenseHelper({ ExpenseType: 'bus', From: FROM, To: TO, IsChild: true }))
+    expect(claimExpenseHelper({ ExpenseType: 'bus', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.CHILD.value }))
       .to.equal(`${CHILD_PREFIX}${FROM} to ${TO}`)
 
-    expect(claimExpenseHelper({ ExpenseType: 'train', From: FROM, To: TO, IsChild: true }))
+    expect(claimExpenseHelper({ ExpenseType: 'train', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.CHILD.value }))
       .to.equal(`${CHILD_PREFIX}${FROM} to ${TO}`)
 
-    expect(claimExpenseHelper({ ExpenseType: 'plane', From: FROM, To: TO, IsChild: true }))
+    expect(claimExpenseHelper({ ExpenseType: 'plane', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.CHILD.value }))
       .to.equal(`${CHILD_PREFIX}${FROM} to ${TO}`)
 
-    expect(claimExpenseHelper({ ExpenseType: 'ferry', From: FROM, To: TO, IsChild: true, TicketType: TICKET_TYPE }))
+    expect(claimExpenseHelper({ ExpenseType: 'ferry', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.CHILD.value, TicketType: TICKET_TYPE }))
       .to.equal(`${CHILD_PREFIX}${FROM} to ${TO} as a foot passenger`)
+  })
+
+  it('should prepend you prefix for bus, train, plane, and ferry expenses', function () {
+    expect(claimExpenseHelper({ ExpenseType: 'bus', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.YOU.value }))
+      .to.equal(`${YOU_PREFIX}${FROM} to ${TO}`)
+
+    expect(claimExpenseHelper({ ExpenseType: 'train', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.YOU.value }))
+      .to.equal(`${YOU_PREFIX}${FROM} to ${TO}`)
+
+    expect(claimExpenseHelper({ ExpenseType: 'plane', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.YOU.value }))
+      .to.equal(`${YOU_PREFIX}${FROM} to ${TO}`)
+
+    expect(claimExpenseHelper({ ExpenseType: 'ferry', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.YOU.value, TicketType: TICKET_TYPE }))
+      .to.equal(`${YOU_PREFIX}${FROM} to ${TO} as a foot passenger`)
+  })
+
+  it('should prepend escort prefix for bus, train, plane, and ferry expenses', function () {
+    expect(claimExpenseHelper({ ExpenseType: 'bus', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.ESCORT.value }))
+      .to.equal(`${ESCORT_PREFIX}${FROM} to ${TO}`)
+
+    expect(claimExpenseHelper({ ExpenseType: 'train', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.ESCORT.value }))
+      .to.equal(`${ESCORT_PREFIX}${FROM} to ${TO}`)
+
+    expect(claimExpenseHelper({ ExpenseType: 'plane', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.ESCORT.value }))
+      .to.equal(`${ESCORT_PREFIX}${FROM} to ${TO}`)
+
+    expect(claimExpenseHelper({ ExpenseType: 'ferry', From: FROM, To: TO, TicketOwner: ticketOwnerEnum.ESCORT.value, TicketType: TICKET_TYPE }))
+      .to.equal(`${ESCORT_PREFIX}${FROM} to ${TO} as a foot passenger`)
   })
 
   it('should append return postfix for bus, train, plane, and ferry expenses', function () {
