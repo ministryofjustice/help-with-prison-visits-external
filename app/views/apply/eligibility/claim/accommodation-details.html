@@ -31,12 +31,13 @@
             <span class="error-message">{{ errors['duration'][0] }}</span>
           {% endif %}
 
+          <p class="form-hint">For example, 1</p>
+
           <input id="duration-input"
                  type="text"
                  name="duration"
                  value="{{ expense['duration'] }}"
                  class="form-control">
-          <p class="form-hint">For example, 1</p>
         </div>
 
         {% set costExample = 50 %}

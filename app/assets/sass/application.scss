@@ -372,7 +372,7 @@ span.bold {
 }
 
 .date-of-birth {
-    margin-bottom: 0px !important;
+    margin-bottom: 0px!important;
 }
 
 .button.grey {
@@ -399,6 +399,24 @@ span.bold {
 .expense-padding {
     padding-top: 0.1em;
     padding-right: 0.5em;
+}
+
+.hide-border input{
+    border: none!important;
+    padding-left: 0px;
+}
+
+.pound-wrapper span {
+    font-size: 19px;
+    background-color: #dee0e2;
+    position: absolute;
+    padding: 5px 10px 4px 10px;
+    margin: 2px 0 0px 2px;
+    border-right: 1px solid #bfc1c3
+}
+
+.pound-wrapper input {
+  padding-left: 40px;
 }
 
 tr.no-border td{
