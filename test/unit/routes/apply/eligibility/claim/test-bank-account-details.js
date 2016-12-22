@@ -16,7 +16,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
   const VALID_DATA = {
     'AccountNumber': '12345678',
     'SortCode': '123456',
-    'terms': 'yes'
+    'terms-and-conditions-input': 'yes'
   }
 
   var app
@@ -78,7 +78,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
+          sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
           sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newBankAccountDetails)
           sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined)
         })
