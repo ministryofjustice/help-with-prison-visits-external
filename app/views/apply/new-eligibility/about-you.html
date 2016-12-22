@@ -59,6 +59,8 @@
                  value="{{ visitor['NationalInsuranceNumber'] }}">
         </div>
 
+        <p class="heading-medium">Address</p>
+
         <div class="form-group {% if errors['HouseNumberAndStreet'][0] %} error {% endif %}">
           <label id="HouseNumberAndStreet" class="form-label-bold" for="house-number-and-street-input">House number and
             street</label>
@@ -122,6 +124,8 @@
             <option {% if visitor['Country'] == 'Northern Ireland' %} selected {% endif %} id="country-ni">Northern Ireland</option>
           </select>
         </div>
+
+        <p class="heading-medium">Contact Details</p>
 
         <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
           <label id="EmailAddress" class="form-label-bold" for="email-address-input">Email address</label>
