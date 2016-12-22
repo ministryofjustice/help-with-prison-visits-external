@@ -13,16 +13,13 @@ module.exports = function (router) {
     return res.render('apply/eligibility/new-claim/journey-information', {
       claimType: req.params.claimType,
       referenceId: req.params.referenceId,
-      advanceOrPast: req.params.advanceOrPast,
-      isRepeatDuplicateClaim: isRepeatDuplicateClaim(req.params.claimType)
+      advanceOrPast: req.params.advanceOrPast
     })
   })
 
   router.post('/apply/:claimType/eligibility/:referenceId/new-claim/:advanceOrPast', function (req, res, next) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
-    var repeatDuplicateClaim = isRepeatDuplicateClaim(req.params.claimType)
-
     var isAdvancedClaim = req.params.advanceOrPast === 'advance'
 
     try {
@@ -31,19 +28,13 @@ module.exports = function (router) {
         req.body['date-of-journey-day'],
         req.body['date-of-journey-month'],
         req.body['date-of-journey-year'],
-        req.body['child-visitor'],
-        repeatDuplicateClaim,
         isAdvancedClaim
       )
 
-      if (!repeatDuplicateClaim) {
+      if (!isRepeatDuplicateClaim(req.params.claimType)) {
         insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimType, newClaim)
           .then(function (claimId) {
-            if (req.body['child-visitor'] === 'yes') {
-              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${claimId}/child`)
-            } else {
-              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${claimId}`)
-            }
+            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${claimId}/has-escort`)
           })
           .catch(function (error) {
             next(error)
@@ -64,7 +55,6 @@ module.exports = function (router) {
           claimType: req.params.claimType,
           referenceId: req.params.referenceId,
           advanceOrPast: req.params.advanceOrPast,
-          isRepeatDuplicateClaim: repeatDuplicateClaim,
           claim: req.body
         })
       } else {

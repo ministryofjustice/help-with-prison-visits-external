@@ -67,8 +67,27 @@ describe('First Time Claim Flow', () => {
       .setValue('#date-of-journey-day', todaysDate.date())
       .setValue('#date-of-journey-month', todaysDate.month() + 1)
       .setValue('#date-of-journey-year', todaysDate.year())
-      .click('[for="child-yes"]')
       .click('#journey-information-submit')
+
+      // Has Escort
+      .waitForExist('#has-escort-submit')
+      .click('[for="escort-yes"]')
+      .click('#has-escort-submit')
+
+      // Escort
+      .waitForExist('#about-escort-submit')
+      .setValue('#first-name-input', 'Frank')
+      .setValue('#last-name-input', 'Smith')
+      .setValue('#dob-day', '15')
+      .setValue('#dob-month', '07')
+      .setValue('#dob-year', '1985')
+      .setValue('#national-insurance-number-input', 'BB123456B')
+      .click('#about-escort-submit')
+
+      // Has Child
+      .waitForExist('#has-child-submit')
+      .click('[for="child-yes"]')
+      .click('#has-child-submit')
 
       // About Child #1
       .waitForExist('#about-child-submit')

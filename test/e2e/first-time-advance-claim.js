@@ -67,8 +67,17 @@ describe('First Time Claim Flow', () => {
       .setValue('#date-of-journey-day', futureDate.date())
       .setValue('#date-of-journey-month', futureDate.month() + 1)
       .setValue('#date-of-journey-year', futureDate.year())
-      .click('[for="child-no"]')
       .click('#journey-information-submit')
+
+      // Has Escort
+      .waitForExist('#has-escort-submit')
+      .click('[for="escort-no"]')
+      .click('#has-escort-submit')
+
+      // Has Child
+      .waitForExist('#has-child-submit')
+      .click('[for="child-no"]')
+      .click('#has-child-submit')
 
       // Expense
       .waitForExist('#expenses-submit')

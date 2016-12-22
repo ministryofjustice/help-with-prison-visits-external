@@ -65,8 +65,17 @@ describe('Repeat claim with new contact details', function () {
       .setValue('#date-of-journey-day', todaysDate.date())
       .setValue('#date-of-journey-month', todaysDate.month() + 1)
       .setValue('#date-of-journey-year', todaysDate.year())
-      .click('[for="child-no"]')
       .click('#journey-information-submit')
+
+      // Has Escort
+      .waitForExist('#has-escort-submit')
+      .click('[for="escort-no"]')
+      .click('#has-escort-submit')
+
+      // Has Child
+      .waitForExist('#has-child-submit')
+      .click('[for="child-no"]')
+      .click('#has-child-submit')
 
       // Expense
       .waitForExist('#expenses-submit')
