@@ -45,5 +45,7 @@ module.exports = {
   'send-message-to-caseworker': 'Message to caseworkers',
   'rating': 'Rating of service',
   'improve-service': 'Message',
+  'has-escort': 'response',
+  'has-child': 'response'
   'ticket-owner': 'A ticket owner'
 }

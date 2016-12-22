@@ -21,6 +21,9 @@ var routes = [
   require('./apply/eligibility/new-claim/future-or-past-visit'),
   require('./apply/eligibility/new-claim/same-journey-as-last-claim'),
   require('./apply/eligibility/new-claim/journey-information'),
+  require('./apply/eligibility/claim/has-escort'),
+  require('./apply/eligibility/claim/about-escort'),
+  require('./apply/eligibility/claim/has-child'),
   require('./apply/eligibility/claim/about-child'),
   require('./apply/eligibility/claim/expenses'),
 
