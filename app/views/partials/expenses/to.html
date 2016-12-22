@@ -5,10 +5,11 @@
   <span class="error-message">{{ errors['to'][0] }}</span>
   {% endif %}
 
+  <p class="form-hint">For example, {{ exampleTo }}</p>
+
   <input id="to-input"
          type="text"
          name="to"
          value="{{ expense['to'] }}"
          class="form-control">
-  <p class="form-hint">For example, {{ exampleTo }}</p>
 </div>

@@ -21,7 +21,7 @@
 
       <form action="/apply/{{ claimType }}/new-eligibility" method="post">
 
-        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
+        <div class="form-group date-of-birth {% if errors['dob'][0] %} error {% endif %}">
           <fieldset>
 
             {% if errors['dob'][0] %}
@@ -63,15 +63,16 @@
 
           </fieldset>
           <br>
-          <p class="form-hint">You must be over 16 to be eligible for assistance</p>
+          <p class="form-hint">You must be over 16 to apply.</p>
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="date-of-birth-submit"
-               type="submit"
-               value="Continue"
-               class="button">
+        <div class="form-group">
+          <input id="date-of-birth-submit"
+                 type="submit"
+                 value="Continue"
+                 class="button">
+        </div>
       </form>
 
     </div>
