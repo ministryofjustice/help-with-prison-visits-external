@@ -124,10 +124,10 @@ describe('First Time Claim Flow', () => {
 
       // Bus #1 (adult expense)
       .waitForExist('#bus-details-submit')
+      .click('[for="is-child-ticket"]')
       .setValue('#from-input', 'Euston')
       .setValue('#to-input', 'Birmingham New Street')
       .click('[for="return-no"]')
-      .click('[for="is-child-no"]')
       .setValue('#cost-input', '20')
       .click('[for="add-another-journey"]')
       .click('#bus-details-submit')
@@ -137,10 +137,10 @@ describe('First Time Claim Flow', () => {
 
       // Bus #2 (add another journey) (child expense)
       .waitForExist('#bus-details-submit')
+      .click('[for="is-escort-ticket"]')
       .setValue('#from-input', 'Birmingham New Street')
       .setValue('#to-input', 'Euston')
       .click('[for="return-no"]')
-      .click('[for="is-child-yes"]')
       .setValue('#cost-input', '20')
       .click('#bus-details-submit')
 
