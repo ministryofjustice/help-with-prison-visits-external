@@ -6,6 +6,8 @@ const referenceGenerator = require('../reference-generator')
 const dateFormatter = require('../date-formatter')
 
 module.exports = function (aboutThePrisoner, claimType, existingReference) {
+  console.log(`existingReference: ${existingReference}`)
+
   var reference
   if (claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY && existingReference) {
     reference = existingReference
