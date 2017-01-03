@@ -9,6 +9,7 @@ const FileUpload = require('../../../../services/domain/file-upload')
 const ClaimDocumentInsert = require('../../../../services/data/insert-file-upload-details-for-claim')
 const csrfProtection = require('csurf')({ cookie: true })
 const generateCSRFToken = require('../../../../services/generate-csrf-token')
+const decrypt = require('../../../../services/helpers/decrypt')
 var csrfToken
 
 module.exports = function (router) {
@@ -34,7 +35,8 @@ function get (req, res) {
   UrlPathValidator(req.params)
 
   if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
-    DirectoryCheck(req.params.referenceId, req.params.claimId, req.query.claimExpenseId, req.query.document)
+    var decryptedRef = getDecryptedReference(req.params)
+    DirectoryCheck(decryptedRef, req.params.claimId, req.query.claimExpenseId, req.query.document)
     return res.render('apply/eligibility/claim/file-upload', {
       document: req.query.document,
       fileUploadGuidingText: DocumentTypeEnum,
@@ -48,6 +50,7 @@ function get (req, res) {
 
 function post (req, res, next, redirectURL) {
   UrlPathValidator(req.params)
+
   var reference
   var id
   if (req.params.referenceId) {
@@ -55,7 +58,7 @@ function post (req, res, next, redirectURL) {
     reference = referenceAndEligibility.reference
     id = referenceAndEligibility.id
   } else {
-    reference = req.params.reference
+    reference = decrypt(req.params.reference)
     id = req.query.eligibilityId
   }
 
@@ -99,3 +102,12 @@ function post (req, res, next, redirectURL) {
   })
 }
 
+function getDecryptedReference (requestParams) {
+  if (requestParams.referenceId) {
+    return decrypt(requestParams.referenceId)
+  } else if (requestParams.reference) {
+    return decrypt(requestParams.reference)
+  } else {
+    return null
+  }
+}
