@@ -1,12 +1,47 @@
 config:
   target: 'http://localhost:3000'
   phases:
-    - duration: 10
-      arrivalRate: 5
+    - duration: 1
+      arrivalRate: 1
   processor: './load-test-helper.js'
 
 scenarios:
   - flow:
       - get:
           url: '/'
+      - think: 1
+      - get:
+          url: '/start'
+      - think: 1
+      - get:
+          url: '/apply/first-time/new-eligibility'
+      - think: 1
+      - get:
+          url: '/apply/first-time/new-eligibility/1983-08-08'
+      - think: 1
+      - get:
+          url: '/apply/first-time/new-eligibility/1983-08-08/child'
+      - think: 1
+      - get:
+          url: '/apply/first-time/new-eligibility/1983-08-08/child/income-support'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 1
+      - post:
+          url: '/apply/first-time/new-eligibility/1983-08-08/child/income-support'
+          json:
+            FirstName: 'Test'
+            LastName: 'Testing'
+            dob-day: 9
+            dob-month: 9
+            dob-year: 1984
+            PrisonerNumber: A1234BC
+            NameOfPrison: Hewell
+            _csrf: '{{ token.value }}'
+          capture:
+            header: 'location'
+            as: 'aboutYouUrl'
       - think: 3
+      - get:
+          url: '{{ aboutYouUrl }}'
