@@ -9,7 +9,7 @@ scenarios:
   - flow:
       - get:
           url: '/'
-      - think: 1
+      - think: 5
       - get:
           url: '/start'
       - think: 1
@@ -45,3 +45,24 @@ scenarios:
       - think: 3
       - get:
           url: '{{ aboutYouUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - post:
+          url: '{{ aboutYouUrl }}'
+          json:
+          FirstName: John
+          LastName: Tester
+          NationalInsuranceNumber: JL243522B
+          HouseNumberAndStreet: '123 Street Name'
+          Town: 'Testing'
+          County: 'Antrim'
+          PostCode: 'BT7 1NT'
+          Country: 'England'
+          EmailAddress: 'donotsend@apvs.com'
+          PhoneNumber: '012345678'
+          _csrf: '{{ token.value }}'
+        capture:
+          header: 'location'
+          as: madeVisitUrl
+      - think: 2
