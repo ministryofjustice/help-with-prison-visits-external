@@ -24,6 +24,7 @@
     "test-e2e-chrome-jenkins": "wdio test/wdio.conf.sauce.chrome.jenkins.js",
     "test-e2e-ios": "wdio test/wdio.conf.sauce.ios.js",
     "test-e2e-android": "wdio test/wdio.conf.sauce.android.js",
+    "test-load": "node_modules/.bin/artillery run test/load/scenarios.yaml",
     "migrations": "knex migrate:latest --env migrations",
     "rollback": "knex migrate:rollback --env migrations"
   },
@@ -79,6 +80,7 @@
     "validator": "^6.0.0"
   },
   "devDependencies": {
+    "artillery": "^1.5.0-20",
     "assert": "^1.4.1",
     "chai": "^3.5.0",
     "gulp-webdriver": "^2.0.2",

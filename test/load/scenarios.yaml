@@ -1,0 +1,12 @@
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 10
+      arrivalRate: 5
+  processor: './load-test-helper.js'
+
+scenarios:
+  - flow:
+      - get:
+          url: '/'
+      - think: 3
