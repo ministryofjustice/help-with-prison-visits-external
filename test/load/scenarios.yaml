@@ -1,8 +1,8 @@
 config:
   target: 'http://localhost:3000'
   phases:
-    - duration: 1
-      arrivalRate: 1
+    - duration: 5
+      arrivalRate: 2
   processor: './load-test-helper.js'
 
 scenarios:
@@ -10,25 +10,25 @@ scenarios:
   - flow:
       - get:
           url: '/'
-      #- think: 5
+      - think: 5
       - get:
           url: '/start'
-      #- think: 2
+      - think: 2
       - get:
           url: '/apply/first-time/new-eligibility'
-      #- think: 2
+      - think: 2
       - get:
           url: '/apply/first-time/new-eligibility/1983-08-08'
-      #- think: 2
+      - think: 2
       - get:
           url: '/apply/first-time/new-eligibility/1983-08-08/child'
-      #- think: 2
+      - think: 2
       - get:
           url: '/apply/first-time/new-eligibility/1983-08-08/child/income-support'
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
-      #- think: 2
+      - think: 2
       - post:
           url: '/apply/first-time/new-eligibility/1983-08-08/child/income-support'
           json:
@@ -43,7 +43,7 @@ scenarios:
           capture:
             header: 'location'
             as: 'aboutYouUrl'
-      #- think: 3
+      - think: 3
       - get:
           url: '{{ aboutYouUrl }}'
           capture:
@@ -66,7 +66,7 @@ scenarios:
           capture:
             header: 'location'
             as: madeVisitUrl
-      #- think: 2
+      - think: 2
       - get:
           url: '{{ madeVisitUrl }}'
       - get:
@@ -74,7 +74,7 @@ scenarios:
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
-      #- think: 3
+      - think: 3
       - post:
           url: '{{ madeVisitUrl }}/past'
           json:
@@ -88,7 +88,7 @@ scenarios:
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
-      #- think: 2
+      - think: 2
       - post:
           url: '{{ escortUrl }}'
           json:
@@ -102,7 +102,7 @@ scenarios:
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
-      #- think: 2
+      - think: 2
       - post:
           url: '{{ childUrl }}'
           json:
@@ -116,7 +116,7 @@ scenarios:
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
-      #- think: 5
+      - think: 5
       - post:
           url: '{{ transportUrl }}'
           json:
@@ -130,7 +130,7 @@ scenarios:
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
-      #- think: 5
+      - think: 5
       - post:
           url: '{{ journeyUrl }}'
           json:
@@ -148,7 +148,7 @@ scenarios:
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
-      #- think: 5
+      - think: 5
       - post:
           url: '{{ refreshmentUrl }}'
           json:
@@ -168,4 +168,12 @@ scenarios:
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
+      - post:
+          url: '{{ visitConfirmation.href }}'
+          formData:
+            commit: 'Continue'
+          beforeRequest: attachVisitConfirmation
+          capture:
+            header: 'location'
+            as: summaryUrl
 
