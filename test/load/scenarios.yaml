@@ -1,12 +1,12 @@
 config:
   target: 'http://localhost:3000'
   phases:
-    - duration: 5
+    - duration: 10
       arrivalRate: 2
   processor: './load-test-helper.js'
 
 scenarios:
-  # Scenario for First Time Claim submission
+  # Scenario for end-to-end First Time Claim submission
   - flow:
       - get:
           url: '/'
@@ -168,12 +168,57 @@ scenarios:
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
+      - think: 3
       - post:
           url: '{{ visitConfirmation.href }}'
           formData:
             commit: 'Continue'
-          beforeRequest: attachVisitConfirmation
+          beforeRequest: attachImageFile
           capture:
             header: 'location'
             as: summaryUrl
-
+      - get:
+          url: '{{ summaryUrl }}'
+          capture:
+            selector: ".add-expense-receipt"
+            as: addReceipt
+      - get:
+          url: '{{ addReceipt.href }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 3
+      - post:
+          url: '{{ addReceipt.href }}'
+          json:
+            _csrf: '{{ token.value }}'
+            alternative: 'post-later'
+          capture:
+             - header: 'location'
+               as: summaryUrl
+             - header: 'location'
+               transform: this.bankDetails.replace('summary', 'bank-account-details')
+               as: bankDetails
+      - get:
+          url: '{{ summaryUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - get:
+          url: '{{ bankDetails }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 3
+      - post:
+          url: '{{ bankDetails }}'
+          json:
+            _csrf: '{{ token.value }}'
+            AccountNumber: '22334455'
+            SortCode: '112233'
+            terms-and-conditions-input: 'yes'
+          capture:
+            header: 'location'
+            as: applicationSubmitted
+      - get:
+          url: '{{ applicationSubmitted }}'

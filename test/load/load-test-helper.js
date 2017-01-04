@@ -2,7 +2,7 @@ var fs = require('fs')
 
 module.exports = {
   setVisitDate: setVisitDate,
-  attachVisitConfirmation: attachVisitConfirmation
+  attachImageFile: attachImageFile
 }
 
 // Date of visit needs to be dynamically set to a recent day in the past
@@ -17,8 +17,8 @@ function setVisitDate (requestParams, context, ee, next) {
   return next()
 }
 
-// Load the dummy visit confirmation image from disk and add to form data
-function attachVisitConfirmation (requestParams, context, ee, next) {
+// Load the dummy visit confirmation or receipt image from disk and add to form data
+function attachImageFile (requestParams, context, ee, next) {
   requestParams.formData['_csrf'] = context.vars.token.value
   const imageContents = fs.createReadStream('./data/visit-confirmation.jpg')
   requestParams.formData['document'] = imageContents
