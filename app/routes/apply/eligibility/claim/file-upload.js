@@ -10,7 +10,6 @@ const ClaimDocumentInsert = require('../../../../services/data/insert-file-uploa
 const csrfProtection = require('csurf')({ cookie: true })
 const generateCSRFToken = require('../../../../services/generate-csrf-token')
 var csrfToken
-const logger = require('../../../../services/log')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/file-upload', function (req, res) {
@@ -62,11 +61,8 @@ function post (req, res, next, redirectURL) {
 
   Upload(req, res, function (error) {
     try {
-      logger.info('Request contents:')
-      logger.info(req.file)
       // If there was no file attached, we still need to check the CSRF token
       if (!req.file) {
-        logger.info('No file was detected')
         csrfProtection(req, res, function (error) {
           if (error) { throw error }
         })
@@ -75,7 +71,6 @@ function post (req, res, next, redirectURL) {
         throw new ValidationError({upload: [ERROR_MESSAGES.getUploadTooLarge]})
       } else {
         if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
-          logger.info('Valid - creating FileUpload object')
           var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.error, req.body.alternative)
 
           ClaimDocumentInsert(reference, id, req.params.claimId, fileUpload).then(function () {
