@@ -10,25 +10,25 @@ scenarios:
   - flow:
       - get:
           url: '/'
-      - think: 5
+      #- think: 5
       - get:
           url: '/start'
-      - think: 2
+      #- think: 2
       - get:
           url: '/apply/first-time/new-eligibility'
-      - think: 2
+      #- think: 2
       - get:
           url: '/apply/first-time/new-eligibility/1983-08-08'
-      - think: 2
+      #- think: 2
       - get:
           url: '/apply/first-time/new-eligibility/1983-08-08/child'
-      - think: 2
+      #- think: 2
       - get:
           url: '/apply/first-time/new-eligibility/1983-08-08/child/income-support'
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
-      - think: 2
+      #- think: 2
       - post:
           url: '/apply/first-time/new-eligibility/1983-08-08/child/income-support'
           json:
@@ -43,7 +43,7 @@ scenarios:
           capture:
             header: 'location'
             as: 'aboutYouUrl'
-      - think: 3
+      #- think: 3
       - get:
           url: '{{ aboutYouUrl }}'
           capture:
@@ -66,7 +66,7 @@ scenarios:
           capture:
             header: 'location'
             as: madeVisitUrl
-      - think: 2
+      #- think: 2
       - get:
           url: '{{ madeVisitUrl }}'
       - get:
@@ -74,7 +74,7 @@ scenarios:
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
-      - think: 3
+      #- think: 3
       - post:
           url: '{{ madeVisitUrl }}/past'
           json:
@@ -83,5 +83,89 @@ scenarios:
           capture:
             header: 'location'
             as: escortUrl
-      - think: 2
+      - get:
+          url: '{{ escortUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      #- think: 2
+      - post:
+          url: '{{ escortUrl }}'
+          json:
+            has-escort: 'no'
+            _csrf: '{{ token.value }}'
+          capture:
+            header: 'location'
+            as: childUrl
+      - get:
+          url: '{{ childUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      #- think: 2
+      - post:
+          url: '{{ childUrl }}'
+          json:
+            has-child: 'no'
+            _csrf: '{{ token.value }}'
+          capture:
+            header: 'location'
+            as: transportUrl
+      - get:
+          url: '{{ transportUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      #- think: 5
+      - post:
+          url: '{{ transportUrl }}'
+          json:
+            expenses: ['train', 'refreshment']
+            _csrf: '{{ token.value }}'
+          capture:
+            header: 'location'
+            as: journeyUrl
+      - get:
+          url: '{{ journeyUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      #- think: 5
+      - post:
+          url: '{{ journeyUrl }}'
+          json:
+            _csrf: '{{ token.value }}'
+            from: 'Euston'
+            to: 'Birmingham New Street'
+            return-journey: 'no'
+            is-child: 'no'
+            cost: '24.99'
+          capture:
+            header: 'location'
+            as: refreshmentUrl
+      - get:
+          url: '{{ refreshmentUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      #- think: 5
+      - post:
+          url: '{{ refreshmentUrl }}'
+          json:
+            _csrf: '{{ token.value }}'
+            cost: '2'
+            travel-time: 'over-five'
+          capture:
+            header: 'location'
+            as: summaryUrl
+      - get:
+          url: '{{ summaryUrl }}'
+          capture:
+            selector: "a[id=add-visit-confirmation]"
+            as: visitConfirmation
+      - get:
+          url: '{{ visitConfirmation.href }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
 
