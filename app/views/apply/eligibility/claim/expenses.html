@@ -23,123 +23,12 @@
         for all parts of the journey, except for car or motorcycle travel.</p>
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}" method="post">
-        <div class="form-group">
 
-          {% if not isNorthernIrelandClaim %}
-          <fieldset>
-
-            <label for="car" class="block-label">
-              <input id="car"
-                     type="checkbox"
-                     name="expenses"
-                     value="car">
-              Car/Motorcycle
-            </label>
-            <label for="train" class="block-label">
-              <input id="train"
-                     type="checkbox"
-                     name="expenses"
-                     value="train">
-              Train (standard class)
-            </label>
-            <label for="bus" class="block-label">
-              <input id="bus"
-                     type="checkbox"
-                     name="expenses"
-                     value="bus">
-              Bus
-            </label>
-            <label for="hire" class="block-label">
-              <input id="hire"
-                     type="checkbox"
-                     name="expenses"
-                     value="hire">
-              Car Hire
-            </label>
-            <label for="taxi" class="block-label">
-              <input id="taxi"
-                     type="checkbox"
-                     name="expenses"
-                     value="taxi">
-              Taxi
-            </label>
-            <label for="ferry" class="block-label">
-              <input id="ferry"
-                     type="checkbox"
-                     name="expenses"
-                     value="ferry">
-              Ferry
-            </label>
-            <label for="plane" class="block-label">
-              <input id="plane"
-                     type="checkbox"
-                     name="expenses"
-                     value="plane">
-              Plane
-            </label>
-
-          </fieldset>
-
-          <h2 class="heading-medium">
-            Did you have any other expenses?
-          </h2>
-
-          <p>You may be able to get help paying for light refreshments and accommodation.</p>
-
-          <fieldset>
-
-            <label for="refreshment" class="block-label">
-              <input id="refreshment"
-                     type="checkbox"
-                     name="expenses"
-                     value="refreshment">
-              Light refreshment
-            </label>
-            <label for="accommodation" class="block-label">
-              <input id="accommodation"
-                     type="checkbox"
-                     name="expenses"
-                     value="accommodation">
-              Accommodation
-            </label>
-
-          </fieldset>
-          {% else %}
-          <fieldset>
-
-            <label for="car-only" class="block-label">
-              <input id="car-only"
-                     type="checkbox"
-                     name="expenses"
-                     value="car-only">
-              Car/Motorcycle
-            </label>
-            <label for="train" class="block-label">
-              <input id="train"
-                     type="checkbox"
-                     name="expenses"
-                     value="train">
-              Train (standard class)
-            </label>
-            <label for="bus" class="block-label">
-              <input id="bus"
-                     type="checkbox"
-                     name="expenses"
-                     value="bus">
-              Bus
-            </label>
-            <label for="taxi" class="block-label">
-              <input id="taxi"
-                     type="checkbox"
-                     name="expenses"
-                     value="taxi">
-              Taxi
-            </label>
-
-          </fieldset>
-          {% endif %}
-
-        </div>
+        {% if not isNorthernIrelandClaim %}
+          {% include "partials/expenses/expenses-list.html" %}
+        {% else %}
+          {% include "partials/expenses/expenses-list-ni.html" %}
+        {% endif %}
 
         {% include "partials/csrf-hidden-input.html" %}
 
