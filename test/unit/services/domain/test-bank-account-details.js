@@ -25,7 +25,7 @@ describe('services/domain/bank-account-details', function () {
       expect(e).to.be.instanceof(ValidationError)
       expect(e.validationErrors['AccountNumber'][0]).to.equal('Account number is required')
       expect(e.validationErrors['SortCode'][0]).to.equal('Sort code is required')
-      expect(e.validationErrors['terms-and-conditions'][0]).to.equal('Argreement to our terms and conditions is required')
+      expect(e.validationErrors['terms-and-conditions'][0]).to.equal('Agreement to our terms and conditions is required')
     }
     done()
   })
