@@ -2,6 +2,7 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+const encrypt = require('../../../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
@@ -10,10 +11,11 @@ describe('routes/apply/eligibility/claim/car-details', function () {
   const REFERENCE = 'V123456'
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
+  const ENCRYPTED_REFERENCEID = encrypt(REFERENCEID)
   const CLAIMID = '1'
-  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/car`
-  const ROUTE_REPEAT = `/apply/repeat/eligibility/${REFERENCEID}/claim/${CLAIMID}/car`
-  const ROUTE_CAR_ONLY = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/car-only`
+  const ROUTE = `/apply/first-time/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/car`
+  const ROUTE_REPEAT = `/apply/repeat/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/car`
+  const ROUTE_CAR_ONLY = `/apply/first-time/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/car-only`
 
   var app
 

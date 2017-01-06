@@ -2,6 +2,7 @@ const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+const encrypt = require('../../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
@@ -54,7 +55,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
           sinon.assert.calledOnce(stubAboutThePrisoner)
           sinon.assert.calledWith(stubInsertNewEligibilityAndPrisoner, newAboutThePrisoner, 'first-time', undefined)
         })
-        .expect('location', `${ROUTE}/${newReference}-${newEligibilityId}`)
+        .expect('location', `${ROUTE}/${encrypt(`${newReference}-${newEligibilityId}`)}`)
     })
 
     it('should respond with a 400 for invalid data', function () {

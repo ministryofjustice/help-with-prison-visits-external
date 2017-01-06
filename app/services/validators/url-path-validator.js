@@ -1,5 +1,6 @@
 const validator = require('./common-validator')
 const VALIDATION_ERROR = new Error('An error has occured')
+const decrypt = require('../../services/helpers/decrypt')
 
 /**
  * A validator for validating URL path paramaeters.
@@ -8,12 +9,23 @@ const VALIDATION_ERROR = new Error('An error has occured')
 class UrlPathValidator {
 
   static validate (path) {
+    if (path['referenceId']) {
+      var referenceId = decrypt(path['referenceId'])
+
+      this.validateParam(referenceId.reference, 'isValidReference')
+      this.validateParam(referenceId.id, 'isValidReferenceId')
+    }
+
+    if (path['reference']) {
+      var reference = decrypt(path['reference'])
+
+      this.validateParam(reference, 'isValidReference')
+    }
+
     this.validateParam(path['claimType'], 'isValidClaimType')
     this.validateParam(path['dob'], 'isValidDateOfBirth')
     this.validateParam(path['relationship'], 'isValidPrisonerRelationship')
     this.validateParam(path['benefit'], 'isValidBenefit')
-    this.validateParam(path['reference'], 'isValidReference')
-    this.validateParam(path['referenceId'], 'isValidReferenceId')
     this.validateParam(path['claimId'], 'isNumeric')
     this.validateParam(path['claimDocumentId'], 'isNumeric')
   }

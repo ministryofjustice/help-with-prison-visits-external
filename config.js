@@ -26,5 +26,8 @@ module.exports = {
 
   // Session and Cookie security (defaults for development)
   EXT_APPLICATION_SECRET: process.env.APVS_EXT_APPLICATION_SECRET || 'secret',
-  EXT_SECURE_COOKIE: process.env.APVS_EXT_SECURE_COOKIE || 'false'
+  EXT_SECURE_COOKIE: process.env.APVS_EXT_SECURE_COOKIE || 'false',
+
+  // Common salt used for hashing reference ids (32 chars)
+  EXT_REFERENCE_SALT: process.env.APVS_EXT_REFERENCE_SALT || 'c1e59a204dd1b24c7130817b834eec69'
 }

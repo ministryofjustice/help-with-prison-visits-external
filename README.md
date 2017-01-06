@@ -84,6 +84,7 @@ To rollback the last batch of changes:
 
 ## Security
 
+### CSRF
 We are using [csurf](https://github.com/expressjs/csurf) for CSRF protection. All `POST` requests must have a valid CSRF token, which is added as a hidden input on HTML forms.
 
 Use the following partial to add the hidden input:
@@ -91,6 +92,12 @@ Use the following partial to add the hidden input:
 ```
 {% include "partials/csrf-hidden-input.html" %}
 ```
+
+### Reference/Reference ID encryption
+In all instances where the Reference or Reference ID is used in the URL, it will be encrypted using AES encryption via the standard Node Crypto package.
+
+Functions for encrypting/decrypting these values have been implemented in app/services/helpers directory.
+
 
 ## Notes
 
