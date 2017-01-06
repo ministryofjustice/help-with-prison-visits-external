@@ -15,6 +15,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
   const CLAIMID = '1'
   const ROUTE = `/apply/first-time/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/car`
   const ROUTE_REPEAT = `/apply/repeat/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/car`
+  const ROUTE_CAR_ONLY = `/apply/first-time/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/car-only`
 
   var app
 
@@ -98,6 +99,15 @@ describe('routes/apply/eligibility/claim/car-details', function () {
     })
   })
 
+  describe(`GET ${ROUTE_CAR_ONLY}`, function () {
+    it('should respond with a 200', function () {
+      getTravellingFromAndToStub.resolves()
+      return supertest(app)
+        .get(ROUTE_CAR_ONLY)
+        .expect(200)
+    })
+  })
+
   describe(`POST ${ROUTE}`, function () {
     const REDIRECT_URL = 'some url'
     const CAR_EXPENSE = {}
@@ -147,6 +157,23 @@ describe('routes/apply/eligibility/claim/car-details', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(500)
+    })
+  })
+
+  describe(`POST ${ROUTE_CAR_ONLY}`, function () {
+    const CAR_EXPENSE = {}
+
+    it('should respond with a 302 if domain object is built and then persisted successfully', function () {
+      carExpenseStub.returns(CAR_EXPENSE)
+      insertCarExpensesStub.resolves()
+      return supertest(app)
+        .post(ROUTE_CAR_ONLY)
+        .expect(function () {
+          sinon.assert.calledOnce(carExpenseStub)
+          sinon.assert.calledOnce(insertCarExpensesStub)
+          sinon.assert.calledWith(insertCarExpensesStub, REFERENCE, ELIGIBILITYID, CLAIMID, CAR_EXPENSE)
+        })
+        .expect(302)
     })
   })
 })

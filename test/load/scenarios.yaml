@@ -1,0 +1,227 @@
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 2
+    - duration: 120
+      arrivalRate: 2
+      rampTo: 10
+  processor: './load-test-helper.js'
+
+scenarios:
+  # Scenario for end-to-end First Time Claim submission
+  - flow:
+      - get:
+          url: '/'
+      - think: 5
+      - get:
+          url: '/start'
+      - think: 2
+      - get:
+          url: '/apply/first-time/new-eligibility'
+      - think: 2
+      - get:
+          url: '/apply/first-time/new-eligibility/1983-08-08'
+      - think: 2
+      - get:
+          url: '/apply/first-time/new-eligibility/1983-08-08/child'
+      - think: 2
+      - get:
+          url: '/apply/first-time/new-eligibility/1983-08-08/child/income-support'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 2
+      - post:
+          url: '/apply/first-time/new-eligibility/1983-08-08/child/income-support'
+          json:
+            FirstName: 'Test'
+            LastName: 'Testing'
+            dob-day: 9
+            dob-month: 9
+            dob-year: 1984
+            PrisonerNumber: A1234BC
+            NameOfPrison: Hewell
+            _csrf: '{{ token.value }}'
+          capture:
+            header: 'location'
+            as: 'aboutYouUrl'
+      - think: 3
+      - get:
+          url: '{{ aboutYouUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - post:
+          url: '{{ aboutYouUrl }}'
+          json:
+            FirstName: John
+            LastName: Tester
+            NationalInsuranceNumber: JL243522B
+            HouseNumberAndStreet: '123 Street Name'
+            Town: 'Testing'
+            County: 'Antrim'
+            PostCode: 'BT7 1NT'
+            Country: 'England'
+            EmailAddress: 'donotsend@apvs.com'
+            PhoneNumber: '012345678'
+            _csrf: '{{ token.value }}'
+          capture:
+            header: 'location'
+            as: madeVisitUrl
+      - think: 2
+      - get:
+          url: '{{ madeVisitUrl }}'
+      - get:
+          url: '{{ madeVisitUrl }}/past'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 3
+      - post:
+          url: '{{ madeVisitUrl }}/past'
+          json:
+            _csrf: '{{ token.value }}'
+          beforeRequest: setVisitDate
+          capture:
+            header: 'location'
+            as: escortUrl
+      - get:
+          url: '{{ escortUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 2
+      - post:
+          url: '{{ escortUrl }}'
+          json:
+            has-escort: 'no'
+            _csrf: '{{ token.value }}'
+          capture:
+            header: 'location'
+            as: childUrl
+      - get:
+          url: '{{ childUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 2
+      - post:
+          url: '{{ childUrl }}'
+          json:
+            has-child: 'no'
+            _csrf: '{{ token.value }}'
+          capture:
+            header: 'location'
+            as: transportUrl
+      - get:
+          url: '{{ transportUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 5
+      - post:
+          url: '{{ transportUrl }}'
+          json:
+            expenses: ['train', 'refreshment']
+            _csrf: '{{ token.value }}'
+          capture:
+            header: 'location'
+            as: journeyUrl
+      - get:
+          url: '{{ journeyUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 5
+      - post:
+          url: '{{ journeyUrl }}'
+          json:
+            _csrf: '{{ token.value }}'
+            from: 'Euston'
+            to: 'Birmingham New Street'
+            return-journey: 'no'
+            is-child: 'no'
+            cost: '24.99'
+          capture:
+            header: 'location'
+            as: refreshmentUrl
+      - get:
+          url: '{{ refreshmentUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 5
+      - post:
+          url: '{{ refreshmentUrl }}'
+          json:
+            _csrf: '{{ token.value }}'
+            cost: '2'
+            travel-time: 'over-five'
+          capture:
+            header: 'location'
+            as: summaryUrl
+      - get:
+          url: '{{ summaryUrl }}'
+          capture:
+            selector: "a[id=add-visit-confirmation]"
+            as: visitConfirmation
+      - get:
+          url: '{{ visitConfirmation.href }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 3
+      - post:
+          url: '{{ visitConfirmation.href }}'
+          formData:
+            commit: 'Continue'
+          beforeRequest: attachImageFile
+          capture:
+            header: 'location'
+            as: summaryUrl
+      - get:
+          url: '{{ summaryUrl }}'
+          capture:
+            selector: ".add-expense-receipt"
+            as: addReceipt
+      - get:
+          url: '{{ addReceipt.href }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 3
+      - post:
+          url: '{{ addReceipt.href }}'
+          json:
+            _csrf: '{{ token.value }}'
+            alternative: 'post-later'
+          capture:
+             - header: 'location'
+               as: summaryUrl
+             - header: 'location'
+               transform: this.bankDetails.replace('summary', 'bank-account-details')
+               as: bankDetails
+      - get:
+          url: '{{ summaryUrl }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - get:
+          url: '{{ bankDetails }}'
+          capture:
+            selector: "input[name=_csrf]"
+            as: 'token'
+      - think: 3
+      - post:
+          url: '{{ bankDetails }}'
+          json:
+            _csrf: '{{ token.value }}'
+            AccountNumber: '22334455'
+            SortCode: '112233'
+            terms-and-conditions-input: 'yes'
+          capture:
+            header: 'location'
+            as: applicationSubmitted
+      - get:
+          url: '{{ applicationSubmitted }}'
