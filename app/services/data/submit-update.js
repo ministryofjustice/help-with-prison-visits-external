@@ -12,7 +12,8 @@ module.exports = function (reference, eligibilityId, claimId, message, bankDetai
   ]
 
   if (bankDetails.required) {
-    var bankAccountDetails = new BankAccountDetails(bankDetails.accountNumber, bankDetails.sortCode)
+    var termsAcceptedForUpdate = 'yes'
+    var bankAccountDetails = new BankAccountDetails(bankDetails.accountNumber, bankDetails.sortCode, termsAcceptedForUpdate)
     tasks.concat([insertBankDetails(reference, eligibilityId, claimId, bankAccountDetails)])
   }
 
