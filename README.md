@@ -94,7 +94,7 @@ Use the following partial to add the hidden input:
 ```
 
 ### Reference/Reference ID encryption
-In all instances where the Reference or Reference ID is used in the URL, it will be encrypted using the AES encryption via the standard Node Crypto package.
+In all instances where the Reference or Reference ID is used in the URL, it will be encrypted using AES encryption via the standard Node Crypto package.
 
 Functions for encrypting/decrypting these values have been implemented in app/services/helpers directory.
 
