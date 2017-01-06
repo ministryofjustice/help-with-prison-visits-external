@@ -16,14 +16,12 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 id='relationship' class="heading-large">
-        What is your relationship with the person you're visiting?
+        How are you related to the person you’re visiting?
       </h2>
 
       {% if errors['relationship'][0] %}
       <span class="error-message" id="error-message-relaionship">{{ errors['relationship'][0] }}</span>
       {% endif %}
-
-      <p>I am their:</p>
 
       <form action="{{ URL }}" method="post">
         <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
@@ -35,7 +33,7 @@
                      name="relationship"
                      value="husband-wife-civil">
 
-              <span class="heading-small">Husband, wife or civil partner</span>
+              <span class="heading-small">My husband, wife or civil partner</span>
               <br>
             </label>
 
@@ -44,7 +42,7 @@
                      type="radio"
                      name="relationship"
                      value="partner">
-              <span class="heading-small">Partner</span>
+              <span class="heading-small">My partner</span>
               <br>
               You were living together as a couple before they went to prison or remand
             </label>
@@ -54,7 +52,7 @@
                      type="radio"
                      name="relationship"
                      value="parent-grandparent">
-              <span class="heading-small">Parent or grand-parent</span>
+              <span class="heading-small">My parent or grand-parent</span>
               <br>
               Includes step-parent or adoptive parent
             </label>
@@ -64,7 +62,7 @@
                      type="radio"
                      name="relationship"
                      value="sibling">
-              <span class="heading-small">Brother or sister</span>
+              <span class="heading-small">My brother or sister</span>
               <br>
               Includes half-sibling, or step-sibling
             </label>
@@ -74,7 +72,7 @@
                      type="radio"
                      name="relationship"
                      value="child">
-              <span class="heading-small">Son or daughter</span>
+              <span class="heading-small">My son or daughter</span>
               <br>
               Includes step- or adopted son or daughter
             </label>
@@ -102,12 +100,15 @@
 
         </div>
 
-        {% include "partials/csrf-hidden-input.html" %}
 
-        <input id="prisoner-relationship-submit"
-               type="submit"
-               class="button"
-               value="Continue">
+
+        {% include "partials/csrf-hidden-input.html" %}
+        <div class="form-group">
+          <input id="prisoner-relationship-submit"
+                 type="submit"
+                 class="button"
+                 value="Continue">
+        </div>
       </form>
 
     </div>

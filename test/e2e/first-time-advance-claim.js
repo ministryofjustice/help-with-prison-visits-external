@@ -45,7 +45,6 @@ describe('First Time Claim Flow', () => {
 
       // About you
       .waitForExist('#about-you-submit')
-      .setValue('#title-input', 'Mr')
       .setValue('#first-name-input', 'Joe')
       .setValue('#last-name-input', 'Bloggs')
       .setValue('#national-insurance-number-input', 'AA123456A')
@@ -68,8 +67,17 @@ describe('First Time Claim Flow', () => {
       .setValue('#date-of-journey-day', futureDate.date())
       .setValue('#date-of-journey-month', futureDate.month() + 1)
       .setValue('#date-of-journey-year', futureDate.year())
-      .click('[for="child-no"]')
       .click('#journey-information-submit')
+
+      // Has Escort
+      .waitForExist('#has-escort-submit')
+      .click('[for="escort-no"]')
+      .click('#has-escort-submit')
+
+      // Has Child
+      .waitForExist('#has-child-submit')
+      .click('[for="child-no"]')
+      .click('#has-child-submit')
 
       // Expense
       .waitForExist('#expenses-submit')
@@ -93,6 +101,7 @@ describe('First Time Claim Flow', () => {
       .waitForExist('#bank-account-details-submit')
       .setValue('#account-number-input', '00123456')
       .setValue('#sort-code-input', '001122')
+      .click('[for="terms-and-conditions-input"]')
       .click('#bank-account-details-submit')
 
       // Application submitted

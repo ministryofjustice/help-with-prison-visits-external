@@ -50,6 +50,7 @@ npm run-script test-coverage    # unit tests and generates code coverage using I
 npm run-script test-unit        # unit tests
 npm run-script test-integration # integration tests
 npm run-script test-e2e         # e2e tests using selenium standalone against local application (must already be running)
+npm run-script test-load        # Runs e2e load test script using [Artillery](https://artillery.io/)
 ```
 
 Run e2e tests with [saucelabs](https://saucelabs.com)

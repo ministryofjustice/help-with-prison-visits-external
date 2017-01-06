@@ -1,5 +1,7 @@
 const config = require('../config')
 
+// TODO: REMOVE THIS MIGRATION THE FUNCTION HERE IS NO LONGER USED.
+
 /**
  * Adds a table function to the IntSchema that retrieves the last approved Claim Expense data for a
  * reference number and eligibilityId and grants the external web user permissions to call it.

@@ -30,7 +30,7 @@ module.exports = function (router) {
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper,
             URL: req.url,
-            forEdit: forEdit(claimDetails.claim.Status),
+            forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney),
             viewClaim: true,
             claimStatusHelper: claimStatusHelper,
             claimEventHelper: claimEventHelper,
@@ -74,7 +74,7 @@ module.exports = function (router) {
               claimExpenseHelper: claimExpenseHelper,
               displayHelper: displayHelper,
               URL: req.url,
-              forEdit: forEdit(claimDetails.claim.Status),
+              forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim),
               viewClaim: true,
               claimEventHelper: claimEventHelper,
               isRequestInfoPayment: bankDetails.required

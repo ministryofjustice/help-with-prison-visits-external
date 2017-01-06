@@ -1,6 +1,7 @@
 const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const claimChildHelper = require('./claim-child-helper')
+const claimEscortHelper = require('./claim-escort-helper')
 const expenseHelper = require('./expense-helper')
 const claimDocumentHelper = require('./claim-document-helper')
 const insertNewClaim = require('../../../app/services/data/insert-new-claim')
@@ -10,20 +11,18 @@ const dateFormatter = require('../../../app/services/date-formatter')
 const moment = require('moment')
 
 module.exports.CLAIM_TYPE = 'first-time'
-module.exports.IS_REPEAT_DUPLICATE_CLAIM = false
 module.exports.IS_ADVANCE_CLAIM = false
 module.exports.DATE_OF_JOURNEY = moment().subtract(7, 'days').startOf('day')
 module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
 module.exports.STATUS = claimStatusEnum.IN_PROGRESS
-module.exports.CHILD_VISITOR = 'yes'
 
 const DAY = this.DATE_OF_JOURNEY.format('DD')
 const MONTH = this.DATE_OF_JOURNEY.format('MM')
 const YEAR = this.DATE_OF_JOURNEY.format('YYYY')
 
 module.exports.build = function (reference) {
-  return new NewClaim(reference, DAY, MONTH, YEAR, this.CHILD_VISITOR, this.IS_REPEAT_DUPLICATE_CLAIM, this.IS_ADVANCE_CLAIM)
+  return new NewClaim(reference, DAY, MONTH, YEAR, this.IS_ADVANCE_CLAIM)
 }
 
 module.exports.insert = function (reference, eligibilityId) {
@@ -39,6 +38,9 @@ module.exports.insertWithExpenseChildDocuments = function (reference, eligibilit
     })
     .then(function () {
       return claimChildHelper.insert(reference, eligibilityId, claimId)
+    })
+    .then(function () {
+      return claimEscortHelper.insert(reference, eligibilityId, claimId)
     })
     .then(function () {
       return claimDocumentHelper.insert(reference, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)

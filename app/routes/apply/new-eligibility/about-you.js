@@ -28,7 +28,6 @@ module.exports = function (router) {
 
     try {
       var aboutYou = new AboutYou(dob, relationship, benefit,
-        req.body['Title'],
         req.body['FirstName'],
         req.body['LastName'],
         req.body['NationalInsuranceNumber'],

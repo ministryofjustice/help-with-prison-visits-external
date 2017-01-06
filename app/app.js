@@ -63,7 +63,7 @@ if (config.BASIC_AUTH_ENABLED === 'true') {
   app.use(function (req, res, next) {
     var credentials = auth(req)
 
-    if (req.url === '' || req.url === '/') {
+    if (req.url === '' || req.url === '/' || req.url === '/status') {
       next() // must leave root url free for Azure gateway
     } else {
       if (!credentials ||

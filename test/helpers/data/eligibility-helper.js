@@ -73,6 +73,7 @@ module.exports.deleteAll = function (reference) {
     .then(function () { return deleteByReference('ExtSchema.ClaimDocument', reference) })
     .then(function () { return deleteByReference('ExtSchema.ClaimExpense', reference) })
     .then(function () { return deleteByReference('ExtSchema.ClaimChild', reference) })
+    .then(function () { return deleteByReference('ExtSchema.ClaimEscort', reference) })
     .then(function () { return deleteByReference('ExtSchema.Claim', reference) })
     .then(function () { return deleteByReference('ExtSchema.Visitor', reference) })
     .then(function () { return deleteByReference('ExtSchema.Prisoner', reference) })

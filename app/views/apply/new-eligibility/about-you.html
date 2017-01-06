@@ -22,19 +22,6 @@
       <form action="/apply/{{ claimType }}/new-eligibility/{{ dob }}/{{ relationship }}/{{ benefit }}/{{ referenceId }}"
             method="post">
 
-        <div class="form-group {% if errors['Title'][0] %} error {% endif %}">
-          <label id="Title" class="form-label-bold" for="title-input">Title</label>
-          <p class="form-hint">(Mr/Mrs/Miss/Ms)</p>
-          {% if errors['Title'][0] %}
-          <span class="error-message" id="error-message-title">{{ errors['Title'][0] }}</span>
-          {% endif %}
-          <input id="title-input"
-                 name="Title"
-                 type="text"
-                 class="form-control"
-                 value="{{ visitor['Title'] }}">
-        </div>
-
         <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
           <label id="FirstName" class="form-label-bold" for="first-name-input">First name</label>
           {% if errors['FirstName'][0] %}
@@ -71,6 +58,8 @@
                  class="form-control"
                  value="{{ visitor['NationalInsuranceNumber'] }}">
         </div>
+
+        <p class="heading-medium">Address</p>
 
         <div class="form-group {% if errors['HouseNumberAndStreet'][0] %} error {% endif %}">
           <label id="HouseNumberAndStreet" class="form-label-bold" for="house-number-and-street-input">House number and
@@ -135,6 +124,8 @@
             <option {% if visitor['Country'] == 'Northern Ireland' %} selected {% endif %} id="country-ni">Northern Ireland</option>
           </select>
         </div>
+
+        <p class="heading-medium">Contact Details</p>
 
         <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
           <label id="EmailAddress" class="form-label-bold" for="email-address-input">Email address</label>
