@@ -1,5 +1,6 @@
 module.exports = [
   'car',
+  'car-only',
   'hire',
   'bus',
   'train',

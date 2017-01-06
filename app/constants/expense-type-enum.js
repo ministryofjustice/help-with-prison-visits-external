@@ -5,6 +5,12 @@ module.exports = {
     receiptRequired: false
   },
 
+  CAR_ONLY: {
+    value: 'car-only',
+    displayName: 'Car',
+    receiptRequired: false
+  },
+
   CAR_TOLL: {
     value: 'toll',
     displayName: 'Toll',
