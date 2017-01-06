@@ -12,17 +12,22 @@ const submitUpdate = require('../../services/data/submit-update')
 const claimStatusHelper = require('../../views/helpers/claim-status-helper')
 const claimEventHelper = require('../../views/helpers/claim-event-helper')
 const forEdit = require('../helpers/for-edit')
+const decrypt = require('../../services/helpers/decrypt')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
     UrlPathValidator(req.params)
-    getViewClaim(req.params.claimId, req.params.reference, req.params.dob)
+
+    var decryptedReference = decrypt(req.params.reference)
+    getViewClaim(req.params.claimId, decryptedReference, req.params.dob)
       .then(function (claimDetails) {
-        var referenceId = referenceIdHelper.getReferenceId(req.params.reference, claimDetails.claim.EligibilityId)
+        var referenceId = referenceIdHelper.getReferenceId(decryptedReference, claimDetails.claim.EligibilityId)
+
         return res.render('your-claims/view-claim',
           {
-            reference: req.params.reference,
+            reference: decryptedReference,
             referenceId: referenceId,
+            encryptedReference: req.params.reference,
             dob: req.params.dob,
             claimId: req.params.claimId,
             claimDetails: claimDetails,
@@ -46,7 +51,9 @@ module.exports = function (router) {
     var AccountNumber = req.body['AccountNumber']
     var message = req.body['message-to-caseworker']
 
-    getViewClaim(req.params.claimId, req.params.reference, req.params.dob)
+    var decryptedReference = decrypt(req.params.reference)
+
+    getViewClaim(req.params.claimId, decryptedReference, req.params.dob)
       .then(function (claimDetails) {
         try {
           var benefit = claimDetails.claim.benefitDocument
@@ -65,8 +72,9 @@ module.exports = function (router) {
             var referenceId = referenceIdHelper.getReferenceId(req.params.reference, claimDetails.claim.EligibilityId)
             return res.status(400).render('your-claims/view-claim', {
               errors: error.validationErrors,
-              reference: req.params.reference,
+              reference: decryptedReference,
               referenceId: referenceId,
+              encryptedReference: req.params.reference,
               claimId: req.params.claimId,
               claimDetails: claimDetails,
               dateHelper: dateHelper,

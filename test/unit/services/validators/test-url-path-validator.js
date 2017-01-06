@@ -3,6 +3,7 @@ const UrlPathValidator = require('../../../../app/services/validators/url-path-v
 const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const prisonerRelationshipEnum = require('../../../../app/constants/prisoner-relationships-enum')
 const benefitsEnum = require('../../../../app/constants/benefits-enum')
+const encrypt = require('../../../../app/services/helpers/encrypt')
 
 describe('services/validators/url-path-validator', function () {
   const VALID_CLAIM_TYPE = { claimType: claimTypeEnum.FIRST_TIME }
@@ -18,12 +19,14 @@ describe('services/validators/url-path-validator', function () {
   const INVALID_BENEFIT = { benefit: 'invalid' }
 
   const VALID_REFERENCE = { reference: '49CCADM' }
+  const VALID_ENCRYPTED_REFERENCE = { reference: encrypt(VALID_REFERENCE.reference) }
   const INVALID_REFERENCE = { reference: 'invalid' }
 
   const VALID_CLAIMID = { claimId: '123' }
   const INVALID_CLAIMID = { claimId: 'invalid' }
 
   const VALID_REFERENCEID = { referenceId: '49CCADM-4321' }
+  const VALID_ENCRYPTED_REFERENCEID = { referenceId: encrypt(VALID_REFERENCEID.referenceId) }
   const INVALID_REFERENCEID = { referenceId: '49CCADM1XXX' }
 
   const VALID_CLAIM_DOCUMENT_ID = { claimId: '123' }
@@ -114,8 +117,8 @@ describe('services/validators/url-path-validator', function () {
     expect(result).to.equal(undefined)
   })
 
-  it('should return undefined if passed a valid reference value', function () {
-    var result = UrlPathValidator(VALID_REFERENCE)
+  it('should return undefined if passed a valid encrypted reference value', function () {
+    var result = UrlPathValidator(VALID_ENCRYPTED_REFERENCE)
     expect(result).to.equal(undefined)
   })
 
@@ -124,8 +127,8 @@ describe('services/validators/url-path-validator', function () {
     expect(result).to.equal(undefined)
   })
 
-  it('should return undefined if passed a valid referenceId value', function () {
-    var result = UrlPathValidator(VALID_REFERENCEID)
+  it('should return undefined if passed a valid encrypted referenceId value', function () {
+    var result = UrlPathValidator(VALID_ENCRYPTED_REFERENCEID)
     expect(result).to.equal(undefined)
   })
 

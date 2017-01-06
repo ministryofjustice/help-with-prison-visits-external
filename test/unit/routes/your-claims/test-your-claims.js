@@ -3,12 +3,14 @@ const routeHelper = require('../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 describe('/your-claims/your-claims', function () {
   const DOB = '2000-05-15'
   const REFERENCE = 'APVS123'
-  const ROUTE = `/your-claims/${DOB}/${REFERENCE}`
+  const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
+  const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}`
 
   const CLAIMS_CAN_START_NEW_CLAIM = [{Status: 'APPROVED'}, {Status: 'AUTO-APPROVED'}, {Status: 'REJECTED'}]
   const CLAIMS_CANNOT_START_NEW_CLAIM = [{Status: 'INPROGRESS'}]
@@ -17,14 +19,17 @@ describe('/your-claims/your-claims', function () {
 
   var urlPathValidatorStub
   var getHistoricClaimsStub
+  var decryptStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     getHistoricClaimsStub = sinon.stub()
+    decryptStub = sinon.stub()
 
     var route = proxyquire('../../../../app/routes/your-claims/your-claims', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/data/get-historic-claims': getHistoricClaimsStub
+      '../../services/data/get-historic-claims': getHistoricClaimsStub,
+      '../../services/helpers/decrypt': decryptStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -35,6 +40,14 @@ describe('/your-claims/your-claims', function () {
         .get(ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should call the decrypt function', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(decryptStub)
         })
     })
 

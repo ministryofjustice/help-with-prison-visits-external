@@ -24,9 +24,11 @@
         your home and the prison’s visitor centre.
       </p>
 
+      {% if not carOnly %}
       <p>
         You can also claim for any tolls or parking charges.
       </p>
+      {% endif %}
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/car{{ params }}"
             method="post">
@@ -51,6 +53,7 @@
                  readonly>
         </div>
 
+        {% if not carOnly %}
         <fieldset>
           <label for="toll" data-target="toll-question" class="block-label">
             <input id="toll"
@@ -105,6 +108,8 @@
           </div>
 
         </fieldset>
+        {% endif %}
+
         <br/>
 
         {% include "partials/csrf-hidden-input.html" %}

@@ -76,6 +76,7 @@
     "on-finished": "^2.3.0",
     "path": "^0.12.7",
     "serve-favicon": "~2.3.0",
+    "sqlite3": "^3.1.8",
     "underscore": "^1.8.3",
     "validator": "^6.0.0"
   },

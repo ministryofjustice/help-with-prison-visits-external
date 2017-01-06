@@ -18,16 +18,22 @@ describe('routes/apply/eligibility/claim/expenses', function () {
   var urlPathValidatorStub
   var expenseUrlRouterStub
   var expensesStub
+  var getClaimSummaryStub
+  var prisonsHelperStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     expenseUrlRouterStub = sinon.stub()
     expensesStub = sinon.stub()
+    getClaimSummaryStub = sinon.stub().resolves({ claim: { NameOfPrison: 'hewell' } })
+    prisonsHelperStub = { isNorthernIrelandPrison: sinon.stub() }
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/expenses', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
-      '../../../../services/domain/expenses/expenses': expensesStub
+      '../../../../services/domain/expenses/expenses': expensesStub,
+      '../../../../services/data/get-claim-summary': getClaimSummaryStub,
+      '../../../../constants/helpers/prisons-helper': prisonsHelperStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -38,6 +44,15 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .get(ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should call to get claim details and check if NI prison', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(getClaimSummaryStub)
+          sinon.assert.calledOnce(prisonsHelperStub.isNorthernIrelandPrison)
         })
     })
 
@@ -86,6 +101,10 @@ describe('routes/apply/eligibility/claim/expenses', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(400)
+        .expect(function () {
+          sinon.assert.calledOnce(getClaimSummaryStub)
+          sinon.assert.calledOnce(prisonsHelperStub.isNorthernIrelandPrison)
+        })
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {

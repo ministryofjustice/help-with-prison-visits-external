@@ -3,26 +3,31 @@ const ValidationError = require('../../../../app/services/errors/validation-erro
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 describe('/your-claims/check-your-information', function () {
   const DOB = '2000-05-15'
   const REFERENCE = 'APVS123'
-  const ROUTE = `/your-claims/${DOB}/${REFERENCE}/check-your-information`
+  const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
+  const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/check-your-information`
 
   var app
 
   var urlPathValidatorStub
+  var decryptStub
   var getRepeatEligibility
   var CheckYourInformation
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
+    decryptStub = sinon.stub().returns(REFERENCE)
     getRepeatEligibility = sinon.stub()
     CheckYourInformation = sinon.stub()
 
     var route = proxyquire('../../../../app/routes/your-claims/check-your-information', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
+      '../../services/helpers/decrypt': decryptStub,
       '../../services/data/get-repeat-eligibility': getRepeatEligibility,
       '../../services/domain/check-your-information': CheckYourInformation
     })
@@ -35,6 +40,15 @@ describe('/your-claims/check-your-information', function () {
         .get(ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should call the decrypt function', function () {
+      decryptStub.returns(REFERENCE)
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(decryptStub)
         })
     })
 
@@ -62,6 +76,7 @@ describe('/your-claims/check-your-information', function () {
       CheckYourInformation.returns({})
       var eligibilityId = '1234'
       var referenceId = `${REFERENCE}-${eligibilityId}`
+      var encryptedReferenceId = encrypt(referenceId)
 
       return supertest(app)
         .post(ROUTE)
@@ -70,7 +85,7 @@ describe('/your-claims/check-your-information', function () {
         .expect(function () {
           sinon.assert.calledOnce(CheckYourInformation)
         })
-        .expect('location', `/apply/repeat/eligibility/${referenceId}/new-claim`)
+        .expect('location', `/apply/repeat/eligibility/${encryptedReferenceId}/new-claim`)
     })
 
     it('should respond with a 400 for a validation error', function () {

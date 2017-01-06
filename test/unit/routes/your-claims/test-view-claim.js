@@ -4,16 +4,18 @@ const sinon = require('sinon')
 const expect = require('chai').expect
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const routeHelper = require('../../../helpers/routes/route-helper')
+const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 const REFERENCE = 'V123456'
+const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
 const ELIGIBILITYID = '1234'
 const DOB = '1990-10-10'
 const CLAIMID = '1'
 const CLAIMDOCUMENTID = '123'
 const FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.txt' }
 
-const ROUTE = `/your-claims/${DOB}/${REFERENCE}/${CLAIMID}`
+const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}`
 
 describe('routes/apply/eligibility/claim/claim-summary', function () {
   var request
@@ -23,6 +25,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
   var viewClaimDomainObjectStub
   var submitUpdateStub
   var removeClaimDocument
+  var decryptStub
 
   beforeEach(function () {
     getViewClaimStub = sinon.stub().resolves({
@@ -37,6 +40,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     viewClaimDomainObjectStub = sinon.stub()
     submitUpdateStub = sinon.stub().resolves()
     removeClaimDocument = sinon.stub().resolves()
+    decryptStub = sinon.stub().returns(REFERENCE)
 
     var route = proxyquire(
       '../../../../app/routes/your-claims/view-claim', {
@@ -45,7 +49,8 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         '../../services/data/get-claim-document-file-path': getClaimDocumentFilePath,
         '../../services/domain/view-claim': viewClaimDomainObjectStub,
         '../../services/data/submit-update': submitUpdateStub,
-        '../../services/data/remove-claim-document': removeClaimDocument
+        '../../services/data/remove-claim-document': removeClaimDocument,
+        '../../services/helpers/decrypt': decryptStub
       })
 
     var app = routeHelper.buildApp(route)
@@ -62,6 +67,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
+          expect(decryptStub.calledWith(ENCRYPTED_REFERENCE)).to.be.true
           expect(getViewClaimStub.calledWith(CLAIMID, REFERENCE, DOB)).to.be.true
           done()
         })
@@ -76,9 +82,10 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .end(function (error, response) {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
+          expect(decryptStub.calledWith(ENCRYPTED_REFERENCE)).to.be.true
           expect(getViewClaimStub.calledWith(CLAIMID, REFERENCE, DOB)).to.be.true
           expect(viewClaimDomainObjectStub.calledOnce, 'Should have called to check validation').to.be.true
-          expect(response.headers['location']).to.be.equal(`/application-updated/${REFERENCE}`)
+          expect(response.headers['location']).to.be.equal(`/application-updated/${ENCRYPTED_REFERENCE}`)
           done()
         })
     })
@@ -120,7 +127,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           expect(error).to.be.null
           expect(urlValidatorCalled).to.be.true
           expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
-          expect(response.headers['location']).to.be.equal(`/your-claims/${DOB}/${REFERENCE}/${CLAIMID}/file-upload?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITYID}`)
+          expect(response.headers['location']).to.be.equal(`/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}/file-upload?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITYID}`)
           done()
         })
     })

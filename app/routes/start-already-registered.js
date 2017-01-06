@@ -1,6 +1,7 @@
 const AlreadyRegistered = require('../services/domain/already-registered')
 const ValidationError = require('../services/errors/validation-error')
 const ERROR_MESSAGES = require('../services/validators/validation-error-messages')
+const encrypt = require('../services/helpers/encrypt')
 
 module.exports = function (router) {
   router.get('/start-already-registered', function (req, res) {
@@ -19,7 +20,8 @@ module.exports = function (router) {
 
     try {
       var alreadyRegistered = new AlreadyRegistered(reference, day, month, year)
-      return res.redirect(`/your-claims/${alreadyRegistered.getDobFormatted}/${reference}`)
+      var encryptedRef = encrypt(reference)
+      return res.redirect(`/your-claims/${alreadyRegistered.getDobFormatted}/${encryptedRef}`)
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('start-already-registered', {

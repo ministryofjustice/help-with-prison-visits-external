@@ -2,6 +2,7 @@ const UrlPathValidator = require('../../services/validators/url-path-validator')
 const UpdatedContactDetails = require('../../services/domain/updated-contact-details')
 const ValidationError = require('../../services/errors/validation-error')
 const insertEligibilityVisitorUpdatedContactDetail = require('../../services/data/insert-eligibility-visitor-updated-contact-detail')
+const decrypt = require('../../services/helpers/decrypt')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/update-contact-details', function (req, res) {
@@ -16,9 +17,10 @@ module.exports = function (router) {
   router.post('/your-claims/:dob/:reference/update-contact-details', function (req, res, next) {
     UrlPathValidator(req.params)
 
+    var decryptedRef = decrypt(req.params.reference)
     try {
       var updatedContactDetails = new UpdatedContactDetails(req.body['email-address'], req.body['phone-number'])
-      insertEligibilityVisitorUpdatedContactDetail(req.params.reference, req.body.EligibilityId, updatedContactDetails)
+      insertEligibilityVisitorUpdatedContactDetail(decryptedRef, req.body.EligibilityId, updatedContactDetails)
         .then(function () {
           res.redirect(`/your-claims/${req.params.dob}/${req.params.reference}/check-your-information`)
         })

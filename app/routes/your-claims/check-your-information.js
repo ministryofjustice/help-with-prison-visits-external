@@ -5,16 +5,19 @@ const CheckYourInformation = require('../../services/domain/check-your-informati
 const ValidationError = require('../../services/errors/validation-error')
 const referenceIdHelper = require('../helpers/reference-id-helper')
 const displayHelper = require('../../views/helpers/display-helper')
+const decrypt = require('../../services/helpers/decrypt')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    getRepeatEligibility(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
+    var reference = decrypt(req.params.reference)
+    getRepeatEligibility(reference, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
       .then(function (eligibility) {
         return res.render('your-claims/check-your-information', {
           dob: req.params.dob,
-          reference: req.params.reference,
+          reference: reference,
+          encryptedReference: req.params.reference,
           eligibility: eligibility,
           displayHelper: displayHelper})
       })
@@ -30,7 +33,8 @@ module.exports = function (router) {
       new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
 
       var eligibilityId = req.body.EligibilityId
-      var referenceId = referenceIdHelper.getReferenceId(req.params.reference, eligibilityId)
+      var decryptedRef = decrypt(req.params.reference)
+      var referenceId = referenceIdHelper.getReferenceId(decryptedRef, eligibilityId)
 
       res.redirect(`/apply/repeat/eligibility/${referenceId}/new-claim`)
     } catch (error) {
