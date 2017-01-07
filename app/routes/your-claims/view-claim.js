@@ -63,7 +63,7 @@ module.exports = function (router) {
 
           var bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT' }
           var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message, bankDetails) // eslint-disable-line no-unused-vars
-          submitUpdate(req.params.reference, claimDetails.claim.EligibilityId, req.params.claimId, message, bankDetails)
+          submitUpdate(decryptedReference, claimDetails.claim.EligibilityId, req.params.claimId, message, bankDetails)
             .then(function () {
               return res.redirect(`/application-updated/${req.params.reference}`)
             })
