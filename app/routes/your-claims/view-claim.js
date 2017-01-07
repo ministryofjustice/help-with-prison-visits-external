@@ -39,7 +39,6 @@ module.exports = function (router) {
             viewClaim: true,
             claimStatusHelper: claimStatusHelper,
             claimEventHelper: claimEventHelper,
-            bankDetails: {},
             isRequestInfoPayment: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
           })
       })
@@ -85,6 +84,7 @@ module.exports = function (router) {
               forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim),
               viewClaim: true,
               claimEventHelper: claimEventHelper,
+              bankDetails: { AccountNumber, SortCode },
               isRequestInfoPayment: bankDetails.required
             })
           } else {
