@@ -3,9 +3,9 @@ exports.up = function (knex, Promise) {
     table.increments('ClaimDocumentId')
     table.integer('EligibilityId').unsigned().notNullable()
     table.string('Reference', 10).notNullable().index()
-    table.integer('ClaimId').unsigned().notNullable().references('Claim.ClaimId')
+    table.integer('ClaimId').unsigned().notNullable()
     table.string('DocumentType', 20).notNullable()
-    table.integer('ClaimExpenseId').unsigned().references('ClaimExpense.ClaimExpenseId')
+    table.integer('ClaimExpenseId').unsigned()
     table.string('DocumentStatus', 20).notNullable()
     table.string('Filepath', 250)
     table.dateTime('DateSubmitted')
@@ -14,8 +14,8 @@ exports.up = function (knex, Promise) {
   .then(function () {
     return knex.schema.alterTable('ClaimDocument', function (table) {
       table
-        .foreign(['ClaimId', 'EligibilityId', 'Reference'])
-        .references(['Claim.ClaimId', 'Claim.EligibilityId', 'Claim.Reference'])
+        .foreign(['EligibilityId', 'Reference'])
+        .references(['Claim.EligibilityId', 'Claim.Reference'])
     })
   })
   .catch(function (error) {

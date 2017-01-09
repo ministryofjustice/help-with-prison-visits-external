@@ -5,7 +5,7 @@ exports.up = function (knex, Promise) {
     table.string('Reference', 10) // no foreign key as task may remove records
     table.integer('EligibilityId') // no foreign key as task may remove records
     table.integer('ClaimId')      // no foreign key as task may remove records
-    table.text('AdditionalData')
+    table.text('AdditionalData', 1300)
     table.dateTime('DateCreated').notNullable()
     table.dateTime('DateProcessed')
     table.string('Status', 20).notNullable()
