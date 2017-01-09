@@ -2,7 +2,7 @@ const moment = require('moment')
 
 module.exports = function (status, isAdvance, dateOfJourney) {
   var forEdit = false
-  if (status === 'PENDING' || status === 'REQUEST-INFORMATION') {
+  if (status === 'PENDING' || status === 'REQUEST-INFORMATION' || status === 'REQUEST-INFO-PAYMENT') {
     forEdit = true
   } else if (status === 'APPROVED' && isAdvance) {
     if (advanceEdit(dateOfJourney)) {
