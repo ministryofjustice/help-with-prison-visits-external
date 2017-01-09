@@ -49,6 +49,16 @@ span.button-separator {
   }
 }
 
+.heading-xlarge {
+    margin-bottom: 30px;
+}
+
+.lede {
+    font-size: 34px;
+    margin-bottom: -10px;
+    padding-bottom: 0px;
+}
+
 .block-label-inline .column-one-third label{
     font-size:19px;
     margin-bottom:10px;
@@ -367,6 +377,14 @@ span.bold {
     width:100%;
 }
 
+.form-hint {
+    margin-bottom: 5px;
+}
+
+.date-of-birth {
+    margin-bottom: 0px!important;
+}
+
 .button.grey {
     background:#cccccc;
     color:#000;
@@ -391,6 +409,24 @@ span.bold {
 .expense-padding {
     padding-top: 0.1em;
     padding-right: 0.5em;
+}
+
+.hide-border input{
+    border: none!important;
+    padding-left: 0px;
+}
+
+.pound-wrapper span {
+    font-size: 19px;
+    background-color: #dee0e2;
+    position: absolute;
+    padding: 5px 10px 4px 10px;
+    margin: 2px 0 0px 2px;
+    border-right: 1px solid #bfc1c3
+}
+
+.pound-wrapper input {
+  padding-left: 40px;
 }
 
 tr.no-border td{

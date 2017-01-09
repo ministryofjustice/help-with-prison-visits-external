@@ -34,7 +34,7 @@
 
   <br>
 
-  <form action="/your-claims/{{ dob }}/{{ reference }}/{{ claimId }}" method="post" class="form">
+  <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/{{ claimId }}" method="post" class="form">
 
     <div class="form-group">
       {% include "partials/csrf-hidden-input.html" %}
@@ -48,9 +48,9 @@
                type="submit"
                value="Submit updates"
                class="button">
-        <a href="/your-claims/{{ dob }}/{{ reference }}" id="cancel" class="link pull-right">cancel</a>
+        <a href="/your-claims/{{ dob }}/{{ encryptedReference }}" id="cancel" class="link pull-right">cancel</a>
       {% else %}
-        <a href="/your-claims/{{ dob }}/{{ reference }}" id="back" class="link">back</a>
+        <a href="/your-claims/{{ dob }}/{{ encryptedReference }}" id="back" class="link">back</a>
       {% endif %}
     </div>
 

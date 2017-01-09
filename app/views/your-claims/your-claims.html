@@ -20,7 +20,7 @@
 
     <div class="column-one-third">
       {% if canStartNewClaim %}
-      <a id="new-claim" class="button heading-large" href="/your-claims/{{ dob }}/{{ reference }}/check-your-information" role="button">Start a new claim</a>
+      <a id="new-claim" class="button heading-large" href="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information" role="button">Start a new claim</a>
       {% endif %}
     </div>
 
@@ -80,7 +80,7 @@
             >{{ claimStatusHelper(claim.Status) }}
           {% endif %}
         </td>
-        <td><a id="add-info" href="/your-claims/{{ dob }}/{{ reference }}/{{ claim.ClaimId }}"
+        <td><a id="add-info" href="/your-claims/{{ dob }}/{{ encryptedReference }}/{{ claim.ClaimId }}"
         {% if forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
           class="button grey"> Add information
         {% else %}

@@ -24,14 +24,16 @@
         your home and the prison’s visitor centre.
       </p>
 
+      {% if not carOnly %}
       <p>
         You can also claim for any tolls or parking charges.
       </p>
+      {% endif %}
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/car{{ params }}"
             method="post">
 
-        <div class="form-group">
+        <div class="form-group hide-border">
           <label class="form-label-bold" for="from">From</label>
           <input id="from"
                  type="text"
@@ -41,7 +43,7 @@
                  readonly>
         </div>
 
-        <div class="form-group">
+        <div class="form-group hide-border">
           <label class="form-label-bold" for="to">To</label>
           <input id="to"
                  type="text"
@@ -51,6 +53,7 @@
                  readonly>
         </div>
 
+        {% if not carOnly %}
         <fieldset>
           <label for="toll" data-target="toll-question" class="block-label">
             <input id="toll"
@@ -67,12 +70,14 @@
             {% if errors['toll-cost'][0] %}
               <span class="error-message">{{ errors['toll-cost'][0] }}</span>
             {% endif %}
-
-            <input id="toll-cost-input"
-                   type="text"
-                   name="toll-cost"
-                   value="{{ expense['toll-cost'] }}"
-                   class="form-control">
+            <div class="pound-wrapper">
+              <span>£</span>
+              <input id="toll-cost-input"
+                     type="text"
+                     name="toll-cost"
+                     value="{{ expense['toll-cost'] }}"
+                     class="form-control">
+            </div>
           </div>
 
           <label for="parking-charge" data-target="parking-charge-question" class="block-label">
@@ -92,15 +97,19 @@
             {% if errors['parking-charge-cost'][0] %}
               <span class="error-message">{{ errors['parking-charge-cost'][0] }}</span>
             {% endif %}
-
-            <input id="parking-charge-cost-input"
-                   type="text"
-                   name="parking-charge-cost"
-                   value="{{ expense['parking-charge-cost'] }}"
-                   class="form-control">
+            <div class="pound-wrapper">
+              <span>£</span>
+              <input id="parking-charge-cost-input"
+                     type="text"
+                     name="parking-charge-cost"
+                     value="{{ expense['parking-charge-cost'] }}"
+                     class="form-control">
+            </div>
           </div>
 
         </fieldset>
+        {% endif %}
+
         <br/>
 
         {% include "partials/csrf-hidden-input.html" %}

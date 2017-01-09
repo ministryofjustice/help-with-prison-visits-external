@@ -16,7 +16,7 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Do you want to claim for the same journey as your last claim?
+        Your last journey
       </h2>
 
       <table>
@@ -53,11 +53,13 @@
       <br>
       {% endif %}
 
+      <h3 class="heading-medium">Are you applying for the same journey as last time?</h3>
+
       <form action="/apply/repeat/eligibility/{{ referenceId }}/new-claim/same-journey-as-last-claim/{{ advanceOrPast }}" method="post" class="form">
 
         <div class="form-group">
           <fieldset>
-            <label for="yes" class="block-label">
+            <label for="yes" class="block-label inline">
               <input type="radio"
                      name="same-journey-as-last-claim"
                      value="yes"
@@ -65,12 +67,7 @@
               Yes
             </label>
 
-          </fieldset>
-        </div>
-
-        <div class="form-group">
-          <fieldset>
-            <label for="no" class="block-label">
+            <label for="no" class="block-label inline">
               <input type="radio"
                      name="same-journey-as-last-claim"
                      value="no"

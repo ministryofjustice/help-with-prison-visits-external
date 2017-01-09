@@ -2,6 +2,7 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+const encrypt = require('../../../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
@@ -10,8 +11,9 @@ describe('routes/apply/eligibility/claim/about-child', function () {
   const REFERENCE = 'ABOUTCH'
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
+  const ENCRYPTED_REFERENCEID = encrypt(REFERENCEID)
   const CLAIMID = '123'
-  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/child`
+  const ROUTE = `/apply/first-time/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/child`
 
   var app
 
@@ -77,7 +79,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
       insertChildStub.resolves(CLAIMID)
       return supertest(app)
         .post(ROUTE)
-        .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}`)
+        .expect('location', `/apply/first-time/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}`)
     })
 
     it('should redirect to the about-child page if add-another-child is set to yes', function () {

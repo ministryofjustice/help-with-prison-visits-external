@@ -4,6 +4,7 @@ const submitClaim = require('../../../../services/data/submit-claim')
 const ValidationError = require('../../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
+const encrypt = require('../../../../services/helpers/encrypt')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/bank-account-details', function (req, res) {
@@ -22,12 +23,13 @@ module.exports = function (router) {
     var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
 
     try {
-      var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode)
+      var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body['terms-and-conditions-input'])
       insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, bankAccountDetails)
         .then(function () {
           return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker)
             .then(function () {
-              return res.redirect(`/application-submitted/${referenceAndEligibilityId.reference}`)
+              var encryptedRef = encrypt(referenceAndEligibilityId.reference)
+              return res.redirect(`/application-submitted/${encryptedRef}`)
             })
         })
         .catch(function (error) {

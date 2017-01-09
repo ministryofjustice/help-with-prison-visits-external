@@ -23,6 +23,10 @@ app/locales/en.json
 # e2e selenium
 errorShots
 
+# artillery reports
+test/load/*.html
+test/load/*.json
+
 # coverage reports
 coverage
 

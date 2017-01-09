@@ -2,20 +2,24 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+const encrypt = require('../../../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 var ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/claim/bank-account-details', function () {
   const REFERENCE = 'V123456'
+  const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
   const ELIGIBILITYID = '1234'
   const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
+  const ENCRYPTED_REFERENCEID = encrypt(REFERENCEID)
   const CLAIMID = '1'
   const CLAIM_TYPE = 'first-time'
-  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`
+  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/bank-account-details`
   const VALID_DATA = {
     'AccountNumber': '12345678',
-    'SortCode': '123456'
+    'SortCode': '123456',
+    'terms-and-conditions-input': 'yes'
   }
 
   var app
@@ -77,11 +81,11 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
+          sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
           sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newBankAccountDetails)
           sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined)
         })
-        .expect('location', `/application-submitted/${REFERENCE}`)
+        .expect('location', `/application-submitted/${ENCRYPTED_REFERENCE}`)
     })
 
     it('should use assisted digital cookie value', function () {
