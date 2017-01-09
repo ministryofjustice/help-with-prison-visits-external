@@ -30,4 +30,8 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
   return knex.schema.dropTable('ClaimExpense')
+    .catch(function (error) {
+      console.log(error)
+      throw error
+    })
 }
