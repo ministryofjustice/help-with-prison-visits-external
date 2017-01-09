@@ -3,7 +3,7 @@ exports.up = function (knex, Promise) {
     table.increments('ClaimEscortId')
     table.integer('EligibilityId').unsigned().notNullable()
     table.string('Reference', 10).notNullable().index()
-    table.integer('ClaimId').unsigned().notNullable().references('Claim.ClaimId')
+    table.integer('ClaimId').unsigned().notNullable()
     table.string('FirstName', 100).notNullable()
     table.string('LastName', 100).notNullable()
     table.dateTime('DateOfBirth').notNullable()
