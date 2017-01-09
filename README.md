@@ -71,7 +71,9 @@ npm run-script test-e2e-android
 
 The application requires a MS SQL database instance, configured with an external web user and a migration user. See [here](https://github.com/ministryofjustice/apvs/tree/develop/database) for details.
 
-To run the [knex](http://knexjs.org/) database migrations:
+The Internal Web has a series of knex seed files that define table functions that can be called from the External Web to retrieve previously submitted claims. 
+
+To run the [knex](http://knexjs.org/) database migrations and seeds:
 
 ```
 npm run-script migrations
@@ -79,7 +81,7 @@ npm run-script migrations
 
 To rollback the last batch of changes:
 ```
-./node_modules/.bin/knex migrate:rollback --env migrations
+npm run-script rollback
 ```
 
 ## Security
