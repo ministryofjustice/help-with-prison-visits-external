@@ -57,12 +57,7 @@ describe('First Time Claim Flow', () => {
       .setValue('#phone-number-input', '0123456789')
       .click('#about-you-submit')
 
-      // Future or past visit
-      .waitForExist('#future-or-past-submit')
-      .click('[for="past"]')
-      .click('#future-or-past-submit')
-
-      // Journey information
+      // Journey information - NI claims skip Future or past visit
       .waitForExist('#journey-information-submit')
       .setValue('#date-of-journey-day', todaysDate.date())
       .setValue('#date-of-journey-month', todaysDate.month() + 1)

@@ -7,6 +7,7 @@ const ValidationError = require('../../../../../app/services/errors/validation-e
 
 var urlPathValidatorStub
 var stubInsertVisitor
+var stubGetTravellingFromAndTo
 var stubAboutYou
 var app
 
@@ -17,10 +18,12 @@ describe('routes/apply/new-eligibility/about-you', function () {
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     stubInsertVisitor = sinon.stub()
+    stubGetTravellingFromAndTo = sinon.stub()
     stubAboutYou = sinon.stub()
 
     var route = proxyquire('../../../../../app/routes/apply/new-eligibility/about-you', {
       '../../../services/data/insert-visitor': stubInsertVisitor,
+      '../../../services/data/get-travelling-from-and-to': stubGetTravellingFromAndTo,
       '../../../services/domain/about-you': stubAboutYou,
       '../../../services/validators/url-path-validator': urlPathValidatorStub
     })
@@ -42,6 +45,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to /apply/first-time/eligibility/:reference/new-claim for valid data', function () {
       stubInsertVisitor.resolves()
+      stubGetTravellingFromAndTo.resolves({to: 'hewell'})
       stubAboutYou.returns({})
 
       return supertest(app)
@@ -51,8 +55,20 @@ describe('routes/apply/new-eligibility/about-you', function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
           sinon.assert.calledOnce(stubAboutYou)
           sinon.assert.calledOnce(stubInsertVisitor)
+          sinon.assert.calledOnce(stubGetTravellingFromAndTo)
         })
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/new-claim`)
+    })
+
+    it('should redirect to /apply/first-time/eligibility/:reference/new-claim/past for Northern Ireland Prison', function () {
+      stubInsertVisitor.resolves()
+      stubGetTravellingFromAndTo.resolves({to: 'maghaberry'})
+      stubAboutYou.returns({})
+
+      return supertest(app)
+        .post(ROUTE)
+        .expect(302)
+        .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/new-claim/past`)
     })
 
     it('should respond with a 400 for invalid data', function () {

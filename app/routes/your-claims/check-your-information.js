@@ -6,6 +6,7 @@ const ValidationError = require('../../services/errors/validation-error')
 const referenceIdHelper = require('../helpers/reference-id-helper')
 const displayHelper = require('../../views/helpers/display-helper')
 const decrypt = require('../../services/helpers/decrypt')
+const prisonsHelper = require('../../constants/helpers/prisons-helper')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/check-your-information', function (req, res, next) {
@@ -30,21 +31,36 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
 
     try {
+      var decryptedRef = decrypt(req.params.reference)
       new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
 
       var eligibilityId = req.body.EligibilityId
-      var decryptedRef = decrypt(req.params.reference)
       var referenceId = referenceIdHelper.getReferenceId(decryptedRef, eligibilityId)
 
-      res.redirect(`/apply/repeat/eligibility/${referenceId}/new-claim`)
+      getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
+        .then(function (eligibility) {
+          var nameOfPrison = eligibility.NameOfPrison
+          var isNorthernIrelandClaim = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
+
+          // Northern Ireland claims cannot be advance claims so skip future-or-past
+          var nextPage = 'new-claim'
+          if (isNorthernIrelandClaim) {
+            nextPage = 'new-claim/same-journey-as-last-claim/past'
+          }
+
+          return res.redirect(`/apply/repeat/eligibility/${referenceId}/${nextPage}`)
+        })
+        .catch(function (error) {
+          next(error)
+        })
     } catch (error) {
       if (error instanceof ValidationError) {
-        getRepeatEligibility(req.params.reference, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
+        getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
           .then(function (eligibility) {
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,
               dob: req.params.dob,
-              reference: req.params.reference,
+              encryptedReference: req.params.reference,
               eligibility: eligibility,
               displayHelper: displayHelper
             })

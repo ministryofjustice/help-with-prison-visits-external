@@ -3,6 +3,8 @@ const ValidationError = require('../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../helpers/reference-id-helper')
 const insertVisitor = require('../../../services/data/insert-visitor')
+const getTravellingFromAndTo = require('../../../services/data/get-travelling-from-and-to')
+const prisonsHelper = require('../../../constants/helpers/prisons-helper')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit/:referenceId', function (req, res) {
@@ -41,7 +43,19 @@ module.exports = function (router) {
 
       insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou)
       .then(function () {
-        return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/new-claim`)
+        return getTravellingFromAndTo(referenceAndEligibilityId.reference)
+          .then(function (result) {
+            var nameOfPrison = result.to
+            var isNorthernIrelandClaim = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
+
+            // Northern Ireland claims cannot be advance claims so skip future-or-past
+            var nextPage = 'new-claim'
+            if (isNorthernIrelandClaim) {
+              nextPage = 'new-claim/past'
+            }
+
+            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/${nextPage}`)
+          })
       })
       .catch(function (error) {
         next(error)

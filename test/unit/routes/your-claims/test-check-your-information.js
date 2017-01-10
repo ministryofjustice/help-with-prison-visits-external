@@ -74,6 +74,7 @@ describe('/your-claims/check-your-information', function () {
 
     it('should respond with a 302 and redirect to /apply/repeat/eligibility/:referenceId/new-claim', function () {
       CheckYourInformation.returns({})
+      getRepeatEligibility.resolves({NameOfPrison: 'hewell'})
       var eligibilityId = '1234'
       var referenceId = `${REFERENCE}-${eligibilityId}`
       var encryptedReferenceId = encrypt(referenceId)
@@ -86,6 +87,23 @@ describe('/your-claims/check-your-information', function () {
           sinon.assert.calledOnce(CheckYourInformation)
         })
         .expect('location', `/apply/repeat/eligibility/${encryptedReferenceId}/new-claim`)
+    })
+
+    it('should redirect to /apply/repeat/eligibility/:referenceId/new-claim/same-journey-as-last-claim/past for Northern Ireland prison', function () {
+      CheckYourInformation.returns({})
+      getRepeatEligibility.resolves({NameOfPrison: 'maghaberry'})
+      var eligibilityId = '1234'
+      var referenceId = `${REFERENCE}-${eligibilityId}`
+      var encryptedReferenceId = encrypt(referenceId)
+
+      return supertest(app)
+        .post(ROUTE)
+        .send({EligibilityId: eligibilityId})
+        .expect(302)
+        .expect(function () {
+          sinon.assert.calledOnce(CheckYourInformation)
+        })
+        .expect('location', `/apply/repeat/eligibility/${encryptedReferenceId}/new-claim/same-journey-as-last-claim/past`)
     })
 
     it('should respond with a 400 for a validation error', function () {
