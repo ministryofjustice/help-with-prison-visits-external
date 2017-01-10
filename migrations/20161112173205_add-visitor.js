@@ -3,7 +3,6 @@ exports.up = function (knex, Promise) {
     table.increments('VisitorId')
     table.integer('EligibilityId').unsigned().notNullable()
     table.string('Reference', 10).notNullable().index()
-    table.string('Title', 10).notNullable()
     table.string('FirstName', 100).notNullable()
     table.string('LastName', 100).notNullable()
     table.string('NationalInsuranceNumber', 10).notNullable()
@@ -33,4 +32,8 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
   return knex.schema.dropTable('Visitor')
+    .catch(function (error) {
+      console.log(error)
+      throw error
+    })
 }
