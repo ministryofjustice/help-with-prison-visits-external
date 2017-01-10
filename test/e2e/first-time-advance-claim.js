@@ -89,7 +89,6 @@ describe('First Time Claim Flow', () => {
       .setValue('#from-input', 'Euston')
       .setValue('#to-input', 'Birmingham New Street')
       .click('[for="return-no"]')
-      .click('[for="is-child-no"]')
       .setValue('#cost-input', '20')
       .click('#bus-details-submit')
 

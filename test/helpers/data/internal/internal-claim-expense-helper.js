@@ -10,7 +10,7 @@ module.exports.TO = 'Edinburgh'
 module.exports.IS_RETURN = true
 module.exports.DURATION_OF_TRAVEL = null
 module.exports.TICKET_TYPE = null
-module.exports.IS_CHILD = false
+module.exports.TICKET_OWNER = 'you'
 
 module.exports.build = function () {
   return {
@@ -23,7 +23,7 @@ module.exports.build = function () {
     IsReturn: this.IS_RETURN,
     DurationOfTravel: this.DURATION_OF_TRAVEL,
     TicketType: this.TICKET_TYPE,
-    IsChild: this.IS_CHILD,
+    TicketOwner: this.TICKET_OWNER,
     IsEnabled: true
   }
 }
@@ -44,7 +44,7 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
     IsReturn: expense.IsReturn,
     DurationOfTravel: expense.DurationOfTravel,
     TicketType: expense.TicketType,
-    IsChild: expense.IsChild,
+    TicketOwner: expense.TicketOwner,
     IsEnabled: expense.IsEnabled
   })
 }

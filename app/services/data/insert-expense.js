@@ -19,7 +19,7 @@ module.exports = function (reference, eligibilityId, claimId, expense) {
     IsReturn: expense.isReturn === 'yes',
     DurationOfTravel: expense.durationOfTravel || null,
     TicketType: expense.ticketType || null,
-    IsChild: expense.isChild === 'yes',
+    TicketOwner: expense.ticketOwner || null,
     IsEnabled: true
   })
 }

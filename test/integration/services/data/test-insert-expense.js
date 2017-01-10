@@ -33,7 +33,7 @@ describe('services/data/insert-expense', function () {
         expect(expense.IsReturn).to.equal(expenseHelper.IS_RETURN === 'yes')
         expect(expense.DurationOfTravel).to.equal(expenseHelper.DURATION_OF_TRAVEL)
         expect(expense.TicketType).to.equal(expenseHelper.TICKET_TYPE)
-        expect(expense.IsChild).to.equal(expenseHelper.IS_CHILD === 'yes')
+        expect(expense.TicketOwner).to.equal(expenseHelper.TICKET_OWNER)
       })
   })
 
