@@ -7,13 +7,6 @@ exports.up = function (knex, Promise) {
     table.string('AccountNumber', 8)
     table.string('SortCode', 6)
   })
-  .then(function () {
-    return knex.schema.alterTable('ClaimBankDetail', function (table) {
-      table
-        .foreign(['ClaimId', 'EligibilityId', 'Reference'])
-        .references(['Claim.ClaimId', 'Claim.EligibilityId', 'Claim.Reference'])
-    })
-  })
   .catch(function (error) {
     console.log(error)
     throw error

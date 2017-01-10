@@ -11,13 +11,6 @@ exports.up = function (knex, Promise) {
     table.dateTime('DateSubmitted')
     table.boolean('IsEnabled')
   })
-  .then(function () {
-    return knex.schema.alterTable('ClaimDocument', function (table) {
-      table
-        .foreign(['EligibilityId', 'Reference'])
-        .references(['Claim.EligibilityId', 'Claim.Reference'])
-    })
-  })
   .catch(function (error) {
     console.log(error)
     throw error
