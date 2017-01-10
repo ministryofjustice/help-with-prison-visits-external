@@ -1,15 +1,10 @@
 exports.up = function (knex, Promise) {
   return knex.schema.createTable('Eligibility', function (table) {
-    table.increments('EligibilityId')
-    table.string('Reference', 10).notNullable().index()
+    table.increments('EligibilityId').unique()
+    table.string('Reference', 10).notNullable().index().unique()
     table.dateTime('DateCreated').notNullable()
     table.dateTime('DateSubmitted')
     table.string('Status', 20).notNullable()
-  })
-  .then(function () {
-    return knex.schema.alterTable('Eligibility', function (table) {
-      table.unique(['EligibilityId', 'Reference'])
-    })
   })
   .catch(function (error) {
     console.log(error)

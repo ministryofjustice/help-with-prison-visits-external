@@ -1,9 +1,9 @@
 exports.up = function (knex, Promise) {
   return knex.schema.createTable('ClaimExpense', function (table) {
     table.increments('ClaimExpenseId')
-    table.integer('EligibilityId').unsigned().notNullable()
-    table.string('Reference', 10).notNullable().index()
-    table.integer('ClaimId').unsigned().notNullable()
+    table.integer('EligibilityId').unsigned().notNullable().references('Claim.EligibilityId')
+    table.string('Reference', 10).notNullable().index().references('Claim.Reference')
+    table.integer('ClaimId').unsigned().notNullable().references('Claim.ClaimId')
     table.string('ExpenseType', 100).notNullable()
     table.decimal('Cost').notNullable()
     table.string('TravelTime', 100)
@@ -12,15 +12,8 @@ exports.up = function (knex, Promise) {
     table.boolean('IsReturn')
     table.integer('DurationOfTravel')
     table.string('TicketType', 100)
-    table.boolean('IsChild')
+    table.string('TicketOwner', 10)
     table.boolean('IsEnabled')
-  })
-  .then(function () {
-    return knex.schema.alterTable('ClaimExpense', function (table) {
-      table
-        .foreign(['ClaimId', 'EligibilityId', 'Reference'])
-        .references(['Claim.ClaimId', 'Claim.EligibilityId', 'Claim.Reference'])
-    })
   })
   .catch(function (error) {
     console.log(error)
