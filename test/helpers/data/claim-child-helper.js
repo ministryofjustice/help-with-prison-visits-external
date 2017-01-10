@@ -5,7 +5,8 @@ const AboutChild = require('../../../app/services/domain/about-child')
 const insertChild = require('../../../app/services/data/insert-child')
 const dateFormatter = require('../../../app/services/date-formatter')
 
-module.exports.CHILD_NAME = 'Joe Bloggs'
+module.exports.FIRST_NAME = 'Joe'
+module.exports.LAST_NAME = 'Bloggs'
 module.exports.DAY = '15'
 module.exports.MONTH = '05'
 module.exports.YEAR = '2014'
@@ -14,7 +15,8 @@ module.exports.DOB = dateFormatter.build(this.DAY, this.MONTH, this.YEAR)
 
 module.exports.build = function () {
   return new AboutChild(
-    this.CHILD_NAME,
+    this.FIRST_NAME,
+    this.LAST_NAME,
     this.DAY,
     this.MONTH,
     this.YEAR,

@@ -25,7 +25,8 @@ describe('services/data/insert-child', function () {
         expect(child.EligibilityId).to.equal(eligibilityId)
         expect(child.Reference).to.equal(REFERENCE)
         expect(child.ClaimId).to.equal(claimId)
-        expect(child.Name).to.equal(claimChildHelper.CHILD_NAME)
+        expect(child.FirstName).to.equal(claimChildHelper.FIRST_NAME)
+        expect(child.LastName).to.equal(claimChildHelper.LAST_NAME)
         expect(child.DateOfBirth).to.be.within(
           claimChildHelper.DOB.subtract(1, 'seconds').toDate(),
           claimChildHelper.DOB.add(1, 'seconds').toDate()

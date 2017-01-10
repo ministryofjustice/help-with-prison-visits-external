@@ -7,8 +7,9 @@ const CHILD_MAXIMUM_AGE_IN_YEARS = 18
 const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 
 class AboutChild {
-  constructor (childName, day, month, year, childRelationship) {
-    this.childName = childName ? childName.replace(unsafeInputPattern, '').trim() : ''
+  constructor (firstName, lastName, day, month, year, childRelationship) {
+    this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
+    this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''
     this.dobFields = [
       day ? day.trim() : '',
       month ? month.trim() : '',
@@ -22,7 +23,10 @@ class AboutChild {
   isValid () {
     var errors = ErrorHandler()
 
-    FieldValidator(this.childName, 'child-name', errors)
+    FieldValidator(this.firstName, 'first-name', errors)
+      .isRequired()
+
+    FieldValidator(this.lastName, 'last-name', errors)
       .isRequired()
 
     FieldsetValidator(this.dobFields, 'dob', errors)

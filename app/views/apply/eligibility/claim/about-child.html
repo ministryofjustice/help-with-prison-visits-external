@@ -21,17 +21,31 @@
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/child" method="post">
 
-        <div id="child-name" class="form-group {% if errors['child-name'][0] %} error {% endif %}">
-          <label class="form-label-bold" for="child-name-input">Child name</label>
+        <div id="first-name" class="form-group {% if errors['first-name'][0] %} error {% endif %}">
+          <label class="form-label-bold" for="first-name-input">First name</label>
 
-          {% if errors['child-name'][0] %}
-            <span class="error-message">{{ errors['child-name'][0] }}</span>
+          {% if errors['first-name'][0] %}
+          <span class="error-message">{{ errors['first-name'][0] }}</span>
           {% endif %}
 
-          <input id="child-name-input"
+          <input id="first-name-input"
                  type="text"
-                 name="child-name"
-                 value="{{ claimant['child-name'] }}"
+                 name="first-name"
+                 value="{{ claimant['first-name'] }}"
+                 class="form-control">
+        </div>
+
+        <div id="last-name" class="form-group {% if errors['last-name'][0] %} error {% endif %}">
+          <label class="form-label-bold" for="last-name-input">Last name</label>
+
+          {% if errors['last-name'][0] %}
+          <span class="error-message">{{ errors['last-name'][0] }}</span>
+          {% endif %}
+
+          <input id="last-name-input"
+                 type="text"
+                 name="last-name"
+                 value="{{ claimant['last-name'] }}"
                  class="form-control">
         </div>
 
