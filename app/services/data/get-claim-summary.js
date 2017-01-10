@@ -83,7 +83,7 @@ module.exports = function (claimId, claimType) {
             .join('ClaimChild', 'Claim.ClaimId', '=', 'ClaimChild.ClaimId')
             .where({ 'Claim.ClaimId': claimId, 'ClaimChild.IsEnabled': true })
             .select()
-            .orderBy('ClaimChild.Name')
+            .orderBy('ClaimChild.FirstName')
             .then(function (claimChild) {
               return {
                 claimExpenses: claimExpenses,

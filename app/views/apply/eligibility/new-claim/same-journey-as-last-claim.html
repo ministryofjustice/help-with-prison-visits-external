@@ -46,7 +46,7 @@
       <p>
         <div class="bold">Children</div>
         {% for claimChild in lastClaimDetails.children %}
-        <div>{{ claimChild.Name }}</div>
+        <div>{{ claimChild.FirstName }} {{ claimChild.LastName }}</div>
         {% endfor %}
       </p>
       {% else %}

@@ -91,7 +91,8 @@ describe('First Time Claim Flow', () => {
 
       // About Child #1
       .waitForExist('#about-child-submit')
-      .setValue('#child-name-input', 'Sam Bloggs')
+      .setValue('#first-name-input', 'Sam')
+      .setValue('#last-name-input', 'Bloggs')
       .setValue('#dob-day-input', '15')
       .setValue('#dob-month-input', '05')
       .setValue('#dob-year-input', '2014')
@@ -104,7 +105,8 @@ describe('First Time Claim Flow', () => {
 
       // About Child #2
       .waitForExist('#about-child-submit')
-      .setValue('#child-name-input', 'Lewis Bloggs')
+      .setValue('#first-name-input', 'Lewis')
+      .setValue('#last-name-input', 'Bloggs')
       .setValue('#dob-day-input', '20')
       .setValue('#dob-month-input', '12')
       .setValue('#dob-year-input', '2013')

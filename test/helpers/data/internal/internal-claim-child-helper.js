@@ -4,7 +4,8 @@ const childRelationshipEnum = require('../../../../app/constants/child-relations
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 module.exports.CLAIM_CHILD_ID = Math.floor(Date.now() / 100) - 14000000000
-module.exports.CHILD_NAME = 'Joe Bloggs'
+module.exports.FIRST_NAME = 'Joe'
+module.exports.LAST_NAME = 'Bloggs'
 module.exports.DAY = '15'
 module.exports.MONTH = '05'
 module.exports.YEAR = '2014'
@@ -14,7 +15,8 @@ module.exports.DOB = dateFormatter.build(this.DAY, this.MONTH, this.YEAR)
 module.exports.build = function () {
   return {
     ClaimChildId: this.CLAIM_CHILD_ID,
-    Name: this.CHILD_NAME,
+    FirstName: this.FIRST_NAME,
+    LastName: this.LAST_NAME,
     DateOfBirth: this.DOB.toDate(),
     Relationship: this.CHILD_RELATIONSHIP,
     IsEnabled: true
@@ -29,7 +31,8 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
     ClaimId: claimId,
     EligibilityId: eligibilityId,
     Reference: reference,
-    Name: child.Name,
+    FirstName: child.FirstName,
+    LastName: child.LastName,
     DateOfBirth: child.DateOfBirth,
     Relationship: child.Relationship,
     IsEnabled: child.IsEnabled
