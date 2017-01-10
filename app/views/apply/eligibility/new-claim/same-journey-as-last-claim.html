@@ -42,6 +42,17 @@
         </tbody>
       </table>
 
+      {% if lastClaimDetails.escort[0] %}
+      <p>
+        <div class="bold">Escort</div>
+        {% for claimEscort in lastClaimDetails.escort %}
+        <div>{{ claimEscort.FirstName + ' ' + claimEscort.LastName }}</div>
+        {% endfor %}
+      </p>
+      {% else %}
+      <br>
+      {% endif %}
+
       {% if lastClaimDetails.children[0] %}
       <p>
         <div class="bold">Children</div>

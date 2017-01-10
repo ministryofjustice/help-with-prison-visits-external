@@ -20,6 +20,9 @@ module.exports = function (reference, eligibilityId, claim) {
       })
       return insertClaimDetail('ClaimExpense', reference, eligibilityId, claimId, lastClaimDetails.expenses)
     })
+    .then(function () {
+      return insertClaimDetail('ClaimEscort', reference, eligibilityId, claimId, lastClaimDetails.escort)
+    })
     .then(function () { return claimId })
 }
 
