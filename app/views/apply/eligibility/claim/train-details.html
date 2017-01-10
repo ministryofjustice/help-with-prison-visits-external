@@ -21,6 +21,7 @@
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/train{{ params }}"
             method="post">
+        {% include "partials/expenses/ticket-owner.html" %}
 
         {% set exampleFrom = 'Euston' %}
         {% include "partials/expenses/from.html" %}
@@ -29,8 +30,6 @@
         {% include "partials/expenses/to.html" %}
 
         {% include "partials/expenses/return-journey.html" %}
-
-        {% include "partials/expenses/is-child.html" %}
 
         {% set costExample = 20 %}
         {% include "partials/expenses/cost.html" %}

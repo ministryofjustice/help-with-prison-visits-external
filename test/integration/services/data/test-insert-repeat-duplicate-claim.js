@@ -3,6 +3,7 @@ const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
+const ticketOwnerEnum = require('../../../../app/constants/ticket-owner-enum')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 require('sinon-bluebird')
@@ -36,7 +37,7 @@ describe('services/data/insert-repeat-duplicate-claim', function () {
       IsReturn: false,
       DurationOfTravel: null,
       TicketType: null,
-      IsChild: false
+      TicketOwner: ticketOwnerEnum.YOU.value
     }
   ]
   const LAST_CLAIM_DETAILS = { children: CHILDREN, expenses: EXPENSES }

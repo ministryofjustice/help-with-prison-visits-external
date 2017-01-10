@@ -24,6 +24,7 @@
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/ferry{{ params }}"
             method="post">
+        {% include "partials/expenses/ticket-owner.html" %}
 
         {% set exampleFrom = 'Portsmouth' %}
         {% include "partials/expenses/from.html" %}
@@ -32,8 +33,6 @@
         {% include "partials/expenses/to.html" %}
 
         {% include "partials/expenses/return-journey.html" %}
-
-        {% include "partials/expenses/is-child.html" %}
 
         <div class="form-group {% if errors['ticket-type'][0] %} error {% endif %}">
 

@@ -47,5 +47,6 @@ module.exports = {
   'improve-service': 'Message',
   'terms-and-conditions': 'Agreement to our terms and conditions',
   'has-escort': 'response',
-  'has-child': 'response'
+  'has-child': 'response',
+  'ticket-owner': 'A ticket owner'
 }

@@ -1,0 +1,41 @@
+{% if expenseOwners.child or expenseOwners.escort %}
+  <div class='form-group {% if errors['ticket-owner'][0] %} error {% endif %}' id='ticket-owner'>
+    <h2 class='form-label-bold'>Who is this ticket for?</h2>
+    <label for="is-your-ticket" class="block-label inline">
+        <input id="is-your-ticket"
+              type="radio"
+              name="ticket-owner"
+              value="you">
+        Yourself
+    </label>
+    {% if expenseOwners.child %}
+      <label for="is-child-ticket" class="block-label inline">
+        <input id="is-child-ticket"
+                type="radio"
+                name="ticket-owner"
+                value="child">
+        Child
+      </label>
+    {% endif %}
+    {% if expenseOwners.escort %}
+      <label for="is-escort-ticket" class="block-label inline">
+        <input id="is-escort-ticket"
+                type="radio"
+                name="ticket-owner"
+                value="escort">
+        Escort
+      </label>
+    {% endif %}
+  </div>
+{% else %}
+  <div class='form-group {% if errors['ticket-owner'][0] %} error {% endif %}' id='ticket-owner'>
+    <label for="is-your-ticket" class="block-label inline js-hidden">
+        <input id="is-your-ticket"
+              type="radio"
+              name="ticket-owner"
+              value="you"
+              checked>
+        Yourself
+    </label>
+  </div>
+{% endif %}
