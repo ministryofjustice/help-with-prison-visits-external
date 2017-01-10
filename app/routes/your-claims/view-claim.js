@@ -60,11 +60,7 @@ module.exports = function (router) {
             benefit.push({fromInternalWeb: true})
           }
 
-          var bankDetails = {
-            accountNumber: AccountNumber,
-            sortCode: SortCode,
-            required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
-          }
+          var bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT' }
           var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message, bankDetails) // eslint-disable-line no-unused-vars
           submitUpdate(decryptedReference, claimDetails.claim.EligibilityId, req.params.claimId, message, bankDetails)
             .then(function () {
