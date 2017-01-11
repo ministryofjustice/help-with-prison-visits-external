@@ -16,14 +16,14 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Are you bringing any children?
+        Do you want to claim expenses for any children?
       </h2>
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/has-child" method="post">
 
         <div id="has-child" class="form-group {% if errors['has-child'][0] %} error {% endif %}">
 
-          <h2 class="form-label-bold">Did you bring any children on this visit?</h2>
+          <p>We may ask you later for evidence of the relationship.</p>
 
           {% if errors['has-child'][0] %}
             <span class="error-message">{{ errors['has-child'][0] }}</span>

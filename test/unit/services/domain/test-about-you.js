@@ -148,7 +148,7 @@ describe('services/domain/about-you', function () {
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
 
-      expect(e.validationErrors['PostCode'][0]).to.equal('Post code must have valid format')
+      expect(e.validationErrors['PostCode'][0]).to.equal('Postcode must have valid format')
     }
     done()
   })

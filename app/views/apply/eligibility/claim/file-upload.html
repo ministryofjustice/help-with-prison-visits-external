@@ -19,7 +19,7 @@
       <p>{{ fileUploadGuidingText[document].guidingText }}</p>
 
       <h3 id="upload" class="heading-medium">Upload now</h3>
-      <p>Uploading your documentation is the fastest way to process your application.</p>
+      <p>Your claim will be processed faster if you upload your document.</p>
       <form action="{{ URL }}" method="post" class="form" enctype="multipart/form-data">
 
       {% include "partials/csrf-hidden-input.html" %}
@@ -39,14 +39,12 @@
         <br>
         <div class="form-group">
           <details role="group">
-            <summary role="button" aria-controls="details-content-0" aria-expanded="true"><span class="summary">Help with upload</span></summary>
+            <summary role="button" aria-controls="details-content-0" aria-expanded="true"><span class="summary">How to upload a file</span></summary>
             <div class="panel panel-border-narrow" id="details-content-0" aria-hidden="false">
               <ul class="list list-number">
-                <li>Photograph or capture your document using a camera, mobile phone, scanner or other device</li>
-                <li>Transfer the image to your computer, or attach your camera to your computer</li>
-                <li>Click “Choose File”</li>
-                <li>Locate and select the file</li>
-                <li>Click “Continue"</li>
+                <li>Take a photo using your smartphone, tablet or camera, or scan the document</li>
+                <li>Transfer the image to your computer or the device you’re using to make the claim</li>
+                <li>Go to ‘choose file’ above and find the image</li>
               </ul>
             </div>
           </details>
@@ -54,19 +52,18 @@
 
         <div id="alternative" class="form-group" {% if hideAlternative %} hidden {% endif %}>
           <br>
-          <h4 class="heading-small">Cannot Upload now?</h4>
-          <p>Your application will not be processed until we receive your file </p>
+          <h4 class="heading-small">Can’t upload now?</h4>
 
           <label for="Post" class="block-label">
             <input type="radio" name="alternative" value="post-later" id="Post">
             <span class="heading-small">Send by post</span>
-            <br> Posting will add 10 days or more to the processing time
+            <br>It will take 10 or more days longer to process your claim
           </label>
 
           <label for="UploadLater" class="block-label">
             <input type="radio" name="alternative" value="upload-later" id="UploadLater">
             <span class="heading-small">Upload later</span>
-            <br> You can upload later, you will receive a reference number which you will use to finish your application
+            <br> You will get a reference number allowing you to return and complete your application
           </label>
         </div>
 

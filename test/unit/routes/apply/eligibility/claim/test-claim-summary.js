@@ -31,7 +31,8 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
       claim: {
         visitConfirmation: '',
         Benefit: '',
-        benefitDocument: []
+        benefitDocument: [],
+        IsAdvanceClaim: false
       }
     })
     getClaimDocumentFilePath = sinon.stub().resolves(FILEPATH_RESULT)
@@ -79,7 +80,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           expect(urlValidatorCalled).to.be.true
           expect(getClaimSummary.calledWith(CLAIMID, CLAIM_TYPE)).to.be.true
           expect(claimSummaryDomainObjectStub.calledOnce, 'Should have called to check validation').to.be.true
-          expect(response.headers['location']).to.be.equal(`/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details`)
+          expect(response.headers['location']).to.be.equal(`/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details?isAdvance=false`)
           done()
         })
     })

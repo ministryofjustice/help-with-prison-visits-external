@@ -16,14 +16,16 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Are you bringing an escort?
+        Do you want to claim expenses for a carer?
       </h2>
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/has-escort" method="post">
 
         <div id="has-escort" class="form-group {% if errors['has-escort'][0] %} error {% endif %}">
 
-          <h2 class="form-label-bold">Did you bring an escort on this visit?</h2>
+          <p>You can claim travel and expenses for someone who helped you if you are 75 or over, or have a serious medical condition.</p>
+
+          <p>We may ask later for evidence of any medical condition.</p>
 
           {% if errors['has-escort'][0] %}
             <span class="error-message">{{ errors['has-escort'][0] }}</span>

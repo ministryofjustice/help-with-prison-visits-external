@@ -25,10 +25,10 @@ describe('views/helpers/claim-expense-helper', function () {
       .to.equal(`${FROM} to ${TO}`)
 
     expect(claimExpenseHelper({ ExpenseType: 'refreshment', TravelTime: 'over-five' }))
-      .to.equal('Over five hours away but under ten hours')
+      .to.equal('Over 5 hours away but under ten hours')
 
     expect(claimExpenseHelper({ ExpenseType: 'refreshment', TravelTime: 'over-ten' }))
-      .to.equal('Over ten hours away')
+      .to.equal('Over 10 hours away')
 
     expect(claimExpenseHelper({ ExpenseType: 'accommodation', DurationOfTravel: DURATION_OF_TRAVEL }))
       .to.equal(`Nights stayed: ${DURATION_OF_TRAVEL}`)

@@ -6,7 +6,7 @@
 
   {% if claimDetails.claimEscort %}
   <tr>
-    <td>Escort</td>
+    <td>Carer</td>
     <td>{{ claimDetails.claimEscort['FirstName'] }} {{ claimDetails.claimEscort['LastName'] }}</td>
   </tr>
   {% endif %}
@@ -31,7 +31,7 @@
             {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'uploaded' and claimDetails.claim['BenefitStatus'] != 'REQUEST-INFORMATION'%}
               <span class="text-success">Benefit documentation uploaded</span>
             {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION'%}
-              <span class="text-warning">Benefit documentation required</span>
+              <span class="text-warning">Benefit documentation needed</span>
               <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-benefit-documentation" class="button grey pull-right">Add</a>
             {% else %}
               <span class="text-pending">Sending benefit documentation by post</span>
@@ -39,7 +39,11 @@
             {% endif %}
 
           {% else %}
-            <span {% if claimDetails.claim['BenefitStatus'] == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimDetails.claim['BenefitStatus']) }}</span>
+            {% if forReview and claimDetails.claim['BenefitStatus'] != 'APPROVED' %}
+              <span class="text-pending">In review</span>
+            {% else %}
+              <span {% if claimDetails.claim['BenefitStatus'] == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimDetails.claim['BenefitStatus']) }}</span>
+            {% endif %}
           {% endif %}
 
         {% else %}
@@ -99,7 +103,7 @@
               <button class="link" name="change" id="change-{{ claimDetails.claim['Benefit'] }}-post">change</button>
             </form>
           {% else %}
-            <span class="text-warning">Benefit documentation required</span>
+            <span class="text-warning">Benefit documentation needed</span>
             <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-benefit" class="button grey pull-right">Add</a>
           {% endif %}
 

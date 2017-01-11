@@ -19,6 +19,8 @@
         What is your date of birth?
       </h2>
 
+      <p>You must be over 16 to apply.</p>
+
       <form action="/apply/{{ claimType }}/new-eligibility" method="post">
 
         <div class="form-group date-of-birth {% if errors['dob'][0] %} error {% endif %}">
@@ -63,7 +65,7 @@
 
           </fieldset>
           <br>
-          <p class="form-hint">You must be over 16 to apply.</p>
+
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}

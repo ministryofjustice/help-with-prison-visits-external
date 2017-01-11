@@ -22,7 +22,6 @@ module.exports = function (router) {
     getViewClaim(req.params.claimId, decryptedReference, req.params.dob)
       .then(function (claimDetails) {
         var referenceId = referenceIdHelper.getReferenceId(decryptedReference, claimDetails.claim.EligibilityId)
-
         return res.render('your-claims/view-claim',
           {
             reference: decryptedReference,
@@ -39,7 +38,8 @@ module.exports = function (router) {
             viewClaim: true,
             claimStatusHelper: claimStatusHelper,
             claimEventHelper: claimEventHelper,
-            isRequestInfoPayment: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
+            isRequestInfoPayment: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT',
+            forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED'
           })
       })
   })
