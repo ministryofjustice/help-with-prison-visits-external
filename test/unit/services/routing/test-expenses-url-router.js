@@ -27,7 +27,7 @@ describe('services/routing/expenses-url-router', function () {
     const CLAIM_TYPE = 'first-time'
     const REFERENCEID = 'URLROUT-123'
     const CLAIM_ID = '456'
-    const ORIGINAL_URL = 'some url'
+    const ORIGINAL_URL = 'some-url'
     var validRequest = {
       body: {
         expenses: [

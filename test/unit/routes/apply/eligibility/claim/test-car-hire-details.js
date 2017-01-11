@@ -63,7 +63,7 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
   })
 
   describe(`POST ${ROUTE}`, function () {
-    const REDIRECT_URL = 'some url'
+    const REDIRECT_URL = 'some-url'
     const HIRE_EXPENSE = {}
 
     it('should call the URL Path Validator', function () {
