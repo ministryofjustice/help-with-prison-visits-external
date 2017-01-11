@@ -53,7 +53,7 @@ describe('Claim payment information requested', function () {
       .waitForExist('#reference')
   })
 
-  after(function() {
+  after(function () {
     internalEligibilityHelper.deleteAll(REFERENCE)
   })
 })

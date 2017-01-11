@@ -90,7 +90,7 @@ describe('Repeat claim duplicate claim', function () {
       .waitForExist('#reference')
   })
 
-  after(function() {
+  after(function () {
     internalEligibilityHelper.deleteAll(REFERENCE)
   })
 })
