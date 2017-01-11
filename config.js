@@ -29,5 +29,10 @@ module.exports = {
   EXT_SECURE_COOKIE: process.env.APVS_EXT_SECURE_COOKIE || 'false',
 
   // Common salt used for hashing reference ids (32 chars)
-  EXT_REFERENCE_SALT: process.env.APVS_EXT_REFERENCE_SALT || 'c1e59a204dd1b24c7130817b834eec69'
+  EXT_REFERENCE_SALT: process.env.APVS_EXT_REFERENCE_SALT || 'c1e59a204dd1b24c7130817b834eec69',
+
+    // CLAM Anti-Virus configuration
+  CLAM_AV_PATH: process.env.APVS_CLAM_AV_PATH || '/usr/local/bin/clamdscan',
+  CLAM_AV_CONF_PATH: process.env.APVS_CLAM_AV_CONF_PATH || '/usr/local/etc/clamav/clamd.conf',
+  CLAM_REMOVE_INFECTED: process.env.APVS_CLAM_AV_REMOVE_INFECTED || false
 }
