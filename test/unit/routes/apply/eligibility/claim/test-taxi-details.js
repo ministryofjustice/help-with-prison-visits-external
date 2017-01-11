@@ -63,7 +63,7 @@ describe('routes/apply/eligibility/claim/taxi-details', function () {
   })
 
   describe(`POST ${ROUTE}`, function () {
-    const REDIRECT_URL = 'some url'
+    const REDIRECT_URL = 'some-url'
     const TAXI_EXPENSE = {}
 
     it('should call the URL Path Validator', function () {
