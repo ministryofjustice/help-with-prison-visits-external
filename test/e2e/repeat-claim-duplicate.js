@@ -91,6 +91,7 @@ describe('Repeat claim duplicate claim', function () {
   })
 
   after(function () {
-    internalEligibilityHelper.deleteAll(REFERENCE)
+    internalEligibilityHelper.deleteAllExternal(REFERENCE)
+    internalEligibilityHelper.deleteAllInternal(REFERENCE)
   })
 })

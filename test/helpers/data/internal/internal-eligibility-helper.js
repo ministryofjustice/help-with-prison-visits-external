@@ -60,13 +60,21 @@ function deleteByReference (schemaTable, reference) {
   return knex(schemaTable).where('Reference', reference).del()
 }
 
-module.exports.deleteAll = function (reference) {
+module.exports.deleteAll = function (schema, reference) {
   return deleteByReference('IntSchema.ClaimDocument', reference)
-    .then(function () { return deleteByReference('IntSchema.ClaimExpense', reference) })
-    .then(function () { return deleteByReference('IntSchema.ClaimEvent', reference) })
-    .then(function () { return deleteByReference('IntSchema.ClaimChild', reference) })
-    .then(function () { return deleteByReference('IntSchema.Claim', reference) })
-    .then(function () { return deleteByReference('IntSchema.Visitor', reference) })
-    .then(function () { return deleteByReference('IntSchema.Prisoner', reference) })
-    .then(function () { return deleteByReference('IntSchema.Eligibility', reference) })
+    .then(function () { return deleteByReference(`${schema}.ClaimExpense`, reference) })
+    .then(function () { return deleteByReference(`${schema}.ClaimEvent`, reference) })
+    .then(function () { return deleteByReference(`${schema}.ClaimChild`, reference) })
+    .then(function () { return deleteByReference(`${schema}.Claim`, reference) })
+    .then(function () { return deleteByReference(`${schema}.Visitor`, reference) })
+    .then(function () { return deleteByReference(`${schema}.Prisoner`, reference) })
+    .then(function () { return deleteByReference(`${schema}.Eligibility`, reference) })
+}
+
+module.exports.deleteAllExternal = function (reference) {
+  this.deleteAll('ExtSchema', reference)
+}
+
+module.exports.deleteAllInternal = function (reference) {
+  this.deleteAll('IntSchema', reference)
 }
