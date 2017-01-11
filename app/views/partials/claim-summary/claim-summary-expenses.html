@@ -54,14 +54,17 @@
           {% endif %}
 
         {% else %}
-          <span {% if claimExpense.Status == 'APPROVED' or claimExpense.Status == 'APPROVED-DIFF-AMOUNT' %} class="text-success" {% else %} class="text-warning" {% endif %}>
-            {% if claimExpense.Status == 'REQUEST-INFORMATION' and not forEdit %}
-              Response with case worker
-            {% else %}
-              {{ claimStatusHelper(claimExpense.Status) }}
-            {% endif %}
-
-          </span>
+          {% if forReview and claimExpense.Status != 'APPROVED'  %}
+            <span class="text-pending">In review</span>
+          {% else %}
+            <span {% if claimExpense.Status == 'APPROVED' or claimExpense.Status == 'APPROVED-DIFF-AMOUNT' %} class="text-success" {% else %} class="text-warning" {% endif %}>
+              {% if claimExpense.Status == 'REQUEST-INFORMATION' and not forEdit %}
+                Response with case worker
+              {% else %}
+                {{ claimStatusHelper(claimExpense.Status) }}
+              {% endif %}
+            </span>
+          {% endif %}
         {% endif %}
 
       {% else %}

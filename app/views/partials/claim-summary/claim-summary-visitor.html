@@ -39,7 +39,11 @@
             {% endif %}
 
           {% else %}
-            <span {% if claimDetails.claim['BenefitStatus'] == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimDetails.claim['BenefitStatus']) }}</span>
+            {% if forReview and claimDetails.claim['BenefitStatus'] != 'APPROVED' %}
+              <span class="text-pending">In review</span>
+            {% else %}
+              <span {% if claimDetails.claim['BenefitStatus'] == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimDetails.claim['BenefitStatus']) }}</span>
+            {% endif %}
           {% endif %}
 
         {% else %}

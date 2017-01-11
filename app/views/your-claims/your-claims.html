@@ -10,6 +10,7 @@
 
   {% include "includes/phase_banner_beta.html" %}
 
+  <br>
   <div class="grid-row">
 
     <div class="column-two-thirds">
@@ -39,7 +40,7 @@
     </div>
 
     <div class="column-one-third">
-      <span class="text-secondary">Prisoner no.</span>
+      <span class="text-secondary">Prisoner number</span>
       <div class="bold-small">{{ claims[0].PrisonNumber }}</div>
     </div>
 
@@ -56,9 +57,9 @@
   <table>
 
     <tr>
-      <th>Date Submitted</th>
-      <th>Date of Journey</th>
-      <th>Status</th>
+      <th>Date sent</th>
+      <th>Date of visit</th>
+      <th>Progress</th>
       <th></th>
     </tr>
 
@@ -71,9 +72,11 @@
             {% if claim.Status == 'APPROVED-ADVANCE-CLOSED' %}
               >Approved
             {% elif forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
-              class ="text-warning your-claims">Information required
+              class ="text-warning your-claims">Information needed
+            {% elif claim.Status == 'APPROVED' %}
+              class ="text-pending your-claims">Information needed after visit takes place
             {% else %}
-              class ="text-pending your-claims">Information required after visit takes place
+              class ="text-pending your-claims">In progress
             {% endif %}
 
           {% else %}
