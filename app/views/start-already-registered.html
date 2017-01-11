@@ -16,17 +16,12 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        What is your reference number and date of birth?
+        Return visitors
       </h2>
 
-      <p>Use your reference number and date of birth to:</p>
+      <p>Sign in to check progress on a claim or apply without entering all of your information again.</p>
 
-      <ul class="list-bullet">
-        <li>apply for another visit without entering all of your information again</li>
-        <li>return to ongoing applications</li>
-      </ul>
-
-      <br>
+      <p>If you are visiting a different prisoner or they’ve moved prisons, <a href='/apply/first-time/new-eligibility'>start a new claim.</a></p>
 
       <form action="/start-already-registered" method="post">
 
@@ -46,6 +41,17 @@
           <br>
         </div>
 
+        <div class="form-group">
+          <details role="group">
+            <summary role="button" aria-controls="details-content-0" aria-expanded="true"><span class="summary">Where to find your reference number</span></summary>
+            <div class="panel panel-border-narrow" id="details-content-0" aria-hidden="false">
+              <ul class="list list-number">
+                <li>Check your confirmation or update emails from the Assisted Prison Visit Service (APVS).</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
         <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
 
           <fieldset>
@@ -57,8 +63,6 @@
               {% if errors['dob'][0] %}
                 <span class="error-message">{{ errors['dob'][0] }}</span>
               {% endif %}
-
-              <p class="form-hint">For example, 18 08 1989</p>
 
               <div class="form-group form-group-day">
                 <label id="dob-day" for="dob-day-input">Day</label>
