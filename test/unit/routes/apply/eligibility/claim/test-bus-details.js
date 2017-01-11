@@ -78,7 +78,7 @@ describe('routes/apply/eligibility/claim/bus-details', function () {
   })
 
   describe(`POST ${ROUTE}`, function () {
-    const REDIRECT_URL = 'some url'
+    const REDIRECT_URL = 'some-url'
     const BUS_EXPENSE = {}
 
     it('should call the URL Path Validator', function () {
