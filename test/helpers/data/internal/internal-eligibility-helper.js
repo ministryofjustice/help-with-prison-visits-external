@@ -62,9 +62,13 @@ function deleteByReference (schemaTable, reference) {
 
 module.exports.deleteAll = function (schema, reference) {
   return deleteByReference('IntSchema.ClaimDocument', reference)
+    .then(function () { return deleteByReference(`${schema}.ClaimBankDetail`, reference) })
+    .then(function () { return deleteByReference(`${schema}.ClaimDocument`, reference) })
+    .then(function () { return deleteByReference(`${schema}.ClaimDeduction`, reference) })
     .then(function () { return deleteByReference(`${schema}.ClaimExpense`, reference) })
     .then(function () { return deleteByReference(`${schema}.ClaimEvent`, reference) })
     .then(function () { return deleteByReference(`${schema}.ClaimChild`, reference) })
+    .then(function () { return deleteByReference(`${schema}.ClaimEscort`, reference) })
     .then(function () { return deleteByReference(`${schema}.Claim`, reference) })
     .then(function () { return deleteByReference(`${schema}.Visitor`, reference) })
     .then(function () { return deleteByReference(`${schema}.Prisoner`, reference) })
