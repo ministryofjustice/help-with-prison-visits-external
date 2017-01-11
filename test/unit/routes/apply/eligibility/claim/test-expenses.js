@@ -64,7 +64,7 @@ describe('routes/apply/eligibility/claim/expenses', function () {
   })
 
   describe(`POST ${ROUTE}`, function () {
-    const REDIRECT_URL = 'some url'
+    const REDIRECT_URL = 'some-url'
     const EXPENSES = {}
 
     it('should call the URL Path Validator', function () {
