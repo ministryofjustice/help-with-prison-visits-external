@@ -141,4 +141,9 @@ describe('Repeat claim with new eligibility details', function () {
       // Application submitted
       .waitForExist('#reference')
   })
+
+  after(function () {
+    internalEligibilityHelper.deleteAllExternal(REFERENCE)
+    internalEligibilityHelper.deleteAllInternal(REFERENCE)
+  })
 })

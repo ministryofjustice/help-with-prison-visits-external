@@ -60,10 +60,14 @@ function deleteByReference (schemaTable, reference) {
   return knex(schemaTable).where('Reference', reference).del()
 }
 
+/**
+ * This function deletes all records with the given reference in the given schema of the targetted tables.
+ * Excludes the DirectPaymentFile and AutoApprovalConfig tables.
+ */
 module.exports.deleteAll = function (schema, reference) {
-  return deleteByReference('IntSchema.ClaimDocument', reference)
-    .then(function () { return deleteByReference(`${schema}.ClaimBankDetail`, reference) })
+  return deleteByReference(`${schema}.Task`, reference)
     .then(function () { return deleteByReference(`${schema}.ClaimDocument`, reference) })
+    .then(function () { return deleteByReference(`${schema}.ClaimBankDetail`, reference) })
     .then(function () { return deleteByReference(`${schema}.ClaimDeduction`, reference) })
     .then(function () { return deleteByReference(`${schema}.ClaimExpense`, reference) })
     .then(function () { return deleteByReference(`${schema}.ClaimEvent`, reference) })
