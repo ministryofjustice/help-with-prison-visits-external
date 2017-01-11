@@ -16,7 +16,7 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        About child
+        About the child
       </h2>
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/child" method="post">
@@ -60,8 +60,6 @@
               {% if errors['dob'][0] %}
                 <span class="error-message">{{ errors['dob'][0] }}</span>
               {% endif %}
-
-              <p class="form-hint">For example, 18 08 1989</p>
 
               <div class="form-group form-group-day">
                 <label for="dob-day-input">Day</label>

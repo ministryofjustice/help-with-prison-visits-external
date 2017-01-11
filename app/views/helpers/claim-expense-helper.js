@@ -15,9 +15,9 @@ module.exports = function (expense) {
       break
     case 'refreshment':
       if (expense.TravelTime === 'over-five') {
-        formattedDetail = 'Over five hours away but under ten hours'
+        formattedDetail = 'Over 5 hours away but under ten hours'
       } else {
-        formattedDetail = 'Over ten hours away'
+        formattedDetail = 'Over 10 hours away'
       }
       break
     case 'accommodation':

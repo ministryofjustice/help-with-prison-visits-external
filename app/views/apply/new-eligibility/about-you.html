@@ -16,7 +16,7 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        About You
+        About you
       </h2>
 
       <form action="/apply/{{ claimType }}/new-eligibility/{{ dob }}/{{ relationship }}/{{ benefit }}/{{ referenceId }}"
@@ -100,7 +100,7 @@
         </div>
 
         <div class="form-group {% if errors['PostCode'][0] %} error {% endif %}">
-          <label id="PostCode" class="form-label-bold" for="post-code-input">Post code</label>
+          <label id="PostCode" class="form-label-bold" for="post-code-input">Postcode</label>
           {% if errors['PostCode'][0] %}
           <span class="error-message" id="error-message-post-code">{{ errors['PostCode'][0] }}</span>
           {% endif %}
@@ -125,7 +125,7 @@
           </select>
         </div>
 
-        <p class="heading-medium">Contact Details</p>
+        <p class="heading-medium">Contact details</p>
 
         <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
           <label id="EmailAddress" class="form-label-bold" for="email-address-input">Email address</label>

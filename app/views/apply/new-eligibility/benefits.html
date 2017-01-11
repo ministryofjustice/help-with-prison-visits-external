@@ -26,15 +26,17 @@
       {% endif %}
 
       <form action="{{ URL }}" method="post">
-        <div class="form-group {% if errors['benefit'][0] %} error {% endif %}">
-          <fieldset>
+        <fieldset class="{% if errors['benefit'][0] %} error {% endif %}">
 
+        <p>I receive:</p>
+
+          <div class="form-group">
             <label for="income-support" class="block-label">
               <input id="income-support"
                      type="radio"
                      name="benefit"
                      value="income-support">
-              Income Support
+              <span class="heading-small">Income Support</span>
             </label>
 
             <label for="jobseekers-allowance" class="block-label">
@@ -42,7 +44,9 @@
                      type="radio"
                      name="benefit"
                      value="jobseekers-allowance">
-              Jobseeker’s Allowance (Income based)
+              <span class="heading-small">Jobseeker’s Allowance (JSA)</span>
+              <br>
+              Income-based
             </label>
 
             <label for="employment-and-support-allowance" class="block-label">
@@ -50,7 +54,9 @@
                      type="radio"
                      name="benefit"
                      value="employment-support">
-              Employment and Support Allowance (Income related)
+              <span class="heading-small">Employment and Support Allowance (ESA)</span>
+              <br>
+              Income-based
             </label>
 
             <label for="universal-credit" class="block-label">
@@ -58,7 +64,9 @@
                      type="radio"
                      name="benefit"
                      value="universal-credit">
-              Universal Credit (and you earn less than £1,250 a month)
+              <span class="heading-small">Universal Credit</span>
+              <br>
+              While earning less than £1,250 a month
             </label>
 
             <label for="working-or-child-tax-credits" class="block-label">
@@ -66,8 +74,9 @@
                      type="radio"
                      name="benefit"
                      value="working-tax-credit">
-              Working Tax credits with disability or Child tax credit (and you earn less than £17,474 a
-              year)
+              <span class="heading-small">Working Tax credits with disability or Child tax credit</span>
+              <br>
+              While earning less than £17,474 a year
             </label>
 
             <label for="pension-credit" class="block-label">
@@ -75,15 +84,21 @@
                      type="radio"
                      name="benefit"
                      value="pension-credit">
-              Pension Credit
+              <span class="heading-small">Pension Credit</span>
+              <br>
+              <br>
             </label>
+          </div>
 
+          <p>I have a:</p>
+
+            <div class="form-group">
             <label for="health-certificate2" class="block-label">
               <input id="health-certificate2"
                      type="radio"
                      name="benefit"
                      value="hc2">
-              Health Certificate (HC2)
+              <span class="heading-small">Health Certificate (HC2)</span>
             </label>
 
             <label for="health-certificate3" class="block-label">
@@ -91,7 +106,7 @@
                      type="radio"
                      name="benefit"
                      value="hc3">
-              Health Certificate (HC3)
+              <span class="heading-small">Health Certificate (HC3)</span>
             </label>
 
             <label for="nhs-tax-credit" class="block-label">
@@ -99,19 +114,21 @@
                      type="radio"
                      name="benefit"
                      value="nhs-tax-credit">
-              NHS Tax Credit Exemption Certificate
+              <span class="heading-small">NHS Tax Credit Exemption Certificate</span>
             </label>
+          </div>
 
+          <div class="form-group">
             <label for="none-of-the-above" class="block-label">
               <input id="none-of-the-above"
                      type="radio"
                      name="benefit"
                      value="none">
-              None of the above
+             <span class="heading-small">None of the above</span>
             </label>
+          </div>
 
-          </fieldset>
-        </div>
+        </fieldset>
 
         {% include "partials/csrf-hidden-input.html" %}
 

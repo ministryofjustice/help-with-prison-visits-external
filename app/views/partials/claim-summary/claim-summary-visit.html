@@ -93,7 +93,7 @@
               <button class="link" name="change" id="change-visit-confirmation-post">change</button>
             </form>
           {% else %}
-            <span class="text-warning">Visit confirmation required</span>
+            <span class="text-warning">Visit confirmation needed</span>
             <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-visit-confirmation" class="button grey pull-right">Add</a>
           {% endif %}
         {% endif %}

@@ -16,16 +16,15 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        About your light refreshment
+        Light refreshments
 
       </h2>
 
-      <p>A contribution to the cost of light refreshments may apply where your visit caused you to be away from home
-        for over 5 hours. This is the time it took you to travel to the prison and return home afterwards.</p>
+      <p> You can claim a contribution to food and drink costs if your visit caused you to be away from home for more than 5 hours.</p>
 
-      <p>A limit of £2.55 applies to visits over 5 hours, and £5.10 for visits over 10 hours.</p>
+      <p>The limit is £2.55 if you were away over 5 hours, and £5.10 if away over 10 hours.</p>
 
-      <p>Receipts should be held in case these are needed later on.</p>
+      <p>We may ask to see receipts later on.</p>
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/refreshment{{ params }}"
             method="post">
@@ -39,15 +38,6 @@
           {% endif %}
 
           <fieldset>
-
-            <label for="travel-time-up-to-five" class="block-label">
-              <input id="travel-time-up-to-five"
-                     type="radio"
-                     name="travel-time"
-                     value="up-to-five"
-                     {% if expense['travel-time'] == 'up-to-five' %} checked {% endif %}>
-              Up to 5 hours
-            </label>
 
             <label for="travel-time-over-five" class="block-label">
               <input id="travel-time-over-five"

@@ -16,22 +16,24 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        Your journey information
+        Date of prison visit
       </h2>
 
+      {% if advanceOrPast == 'past' %}
+        <p>The visit must have been in the last 28 days. You can apply for help with 2 visits a month.
+      {% else %}
+        <p>The visit must be in the next 28 days. You can apply for help with 2 visits a month.</p>
+      {% endif %}
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/new-claim/{{ advanceOrPast }}" method="post">
 
         <div class="form-group {% if errors['DateOfJourney'][0] %} error {% endif %}">
           <fieldset>
-            <legend id="DateOfJourney" class="form-label-bold">Date of prison visit</legend>
 
             {% if errors['DateOfJourney'][0] %}
               <span class="error-message" id="error-message-benefit">{{ errors['DateOfJourney'][0] }}</span>
             {% endif %}
 
             <div class="form-date">
-
-              <p class="form-hint">For example, 20 10 2016</p>
 
               <div class="form-group form-group-day">
                 <label for="date-of-journey-day">Day</label>
