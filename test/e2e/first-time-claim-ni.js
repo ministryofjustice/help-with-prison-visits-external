@@ -1,7 +1,13 @@
+const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
+const referenceIdHelper = require('../../app/routes/helpers/reference-id-helper')
 const dateFormatter = require('../../app/services/date-formatter')
 
 var todaysDate = dateFormatter.now()
 describe('First Time Claim Flow', () => {
+
+  // The reference will be generated as part of this flow. So capture it once it is generated.
+  var reference
+
   it('should display each page in the first time eligibility flow', () => {
     return browser.url('/')
 
@@ -45,6 +51,13 @@ describe('First Time Claim Flow', () => {
 
       // About you
       .waitForExist('#about-you-submit')
+
+      // Capture the reference.
+      .getUrl().then(function(url) {
+        var encryptedReference = url.split('/').pop()
+        reference = referenceIdHelper.extractReferenceId(encryptedReference).reference
+      })
+
       .setValue('#first-name-input', 'Mary')
       .setValue('#last-name-input', 'O\'Hara')
       .setValue('#national-insurance-number-input', 'AA123456A')
@@ -105,5 +118,10 @@ describe('First Time Claim Flow', () => {
 
       // Application submitted
       .waitForExist('#reference')
+  })
+
+  after(function () {
+    internalEligibilityHelper.deleteAllExternal(reference)
+    internalEligibilityHelper.deleteAllInternal(reference)
   })
 })
