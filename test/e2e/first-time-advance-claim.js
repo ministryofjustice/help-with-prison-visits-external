@@ -54,9 +54,7 @@ describe('First Time Claim Flow', () => {
       // Capture the reference.
       .getUrl().then(function (url) {
         var encryptedReference = url.split('/').pop()
-        return referenceIdHelper.extractReferenceId(encryptedReference).reference
-      }).then(function (decryptedReference) {
-        reference = decryptedReference
+        reference = referenceIdHelper.extractReferenceId(encryptedReference).reference
       })
 
       .setValue('#first-name-input', 'Joe')
