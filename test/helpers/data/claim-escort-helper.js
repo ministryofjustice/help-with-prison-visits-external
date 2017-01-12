@@ -30,7 +30,7 @@ module.exports.insert = function (reference, eligibilityId, claimId) {
 module.exports.get = function (claimId) {
   return knex.first()
     .from('ExtSchema.ClaimEscort')
-    .where('ClaimId', claimId)
+    .where({'ClaimId': claimId, 'IsEnabled': true})
 }
 
 module.exports.delete = function (claimId) {
