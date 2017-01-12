@@ -20,9 +20,9 @@
       </h2>
 
       {% if advanceOrPast == 'past' %}
-        <p>The visit must have been in the last 28 days. You can apply for help with 2 visits a month.
+        <p>The visit must have been in the last 28 days.</p>
       {% else %}
-        <p>The visit must be in the next 28 days. You can apply for help with 2 visits a month.</p>
+        <p>The visit must be in the next 28 days.</p>
       {% endif %}
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/new-claim/{{ advanceOrPast }}" method="post">
 
