@@ -5,7 +5,12 @@ module.exports = function (reference, eligibiltyId, claimId) {
   return knex.raw(`SELECT * FROM [IntSchema].[getClaimExpenseByIdOrLastApproved] (?, ?, ?)`, [ reference, eligibiltyId, claimId ])
   .then(function (claimExpenses) {
     claimExpenses.forEach(function (expense) {
-      expense.Cost = Number(expense.Cost).toFixed(2)
+      if (expense.Cost % 1 !== 0) {
+        expense.Cost = Number(expense.Cost).toFixed(2)
+      }
+      if (!expense.Cost) {
+        expense.Cost = 0
+      }
     })
 
     return claimExpenses
