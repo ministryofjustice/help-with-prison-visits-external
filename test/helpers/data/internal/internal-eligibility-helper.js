@@ -66,9 +66,7 @@ function deleteByReference (schemaTable, reference) {
 module.exports.deleteAll = function (reference) {
   var self = this
   return self.deleteAllExternal(reference)
-    .then(function () {
-      return self.deleteAllInternal(reference)
-    })
+    .then(function () { return self.deleteAllInternal(reference) })
 }
 
 /**
