@@ -122,4 +122,8 @@ describe('Repeat claim with new contact details', function () {
       // Application submitted
       .waitForExist('#reference')
   })
+
+  after(function () {
+    return internalEligibilityHelper.deleteAll(REFERENCE)
+  })
 })

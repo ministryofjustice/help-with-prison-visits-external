@@ -89,4 +89,8 @@ describe('Repeat claim duplicate claim', function () {
       // Application submitted
       .waitForExist('#reference')
   })
+
+  after(function () {
+    return internalEligibilityHelper.deleteAll(REFERENCE)
+  })
 })

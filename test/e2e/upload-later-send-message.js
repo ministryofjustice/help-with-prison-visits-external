@@ -50,4 +50,8 @@ describe('Upload later and send a message', function () {
       // Updated application page
       .waitForExist('#reference')
   })
+
+  after(function () {
+    return internalEligibilityHelper.deleteAll(REFERENCE)
+  })
 })

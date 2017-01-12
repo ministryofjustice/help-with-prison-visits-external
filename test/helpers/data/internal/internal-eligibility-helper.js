@@ -60,11 +60,45 @@ function deleteByReference (schemaTable, reference) {
   return knex(schemaTable).where('Reference', reference).del()
 }
 
+/**
+ * Deletes all records with the given reference across all schemas.
+ */
 module.exports.deleteAll = function (reference) {
-  return deleteByReference('IntSchema.ClaimDocument', reference)
+  var self = this
+  return self.deleteAllExternal(reference)
+    .then(function () { return self.deleteAllInternal(reference) })
+}
+
+/**
+ * Deletes all records with the given reference in the External schema.
+ */
+module.exports.deleteAllExternal = function (reference) {
+  return deleteByReference('ExtSchema.Task', reference)
+    .then(function () { return deleteByReference('ExtSchema.ClaimDocument', reference) })
+    .then(function () { return deleteByReference('ExtSchema.ClaimBankDetail', reference) })
+    .then(function () { return deleteByReference('ExtSchema.ClaimExpense', reference) })
+    .then(function () { return deleteByReference('ExtSchema.ClaimChild', reference) })
+    .then(function () { return deleteByReference('ExtSchema.ClaimEscort', reference) })
+    .then(function () { return deleteByReference('ExtSchema.Claim', reference) })
+    .then(function () { return deleteByReference('ExtSchema.Visitor', reference) })
+    .then(function () { return deleteByReference('ExtSchema.Prisoner', reference) })
+    .then(function () { return deleteByReference('ExtSchema.EligibilityVisitorUpdateContactDetail', reference) })
+    .then(function () { return deleteByReference('ExtSchema.Eligibility', reference) })
+}
+
+/**
+ * Deletes all records with the given reference in the Internal schema.
+ * Excludes the DirectPaymentFile and AutoApprovalConfig tables.
+ */
+module.exports.deleteAllInternal = function (reference) {
+  return deleteByReference('IntSchema.Task', reference)
+    .then(function () { return deleteByReference('IntSchema.ClaimDocument', reference) })
+    .then(function () { return deleteByReference('IntSchema.ClaimBankDetail', reference) })
+    .then(function () { return deleteByReference('IntSchema.ClaimDeduction', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimExpense', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimEvent', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimChild', reference) })
+    .then(function () { return deleteByReference('IntSchema.ClaimEscort', reference) })
     .then(function () { return deleteByReference('IntSchema.Claim', reference) })
     .then(function () { return deleteByReference('IntSchema.Visitor', reference) })
     .then(function () { return deleteByReference('IntSchema.Prisoner', reference) })
