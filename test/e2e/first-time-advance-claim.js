@@ -1,5 +1,5 @@
 const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
-const referenceIdHelper = require('../../app/routes/helpers/reference-id-helper')
+const referenceHelper = require('../helpers/e2e/reference-helper')
 const dateFormatter = require('../../app/services/date-formatter')
 
 var futureDate = dateFormatter.now().add(14, 'days')
@@ -53,8 +53,7 @@ describe('First Time Claim Flow', () => {
 
       // Capture the reference.
       .getUrl().then(function (url) {
-        var encryptedReference = url.split('/').pop()
-        reference = referenceIdHelper.extractReferenceId(encryptedReference).reference
+        reference = referenceHelper.extractReference(url)
       })
 
       .setValue('#first-name-input', 'Joe')
