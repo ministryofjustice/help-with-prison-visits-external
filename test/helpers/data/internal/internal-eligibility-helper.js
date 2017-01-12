@@ -60,6 +60,9 @@ function deleteByReference (schemaTable, reference) {
   return knex(schemaTable).where('Reference', reference).del()
 }
 
+/**
+ * Deletes all records with the given reference across all schemas.
+ */
 module.exports.deleteAll = function (reference) {
   var self = this
   return self.deleteAllExternal(reference)
@@ -69,7 +72,7 @@ module.exports.deleteAll = function (reference) {
 }
 
 /**
- * This function deletes all records with the given reference in the External schema.
+ * Deletes all records with the given reference in the External schema.
  */
 module.exports.deleteAllExternal = function (reference) {
   return deleteByReference('ExtSchema.Task', reference)
@@ -86,7 +89,7 @@ module.exports.deleteAllExternal = function (reference) {
 }
 
 /**
- * This function deletes all records with the given reference in the Internal schema.
+ * Deletes all records with the given reference in the Internal schema.
  * Excludes the DirectPaymentFile and AutoApprovalConfig tables.
  */
 module.exports.deleteAllInternal = function (reference) {
