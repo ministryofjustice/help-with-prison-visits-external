@@ -20,7 +20,15 @@ function sortClaimAndEligibility (claim, eligibility) {
 
 function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, externalClaimDocuments) {
   claimExpenses.forEach(function (expense) {
-    expense.Cost = Number(expense.Cost).toFixed(2)
+    if (!expense.Status || expense.Status === 'REQUEST-INFORMATION') {
+      expense.Cost = expense.RequestedCost
+    }
+    if (expense.Cost % 1 !== 0) {
+      expense.Cost = Number(expense.Cost).toFixed(2)
+    }
+    if (!expense.Cost) {
+      expense.Cost = 0
+    }
   })
   var externalDocumentMap = {}
   var multiPageDocuments = []
