@@ -57,7 +57,6 @@ module.exports.delete = function (reference) {
 }
 
 function deleteByReference (schemaTable, reference) {
-  console.log(`Delete by reference: DELETE ${schemaTable} WHERE Reference = ${reference}`)
   return knex(schemaTable).where('Reference', reference).del()
 }
 
