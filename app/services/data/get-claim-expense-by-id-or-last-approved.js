@@ -8,6 +8,9 @@ module.exports = function (reference, eligibiltyId, claimId) {
       if (expense.Cost % 1 !== 0) {
         expense.Cost = Number(expense.Cost).toFixed(2)
       }
+      if (!expense.Cost) {
+        expense.Cost = 0
+      }
     })
 
     return claimExpenses
