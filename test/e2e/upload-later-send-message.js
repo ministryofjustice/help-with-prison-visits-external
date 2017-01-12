@@ -52,7 +52,6 @@ describe('Upload later and send a message', function () {
   })
 
   after(function () {
-    internalEligibilityHelper.deleteAllExternal(REFERENCE)
-    internalEligibilityHelper.deleteAllInternal(REFERENCE)
+    return internalEligibilityHelper.deleteAll(REFERENCE)
   })
 })

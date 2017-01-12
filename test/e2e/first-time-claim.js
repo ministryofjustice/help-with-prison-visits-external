@@ -4,7 +4,6 @@ const dateFormatter = require('../../app/services/date-formatter')
 
 var todaysDate = dateFormatter.now()
 describe('First Time Claim Flow', () => {
-
   // The reference will be generated as part of this flow. So capture it once it is generated.
   var reference
 
@@ -53,9 +52,11 @@ describe('First Time Claim Flow', () => {
       .waitForExist('#about-you-submit')
 
       // Capture the reference.
-      .getUrl().then(function(url) {
+      .getUrl().then(function (url) {
         var encryptedReference = url.split('/').pop()
-        reference = referenceIdHelper.extractReferenceId(encryptedReference).reference
+        return referenceIdHelper.extractReferenceId(encryptedReference).reference
+      }).then(function (decryptedReference) {
+        reference = decryptedReference
       })
 
       .setValue('#first-name-input', 'Joe')
@@ -210,7 +211,6 @@ describe('First Time Claim Flow', () => {
   })
 
   after(function () {
-    internalEligibilityHelper.deleteAllExternal(reference)
-    internalEligibilityHelper.deleteAllInternal(reference)
+    return internalEligibilityHelper.deleteAll(reference)
   })
 })

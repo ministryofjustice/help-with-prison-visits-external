@@ -54,7 +54,6 @@ describe('Claim payment information requested', function () {
   })
 
   after(function () {
-    internalEligibilityHelper.deleteAllExternal(REFERENCE)
-    internalEligibilityHelper.deleteAllInternal(REFERENCE)
+    return internalEligibilityHelper.deleteAll(REFERENCE)
   })
 })
