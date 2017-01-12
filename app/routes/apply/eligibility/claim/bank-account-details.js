@@ -13,7 +13,8 @@ module.exports = function (router) {
     return res.render('apply/eligibility/claim/bank-account-details', {
       claimType: req.params.claimType,
       referenceId: req.params.referenceId,
-      claimId: req.params.claimId
+      claimId: req.params.claimId,
+      isAdvance: req.query.isAdvance
     })
   })
 
@@ -42,7 +43,8 @@ module.exports = function (router) {
           claimType: req.params.claimType,
           bankDetails: req.body,
           referenceId: req.params.referenceId,
-          claimId: req.params.claimId
+          claimId: req.params.claimId,
+          isAdvance: req.query.isAdvance
         })
       } else {
         throw error

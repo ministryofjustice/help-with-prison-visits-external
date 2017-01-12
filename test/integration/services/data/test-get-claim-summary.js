@@ -50,7 +50,7 @@ describe('services/data/get-claim-summary', function () {
           expect(result.claim.visitConfirmation.DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
           expect(result.claim.benefitDocument[0].DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
           expect(result.claimExpenses[0].ExpenseType).to.equal(expenseHelper.EXPENSE_TYPE)
-          expect(result.claimExpenses[0].Cost).to.equal(Number(expenseHelper.COST).toFixed(2))
+          expect(result.claimExpenses[0].Cost).to.equal(Number(expenseHelper.COST))
           expect(result.claimExpenses[0].DocumentStatus).to.equal(null)
           expect(result.claimChild[0].Name).to.equal(claimChildHelper.CHILD_NAME)
           expect(result.claimEscort.FirstName).to.equal(claimEscortHelper.FIRST_NAME)

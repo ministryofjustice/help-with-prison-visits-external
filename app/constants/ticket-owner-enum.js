@@ -9,6 +9,6 @@ module.exports = {
   },
   ESCORT: {
     value: 'escort',
-    displayValue: 'Medical Escort'
+    displayValue: 'Medical Carer'
   }
 }

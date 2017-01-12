@@ -1,23 +1,28 @@
-<h1 class="heading-medium">Additional information</h1>
+<div class="form-group">
 
-<ul class="claim-dialog-public">
+  <h1 class="heading-medium">Messages from caseworker</h1>
 
-{% for event in claimDetails.claimEvents %}
+  <ul class="claim-dialog-public">
 
-  {% if event.Caseworker %}
-    <li class="caseworker">
-      <h2>Caseworker</h2>
-      <h2>{{ claimEventHelper(event.Event) }}</h2>
-      <p>{{ event.Note }}</p>
-      <p class="time">{{ dateHelper(event.DateAdded) }}</p>
+  {% for event in claimDetails.claimEvents %}
 
-  {% else %}
-    <li class="claimant">
-      <h2>{{claimDetails.claim.FirstName}} {{claimDetails.claim.LastName}}</h2>
-      <p>{{ event.Note }}</p>
-      <p class="time">{{ dateHelper(event.DateAdded) }}</p>
+    {% if event.Caseworker %}
+      <li class="caseworker">
+        <h2>Caseworker</h2>
+        <h2>{{ claimEventHelper(event.Event) }}</h2>
+        <p>{{ event.Note }}</p>
+        <p class="time">{{ dateHelper(event.DateAdded) }}</p>
 
-  {% endif %}
+    {% else %}
+      <li class="claimant">
+        <h2>{{claimDetails.claim.FirstName}} {{claimDetails.claim.LastName}}</h2>
+        <p>{{ event.Note }}</p>
+        <p class="time">{{ dateHelper(event.DateAdded) }}</p>
+      </li>
 
-{% endfor %}
-</ul>
+    {% endif %}
+
+  {% endfor %}
+  </ul>
+
+</div>

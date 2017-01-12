@@ -16,7 +16,7 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 class="heading-large">
-        About your escort
+        About your carer
       </h2>
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/escort" method="post">
@@ -51,15 +51,13 @@
 
         <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
           <fieldset>
-            <legend id="dob" class="form-label-bold">Escort date of birth</legend>
+            <legend id="dob" class="form-label-bold">Date of birth</legend>
 
             {% if errors['dob'][0] %}
               <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
             {% endif %}
 
             <div class="form-date">
-
-              <p class="form-hint">For example, 18 08 1989</p>
 
               <div class="form-group form-group-day">
                 <label for="dob-day">Day</label>

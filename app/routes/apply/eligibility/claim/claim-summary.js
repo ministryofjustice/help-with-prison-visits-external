@@ -43,7 +43,7 @@ module.exports = function (router) {
           benefitDocument = claimDetails.claim.benefitDocument[0]
         }
         var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation, claimDetails.claim.Benefit, benefitDocument, claimDetails.claimExpenses, claimDetails.claim.IsAdvanceClaim) // eslint-disable-line no-unused-vars
-        return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/bank-account-details`)
+        return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/bank-account-details?isAdvance=${claimDetails.claim.IsAdvanceClaim}`)
       })
       .catch(function (error) {
         if (error instanceof ValidationError) {

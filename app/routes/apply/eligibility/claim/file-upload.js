@@ -60,6 +60,7 @@ function post (req, res, next, redirectURL) {
   } else {
     reference = decrypt(req.params.reference)
     id = req.query.eligibilityId
+    req.params.referenceId = referenceIdHelper.getReferenceId(reference, id)
   }
 
   Upload(req, res, function (error) {

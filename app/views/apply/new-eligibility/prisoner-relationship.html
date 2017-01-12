@@ -16,7 +16,7 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h2 id='relationship' class="heading-large">
-        How are you related to the person you’re visiting?
+        How are you related to the prisoner?
       </h2>
 
       {% if errors['relationship'][0] %}
@@ -26,7 +26,7 @@
       <form action="{{ URL }}" method="post">
         <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
           <fieldset>
-
+          <p>They are:</p>
             <label for="husband-wife-civil" class="block-label" data-target="husband-wife-civil-question">
               <input id="husband-wife-civil"
                      type="radio"
@@ -82,9 +82,8 @@
                      type="radio"
                      name="relationship"
                      value="sole-visitor">
-              <span class="heading-small">Sole Visitor</span>
+              <span class="heading-small">None of the above, but I am their only visitor for the next 4 weeks (sole visitor)</span>
               <br>
-              You are their only visitor for the next 4 weeks
             </label>
 
             <label for="other" class="block-label" data-target="other-question">
