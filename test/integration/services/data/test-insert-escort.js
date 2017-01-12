@@ -2,6 +2,8 @@ const expect = require('chai').expect
 const insertEscort = require('../../../../app/services/data/insert-escort')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const claimEscortHelper = require('../../../helpers/data/claim-escort-helper')
+const config = require('../../../../knexfile').migrations
+const knex = require('knex')(config)
 
 describe('services/data/insert-escort', function () {
   const REFERENCE = 'V123467'
@@ -32,6 +34,22 @@ describe('services/data/insert-escort', function () {
           claimEscortHelper.DOB.add(1, 'seconds').toDate()
         )
         expect(escort.NationalInsuranceNumber).to.equal(claimEscortHelper.NATIONAL_INSURANCE_NUMBER)
+      })
+  })
+
+  it('should mark previous inserted escorts as disabled', function () {
+    const NEW_NAME = 'NEW'
+    return insertEscort(REFERENCE, eligibilityId, claimId, claimEscortHelper.build())
+      .then(function () {
+        var newEscort = claimEscortHelper.build()
+        newEscort.FirstName = NEW_NAME
+        return insertEscort(REFERENCE, eligibilityId, claimId, newEscort)
+      })
+      .then(function () {
+        return knex('ExtSchema.ClaimEscort').first().where({'ClaimId': claimId, IsEnabled: false})
+      })
+      .then(function (oldDisabledEscort) {
+        expect(oldDisabledEscort.FirstName).to.equal(claimEscortHelper.FIRST_NAME)
       })
   })
 
