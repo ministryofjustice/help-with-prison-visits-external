@@ -36,7 +36,7 @@ function get (req, res) {
 
   if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
     var decryptedRef = getDecryptedReference(req.params)
-    DirectoryCheck(decryptedRef, req.params.claimId, req.query.claimExpenseId, req.query.document)
+    DirectoryCheck(decryptedRef, req.query.claimExpenseId, req.query.document)
     return res.render('apply/eligibility/claim/file-upload', {
       document: req.query.document,
       fileUploadGuidingText: DocumentTypeEnum,
@@ -72,6 +72,7 @@ function post (req, res, next, redirectURL) {
         })
       }
       if (error) {
+        console.log(error)
         throw new ValidationError({upload: [ERROR_MESSAGES.getUploadTooLarge]})
       } else {
         if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
