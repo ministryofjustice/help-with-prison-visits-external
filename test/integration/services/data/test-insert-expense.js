@@ -1,10 +1,15 @@
 const expect = require('chai').expect
-const insertExpense = require('../../../../app/services/data/insert-expense')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const expenseHelper = require('../../../helpers/data/expense-helper')
+const proxyquire = require('proxyquire')
+const sinon = require('sinon')
+require('sinon-bluebird')
 
 describe('services/data/insert-expense', function () {
-  const REFERENCE = 'V123467'
+  var insertExpense
+  var disableNonTicketedExpensesForClaim
+
+  const REFERENCE = 'INSEXPS'
   var eligibilityId
   var claimId
 
@@ -14,6 +19,13 @@ describe('services/data/insert-expense', function () {
         eligibilityId = ids.eligibilityId
         claimId = ids.claimId
       })
+  })
+
+  beforeEach(function () {
+    disableNonTicketedExpensesForClaim = sinon.stub().resolves()
+    insertExpense = proxyquire('../../../../app/services/data/insert-expense', {
+      './disable-non-ticketed-expenses-for-claim': disableNonTicketedExpensesForClaim
+    })
   })
 
   it('should insert a new expense', function () {
@@ -41,6 +53,13 @@ describe('services/data/insert-expense', function () {
     return expect(function () {
       insertExpense(REFERENCE, eligibilityId, claimId, {})
     }).to.throw(Error)
+  })
+
+  it('should call to disable previous expenses for non-ticketed expense types', function () {
+    return insertExpense(REFERENCE, eligibilityId, claimId, expenseHelper.build(claimId))
+      .then(function () {
+        expect(disableNonTicketedExpensesForClaim.calledOnce).to.be.true
+      })
   })
 
   after(function () {
