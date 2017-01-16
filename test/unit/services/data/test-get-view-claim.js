@@ -6,6 +6,7 @@ require('sinon-bluebird')
 const REFERENCE = 'V123456'
 const CLAIMID = 1234
 const DOB = '10-10-1990'
+const ELIGIBILITYID = 1234
 
 describe('services/data/get-view-claim', function () {
   var getViewClaim
@@ -22,7 +23,7 @@ describe('services/data/get-view-claim', function () {
     getRepeatEligibilityStub = sinon.stub().resolves([[]])
     getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves([])
     getClaimChildrenByIdOrLastApprovedStub = sinon.stub().resolves([])
-    getHistoricClaimByClaimIdStub = sinon.stub().resolves([])
+    getHistoricClaimByClaimIdStub = sinon.stub().resolves([{EligibilityId: ELIGIBILITYID}])
     getClaimDocumentsHistoricClaimStub = sinon.stub().resolves([])
     getAllClaimDocumentsByClaimIdStub = sinon.stub().resolves([])
     getClaimEventsStub = sinon.stub().resolves([])
@@ -47,8 +48,8 @@ describe('services/data/get-view-claim', function () {
         expect(getClaimExpenseByIdOrLastApprovedStub.calledWith(REFERENCE, null, CLAIMID)).to.be.true
         expect(getClaimChildrenByIdOrLastApprovedStub.calledWith(REFERENCE, null, CLAIMID)).to.be.true
         expect(getHistoricClaimByClaimIdStub.calledWith(REFERENCE, DOB, CLAIMID)).to.be.true
-        expect(getClaimDocumentsHistoricClaimStub.calledWith(REFERENCE, CLAIMID)).to.be.true
-        expect(getAllClaimDocumentsByClaimIdStub.calledWith(CLAIMID)).to.be.true
+        expect(getClaimDocumentsHistoricClaimStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID)).to.be.true
+        expect(getAllClaimDocumentsByClaimIdStub.calledWith(CLAIMID, REFERENCE, ELIGIBILITYID)).to.be.true
         sinon.assert.calledOnce(sortViewClaimResultsHelperStub)
       })
   })
