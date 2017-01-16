@@ -12,11 +12,14 @@ module.exports = function (reference, eligibilityId, claim) {
   return insertNewClaim(reference, eligibilityId, claimTypeEnum.REPEAT_DUPLICATE, claim)
     .then(function (newClaimId) { claimId = newClaimId })
     .then(function () { return getLastClaimDetails(reference, eligibilityId) })
-    .then(function (claimDetails) { lastClaimDetails = claimDetails })
+    .then(function (claimDetails) {
+      lastClaimDetails = claimDetails
+    })
     .then(function () { return insertClaimDetail('ClaimChild', reference, eligibilityId, claimId, lastClaimDetails.children) })
     .then(function () {
       lastClaimDetails.expenses.forEach(function (expense) {
         delete expense.Status
+        delete expense.RequestedCost
       })
       return insertClaimDetail('ClaimExpense', reference, eligibilityId, claimId, lastClaimDetails.expenses)
     })

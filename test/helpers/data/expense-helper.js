@@ -33,6 +33,12 @@ module.exports.get = function (claimId) {
     .where('ClaimId', claimId)
 }
 
+module.exports.getAll = function (claimId) {
+  return knex.select()
+    .from('ExtSchema.ClaimExpense')
+    .where('ClaimId', claimId)
+}
+
 module.exports.delete = function (claimId) {
   return knex('ExtSchema.ClaimExpense')
     .where('ClaimId', claimId)

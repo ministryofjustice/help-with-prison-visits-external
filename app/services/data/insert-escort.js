@@ -7,14 +7,22 @@ module.exports = function (reference, eligibilityId, claimId, aboutEscort) {
     throw new Error('Provided object is not an instance of the expected class')
   }
 
-  return knex('ClaimEscort').insert({
+  return knex('ClaimEscort').where({
     EligibilityId: eligibilityId,
     Reference: reference,
-    ClaimId: claimId,
-    FirstName: aboutEscort.firstName,
-    LastName: aboutEscort.lastName,
-    DateOfBirth: aboutEscort.dob.toDate(),
-    NationalInsuranceNumber: aboutEscort.nationalInsuranceNumber,
-    IsEnabled: true
+    ClaimId: claimId
+  })
+  .update({'IsEnabled': false})
+  .then(function () {
+    return knex('ClaimEscort').insert({
+      EligibilityId: eligibilityId,
+      Reference: reference,
+      ClaimId: claimId,
+      FirstName: aboutEscort.firstName,
+      LastName: aboutEscort.lastName,
+      DateOfBirth: aboutEscort.dob.toDate(),
+      NationalInsuranceNumber: aboutEscort.nationalInsuranceNumber,
+      IsEnabled: true
+    })
   })
 }

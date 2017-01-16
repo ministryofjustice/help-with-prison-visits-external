@@ -52,4 +52,8 @@ describe('Claim payment information requested', function () {
       // Updated application page
       .waitForExist('#reference')
   })
+
+  after(function () {
+    return internalEligibilityHelper.deleteAll(REFERENCE)
+  })
 })

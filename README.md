@@ -67,6 +67,15 @@ npm run-script test-e2e-android
 
 ```
 
+Run accessibility tests with [pa11y](https://github.com/pa11y/pa11y)
+```
+npm install -g pa11y
+# requires existing claim data in local running environment so screens load correctly
+# will generate a number of HTML reports with WCAG2AAA accessibility issues for pages
+# usage: ./run-pa11y encryptedReferenceId claimId encryptedReference submittedDob submittedEncryptedReference submittedClaimId
+./run-pa11y.sh 3d431e08aea55ea70faa 17 49411309bdb15b 1975-11-22 4e410d0bcda059 16
+```
+
 ## Database
 
 The application requires a MS SQL database instance, configured with an external web user and a migration user. See [here](https://github.com/ministryofjustice/apvs/tree/develop/database) for details.

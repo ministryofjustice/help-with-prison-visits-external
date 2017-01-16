@@ -43,7 +43,7 @@ app.use(helmet.contentSecurityPolicy({
 var packageJson = require('../package.json')
 var developmentMode = app.get('env') === 'development'
 var releaseVersion = packageJson.version
-var serviceName = 'Assisted Prison Visit Service'
+var serviceName = 'Get help with prison visits'
 
 app.set('view engine', 'html')
 app.set('views', path.join(__dirname, 'views'))

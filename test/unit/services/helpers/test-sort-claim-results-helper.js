@@ -3,7 +3,8 @@ const sortViewClaimResultsHelper = require('../../../../app/services/helpers/sor
 
 var claim
 var advanceClaim
-var claimExpenses = [{ClaimExpenseId: 1, ExpenseType: 'car'}]
+var claimExpenses = [{ClaimExpenseId: 1, ExpenseType: 'car', Cost: 2.2, RequestedCost: 3, Status: 'APPROVED-DIFF-AMOUNT'}]
+var claimExpensesNoStatus = [{ClaimExpenseId: 1, ExpenseType: 'car', RequestedCost: 3}]
 const ELIGIBILITY = {EligibilityId: 1, FirstName: 'tester'}
 const CLAIM_DOCUMENTS = [
   {ClaimDocumentId: 1, DocumentType: 'VISIT-CONFIRMATION'},
@@ -60,5 +61,17 @@ describe('services/helpers/sort-view-claim-results-helper', function () {
     expect(advanceClaim.visitConfirmation.DocumentType).to.equal(CLAIM_DOCUMENTS[0].DocumentType)
     expect(advanceClaim.visitConfirmation.ClaimDocumentId).to.equal(CLAIM_DOCUMENTS[0].ClaimDocumentId)
     expect(advanceClaim.visitConfirmation.fromInternalWeb).to.equal(true)
+  })
+
+  it('an approved claim expenses cost should be used and add decimals', function () {
+    claim = {ClaimId: 1}
+    sortViewClaimResultsHelper(claim, ELIGIBILITY, CLAIM_DOCUMENTS, claimExpenses, [])
+    expect(claimExpenses[0].Cost).to.equal('2.20')
+  })
+
+  it('use requested cost when a claim expense has no status', function () {
+    claim = {ClaimId: 1}
+    sortViewClaimResultsHelper(claim, ELIGIBILITY, CLAIM_DOCUMENTS, claimExpensesNoStatus, [])
+    expect(claimExpensesNoStatus[0].Cost).to.equal(claimExpensesNoStatus[0].RequestedCost)
   })
 })

@@ -1,5 +1,6 @@
 module.exports = {
   'APPROVED': 'Approved',
+  'AUTO-APPROVED': 'Approved', // display decision as approved in Your Claims
   'APPROVED-DIFF-AMOUNT': 'Approved alternative amount',
   'REQUEST-INFORMATION': 'Information requested',
   'REQUEST-INFO-PAYMENT': 'Payment information requested',
