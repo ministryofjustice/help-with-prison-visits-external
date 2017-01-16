@@ -79,7 +79,7 @@ function post (req, res, next, redirectURL) {
           var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.error, req.body.alternative)
 
           var claimId
-          if (req.query.document === DocumentTypeEnum.VISIT_CONFIRMATION || req.query.document === DocumentTypeEnum.RECEIPT) {
+          if (req.query.document === 'VISIT_CONFIRMATION' || req.query.document === 'RECEIPT') {
             claimId = req.params.claimId
           }
 
