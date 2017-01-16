@@ -19,6 +19,8 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
   var fileUploadStub
   var claimDocumentInsertStub
   var generateCSRFTokenStub
+  var clamAvStub
+  var configStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -27,6 +29,8 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     fileUploadStub = sinon.stub()
     claimDocumentInsertStub = sinon.stub()
     generateCSRFTokenStub = sinon.stub()
+    clamAvStub = sinon.stub()
+    configStub = sinon.stub()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/file-upload', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
@@ -35,6 +39,8 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
       '../../../../services/domain/file-upload': fileUploadStub,
       '../../../../services/data/insert-file-upload-details-for-claim': claimDocumentInsertStub,
       '../../../../services/generate-csrf-token': generateCSRFTokenStub,
+      '../../../../services/clam-av': clamAvStub,
+      '../../../../../config': configStub,
       'csurf': function () { return function () { } }
     })
     app = routeHelper.buildApp(route)
