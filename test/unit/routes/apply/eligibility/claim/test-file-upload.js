@@ -86,6 +86,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
 
   describe(`POST ${ROUTE}`, function () {
     it('should call the URL Path Validator', function () {
+      clamAvStub.resolves()
       uploadStub.callsArg(2)
       return supertest(app)
         .post(ROUTE)
@@ -97,6 +98,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     it('should create a file upload object, insert it to DB and give 302', function () {
       uploadStub.callsArg(2).returns({})
       claimDocumentInsertStub.resolves()
+      clamAvStub.resolves()
       return supertest(app)
         .post(`${ROUTE}VISIT_CONFIRMATION`)
         .expect(function () {
@@ -110,6 +112,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     it('should catch a validation error', function () {
       uploadStub.callsArg(2).returns({})
       fileUploadStub.throws(new ValidationError())
+      clamAvStub.resolves()
       return supertest(app)
         .post(`${ROUTE}VISIT_CONFIRMATION`)
         .expect(400)
