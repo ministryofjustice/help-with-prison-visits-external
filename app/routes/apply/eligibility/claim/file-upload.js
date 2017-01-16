@@ -78,7 +78,12 @@ function post (req, res, next, redirectURL) {
         if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
           var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.error, req.body.alternative)
 
-          ClaimDocumentInsert(reference, id, req.params.claimId, fileUpload).then(function () {
+          var claimId
+          if (req.query.document === DocumentTypeEnum.VISIT_CONFIRMATION || req.query.document === DocumentTypeEnum.RECEIPT) {
+            claimId = req.params.claimId
+          }
+
+          ClaimDocumentInsert(reference, id, claimId, fileUpload).then(function () {
             res.redirect(redirectURL)
           }).catch(function (error) {
             next(error)
