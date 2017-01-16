@@ -60,7 +60,6 @@ function get (req, res) {
 }
 
 function post (req, res, next, redirectURL) {
-  logger.info('Entering POST')
   UrlPathValidator(req.params)
 
   var reference
@@ -77,29 +76,17 @@ function post (req, res, next, redirectURL) {
 
   Upload(req, res, function (error) {
     try {
-      logger.info('File entering Upload callback try block')
-      logger.info(req.file)
-
       // If there was no file attached, we still need to check the CSRF token
       if (!req.file) {
-        logger.info('CSRF check')
         csrfProtection(req, res, function (error) {
-          if (error) {
-            logger.info('throwing error')
-            logger.error(error)
-            throw error
-          }
+          if (error) throw error
         })
       }
 
       if (error) {
-        logger.info('Entering throw Validation Error block')
-        logger.error(error)
         throw new ValidationError({upload: [ERROR_MESSAGES.getUploadTooLarge]})
       } else {
         if (!DocumentTypeEnum.hasOwnProperty(req.query.document)) {
-          logger.info('Entering not valid document block')
-          logger.error(error)
           throw new Error('Not a valid document type')
         }
       }
@@ -112,40 +99,35 @@ function post (req, res, next, redirectURL) {
 }
 
 function checkForMalware (req, res, next, redirectURL) {
-  logger.info('Entering malware check')
-  logger.info('Invoking Malware scan of file')
+  var reference = referenceIdHelper.extractReferenceId(req.params.referenceId).reference
   if (req.file) {
-    var reference = referenceIdHelper.extractReferenceId(req.params.referenceId).reference
-    var decryptedReferenceId = decrypt(req.params.referenceId)
     clam.scan(req.file.path).then((infected) => {
       try {
         if (infected) throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
+        moveScannedFileToStorage(req, getTargetDir(req))
+        logger.info(req.fileUpload)
 
-        var targetDir
-        if (req.query.claimExpenseId) {
-          targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.claimExpenseId}/${req.query.document}`
-        } else {
-          targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.document}`
-        }
-
-        var targetFilePath = path.join(targetDir, req.file.filename)
-        fs.renameAsync(req.file.path, targetFilePath)
-        req.fileUpload.file.path = targetFilePath
+        ClaimDocumentInsert(reference, req.query.eligibilityId, req.params.claimId, req.fileUpload).then(function () {
+          res.redirect(redirectURL)
+        }).catch(function (error) {
+          next(error)
+        })
       } catch (error) {
         handleError(req, res, next, error)
       }
-      ClaimDocumentInsert(reference, req.query.eligibilityId, req.params.claimId, req.fileUpload).then(function () {
-        logger.info(redirectURL)
-        res.redirect(redirectURL)
-      }).catch(function (error) {
-        next(error)
-      })
+    })
+  } else {
+    logger.info(req)
+    ClaimDocumentInsert(reference, req.query.eligibilityId, req.params.claimId, req.fileUpload).then(function () {
+      res.redirect(redirectURL)
+    }).catch(function (error) {
+      next(error)
     })
   }
 }
 
 function handleError (req, res, next, error) {
-  if (error instanceof ValidationError || error instanceof UploadError) {
+  if (error instanceof ValidationError) {
     return res.status(400).render('apply/eligibility/claim/file-upload', {
       errors: error.validationErrors,
       document: req.query.document,
@@ -155,9 +137,26 @@ function handleError (req, res, next, error) {
       hideAlternative: req.query.hideAlt
     })
   } else {
-    logger.info('NOT A VALIDATION ERROR')
     next(error)
   }
+}
+
+function moveScannedFileToStorage (req, targetDir) {
+  var targetFilePath = path.join(targetDir, req.file.filename)
+  fs.renameAsync(req.file.path, targetFilePath)
+  req.fileUpload.destination = targetDir
+  req.fileUpload.path = targetFilePath
+}
+
+function getTargetDir (req) {
+  var decryptedReferenceId = decrypt(req.params.referenceId)
+  var targetDir
+  if (req.query.claimExpenseId) {
+    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.claimExpenseId}/${req.query.document}`
+  } else {
+    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.document}`
+  }
+  return targetDir
 }
 
 function getDecryptedReference (requestParams) {

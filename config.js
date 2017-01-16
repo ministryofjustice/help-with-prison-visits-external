@@ -35,6 +35,6 @@ module.exports = {
   ENABLE_MALWARE_SCANNING: process.env.APVS_ENABLE_MALWARE_SCANNING || true,
   CLAM_AV_PATH: process.env.APVS_CLAM_AV_PATH || '/usr/local/bin/clamdscan',
   CLAM_AV_CONF_PATH: process.env.APVS_CLAM_AV_CONF_PATH || '/usr/local/etc/clamav/clamd.conf',
-  CLAM_REMOVE_INFECTED: process.env.APVS_CLAM_AV_REMOVE_INFECTED || false,
+  CLAM_REMOVE_INFECTED: process.env.APVS_CLAM_AV_REMOVE_INFECTED || true,
   UPLOAD_FILE_TMP_DIR: process.env.APVS_UPLOAD_FILE_TMP_DIR || '/tmp'
 }
