@@ -60,18 +60,7 @@ function get (req, res) {
 
 function post (req, res, next, redirectURL) {
   UrlPathValidator(req.params)
-
-  var reference
-  var id
-  if (req.params.referenceId) {
-    var referenceAndEligibility = referenceIdHelper.extractReferenceId(req.params.referenceId)
-    reference = referenceAndEligibility.reference
-    id = referenceAndEligibility.id
-  } else {
-    reference = decrypt(req.params.reference)
-    id = req.query.eligibilityId
-    req.params.referenceId = referenceIdHelper.getReferenceId(reference, id)
-  }
+  setReferenceIds(req)
 
   Upload(req, res, function (error) {
     try {
@@ -98,7 +87,7 @@ function post (req, res, next, redirectURL) {
 }
 
 function checkForMalware (req, res, next, redirectURL) {
-  var reference = referenceIdHelper.extractReferenceId(req.params.referenceId).reference
+  var ids = setReferenceIds(req)
   if (req.file) {
     clam.scan(req.file.path).then((infected) => {
       try {
@@ -106,7 +95,7 @@ function checkForMalware (req, res, next, redirectURL) {
         moveScannedFileToStorage(req, getTargetDir(req))
         logger.info(req.fileUpload)
 
-        ClaimDocumentInsert(reference, req.query.eligibilityId, req.params.claimId, req.fileUpload).then(function () {
+        ClaimDocumentInsert(ids.reference, ids.eligibilityId, req.params.claimId, req.fileUpload).then(function () {
           res.redirect(redirectURL)
         }).catch(function (error) {
           next(error)
@@ -116,8 +105,8 @@ function checkForMalware (req, res, next, redirectURL) {
       }
     })
   } else {
-    logger.info(req)
-    ClaimDocumentInsert(reference, req.query.eligibilityId, req.params.claimId, req.fileUpload).then(function () {
+    logger.info(ids)
+    ClaimDocumentInsert(ids.reference, ids.eligibilityId, req.params.claimId, req.fileUpload).then(function () {
       res.redirect(redirectURL)
     }).catch(function (error) {
       next(error)
@@ -138,6 +127,21 @@ function handleError (req, res, next, error) {
   } else {
     next(error)
   }
+}
+
+function setReferenceIds (req) {
+  var reference
+  var id
+  if (req.params.referenceId) {
+    var referenceAndEligibility = referenceIdHelper.extractReferenceId(req.params.referenceId)
+    reference = referenceAndEligibility.reference
+    id = referenceAndEligibility.id
+  } else {
+    reference = decrypt(req.params.reference)
+    id = req.query.eligibilityId
+    req.params.referenceId = referenceIdHelper.getReferenceId(reference, id)
+  }
+  return { eligibilityId: id, reference: reference }
 }
 
 function moveScannedFileToStorage (req, targetDir) {
