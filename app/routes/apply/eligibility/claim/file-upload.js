@@ -46,7 +46,8 @@ function get (req, res) {
 
   if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
     var decryptedRef = getDecryptedReference(req.params)
-    DirectoryCheck(decryptedRef, req.params.claimId, req.query.claimExpenseId, req.query.document)
+    var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
+    DirectoryCheck(decryptedRef, claimId, req.query.claimExpenseId, req.query.document)
     return res.render('apply/eligibility/claim/file-upload', {
       document: req.query.document,
       fileUploadGuidingText: DocumentTypeEnum,
@@ -72,6 +73,7 @@ function post (req, res, next, redirectURL) {
       }
 
       if (error) {
+        console.log(error)
         throw new ValidationError({upload: [ERROR_MESSAGES.getUploadTooLarge]})
       } else {
         if (!DocumentTypeEnum.hasOwnProperty(req.query.document)) {
@@ -93,9 +95,9 @@ function checkForMalware (req, res, next, redirectURL) {
       try {
         if (infected) throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
         moveScannedFileToStorage(req, getTargetDir(req))
-        logger.info(req.fileUpload)
+        var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
 
-        ClaimDocumentInsert(ids.reference, ids.eligibilityId, req.params.claimId, req.fileUpload).then(function () {
+        ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
           res.redirect(redirectURL)
         }).catch(function (error) {
           next(error)
@@ -154,7 +156,9 @@ function moveScannedFileToStorage (req, targetDir) {
 function getTargetDir (req) {
   var decryptedReferenceId = decrypt(req.params.referenceId)
   var targetDir
-  if (req.query.claimExpenseId) {
+  if (req.query.document !== 'VISIT_CONFIRMATION' && req.query.document !== 'RECEIPT') {
+    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.query.document}`
+  } else if (req.query.claimExpenseId) {
     targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.claimExpenseId}/${req.query.document}`
   } else {
     targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.document}`
@@ -167,6 +171,14 @@ function getDecryptedReference (requestParams) {
     return decrypt(requestParams.referenceId)
   } else if (requestParams.reference) {
     return decrypt(requestParams.reference)
+  } else {
+    return null
+  }
+}
+
+function addClaimIdIfNotBenefitDocument (document, claimId) {
+  if (document === 'VISIT_CONFIRMATION' || document === 'RECEIPT') {
+    return claimId
   } else {
     return null
   }
