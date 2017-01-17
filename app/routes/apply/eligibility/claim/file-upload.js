@@ -89,11 +89,11 @@ function post (req, res, next, redirectURL) {
 function checkForMalware (req, res, next, redirectURL) {
   var ids = setReferenceIds(req)
   if (req.file) {
+    var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
     clam.scan(req.file.path).then((infected) => {
       try {
         if (infected) throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
         moveScannedFileToStorage(req, getTargetDir(req))
-        var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
         ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
           res.redirect(redirectURL)
         }).catch(function (error) {
@@ -104,7 +104,7 @@ function checkForMalware (req, res, next, redirectURL) {
       }
     })
   } else {
-    ClaimDocumentInsert(ids.reference, ids.eligibilityId, req.params.claimId, req.fileUpload).then(function () {
+    ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
       res.redirect(redirectURL)
     }).catch(function (error) {
       next(error)
