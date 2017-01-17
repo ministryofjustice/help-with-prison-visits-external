@@ -7,11 +7,13 @@ describe('services/data/get-claim-documents-historic-claim', function () {
   const REFERENCE = 'HISTDOC'
   const INVALID_REFERENCE = 'INVALID'
   var claimId
+  var eligibilityId
 
   before(function () {
     return internalEligiblityHelper.insertEligibilityAndClaim(REFERENCE)
       .then(function (ids) {
         claimId = ids.claimId
+        eligibilityId = ids.eligibilityId
       })
   })
 
@@ -20,7 +22,7 @@ describe('services/data/get-claim-documents-historic-claim', function () {
   })
 
   it('should retrieve all claim documents given reference and claimId', function () {
-    return getClaimDocumentsHistoricClaim(REFERENCE, claimId)
+    return getClaimDocumentsHistoricClaim(REFERENCE, eligibilityId, claimId)
       .then(function (documents) {
         expect(documents.length).to.be.equal(2)
         expect(documents[0].DocumentType).to.be.equal(internalClaimDocumentHelper.DOCUMENT_TYPE)

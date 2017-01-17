@@ -4,7 +4,9 @@ var mkdirp = require('mkdirp')
 
 module.exports = function (referenceId, claimId, claimExpenseId, documentType) {
   var path
-  if (!claimExpenseId) {
+  if (!claimId) {
+    path = `${config.FILE_UPLOAD_LOCATION}/${referenceId}/${documentType}`
+  } else if (!claimExpenseId) {
     path = `${config.FILE_UPLOAD_LOCATION}/${referenceId}/${claimId}/${documentType}`
   } else {
     path = `${config.FILE_UPLOAD_LOCATION}/${referenceId}/${claimId}/${claimExpenseId}/${documentType}`

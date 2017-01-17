@@ -7,6 +7,7 @@ const claimExpenseHelper = require('../../../../views/helpers/claim-expense-help
 const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimDocumentFilePath = require('../../../../services/data/get-claim-document-file-path')
+const benefitUploadNotRequired = require('../../../helpers/benefit-upload-not-required')
 const displayHelper = require('../../../../views/helpers/display-helper')
 
 module.exports = function (router) {
@@ -24,6 +25,7 @@ module.exports = function (router) {
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper,
+            benefitUploadNotRequired: benefitUploadNotRequired(req.params.claimType),
             URL: req.url
           })
       })
@@ -42,7 +44,7 @@ module.exports = function (router) {
         if (claimDetails.claim.benefitDocument.length > 0) {
           benefitDocument = claimDetails.claim.benefitDocument[0]
         }
-        var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation, claimDetails.claim.Benefit, benefitDocument, claimDetails.claimExpenses, claimDetails.claim.IsAdvanceClaim) // eslint-disable-line no-unused-vars
+        var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation, claimDetails.claim.Benefit, benefitDocument, claimDetails.claimExpenses, claimDetails.claim.IsAdvanceClaim, benefitUploadNotRequired(req.params.claimType)) // eslint-disable-line no-unused-vars
         return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/bank-account-details?isAdvance=${claimDetails.claim.IsAdvanceClaim}`)
       })
       .catch(function (error) {
@@ -56,6 +58,7 @@ module.exports = function (router) {
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper,
+            benefitUploadNotRequired: benefitUploadNotRequired(req.params.claimType),
             URL: req.url
           })
         } else {

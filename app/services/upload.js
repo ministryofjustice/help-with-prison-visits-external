@@ -13,7 +13,9 @@ var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     var decryptedReferenceId = decrypt(req.params.referenceId)
 
-    if (req.query.claimExpenseId) {
+    if (req.query.document !== 'VISIT_CONFIRMATION' && req.query.document !== 'RECEIPT') {
+      cb(null, `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.query.document}`)
+    } else if (req.query.claimExpenseId) {
       cb(null, `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.claimExpenseId}/${req.query.document}`)
     } else {
       cb(null, `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.document}`)
