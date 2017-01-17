@@ -70,6 +70,13 @@ describe('routes/apply/eligibility/claim/car-details', function () {
           sinon.assert.calledOnce(parseParams)
         })
     })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      getTravellingFromAndToStub.rejects()
+      return supertest(app)
+        .get(ROUTE)
+        .expect(500)
+    })
   })
 
   describe(`GET ${ROUTE_REPEAT}`, function () {
@@ -96,6 +103,13 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .expect(function () {
           sinon.assert.calledOnce(parseParams)
         })
+    })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      getMaskedEligibilityStub.rejects()
+      return supertest(app)
+        .get(ROUTE_REPEAT)
+        .expect(500)
     })
   })
 
@@ -154,6 +168,13 @@ describe('routes/apply/eligibility/claim/car-details', function () {
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
       carExpenseStub.throws(new Error())
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      insertCarExpensesStub.rejects()
       return supertest(app)
         .post(ROUTE)
         .expect(500)

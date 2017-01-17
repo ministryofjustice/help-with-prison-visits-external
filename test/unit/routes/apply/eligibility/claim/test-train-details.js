@@ -128,5 +128,12 @@ describe('routes/apply/eligibility/claim/train-details', function () {
         .post(ROUTE)
         .expect(500)
     })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      insertExpenseStub.rejects()
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
   })
 })

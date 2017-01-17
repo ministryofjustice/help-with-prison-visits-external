@@ -96,6 +96,13 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(ROUTE)
         .expect(400, done)
     })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      viewClaimDomainObjectStub.throws(new Error())
+      return request
+        .post(ROUTE)
+        .expect(500)
+    })
   })
 
   describe(`GET ${ROUTE}/view-document/:claimDocumentId`, function () {
@@ -143,6 +150,13 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           expect(response.headers['location']).to.be.equal(ROUTE)
           done()
         })
+    })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      removeClaimDocument.rejects()
+      return request
+        .post(`${ROUTE}/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITYID}&multipage=true`)
+        .expect(500)
     })
   })
 })

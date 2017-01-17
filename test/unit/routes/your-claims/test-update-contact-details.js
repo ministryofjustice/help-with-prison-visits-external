@@ -105,5 +105,12 @@ describe('/your-claims/update-contact-details', function () {
         .post(ROUTE)
         .expect(500)
     })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      insertEligibilityVisitorUpdatedContactDetailStub.rejects()
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
   })
 })
