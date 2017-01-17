@@ -12,6 +12,8 @@ const generateCSRFToken = require('../../../../services/generate-csrf-token')
 const decrypt = require('../../../../services/helpers/decrypt')
 const clam = require('../../../../services/clam-av')
 const config = require('../../../../../config')
+const tasksEnum = require('../../../../constants/tasks-enum')
+const insertTask = require('../../../../services/data/insert-task')
 var path = require('path')
 var Promise = require('bluebird').Promise
 var fs = Promise.promisifyAll(require('fs'))
@@ -92,7 +94,11 @@ function checkForMalware (req, res, next, redirectURL) {
     var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
     clam.scan(req.file.path).then((infected) => {
       try {
-        if (infected) throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
+        if (infected) {
+          insertTask(ids.reference, ids.eligibilityId, claimId, tasksEnum.SEND_MALWARE_ALERT, config.MALWARE_NOTIFICATION_EMAIL_ADDRESS)
+          throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
+        }
+
         moveScannedFileToStorage(req, getTargetDir(req))
         ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
           res.redirect(redirectURL)
