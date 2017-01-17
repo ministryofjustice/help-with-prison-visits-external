@@ -39,7 +39,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
       '../../../../services/domain/file-upload': fileUploadStub,
       '../../../../services/data/insert-file-upload-details-for-claim': claimDocumentInsertStub,
       '../../../../services/generate-csrf-token': generateCSRFTokenStub,
-      '../../../../services/clam-av': clamAvStub,
+      '../../../../services/clam-av': { clamAvStub, '@noCallThru': true },
       '../../../../../config': configStub,
       'csurf': function () { return function () { } }
     })
