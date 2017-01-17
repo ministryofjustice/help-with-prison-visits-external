@@ -11,7 +11,6 @@ const csrfProtection = require('csurf')({ cookie: true })
 const generateCSRFToken = require('../../../../services/generate-csrf-token')
 const decrypt = require('../../../../services/helpers/decrypt')
 const clam = require('../../../../services/clam-av')
-const logger = require('../../../../services/log')
 const config = require('../../../../../config')
 var path = require('path')
 var Promise = require('bluebird').Promise
@@ -73,7 +72,6 @@ function post (req, res, next, redirectURL) {
       }
 
       if (error) {
-        console.log(error)
         throw new ValidationError({upload: [ERROR_MESSAGES.getUploadTooLarge]})
       } else {
         if (!DocumentTypeEnum.hasOwnProperty(req.query.document)) {
@@ -96,7 +94,6 @@ function checkForMalware (req, res, next, redirectURL) {
         if (infected) throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
         moveScannedFileToStorage(req, getTargetDir(req))
         var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
-
         ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
           res.redirect(redirectURL)
         }).catch(function (error) {
@@ -107,7 +104,6 @@ function checkForMalware (req, res, next, redirectURL) {
       }
     })
   } else {
-    logger.info(ids)
     ClaimDocumentInsert(ids.reference, ids.eligibilityId, req.params.claimId, req.fileUpload).then(function () {
       res.redirect(redirectURL)
     }).catch(function (error) {

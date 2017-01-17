@@ -24,7 +24,7 @@ module.exports.scan = function (filePath) {
         return resolve(infected)
       })
     } else {
-      return false
+      return resolve(false)
     }
   })
 }
