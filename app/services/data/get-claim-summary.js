@@ -48,8 +48,13 @@ module.exports = function (claimId, claimType) {
     })
     .then(function (claim) {
       return knex('ClaimDocument')
-        .join('Claim', 'ClaimDocument.ClaimId', '=', 'Claim.ClaimId')
-        .where({'Claim.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null})
+        .where({'ClaimDocument.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null})
+        .orWhere({
+          'ClaimDocument.ClaimId': null,
+          'ClaimDocument.Reference': claim.Reference,
+          'ClaimDocument.EligibilityId': claim.EligibilityId,
+          'ClaimDocument.IsEnabled': true,
+          'ClaimDocument.ClaimExpenseId': null})
         .select('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
         .orderBy('ClaimDocument.DateSubmitted', 'desc')
         .then(function (claimDocuments) {

@@ -16,6 +16,10 @@ module.exports.buildApp = function (route) {
   route(app)
   mockViewEngine(app, VIEWS_DIRECTORY)
 
+  app.use(function (req, res, next) {
+    next(new Error())
+  })
+
   app.use(function (err, req, res, next) {
     if (err) {
       res.status(500).render('includes/error')

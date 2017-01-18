@@ -84,5 +84,12 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .post(ROUTE)
         .expect(500)
     })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      stubInsertVisitor.rejects()
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
   })
 })

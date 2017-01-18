@@ -87,5 +87,12 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
         .post(ROUTE)
         .expect(500)
     })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      insertEscortStub.rejects()
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
   })
 })

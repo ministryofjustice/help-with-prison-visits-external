@@ -61,6 +61,13 @@ describe('/your-claims/check-your-information', function () {
           sinon.assert.calledOnce(getRepeatEligibility)
         })
     })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      getRepeatEligibility.rejects()
+      return supertest(app)
+        .get(ROUTE)
+        .expect(500)
+    })
   })
 
   describe(`POST ${ROUTE}`, function () {
@@ -117,8 +124,23 @@ describe('/your-claims/check-your-information', function () {
         })
     })
 
+    it('should respond with a 500 if promise rejects.', function () {
+      CheckYourInformation.throws(new ValidationError())
+      getRepeatEligibility.rejects()
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
+
     it('should respond with a 500 for a non-validation error', function () {
       CheckYourInformation.throws(new Error())
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      getRepeatEligibility.rejects()
       return supertest(app)
         .post(ROUTE)
         .expect(500)
