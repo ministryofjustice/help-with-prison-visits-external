@@ -117,6 +117,10 @@ To test locally this requires the installation of the Clam AV binary.
 
 [Instructions for installation on Mac OSX](https://gist.github.com/zhurui1008/4fdc875e557014c3a34e)
 
+Note that you will need to have the clamd daemon running, which will live in sbin by default:
+
+`/usr/local/sbin/clamd &`
+
 ## Notes
 
 ### Localisation
