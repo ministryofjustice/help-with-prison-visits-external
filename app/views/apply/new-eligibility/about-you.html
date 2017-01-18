@@ -112,7 +112,7 @@
         </div>
 
         <div class="form-group {% if errors['Country'][0] %} error {% endif %}">
-          <label id="Country" class="form-label-bold">Country</label>
+          <label id="Country" class="form-label-bold" for="country-input">Country</label>
           {% if errors['Country'][0] %}
           <span class="error-message" id="error-message-country">{{ errors['Country'][0] }}</span>
           {% endif %}

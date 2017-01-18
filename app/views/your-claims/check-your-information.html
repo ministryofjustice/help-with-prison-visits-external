@@ -46,12 +46,10 @@
 
   <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information" method="post">
     <div class="form-group">
-      <fieldset>
-        <label for="confirm-correct" class="block-label">
-          <input id="confirm-correct" type="checkbox" name="confirm-correct" value="true" >
-          Confirm these details are correct
-        </label>
-      </fieldset>
+      <label for="confirm-correct" class="block-label">
+        <input id="confirm-correct" type="checkbox" name="confirm-correct" value="true" >
+        Confirm these details are correct
+      </label>
     </div>
 
     <input type="hidden" name="EligibilityId" value="{{ eligibility['EligibilityId'] }}">
