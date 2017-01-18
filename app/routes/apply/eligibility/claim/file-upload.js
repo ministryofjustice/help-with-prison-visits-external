@@ -14,6 +14,7 @@ const clam = require('../../../../services/clam-av')
 const config = require('../../../../../config')
 const tasksEnum = require('../../../../constants/tasks-enum')
 const insertTask = require('../../../../services/data/insert-task')
+const logger = require('../../../../services/log')
 var path = require('path')
 var Promise = require('bluebird').Promise
 var fs = Promise.promisifyAll(require('fs'))
@@ -95,7 +96,9 @@ function checkForMalware (req, res, next, redirectURL) {
     clam.scan(req.file.path).then((infected) => {
       try {
         if (infected) {
-          insertTask(ids.reference, ids.eligibilityId, claimId, tasksEnum.SEND_MALWARE_ALERT, config.MALWARE_NOTIFICATION_EMAIL_ADDRESS)
+          insertTask(ids.reference, ids.eligibilityId, claimId, tasksEnum.SEND_MALWARE_ALERT, config.MALWARE_NOTIFICATION_EMAIL_ADDRESS).then(function () {
+            logger.warn(`Malware detected in file ${req.file.path}`)
+          })
           throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
         }
 
