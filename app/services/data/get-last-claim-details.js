@@ -15,7 +15,6 @@ module.exports = function (reference, eligibilityId) {
       return getClaimEscortByIdOrLastApproved(reference, eligibilityId, null)
     })
     .then(function (lastClaimEscort) {
-      console.dir(lastClaimEscort)
       result.escort = lastClaimEscort
 
       return result
