@@ -57,5 +57,12 @@ describe('routes/feedback', function () {
         .post(ROUTE)
         .expect(400)
     })
+
+    it('should respond with a 500 if any non-validation error occurs.', function () {
+      feedbackStub.throws(new Error())
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
   })
 })
