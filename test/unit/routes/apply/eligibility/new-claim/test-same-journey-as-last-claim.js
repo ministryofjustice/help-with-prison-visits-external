@@ -52,6 +52,13 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
           sinon.assert.calledWith(getLastClaimDetailsStub, REFERENCE, ELIGIBILITYID)
         })
     })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      getLastClaimDetailsStub.rejects()
+      return supertest(app)
+        .get(ROUTE)
+        .expect(500)
+    })
   })
 
   describe(`POST ${ROUTE}`, function () {
@@ -88,6 +95,14 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
         .expect(function () {
           sinon.assert.calledWith(getLastClaimDetailsStub, REFERENCE, ELIGIBILITYID)
         })
+    })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      sameJourneyAsLastClaimStub.throws(new ValidationError())
+      getLastClaimDetailsStub.rejects()
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {

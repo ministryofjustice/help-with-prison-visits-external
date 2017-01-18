@@ -5,19 +5,20 @@ const BenefitEnum = require('../../constants/benefits-enum')
 const DisplayHelper = require('../../views/helpers/display-helper')
 
 class ClaimSummary {
-  constructor (visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim) {
+  constructor (visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUploadNotRequired) {
     this.benefit = benefit
     this.claimExpenses = claimExpenses
     this.benefitDocumentStatus = benefitDocument ? benefitDocument.DocumentStatus : ''
     this.visitConfirmationStatus = visitConfirmation ? visitConfirmation.DocumentStatus : ''
     this.isAdvanceClaim = isAdvanceClaim
+    this.benefitUploadNotRequired = benefitUploadNotRequired
     this.isValid()
   }
 
   isValid () {
     var errors = ErrorHandler()
 
-    if (BenefitEnum.getByValue(this.benefit).requireBenefitUpload) {
+    if (BenefitEnum.getByValue(this.benefit).requireBenefitUpload && !this.benefitUploadNotRequired) {
       FieldValidator(this.benefitDocumentStatus, 'benefit-information', errors)
         .isRequired()
     }

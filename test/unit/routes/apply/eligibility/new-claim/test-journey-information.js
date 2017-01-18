@@ -100,6 +100,13 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
         })
     })
 
+    it('should respond with a 500 if promise rejects.', function () {
+      insertRepeatDuplicateClaimStub.rejects()
+      return supertest(app)
+        .post(REPEAT_DUPLICATE_ROUTE)
+        .expect(500)
+    })
+
     it('should respond with a 400 if domain object validation fails.', function () {
       insertNewClaimStub.throws(new ValidationError())
       return supertest(app)
@@ -109,6 +116,13 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
       insertNewClaimStub.throws(new Error())
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      insertNewClaimStub.rejects()
       return supertest(app)
         .post(ROUTE)
         .expect(500)

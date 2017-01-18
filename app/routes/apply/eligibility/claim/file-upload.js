@@ -36,7 +36,8 @@ function get (req, res) {
 
   if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
     var decryptedRef = getDecryptedReference(req.params)
-    DirectoryCheck(decryptedRef, req.params.claimId, req.query.claimExpenseId, req.query.document)
+    var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
+    DirectoryCheck(decryptedRef, claimId, req.query.claimExpenseId, req.query.document)
     return res.render('apply/eligibility/claim/file-upload', {
       document: req.query.document,
       fileUploadGuidingText: DocumentTypeEnum,
@@ -72,12 +73,15 @@ function post (req, res, next, redirectURL) {
         })
       }
       if (error) {
+        console.log(error)
         throw new ValidationError({upload: [ERROR_MESSAGES.getUploadTooLarge]})
       } else {
         if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
           var fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.error, req.body.alternative)
 
-          ClaimDocumentInsert(reference, id, req.params.claimId, fileUpload).then(function () {
+          var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
+
+          ClaimDocumentInsert(reference, id, claimId, fileUpload).then(function () {
             res.redirect(redirectURL)
           }).catch(function (error) {
             next(error)
@@ -108,6 +112,14 @@ function getDecryptedReference (requestParams) {
     return decrypt(requestParams.referenceId)
   } else if (requestParams.reference) {
     return decrypt(requestParams.reference)
+  } else {
+    return null
+  }
+}
+
+function addClaimIdIfNotBenefitDocument (document, claimId) {
+  if (document === 'VISIT_CONFIRMATION' || document === 'RECEIPT') {
+    return claimId
   } else {
     return null
   }

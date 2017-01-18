@@ -45,7 +45,7 @@ module.exports.insertWithExpenseChildDocuments = function (reference, eligibilit
     .then(function () {
       return claimDocumentHelper.insert(reference, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)
         .then(function () {
-          return claimDocumentHelper.insert(reference, eligibilityId, claimId, 'BENEFIT')
+          return claimDocumentHelper.insert(reference, eligibilityId, null, 'BENEFIT')
         })
     })
     .then(function () {

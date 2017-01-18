@@ -31,8 +31,8 @@ describe('services/data/get-all-claim-documents-by-claim-id', function () {
       })
   })
 
-  it('should return a ClaimDocument file path', function () {
-    return getAllClaimDocumentsByClaimId(claimId)
+  it('should return a ClaimDocument', function () {
+    return getAllClaimDocumentsByClaimId(claimId, REFERENCE, eligibilityId)
       .then(function (result) {
         expect(result.length).to.equal(1)
         expect(result[0].DocumentType).to.equal(claimDocumentHelper.DOCUMENT_TYPE)

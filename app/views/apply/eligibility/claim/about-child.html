@@ -51,43 +51,39 @@
 
         <div id="dob" class="form-group {% if errors['dob'][0] %} error {% endif %}">
 
-          <fieldset>
+          <div class="form-date">
 
-            <div class="form-date">
+            <h2 class="form-label-bold">Date of birth</h2>
 
-              <h2 class="form-label-bold">Date of birth</h2>
+            {% if errors['dob'][0] %}
+              <span class="error-message">{{ errors['dob'][0] }}</span>
+            {% endif %}
 
-              {% if errors['dob'][0] %}
-                <span class="error-message">{{ errors['dob'][0] }}</span>
-              {% endif %}
-
-              <div class="form-group form-group-day">
-                <label for="dob-day-input">Day</label>
-                <input id="dob-day-input"
-                       name="dob-day"
-                       value="{{ claimant['dob-day'] }}"
-                       class="form-control">
-              </div>
-
-              <div class="form-group form-group-month">
-                <label for="dob-month-input">Month</label>
-                <input id="dob-month-input"
-                       name="dob-month"
-                       value="{{ claimant['dob-month'] }}"
-                       class="form-control">
-              </div>
-
-              <div class="form-group form-group-year">
-                <label for="dob-year-input">Year</label>
-                <input id="dob-year-input"
-                       name="dob-year"
-                       value="{{ claimant['dob-year'] }}"
-                       class="form-control">
-              </div>
-
+            <div class="form-group form-group-day">
+              <label for="dob-day-input">Day</label>
+              <input id="dob-day-input"
+                     name="dob-day"
+                     value="{{ claimant['dob-day'] }}"
+                     class="form-control">
             </div>
 
-          </fieldset>
+            <div class="form-group form-group-month">
+              <label for="dob-month-input">Month</label>
+              <input id="dob-month-input"
+                     name="dob-month"
+                     value="{{ claimant['dob-month'] }}"
+                     class="form-control">
+            </div>
+
+            <div class="form-group form-group-year">
+              <label for="dob-year-input">Year</label>
+              <input id="dob-year-input"
+                     name="dob-year"
+                     value="{{ claimant['dob-year'] }}"
+                     class="form-control">
+            </div>
+
+          </div>
 
         </div>
 
@@ -101,41 +97,36 @@
               <span class="error-message">{{ errors['child-relationship'][0] }}</span>
             {% endif %}
 
-            <fieldset>
+            <label for="my-child" class="block-label">
+              <input id="my-child"
+                     type="radio"
+                     name="child-relationship"
+                     value="claimants-child"
+                     {% if claimant['child-relationship'] == 'claimants-child' %} checked {% endif %}>
+              My child
+            </label>
+            <label for="prisoners-child" class="block-label">
+              <input id="prisoners-child"
+                     type="radio"
+                     name="child-relationship"
+                     value="prisoners-child"
+                     {% if claimant['child-relationship'] == 'prisoners-child' %} checked {% endif %}>
+              Prisoner's child
+            </label>
 
-              <label for="my-child" class="block-label">
-                <input id="my-child"
-                       type="radio"
-                       name="child-relationship"
-                       value="claimants-child"
-                       {% if claimant['child-relationship'] == 'claimants-child' %} checked {% endif %}>
-                My child
-              </label>
-              <label for="prisoners-child" class="block-label">
-                <input id="prisoners-child"
-                       type="radio"
-                       name="child-relationship"
-                       value="prisoners-child"
-                       {% if claimant['child-relationship'] == 'prisoners-child' %} checked {% endif %}>
-                Prisoner's child
-              </label>
-
-            </fieldset>
           </div>
         </div>
 
         <div class="form-group">
-          <fieldset>
 
-            <label for="add-another-child" class="block-label">
-              <input id="add-another-child"
-                     type="checkbox"
-                     name="add-another-child"
-                     {% if expense['add-another-child'] == 'on' %} checked {% endif %}>
-              Add another child
-            </label>
+          <label for="add-another-child" class="block-label">
+            <input id="add-another-child"
+                   type="checkbox"
+                   name="add-another-child"
+                   {% if expense['add-another-child'] == 'on' %} checked {% endif %}>
+            Add another child
+          </label>
 
-          </fieldset>
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}
