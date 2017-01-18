@@ -1,6 +1,9 @@
 const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
 const referenceHelper = require('../helpers/e2e/reference-helper')
 const dateFormatter = require('../../app/services/date-formatter')
+const path = require('path')
+
+const TEST_FILE_PATH = path.join(__dirname, '..', 'resources', 'testfile.jpg')
 
 var todaysDate = dateFormatter.now()
 describe('First Time Claim Flow', () => {
@@ -168,8 +171,9 @@ describe('First Time Claim Flow', () => {
       .click('#add-visit-confirmation')
 
       // Upload visit confirmation
-      .waitForExist('#Post')
-      .click('[for="Post"]')
+      .waitForExist('#file-upload-submit')
+      .chooseFile('#document', TEST_FILE_PATH)
+      .getValue('#document')
       .click('#file-upload-submit')
 
       // Claim summary
@@ -177,8 +181,9 @@ describe('First Time Claim Flow', () => {
       .click('.add-expense-receipt')
 
       // Upload Receipt Bus Adult
-      .waitForExist('#Post')
-      .click('[for="Post"]')
+      .waitForExist('#file-upload-submit')
+      .chooseFile('#document', TEST_FILE_PATH)
+      .getValue('#document')
       .click('#file-upload-submit')
 
       // Claim summary
@@ -186,8 +191,9 @@ describe('First Time Claim Flow', () => {
       .click('.add-expense-receipt')
 
       // Upload Receipt Bus Child
-      .waitForExist('#Post')
-      .click('[for="Post"]')
+      .waitForExist('#file-upload-submit')
+      .chooseFile('#document', TEST_FILE_PATH)
+      .getValue('#document')
       .click('#file-upload-submit')
 
       // Car journey and light refreshment do not require receipts
