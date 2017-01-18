@@ -20,7 +20,6 @@ module.exports = function (reference, eligibilityId, claim) {
       lastClaimDetails.expenses.forEach(function (expense) {
         delete expense.Status
         delete expense.RequestedCost
-        expense.Cost = expense.Cost.toString()
       })
       return insertClaimDetail('ClaimExpense', reference, eligibilityId, claimId, lastClaimDetails.expenses)
     })
