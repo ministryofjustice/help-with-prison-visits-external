@@ -28,8 +28,6 @@
       <form action="{{ URL }}" method="post">
         <fieldset class="{% if errors['benefit'][0] %} error {% endif %}">
           <legend class="hidden">Benefit</legend>
-          <p>I receive:</p>
-
           <div class="form-group">
             <label for="income-support" class="block-label">
               <input id="income-support"
@@ -38,7 +36,9 @@
                      value="income-support">
               <span class="heading-small">Income Support</span>
             </label>
+          </div>
 
+          <div class="form-group">
             <label for="jobseekers-allowance" class="block-label">
               <input id="jobseekers-allowance"
                      type="radio"
@@ -48,7 +48,9 @@
               <br>
               Income-based
             </label>
+          </div>
 
+          <div class="form-group">
             <label for="employment-and-support-allowance" class="block-label">
               <input id="employment-and-support-allowance"
                      type="radio"
@@ -58,7 +60,9 @@
               <br>
               Income-based
             </label>
+          </div>
 
+          <div class="form-group">
             <label for="universal-credit" class="block-label">
               <input id="universal-credit"
                      type="radio"
@@ -68,7 +72,9 @@
               <br>
               While earning less than £1,250 a month
             </label>
+          </div>
 
+          <div class="form-group">
             <label for="working-or-child-tax-credits" class="block-label">
               <input id="working-or-child-tax-credits"
                      type="radio"
@@ -78,21 +84,19 @@
               <br>
               While earning less than £17,474 a year
             </label>
+          </div>
 
+          <div class="form-group">
             <label for="pension-credit" class="block-label">
               <input id="pension-credit"
                      type="radio"
                      name="benefit"
                      value="pension-credit">
               <span class="heading-small">Pension Credit</span>
-              <br>
-              <br>
             </label>
           </div>
 
-          <p>I have a:</p>
-
-            <div class="form-group">
+          <div class="form-group">
             <label for="health-certificate2" class="block-label">
               <input id="health-certificate2"
                      type="radio"
@@ -100,7 +104,9 @@
                      value="hc2">
               <span class="heading-small">Health Certificate (HC2)</span>
             </label>
+          </div>
 
+          <div class="form-group">
             <label for="health-certificate3" class="block-label">
               <input id="health-certificate3"
                      type="radio"
@@ -108,7 +114,9 @@
                      value="hc3">
               <span class="heading-small">Health Certificate (HC3)</span>
             </label>
+          </div>
 
+          <div class="form-group">
             <label for="nhs-tax-credit" class="block-label">
               <input id="nhs-tax-credit"
                      type="radio"
