@@ -183,17 +183,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         })
     })
 
-    it('should respond with a 302, call removeClaimDocument and redirect to file upload', function () {
-      return supertest(app)
-        .post(REMOVE_DOCUMENT_ROUTE)
-        .expect(302)
-        .expect(function () {
-          removeClaimDocument.calledWith(CLAIMDOCUMENTID)
-        })
-        .expect('location', `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/file-upload?document=VISIT_CONFIRMATION`)
-    })
-
-    it('should respond with a 302, call removeClaimDocument and redirect to claim summary', function () {
+    it('should respond with a 302, call removeClaimDocument, and redirect to claim summary', function () {
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
         .expect(302)
@@ -201,6 +191,27 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           removeClaimDocument.calledWith(CLAIMDOCUMENTID)
         })
         .expect('location', ROUTE)
+    })
+
+    it('should respond with a 302, call removeClaimDocument, and redirect to file upload', function () {
+      return supertest(app)
+        .post(REMOVE_DOCUMENT_ROUTE)
+        .expect(302)
+        .expect(function () {
+          removeClaimDocument.calledWith(CLAIMDOCUMENTID)
+        })
+        .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION`)
+    })
+
+    it('should respond with a 302, call removeClaimDocument, and redirect to file upload', function () {
+      var claimExpenseParam = '&claimExpenseId=1'
+      return supertest(app)
+        .post(`${REMOVE_DOCUMENT_ROUTE}${claimExpenseParam}`)
+        .expect(302)
+        .expect(function () {
+          removeClaimDocument.calledWith(CLAIMDOCUMENTID)
+        })
+        .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION${claimExpenseParam}`)
     })
 
     it('should respond with a 500 if promise rejects.', function () {
