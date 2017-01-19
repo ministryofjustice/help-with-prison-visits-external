@@ -32,6 +32,9 @@ describe('services/validators/url-path-validator', function () {
   const VALID_CLAIM_DOCUMENT_ID = { claimId: '123' }
   const INVALID_CLAIM_DOCUMENT_ID = { claimId: 'invalid' }
 
+  const VALID_ADVANCE_OR_PAST = { advanceOrPast: 'past' }
+  const INVALID_ADVANCE_OR_PAST = { advanceOrPast: 'invalid' }
+
   it('should throw error if passed null', function () {
     expect(function () {
       UrlPathValidator(null)
@@ -92,6 +95,12 @@ describe('services/validators/url-path-validator', function () {
     }).to.throw(Error)
   })
 
+  it('should throw Error if passed an invalid advanceOrPast value', function () {
+    expect(function () {
+      UrlPathValidator(INVALID_ADVANCE_OR_PAST)
+    }).to.throw(Error)
+  })
+
   it('should return undefined if passed a valid claimType value', function () {
     var result = UrlPathValidator(VALID_CLAIM_TYPE)
     expect(result).to.equal(undefined)
@@ -134,6 +143,11 @@ describe('services/validators/url-path-validator', function () {
 
   it('should return undefined if passed a valid claimDocumentId value', function () {
     var result = UrlPathValidator(VALID_CLAIM_DOCUMENT_ID)
+    expect(result).to.equal(undefined)
+  })
+
+  it('should return undefined if passed a valid advanceOrPast value', function () {
+    var result = UrlPathValidator(VALID_ADVANCE_OR_PAST)
     expect(result).to.equal(undefined)
   })
 })

@@ -142,6 +142,13 @@ class FieldValidator {
     }
     return this
   }
+
+  isValidAdvanceOrPast () {
+    if (!validator.isValidAdvanceOrPast(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {

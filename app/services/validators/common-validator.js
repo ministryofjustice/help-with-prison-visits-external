@@ -10,6 +10,7 @@ const childRelationshipEnum = require('../../constants/child-relationship-enum')
 const booleanSelectEnum = require('../../constants/boolean-select-enum')
 const claimTypeEnum = require('../../constants/claim-type-enum')
 const expenseTypeEnum = require('../../constants/expense-type-enum')
+const advancePastEnum = require('../../constants/advance-past-enum')
 const referenceNumber = require('../../constants/reference-number-enum')
 const dateFormatter = require('../date-formatter')
 const NUM_YEARS_LIMIT = 120
@@ -186,6 +187,16 @@ exports.isValidExpenseArray = function (expenseArray) {
   expenseArray.forEach(function (expense) {
     if (!self.isValidExpense(expense)) {
       result = false
+    }
+  })
+  return result
+}
+
+exports.isValidAdvanceOrPast = function (value) {
+  var result = false
+  Object.keys(advancePastEnum).forEach(function (key) {
+    if (advancePastEnum[key] === value) {
+      result = true
     }
   })
   return result

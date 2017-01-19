@@ -4,6 +4,7 @@ const dateFormatter = require('../../../../app/services/date-formatter')
 const benefitsEnum = require('../../../../app/constants/benefits-enum')
 const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
 const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
+const advancePastEnum = require('../../../../app/constants/advance-past-enum')
 const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const expenseTypeEnum = require('../../../../app/constants/expense-type-enum')
 
@@ -883,6 +884,36 @@ describe('services/validators/common-validator', function () {
 
     it('should return false if passed an invalid value', function () {
       var result = validator.isValidExpenseArray(INVALID_STRING_INPUT)
+      expect(result).to.equal(false)
+    })
+  })
+
+  describe('isValidAdvanceOrPast', function () {
+    const VALID_INPUT = advancePastEnum.PAST
+    const INVALID_INPUT = 'some invalid input'
+
+    it('should return false if passed null', function () {
+      var result = validator.isValidAdvanceOrPast(null)
+      expect(result).to.equal(false)
+    })
+
+    it('should return false if passed undefined', function () {
+      var result = validator.isValidAdvanceOrPast(undefined)
+      expect(result).to.equal(false)
+    })
+
+    it('should throw Error if passed an object', function () {
+      var result = validator.isValidAdvanceOrPast({})
+      expect(result).to.equal(false)
+    })
+
+    it('should return true if passed a valid value', function () {
+      var result = validator.isValidAdvanceOrPast(VALID_INPUT)
+      expect(result).to.equal(true)
+    })
+
+    it('should return false if passed an invalid value', function () {
+      var result = validator.isValidAdvanceOrPast(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })
