@@ -40,11 +40,15 @@ module.exports = function (router) {
     getClaimSummary(req.params.claimId, req.params.claimType)
       .then(function (claimDetails) {
         savedClaimDetails = claimDetails
-        var benefitDocument
-        if (claimDetails.claim.benefitDocument.length > 0) {
-          benefitDocument = claimDetails.claim.benefitDocument[0]
-        }
-        var claimSummary = new ClaimSummary(claimDetails.claim.visitConfirmation, claimDetails.claim.Benefit, benefitDocument, claimDetails.claimExpenses, claimDetails.claim.IsAdvanceClaim, benefitUploadNotRequired(req.params.claimType)) // eslint-disable-line no-unused-vars
+
+        var visitConfirmation = claimDetails.claim.visitConfirmation
+        var benefit = claimDetails.claim.Benefit
+        var benefitDocument = getBenefitDocument(claimDetails.claim.benefitDocument)
+        var claimExpenses = claimDetails.claimExpenses
+        var isAdvanceClaim = claimDetails.claim.IsAdvanceClaim
+        var benefitUpload = benefitUploadNotRequired(req.params.claimType)
+
+        new ClaimSummary(visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUpload) // eslint-disable-line no-new
         return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/bank-account-details?isAdvance=${claimDetails.claim.IsAdvanceClaim}`)
       })
       .catch(function (error) {
@@ -66,6 +70,14 @@ module.exports = function (router) {
         }
       })
   })
+
+  function getBenefitDocument (benefitDocument) {
+    var result
+    if (benefitDocument && benefitDocument.length > 0) {
+      result = benefitDocument[0]
+    }
+    return result
+  }
 
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/view-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
@@ -110,11 +122,11 @@ module.exports = function (router) {
   })
 }
 
-function buildSummaryUrl(req) {
+function buildSummaryUrl (req) {
   return `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`
 }
 
-function buildRemoveDocumentUrl(req) {
+function buildRemoveDocumentUrl (req) {
   var url = buildSummaryUrl(req)
   if (req.query.multipage) {
     return url
@@ -125,16 +137,16 @@ function buildRemoveDocumentUrl(req) {
   }
 }
 
-function removeExpense(claimId, claimExpenseId, claimDocumentId) {
+function removeExpense (claimId, claimExpenseId, claimDocumentId) {
   return removeClaimExpense(claimId, claimExpenseId)
     .then(function () { return removeClaimDocument(claimDocumentId) })
 }
 
-function removeDocument(claimDocumentId) {
+function removeDocument (claimDocumentId) {
   return removeClaimDocument(claimDocumentId)
 }
 
-function removeExpenseAndDcoument(claimId, claimExpenseId, claimDocumentId) {
+function removeExpenseAndDcoument (claimId, claimExpenseId, claimDocumentId) {
   return removeExpense(claimId, claimExpenseId)
     .then(function () { return removeDocument(claimDocumentId) })
 }
