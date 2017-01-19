@@ -2,6 +2,8 @@
 const clam = require('../../../app/services/clam-av')
 
 // Include full path to test files for Clam AV Daemon when running locally
+// Also, you will need to edit the contents of test_malware.txt to make the
+// contents appear as a virus. Full instructions included in the file itself.
 const MALWARE_FILE_PATH = '<INCLUDE FULL PATH>/resources/test_malware.txt'
 const VALID_FILE_PATH = '<INCLUDE FULL PATH>/resources/testfile.txt'
 

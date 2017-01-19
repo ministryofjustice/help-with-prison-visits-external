@@ -113,6 +113,8 @@ function checkForMalware (req, res, next, redirectURL) {
       }
     })
   } else {
+    // This handles the case were Post/Upload Later is selected, so no actual file is being provided,
+    // however we still need to insert metadata indicating that the user selected on of these options
     ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
       res.redirect(redirectURL)
     }).catch(function (error) {
