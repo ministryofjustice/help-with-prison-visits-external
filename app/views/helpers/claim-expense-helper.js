@@ -28,6 +28,8 @@ module.exports = function (expense) {
       formattedDetail = `${addTicketOwnerPrefix(expense)}${expense.From} to ${expense.To} as ${ExpenseTypeEnum.FERRY.ticketType[expense.TicketType]}${addReturnPostfix(expense)}`
       break
     case 'car':
+    case 'toll':
+    case 'parking':
       formattedDetail = `${expense.From} to ${displayHelper.getPrisonDisplayName(expense.To)}`
       break
     default:
