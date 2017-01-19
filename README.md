@@ -125,3 +125,20 @@ This node application uses [npm shrinkwrap](https://docs.npmjs.com/cli/shrinkwra
 To manually update a dependency (e.g. GOV.UK styles) use `npm update my-dependency` and commit the updated `package.json` and `npm-shrinkwrap.json` files.
 
 Please note, there is an outstanding [bug in npm](https://github.com/npm/npm/issues/14042) which attempts to install incompatible optional dependencies when referenced in shrinkwrap (`fsevents` is one). To prevent this, either update the dependency from inside a docker image or manually remove the dependency from `npm-shrinkwrap.json`.
+
+### Payment Methods
+Currently, there are only two payment methods available in the system - direct bank payment, or manual payment.  Only direct bank payment can be chosen by the claimant.
+
+A claimant should be able to specify a payment method.  
+Claimants cannot choose manual payments as a payment method - this will be controlled by the caseworker.  
+Because there is only one selectable payment method, the system will default the payment method to direct bank payment.
+
+#### Manually Processing Payments
+A claim can have individual expenses that have been paid using the method specified by the claimant, and also by manually processing expenses eg. 2 expenses were paid manually and 2 expenses were paid via direct bank payment.  In this scenario, the payment method of this claim will be set to direct bank payment as one or more expenses are to be paid that way.  A claim can only have a payment method of manual if **ALL** expenses were processed manually on the claim, otherwise it will default to bank payment.
+
+#### Adding a new payment method
+Any new payment methods should behave in a similar way to the direct bank payment.  The claimant should be able to choose the new payment method, and if a caseworker manually processes all expenses for that claim, the payment method should get updated to manually processed
+
+- Add new payment method to enums in internal, external and async worker
+- Make sure to update the external site to allow the user to choose between payment methods (and any necessary changes to routes)
+- Update payment method route (currently only bank-account-details) so that the claim is updated with the correct payment method
