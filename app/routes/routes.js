@@ -12,6 +12,8 @@ var routes = [
   require('./application-updated'),
   require('./feedback'),
   require('./terms-and-conditions'),
+  require('./cookies'),
+  require('./technical-help'),
 
   // First Time Flow.
   require('./apply/new-eligibility/date-of-birth'),

@@ -48,5 +48,7 @@ module.exports = {
   'terms-and-conditions': 'Agreement to our terms and conditions',
   'has-escort': 'response',
   'has-child': 'response',
-  'ticket-owner': 'A ticket owner'
+  'ticket-owner': 'A ticket owner',
+  'issue': 'Message',
+  'name': 'Name'
 }

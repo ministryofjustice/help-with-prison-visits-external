@@ -7,24 +7,25 @@ require('sinon-bluebird')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
 
-describe('routes/feedback', function () {
-  const ROUTE = `/feedback`
+describe('routes/technical-help', function () {
+  const ROUTE = `/technical-help`
   const VALID_DATA = {
-    rating: 'satisfied',
-    improvements: 'This is a test message'
+    name: 'Joe Bloggs',
+    PhoneNumber: '02874628481',
+    issue: 'Testing problems are occuring'
   }
 
   var app
 
-  var feedbackStub
+  var technicalHelpStub
   var insertTaskStub
 
   beforeEach(function () {
-    feedbackStub = sinon.stub()
+    technicalHelpStub = sinon.stub()
     insertTaskStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../app/routes/feedback', {
-      '../services/domain/feedback': feedbackStub,
+    var route = proxyquire('../../../app/routes/technical-help', {
+      '../services/domain/technical-help': technicalHelpStub,
       '../services/data/insert-task': insertTaskStub
     })
     app = routeHelper.buildApp(route)
@@ -40,29 +41,22 @@ describe('routes/feedback', function () {
 
   describe(`POST ${ROUTE}`, function () {
     it('should respond with a 302', function () {
-      feedbackStub.returns(VALID_DATA)
+      technicalHelpStub.returns(VALID_DATA)
       return supertest(app)
         .post(ROUTE)
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(feedbackStub, VALID_DATA.rating, VALID_DATA.improvements)
-          sinon.assert.calledWith(insertTaskStub, null, null, null, TaskEnums.FEEDBACK_SUBMITTED, `${VALID_DATA.rating}~~${VALID_DATA.improvements}`)
+          sinon.assert.calledWith(technicalHelpStub, VALID_DATA.name, VALID_DATA.PhoneNumber, VALID_DATA.issue)
+          sinon.assert.calledWith(insertTaskStub, null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${VALID_DATA.name}~~${VALID_DATA.PhoneNumber}~~${VALID_DATA.issue}`)
         })
     })
 
     it('should respond with a 400 if validation fails', function () {
-      feedbackStub.throws(new ValidationError({ 'rating': {} }))
+      technicalHelpStub.throws(new ValidationError({ 'name': {} }))
       return supertest(app)
         .post(ROUTE)
         .expect(400)
-    })
-
-    it('should respond with a 500 if any non-validation error occurs.', function () {
-      feedbackStub.throws(new Error())
-      return supertest(app)
-        .post(ROUTE)
-        .expect(500)
     })
   })
 })

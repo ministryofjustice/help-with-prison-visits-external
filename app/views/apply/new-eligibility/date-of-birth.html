@@ -23,8 +23,8 @@
 
       <form action="/apply/{{ claimType }}/new-eligibility" method="post">
 
-        <div class="form-group date-of-birth {% if errors['dob'][0] %} error {% endif %}">
-          <fieldset>
+        <div class="form-group">
+          <div class="date-of-birth {% if errors['dob'][0] %} error {% endif %}">
 
             {% if errors['dob'][0] %}
               <span class="error-message">{{ errors['dob'][0] }}</span>
@@ -60,12 +60,8 @@
                        value="{{ claimant['dob-year'] }}"
                        class="form-control">
               </div>
-
             </div>
-
-          </fieldset>
-          <br>
-
+          </div>
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}

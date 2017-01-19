@@ -37,27 +37,23 @@
             <span class="error-message">{{ errors['travel-time'][0] }}</span>
           {% endif %}
 
-          <fieldset>
+          <label for="travel-time-over-five" class="block-label">
+            <input id="travel-time-over-five"
+                   type="radio"
+                   name="travel-time"
+                   value="over-five"
+                   {% if expense['travel-time'] == 'over-five' %} checked {% endif %}>
+            Over 5 hours
+          </label>
 
-            <label for="travel-time-over-five" class="block-label">
-              <input id="travel-time-over-five"
-                     type="radio"
-                     name="travel-time"
-                     value="over-five"
-                     {% if expense['travel-time'] == 'over-five' %} checked {% endif %}>
-              Over 5 hours
-            </label>
-
-            <label for="travel-time-over-ten" class="block-label">
-              <input id="travel-time-over-ten"
-                     type="radio"
-                     name="travel-time"
-                     value="over-ten"
-                     {% if expense['travel-time'] == 'over-ten' %} checked {% endif %}>
-              Over 10 hours
-            </label>
-
-          </fieldset>
+          <label for="travel-time-over-ten" class="block-label">
+            <input id="travel-time-over-ten"
+                   type="radio"
+                   name="travel-time"
+                   value="over-ten"
+                   {% if expense['travel-time'] == 'over-ten' %} checked {% endif %}>
+            Over 10 hours
+          </label>
 
         </div>
 

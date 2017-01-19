@@ -128,3 +128,11 @@ Note that you will need to have the clamd daemon running, which will live in sbi
 As a GOV.UK service this application should support Welsh.
 
 Localisation is provided via the [i18n node module](https://www.npmjs.com/package/i18n) which populates localisation strings for the supported locales into `app/locales`. Near the end of the Beta the localisation files will be sent for translation and populated.
+
+### Updating dependencies
+
+This node application uses [npm shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap) to fix dependencies and peer dependencies to specific versions. This prevents node modules from automatically updating on new releases without developers knowledge.
+
+To manually update a dependency (e.g. GOV.UK styles) use `npm update my-dependency` and commit the updated `package.json` and `npm-shrinkwrap.json` files.
+
+Please note, there is an outstanding [bug in npm](https://github.com/npm/npm/issues/14042) which attempts to install incompatible optional dependencies when referenced in shrinkwrap (`fsevents` is one). To prevent this, either update the dependency from inside a docker image or manually remove the dependency from `npm-shrinkwrap.json`.

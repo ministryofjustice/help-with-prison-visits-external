@@ -83,5 +83,12 @@ describe('/your-claims/your-claims', function () {
         .expect(302)
         .expect('location', '/start-already-registered?error=yes')
     })
+
+    it('should respond with a 500 if promise rejects.', function () {
+      getHistoricClaimsStub.rejects()
+      return supertest(app)
+        .get(ROUTE)
+        .expect(500)
+    })
   })
 })
