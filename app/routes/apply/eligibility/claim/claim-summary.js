@@ -88,12 +88,9 @@ module.exports = function (router) {
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/remove-expense/:claimExpenseId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    removeClaimExpense(req.params.claimId, req.params.claimExpenseId)
+    return removeExpenseAndDcoument(req.params.claimId, req.params.claimExpenseId, req.query.claimDocumentId)
       .then(function () {
-        removeClaimDocument(req.query.claimDocumentId)
-          .then(function () {
-            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
-          })
+        return res.redirect(buildSummaryUrl(req))
       })
       .catch(function (error) {
         next(error)
@@ -103,20 +100,36 @@ module.exports = function (router) {
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/remove-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    removeClaimDocument(req.params.claimDocumentId)
+    return removeDocument(req.params.claimDocumentId)
       .then(function () {
         if (req.query.multipage) {
-          return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+          return res.redirect(buildSummaryUrl(req))
+        } else if (req.query.claimExpenseId) {
+          return res.redirect(`${buildSummaryUrl(req)}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
         } else {
-          if (req.query.claimExpenseId) {
-            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
-          } else {
-            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary/file-upload?document=${req.query.document}`)
-          }
+          return res.redirect(`${buildSummaryUrl(req)}/file-upload?document=${req.query.document}`)
         }
       })
       .catch(function (error) {
         next(error)
       })
   })
+}
+
+function buildSummaryUrl(req) {
+  return `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`
+}
+
+function removeExpense(claimId, claimExpenseId, claimDocumentId) {
+  return removeClaimExpense(claimId, claimExpenseId)
+    .then(function () { return removeClaimDocument(claimDocumentId) })
+}
+
+function removeDocument(claimDocumentId) {
+  return removeClaimDocument(claimDocumentId)
+}
+
+function removeExpenseAndDcoument(claimId, claimExpenseId, claimDocumentId) {
+  return removeExpense(claimId, claimExpenseId)
+    .then(function () { return removeDocument(claimDocumentId) })
 }
