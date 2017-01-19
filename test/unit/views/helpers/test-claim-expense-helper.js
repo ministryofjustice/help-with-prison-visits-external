@@ -5,7 +5,7 @@ const ticketOwnerEnum = require('../../../../app/constants/ticket-owner-enum')
 
 describe('views/helpers/claim-expense-helper', function () {
   const FROM = 'PointA'
-  const TO = 'PointB'
+  const TO = 'hewell'
   const DURATION_OF_TRAVEL = '2'
   const TICKET_TYPE = 'foot-passenger'
 
@@ -35,6 +35,9 @@ describe('views/helpers/claim-expense-helper', function () {
 
     expect(claimExpenseHelper({ ExpenseType: 'ferry', From: FROM, To: TO, TicketType: TICKET_TYPE }))
       .to.equal(`${FROM} to ${TO} as a foot passenger`)
+
+    expect(claimExpenseHelper({ ExpenseType: 'car', From: FROM, To: TO, TicketType: TICKET_TYPE }))
+      .to.equal(`${FROM} to Hewell`)
 
     expect(claimExpenseHelper({ ExpenseType: 'anything-else', From: FROM, To: TO }))
       .to.equal(`${FROM} to ${TO}`)
