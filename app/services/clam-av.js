@@ -1,5 +1,6 @@
 const config = require('../../config')
 var Promise = require('bluebird').Promise
+var logger = require('../../app/services/log')
 
 var clam = require('clamscan')({
   remove_infected: config.CLAM_REMOVE_INFECTED,
@@ -12,7 +13,9 @@ var clam = require('clamscan')({
 
 module.exports.scan = function (filePath) {
   return new Promise(function (resolve, reject) {
-    if (config.ENABLE_MALWARE_SCANNING) {
+    if (config.ENABLE_MALWARE_SCANNING === 'true') {
+      logger.info('IN TESTED CODE')
+      logger.info(config.ENABLE_MALWARE_SCANNING)
       clam.is_infected(filePath, function (error, file, infected) {
         if (error) reject(error)
         return resolve(infected)
