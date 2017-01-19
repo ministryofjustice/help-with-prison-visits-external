@@ -5,6 +5,7 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const encrypt = require('../../../../services/helpers/encrypt')
+const paymentMethods = require('../../../../constants/payment-method-enum')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/bank-account-details', function (req, res) {
@@ -25,9 +26,10 @@ module.exports = function (router) {
 
     try {
       var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body['terms-and-conditions-input'])
+      var paymentMethod = paymentMethods.DIRECT_BANK_PAYMENT.value
       insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, bankAccountDetails)
         .then(function () {
-          return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker)
+          return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
             .then(function () {
               var encryptedRef = encrypt(referenceAndEligibilityId.reference)
               return res.redirect(`/application-submitted/${encryptedRef}`)
