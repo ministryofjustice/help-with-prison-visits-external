@@ -665,6 +665,7 @@ describe('services/validators/field-validator', function () {
   describe('isValidBenefit', function () {
     const VALID_INPUT = benefitsEnum.INCOME_SUPPORT.value
     const INVALID_INPUT = 'some invalid input'
+    const NONE_OF_THE_ABOVE = 'none'
 
     it('should return an error object if passed null', function () {
       var errorHandler = ErrorHandler()
@@ -694,6 +695,15 @@ describe('services/validators/field-validator', function () {
       var errorHandler = ErrorHandler()
       FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
         .isValidBenefit()
+      var errors = errorHandler.get()
+      expect(errors).to.equal(false)
+    })
+
+    it('should return false if passed none and fromDomain is true', function () {
+      var errorHandler = ErrorHandler()
+      var fromDomain = true
+      FieldValidator(NONE_OF_THE_ABOVE, 'none', errorHandler)
+        .isValidBenefit(fromDomain)
       var errors = errorHandler.get()
       expect(errors).to.equal(false)
     })

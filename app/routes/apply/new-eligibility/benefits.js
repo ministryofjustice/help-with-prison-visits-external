@@ -19,10 +19,11 @@ module.exports = function (router) {
     var benefit = req.body.benefit
 
     try {
-      if (benefit === 'none') {
+      var benefits = new Benefits(benefit)
+
+      if (benefits.benefit === 'none') {
         return res.redirect('/eligibility-fail')
       } else {
-        var benefits = new Benefits(benefit)
         var params = ''
         if (req.params.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
           params = `?reference=${req.query.reference}&prisoner-number=${req.query['prisoner-number']}`

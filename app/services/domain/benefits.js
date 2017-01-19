@@ -13,7 +13,7 @@ class Benefits {
 
     FieldValidator(this.benefit, 'benefit', errors)
       .isRequired('radio')
-      .isValidBenefit()
+      .isValidBenefit(true)
 
     var validationErrors = errors.get()
     if (validationErrors) {
