@@ -7,6 +7,7 @@ const STATUS2 = 'APPROVED'
 const pastDate = moment().subtract('1', 'day')
 const futureDate = moment().add('1', 'day')
 const ISADVANCE = true
+const UPDATED = true
 const INVALID_STATUS = 'REJECTED'
 
 describe('routes/helpers/for-edit', function () {
@@ -16,6 +17,10 @@ describe('routes/helpers/for-edit', function () {
 
   it('should return true for approved status when advance claim is true and after date of journey', function () {
     expect(forEdit(STATUS2, ISADVANCE, pastDate)).to.be.true
+  })
+
+  it('should return false when passed the updated argument of true', function () {
+    expect(forEdit(STATUS2, ISADVANCE, pastDate, UPDATED)).to.be.false
   })
 
   it('should return false for approved status when advance claim is true and before date of journey', function () {

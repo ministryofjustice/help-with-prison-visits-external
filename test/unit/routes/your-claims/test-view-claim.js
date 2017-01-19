@@ -85,7 +85,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           expect(decryptStub.calledWith(ENCRYPTED_REFERENCE)).to.be.true
           expect(getViewClaimStub.calledWith(CLAIMID, REFERENCE, DOB)).to.be.true
           expect(viewClaimDomainObjectStub.calledOnce, 'Should have called to check validation').to.be.true
-          expect(response.headers['location']).to.be.equal(`/application-updated/${ENCRYPTED_REFERENCE}`)
+          expect(response.headers['location']).to.be.equal(`/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}?updated=true`)
           done()
         })
     })
