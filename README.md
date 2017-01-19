@@ -139,6 +139,7 @@ A claim can have individual expenses that have been paid using the method specif
 #### Adding a new payment method
 Any new payment methods should behave in a similar way to the direct bank payment.  The claimant should be able to choose the new payment method, and if a caseworker manually processes all expenses for that claim, the payment method should get updated to manually processed
 
+Things to consider:
 - Add new payment method to enums in internal, external and async worker
 - Make sure to update the external site to allow the user to choose between payment methods (and any necessary changes to routes)
 - Update payment method route (currently only bank-account-details) so that the claim is updated with the correct payment method
