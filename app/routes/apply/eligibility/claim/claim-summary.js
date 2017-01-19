@@ -80,7 +80,7 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
 
     return getDocumentFilePath(req.params.claimDocumentId)
-      .then(function(file) {
+      .then(function (file) {
         return res.download(file.path, file.name)
       })
       .catch(function (error) {
@@ -150,7 +150,7 @@ function getBenefitDocument (benefitDocument) {
   return result
 }
 
-function getDocumentFilePath(claimDocumentId) {
+function getDocumentFilePath (claimDocumentId) {
   return getClaimDocumentFilePath(claimDocumentId)
     .then(function (result) {
       var path = result.Filepath
