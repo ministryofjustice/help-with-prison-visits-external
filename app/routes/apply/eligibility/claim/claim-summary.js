@@ -91,7 +91,7 @@ module.exports = function (router) {
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/remove-expense/:claimExpenseId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    return removeExpenseAndDcoument(req.params.claimId, req.params.claimExpenseId, req.query.claimDocumentId)
+    return removeExpenseAndDocument(req.params.claimId, req.params.claimExpenseId, req.query.claimDocumentId)
       .then(function () {
         return res.redirect(buildSummaryUrl(req))
       })
@@ -137,7 +137,7 @@ function removeDocument (claimDocumentId) {
   return removeClaimDocument(claimDocumentId)
 }
 
-function removeExpenseAndDcoument (claimId, claimExpenseId, claimDocumentId) {
+function removeExpenseAndDocument (claimId, claimExpenseId, claimDocumentId) {
   return removeExpense(claimId, claimExpenseId)
     .then(function () { return removeDocument(claimDocumentId) })
 }
