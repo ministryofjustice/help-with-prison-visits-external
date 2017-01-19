@@ -79,15 +79,9 @@ module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/view-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    getClaimDocumentFilePath(req.params.claimDocumentId)
-      .then(function (result) {
-        var path = result.Filepath
-        if (path) {
-          var fileName = 'APVS-Upload.' + path.split('.').pop()
-          return res.download(path, fileName)
-        } else {
-          throw new Error('No path to file provided')
-        }
+    return getDocumentFilePath(req.params.claimDocumentId)
+      .then(function(file) {
+        return res.download(file.path, file.name)
       })
       .catch(function (error) {
         next(error)
@@ -154,4 +148,19 @@ function getBenefitDocument (benefitDocument) {
     result = benefitDocument[0]
   }
   return result
+}
+
+function getDocumentFilePath(claimDocumentId) {
+  return getClaimDocumentFilePath(claimDocumentId)
+    .then(function (result) {
+      var path = result.Filepath
+      if (path) {
+        return {
+          path: path,
+          fileName: 'APVS-Upload.' + path.split('.').pop()
+        }
+      } else {
+        throw new Error('No path to file provided')
+      }
+    })
 }
