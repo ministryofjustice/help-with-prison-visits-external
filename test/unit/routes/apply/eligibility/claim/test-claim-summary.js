@@ -55,6 +55,14 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
   })
 
   describe(`GET ${ROUTE}`, function () {
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
     it('should respond with a 200', function () {
       return supertest(app)
         .get(ROUTE)
@@ -70,7 +78,9 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .get(ROUTE)
         .expect(500)
     })
+  })
 
+  describe(`POST ${ROUTE}`, function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
@@ -78,9 +88,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
     })
-  })
 
-  describe(`POST ${ROUTE}`, function () {
     it('should respond with a 302', function () {
       return supertest(app)
         .post(ROUTE)
@@ -105,18 +113,18 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(ROUTE)
         .expect(500)
     })
-
-    it('should call the URL Path Validator', function () {
-      return supertest(app)
-        .get(ROUTE)
-        .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
-    })
   })
 
   describe(`GET ${ROUTE}/view-document/:claimDocumentId`, function () {
     const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIMDOCUMENTID}`
+
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .get(VIEW_DOCUMENT_ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
 
     it('should respond respond with 200 if valid path entered', function () {
       getClaimDocumentFilePath.resolves(FILEPATH_RESULT)
@@ -132,18 +140,18 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .get(VIEW_DOCUMENT_ROUTE)
         .expect(500)
     })
-
-    it('should call the URL Path Validator', function () {
-      return supertest(app)
-        .get(VIEW_DOCUMENT_ROUTE)
-        .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
-    })
   })
 
   describe(`POST ${ROUTE}/remove-expense/:claimExpenseId`, function () {
     const REMOVE_EXPENSE_ROUTE = `${ROUTE}/remove-expense/${CLAIMEXPENSEID}?claimDocumentId=${CLAIMDOCUMENTID}`
+
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .post(REMOVE_EXPENSE_ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
 
     it('should respond with a 302 and call removeClaimExpense and removeClaimDocument', function () {
       return supertest(app)
@@ -162,18 +170,18 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(REMOVE_EXPENSE_ROUTE)
         .expect(500)
     })
-
-    it('should call the URL Path Validator', function () {
-      return supertest(app)
-        .post(REMOVE_EXPENSE_ROUTE)
-        .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
-    })
   })
 
   describe(`POST ${ROUTE}/remove-document/:claimDocumentId`, function () {
     const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION`
+
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
 
     it('should respond with a 302, call removeClaimDocument and redirect to file upload', function () {
       return supertest(app)
@@ -200,14 +208,6 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
         .expect(500)
-    })
-
-    it('should call the URL Path Validator', function () {
-      return supertest(app)
-        .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
-        .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
     })
   })
 })
