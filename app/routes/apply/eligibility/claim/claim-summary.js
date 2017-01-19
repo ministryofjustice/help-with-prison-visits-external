@@ -102,13 +102,7 @@ module.exports = function (router) {
 
     return removeDocument(req.params.claimDocumentId)
       .then(function () {
-        if (req.query.multipage) {
-          return res.redirect(buildSummaryUrl(req))
-        } else if (req.query.claimExpenseId) {
-          return res.redirect(`${buildSummaryUrl(req)}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`)
-        } else {
-          return res.redirect(`${buildSummaryUrl(req)}/file-upload?document=${req.query.document}`)
-        }
+        return res.redirect(buildRemoveDocumentUrl(req))
       })
       .catch(function (error) {
         next(error)
@@ -118,6 +112,17 @@ module.exports = function (router) {
 
 function buildSummaryUrl(req) {
   return `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`
+}
+
+function buildRemoveDocumentUrl(req) {
+  var url = buildSummaryUrl(req)
+  if (req.query.multipage) {
+    return url
+  } else if (req.query.claimExpenseId) {
+    return `${url}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`
+  } else {
+    return `${url}/file-upload?document=${req.query.document}`
+  }
 }
 
 function removeExpense(claimId, claimExpenseId, claimDocumentId) {
