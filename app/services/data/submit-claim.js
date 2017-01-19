@@ -8,7 +8,7 @@ const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const dateFormatter = require('../date-formatter')
 
-module.exports = function (reference, eligibilityId, claimId, claimType, assistedDigitalCaseworker) {
+module.exports = function (reference, eligibilityId, claimId, claimType, assistedDigitalCaseworker, paymentMethod) {
   var dateSubmitted = dateFormatter.now().toDate()
 
   return knex('Claim')
@@ -20,7 +20,7 @@ module.exports = function (reference, eligibilityId, claimId, claimType, assiste
       }
 
       return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
-        updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker),
+        updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker, paymentMethod),
         insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType),
         insertTaskSendClaimNotification(reference, eligibilityId, claimId)])
     })
@@ -33,10 +33,11 @@ function updateEligibility (reference, eligibilityId, dateSubmitted) {
   })
 }
 
-function updateClaim (claimId, dateSubmitted, assistedDigitalCaseworker) {
+function updateClaim (claimId, dateSubmitted, assistedDigitalCaseworker, paymentMethod) {
   return knex('Claim').where('ClaimId', claimId).update({
     'Status': claimStatusEnum.SUBMITTED,
     'DateSubmitted': dateSubmitted,
-    'AssistedDigitalCaseworker': assistedDigitalCaseworker
+    'AssistedDigitalCaseworker': assistedDigitalCaseworker,
+    'PaymentMethod': paymentMethod
   })
 }
