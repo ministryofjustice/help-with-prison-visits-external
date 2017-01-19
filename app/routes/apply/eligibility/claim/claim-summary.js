@@ -36,6 +36,11 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
     UrlPathValidator(req.params)
+
+    var referenceId = req.params.referenceId
+    var claimId = req.params.claimId
+    var claimType = req.params.claimType
+
     var savedClaimDetails
     getClaimSummary(req.params.claimId, req.params.claimType)
       .then(function (claimDetails) {
@@ -46,23 +51,23 @@ module.exports = function (router) {
         var benefitDocument = getBenefitDocument(claimDetails.claim.benefitDocument)
         var claimExpenses = claimDetails.claimExpenses
         var isAdvanceClaim = claimDetails.claim.IsAdvanceClaim
-        var benefitUpload = benefitUploadNotRequired(req.params.claimType)
+        var benefitUpload = benefitUploadNotRequired(claimType)
 
         new ClaimSummary(visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUpload) // eslint-disable-line no-new
-        return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/bank-account-details?isAdvance=${claimDetails.claim.IsAdvanceClaim}`)
+        return res.redirect(`/apply/${claimType}/eligibility/${referenceId}/claim/${claimId}/bank-account-details?isAdvance=${isAdvanceClaim}`)
       })
       .catch(function (error) {
         if (error instanceof ValidationError) {
           return res.status(400).render('apply/eligibility/claim/claim-summary', {
             errors: error.validationErrors,
-            claimType: req.params.claimType,
-            referenceId: req.params.referenceId,
-            claimId: req.params.claimId,
+            claimType: claimType,
+            referenceId: referenceId,
+            claimId: claimId,
             claimDetails: savedClaimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper,
-            benefitUploadNotRequired: benefitUploadNotRequired(req.params.claimType),
+            benefitUploadNotRequired: benefitUploadNotRequired(claimType),
             URL: req.url
           })
         } else {
@@ -70,14 +75,6 @@ module.exports = function (router) {
         }
       })
   })
-
-  function getBenefitDocument (benefitDocument) {
-    var result
-    if (benefitDocument && benefitDocument.length > 0) {
-      result = benefitDocument[0]
-    }
-    return result
-  }
 
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/view-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
@@ -149,4 +146,12 @@ function removeDocument (claimDocumentId) {
 function removeExpenseAndDcoument (claimId, claimExpenseId, claimDocumentId) {
   return removeExpense(claimId, claimExpenseId)
     .then(function () { return removeDocument(claimDocumentId) })
+}
+
+function getBenefitDocument (benefitDocument) {
+  var result
+  if (benefitDocument && benefitDocument.length > 0) {
+    result = benefitDocument[0]
+  }
+  return result
 }
