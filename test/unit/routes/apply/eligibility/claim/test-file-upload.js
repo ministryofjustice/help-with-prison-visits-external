@@ -19,6 +19,9 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
   var fileUploadStub
   var claimDocumentInsertStub
   var generateCSRFTokenStub
+  var clamAvStub
+  var configStub
+  var insertTaskStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -27,6 +30,9 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     fileUploadStub = sinon.stub()
     claimDocumentInsertStub = sinon.stub()
     generateCSRFTokenStub = sinon.stub()
+    clamAvStub = sinon.stub()
+    configStub = sinon.stub()
+    insertTaskStub = sinon.stub()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/file-upload', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
@@ -35,6 +41,9 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
       '../../../../services/domain/file-upload': fileUploadStub,
       '../../../../services/data/insert-file-upload-details-for-claim': claimDocumentInsertStub,
       '../../../../services/generate-csrf-token': generateCSRFTokenStub,
+      '../../../../services/clam-av': { clamAvStub, '@noCallThru': true },
+      '../../../../../config': configStub,
+      '../../../../services/data/insert-task': insertTaskStub,
       'csurf': function () { return function () { } }
     })
     app = routeHelper.buildApp(route)
@@ -80,6 +89,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
 
   describe(`POST ${ROUTE}`, function () {
     it('should call the URL Path Validator', function () {
+      clamAvStub.resolves()
       uploadStub.callsArg(2)
       return supertest(app)
         .post(ROUTE)
@@ -91,6 +101,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     it('should create a file upload object, insert it to DB and give 302', function () {
       uploadStub.callsArg(2).returns({})
       claimDocumentInsertStub.resolves()
+      clamAvStub.resolves()
       return supertest(app)
         .post(`${ROUTE}VISIT_CONFIRMATION`)
         .expect(function () {
@@ -104,6 +115,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     it('should catch a validation error', function () {
       uploadStub.callsArg(2).returns({})
       fileUploadStub.throws(new ValidationError())
+      clamAvStub.resolves()
       return supertest(app)
         .post(`${ROUTE}VISIT_CONFIRMATION`)
         .expect(400)
