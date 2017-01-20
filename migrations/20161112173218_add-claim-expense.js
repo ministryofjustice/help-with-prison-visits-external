@@ -1,8 +1,8 @@
 exports.up = function (knex, Promise) {
   return knex.schema.createTable('ClaimExpense', function (table) {
     table.increments('ClaimExpenseId')
-    table.integer('EligibilityId').unsigned().notNullable().references('Claim.EligibilityId')
-    table.string('Reference', 10).notNullable().index().references('Claim.Reference')
+    table.integer('EligibilityId').unsigned().notNullable().references('Claim.EligibilityId') // REMOVED FOREIGN KEY IN LATER MIGRATION
+    table.string('Reference', 10).notNullable().index().references('Claim.Reference') // REMOVED FOREIGN KEY IN LATER MIGRATION
     table.integer('ClaimId').unsigned().notNullable().references('Claim.ClaimId')
     table.string('ExpenseType', 100).notNullable()
     table.decimal('Cost').notNullable()
