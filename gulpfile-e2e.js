@@ -30,4 +30,20 @@ gulp.task('e2e', ['selenium'], () => {
     })
 })
 
+gulp.task('e2e-smoke', ['selenium'], () => {
+  return gulp.src('test/wdio.conf.smoke.js')
+    .pipe(webdriver()).on('error', () => {
+      seleniumServer.kill()
+      process.exit(1)
+    })
+    .once('error', function () { // Explicit exit for gulp-mocha
+      seleniumServer.kill()
+      process.exit(1)
+    })
+    .once('end', function () {
+      seleniumServer.kill()
+      process.exit()
+    })
+})
+
 gulp.task('default', ['e2e'])
