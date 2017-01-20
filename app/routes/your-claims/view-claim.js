@@ -34,12 +34,13 @@ module.exports = function (router) {
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper,
             URL: req.url,
-            forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney),
+            forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney, req.query.updated),
             viewClaim: true,
             claimStatusHelper: claimStatusHelper,
             claimEventHelper: claimEventHelper,
             isRequestInfoPayment: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT',
-            forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED'
+            forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED',
+            updated: req.query.updated
           })
       })
   })
@@ -64,7 +65,7 @@ module.exports = function (router) {
           var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message, bankDetails) // eslint-disable-line no-unused-vars
           submitUpdate(decryptedReference, claimDetails.claim.EligibilityId, req.params.claimId, message, bankDetails)
             .then(function () {
-              return res.redirect(`/application-updated/${req.params.reference}`)
+              return res.redirect(`/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}?updated=true`)
             })
         } catch (error) {
           if (error instanceof ValidationError) {
@@ -81,7 +82,7 @@ module.exports = function (router) {
               claimExpenseHelper: claimExpenseHelper,
               displayHelper: displayHelper,
               URL: req.url,
-              forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim),
+              forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney),
               viewClaim: true,
               claimEventHelper: claimEventHelper,
               bankDetails: { AccountNumber, SortCode },

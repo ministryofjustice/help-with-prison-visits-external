@@ -50,5 +50,6 @@ module.exports = {
   'has-child': 'response',
   'ticket-owner': 'A ticket owner',
   'issue': 'Message',
-  'name': 'Name'
+  'name': 'Name',
+  'advance-past': 'response'
 }

@@ -48,13 +48,16 @@
         </div>
 
         <div class="form-group hide-border">
-          <label class="form-label-bold" for="to">To</label>
-          <input id="to"
-                 type="text"
-                 name="to"
-                 value="{{ expense['to'] }}"
+          <label class="form-label-bold" for="to-display">To</label>
+          <input id="to-display"
+                 name="to-display"
                  class="form-control"
+                 value="{{ displayHelper.getPrisonDisplayName(expense['to']) }}"
                  readonly>
+          <input id="to"
+                 type="hidden"
+                 name="to"
+                 value="{{ expense['to'] }}">
         </div>
 
         {% if not carOnly %}

@@ -7,6 +7,7 @@ const getTravellingFromAndTo = require('../../../../services/data/get-travelling
 const getMaskedEligibility = require('../../../../services/data/get-masked-eligibility')
 const insertCarExpenses = require('../../../../services/data/insert-car-expenses')
 const claimTypeEnum = require('../../../../constants/claim-type-enum')
+const displayHelper = require('../../../../views/helpers/display-helper')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/car', function (req, res, next) {
@@ -39,7 +40,8 @@ function get (carOnly, req, res, next) {
           claimId: req.params.claimId,
           params: expenseUrlRouter.parseParams(req.query),
           expense: result,
-          carOnly: carOnly
+          carOnly: carOnly,
+          displayHelper: displayHelper
         })
       })
       .catch(function (error) {
@@ -55,7 +57,8 @@ function get (carOnly, req, res, next) {
           claimId: req.params.claimId,
           params: expenseUrlRouter.parseParams(req.query),
           expense: fromAndTo,
-          carOnly: carOnly
+          carOnly: carOnly,
+          displayHelper: displayHelper
         })
       })
       .catch(function (error) {
@@ -94,7 +97,8 @@ function post (carOnly, req, res, next) {
         claimId: req.params.claimId,
         params: expenseUrlRouter.parseParams(req.query),
         expense: req.body,
-        carOnly: carOnly
+        carOnly: carOnly,
+        displayHelper: displayHelper
       })
     } else {
       throw error

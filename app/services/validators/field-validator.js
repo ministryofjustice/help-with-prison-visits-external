@@ -126,7 +126,10 @@ class FieldValidator {
     return this
   }
 
-  isValidBenefit () {
+  isValidBenefit (fromDomain) {
+    if (fromDomain && this.data === 'none') {
+      return this
+    }
     if (!validator.isValidBenefit(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
     }
@@ -135,6 +138,13 @@ class FieldValidator {
 
   isValidExpenseArray () {
     if (!validator.isValidExpenseArray(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
+    }
+    return this
+  }
+
+  isValidAdvanceOrPast () {
+    if (!validator.isValidAdvanceOrPast(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
     }
     return this

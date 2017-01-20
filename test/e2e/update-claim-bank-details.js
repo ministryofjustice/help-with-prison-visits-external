@@ -49,8 +49,8 @@ describe('Claim payment information requested', function () {
       .setValue('#sort-code-input', '223344')
       .click('#claim-view-submit')
 
-      // Updated application page
-      .waitForExist('#reference')
+      // Updated view claims page
+      .waitForExist('#application-updated')
   })
 
   after(function () {

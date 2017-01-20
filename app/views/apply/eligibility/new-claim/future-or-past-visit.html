@@ -22,27 +22,27 @@
       <p>You can apply for help with one visit at a time.</p>
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/new-claim" method="post" class="form">
+      {% if errors['advance-past'][0] %}
+        <span class="error-message">{{ errors['advance-past'][0] }}</span>
+      {% endif %}
 
-        <div class="form-group">
-          <label for="past" class="block-label">
-            <input type="radio"
-                   name="advance-past"
-                   value="past"
-                   id="past"
-                   checked>
-            Yes
-          </label>
-        </div>
+          <div class="form-group">
+            <label for="past" class="block-label">
+              <input type="radio"
+                     name="advance-past"
+                     value="past"
+                     id="past">
+              Yes
+            </label>
 
-        <div class="form-group">
-          <label for="advance" class="block-label">
-            <input type="radio"
-                   name="advance-past"
-                   value="advance"
-                   id="advance">
-            No - it's in the future
-          </label>
-        </div>
+            <label for="advance" class="block-label">
+              <input type="radio"
+                     name="advance-past"
+                     value="advance"
+                     id="advance">
+              No - it's in the future
+            </label>
+          </div>
 
         <div class="form-group">
           {% include "partials/csrf-hidden-input.html" %}

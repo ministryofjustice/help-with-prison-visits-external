@@ -28,8 +28,6 @@
       <form action="{{ URL }}" method="post">
         <fieldset class="{% if errors['benefit'][0] %} error {% endif %}">
           <legend class="hidden">Benefit</legend>
-          <p>I receive:</p>
-
           <div class="form-group">
             <label for="income-support" class="block-label">
               <input id="income-support"
@@ -74,7 +72,7 @@
                      type="radio"
                      name="benefit"
                      value="working-tax-credit">
-              <span class="heading-small">Working Tax credits with disability or Child tax credit</span>
+              <span class="heading-small">Working Tax credits (with disability or child tax) or Child Tax Credit</span>
               <br>
               While earning less than £17,474 a year
             </label>
@@ -85,14 +83,8 @@
                      name="benefit"
                      value="pension-credit">
               <span class="heading-small">Pension Credit</span>
-              <br>
-              <br>
             </label>
-          </div>
 
-          <p>I have a:</p>
-
-            <div class="form-group">
             <label for="health-certificate2" class="block-label">
               <input id="health-certificate2"
                      type="radio"
@@ -116,9 +108,7 @@
                      value="nhs-tax-credit">
               <span class="heading-small">NHS Tax Credit Exemption Certificate</span>
             </label>
-          </div>
 
-          <div class="form-group">
             <label for="none-of-the-above" class="block-label">
               <input id="none-of-the-above"
                      type="radio"
