@@ -111,6 +111,11 @@ function checkForMalware (req, res, next, redirectURL) {
       } catch (error) {
         handleError(req, res, next, error)
       }
+    }).catch((error) => {
+      error.message = 'Virus scan failed whilst calling Clam AV executable'
+      logger.error(error)
+      if (req.file) fs.unlinkAsync(req.file.path).catch()
+      handleError(req, res, next, new Error('There was an error processing your file'))
     })
   } else {
     // This handles the case were Post/Upload Later is selected, so no actual file is being provided,
