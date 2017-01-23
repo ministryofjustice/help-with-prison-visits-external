@@ -37,9 +37,13 @@ module.exports = function (router) {
       checkForMalware(req, res, next, `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
     })
 
-  router.post('/your-claims/:dob/:reference/:claimId/file-upload', function (req, res, next) {
-    post(req, res, next, `/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}`)
-  })
+  router.post('/your-claims/:dob/:reference/:claimId/file-upload',
+    function (req, res, next) {
+      post(req, res, next)
+    },
+    function (req, res, next) {
+      checkForMalware(req, res, next, `/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}`)
+    })
 }
 
 function get (req, res) {
@@ -91,8 +95,8 @@ function post (req, res, next, redirectURL) {
 
 function checkForMalware (req, res, next, redirectURL) {
   var ids = setReferenceIds(req)
+  var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
   if (req.file) {
-    var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
     clam.scan(req.file.path).then((infected) => {
       try {
         if (infected) {
@@ -160,7 +164,9 @@ function setReferenceIds (req) {
 
 function moveScannedFileToStorage (req, targetDir) {
   var targetFilePath = path.join(targetDir, req.file.filename)
-  fs.renameAsync(req.file.path, targetFilePath)
+  // fs.rename will fail when mapped to Azure FS, thus copy + delete
+  fs.createReadStream(req.file.path).pipe(fs.createWriteStream(targetFilePath))
+  fs.unlinkAsync(req.file.path).catch()
   req.fileUpload.destination = targetDir
   req.fileUpload.path = targetFilePath
 }
