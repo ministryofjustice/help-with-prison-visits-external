@@ -1,5 +1,6 @@
 const removeClaimExpense = require('../../services/data/remove-claim-expense')
 const removeClaimDocument = require('../../services/data/remove-claim-document')
+const getClaimDocumentFilePath = require('../../services/data/get-claim-document-file-path')
 
 // TODO: Unit test these functions.
 
@@ -23,4 +24,19 @@ module.exports.getBenefitDocument = function (benefitDocument) {
     result = benefitDocument[0]
   }
   return result
+}
+
+module.exports.getDocumentFilePath = function (claimDocumentId) {
+  return getClaimDocumentFilePath(claimDocumentId)
+    .then(function (result) {
+      var path = result.Filepath
+      if (path) {
+        return {
+          path: path,
+          name: 'APVS-Upload.' + path.split('.').pop()
+        }
+      } else {
+        throw new Error('No path to file provided')
+      }
+    })
 }

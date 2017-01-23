@@ -5,7 +5,6 @@ const dateHelper = require('../../../../views/helpers/date-helper')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
 const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
-const getClaimDocumentFilePath = require('../../../../services/data/get-claim-document-file-path')
 const benefitUploadNotRequired = require('../../../helpers/benefit-upload-not-required')
 const displayHelper = require('../../../../views/helpers/display-helper')
 
@@ -78,7 +77,7 @@ module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/view-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    return getDocumentFilePath(req.params.claimDocumentId)
+    return claimSummaryHelper.getDocumentFilePath(req.params.claimDocumentId)
       .then(function (file) {
         return res.download(file.path, file.name)
       })
@@ -125,19 +124,4 @@ function buildRemoveDocumentUrl (req) {
   } else {
     return `${url}/file-upload?document=${req.query.document}`
   }
-}
-
-function getDocumentFilePath (claimDocumentId) {
-  return getClaimDocumentFilePath(claimDocumentId)
-    .then(function (result) {
-      var path = result.Filepath
-      if (path) {
-        return {
-          path: path,
-          fileName: 'APVS-Upload.' + path.split('.').pop()
-        }
-      } else {
-        throw new Error('No path to file provided')
-      }
-    })
 }

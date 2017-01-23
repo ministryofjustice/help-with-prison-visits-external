@@ -12,9 +12,12 @@ const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
 const CLAIMID = '1'
 const CLAIMEXPENSEID = '1234'
 const CLAIMDOCUMENTID = '123'
-const FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.txt' }
+const FILEPATH_RESULT = { path : 'test/resources/testfile.txt', name: 'testfile.txt' }
 
 const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`
+const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIMDOCUMENTID}`
+const REMOVE_EXPENSE_ROUTE = `${ROUTE}/remove-expense/${CLAIMEXPENSEID}?claimDocumentId=${CLAIMDOCUMENTID}`
+const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION`
 
 const CLAIM = {
   claim: {
@@ -30,14 +33,12 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
 
   var urlPathValidatorStub
   var getClaimSummary
-  var getClaimDocumentFilePath
   var claimSummaryDomainObjectStub
   var claimSummaryHelper
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     getClaimSummary = sinon.stub()
-    getClaimDocumentFilePath = sinon.stub()
     claimSummaryDomainObjectStub = sinon.stub()
     claimSummaryHelper = sinon.stub()
 
@@ -45,7 +46,6 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
       '../../../../../../app/routes/apply/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': urlPathValidatorStub,
         '../../../../services/data/get-claim-summary': getClaimSummary,
-        '../../../../services/data/get-claim-document-file-path': getClaimDocumentFilePath,
         '../../../../services/domain/claim-summary': claimSummaryDomainObjectStub,
         '../../../helpers/claim-summary-helper': claimSummaryHelper
       })
@@ -117,9 +117,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
   })
 
-  describe(`GET ${ROUTE}/view-document/:claimDocumentId`, function () {
-    const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIMDOCUMENTID}`
-
+  describe(`GET ${VIEW_DOCUMENT_ROUTE}`, function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(VIEW_DOCUMENT_ROUTE)
@@ -129,24 +127,20 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond respond with 200 if valid path entered', function () {
-      getClaimDocumentFilePath.resolves(FILEPATH_RESULT)
+      sinon.stub(claimSummaryHelper, 'getDocumentFilePath').resolves(FILEPATH_RESULT)
       return supertest(app)
         .get(VIEW_DOCUMENT_ROUTE)
         .expect(200)
-        .expect('content-length', '4')
     })
 
     it('should respond with 500 if invalid path provided', function () {
-      getClaimDocumentFilePath.resolves('invalid-filepath')
       return supertest(app)
         .get(VIEW_DOCUMENT_ROUTE)
         .expect(500)
     })
   })
 
-  describe(`POST ${ROUTE}/remove-expense/:claimExpenseId`, function () {
-    const REMOVE_EXPENSE_ROUTE = `${ROUTE}/remove-expense/${CLAIMEXPENSEID}?claimDocumentId=${CLAIMDOCUMENTID}`
-
+  describe(`POST ${REMOVE_EXPENSE_ROUTE}`, function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .post(REMOVE_EXPENSE_ROUTE)
@@ -173,9 +167,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
   })
 
-  describe(`POST ${ROUTE}/remove-document/:claimDocumentId`, function () {
-    const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION`
-
+  describe(`POST ${REMOVE_DOCUMENT_ROUTE}`, function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
