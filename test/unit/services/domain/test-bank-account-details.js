@@ -18,6 +18,26 @@ describe('services/domain/bank-account-details', function () {
     done()
   })
 
+  it('should construct a domain object given a sort code with hyphens', function (done) {
+    var sortCodeWithHyphens = '12-12-12'
+    var processedSortCodeWithHyphens = '121212'
+    bankAccountDetails = new BankAccountDetails(VALID_ACCOUNT_NUMBER, sortCodeWithHyphens, VALID_TERMS_AND_CONDITIONS)
+    expect(bankAccountDetails.accountNumber).to.equal(PROCESSED_ACCOUNT_NUMBER)
+    expect(bankAccountDetails.sortCode).to.equal(processedSortCodeWithHyphens)
+    expect(bankAccountDetails.termsAndConiditions).to.equal(VALID_TERMS_AND_CONDITIONS)
+    done()
+  })
+
+  it('should construct a domain object given a sort code with hyphens and spaces', function (done) {
+    var sortCodeWithHyphensAndSpaces = '12 - 12 - 12'
+    var processedSortCodeWithHyphensAndSpaces = '121212'
+    bankAccountDetails = new BankAccountDetails(VALID_ACCOUNT_NUMBER, sortCodeWithHyphensAndSpaces, VALID_TERMS_AND_CONDITIONS)
+    expect(bankAccountDetails.accountNumber).to.equal(PROCESSED_ACCOUNT_NUMBER)
+    expect(bankAccountDetails.sortCode).to.equal(processedSortCodeWithHyphensAndSpaces)
+    expect(bankAccountDetails.termsAndConiditions).to.equal(VALID_TERMS_AND_CONDITIONS)
+    done()
+  })
+
   it('should return isRequired errors given empty strings', function (done) {
     try {
       bankAccountDetails = new BankAccountDetails('', '', '')
