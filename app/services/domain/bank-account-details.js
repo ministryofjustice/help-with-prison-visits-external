@@ -5,7 +5,7 @@ const ErrorHandler = require('../validators/error-handler')
 class BankAccountDetails {
   constructor (accountNumber, sortCode, termsAndConiditions) {
     this.accountNumber = accountNumber.replace(/ /g, '')
-    this.sortCode = sortCode.replace(/ /g, '')
+    this.sortCode = sortCode.replace(/ |-/g, '')
     this.termsAndConiditions = termsAndConiditions
     this.IsValid()
   }
