@@ -4,6 +4,21 @@ const getClaimDocumentFilePath = require('../../services/data/get-claim-document
 
 // TODO: Unit test these functions.
 
+module.exports.buildClaimSummaryUrl = function (req) {
+  return `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`
+}
+
+module.exports.buildRemoveDocumentUrl = function (req) {
+  var url = this.buildClaimSummaryUrl(req)
+  if (req.query.multipage) {
+    return url
+  } else if (req.query.claimExpenseId) {
+    return `${url}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`
+  } else {
+    return `${url}/file-upload?document=${req.query.document}`
+  }
+}
+
 module.exports.removeExpense = function (claimId, claimExpenseId) {
   return removeClaimExpense(claimId, claimExpenseId)
 }

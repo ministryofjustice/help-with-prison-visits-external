@@ -12,7 +12,7 @@ const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
 const CLAIMID = '1'
 const CLAIMEXPENSEID = '1234'
 const CLAIMDOCUMENTID = '123'
-const FILEPATH_RESULT = { path : 'test/resources/testfile.txt', name: 'testfile.txt' }
+const FILEPATH_RESULT = { path: 'test/resources/testfile.txt', name: 'testfile.txt' }
 
 const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`
 const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIMDOCUMENTID}`
