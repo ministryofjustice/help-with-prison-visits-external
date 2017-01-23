@@ -16,6 +16,15 @@ const FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.txt' }
 
 const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary`
 
+const CLAIM = {
+  claim: {
+    visitConfirmation: '',
+    Benefit: '',
+    benefitDocument: [],
+    IsAdvanceClaim: false
+  }
+}
+
 describe('routes/apply/eligibility/claim/claim-summary', function () {
   var app
 
@@ -27,17 +36,10 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
-    getClaimSummary = sinon.stub().resolves({
-      claim: {
-        visitConfirmation: '',
-        Benefit: '',
-        benefitDocument: [],
-        IsAdvanceClaim: false
-      }
-    })
+    getClaimSummary = sinon.stub()
     getClaimDocumentFilePath = sinon.stub()
     claimSummaryDomainObjectStub = sinon.stub()
-    claimSummaryHelper = sinon.stub().resolves()
+    claimSummaryHelper = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/claim-summary', {
@@ -61,6 +63,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 200', function () {
+      getClaimSummary.resolves(CLAIM)
       return supertest(app)
         .get(ROUTE)
         .expect(200)
@@ -87,6 +90,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 302', function () {
+      getClaimSummary.resolves(CLAIM)
       return supertest(app)
         .post(ROUTE)
         .expect(302)
@@ -98,6 +102,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 400 if validation errors', function () {
+      getClaimSummary.resolves(CLAIM)
       claimSummaryDomainObjectStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
