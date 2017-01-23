@@ -1,7 +1,6 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const getClaimSummary = require('../../../../services/data/get-claim-summary')
-const removeClaimExpense = require('../../../../services/data/remove-claim-expense')
-const removeClaimDocument = require('../../../../services/data/remove-claim-document')
+const claimSummaryHelper = require('../../../helpers/claim-summary-helper')
 const dateHelper = require('../../../../views/helpers/date-helper')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
 const ClaimSummary = require('../../../../services/domain/claim-summary')
@@ -91,7 +90,7 @@ module.exports = function (router) {
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/remove-expense/:claimExpenseId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    return removeExpenseAndDocument(req.params.claimId, req.params.claimExpenseId, req.query.claimDocumentId)
+    return claimSummaryHelper.removeExpenseAndDocument(req.params.claimId, req.params.claimExpenseId, req.query.claimDocumentId)
       .then(function () {
         return res.redirect(buildSummaryUrl(req))
       })
@@ -103,7 +102,7 @@ module.exports = function (router) {
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/remove-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    return removeDocument(req.params.claimDocumentId)
+    return claimSummaryHelper.removeDocument(req.params.claimDocumentId)
       .then(function () {
         return res.redirect(buildRemoveDocumentUrl(req))
       })
@@ -126,20 +125,6 @@ function buildRemoveDocumentUrl (req) {
   } else {
     return `${url}/file-upload?document=${req.query.document}`
   }
-}
-
-function removeExpense (claimId, claimExpenseId, claimDocumentId) {
-  return removeClaimExpense(claimId, claimExpenseId)
-    .then(function () { return removeClaimDocument(claimDocumentId) })
-}
-
-function removeDocument (claimDocumentId) {
-  return removeClaimDocument(claimDocumentId)
-}
-
-function removeExpenseAndDocument (claimId, claimExpenseId, claimDocumentId) {
-  return removeExpense(claimId, claimExpenseId)
-    .then(function () { return removeDocument(claimDocumentId) })
 }
 
 function getBenefitDocument (benefitDocument) {
