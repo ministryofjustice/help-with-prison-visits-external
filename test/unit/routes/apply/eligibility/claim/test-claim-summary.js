@@ -32,22 +32,22 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
   var app
 
   var urlPathValidatorStub
-  var getClaimSummary
-  var claimSummaryDomainObjectStub
-  var claimSummaryHelper
+  var getClaimSummaryStub
+  var claimSummaryStub
+  var claimSummaryHelperStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
-    getClaimSummary = sinon.stub()
-    claimSummaryDomainObjectStub = sinon.stub()
-    claimSummaryHelper = sinon.stub()
+    getClaimSummaryStub = sinon.stub()
+    claimSummaryStub = sinon.stub()
+    claimSummaryHelperStub = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-        '../../../../services/data/get-claim-summary': getClaimSummary,
-        '../../../../services/domain/claim-summary': claimSummaryDomainObjectStub,
-        '../../../helpers/claim-summary-helper': claimSummaryHelper
+        '../../../../services/data/get-claim-summary': getClaimSummaryStub,
+        '../../../../services/domain/claim-summary': claimSummaryStub,
+        '../../../helpers/claim-summary-helper': claimSummaryHelperStub
       })
 
     app = routeHelper.buildApp(route)
@@ -63,17 +63,17 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 200', function () {
-      getClaimSummary.resolves(CLAIM)
+      getClaimSummaryStub.resolves(CLAIM)
       return supertest(app)
         .get(ROUTE)
         .expect(200)
         .expect(function () {
-          getClaimSummary.calledWith(CLAIMID, CLAIM_TYPE)
+          getClaimSummaryStub.calledWith(CLAIMID, CLAIM_TYPE)
         })
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      getClaimSummary.rejects()
+      getClaimSummaryStub.rejects()
       return supertest(app)
         .get(ROUTE)
         .expect(500)
@@ -90,27 +90,27 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 302', function () {
-      getClaimSummary.resolves(CLAIM)
+      getClaimSummaryStub.resolves(CLAIM)
       return supertest(app)
         .post(ROUTE)
         .expect(302)
         .expect(function () {
-          getClaimSummary.calledWith(CLAIMID, CLAIM_TYPE)
-          sinon.assert.calledOnce(claimSummaryDomainObjectStub)
+          getClaimSummaryStub.calledWith(CLAIMID, CLAIM_TYPE)
+          sinon.assert.calledOnce(claimSummaryStub)
         })
         .expect('location', `/apply/${CLAIM_TYPE}/eligibility/${REFERENCEID}/claim/${CLAIMID}/bank-account-details?isAdvance=false`)
     })
 
     it('should respond with a 400 if validation errors', function () {
-      getClaimSummary.resolves(CLAIM)
-      claimSummaryDomainObjectStub.throws(new ValidationError())
+      getClaimSummaryStub.resolves(CLAIM)
+      claimSummaryStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      getClaimSummary.rejects()
+      getClaimSummaryStub.rejects()
       return supertest(app)
         .post(ROUTE)
         .expect(500)
@@ -127,7 +127,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond respond with 200 if valid path entered', function () {
-      sinon.stub(claimSummaryHelper, 'getDocumentFilePath').resolves(FILEPATH_RESULT)
+      sinon.stub(claimSummaryHelperStub, 'getDocumentFilePath').resolves(FILEPATH_RESULT)
       return supertest(app)
         .get(VIEW_DOCUMENT_ROUTE)
         .expect(200)
@@ -154,13 +154,13 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(REMOVE_EXPENSE_ROUTE)
         .expect(302)
         .expect(function () {
-          sinon.stub(claimSummaryHelper, 'removeExpenseAndDocument').calledWith(CLAIMID, CLAIMEXPENSEID, CLAIMDOCUMENTID)
+          sinon.stub(claimSummaryHelperStub, 'removeExpenseAndDocument').calledWith(CLAIMID, CLAIMEXPENSEID, CLAIMDOCUMENTID)
         })
         .expect('location', ROUTE)
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      sinon.stub(claimSummaryHelper, 'removeExpenseAndDocument').rejects()
+      sinon.stub(claimSummaryHelperStub, 'removeExpenseAndDocument').rejects()
       return supertest(app)
         .post(REMOVE_EXPENSE_ROUTE)
         .expect(500)
@@ -181,7 +181,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
         .expect(302)
         .expect(function () {
-          sinon.stub(claimSummaryHelper, 'removeDocument').calledWith(CLAIMDOCUMENTID)
+          sinon.stub(claimSummaryHelperStub, 'removeDocument').calledWith(CLAIMDOCUMENTID)
         })
         .expect('location', ROUTE)
     })
@@ -191,7 +191,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(REMOVE_DOCUMENT_ROUTE)
         .expect(302)
         .expect(function () {
-          sinon.stub(claimSummaryHelper, 'removeDocument').calledWith(CLAIMDOCUMENTID)
+          sinon.stub(claimSummaryHelperStub, 'removeDocument').calledWith(CLAIMDOCUMENTID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION`)
     })
@@ -202,13 +202,13 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(`${REMOVE_DOCUMENT_ROUTE}${claimExpenseParam}`)
         .expect(302)
         .expect(function () {
-          sinon.stub(claimSummaryHelper, 'removeDocument').calledWith(CLAIMDOCUMENTID)
+          sinon.stub(claimSummaryHelperStub, 'removeDocument').calledWith(CLAIMDOCUMENTID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION${claimExpenseParam}`)
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      sinon.stub(claimSummaryHelper, 'removeDocument').rejects()
+      sinon.stub(claimSummaryHelperStub, 'removeDocument').rejects()
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
         .expect(500)
