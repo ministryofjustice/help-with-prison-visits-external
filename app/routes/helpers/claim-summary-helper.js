@@ -16,3 +16,11 @@ module.exports.removeExpenseAndDocument = function (claimId, claimExpenseId, cla
   return self.removeExpense(claimId, claimExpenseId)
     .then(function () { return self.removeDocument(claimDocumentId) })
 }
+
+module.exports.getBenefitDocument = function (benefitDocument) {
+  var result
+  if (benefitDocument && benefitDocument.length > 0) {
+    result = benefitDocument[0]
+  }
+  return result
+}

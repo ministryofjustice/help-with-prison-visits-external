@@ -47,7 +47,7 @@ module.exports = function (router) {
 
         var visitConfirmation = claimDetails.claim.visitConfirmation
         var benefit = claimDetails.claim.Benefit
-        var benefitDocument = getBenefitDocument(claimDetails.claim.benefitDocument)
+        var benefitDocument = claimSummaryHelper.getBenefitDocument(claimDetails.claim.benefitDocument)
         var claimExpenses = claimDetails.claimExpenses
         var isAdvanceClaim = claimDetails.claim.IsAdvanceClaim
         var benefitUpload = benefitUploadNotRequired(claimType)
@@ -125,14 +125,6 @@ function buildRemoveDocumentUrl (req) {
   } else {
     return `${url}/file-upload?document=${req.query.document}`
   }
-}
-
-function getBenefitDocument (benefitDocument) {
-  var result
-  if (benefitDocument && benefitDocument.length > 0) {
-    result = benefitDocument[0]
-  }
-  return result
 }
 
 function getDocumentFilePath (claimDocumentId) {
