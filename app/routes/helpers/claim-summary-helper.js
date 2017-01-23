@@ -2,7 +2,7 @@ const removeClaimExpense = require('../../services/data/remove-claim-expense')
 const removeClaimDocument = require('../../services/data/remove-claim-document')
 const getClaimDocumentFilePath = require('../../services/data/get-claim-document-file-path')
 
-const DEFAULT_FILE_NAME = 'APVS-Upload.'
+const DEFAULT_FILE_NAME = 'APVS-Upload'
 
 module.exports.buildClaimSummaryUrl = function (req) {
   return `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`
@@ -48,7 +48,7 @@ module.exports.getDocumentFilePath = function (claimDocumentId) {
         var path = result.Filepath
         return {
           path: path,
-          name: DEFAULT_FILE_NAME + path.split('.').pop()
+          name: `${DEFAULT_FILE_NAME}.${path.split('.').pop()}`
         }
       }
       throw new Error(`Could not find the path to the document with claim document id ${claimDocumentId}`)

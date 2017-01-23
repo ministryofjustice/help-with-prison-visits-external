@@ -105,18 +105,6 @@ describe('routes/helpers/claim-summary-helper', function () {
     })
   })
 
-  // TODO: This test is not working. Fix it.
-  describe('removeExpenseAndDocument', function () {
-    it('should call removeExpense, and then removeDocument with the given parameters', function () {
-      // removeClaimExpenseStub.resolves()
-      // claimSummaryHelper.removeExpenseAndDocument(CLAIM_ID, CLAIM_EXPENSE_ID, CLAIM_DOCUMENT_ID)
-      // sinon.assert.calledOnce(removeClaimExpenseStub)
-      // sinon.assert.calledOnce(removeClaimDocumentStub)
-      // sinon.assert.calledWith(removeClaimExpenseStub, CLAIM_ID, CLAIM_EXPENSE_ID)
-      // sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
-    })
-  })
-
   describe('getBenefitDocument', function () {
     const DOCUMENT_ONE = 'document one'
     const DOCUMENT_TWO = 'document two'
