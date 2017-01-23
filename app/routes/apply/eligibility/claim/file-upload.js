@@ -164,7 +164,9 @@ function setReferenceIds (req) {
 
 function moveScannedFileToStorage (req, targetDir) {
   var targetFilePath = path.join(targetDir, req.file.filename)
-  fs.renameAsync(req.file.path, targetFilePath)
+  // fs.rename will fail when mapped to Azure FS, thus copy + delete
+  fs.createReadStream(req.file.path).pipe(fs.createWriteStream(targetFilePath))
+  fs.unlinkAsync(req.file.path).catch()
   req.fileUpload.destination = targetDir
   req.fileUpload.path = targetFilePath
 }
