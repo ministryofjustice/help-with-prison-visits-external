@@ -4,6 +4,7 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const encrypt = require('../../../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
+const paymentMethods = require('../../../../../../app/constants/payment-method-enum')
 
 var ValidationError = require('../../../../../../app/services/errors/validation-error')
 
@@ -83,7 +84,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
         .expect(function () {
           sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
           sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newBankAccountDetails)
-          sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined)
+          sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.DIRECT_BANK_PAYMENT.value)
         })
         .expect('location', `/application-submitted/${ENCRYPTED_REFERENCE}`)
     })
@@ -100,7 +101,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
         .set('Cookie', [`apvs-assisted-digital=${assistedDigitalCaseWorker}`])
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, assistedDigitalCaseWorker)
+          sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, assistedDigitalCaseWorker, paymentMethods.DIRECT_BANK_PAYMENT.value)
         })
     })
 

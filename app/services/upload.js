@@ -4,22 +4,13 @@ var crypto = require('crypto')
 var path = require('path')
 var UploadError = require('./errors/upload-error')
 var csrfProtection = require('csurf')({ cookie: true })
-var decrypt = require('../services/helpers/decrypt')
 
 const maxFileSize = parseInt(config.FILE_UPLOAD_MAXSIZE)
 const allowedFileTypes = [ 'image/png', 'image/jpeg', 'application/pdf' ]
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    var decryptedReferenceId = decrypt(req.params.referenceId)
-
-    if (req.query.document !== 'VISIT_CONFIRMATION' && req.query.document !== 'RECEIPT') {
-      cb(null, `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.query.document}`)
-    } else if (req.query.claimExpenseId) {
-      cb(null, `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.claimExpenseId}/${req.query.document}`)
-    } else {
-      cb(null, `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.document}`)
-    }
+    cb(null, config.UPLOAD_FILE_TMP_DIR)
   },
   filename: function (req, file, cb) {
     crypto.pseudoRandomBytes(16, function (err, raw) {

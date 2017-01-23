@@ -47,8 +47,8 @@ describe('Upload later and send a message', function () {
       .setValue('#message-to-caseworker', 'Sorry I have lost my bus receipt, is it ok to still approve my claim? I will post the other as soon as I can.')
       .click('#claim-view-submit')
 
-      // Updated application page
-      .waitForExist('#reference')
+      // Updated view claims page
+      .waitForExist('#application-updated')
   })
 
   after(function () {

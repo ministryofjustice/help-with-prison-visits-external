@@ -50,6 +50,7 @@ npm run-script test-coverage    # unit tests and generates code coverage using I
 npm run-script test-unit        # unit tests
 npm run-script test-integration # integration tests
 npm run-script test-e2e         # e2e tests using selenium standalone against local application (must already be running)
+npm run-script test-e2e-smoke   # short smoke test using selenium standalone against local application (must already be running)
 npm run-script test-load        # Runs e2e load test script using [Artillery](https://artillery.io/)
 ```
 
@@ -109,6 +110,17 @@ In all instances where the Reference or Reference ID is used in the URL, it will
 
 Functions for encrypting/decrypting these values have been implemented in app/services/helpers directory.
 
+### Clam AV
+
+The file upload component uses Clam AV to scan uploaded files for malware.
+
+To test locally this requires the installation of the Clam AV binary.
+
+[Instructions for installation on Mac OSX](https://gist.github.com/zhurui1008/4fdc875e557014c3a34e)
+
+Note that you will need to have the clamd daemon running, which will live in sbin by default:
+
+`/usr/local/sbin/clamd &`
 
 ## Notes
 

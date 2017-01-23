@@ -317,6 +317,18 @@
       "from": "chokidar@>=1.4.3 <2.0.0",
       "resolved": "http://registry.npmjs.org/chokidar/-/chokidar-1.6.1.tgz"
     },
+    "clamscan": {
+      "version": "0.8.4",
+      "from": "clamscan@>=0.8.4 <0.9.0",
+      "resolved": "http://registry.npmjs.org/clamscan/-/clamscan-0.8.4.tgz",
+      "dependencies": {
+        "underscore": {
+          "version": "1.5.2",
+          "from": "underscore@>=1.5.0 <1.6.0",
+          "resolved": "http://registry.npmjs.org/underscore/-/underscore-1.5.2.tgz"
+        }
+      }
+    },
     "cliui": {
       "version": "3.2.0",
       "from": "cliui@>=3.2.0 <4.0.0",

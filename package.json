@@ -17,6 +17,7 @@
     "test-unit": "mocha --recursive -u exports test/unit/",
     "test-integration": "mocha --recursive -u exports test/integration/ --timeout 5000",
     "test-e2e": "gulp --gulpfile gulpfile-e2e.js",
+    "test-e2e-smoke": "gulp --gulpfile gulpfile-e2e.js e2e-smoke",
     "test-e2e-ie8": "wdio test/wdio.conf.sauce.ie8.js",
     "test-e2e-firefox": "wdio test/wdio.conf.sauce.firefox.js",
     "test-e2e-ie8-jenkins": "wdio test/wdio.conf.sauce.ie8.jenkins.js",
@@ -24,6 +25,7 @@
     "test-e2e-chrome-jenkins": "wdio test/wdio.conf.sauce.chrome.jenkins.js",
     "test-e2e-ios": "wdio test/wdio.conf.sauce.ios.js",
     "test-e2e-android": "wdio test/wdio.conf.sauce.android.js",
+    "test-e2e-smoke-jenkins": "wdio test/wdio.conf.sauce.chrome.jenkins.smoke.js",
     "test-load": "cd test/load && ../../node_modules/.bin/artillery run scenarios.yaml cd ../../",
     "migrations": "knex migrate:latest --env migrations",
     "rollback": "knex migrate:rollback --env migrations"
@@ -52,6 +54,7 @@
     "bunyan": "^1.8.1",
     "bunyan-logstash-tcp": "^0.3.4",
     "bunyan-prettystream": "^0.1.3",
+    "clamscan": "^0.8.4",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
     "csurf": "^1.9.0",

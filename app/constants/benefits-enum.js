@@ -11,14 +11,14 @@ module.exports = {
   JOBSEEKERS_ALLOWANCE: {
     value: 'jobseekers-allowance',
     requireBenefitUpload: false,
-    displayName: 'Jobseeker’s Allowance',
+    displayName: 'Jobseeker’s Allowance (JSA)',
     multipage: false
   },
 
   EMPLOYMENT_SUPPORT: {
     value: 'employment-support',
     requireBenefitUpload: false,
-    displayName: 'Employment and Support Allowance',
+    displayName: 'Employment and Support Allowance (ESA)',
     multipage: false
   },
 
@@ -32,7 +32,7 @@ module.exports = {
   WORKING_TAX_CREDIT: {
     value: 'working-tax-credit',
     requireBenefitUpload: true,
-    displayName: 'Working Tax credits with disability or Child tax credit',
+    displayName: 'Working Tax credits (with disability or child tax) or Child Tax Credit',
     multipage: true
   },
 

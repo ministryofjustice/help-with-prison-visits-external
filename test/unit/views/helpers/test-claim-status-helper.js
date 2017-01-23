@@ -15,7 +15,7 @@ describe('views/helpers/claim-status-helper', function () {
   })
 
   it(`should return the expected value when passed ${APPROVED_DIFF_AMOUNT}`, function () {
-    expect(claimStatusHelper('APPROVED-DIFF-AMOUNT')).to.equal('Approved alternative amount')
+    expect(claimStatusHelper('APPROVED-DIFF-AMOUNT')).to.equal('Approved')
   })
 
   it(`should return the expected value when passed ${REQUEST_INFORMATION}`, function () {

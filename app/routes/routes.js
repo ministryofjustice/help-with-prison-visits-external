@@ -9,7 +9,6 @@ var routes = [
   require('./start-already-registered'),
   require('./eligibility-fail'),
   require('./application-submitted'),
-  require('./application-updated'),
   require('./feedback'),
   require('./terms-and-conditions'),
   require('./cookies'),
