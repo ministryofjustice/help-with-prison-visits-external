@@ -1,6 +1,7 @@
 const expect = require('chai').expect
 const ClaimSummary = require('../../../../app/services/domain/claim-summary')
 const ValidationError = require('../../../../app/services/errors/validation-error')
+const ERROR_MESSAGES = require('../../../../app/services/validators/validation-error-messages')
 var claimSummary
 
 describe('services/domain/claim-summary', function () {
@@ -53,6 +54,15 @@ describe('services/domain/claim-summary', function () {
     } catch (e) {
       expect(e).to.be.instanceof(ValidationError)
       expect(e.validationErrors['claim-expense'][0]).to.equal('Claim expense receipt is required')
+    }
+  })
+
+  it('should return an getNoExpensesClaimedFor validation error given no claim expenses', function () {
+    try {
+      claimSummary = new ClaimSummary(VALID_VISIT_CONFIRMATION, VALID_BENEFIT_UPLOAD_NEEDED, VALID_BENEFIT_DOCUMENT, [], VALID_IS_ADVANCE_CLAIM, BENEFIT_UPLOAD_NOT_REQUIRED)
+    } catch (e) {
+      expect(e).to.be.instanceof(ValidationError)
+      expect(e.validationErrors['claim-expense'][0]).to.equal(ERROR_MESSAGES.getNoExpensesClaimedFor())
     }
   })
 
