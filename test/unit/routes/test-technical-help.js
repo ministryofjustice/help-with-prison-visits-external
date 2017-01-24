@@ -59,7 +59,7 @@ describe('routes/technical-help', function () {
         .expect(400)
     })
 
-    it('should respond with a 500 if promise rejects.', function () {
+    it('should respond with a 500 if a non-validation error occurs.', function () {
       technicalHelpStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
