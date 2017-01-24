@@ -31,8 +31,17 @@
 
         {% include "partials/expenses/return-journey.html" %}
 
-        {% set costExample = 20 %}
-        {% include "partials/expenses/cost.html" %}
+        {% set isAdvancedClaim = true %}
+        {% if isAdvancedClaim %}
+
+          {% include "partials/expenses/departure-time.html" %}
+
+        {% else %}
+
+          {% set costExample = 20 %}
+          {% include "partials/expenses/cost.html" %}
+
+        {% endif %}
 
         {% include "partials/expenses/add-another-journey.html" %}
 

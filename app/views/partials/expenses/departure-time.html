@@ -1,0 +1,14 @@
+<div id="departure-time" class="form-group {% if errors['departure-time'][0] %} error {% endif %}">
+  <label for="departure-time-input" class="form-label-bold">Departure time</label>
+
+  {% if errors['departure-time'][0] %}
+    <span class="error-message">{{ errors['departure-time'][0] }}</span>
+  {% endif %}
+
+  <p class="form-hint">For example, around 10am</p>
+  <input id="departure-time-input"
+         type="text"
+         name="departure-time"
+         value="{{ expense['departure-time'] }}"
+         class="form-control">
+</div>
