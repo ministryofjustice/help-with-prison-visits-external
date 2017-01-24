@@ -21,7 +21,6 @@ describe('services/domain/date-of-birth', function () {
 
     expect(dateOfBirth.dob.toString()).to.equal(dateFormatter.buildFromDateString(VALID_DOB).toString())
     expect(dateOfBirth.getDobFormatted).to.equal(dateFormatter.buildFromDateString(VALID_DOB).format('YYYY-MM-DD'))
-    expect(dateOfBirth.sixteenOrUnder).to.equal(false)
     expect(dateOfBirth.fields[0]).to.equal(VALID_DAY)
     expect(dateOfBirth.fields[1]).to.equal(VALID_MONTH)
     expect(dateOfBirth.fields[2]).to.equal(VALID_YEAR)
@@ -60,11 +59,14 @@ describe('services/domain/date-of-birth', function () {
     }
   })
 
-  it('should have sixteenOrUnder field set as true', function () {
-    dateOfBirth = new DateOfBirth(dateFormatter.now().date(),
-      dateFormatter.now().month() + 1,
-      dateFormatter.now().year())
-
-    expect(dateOfBirth.sixteenOrUnder).to.equal(true)
+  it('should return under 16 error message when date is < 16 years', function () {
+    try {
+      dateOfBirth = new DateOfBirth(dateFormatter.now().date(),
+        dateFormatter.now().month() + 1,
+        dateFormatter.now().year())
+    } catch (e) {
+      expect(e).to.be.instanceof(ValidationError)
+      expect(e.validationErrors['dob'][0]).to.equal('Must be over 16 years of age')
+    }
   })
 })
