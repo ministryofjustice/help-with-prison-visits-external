@@ -32,7 +32,18 @@ describe('routes/start-already-registered', function () {
         .get(ROUTE)
         .expect(200)
     })
+
+    it('should respond with a 200 and an error array containing the start-already-registered error if the error query paramater was set to yes', function () {
+      return supertest(app)
+        .get(`${ROUTE}?error=yes`)
+        .expect(200)
+        .expect(hasExpectedInvalidReferenceAndDobError)
+    })
   })
+
+  function hasExpectedInvalidReferenceAndDobError (res) {
+    if (!res.text.includes('start-already-registered')) throw new Error('response does not contain expected error')
+  }
 
   describe(`POST ${ROUTE}`, function () {
     const REFERENCE = 'APVS123'
