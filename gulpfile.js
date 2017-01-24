@@ -21,6 +21,8 @@ gulp.task('templates', function () {
 gulp.task('sync', function () {
   gulp.src('app/assets/javascripts/**/*')
     .pipe(gulp.dest('app/public/javascripts/', { overwrite: true }))
+  gulp.src('app/assets/images/**/*')
+    .pipe(gulp.dest('app/public/images/', { overwrite: true }))
 })
 
 gulp.task('sass', function () {

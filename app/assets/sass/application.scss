@@ -12,6 +12,18 @@ $path: "/public/images/";
 // Autocomplete styles from https://github.com/ministryofjustice/prison-visits-public
 @import 'moj.autocomplete';
 
+@mixin respond-to($media) {
+  @if $media == handhelds {
+    @media only screen and (max-width: 768px) { @content; }
+  }
+  @else if $media == medium-screens {
+    @media only screen and (min-width: 769px) and (max-width: 1024px) { @content; }
+  }
+  @else if $media == wide-screens {
+    @media only screen and (min-width: 1024px) { @content; }
+  }
+}
+
 button.link {
   color: #005ea5;
   text-decoration: underline;
@@ -127,21 +139,16 @@ span.mileage input{
 }
 
 .text-pending {
-    color:#d2841c;
-    padding-top:6px;
+    padding: 8px;
     display:inline-block;
-}
-
-.text-pending:before {
-    background-color: #d2841c;
-    color:#d2841c;
+    font-weight: bold;
 }
 
 .text-pending:before {
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
-    content: '!';
+    content: '';
     color: #fff;
     display: inline-block;
     font-family: arial;
@@ -150,15 +157,18 @@ span.mileage input{
     line-height: 1;
     margin-left: 0px;
     margin-right: 5px;
-    padding: 2px;
     text-align: center;
     width: 1em;
+    background: url(/public/images/icon-warning-2x.png);
+    background-size: 100%;
+    position: relative;
+    top: 2px;
 }
 
 .text-warning {
-    color:#b10e1e;
-    padding-top:6px;
+    padding: 8px;
     display:inline-block;
+    font-weight: bold;
 }
 
 .your-claims{
@@ -166,59 +176,102 @@ span.mileage input{
 }
 
 .text-warning:before {
-    background-color: #b10e1e;
-    color:#b10e1e;
-}
-
-.text-warning:before {
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    content: '!';
-    color: #fff;
-    display: inline-block;
-    font-family: arial;
-    font-weight: bold;
-    height: 1em;
-    line-height: 1;
-    margin-left: 0px;
-    margin-right: 5px;
-    padding: 2px;
-    text-align: center;
-    width: 1em;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  content: '';
+  color: #fff;
+  display: inline-block;
+  font-family: arial;
+  font-weight: bold;
+  height: 1em;
+  line-height: 1;
+  margin-left: 0px;
+  margin-right: 5px;
+  text-align: center;
+  width: 1em;
+  background: url(/public/images/icon-warning-2x.png);
+  background-size: 100%;
+  position: relative;
+  top: 2px;
 }
 
 .text-success {
-    color:#00823b;
-    padding-top:2px;
+    padding: 8px;
     display:inline-block;
 }
 
 .text-success:before {
-    background-color: #00823b;
-    color:#00823b;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  content: '';
+  color: #fff;
+  display: inline-block;
+  font-family: arial;
+  font-weight: bold;
+  height: 1em;
+  line-height: 1;
+  margin-left: 0px;
+  margin-right: 5px;
+  text-align: center;
+  width: 1em;
+  background: url(/public/images/icon-tick-2x.png);
+  background-size: 100%;
+  position: relative;
+  top: 2px;
 }
-.text-success:before {
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    content: '✔ ';
-    color: #fff;
-    display: inline-block;
-    font-family: arial;
-    font-weight: bold;
-    font-size:12px;
-    height: 1em;
-    line-height: 1;
-    margin-left: 0px;
-    margin-right: 5px;
-    padding: 4px;
-    text-align: center;
-    width: 1em;
+
+@include respond-to(handhelds) {
+  table {
+      border: 0;
+    }
+
+    table thead {
+      display: none;
+    }
+
+    table tr {
+      margin-bottom: 10px;
+      display: block;
+      border-bottom: 1px solid #bfc1c3;
+    }
+
+    table td {
+      border-bottom: none;
+    }
+
+    table td:last-child {
+      border-bottom: 0;
+    }
+
+    table td:before {
+      content: attr(data-label);
+      float: left;
+    }
+
+    #claim-expense {
+      tr td:nth-child(3) {
+        display: block;
+        width: 100%;
+      }
+      tr td:nth-child(2) {
+        width: 10%;
+      }
+      tr td:nth-child(1) {
+        width: 100%;
+      }
+
+    }
+
+    table.col-2 td:first-child {
+    width:120px!important;
+    font-weight:bold;
+    }
 }
 
  table.col-2 td:first-child {
- width:220px!important;
+ width:220px;
  font-weight:bold;
  }
 
@@ -334,6 +387,20 @@ tr.warning td:first-child{
     padding:10px;
     border-left:5px solid #a94442;
     color:#a94442;
+}
+
+@include respond-to(handhelds) {
+  .warning {
+      padding-bottom: 30px;
+  }
+  tr.warning td{
+      background:none;
+      color:#a94442;
+  }
+  tr.warning td:first-child{
+      border-left:none;
+  }
+
 }
 
 .updated {
@@ -497,14 +564,11 @@ background-color: #fff;
             font-weight: bold;
             background-color: #004A83;
             color:#fff;
-
-
         }
 
-
-     .advanced-search {
-     margin:0 0 0 20px;
-     }
+.advanced-search {
+    margin:0 0 0 20px;
+}
 
 span h4.heading-secondary {
     font-size:24px;
@@ -927,15 +991,6 @@ label.custom-file-upload {
     color: #0b0c0c;
 }
 
-.success-summary {
-  border: 4px solid #00823b;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  padding: 15px 10px;
-  color:#00823b;
-  font-weight: bold;
-}
-
 @media (min-width: 641px) {
     .js-tab-content .tab-shiftlink {
         font-size: 19px;
@@ -961,8 +1016,4 @@ label.custom-file-upload {
 }
 .transaction .js-tab-content {
     overflow: hidden
-}
-
-.heading-medium-prevent-margin-collapse {
-    padding-top: 0.1px
 }
