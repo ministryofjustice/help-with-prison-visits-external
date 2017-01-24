@@ -31,9 +31,7 @@
 
         {% include "partials/expenses/return-journey.html" %}
 
-        <!-- TODO: Replace this with a real value from a query. -->
-        {% set isAdvancedClaim = false %}
-        {% if isAdvancedClaim %}
+        {% if claim.IsAdvanceClaim %}
 
           {% include "partials/expenses/departure-time.html" %}
 

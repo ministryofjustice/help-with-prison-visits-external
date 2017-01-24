@@ -5,22 +5,33 @@ const expenseUrlRouter = require('../../../../services/routing/expenses-url-rout
 const TrainExpense = require('../../../../services/domain/expenses/train-expense')
 const insertExpense = require('../../../../services/data/insert-expense')
 const getExpenseOwnerData = require('../../../../services/data/get-expense-owner-data')
+const isAdvanceClaim = require('../../../../services/data/is-advance-claim')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/train', function (req, res) {
     UrlPathValidator(req.params)
 
-    // TODO: Query here to determine if this is an advance claim.
+    // TODO: Clean this up.
+    // TODO: Update test to cover new query.
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
-    return getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
-      .then(function (expenseOwnerData) {
+    isAdvanceClaim(req.params.claimId)
+      .then(function(isAdvanceClaim) {
+        return isAdvanceClaim
+      })
+      .then(function(isAdvanceClaim) {
+        return {
+          isAdvanceClaim: isAdvanceClaim,
+          expenseOwnerData: getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
+        }
+      })
+      .then(function(data) {
         return res.render('apply/eligibility/claim/train-details', {
           claimType: req.params.claimType,
           referenceId: req.params.referenceId,
           claimId: req.params.claimId,
-          expenseOwners: expenseOwnerData,
-          params: expenseUrlRouter.parseParams(req.query)
-          // TODO: Pass the isAdvanceClaim value to the page for it's boolean check and so we can pass it onto the post.
+          expenseOwners: data.expenseOwnerData,
+          params: expenseUrlRouter.parseParams(req.query),
+          claim: data.isAdvanceClaim
         })
       })
   })
