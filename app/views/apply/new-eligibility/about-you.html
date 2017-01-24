@@ -59,7 +59,9 @@
                  value="{{ visitor['NationalInsuranceNumber'] }}">
         </div>
 
-        <p class="heading-medium">Address</p>
+        <div class="heading-medium-prevent-margin-collapse">
+          <p class="heading-medium">Address</p>
+        </div>
 
         <div class="form-group {% if errors['HouseNumberAndStreet'][0] %} error {% endif %}">
           <label id="HouseNumberAndStreet" class="form-label-bold" for="house-number-and-street-input">House number and
