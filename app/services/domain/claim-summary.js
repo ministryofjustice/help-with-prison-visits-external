@@ -24,8 +24,6 @@ class ClaimSummary {
         .isRequired()
     }
 
-    console.log(this.claimExpenses)
-
     if (this.claimExpenses.length <= 0) {
       errors.add('claim-expense', ValidationErrorMessages.getNoExpensesClaimedFor)
     }
