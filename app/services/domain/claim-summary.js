@@ -3,6 +3,7 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const BenefitEnum = require('../../constants/benefits-enum')
 const DisplayHelper = require('../../views/helpers/display-helper')
+const ValidationErrorMessages = require('../validators/validation-error-messages')
 
 class ClaimSummary {
   constructor (visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUploadNotRequired) {
@@ -21,6 +22,12 @@ class ClaimSummary {
     if (BenefitEnum.getByValue(this.benefit).requireBenefitUpload && !this.benefitUploadNotRequired) {
       FieldValidator(this.benefitDocumentStatus, 'benefit-information', errors)
         .isRequired()
+    }
+
+    console.log(this.claimExpenses)
+
+    if (this.claimExpenses.length <= 0) {
+      errors.add('claim-expense', ValidationErrorMessages.getNoExpensesClaimedFor)
     }
 
     if (!this.isAdvanceClaim) {
