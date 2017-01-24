@@ -23,6 +23,7 @@ module.exports = function (reference, eligibilityId, claimId, expense) {
         DurationOfTravel: expense.durationOfTravel || null,
         TicketType: expense.ticketType || null,
         TicketOwner: expense.ticketOwner || null,
+        // DepartureTime: expense.departureTime || null, // TODO: Add this once the migration script is added.
         IsEnabled: true
       })
     })

@@ -10,6 +10,7 @@ module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/train', function (req, res) {
     UrlPathValidator(req.params)
 
+    // TODO: Query here to determine if this is an advance claim.
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     return getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
       .then(function (expenseOwnerData) {
@@ -19,10 +20,12 @@ module.exports = function (router) {
           claimId: req.params.claimId,
           expenseOwners: expenseOwnerData,
           params: expenseUrlRouter.parseParams(req.query)
+          // TODO: Pass the isAdvanceClaim value to the page for it's boolean check and so we can pass it onto the post.
         })
       })
   })
 
+  // TODO: Pass a query parameter here to indicate that this is an advance claim. That way we only do the database call once on page load.
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/train', function (req, res, next) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
@@ -33,7 +36,9 @@ module.exports = function (router) {
         req.body.from,
         req.body.to,
         req.body['return-journey'],
-        req.body['ticket-owner']
+        req.body['ticket-owner'],
+        req.body['departure-time'],
+        true // TODO: Need to determine if the claim is advance or not and pass the value.
       )
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, expense)
