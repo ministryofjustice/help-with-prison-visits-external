@@ -7,8 +7,6 @@ module.exports = function (reference, eligibiltyId, claimId) {
     claimExpenses.forEach(function (expense) {
       if (!expense.Cost) {
         expense.Cost = 0
-      } else {
-        expense.Cost = Number(expense.Cost).toFixed(2)
       }
     })
 
