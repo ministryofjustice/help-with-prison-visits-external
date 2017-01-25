@@ -18,14 +18,14 @@ module.exports = function (router) {
         claim.isAdvanceClaim = isAdvanceClaim
       })
       .then(function () {
-        claim.expenseOwnerData = getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
+        return getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
       })
-      .then(function () {
+      .then(function (expenseOwnerData) {
         return res.render('apply/eligibility/claim/train-details', {
           claimType: req.params.claimType,
           referenceId: req.params.referenceId,
           claimId: req.params.claimId,
-          expenseOwners: claim.expenseOwnerData,
+          expenseOwners: expenseOwnerData,
           params: expenseUrlRouter.parseParams(req.query),
           claim: claim.isAdvanceClaim
         })
