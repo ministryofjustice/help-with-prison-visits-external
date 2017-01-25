@@ -3,7 +3,7 @@ const referenceHelper = require('../helpers/e2e/reference-helper')
 const dateFormatter = require('../../app/services/date-formatter')
 
 var futureDate = dateFormatter.now().add(14, 'days')
-describe('First Time Claim Flow', () => {
+describe('First Time Advance Claim Flow', () => {
   // The reference will be generated as part of this flow. So capture it once it is generated.
   var reference
 
@@ -92,16 +92,16 @@ describe('First Time Claim Flow', () => {
 
       // Expense
       .waitForExist('#expenses-submit')
-      .click('[for="bus"]')
+      .click('[for="train"]')
       .click('#expenses-submit')
 
-      // Bus
-      .waitForExist('#bus-details-submit')
+      // Train - With departure time rather than cost field.
+      .waitForExist('#train-details-submit')
       .setValue('#from-input', 'Euston')
       .setValue('#to-input', 'Birmingham New Street')
       .click('[for="return-no"]')
-      .setValue('#cost-input', '20')
-      .click('#bus-details-submit')
+      .setValue('#departure-time-input', '10am')
+      .click('#train-details-submit')
 
       // Claim summary (advance claims do not need visit confirmation/expense upload)
       .waitForExist('#claim-summary-submit')

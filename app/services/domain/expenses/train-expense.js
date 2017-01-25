@@ -29,7 +29,7 @@ class TrainExpense extends BaseExpense {
       .isRequired()
 
     if (this.isAdvanceClaim) {
-      FieldValidator(this.departureTime, 'departure-time', errors)
+      FieldValidator(this.travelTime, 'departure-time', errors)
         .isRequired()
     } else {
       FieldValidator(this.cost, 'cost', errors)
