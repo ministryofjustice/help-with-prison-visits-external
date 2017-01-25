@@ -27,46 +27,42 @@ describe('services/domain/date-of-birth', function () {
   })
 
   it('should return isRequired errors given empty strings', function () {
-    try {
-      dateOfBirth = new DateOfBirth(INVALID_DAY,
+    expect(function () {
+      new DateOfBirth(
+        INVALID_DAY,
         INVALID_MONTH,
-        INVALID_YEAR)
-    } catch (e) {
-      expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['dob'][0]).to.contain('Date of birth is required')
-    }
+        INVALID_YEAR
+      ).isValid()
+    }).to.throw(ValidationError)
   })
 
   it('should return invalid date format when given invalid date', function () {
-    try {
-      dateOfBirth = new DateOfBirth('30',
+    expect(function () {
+      new DateOfBirth(
+        '30',
         '02',
-        '1990')
-    } catch (e) {
-      expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['dob'][0]).to.equal('Date of birth was invalid')
-    }
+        '1990'
+      ).isValid()
+    }).to.throw(ValidationError)
   })
 
   it('should return future dob message when given future date', function () {
-    try {
-      dateOfBirth = new DateOfBirth('10',
+    expect(function () {
+      new DateOfBirth(
         '10',
-        '3500')
-    } catch (e) {
-      expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['dob'][0]).to.equal('Date of birth must be in the past')
-    }
+        '10',
+        '3500'
+      ).isValid()
+    }).to.throw(ValidationError)
   })
 
   it('should return under 16 error message when date is < 16 years', function () {
-    try {
-      dateOfBirth = new DateOfBirth(dateFormatter.now().date(),
+    expect(function () {
+      new DateOfBirth(
+        dateFormatter.now().date(),
         dateFormatter.now().month() + 1,
-        dateFormatter.now().year())
-    } catch (e) {
-      expect(e).to.be.instanceof(ValidationError)
-      expect(e.validationErrors['dob'][0]).to.equal('Must be over 16 years of age')
-    }
+        dateFormatter.now().year()
+      ).isValid()
+    }).to.throw(ValidationError)
   })
 })
