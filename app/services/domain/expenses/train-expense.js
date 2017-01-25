@@ -5,8 +5,8 @@ const FieldValidator = require('../../validators/field-validator')
 const ErrorHandler = require('../../validators/error-handler')
 
 class TrainExpense extends BaseExpense {
-  constructor (cost, from, to, isReturn, ticketOwner, departureTime, isAdvanceClaim) {
-    super(EXPENSE_TYPE.TRAIN.value, cost, null, from, to, isReturn, null, null, ticketOwner, departureTime)
+  constructor (cost, from, to, isReturn, ticketOwner, travelTime, isAdvanceClaim) {
+    super(EXPENSE_TYPE.TRAIN.value, cost, travelTime, from, to, isReturn, null, null, ticketOwner)
     this.isAdvanceClaim = isAdvanceClaim
     this.isValid()
   }
@@ -29,7 +29,7 @@ class TrainExpense extends BaseExpense {
       .isRequired()
 
     if (this.isAdvanceClaim) {
-      FieldValidator(this.departureTime, 'departure-time', errors)
+      FieldValidator(this.travelTime, 'departure-time', errors)
         .isRequired()
     } else {
       FieldValidator(this.cost, 'cost', errors)

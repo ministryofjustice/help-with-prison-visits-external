@@ -12,7 +12,6 @@ module.exports.IS_RETURN = 'yes'
 module.exports.DURATION_OF_TRAVEL = null
 module.exports.TICKET_TYPE = null
 module.exports.TICKET_OWNER = 'child'
-module.exports.DEPARTURE_TIME = null
 
 module.exports.build = function () {
   return new BusExpense(

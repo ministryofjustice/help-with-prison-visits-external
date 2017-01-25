@@ -46,7 +46,6 @@ describe('services/data/insert-expense', function () {
         expect(expense.DurationOfTravel).to.equal(expenseHelper.DURATION_OF_TRAVEL)
         expect(expense.TicketType).to.equal(expenseHelper.TICKET_TYPE)
         expect(expense.TicketOwner).to.equal(expenseHelper.TICKET_OWNER)
-        expect(expense.DepartureTime).to.equal(expenseHelper.DEPARTURE_TIME)
       })
   })
 
