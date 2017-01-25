@@ -40,7 +40,6 @@ module.exports = function (claimId, claimType) {
             claim.PrisonerDateOfBirth = eligibility.PrisonerDateOfBirth
             claim.PrisonNumber = eligibility.PrisonNumber
             claim.NameOfPrison = eligibility.NameOfPrison
-
             return claim
           })
       }
