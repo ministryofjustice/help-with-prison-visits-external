@@ -8,6 +8,7 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const benefitUploadNotRequired = require('../../../helpers/benefit-upload-not-required')
 const displayHelper = require('../../../../views/helpers/display-helper')
 
+// TODO: Pass this isAdvanceClaim boolean to the page.
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
     UrlPathValidator(req.params)
