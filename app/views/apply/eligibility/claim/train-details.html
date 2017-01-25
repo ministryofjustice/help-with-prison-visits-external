@@ -31,6 +31,7 @@
 
         {% include "partials/expenses/return-journey.html" %}
 
+        <!-- TODO: The use of coniditonal includes here is causing issues. Fix it. -->
         {% if claim.IsAdvanceClaim %}
 
           {% include "partials/expenses/departure-time.html" %}
