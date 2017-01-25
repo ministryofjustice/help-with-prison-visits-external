@@ -3,6 +3,13 @@ config:
   phases:
     - duration: 1
       arrivalRate: 1
+  environments:
+    staging:
+      target: 'http://localhost:3000'
+      phases:
+        - duration: 120
+          arrivalRate: 2
+          rampTo: 10
   processor: './load-test-helper.js'
 
 scenarios:
