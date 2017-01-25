@@ -11,24 +11,23 @@ module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/train', function (req, res) {
     UrlPathValidator(req.params)
 
-    // TODO: Update test to cover new query.
-    var data = {}
+    var claim = {}
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     isAdvanceClaim(req.params.claimId)
       .then(function (isAdvanceClaim) {
-        data.isAdvanceClaim = isAdvanceClaim
+        claim.isAdvanceClaim = isAdvanceClaim
       })
       .then(function () {
-        data.expenseOwnerData = getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
+        claim.expenseOwnerData = getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
       })
       .then(function () {
         return res.render('apply/eligibility/claim/train-details', {
           claimType: req.params.claimType,
           referenceId: req.params.referenceId,
           claimId: req.params.claimId,
-          expenseOwners: data.expenseOwnerData,
+          expenseOwners: claim.expenseOwnerData,
           params: expenseUrlRouter.parseParams(req.query),
-          claim: data.isAdvanceClaim
+          claim: claim.isAdvanceClaim
         })
       })
   })
