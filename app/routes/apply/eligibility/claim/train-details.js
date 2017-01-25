@@ -11,20 +11,17 @@ module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/train', function (req, res) {
     UrlPathValidator(req.params)
 
-    // TODO: Clean this up.
     // TODO: Update test to cover new query.
+    var data = {}
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     isAdvanceClaim(req.params.claimId)
-      .then(function(isAdvanceClaim) {
-        return isAdvanceClaim
+      .then(function (isAdvanceClaim) {
+        data.isAdvanceClaim = isAdvanceClaim
       })
-      .then(function(isAdvanceClaim) {
-        return {
-          isAdvanceClaim: isAdvanceClaim,
-          expenseOwnerData: getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
-        }
+      .then(function () {
+        data.expenseOwnerData = getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
       })
-      .then(function(data) {
+      .then(function () {
         return res.render('apply/eligibility/claim/train-details', {
           claimType: req.params.claimType,
           referenceId: req.params.referenceId,
@@ -36,10 +33,10 @@ module.exports = function (router) {
       })
   })
 
-  // TODO: Pass a query parameter here to indicate that this is an advance claim. That way we only do the database call once on page load.
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/train', function (req, res, next) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+    var isAdvanceClaim = req.body.isAdvanceClaim === 'true'
 
     try {
       var expense = new TrainExpense(
@@ -49,7 +46,7 @@ module.exports = function (router) {
         req.body['return-journey'],
         req.body['ticket-owner'],
         req.body['departure-time'],
-        true // TODO: Need to determine if the claim is advance or not and pass the value.
+        isAdvanceClaim
       )
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, expense)
@@ -70,7 +67,8 @@ module.exports = function (router) {
               claimId: req.params.claimId,
               expenseOwners: expenseOwnerData,
               params: expenseUrlRouter.parseParams(req.query),
-              expense: req.body
+              expense: req.body,
+              claim: { IsAdvanceClaim: isAdvanceClaim }
             })
           })
       } else {
