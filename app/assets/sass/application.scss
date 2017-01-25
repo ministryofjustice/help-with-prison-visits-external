@@ -138,9 +138,12 @@ span.mileage input {
 }
 
 .text-pending {
-    padding: 8px;
     display: inline-block;
     font-weight: bold;
+    margin-bottom: 5px;
+    @include respond-to(handhelds) {
+      margin-bottom: 15px;
+    }
 }
 
 .text-pending:before {
@@ -152,22 +155,25 @@ span.mileage input {
     display: inline-block;
     font-family: arial;
     font-weight: bold;
-    height: 1em;
-    line-height: 1;
+    height: 1.5em;
+    line-height: 1.5;
     margin-left: 0;
     margin-right: 5px;
     text-align: center;
-    width: 1em;
-    background: url("/public/images/icon-warning-2x.png");
+    width: 1.5em;
+    background: url("/public/images/icon-warning-2x.png") no-repeat;
     background-size: 100%;
     position: relative;
-    top: 2px;
+    top: 6px;
 }
 
 .text-warning {
-    padding: 8px;
     display: inline-block;
     font-weight: bold;
+    margin-bottom: 5px;
+    @include respond-to(handhelds) {
+      margin-bottom: 15px;
+    }
 }
 
 .your-claims {
@@ -183,21 +189,25 @@ span.mileage input {
     display: inline-block;
     font-family: arial;
     font-weight: bold;
-    height: 1em;
+    height: 1.5em;
     line-height: 1;
     margin-left: 0;
     margin-right: 5px;
     text-align: center;
-    width: 1em;
-    background: url("/public/images/icon-warning-2x.png");
+    width: 1.5em;
+    background: url("/public/images/icon-warning-2x.png") no-repeat;
     background-size: 100%;
     position: relative;
-    top: 2px;
+    top: 6px;
 }
 
 .text-success {
-    padding: 8px;
     display: inline-block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    @include respond-to(handhelds) {
+      margin-bottom: 15px;
+    }
 }
 
 .text-success:before {
@@ -209,17 +219,26 @@ span.mileage input {
     display: inline-block;
     font-family: arial;
     font-weight: bold;
-    height: 1em;
+    height: 1.5em;
     line-height: 1;
     margin-left: 0;
     margin-right: 5px;
     text-align: center;
-    width: 1em;
-    background: url("/public/images/icon-tick-2x.png");
+    width: 1.5em;
+    background: url("/public/images/icon-tick-2x.png") no-repeat;
     background-size: 100%;
     position: relative;
-    top: 2px;
+    top: 6px;
 }
+
+form.form.pull-right link {
+  margin-top: 6px;
+}
+
+a#remove-file-upload {
+  margin: 22px 0 0 0;
+}
+
 @include respond-to(handhelds) {
     table {
         border: 0;
@@ -236,6 +255,7 @@ span.mileage input {
     }
 
     table td {
+        padding: 0.15em 0 0.15em 0 !important;
         border-bottom: none;
     }
 
@@ -255,7 +275,9 @@ span.mileage input {
         }
 
         tr td:nth-child(2) {
-            width: 10%;
+            display: block;
+            width: 100%;
+            text-align: left;
         }
 
         tr td:nth-child(1) {
@@ -264,9 +286,13 @@ span.mileage input {
     }
 
     table.col-2 td:first-child {
-        width: 120px!important;
+        width: 140px!important;
         font-weight: bold;
     }
+}
+
+table td {
+    padding: 0.47368em 0 0.47368em 0;
 }
 
 table.col-2 td:first-child {
