@@ -231,7 +231,7 @@ span.mileage input {
     top: 6px;
 }
 
-form.form.pull-right link {
+form.form.pull-right .link {
   margin-top: 6px;
 }
 
@@ -255,35 +255,16 @@ a#remove-file-upload {
     }
 
     table td {
-        padding: 0.15em 0 0.15em 0 !important;
+        padding: 0.15em 0 0.15em 0;
         border-bottom: none;
     }
 
-    table td:last-child {
-        border-bottom: 0;
-    }
-
-    table td:before {
-        content: attr(data-label);
-        float: left;
-    }
-
-    #claim-expense {
-        tr td:nth-child(3) {
-            display: block;
-            width: 100%;
-        }
-
-        tr td:nth-child(2) {
-            display: block;
-            width: 100%;
-            text-align: left;
-        }
-
-        tr td:nth-child(1) {
-            width: 100%;
-        }
-    }
+      tr td {
+        display: block;
+      }
+      .text-success, .text-warning, .text-pending {
+        width: 60%;
+      }
 
     table.col-2 td:first-child {
         width: 140px!important;
