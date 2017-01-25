@@ -1,15 +1,8 @@
 config:
   target: 'http://localhost:3000'
   phases:
-    - duration: 60
-      arrivalRate: 2
-  environments:
-    staging:
-      target: 'http://localhost:3000'
-      phases:
-        - duration: 120
-          arrivalRate: 2
-          rampTo: 10
+    - duration: 1
+      arrivalRate: 1
   processor: './load-test-helper.js'
 
 scenarios:
@@ -145,6 +138,7 @@ scenarios:
             from: 'Euston'
             to: 'Birmingham New Street'
             return-journey: 'no'
+            ticket-owner: 'yes'
             is-child: 'no'
             cost: '24.99'
           capture:
