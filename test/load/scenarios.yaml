@@ -1,8 +1,8 @@
 config:
   target: 'http://localhost:3000'
   phases:
-    - duration: 1
-      arrivalRate: 1
+    - duration: 60
+      arrivalRate: 2
   environments:
     staging:
       target: 'http://localhost:3000'
