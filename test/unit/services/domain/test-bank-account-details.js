@@ -37,19 +37,19 @@ describe('services/domain/bank-account-details', function () {
     expect(bankAccountDetails.termsAndConiditions).to.equal(VALID_TERMS_AND_CONDITIONS)
   })
 
-  it('should return isRequired errors given empty strings', function () {
+  it('should throw a ValidationError if given empty strings', function () {
     expect(function () {
       new BankAccountDetails('', '', '')
     }).to.throw(ValidationError)
   })
 
-  it('should return isNumber errors given letters', function () {
+  it('should throw a ValidationError if given letters', function () {
     expect(function () {
       new BankAccountDetails('asdf', 'asdf', VALID_TERMS_AND_CONDITIONS)
     }).to.throw(ValidationError)
   })
 
-  it('should return isLength errors given invalid length', function () {
+  it('should throw a ValidationError if given invalid length inputs', function () {
     expect(function () {
       new BankAccountDetails('123456789', '123', VALID_TERMS_AND_CONDITIONS)
     }).to.throw(ValidationError)
