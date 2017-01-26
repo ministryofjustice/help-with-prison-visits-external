@@ -63,12 +63,6 @@ describe('services/helpers/sort-view-claim-results-helper', function () {
     expect(advanceClaim.visitConfirmation.fromInternalWeb).to.equal(true)
   })
 
-  it('an approved claim expenses cost should be used and add decimals', function () {
-    claim = {ClaimId: 1}
-    sortViewClaimResultsHelper(claim, ELIGIBILITY, CLAIM_DOCUMENTS, claimExpenses, [])
-    expect(claimExpenses[0].Cost).to.equal('2.20')
-  })
-
   it('use requested cost when a claim expense has no status', function () {
     claim = {ClaimId: 1}
     sortViewClaimResultsHelper(claim, ELIGIBILITY, CLAIM_DOCUMENTS, claimExpensesNoStatus, [])

@@ -68,11 +68,6 @@ module.exports = function (claimId, claimType) {
                 .on('ClaimExpense.IsEnabled', 'ClaimDocument.IsEnabled')
             })
             .then(function (claimExpenses) {
-              claimExpenses.forEach(function (expense) {
-                if (expense.Cost % 1 !== 0) {
-                  expense.Cost = Number(expense.Cost).toFixed(2)
-                }
-              })
               claim.benefitDocument = []
               claimDocuments.forEach(function (document) {
                 if (document.DocumentType === documentTypeEnum['VISIT_CONFIRMATION'].documentType) {
