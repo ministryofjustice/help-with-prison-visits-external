@@ -31,13 +31,50 @@
 
         {% include "partials/expenses/return-journey.html" %}
 
-        {% set costExample = 20 %}
-        {% include "partials/expenses/cost.html" %}
+        {% if claim.IsAdvanceClaim %}
+
+          <div id="departure-time" class="form-group {% if errors['departure-time'][0] %} error {% endif %}">
+            <label for="departure-time-input" class="form-label-bold">Departure time</label>
+
+            {% if errors['departure-time'][0] %}
+            <span class="error-message">{{ errors['departure-time'][0] }}</span>
+            {% endif %}
+
+            <p class="form-hint">For example, 10am</p>
+            <input id="departure-time-input"
+                   type="text"
+                   name="departure-time"
+                   value="{{ expense['departure-time'] }}"
+                   class="form-control">
+          </div>
+
+        {% else %}
+
+          <div id="cost" class="form-group {% if errors['cost'][0] %} error {% endif %}">
+            <label for="cost-input" class="form-label-bold">Cost</label>
+
+            {% if errors['cost'][0] %}
+            <span class="error-message">{{ errors['cost'][0] }}</span>
+            {% endif %}
+
+            <p class="form-hint">For example, 20</p>
+            <div class="pound-wrapper">
+              <span>£</span>
+              <input id="cost-input"
+                     type="text"
+                     name="cost"
+                     value="{{ expense['cost'] }}"
+                     class="form-control">
+            </div>
+          </div>
+
+        {% endif %}
 
         {% include "partials/expenses/add-another-journey.html" %}
 
         {% include "partials/csrf-hidden-input.html" %}
 
+        <input type="hidden" name="isAdvanceClaim" value="{{ claim.IsAdvanceClaim }}" />
         <input id="train-details-submit"
                type="submit"
                class="button"

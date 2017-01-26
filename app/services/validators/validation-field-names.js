@@ -51,5 +51,6 @@ module.exports = {
   'ticket-owner': 'A ticket owner',
   'issue': 'Message',
   'name': 'Name',
-  'advance-past': 'response'
+  'advance-past': 'response',
+  'departure-time': 'Departure time'
 }

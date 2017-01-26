@@ -2,8 +2,9 @@
   <label for="cost-input" class="form-label-bold">Cost</label>
 
   {% if errors['cost'][0] %}
-  <span class="error-message">{{ errors['cost'][0] }}</span>
+    <span class="error-message">{{ errors['cost'][0] }}</span>
   {% endif %}
+
   <p class="form-hint">For example, {{ costExample }}</p>
   <div class="pound-wrapper">
     <span>£</span>
