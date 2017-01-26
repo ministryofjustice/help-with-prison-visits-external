@@ -28,6 +28,9 @@ describe('services/domain/about-you', function () {
   const INVALID_CHARS_COUNTY = 'Tes>t&lt'
   const INVALID_CHARS_COUNTRY = 'Northernlt <Ireland>'
   const INVALID_CHARS_PHONENUMBER = '028&lgscript&gt12345>'
+  const INVALID_NATIONAL_INSURANCE_NUMBER = '123456'
+  const INVALID_POST_CODE = '123456'
+  const INVALID_EMAIL = '1234'
 
   it('should construct a domain object given valid input', function () {
     aboutYou = new AboutYou(
@@ -61,13 +64,13 @@ describe('services/domain/about-you', function () {
     expect(aboutYou.phoneNumber).to.equal(VALID_PHONENUMBER)
   })
 
-  it('should return isRequired errors given empty strings', function () {
+  it('should throw a ValidationError if given invalid input', function () {
     expect(function () {
       new AboutYou('', '', '', '', '', '', '', '', '', '', '', '', '')
     }).to.throw(ValidationError)
   })
 
-  it('should return invalid National Insurance Number for invalid National Insurance Number', function () {
+  it('should throw a ValidationError if an invalid National Insurance Number is provided as input', function () {
     expect(function () {
       aboutYou = new AboutYou(
         VALID_DOB,
@@ -75,7 +78,7 @@ describe('services/domain/about-you', function () {
         VALID_BENEFIT,
         VALID_FIRSTNAME,
         VALID_LASTNAME,
-        '123456',
+        INVALID_NATIONAL_INSURANCE_NUMBER,
         VALID_HOUSENUMBERANDSTREET,
         VALID_TOWN,
         VALID_COUNTY,
@@ -87,7 +90,7 @@ describe('services/domain/about-you', function () {
     }).to.throw(ValidationError)
   })
 
-  it('should return invalid Post Code error for invalid PostCode', function () {
+  it('should throw a ValidationError if an invalid PostCode is provided as input', function () {
     expect(function () {
       new AboutYou(
         VALID_DOB,
@@ -99,7 +102,7 @@ describe('services/domain/about-you', function () {
         VALID_HOUSENUMBERANDSTREET,
         VALID_TOWN,
         VALID_COUNTY,
-        '123456',
+        INVALID_POST_CODE,
         VALID_COUNTRY,
         VALID_EMAILADDRESS,
         VALID_PHONENUMBER
@@ -107,7 +110,7 @@ describe('services/domain/about-you', function () {
     }).to.throw(ValidationError)
   })
 
-  it('should return invalid email error for invalid emailAddress', function () {
+  it('should throw a ValidationError if an invalid email address is provided as input', function () {
     expect(function () {
       new AboutYou(
         VALID_DOB,
@@ -121,7 +124,7 @@ describe('services/domain/about-you', function () {
         VALID_COUNTY,
         VALID_POSTCODE,
         VALID_COUNTRY,
-        '1234567',
+        INVALID_EMAIL,
         VALID_PHONENUMBER
       )
     }).to.throw(ValidationError)
