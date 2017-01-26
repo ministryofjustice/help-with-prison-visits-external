@@ -1,28 +1,20 @@
-var supertest = require('supertest')
-var proxyquire = require('proxyquire')
-var express = require('express')
-var log = {
-  info: function (text) {}
-}
-var route = proxyquire('../../../../app/routes/health-check/status', {
-  '../services/log': log
-})
+const routeHelper = require('../../../helpers/routes/route-helper')
+const supertest = require('supertest')
+const status = require('../../../../app/routes/health-check/status')
 
 describe('routes/health-check/status', function () {
-  var request
+  const ROUTE = '/status'
+
+  var app
 
   beforeEach(function () {
-    var app = express()
-
-    route(app)
-
-    request = supertest(app)
+    app = routeHelper.buildApp(status)
   })
 
-  describe('GET /status', function () {
+  describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200', function () {
-      request
-        .get('/status')
+      return supertest(app)
+        .get(ROUTE)
         .expect(200)
     })
   })
