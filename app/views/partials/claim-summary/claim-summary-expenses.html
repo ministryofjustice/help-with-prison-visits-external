@@ -34,7 +34,7 @@
     {% elseif claimExpense.ExpenseType == 'car' %}
       <td>13p per mile</td>
     {% else %}
-      <td>£{{ claimExpense.Cost }}</td>
+      <td>{{ displayHelper.toCurrency(claimExpense.Cost) }}</td>
     {% endif %}
 
     <td>
