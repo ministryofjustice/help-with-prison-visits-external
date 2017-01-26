@@ -1,8 +1,9 @@
+/* eslint-disable no-new */
 const expect = require('chai').expect
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const dateFormatter = require('../../../../app/services/date-formatter')
-
 const AboutYou = require('../../../../app/services/domain/about-you')
+
 var aboutYou
 
 describe('services/domain/about-you', function () {
@@ -62,7 +63,7 @@ describe('services/domain/about-you', function () {
 
   it('should return isRequired errors given empty strings', function () {
     expect(function () {
-      new AboutYou('', '', '', '', '', '', '', '', '', '', '', '', '').isValid()
+      new AboutYou('', '', '', '', '', '', '', '', '', '', '', '', '')
     }).to.throw(ValidationError)
   })
 
@@ -82,7 +83,7 @@ describe('services/domain/about-you', function () {
         VALID_COUNTRY,
         VALID_EMAILADDRESS,
         VALID_PHONENUMBER
-      ).isValid()
+      )
     }).to.throw(ValidationError)
   })
 
@@ -102,7 +103,7 @@ describe('services/domain/about-you', function () {
         VALID_COUNTRY,
         VALID_EMAILADDRESS,
         VALID_PHONENUMBER
-      ).isValid()
+      )
     }).to.throw(ValidationError)
   })
 
@@ -122,7 +123,7 @@ describe('services/domain/about-you', function () {
         VALID_COUNTRY,
         '1234567',
         VALID_PHONENUMBER
-      ).isValid()
+      )
     }).to.throw(ValidationError)
   })
 

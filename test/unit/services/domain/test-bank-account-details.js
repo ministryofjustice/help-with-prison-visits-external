@@ -1,6 +1,8 @@
+/* eslint-disable no-new */
 const BankAccountDetails = require('../../../../app/services/domain/bank-account-details')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
+
 var bankAccountDetails
 
 describe('services/domain/bank-account-details', function () {
@@ -37,19 +39,19 @@ describe('services/domain/bank-account-details', function () {
 
   it('should return isRequired errors given empty strings', function () {
     expect(function () {
-      new BankAccountDetails('', '', '').isValid()
+      new BankAccountDetails('', '', '')
     }).to.throw(ValidationError)
   })
 
   it('should return isNumber errors given letters', function () {
     expect(function () {
-      new BankAccountDetails('asdf', 'asdf', VALID_TERMS_AND_CONDITIONS).isValid()
+      new BankAccountDetails('asdf', 'asdf', VALID_TERMS_AND_CONDITIONS)
     }).to.throw(ValidationError)
   })
 
   it('should return isLength errors given invalid length', function () {
     expect(function () {
-      new BankAccountDetails('123456789', '123', VALID_TERMS_AND_CONDITIONS).isValid()
+      new BankAccountDetails('123456789', '123', VALID_TERMS_AND_CONDITIONS)
     }).to.throw(ValidationError)
   })
 })

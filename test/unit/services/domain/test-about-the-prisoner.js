@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 const ValidationError = require('../../../../app/services/errors/validation-error')
@@ -24,7 +25,8 @@ describe('services/domain/about-the-prisoner', function () {
       VALID_DOBMONTH,
       VALID_DOBYEAR,
       VALID_PRISONERNUMBER,
-      VALID_NAMEOFPRISON)
+      VALID_NAMEOFPRISON
+    )
 
     expect(aboutThePrisoner.firstName).to.equal(VALID_FIRSTNAME.trim())
     expect(aboutThePrisoner.lastName).to.equal(VALID_LASTNAME.trim())
@@ -33,7 +35,6 @@ describe('services/domain/about-the-prisoner', function () {
     expect(aboutThePrisoner.dobYear).to.equal(VALID_DOBYEAR)
     expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONERNUMBER.replace(/ /g, '').toUpperCase())
     expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAMEOFPRISON.trim())
-
     expect(aboutThePrisoner.dob).to.be.within(
       dateFormatter.buildFromDateString('1995-01-01').subtract(1, 'seconds').toDate(),
       dateFormatter.buildFromDateString('1995-01-01').add(1, 'seconds').toDate())
@@ -41,7 +42,7 @@ describe('services/domain/about-the-prisoner', function () {
 
   it('should return isRequired errors given empty strings', function () {
     expect(function () {
-      new AboutThePrisoner('', '', '', '', '', '', '').isValid()
+      new AboutThePrisoner('', '', '', '', '', '', '')
     }).to.throw(ValidationError)
   })
 
@@ -55,7 +56,7 @@ describe('services/domain/about-the-prisoner', function () {
         '1995',
         VALID_PRISONERNUMBER,
         VALID_NAMEOFPRISON
-      ).isValid()
+      )
     }).to.throw(ValidationError)
   })
 
@@ -67,7 +68,8 @@ describe('services/domain/about-the-prisoner', function () {
       VALID_DOBMONTH,
       VALID_DOBYEAR,
       VALID_PRISONERNUMBER,
-      VALID_NAMEOFPRISON)
+      VALID_NAMEOFPRISON
+    )
 
     expect(aboutThePrisoner.firstName).to.equal(INVALID_CHARS_FIRSTNAME.replace(unsafeInputPattern, ''))
     expect(aboutThePrisoner.lastName).to.equal(INVALID_CHARS_LASTNAME.replace(unsafeInputPattern, ''))
@@ -76,7 +78,6 @@ describe('services/domain/about-the-prisoner', function () {
     expect(aboutThePrisoner.dobYear).to.equal(VALID_DOBYEAR)
     expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONERNUMBER.replace(/ /g, '').toUpperCase())
     expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAMEOFPRISON.trim())
-
     expect(aboutThePrisoner.dob).to.be.within(
       dateFormatter.buildFromDateString('1995-01-01').subtract(1, 'seconds').toDate(),
       dateFormatter.buildFromDateString('1995-01-01').add(1, 'seconds').toDate())
