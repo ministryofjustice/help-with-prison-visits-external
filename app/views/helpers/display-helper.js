@@ -59,9 +59,18 @@ module.exports.getPrisonsByRegion = function (region) {
 }
 
 module.exports.toCurrency = function (value) {
-  if (value && value < 0) {
-    return `-£${Number(value * -1).toFixed(2)}`
-  } else {
-    return `£${Number(value).toFixed(2)}`
+  var result = ''
+
+  if (value < 0) {
+    result += '-'
+    value = value * -1
   }
+
+  if (value % 1 === 0) {
+    result += `£${value}`
+  } else {
+    result += `£${Number(value).toFixed(2)}`
+  }
+
+  return result
 }
