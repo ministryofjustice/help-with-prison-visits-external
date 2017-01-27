@@ -239,6 +239,15 @@ a#remove-file-upload {
   margin: 22px 0 0 0;
 }
 
+#claim-expense {
+  td:nth-child(1), table td:nth-child(3) {
+    width: 40%;
+  }
+  td:nth-child(2) {
+    width: 20%;
+  }
+}
+
 @include respond-to(handhelds) {
     table {
         border: 0;
@@ -255,20 +264,27 @@ a#remove-file-upload {
     }
 
     table td {
-        padding: 0.15em 0 0.15em 0;
+        padding: 0.15em 0;
         border-bottom: none;
     }
 
-      tr td {
+    tr td {
         display: block;
-      }
-      .text-success, .text-warning, .text-pending {
+    }
+
+    .text-pending, .text-success, .text-warning {
         width: 60%;
-      }
+    }
 
     table.col-2 td:first-child {
         width: 140px!important;
         font-weight: bold;
+    }
+
+    #claim-expense {
+        td {
+            width: 100% !important;
+        }
     }
 }
 
