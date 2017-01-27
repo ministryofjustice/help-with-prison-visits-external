@@ -8,6 +8,7 @@
               value="you">
         Yourself
     </label>
+
     {% if expenseOwners.child %}
       <label for="is-child-ticket" class="block-label inline">
         <input id="is-child-ticket"
@@ -17,6 +18,7 @@
         Child
       </label>
     {% endif %}
+
     {% if expenseOwners.escort %}
       <label for="is-escort-ticket" class="block-label inline">
         <input id="is-escort-ticket"
@@ -26,6 +28,7 @@
         Escort
       </label>
     {% endif %}
+
   </div>
 {% else %}
   <div class='form-group {% if errors['ticket-owner'][0] %} error {% endif %}' id='ticket-owner'>

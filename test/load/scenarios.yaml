@@ -145,6 +145,7 @@ scenarios:
             from: 'Euston'
             to: 'Birmingham New Street'
             return-journey: 'no'
+            ticket-owner: 'yes'
             is-child: 'no'
             cost: '24.99'
           capture:

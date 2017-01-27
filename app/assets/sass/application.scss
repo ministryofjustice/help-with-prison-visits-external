@@ -993,13 +993,15 @@ ul.claim-dialog-public li.claimant {
     left: -9999em;
 }
 
-.custom-file-upload input[type="file"] {
-    display: none;
-}
+@if ($is-ie == false) or ($ie-version >= 9) {
+  .custom-file-upload input[type="file"] {
+      display: none;
+  }
 
-.remove-upload {
-    display: none;
-}
+  label.custom-file-upload {
+    display:inline-block;
+    margin-bottom:20px;
+  }
 
 label.custom-file-upload {
     display: inline-block;
@@ -1024,6 +1026,31 @@ label.custom-file-upload {
     -webkit-font-smoothing: antialiased;
     cursor: pointer;
     color: #0b0c0c;
+  
+  .custom-file-upload {
+        padding: .526315em .789473em .263157em;
+      background-color: #dee0e2;
+      position: relative;
+      border: none;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      -webkit-appearance: none;
+      -webkit-box-shadow: 0 2px 0 #b5babe;
+      -moz-box-shadow: 0 2px 0 #b5babe;
+      box-shadow: 0 2px 0 #b5babe;
+      font-size: 1em;
+      line-height: 1.25;
+      text-decoration: none;
+      -webkit-font-smoothing: antialiased;
+      cursor: pointer;
+      color: #0b0c0c;
+  }
+}
+
+.remove-upload {
+    display: none;
+
 }
 @media (min-width: 641px) {
     .js-tab-content .tab-shiftlink {

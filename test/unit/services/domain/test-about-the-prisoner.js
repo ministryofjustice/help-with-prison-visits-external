@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 const ValidationError = require('../../../../app/services/errors/validation-error')
@@ -6,111 +7,80 @@ const AboutThePrisoner = require('../../../../app/services/domain/about-the-pris
 var aboutThePrisoner
 
 describe('services/domain/about-the-prisoner', function () {
-  const VALID_FIRSTNAME = 'Joe '
-  const VALID_LASTNAME = ' Bloggs'
-  const VALID_DOBDAY = '01'
-  const VALID_DOBMONTH = '01'
-  const VALID_DOBYEAR = '1995'
-  const VALID_PRISONERNUMBER = 'a1234 BC'
-  const VALID_NAMEOFPRISON = 'Hewell '
+  const VALID_FIRST_NAME = 'Joe '
+  const VALID_LAST_NAME = ' Bloggs'
+  const VALID_DOB_DAY = '01'
+  const VALID_DOB_MONTH = '01'
+  const VALID_DOB_YEAR = '1995'
+  const VALID_PRISONER_NUMBER = 'a1234 BC'
+  const VALID_NAME_OF_PRISON = 'Hewell '
 
-  const INVALID_FIRSTNAME = ''
-  const INVALID_LASTNAME = ''
-  const INVALID_DOBDAY = ''
-  const INVALID_DOBMONTH = ''
-  const INVALID_DOBYEAR = ''
-  const INVALID_PRISONERNUMBER = ''
-  const INVALID_NAMEOFPRISON = ''
+  const INVALID_DOB_DAY = '99'
+  const INVALID_CHARS_FIRST_NAME = 'Joe>&lt><&gt'
+  const INVALID_CHARS_LAST_NAME = '<Bloggs>'
 
-  const INVALID_CHARS_FIRSTNAME = 'Joe>&lt><&gt'
-  const INVALID_CHARS_LASTNAME = '<Bloggs>'
+  it('should construct a domain object given valid input', function () {
+    aboutThePrisoner = new AboutThePrisoner(VALID_FIRST_NAME,
+      VALID_LAST_NAME,
+      VALID_DOB_DAY,
+      VALID_DOB_MONTH,
+      VALID_DOB_YEAR,
+      VALID_PRISONER_NUMBER,
+      VALID_NAME_OF_PRISON
+    )
 
-  it('should return false for valid data', function (done) {
-    aboutThePrisoner = new AboutThePrisoner(VALID_FIRSTNAME,
-      VALID_LASTNAME,
-      VALID_DOBDAY,
-      VALID_DOBMONTH,
-      VALID_DOBYEAR,
-      VALID_PRISONERNUMBER,
-      VALID_NAMEOFPRISON)
-
-    expect(aboutThePrisoner.firstName).to.equal(VALID_FIRSTNAME.trim())
-    expect(aboutThePrisoner.lastName).to.equal(VALID_LASTNAME.trim())
-    expect(aboutThePrisoner.dobDay).to.equal(VALID_DOBDAY)
-    expect(aboutThePrisoner.dobMonth).to.equal(VALID_DOBMONTH)
-    expect(aboutThePrisoner.dobYear).to.equal(VALID_DOBYEAR)
-    expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONERNUMBER.replace(/ /g, '').toUpperCase())
-    expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAMEOFPRISON.trim())
-
+    expect(aboutThePrisoner.firstName).to.equal(VALID_FIRST_NAME.trim())
+    expect(aboutThePrisoner.lastName).to.equal(VALID_LAST_NAME.trim())
+    expect(aboutThePrisoner.dobDay).to.equal(VALID_DOB_DAY)
+    expect(aboutThePrisoner.dobMonth).to.equal(VALID_DOB_MONTH)
+    expect(aboutThePrisoner.dobYear).to.equal(VALID_DOB_YEAR)
+    expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONER_NUMBER.replace(/ /g, '').toUpperCase())
+    expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAME_OF_PRISON.trim())
     expect(aboutThePrisoner.dob).to.be.within(
       dateFormatter.buildFromDateString('1995-01-01').subtract(1, 'seconds').toDate(),
       dateFormatter.buildFromDateString('1995-01-01').add(1, 'seconds').toDate())
-
-    done()
   })
 
-  it('should return isRequired errors given empty strings', function (done) {
-    const IS_REQUIRED = 'is required'
-
-    try {
-      aboutThePrisoner = new AboutThePrisoner(INVALID_FIRSTNAME,
-        INVALID_LASTNAME,
-        INVALID_DOBDAY,
-        INVALID_DOBMONTH,
-        INVALID_DOBYEAR,
-        INVALID_PRISONERNUMBER,
-        INVALID_NAMEOFPRISON)
-    } catch (e) {
-      expect(e).to.be.instanceof(ValidationError)
-
-      expect(e.validationErrors['FirstName'][0]).to.contain(IS_REQUIRED)
-      expect(e.validationErrors['LastName'][0]).to.contain(IS_REQUIRED)
-      expect(e.validationErrors['dob'][0]).to.contain(IS_REQUIRED)
-      expect(e.validationErrors['PrisonerNumber'][0]).to.contain(IS_REQUIRED)
-      expect(e.validationErrors['NameOfPrison'][0]).to.contain(IS_REQUIRED)
-    }
-    done()
+  it('should throw a ValidationError if invalid input', function () {
+    expect(function () {
+      new AboutThePrisoner('', '', '', '', '', '', '')
+    }).to.throw(ValidationError)
   })
 
-  it('should return errors for an invalid date', function (done) {
-    try {
-      aboutThePrisoner = new AboutThePrisoner(INVALID_FIRSTNAME,
-        INVALID_LASTNAME,
-        '99',
-        '01',
-        '1995',
-        INVALID_PRISONERNUMBER,
-        INVALID_NAMEOFPRISON)
-    } catch (e) {
-      expect(e).to.be.instanceof(ValidationError)
-
-      expect(e.validationErrors['dob'][0]).to.equal('Date of birth was invalid')
-    }
-    done()
+  it('should throw a ValidationError if an invalid date of birth is provided as input', function () {
+    expect(function () {
+      new AboutThePrisoner(
+        VALID_FIRST_NAME,
+        VALID_LAST_NAME,
+        INVALID_DOB_DAY,
+        VALID_DOB_MONTH,
+        VALID_DOB_YEAR,
+        VALID_PRISONER_NUMBER,
+        VALID_NAME_OF_PRISON
+      )
+    }).to.throw(ValidationError)
   })
 
-  it('should strip illegal characters from otherwise valid data', function (done) {
+  it('should strip illegal characters from otherwise valid data', function () {
     const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
-    aboutThePrisoner = new AboutThePrisoner(INVALID_CHARS_FIRSTNAME,
-      INVALID_CHARS_LASTNAME,
-      VALID_DOBDAY,
-      VALID_DOBMONTH,
-      VALID_DOBYEAR,
-      VALID_PRISONERNUMBER,
-      VALID_NAMEOFPRISON)
+    aboutThePrisoner = new AboutThePrisoner(INVALID_CHARS_FIRST_NAME,
+      INVALID_CHARS_LAST_NAME,
+      VALID_DOB_DAY,
+      VALID_DOB_MONTH,
+      VALID_DOB_YEAR,
+      VALID_PRISONER_NUMBER,
+      VALID_NAME_OF_PRISON
+    )
 
-    expect(aboutThePrisoner.firstName).to.equal(INVALID_CHARS_FIRSTNAME.replace(unsafeInputPattern, ''))
-    expect(aboutThePrisoner.lastName).to.equal(INVALID_CHARS_LASTNAME.replace(unsafeInputPattern, ''))
-    expect(aboutThePrisoner.dobDay).to.equal(VALID_DOBDAY)
-    expect(aboutThePrisoner.dobMonth).to.equal(VALID_DOBMONTH)
-    expect(aboutThePrisoner.dobYear).to.equal(VALID_DOBYEAR)
-    expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONERNUMBER.replace(/ /g, '').toUpperCase())
-    expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAMEOFPRISON.trim())
-
+    expect(aboutThePrisoner.firstName).to.equal(INVALID_CHARS_FIRST_NAME.replace(unsafeInputPattern, ''))
+    expect(aboutThePrisoner.lastName).to.equal(INVALID_CHARS_LAST_NAME.replace(unsafeInputPattern, ''))
+    expect(aboutThePrisoner.dobDay).to.equal(VALID_DOB_DAY)
+    expect(aboutThePrisoner.dobMonth).to.equal(VALID_DOB_MONTH)
+    expect(aboutThePrisoner.dobYear).to.equal(VALID_DOB_YEAR)
+    expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONER_NUMBER.replace(/ /g, '').toUpperCase())
+    expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAME_OF_PRISON.trim())
     expect(aboutThePrisoner.dob).to.be.within(
       dateFormatter.buildFromDateString('1995-01-01').subtract(1, 'seconds').toDate(),
       dateFormatter.buildFromDateString('1995-01-01').add(1, 'seconds').toDate())
-
-    done()
   })
 })
