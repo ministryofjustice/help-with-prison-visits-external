@@ -53,10 +53,17 @@ describe('routes/technical-help', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      technicalHelpStub.throws(new ValidationError({ 'name': {} }))
+      technicalHelpStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .expect(400)
+    })
+
+    it('should respond with a 500 if a non-validation error occurs.', function () {
+      technicalHelpStub.throws(new Error())
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
     })
   })
 })

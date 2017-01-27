@@ -28,7 +28,14 @@
       {% endif %}
       <div>{{ claimExpenseHelper(claimExpense) }}</div>
     </td>
-    <td>{% if claimExpense.ExpenseType == 'car' %} 13p per mile {% else %} £{{claimExpense.Cost}} {% endif %}</td>
+
+    {% if claimExpense.ExpenseType == 'train' and claimDetails.claim.IsAdvanceClaim %}
+      <td></td>
+    {% elseif claimExpense.ExpenseType == 'car' %}
+      <td>13p per mile</td>
+    {% else %}
+      <td>{{ displayHelper.toCurrency(claimExpense.Cost) }}</td>
+    {% endif %}
 
     <td>
     {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %}

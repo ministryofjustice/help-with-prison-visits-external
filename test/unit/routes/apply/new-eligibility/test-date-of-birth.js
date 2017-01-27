@@ -77,15 +77,5 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
           .expect(500)
       })
     })
-
-    describe('sixteen or under date', function () {
-      it('should respond with a 302 and redirect to /eligibility-fail', function () {
-        stubDateOfBirth.returns({sixteenOrUnder: true})
-        return supertest(app)
-          .post(ROUTE)
-          .expect(302)
-          .expect('location', '/eligibility-fail')
-      })
-    })
   })
 })

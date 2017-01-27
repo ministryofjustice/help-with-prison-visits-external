@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 const AboutChild = require('../../../../app/services/domain/about-child')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
@@ -38,7 +39,13 @@ describe('services/domain/about-child', function () {
         VALID_MONTH,
         VALID_YEAR,
         VALID_CHILD_RELATIONSHIP
-      ).isValid()
+      )
+    }).to.throw(ValidationError)
+  })
+
+  it('should throw a validation error if any inputs were not set and the default domain object values where used', function () {
+    expect(function () {
+      new AboutChild()
     }).to.throw(ValidationError)
   })
 

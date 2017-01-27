@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 const AboutEscort = require('../../../../app/services/domain/about-escort')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
@@ -36,6 +37,12 @@ describe('services/domain/about-escort', function () {
         VALID_YEAR,
         VALID_NATIONAL_INSURANCE_NUMBER
       ).isValid()
+    }).to.throw(ValidationError)
+  })
+
+  it('should throw a validation error if any inputs were not set and the default domain object values where used', function () {
+    expect(function () {
+      new AboutEscort()
     }).to.throw(ValidationError)
   })
 

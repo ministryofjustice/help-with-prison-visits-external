@@ -57,3 +57,20 @@ for (var prisonKey in prisonsEnum) {
 module.exports.getPrisonsByRegion = function (region) {
   return prisonsByRegion[region]
 }
+
+module.exports.toCurrency = function (value) {
+  var result = ''
+
+  if (value < 0) {
+    result += '-'
+    value = value * -1
+  }
+
+  if (value % 1 === 0) {
+    result += `£${value}`
+  } else {
+    result += `£${Number(value).toFixed(2)}`
+  }
+
+  return result
+}

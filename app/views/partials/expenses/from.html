@@ -2,11 +2,10 @@
   <label id="from" for="from-input" class="form-label-bold">From</label>
 
   {% if errors['from'][0] %}
-  <span class="error-message">{{ errors['from'][0] }}</span>
+    <span class="error-message">{{ errors['from'][0] }}</span>
   {% endif %}
 
   <p class="form-hint">For example, {{ exampleFrom }}</p>
-
   <input id="from-input"
          type="text"
          name="from"
