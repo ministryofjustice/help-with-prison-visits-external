@@ -35,7 +35,7 @@
               {{ claimExpenseHelper(claimExpense) }}
             </td>
             <td>
-              £{{claimExpense.Cost}}
+              {{ displayHelper.toCurrency(claimExpense.Cost) }}
             </td>
           </tr>
         {% endfor %}

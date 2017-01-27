@@ -29,6 +29,9 @@
   {% include "partials/claim-summary/claim-summary-expenses.html" %}
 
   <br>
+  {% if not claimDetails.claimExpenses[0] %}
+    <span class="error-message" id="error-message-no-expenses">{{ errors['claim-expense'][0] }}</span>
+  {% endif %}
   <a href="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}" class="link">Add another expense</a>
 
   <br>
