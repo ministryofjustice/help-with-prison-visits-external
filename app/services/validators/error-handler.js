@@ -16,10 +16,8 @@ class ErrorHandler {
   get () {
     var errors = this.errors
     for (var field in errors) {
-      if (errors.hasOwnProperty(field)) {
-        if (errors[ field ].length > 0) {
-          return errors
-        }
+      if (errors[ field ].length > 0) {
+        return errors
       }
     }
     return false
