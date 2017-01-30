@@ -21,7 +21,12 @@
 
     <div class="column-one-third">
       {% if canStartNewClaim %}
-      <a id="new-claim" class="button heading-large" href="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information" role="button">Start a new claim</a>
+      <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information">
+          <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" />
+      </form>
+      {% else %}
+      <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />
+      <p class="warning">Unable to start a new claim while you have a claim in progress</p>
       {% endif %}
     </div>
 
