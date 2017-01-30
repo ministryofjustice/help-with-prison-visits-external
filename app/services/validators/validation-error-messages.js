@@ -9,7 +9,6 @@ module.exports = {
   getInvalidDateFormatMessage: function (displayName) { return `${displayName} was invalid` },
   getFutureDateMessage: function (displayName) { return `${displayName} must be in the future` },
   getPastDateMessage: function (displayName) { return `${displayName} must be in the past` },
-  getDropboxIsRequired: function (displayName) { return `${displayName} is required` },
   getIsValidFormat: function (displayName) { return `${displayName} must have valid format` },
   getIsCurrency: function (displayName) { return `${displayName} must be a valid amount` },
   getIsGreaterThan: function (displayName) { return `${displayName} must be greater than zero` },
