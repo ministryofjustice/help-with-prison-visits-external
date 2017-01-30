@@ -38,13 +38,7 @@
 
   <br>
 
-  {% if claimDetails.claimEvents[0] %}
-
-    {% include "partials/claim-summary/claim-summary-events.html" %}
-
-    <br>
-
-  {% endif %}
+  {% include "partials/claim-summary/claim-summary-events.html" %}
 
   <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/{{ claimId }}" method="post" class="form">
 
