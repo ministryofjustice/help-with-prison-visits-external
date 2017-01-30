@@ -1,9 +1,10 @@
-const InformationRequiredMessagesEnum = require('../../constants/information-required-messages')
+const informationRequiredMessagesEnum = require('../../constants/information-required-messages-enum')
+const claimStatusEnum = require('../../constants/claim-status-enum')
 
 module.exports = function (claimStatus, benefitStatus, benefitDocument, visitConfirmationStatus, visitConifirmationDocument, expenses, bankDetailsRequested) {
   var addInformation = []
-  if (claimStatus === 'REQUEST-INFORMATION' || claimStatus === 'REQUEST-INFO-PAYMENT') {
-    var caseworkerMessages = {field: 'messages', message: InformationRequiredMessagesEnum.CASEWORKER_MESSAGES}
+  if (claimStatus === claimStatusEnum.REQUEST_INFORMATION || claimStatus === claimStatusEnum.REQUEST_INFO_PAYMENT) {
+    var caseworkerMessages = {field: 'messages', message: informationRequiredMessagesEnum.CASEWORKER_MESSAGES}
     addInformation.push(caseworkerMessages)
   }
 
@@ -11,32 +12,32 @@ module.exports = function (claimStatus, benefitStatus, benefitDocument, visitCon
     benefitDocument = {DocumentStatus: false}
   }
   if (requiredAttention(benefitStatus, benefitDocument)) {
-    var benefit = {field: 'benefit-information', message: InformationRequiredMessagesEnum.BENEFIT}
+    var benefit = {field: 'benefit-information', message: informationRequiredMessagesEnum.BENEFIT}
     addInformation.push(benefit)
   }
 
   if (requiredAttention(visitConfirmationStatus, visitConifirmationDocument)) {
-    var visitConfirmation = {field: 'VisitConfirmation', message: InformationRequiredMessagesEnum.VISIT_CONFIRMATION}
+    var visitConfirmation = {field: 'VisitConfirmation', message: informationRequiredMessagesEnum.VISIT_CONFIRMATION}
     addInformation.push(visitConfirmation)
   }
 
   for (var expense in expenses) {
     if (requiredAttention(expenses[expense].Status, {DocumentStatus: expenses[expense].DocumentStatus, fromInternalWeb: expenses[expense].fromInternalWeb})) {
-      var expensesInformation = {field: 'claim-expense', message: InformationRequiredMessagesEnum.EXPENSE}
+      var expensesInformation = {field: 'claim-expense', message: informationRequiredMessagesEnum.EXPENSE}
       addInformation.push(expensesInformation)
       break
     }
   }
 
   if (bankDetailsRequested) {
-    var bankDetails = {field: 'bank-details', message: InformationRequiredMessagesEnum.BANK_DETAILS}
+    var bankDetails = {field: 'bank-details', message: informationRequiredMessagesEnum.BANK_DETAILS}
     addInformation.push(bankDetails)
   }
   return addInformation
 }
 
 function requiredAttention (status, document) {
-  if (status === 'REQUEST-INFORMATION' && document.fromInternalWeb) {
+  if (status === claimStatusEnum.REQUEST_INFORMATION && document.fromInternalWeb) {
     return true
   } else if (document.DocumentStatus === 'upload-later') {
     return true
