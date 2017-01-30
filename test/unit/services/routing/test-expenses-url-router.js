@@ -25,10 +25,12 @@ describe('services/routing/expenses-url-router', function () {
     const VALID_PARAM_ONE = 'bus'
     const VALID_PARAM_TWO = 'hire'
     const CLAIM_TYPE = 'first-time'
-    const REFERENCEID = 'URLROUT-123'
+    const REFERENCE_ID = 'URLROUT-123'
     const CLAIM_ID = '456'
     const ORIGINAL_URL = 'some-url'
-    var validRequest = {
+    const SUMMARY_URL = `/apply/first-time/eligibility/${REFERENCE_ID}/claim/${CLAIM_ID}/summary`
+
+    var VALID_REQUEST = {
       body: {
         expenses: [
           VALID_PARAM_ONE,
@@ -39,39 +41,63 @@ describe('services/routing/expenses-url-router', function () {
       query: {},
       params: {
         claimType: CLAIM_TYPE,
-        referenceId: REFERENCEID,
+        referenceId: REFERENCE_ID,
         claimId: CLAIM_ID
       }
     }
-    const VALID_REQUEST_OUTPUT = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIM_ID}/${VALID_PARAM_ONE}?${VALID_PARAM_TWO}=`
+    const VALID_REQUEST_OUTPUT = `/apply/first-time/eligibility/${REFERENCE_ID}/claim/${CLAIM_ID}/${VALID_PARAM_ONE}?${VALID_PARAM_TWO}=`
 
-    it('should throw an error if req is invalid', function (done) {
+    const NO_EXPENSE_REQUEST = {
+      body: {
+        expenses: []
+      },
+      originalUrl: ORIGINAL_URL,
+      query: {},
+      params: {
+        claimType: CLAIM_TYPE,
+        referenceId: REFERENCE_ID,
+        claimId: CLAIM_ID
+      }
+    }
+
+    const QUERY_PARAMATER_EXPENSE_REQUEST = {
+      body: {
+        expenses: []
+      },
+      originalUrl: ORIGINAL_URL,
+      query: {
+        'bus': ''
+      },
+      params: {
+        claimType: CLAIM_TYPE,
+        referenceId: REFERENCE_ID,
+        claimId: CLAIM_ID
+      }
+    }
+
+    it('should throw an error if req is invalid', function () {
       expect(function () {
-        expensesUrlRouter.getRedirectUrl(
-          null)
+        expensesUrlRouter.getRedirectUrl(null)
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.body is invalid', function (done) {
+    it('should throw an error if req.body is invalid', function () {
       expect(function () {
         expensesUrlRouter.getRedirectUrl({
           body: null
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.params is invalid', function (done) {
+    it('should throw an error if req.params is invalid', function () {
       expect(function () {
         expensesUrlRouter.getRedirectUrl({
           params: null
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.params.referenceId is invalid', function (done) {
+    it('should throw an error if req.params.referenceId is invalid', function () {
       expect(function () {
         expensesUrlRouter.getRedirectUrl({
           params: {
@@ -79,10 +105,9 @@ describe('services/routing/expenses-url-router', function () {
           }
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.params.claimId is invalid', function (done) {
+    it('should throw an error if req.params.claimId is invalid', function () {
       expect(function () {
         expensesUrlRouter.getRedirectUrl({
           params: {
@@ -90,38 +115,43 @@ describe('services/routing/expenses-url-router', function () {
           }
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.originalUrl is invalid', function (done) {
+    it('should throw an error if req.originalUrl is invalid', function () {
       expect(function () {
         expensesUrlRouter.getRedirectUrl({
           originalUrl: null
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should throw an error if req.query is invalid', function (done) {
+    it('should throw an error if req.query is invalid', function () {
       expect(function () {
         expensesUrlRouter.getRedirectUrl({
           query: null
         })
       }).to.throw(Error)
-      done()
     })
 
-    it('should return a url path if passed a valid request and add-another-journey was not set', function (done) {
-      var result = expensesUrlRouter.getRedirectUrl(validRequest)
+    it('should return a url path to the summary page if no expenses are set', function () {
+      var result = expensesUrlRouter.getRedirectUrl(NO_EXPENSE_REQUEST)
+      expect(result).to.be.equal(SUMMARY_URL)
+    })
+
+    it('should return a url path built from the query parameters if they are set', function () {
+      var result = expensesUrlRouter.getRedirectUrl(QUERY_PARAMATER_EXPENSE_REQUEST)
+      expect(result).to.be.equal(`/apply/first-time/eligibility/${REFERENCE_ID}/claim/${CLAIM_ID}/bus`)
+    })
+
+    it('should return a url path if passed a valid request and add-another-journey was not set', function () {
+      var result = expensesUrlRouter.getRedirectUrl(VALID_REQUEST)
       expect(result).to.be.equal(VALID_REQUEST_OUTPUT)
-      done()
     })
 
-    it('should return the originalUrl if passed a valid request with add-another-journey set', function (done) {
-      validRequest.body['add-another-journey'] = 'on'
-      var result = expensesUrlRouter.getRedirectUrl(validRequest)
+    it('should return the originalUrl if passed a valid request with add-another-journey set', function () {
+      VALID_REQUEST.body['add-another-journey'] = 'on'
+      var result = expensesUrlRouter.getRedirectUrl(VALID_REQUEST)
       expect(result).to.be.equal(ORIGINAL_URL)
-      done()
     })
   })
 })
