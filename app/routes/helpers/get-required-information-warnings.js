@@ -1,7 +1,9 @@
+const InformationRequiredMessagesEnum = require('../../constants/information-required-messages')
+
 module.exports = function (claimStatus, benefitStatus, benefitDocument, visitConfirmationStatus, visitConifirmationDocument, expenses, bankDetailsRequested) {
   var addInformation = []
   if (claimStatus === 'REQUEST-INFORMATION' || claimStatus === 'REQUEST-INFO-PAYMENT') {
-    var caseworkerMessages = {field: 'messages', message: 'View messages from caseworker'}
+    var caseworkerMessages = {field: 'messages', message: InformationRequiredMessagesEnum.CASEWORKER_MESSAGES}
     addInformation.push(caseworkerMessages)
   }
 
@@ -9,25 +11,25 @@ module.exports = function (claimStatus, benefitStatus, benefitDocument, visitCon
     benefitDocument = {DocumentStatus: false}
   }
   if (requiredAttention(benefitStatus, benefitDocument)) {
-    var benefit = {field: 'benefit-information', message: 'Benefit information is needed'}
+    var benefit = {field: 'benefit-information', message: InformationRequiredMessagesEnum.BENEFIT}
     addInformation.push(benefit)
   }
 
   if (requiredAttention(visitConfirmationStatus, visitConifirmationDocument)) {
-    var visitConfirmation = {field: 'VisitConfirmation', message: 'Visit confirmation information is needed'}
+    var visitConfirmation = {field: 'VisitConfirmation', message: InformationRequiredMessagesEnum.VISIT_CONFIRMATION}
     addInformation.push(visitConfirmation)
   }
 
   for (var expense in expenses) {
     if (requiredAttention(expenses[expense].Status, {DocumentStatus: expenses[expense].DocumentStatus, fromInternalWeb: expenses[expense].fromInternalWeb})) {
-      var expensesInformation = {field: 'claim-expense', message: 'Expense information is needed'}
+      var expensesInformation = {field: 'claim-expense', message: InformationRequiredMessagesEnum.EXPENSE}
       addInformation.push(expensesInformation)
       break
     }
   }
 
   if (bankDetailsRequested) {
-    var bankDetails = {field: 'bank-details', message: 'Bank details requested'}
+    var bankDetails = {field: 'bank-details', message: InformationRequiredMessagesEnum.BANK_DETAILS}
     addInformation.push(bankDetails)
   }
   return addInformation

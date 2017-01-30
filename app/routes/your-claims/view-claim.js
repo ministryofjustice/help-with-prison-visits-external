@@ -24,7 +24,6 @@ module.exports = function (router) {
       .then(function (claimDetails) {
         var referenceId = referenceIdHelper.getReferenceId(decryptedReference, claimDetails.claim.EligibilityId)
         var isRequestInfoPayment = claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
-        console.log(claimDetails)
         var addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
           claimDetails.claim.BenefitStatus,
           claimDetails.claim.benefitDocument[0],
@@ -81,6 +80,14 @@ module.exports = function (router) {
         } catch (error) {
           if (error instanceof ValidationError) {
             var referenceId = referenceIdHelper.getReferenceId(req.params.reference, claimDetails.claim.EligibilityId)
+            var isRequestInfoPayment = bankDetails.required
+            var addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
+              claimDetails.claim.BenefitStatus,
+              claimDetails.claim.benefitDocument[0],
+              claimDetails.claim.VisitConfirmationCheck,
+              claimDetails.claim.visitConfirmation,
+              claimDetails.claimExpenses,
+              isRequestInfoPayment)
             return res.status(400).render('your-claims/view-claim', {
               errors: error.validationErrors,
               reference: decryptedReference,
@@ -97,7 +104,8 @@ module.exports = function (router) {
               viewClaim: true,
               claimEventHelper: claimEventHelper,
               bankDetails: { AccountNumber, SortCode },
-              isRequestInfoPayment: bankDetails.required
+              isRequestInfoPayment: isRequestInfoPayment,
+              addInformation: addInformation
             })
           } else {
             next(error)
