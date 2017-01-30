@@ -1,5 +1,5 @@
 {% if claimDetails.claimEvents.length > 0 %}
-<div class="form-group">
+<div id="messages" class="form-group">
 
   <h1 class="heading-medium">Messages from caseworker</h1>
 
@@ -9,7 +9,6 @@
 
     {% if event.Caseworker %}
       <li class="caseworker">
-        <h2>Caseworker</h2>
         <h2>{{ claimEventHelper(event.Event) }}</h2>
         <p>{{ event.Note }}</p>
         <p class="time">{{ dateHelper(event.DateAdded) }}</p>

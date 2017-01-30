@@ -28,7 +28,7 @@ const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}`
 const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIM_DOCUMENT_ID}`
 const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIM_DOCUMENT_ID}?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITY_ID}`
 
-describe('routes/apply/eligibility/claim/claim-summary', function () {
+describe('routes/apply/eligibility/claim/view-claim', function () {
   var app
 
   var urlPathValidatorStub
