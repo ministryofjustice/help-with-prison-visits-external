@@ -1,12 +1,16 @@
-var expect = require('chai').expect
-var encrypt = require('../../../../app/services/helpers/encrypt')
+const expect = require('chai').expect
+const encrypt = require('../../../../app/services/helpers/encrypt')
 
 describe('services/helpers/encrypt', function () {
-  it('throws error on invalid input', function () {
-    try {
-      encrypt('invalid value')
-    } catch (err) {
-      expect(err.message).to.equal('Error when encrypting value')
-    }
+  it('should not throw an Error if passed a valid input', function () {
+    expect(function () {
+      encrypt('some value')
+    }).to.not.throw(Error)
+  })
+
+  it('should throw an Error if passed invalid input', function () {
+    expect(function () {
+      encrypt(null)
+    }).to.throw(Error)
   })
 })
