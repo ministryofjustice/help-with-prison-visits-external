@@ -12,6 +12,7 @@ const ELIGIBILITY_ID = '1234'
 const DOB = '1990-10-10'
 const CLAIMID = '1'
 const CLAIM_DOCUMENT_ID = '123'
+const CLAIM_EXPENSE_ID = '12345'
 const VALID_FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.txt' }
 const INVALID_FILEPATH_RESULT = 'invalid filepath'
 const CLAIM = {
@@ -26,7 +27,6 @@ const CLAIM = {
 const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}`
 const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIM_DOCUMENT_ID}`
 const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIM_DOCUMENT_ID}?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITY_ID}`
-const REMOVE_MULTI_PAGE_DOCUMENT_ROUTE = `${REMOVE_DOCUMENT_ROUTE}&multipage=true`
 
 describe('routes/apply/eligibility/claim/claim-summary', function () {
   var app
@@ -116,6 +116,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
+      getViewClaimStub.resolves(CLAIM)
       viewClaimDomainObjectStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
@@ -140,7 +141,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
   })
 
-  describe(`POST ${REMOVE_MULTI_PAGE_DOCUMENT_ROUTE}`, function () {
+  describe(`POST ${REMOVE_DOCUMENT_ROUTE}`, function () {
     it('should respond with a 302 and redirect to file upload if removal of a single page document succeeds', function () {
       removeClaimDocumentStub.resolves()
       return supertest(app)
@@ -155,7 +156,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     it('should respond with a 302 and redirect to view claim if removal of a multi page document succeeds', function () {
       removeClaimDocumentStub.resolves()
       return supertest(app)
-        .post(REMOVE_MULTI_PAGE_DOCUMENT_ROUTE)
+        .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
@@ -163,10 +164,21 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .expect('location', ROUTE)
     })
 
+    it('should respond with a 302 and redirect to the file upload page if with claimExpenseId set if one was sent.', function () {
+      removeClaimDocumentStub.resolves()
+      return supertest(app)
+        .post(`${REMOVE_DOCUMENT_ROUTE}&claimExpenseId=${CLAIM_EXPENSE_ID}`)
+        .expect(302)
+        .expect(function () {
+          sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
+        })
+        .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION&claimExpenseId=${CLAIM_EXPENSE_ID}&eligibilityId=${ELIGIBILITY_ID}`)
+    })
+
     it('should respond with a 500 if promise rejects', function () {
       removeClaimDocumentStub.rejects()
       return supertest(app)
-        .post(REMOVE_MULTI_PAGE_DOCUMENT_ROUTE)
+        .post(REMOVE_DOCUMENT_ROUTE)
         .expect(500)
     })
   })
