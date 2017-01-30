@@ -13,7 +13,7 @@ const claimStatusHelper = require('../../views/helpers/claim-status-helper')
 const claimEventHelper = require('../../views/helpers/claim-event-helper')
 const forEdit = require('../helpers/for-edit')
 const decrypt = require('../../services/helpers/decrypt')
-const addInformationHelper = require('../helpers/add-information-helper')
+const getRequiredInformationWarnings = require('../helpers/add-information-helper')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
@@ -25,7 +25,7 @@ module.exports = function (router) {
         var referenceId = referenceIdHelper.getReferenceId(decryptedReference, claimDetails.claim.EligibilityId)
         var isRequestInfoPayment = claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
         console.log(claimDetails)
-        var addInformation = addInformationHelper(claimDetails.claim.Status,
+        var addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
           claimDetails.claim.BenefitStatus,
           claimDetails.claim.benefitDocument[0],
           claimDetails.claim.VisitConfirmationCheck,

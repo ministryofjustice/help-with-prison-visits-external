@@ -1,5 +1,5 @@
 const expect = require('chai').expect
-const addInformationHelper = require('../../../../app/routes/helpers/add-information-helper')
+const addInformationHelper = require('../../../../app/routes/helpers/get-required-information-warnings')
 
 const REQUIRED_STATUS = 'REQUEST-INFORMATION'
 const FROM_INTERNAL_WEB = true
@@ -13,7 +13,7 @@ const OTHER_DOCUMENT_STATUS = {DocumentStatus: 'uploaded', fromInternalWeb: FROM
 const EXPENSES_NOT_ADDED = [{Status: OTHER_STATUS, fromInternalWeb: NOT_FROM_INTERNAL}]
 const NO_BANK_DETAILS = false
 
-describe('routes/helpers/add-information-helper', function () {
+describe('routes/helpers/get-required-information-warnings', function () {
   it('should return an empty array for no information required', function () {
     var result = addInformationHelper(OTHER_STATUS, OTHER_STATUS, OTHER_DOCUMENT_STATUS, OTHER_STATUS, OTHER_DOCUMENT_STATUS, EXPENSES_NOT_ADDED, NO_BANK_DETAILS)
     expect(result.length).to.equal(0)
