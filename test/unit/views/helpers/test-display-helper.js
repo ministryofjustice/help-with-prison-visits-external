@@ -1,6 +1,5 @@
 const expect = require('chai').expect
-
-const displayHelper = require('../../../../app/views/helpers/display-helper')
+const proxyquire = require('proxyquire')
 const prisonsEnum = require('../../../../app/constants/prisons-enum')
 const benefitsEnum = require('../../../../app/constants/benefits-enum')
 const prisonerRelationshipsEnum = require('../../../../app/constants/prisoner-relationships-enum')
@@ -11,6 +10,19 @@ describe('views/helpers/display-helper', function () {
   const VALID_BENEFIT_VALUE = benefitsEnum.INCOME_SUPPORT.value
   const VALID_PRISON_VALUE = prisonsEnum.ALTCOURSE.value
   const VALID_EXPENSE_VALUE = expenseTypeEnum.BUS.value
+
+  var displayHelper
+
+  beforeEach(function () {
+    var prisonsEnumStub = {
+      'non-object': 'some non object element'
+    }
+
+    displayHelper = proxyquire(
+      '../../../../app/views/helpers/display-helper', {
+        '../../constants/prisons-enum' : prisonsEnumStub
+      })
+  })
 
   it('should return the correct prisoner relationship display name given a valid value', function () {
     var result = displayHelper.getPrisonerRelationshipDisplayName(VALID_PRISONER_RELATIONSHIP_VALUE)
@@ -52,5 +64,28 @@ describe('views/helpers/display-helper', function () {
     expect(displayHelper.toCurrency('21.5')).to.equal('£21.50')
     expect(displayHelper.toCurrency(-40)).to.equal('-£40')
     expect(displayHelper.toCurrency('-32.4')).to.equal('-£32.40')
+  })
+
+  describe('getPrisonsByRegion', function () {
+    const VALID_REGIONS = [
+      'ENG/WAL',
+      'SCO',
+      'NI',
+      'JSY',
+      'GSY'
+    ]
+    const INVALID_REGION = 'some invalid region'
+
+    it('should return the list of prisons for the given region', function () {
+      VALID_REGIONS.forEach(function (region) {
+        var result = displayHelper.getPrisonsByRegion(region)
+        expect(result).to.not.equal(undefined)
+      })
+    })
+
+    it('should return undefined if an invalid region is passed as input', function () {
+      var result = displayHelper.getPrisonsByRegion(INVALID_REGION)
+      expect(result).to.equal(undefined)
+    })
   })
 })
