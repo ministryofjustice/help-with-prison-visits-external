@@ -13,7 +13,7 @@ const claimStatusHelper = require('../../views/helpers/claim-status-helper')
 const claimEventHelper = require('../../views/helpers/claim-event-helper')
 const forEdit = require('../helpers/for-edit')
 const decrypt = require('../../services/helpers/decrypt')
-const getRequiredInformationWarnings = require('../helpers/add-information-helper')
+const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
