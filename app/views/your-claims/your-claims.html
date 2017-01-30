@@ -75,6 +75,8 @@
               class ="text-warning your-claims">Information needed
             {% elif claim.Status == 'APPROVED' %}
               class ="text-pending your-claims">Information needed after visit takes place
+            {% elif claim.Status == 'REJECTED' %}
+              >Rejected
             {% else %}
               class ="text-pending your-claims">In progress
             {% endif %}
