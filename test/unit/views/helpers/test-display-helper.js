@@ -20,7 +20,7 @@ describe('views/helpers/display-helper', function () {
 
     displayHelper = proxyquire(
       '../../../../app/views/helpers/display-helper', {
-        '../../constants/prisons-enum' : prisonsEnumStub
+        '../../constants/prisons-enum': prisonsEnumStub
       })
   })
 
