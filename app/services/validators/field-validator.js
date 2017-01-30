@@ -22,8 +22,6 @@ class FieldValidator {
       } else {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRequired)
       }
-    } else if (this.data === 'select') {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getDropboxIsRequired)
     }
     return this
   }
