@@ -1,7 +1,6 @@
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const expect = require('chai').expect
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const routeHelper = require('../../../helpers/routes/route-helper')
 const encrypt = require('../../../../app/services/helpers/encrypt')
@@ -9,153 +8,177 @@ require('sinon-bluebird')
 
 const REFERENCE = 'V123456'
 const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
-const ELIGIBILITYID = '1234'
+const ELIGIBILITY_ID = '1234'
 const DOB = '1990-10-10'
 const CLAIMID = '1'
-const CLAIMDOCUMENTID = '123'
-const FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.txt' }
+const CLAIM_DOCUMENT_ID = '123'
+const CLAIM_EXPENSE_ID = '12345'
+const VALID_FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.txt' }
+const INVALID_FILEPATH_RESULT = 'invalid filepath'
+const CLAIM = {
+  claim: {
+    EligibilityId: ELIGIBILITY_ID,
+    visitConfirmation: '',
+    Benefit: '',
+    benefitDocument: []
+  }
+}
 
 const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}`
+const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIM_DOCUMENT_ID}`
+const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIM_DOCUMENT_ID}?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITY_ID}`
 
 describe('routes/apply/eligibility/claim/claim-summary', function () {
-  var request
-  var urlValidatorCalled
+  var app
+
+  var urlPathValidatorStub
   var getViewClaimStub
-  var getClaimDocumentFilePath
+  var getClaimDocumentFilePathStub
   var viewClaimDomainObjectStub
   var submitUpdateStub
-  var removeClaimDocument
+  var removeClaimDocumentStub
   var decryptStub
 
   beforeEach(function () {
-    getViewClaimStub = sinon.stub().resolves({
-      claim: {
-        EligibilityId: ELIGIBILITYID,
-        visitConfirmation: '',
-        Benefit: '',
-        benefitDocument: []
-      }
-    })
-    getClaimDocumentFilePath = sinon.stub().resolves(FILEPATH_RESULT)
+    urlPathValidatorStub = sinon.stub()
+    getViewClaimStub = sinon.stub()
+    getClaimDocumentFilePathStub = sinon.stub()
     viewClaimDomainObjectStub = sinon.stub()
-    submitUpdateStub = sinon.stub().resolves()
-    removeClaimDocument = sinon.stub().resolves()
-    decryptStub = sinon.stub().returns(REFERENCE)
+    submitUpdateStub = sinon.stub()
+    removeClaimDocumentStub = sinon.stub()
+    decryptStub = sinon.stub()
 
     var route = proxyquire(
       '../../../../app/routes/your-claims/view-claim', {
-        '../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
+        '../../services/validators/url-path-validator': urlPathValidatorStub,
         '../../services/data/get-view-claim': getViewClaimStub,
-        '../../services/data/get-claim-document-file-path': getClaimDocumentFilePath,
+        '../../services/data/get-claim-document-file-path': getClaimDocumentFilePathStub,
         '../../services/domain/view-claim': viewClaimDomainObjectStub,
         '../../services/data/submit-update': submitUpdateStub,
-        '../../services/data/remove-claim-document': removeClaimDocument,
+        '../../services/data/remove-claim-document': removeClaimDocumentStub,
         '../../services/helpers/decrypt': decryptStub
       })
-
-    var app = routeHelper.buildApp(route)
-    request = supertest(app)
-
-    urlValidatorCalled = false
+    app = routeHelper.buildApp(route)
   })
 
   describe(`GET ${ROUTE}`, function () {
-    it('should respond with a 200', function (done) {
-      request
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
+        .get(ROUTE)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+        })
+    })
+
+    it('should respond with a 200', function () {
+      decryptStub.returns(REFERENCE)
+      getViewClaimStub.resolves(CLAIM)
+      return supertest(app)
         .get(ROUTE)
         .expect(200)
-        .end(function (error, response) {
-          expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
-          expect(decryptStub.calledWith(ENCRYPTED_REFERENCE)).to.be.true
-          expect(getViewClaimStub.calledWith(CLAIMID, REFERENCE, DOB)).to.be.true
-          done()
+        .expect(function () {
+          sinon.assert.calledWith(decryptStub, ENCRYPTED_REFERENCE)
+          sinon.assert.calledWith(getViewClaimStub, CLAIMID, REFERENCE, DOB)
         })
     })
   })
 
   describe(`POST ${ROUTE}`, function () {
-    it('should respond with a 302', function (done) {
-      request
+    it('should call the URL Path Validator', function () {
+      return supertest(app)
         .post(ROUTE)
-        .expect(302)
-        .end(function (error, response) {
-          expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
-          expect(decryptStub.calledWith(ENCRYPTED_REFERENCE)).to.be.true
-          expect(getViewClaimStub.calledWith(CLAIMID, REFERENCE, DOB)).to.be.true
-          expect(viewClaimDomainObjectStub.calledOnce, 'Should have called to check validation').to.be.true
-          expect(response.headers['location']).to.be.equal(`/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}?updated=true`)
-          done()
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
         })
     })
 
-    it('should respond with a 400 if validation errors', function (done) {
-      viewClaimDomainObjectStub.throws(new ValidationError())
-      request
+    it('should respond with a 302', function () {
+      decryptStub.returns(REFERENCE)
+      submitUpdateStub.resolves()
+      getViewClaimStub.resolves(CLAIM)
+      return supertest(app)
         .post(ROUTE)
-        .expect(400, done)
+        .expect(302)
+        .expect(function () {
+          sinon.assert.calledWith(decryptStub, ENCRYPTED_REFERENCE)
+          sinon.assert.calledWith(getViewClaimStub, CLAIMID, REFERENCE, DOB)
+          sinon.assert.calledOnce(viewClaimDomainObjectStub)
+        })
+        .expect('location', `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}?updated=true`)
+    })
+
+    it('should respond with a 400 if validation errors', function () {
+      getViewClaimStub.resolves(CLAIM)
+      viewClaimDomainObjectStub.throws(new ValidationError())
+      return supertest(app)
+        .post(ROUTE)
+        .expect(400)
     })
 
     it('should respond with a 500 if promise rejects.', function () {
+      getViewClaimStub.resolves(CLAIM)
       viewClaimDomainObjectStub.throws(new Error())
-      return request
+      return supertest(app)
         .post(ROUTE)
         .expect(500)
     })
   })
 
-  describe(`GET ${ROUTE}/view-document/:claimDocumentId`, function () {
-    it('should respond respond with 200 if valid path entered', function (done) {
-      request
-        .get(`${ROUTE}/view-document/${CLAIMDOCUMENTID}`)
+  describe(`GET ${VIEW_DOCUMENT_ROUTE}`, function () {
+    it('should respond respond with 200 if valid path entered', function () {
+      getClaimDocumentFilePathStub.resolves(VALID_FILEPATH_RESULT)
+      return supertest(app)
+        .get(VIEW_DOCUMENT_ROUTE)
         .expect(200)
-        .end(function (error, response) {
-          expect(error).to.be.null
-          expect(response.header['content-length']).to.equal('4')
-          done()
-        })
+        .expect('content-length', '4')
     })
 
-    it('should respond with 500 if invalid path provided', function (done) {
-      getClaimDocumentFilePath.resolves('invalid-filepath')
-      request
-        .get(`${ROUTE}/view-document/${CLAIMDOCUMENTID}`)
-        .expect(500, done)
+    it('should respond with 500 if invalid path provided', function () {
+      getClaimDocumentFilePathStub.resolves(INVALID_FILEPATH_RESULT)
+      return supertest(app)
+        .get(VIEW_DOCUMENT_ROUTE)
+        .expect(500)
     })
   })
 
-  describe(`POST ${ROUTE}/remove-document/:claimDocumentId`, function () {
-    it('should respond with a 302, call removeClaimDocument and redirect to file upload', function (done) {
-      request
-        .post(`${ROUTE}/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITYID}`)
+  describe(`POST ${REMOVE_DOCUMENT_ROUTE}`, function () {
+    it('should respond with a 302 and redirect to file upload if removal of a single page document succeeds', function () {
+      removeClaimDocumentStub.resolves()
+      return supertest(app)
+        .post(REMOVE_DOCUMENT_ROUTE)
         .expect(302)
-        .end(function (error, response) {
-          expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
-          expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
-          expect(response.headers['location']).to.be.equal(`/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}/file-upload?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITYID}`)
-          done()
+        .expect(function () {
+          sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
         })
+        .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITY_ID}`)
     })
 
-    it('should respond with a 302, call removeClaimDocument and redirect to claim summary', function (done) {
-      request
-        .post(`${ROUTE}/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITYID}&multipage=true`)
+    it('should respond with a 302 and redirect to view claim if removal of a multi page document succeeds', function () {
+      removeClaimDocumentStub.resolves()
+      return supertest(app)
+        .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
         .expect(302)
-        .end(function (error, response) {
-          expect(error).to.be.null
-          expect(urlValidatorCalled).to.be.true
-          expect(removeClaimDocument.calledWith(CLAIMDOCUMENTID)).to.be.true
-          expect(response.headers['location']).to.be.equal(ROUTE)
-          done()
+        .expect(function () {
+          sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
         })
+        .expect('location', ROUTE)
     })
 
-    it('should respond with a 500 if promise rejects.', function () {
-      removeClaimDocument.rejects()
-      return request
-        .post(`${ROUTE}/remove-document/${CLAIMDOCUMENTID}?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITYID}&multipage=true`)
+    it('should respond with a 302 and redirect to the file upload page if with claimExpenseId set if one was sent.', function () {
+      removeClaimDocumentStub.resolves()
+      return supertest(app)
+        .post(`${REMOVE_DOCUMENT_ROUTE}&claimExpenseId=${CLAIM_EXPENSE_ID}`)
+        .expect(302)
+        .expect(function () {
+          sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
+        })
+        .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION&claimExpenseId=${CLAIM_EXPENSE_ID}&eligibilityId=${ELIGIBILITY_ID}`)
+    })
+
+    it('should respond with a 500 if promise rejects', function () {
+      removeClaimDocumentStub.rejects()
+      return supertest(app)
+        .post(REMOVE_DOCUMENT_ROUTE)
         .expect(500)
     })
   })
