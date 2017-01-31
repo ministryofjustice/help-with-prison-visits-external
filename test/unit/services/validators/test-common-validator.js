@@ -7,6 +7,7 @@ const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum
 const advancePastEnum = require('../../../../app/constants/advance-past-enum')
 const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const expenseTypeEnum = require('../../../../app/constants/expense-type-enum')
+const prisonerRelationshipsEnum = require('../../../../app/constants/prisoner-relationships-enum')
 
 describe('services/validators/common-validator', function () {
   const ALPHA_STRING = 'alpha'
@@ -604,7 +605,7 @@ describe('services/validators/common-validator', function () {
   })
 
   describe('isValidPrisonerRelationship', function () {
-    const VALID_INPUT = 'partner'
+    const VALID_INPUT = prisonerRelationshipsEnum.PARTNER.urlValue
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {

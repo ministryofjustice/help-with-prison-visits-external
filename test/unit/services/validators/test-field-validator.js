@@ -619,7 +619,7 @@ describe('services/validators/field-validator', function () {
   })
 
   describe('isValidPrisonerRelationship', function () {
-    const VALID_INPUT = prisonerRelationshipEnum.PARTNER.value
+    const VALID_INPUT = prisonerRelationshipEnum.PARTNER.urlValue
     const INVALID_INPUT = 'some invalid input'
 
     it('should return an error object if passed null', function () {

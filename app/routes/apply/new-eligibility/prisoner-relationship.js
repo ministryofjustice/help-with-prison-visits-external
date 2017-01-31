@@ -2,6 +2,7 @@ const PrisonerRelationship = require('../../../services/domain/prisoner-relation
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const ValidationError = require('../../../services/errors/validation-error')
 const claimTypeEnum = require('../../../constants/claim-type-enum')
+const prisonerRelationshipEnum = require('../../../constants/prisoner-relationships-enum')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/:dob', function (req, res) {
@@ -20,7 +21,7 @@ module.exports = function (router) {
     try {
       var prisonerRelationship = new PrisonerRelationship(relationship)
 
-      if (prisonerRelationship.relationship === 'none') {
+      if (prisonerRelationship.relationship === prisonerRelationshipEnum.NONE.urlValue) {
         return res.redirect('/eligibility-fail')
       } else {
         var params = ''
