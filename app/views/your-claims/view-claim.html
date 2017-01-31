@@ -18,6 +18,8 @@
 
   {% include "includes/validation-error-messages.html" %}
 
+  {% include "partials/claim-summary/claim-summary-information-requested.html" %}
+
   <h2 class="heading-large">
     Your claim
   </h2>
@@ -42,7 +44,7 @@
 
   <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/{{ claimId }}" method="post" class="form">
 
-    <div class="form-group">
+    <div id="bank-details" class="form-group">
       {% include "partials/csrf-hidden-input.html" %}
       {% if forEdit %}
 

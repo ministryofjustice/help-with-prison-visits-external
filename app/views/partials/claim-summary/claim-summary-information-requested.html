@@ -1,0 +1,15 @@
+{% if forEdit and addInformation[0] %}
+  <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
+
+    <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
+      There is information required for this claim
+    </h1>
+
+    <ul class="error-summary-list">
+      {% for information in addInformation %}
+        <li><a href="#{{ information.field }}">{{ information.message }}</a></li>
+      {% endfor %}
+    </ul>
+
+  </div>
+{% endif %}
