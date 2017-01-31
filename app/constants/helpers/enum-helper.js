@@ -1,8 +1,11 @@
-module.exports.getKeyByValue = function (enumeration, value) {
+module.exports.getKeyByAttribute = function (enumeration, value, attribute) {
   var result = value
+  if (!attribute) {
+    attribute = 'value'
+  }
   Object.keys(enumeration).forEach(function (key) {
     var element = enumeration[key]
-    if (typeof element === 'object' && element.value === value) {
+    if (typeof element === 'object' && element[attribute] === value) {
       result = element
     }
   })
