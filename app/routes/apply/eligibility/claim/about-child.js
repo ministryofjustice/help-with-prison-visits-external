@@ -21,8 +21,8 @@ module.exports = function (router) {
 
     try {
       var child = new AboutChild(
-        req.body['first-name'],
-        req.body['last-name'],
+        req.body['FirstName'],
+        req.body['LastName'],
         req.body['dob-day'],
         req.body['dob-month'],
         req.body['dob-year'],
