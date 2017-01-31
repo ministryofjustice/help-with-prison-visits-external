@@ -122,6 +122,14 @@ Note that you will need to have the clamd daemon running, which will live in sbi
 
 `/usr/local/sbin/clamd &`
 
+## Maintenance page
+
+You can start the application in maintenance mode, so it only displays a maintenance page for all requests.
+
+```
+npm run-script start-maintenance
+```
+
 ## Notes
 
 ### Localisation
