@@ -967,6 +967,10 @@ ul.claim-dialog-public li.claimant {
   left: -9999em;
 }
 
+.heading-medium-prevent-margin-collapse {
+  padding-top: 0.1px
+}
+
 @if ($is-ie==false) or ($ie-version>=9) {
   .custom-file-upload input[type="file"] {
     display: none;
