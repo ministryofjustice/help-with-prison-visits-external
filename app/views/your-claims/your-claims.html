@@ -21,7 +21,7 @@
 
     <div class="column-one-third">
       {% if canStartNewClaim %}
-      <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information">
+      <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information" method="GET">
           <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" />
       </form>
       {% else %}
