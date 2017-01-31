@@ -23,10 +23,10 @@ class AboutChild {
   isValid () {
     var errors = ErrorHandler()
 
-    FieldValidator(this.firstName, 'first-name', errors)
+    FieldValidator(this.firstName, 'FirstName', errors)
       .isRequired()
 
-    FieldValidator(this.lastName, 'last-name', errors)
+    FieldValidator(this.lastName, 'LastName', errors)
       .isRequired()
 
     FieldsetValidator(this.dobFields, 'dob', errors)
