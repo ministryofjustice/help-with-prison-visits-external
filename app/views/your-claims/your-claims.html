@@ -21,14 +21,18 @@
 
     <div class="column-one-third">
       {% if canStartNewClaim %}
-      <a id="new-claim" class="button heading-large" href="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information" role="button">Start a new claim</a>
+      <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information" method="GET">
+          <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" />
+      </form>
+      {% else %}
+      <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />      
       {% endif %}
     </div>
 
   </div>
 
   <div class="grid-row">
-
+    
     <div class="column-one-third">
       <span class="text-secondary">Prisoner name</span>
       <div class="bold-small">{{ claims[0].FirstName }} {{ claims[0].LastName }}</div>
@@ -49,6 +53,10 @@
   <br>
   <a href="/start" class="link">Make a claim for a different prisoner</a>
   <hr>
+
+  {% if not canStartNewClaim %}
+  <span class="text-warning">You can't start a new claim as you have an existing claim in progress</span>
+  {% endif %}
 
   <h3 class="heading-medium">
     Your claim{% if claims[1] %}s{% endif %}
