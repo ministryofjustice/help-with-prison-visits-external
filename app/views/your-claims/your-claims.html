@@ -19,15 +19,7 @@
       </h1>
     </div>
 
-    <div class="column-one-third">
-      {% if canStartNewClaim %}
-      <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information" method="GET">
-          <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" />
-      </form>
-      {% else %}
-      <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />      
-      {% endif %}
-    </div>
+    
 
   </div>
 
@@ -50,14 +42,22 @@
 
   </div>
 
-  <br>
-  <a href="/start" class="link">Make a claim for a different prisoner</a>
-  <hr>
-
-  {% if not canStartNewClaim %}
-  <span class="text-warning">You can't start a new claim as you have an existing claim in progress</span>
+  {% if canStartNewClaim %}
+  <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information" method="GET">
+      <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" />
+  </form>
+  {% else %}
+  <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />
+  <br />
+  <p class="text-warning">You can't start a new claim as you have an existing claim in progress</p>            
+  <br />
   {% endif %}
+  
+  <br />
+  <a href="/start" class="link">Make a claim for a different prisoner</a>
 
+  <hr>
+  
   <h3 class="heading-medium">
     Your claim{% if claims[1] %}s{% endif %}
   </h3>
