@@ -1,6 +1,5 @@
-const merge = require('deepmerge')
-const wdioConf = require('./wdio.conf')
+const wdioConfHelper = require('./helpers/wdio-conf-helper')
 
-exports.config = merge(wdioConf.config, {
+exports.config = wdioConfHelper({
   specs: ['./test/e2e-smoke/**/*.js']
 })
