@@ -4,7 +4,7 @@ const prisonerRelationshipEnum = require('../../../../app/constants/prisoner-rel
 const expect = require('chai').expect
 
 describe('services/domain/prisoner-relationship', function () {
-  const VALID_RELATIONSHIP = prisonerRelationshipEnum.PARTNER.value
+  const VALID_RELATIONSHIP = prisonerRelationshipEnum.PARTNER.urlValue
   const INVALID_RELATIONSHIP = ''
 
   it('should construct a domain object given valid input', function () {

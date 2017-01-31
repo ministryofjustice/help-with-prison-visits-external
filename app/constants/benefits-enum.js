@@ -65,6 +65,6 @@ module.exports = {
   },
 
   getByValue: function (value) {
-    return EnumHelper.getKeyByValue(this, value)
+    return EnumHelper.getKeyByAttribute(this, value)
   }
 }

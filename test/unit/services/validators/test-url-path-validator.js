@@ -12,7 +12,7 @@ describe('services/validators/url-path-validator', function () {
   const VALID_DOB = { dob: '1989-04-11' }
   const INVALID_DOB = { dob: 'invalid' }
 
-  const VALID_RELATIONSHIP = { relationship: prisonerRelationshipEnum.PARTNER.value }
+  const VALID_RELATIONSHIP = { relationship: prisonerRelationshipEnum.PARTNER.urlValue }
   const INVALID_RELATIONSHIP = { relationship: 'invalid' }
 
   const VALID_BENEFIT = { benefit: benefitsEnum.INCOME_SUPPORT.value }

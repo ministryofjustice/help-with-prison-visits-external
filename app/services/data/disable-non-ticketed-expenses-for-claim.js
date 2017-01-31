@@ -5,7 +5,7 @@ const knex = require('knex')(config)
 const Promise = require('bluebird')
 
 module.exports = function (reference, eligibilityId, claimId, expenseType) {
-  var expense = enumHelper.getKeyByValue(expenseTypeEnum, expenseType)
+  var expense = enumHelper.getKeyByAttribute(expenseTypeEnum, expenseType)
 
   if (expense && !expense.ticketed) {
     return knex('ClaimExpense').update('IsEnabled', false).where({'ClaimId': claimId, 'ExpenseType': expenseType})

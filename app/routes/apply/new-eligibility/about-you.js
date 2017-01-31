@@ -5,6 +5,8 @@ const referenceIdHelper = require('../../helpers/reference-id-helper')
 const insertVisitor = require('../../../services/data/insert-visitor')
 const getTravellingFromAndTo = require('../../../services/data/get-travelling-from-and-to')
 const prisonsHelper = require('../../../constants/helpers/prisons-helper')
+const enumHelper = require('../../../constants/helpers/enum-helper')
+const relationshipHelper = require('../../../constants/prisoner-relationships-enum')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit/:referenceId', function (req, res) {
@@ -23,7 +25,7 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
 
     var dob = req.params.dob
-    var relationship = req.params.relationship
+    var relationship = enumHelper.getKeyByAttribute(relationshipHelper, req.params.relationship, 'urlValue').value
     var benefit = req.params.benefit
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     var visitorDetails = req.body
