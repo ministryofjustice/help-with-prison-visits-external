@@ -50,12 +50,14 @@
   <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />
   <br />
   <p class="text-warning">You can't start a new claim as you have an existing claim in progress</p>            
+  <br />
   {% endif %}
   
-  <hr>
+  <br />
   <a href="/start" class="link">Make a claim for a different prisoner</a>
-  
 
+  <hr>
+  
   <h3 class="heading-medium">
     Your claim{% if claims[1] %}s{% endif %}
   </h3>
