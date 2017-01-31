@@ -13,6 +13,7 @@ const claimStatusHelper = require('../../views/helpers/claim-status-helper')
 const claimEventHelper = require('../../views/helpers/claim-event-helper')
 const forEdit = require('../helpers/for-edit')
 const decrypt = require('../../services/helpers/decrypt')
+const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
@@ -22,6 +23,14 @@ module.exports = function (router) {
     getViewClaim(req.params.claimId, decryptedReference, req.params.dob)
       .then(function (claimDetails) {
         var referenceId = referenceIdHelper.getReferenceId(decryptedReference, claimDetails.claim.EligibilityId)
+        var isRequestInfoPayment = claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
+        var addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
+          claimDetails.claim.BenefitStatus,
+          claimDetails.claim.benefitDocument[0],
+          claimDetails.claim.VisitConfirmationCheck,
+          claimDetails.claim.visitConfirmation,
+          claimDetails.claimExpenses,
+          isRequestInfoPayment)
         return res.render('your-claims/view-claim',
           {
             reference: decryptedReference,
@@ -38,9 +47,10 @@ module.exports = function (router) {
             viewClaim: true,
             claimStatusHelper: claimStatusHelper,
             claimEventHelper: claimEventHelper,
-            isRequestInfoPayment: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT',
+            isRequestInfoPayment: isRequestInfoPayment,
             forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED',
-            updated: req.query.updated
+            updated: req.query.updated,
+            addInformation: addInformation
           })
       })
   })
@@ -70,6 +80,14 @@ module.exports = function (router) {
         } catch (error) {
           if (error instanceof ValidationError) {
             var referenceId = referenceIdHelper.getReferenceId(req.params.reference, claimDetails.claim.EligibilityId)
+            var isRequestInfoPayment = bankDetails.required
+            var addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
+              claimDetails.claim.BenefitStatus,
+              claimDetails.claim.benefitDocument[0],
+              claimDetails.claim.VisitConfirmationCheck,
+              claimDetails.claim.visitConfirmation,
+              claimDetails.claimExpenses,
+              isRequestInfoPayment)
             return res.status(400).render('your-claims/view-claim', {
               errors: error.validationErrors,
               reference: decryptedReference,
@@ -86,7 +104,8 @@ module.exports = function (router) {
               viewClaim: true,
               claimEventHelper: claimEventHelper,
               bankDetails: { AccountNumber, SortCode },
-              isRequestInfoPayment: bankDetails.required
+              isRequestInfoPayment: isRequestInfoPayment,
+              addInformation: addInformation
             })
           } else {
             next(error)
