@@ -7,7 +7,7 @@ const CSRF_TOKENT = 'some value'
 describe('services/generate-csrf-token', function () {
   var request
 
-  beforeEach(function() {
+  beforeEach(function () {
     request = {
       csrfToken: sinon.stub()
     }
