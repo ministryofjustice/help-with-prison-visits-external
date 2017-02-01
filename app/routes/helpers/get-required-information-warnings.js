@@ -39,7 +39,7 @@ module.exports = function (claimStatus, benefitStatus, benefitDocument, visitCon
 function requiredAttention (status, document) {
   if (status === claimStatusEnum.REQUEST_INFORMATION && document.fromInternalWeb) {
     return true
-  } else if (document.DocumentStatus === 'upload-later') {
+  } else if (document && document.DocumentStatus === 'upload-later') {
     return true
   } else {
     return false
