@@ -15,7 +15,8 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
 
     var decryptedReference = decrypt(req.params.reference)
-    getHistoricClaims(decryptedReference, dateFormatter.buildFromDateString(req.params.dob).toDate())
+    var decodedDOB = dateFormatter.decodeDate(req.params.dob)
+    getHistoricClaims(decryptedReference, dateFormatter.buildFromDateString(decodedDOB).toDate())
       .then(function (claims) {
         if (claims.length === 0) {
           return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)

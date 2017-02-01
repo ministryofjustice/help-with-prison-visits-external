@@ -1,6 +1,7 @@
 const validator = require('./common-validator')
 const VALIDATION_ERROR = new Error('An error has occured')
 const decrypt = require('../../services/helpers/decrypt')
+const dateFormatter = require('../../services/date-formatter')
 
 /**
  * A validator for validating URL path paramaeters.
@@ -16,6 +17,10 @@ class UrlPathValidator {
       this.validateParam(referenceId.id, 'isValidReferenceId')
     }
 
+    if (path['dob']) {
+      var dob = dateFormatter.decodeDate(path['dob'])
+    }
+
     if (path['reference']) {
       var reference = decrypt(path['reference'])
 
@@ -23,7 +28,7 @@ class UrlPathValidator {
     }
 
     this.validateParam(path['claimType'], 'isValidClaimType')
-    this.validateParam(path['dob'], 'isValidDateOfBirth')
+    this.validateParam(dob, 'isValidDateOfBirth')
     this.validateParam(path['relationship'], 'isValidPrisonerRelationship')
     this.validateParam(path['benefit'], 'isValidBenefit')
     this.validateParam(path['claimId'], 'isNumeric')

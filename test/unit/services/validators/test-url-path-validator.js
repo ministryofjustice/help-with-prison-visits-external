@@ -9,7 +9,7 @@ describe('services/validators/url-path-validator', function () {
   const VALID_CLAIM_TYPE = { claimType: claimTypeEnum.FIRST_TIME }
   const INVALID_CLAIM_TYPE = { claimType: 'invalid' }
 
-  const VALID_DOB = { dob: '1989-04-11' }
+  const VALID_ENCODED_DOB = { dob: '113725122' }
   const INVALID_DOB = { dob: 'invalid' }
 
   const VALID_RELATIONSHIP = { relationship: prisonerRelationshipEnum.PARTNER.urlValue }
@@ -107,7 +107,7 @@ describe('services/validators/url-path-validator', function () {
   })
 
   it('should return undefined if passed a valid dob value', function () {
-    var result = UrlPathValidator(VALID_DOB)
+    var result = UrlPathValidator(VALID_ENCODED_DOB)
     expect(result).to.equal(undefined)
   })
 
@@ -117,7 +117,7 @@ describe('services/validators/url-path-validator', function () {
   })
 
   it('should return undefined if passed a valid dob value', function () {
-    var result = UrlPathValidator(VALID_DOB)
+    var result = UrlPathValidator(VALID_ENCODED_DOB)
     expect(result).to.equal(undefined)
   })
 

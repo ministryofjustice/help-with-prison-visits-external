@@ -19,7 +19,7 @@ module.exports = function (router) {
         req.body['dob-year']
       )
 
-      return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dateOfBirth.getDobFormatted}`)
+      return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dateOfBirth.encodedDate}`)
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/new-eligibility/date-of-birth', {

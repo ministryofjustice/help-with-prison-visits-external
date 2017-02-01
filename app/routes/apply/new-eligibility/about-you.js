@@ -7,6 +7,7 @@ const getTravellingFromAndTo = require('../../../services/data/get-travelling-fr
 const prisonsHelper = require('../../../constants/helpers/prisons-helper')
 const enumHelper = require('../../../constants/helpers/enum-helper')
 const relationshipHelper = require('../../../constants/prisoner-relationships-enum')
+const dateFormatter = require('../../../services/date-formatter')
 const benefitsHelper = require('../../../constants/benefits-enum')
 
 module.exports = function (router) {
@@ -25,7 +26,7 @@ module.exports = function (router) {
   router.post('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit/:referenceId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    var dob = req.params.dob
+    var dob = dateFormatter.decodeDate(req.params.dob)
     var relationship = enumHelper.getKeyByAttribute(relationshipHelper, req.params.relationship, 'urlValue').value
     var benefit = enumHelper.getKeyByAttribute(benefitsHelper, req.params.benefit, 'urlValue').value
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
@@ -68,9 +69,9 @@ module.exports = function (router) {
         return res.status(400).render('apply/new-eligibility/about-you', {
           errors: error.validationErrors,
           claimType: req.params.claimType,
-          dob: dob,
-          relationship: relationship,
-          benefit: benefit,
+          dob: req.params.dob,
+          relationship: req.params.relationship,
+          benefit: req.params.benefit,
           referenceId: req.params.referenceId,
           visitor: visitorDetails
         })
