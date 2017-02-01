@@ -17,7 +17,7 @@ module.exports = function (claimId, reference, dob) {
         getClaimExpenseByIdOrLastApproved(reference, null, claimId),
         getAllClaimDocumentsByClaimId(claimId, reference, claim.EligibilityId),
         getClaimEvents(reference, claimId),
-        getClaimChildrenByIdOrLastApproved(reference, null, claimId)
+        getClaimChildrenByIdOrLastApproved(reference, null, claimId, true)
       ])
         .then(function (results) {
           var eligibility = results[0]

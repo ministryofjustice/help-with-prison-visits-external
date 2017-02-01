@@ -2,10 +2,10 @@ const getClaimChildrenByIdOrLastApproved = require('./get-claim-children-by-id-o
 const getClaimExpenseByIdOrLastApproved = require('./get-claim-expense-by-id-or-last-approved')
 const getClaimEscortByIdOrLastApproved = require('./get-claim-escort-by-id-or-last-approved')
 
-module.exports = function (reference, eligibilityId) {
+module.exports = function (reference, eligibilityId, maskChildName) {
   var result = {}
 
-  return getClaimChildrenByIdOrLastApproved(reference, eligibilityId, null)
+  return getClaimChildrenByIdOrLastApproved(reference, eligibilityId, null, maskChildName)
     .then(function (lastClaimChildren) {
       result.children = lastClaimChildren
       return getClaimExpenseByIdOrLastApproved(reference, eligibilityId, null)
