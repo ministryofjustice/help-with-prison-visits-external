@@ -19,12 +19,12 @@
       </h1>
     </div>
 
-    
+
 
   </div>
 
   <div class="grid-row">
-    
+
     <div class="column-one-third">
       <span class="text-secondary">Prisoner name</span>
       <div class="bold-small">{{ claims[0].FirstName }} {{ claims[0].LastName }}</div>
@@ -49,20 +49,20 @@
   {% else %}
   <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />
   <br />
-  <p class="text-warning">You can't start a new claim as you have an existing claim in progress</p>            
+  <p class="text-warning">You can't start a new claim as you have an existing claim in progress</p>
   <br />
   {% endif %}
-  
+
   <br />
   <a href="/start" class="link">Make a claim for a different prisoner</a>
 
   <hr>
-  
+
   <h3 class="heading-medium">
     Your claim{% if claims[1] %}s{% endif %}
   </h3>
 
-  <table>
+  <table class="claim-list">
 
     <tr>
       <th>Date sent</th>
@@ -73,24 +73,24 @@
 
     {% for claim in claims %}
       <tr {% if forEdit(claim.Status) %} class='warning' {% endif %}>
-        <td>{{ dateHelper(claim.DateSubmitted) }}
-        <td>{{ dateHelper(claim.DateOfJourney) }}</td>
+        <td><span class="date-submmited">Date sent </span>{{ dateHelper(claim.DateSubmitted) }}
+        <td><span class="visit-date">	Date of visit </span>{{ dateHelper(claim.DateOfJourney) }}</td>
         <td
           {% if claim.IsAdvanceClaim %}
             {% if claim.Status == 'APPROVED-ADVANCE-CLOSED' %}
               >Approved
             {% elif forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
-              class ="text-warning your-claims">Information needed
+              class ="text-warning your-claims"><span class="claim-status">Progress </span>Information needed
             {% elif claim.Status == 'APPROVED' %}
-              class ="text-pending your-claims">Information needed after visit takes place
+              class ="text-pending your-claims"><span class="claim-status">Progress </span>Information needed after visit takes place
             {% elif claim.Status == 'REJECTED' %}
               >Rejected
             {% else %}
-              class ="text-pending your-claims">In progress
+              class ="text-pending your-claims"><span class="claim-status">Progress </span>In progress
             {% endif %}
 
           {% else %}
-            >{{ claimStatusHelper(claim.Status) }}
+            ><span class="claim-status">Progress </span>{{ claimStatusHelper(claim.Status) }}
           {% endif %}
         </td>
         <td><a id="add-info" href="/your-claims/{{ dob }}/{{ encryptedReference }}/{{ claim.ClaimId }}"

@@ -635,7 +635,7 @@ describe('services/validators/common-validator', function () {
   })
 
   describe('isValidBenefit', function () {
-    const VALID_INPUT = benefitsEnum.INCOME_SUPPORT.value
+    const VALID_INPUT = benefitsEnum.INCOME_SUPPORT.urlValue
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
