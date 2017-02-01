@@ -3,23 +3,13 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const config = require('../../../config')
 const fs = require('fs')
+const directoryCheck = require('../../../app/services/directory-check')
 
 const BENEFIT_PATH = `${config.FILE_UPLOAD_LOCATION}/REFNUM1/hc2`
 const VISIT_CONFIRMATION_PATH = `${config.FILE_UPLOAD_LOCATION}/REFNUM1/1234/VISIT_CONFIRMATION`
 const CLAIM_EXPENSE_PATH = `${config.FILE_UPLOAD_LOCATION}/REFNUM1/1234/5678/RECEIPT`
 
 describe('services/directory-check', function () {
-  var directoryCheck
-  var mkdirpStub
-
-  beforeEach(function () {
-    mkdirpStub = sinon.stub()
-
-    directoryCheck = proxyquire('../../../app/services/directory-check', {
-      'mkdirp': mkdirpStub
-    })
-  })
-
   it('check and see creates a directory is created for a doc without claimExpenseId', function () {
     directoryCheck('REFNUM1', '1234', undefined, 'VISIT_CONFIRMATION')
     expect(fs.existsSync(VISIT_CONFIRMATION_PATH)).to.equal(true)
@@ -37,10 +27,15 @@ describe('services/directory-check', function () {
   })
 
   it('should not call the mkdirp.sync function if the file path does not exist', function () {
-    var sync = sinon.spy(mkdirpStub, 'sync')
+    var mkdirpStub = {
+      sync: sinon.stub()
+    }
+    var directoryCheck = proxyquire('../../../app/services/directory-check', {
+      'mkdirp': mkdirpStub
+    })
+
     directoryCheck()
-    sinon.assert.notCalled(sync)
-    sinon.restore(sync)
+    sinon.assert.notCalled(mkdirpStub.sync)
   })
 
   after(function () {
