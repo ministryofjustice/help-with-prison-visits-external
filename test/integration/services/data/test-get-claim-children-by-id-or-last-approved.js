@@ -43,21 +43,4 @@ describe('services/data/get-last-claim-children', function () {
         expect(children.length).to.be.equal(0)
       })
   })
-
-  it('should return a masked value for child last name when masked flag is set to true', function () {
-    return getClaimChildrenByIdOrLastApproved(REFERENCE, null, claimId, true)
-      .then(function (children) {
-        expect(children.length).to.be.equal(1)
-        expect(children[0].LastName).to.not.equal(internalClaimChildHelper.LAST_NAME)
-        expect(children[0].LastName).to.contain('*')
-      })
-  })
-
-  it('should return an unmasked value for child last name when masked flag is set to false', function () {
-    return getClaimChildrenByIdOrLastApproved(REFERENCE, null, claimId, false)
-      .then(function (children) {
-        expect(children.length).to.be.equal(1)
-        expect(children[0].LastName).to.equal(internalClaimChildHelper.LAST_NAME)
-      })
-  })
 })
