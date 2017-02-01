@@ -11,9 +11,10 @@ const prisonsHelper = require('../../constants/helpers/prisons-helper')
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
+    var dobDecoded = dateFormatter.decodeDate(req.params.dob)
 
     var reference = decrypt(req.params.reference)
-    getRepeatEligibility(reference, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
+    getRepeatEligibility(reference, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
       .then(function (eligibility) {
         return res.render('your-claims/check-your-information', {
           dob: req.params.dob,

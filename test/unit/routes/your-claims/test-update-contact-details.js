@@ -7,7 +7,7 @@ const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 describe('/your-claims/update-contact-details', function () {
-  const DOB = '2000-05-15'
+  const DOB = '113725122'
   const REFERENCE = 'APVS123'
   const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
   const ELIGIBILITYID = '1'
