@@ -25,7 +25,7 @@ describe('services/data/get-last-claim-details', function () {
   it('should call to get last claim children and last claim expenses', function () {
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, MASK_CHILD_NAME)
       .then(function (result) {
-        sinon.assert.calledWith(getClaimChildrenByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null, MASK_CHILD_NAME)
+        sinon.assert.calledWith(getClaimChildrenByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(getClaimExpenseByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(getClaimEscortByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
 
