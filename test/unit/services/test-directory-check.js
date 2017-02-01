@@ -40,6 +40,7 @@ describe('services/directory-check', function () {
     var sync = sinon.stub(mkdirpStub, 'sync')
     directoryCheck()
     sinon.assert.notCalled(sync)
+    sinon.restore(sync)
   })
 
   after(function () {
