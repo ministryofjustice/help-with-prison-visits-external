@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
@@ -11,55 +10,47 @@ const CONFIG = {
 }
 
 describe('services/log', function () {
-  var log
-
-  var bunyanLogstashTcpStub
+  var serializersStub
+  var streamsStub
+  var bunyanStub
 
   beforeEach(function () {
-    bunyanLogstashTcpStub = {
-      createStream: function() {
-        return {
-          on: sinon.stub()
-        }
-      },
+    serializersStub = sinon.stub()
+    streamsStub = {
+      buildLogstashStream: sinon.stub(),
+      buildConsoleStream: sinon.stub(),
+      buildFileStream: sinon.stub()
     }
+    bunyanStub = {
+      createLogger: function () {
+        return {
+          addStream: sinon.stub()
+        }
+      }
+    }
+  })
 
-    log = proxyquire('../../../app/services/log', {
+  it('should add all of the streams if config.LOGSTASH_HOST and config.LOGSTASH_PORT are set', function () {
+    proxyquire('../../../app/services/log', {
       '../../config': CONFIG,
-      'bunyan-logstash-tcp': bunyanLogstashTcpStub
+      'bunyan': bunyanStub,
+      './log-serializers': serializersStub,
+      './log-streams': streamsStub
     })
+
+    sinon.assert.calledOnce(streamsStub.buildLogstashStream)
+    sinon.assert.calledOnce(streamsStub.buildConsoleStream)
+    sinon.assert.calledOnce(streamsStub.buildFileStream)
   })
 
-  it('should create a log called external web', function () {
-    expect(log.fields.name).to.equal('external-web')
+  it('should not add the buildLogstashStream if config.LOGSTASH_HOST and config.LOGSTASH_PORT are not set', function () {
+    proxyquire('../../../app/services/log', {
+      'bunyan': bunyanStub,
+      './log-serializers': serializersStub,
+      './log-streams': streamsStub
+    })
+    sinon.assert.notCalled(streamsStub.buildLogstashStream)
+    sinon.assert.calledOnce(streamsStub.buildConsoleStream)
+    sinon.assert.calledOnce(streamsStub.buildFileStream)
   })
-
-  it('should append all three streams; logstash, file, and console', function () {
-    expect(log.streams).to.have.length(3)
-  })
-
-  it('should append a logstash stream', function () {
-    expect(log.streams[0]).to.have.property('type', 'raw' )
-  })
-
-  it('should append a console stream', function () {
-    expect(log.streams[1]).to.have.property('type', 'stream' )
-  })
-
-  it('should append a file stream', function () {
-    expect(log.streams[2]).to.have.property('type', 'rotating-file' )
-  })
-
-  it('should append the requestSerializer', function () {
-    expect(log.serializers.request).to.not.equal(null)
-  })
-
-  it('should append the responseSerializer', function () {
-    expect(log.serializers.response).to.not.equal(null)
-  })
-
-  it('should append the errorSerializer', function () {
-    expect(log.serializers.error).to.not.equal(null)
-  })
-
 })
