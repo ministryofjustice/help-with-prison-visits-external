@@ -12,7 +12,7 @@ var stubInsertNewEligibilityAndPrisoner
 var app
 
 describe('routes/apply/new-eligibility/about-the-prisoner', function () {
-  const ROUTE = '/apply/first-time/new-eligibility/1980-01-01/r2/income-support'
+  const ROUTE = '/apply/first-time/new-eligibility/1980-01-01/r2/b1'
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
