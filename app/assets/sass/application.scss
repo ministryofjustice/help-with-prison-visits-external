@@ -11,12 +11,12 @@ $path: "/public/images/";
 
 @mixin respond-to($media) {
   @if $media==handhelds {
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 568px) {
       @content;
     }
   }
   @else if $media==medium-screens {
-    @media only screen and (min-width: 769px) and (max-width: 1024px) {
+    @media only screen and (min-width: 569px) and (max-width: 1024px) {
       @content;
     }
   }
@@ -270,7 +270,7 @@ a#remove-file-upload {
     border-bottom: 1px solid #bfc1c3;
   }
   table td {
-    padding: 0.15em 0;
+    padding: 0 0 0.47368em 0 !important;
     border-bottom: none;
   }
   tr td {
@@ -288,6 +288,19 @@ a#remove-file-upload {
       width: 100% !important;
     }
   }
+  .claim-list {
+    th {
+      display: none;
+    }
+    .date-submmited, .visit-date, .claim-status {
+      display: block;
+      font-weight: bold;
+    }
+  }
+}
+
+.date-submmited, .visit-date, .claim-status {
+  display: none;
 }
 
 table td {
