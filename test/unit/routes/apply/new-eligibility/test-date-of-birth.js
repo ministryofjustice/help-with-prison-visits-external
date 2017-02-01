@@ -52,8 +52,8 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
       })
 
       it('should respond with a 302 and redirect to /apply/first-time/new-eligibility/:dob', function () {
-        var dob = '1980-10-10'
-        stubDateOfBirth.returns({getDobFormatted: dob, sixteenOrUnder: false})
+        var dob = '113725122'
+        stubDateOfBirth.returns({encodedDate: dob, sixteenOrUnder: false})
         return supertest(app)
           .post(ROUTE)
           .expect(302)

@@ -25,7 +25,7 @@ describe('services/domain/date-of-birth', function () {
     )
 
     expect(dateOfBirth.dob.toString()).to.equal(dateFormatter.buildFromDateString(VALID_DOB).toString())
-    expect(dateOfBirth.getDobFormatted).to.equal(dateFormatter.buildFromDateString(VALID_DOB).format('YYYY-MM-DD'))
+    expect(dateOfBirth.encodedDate).to.equal(dateFormatter.encodeDate(dateFormatter.buildFromDateString(VALID_DOB)))
     expect(dateOfBirth.fields[0]).to.equal(VALID_DAY)
     expect(dateOfBirth.fields[1]).to.equal(VALID_MONTH)
     expect(dateOfBirth.fields[2]).to.equal(VALID_PAST_YEAR)

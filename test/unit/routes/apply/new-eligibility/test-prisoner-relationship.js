@@ -8,7 +8,7 @@ const ValidationError = require('../../../../../app/services/errors/validation-e
 const prisonerRelationshipEnum = require('../../../../../app/constants/prisoner-relationships-enum')
 
 describe('routes/apply/new-eligibility/prisoner-relationship', function () {
-  const DOB = '1988-05-15'
+  const DOB = '113725122'
   const ROUTE = `/apply/first-time/new-eligibility/${DOB}`
 
   var app
