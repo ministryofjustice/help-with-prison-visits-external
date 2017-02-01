@@ -20,6 +20,11 @@ $path: "/public/images/";
       @content;
     }
   }
+  @else if $media==handhelds-landscape{
+    @media only screen and (min-width: 569px) and (max-width: 667px) {
+      @content;
+    }
+  }
   @else if $media==wide-screens {
     @media only screen and (min-width: 1024px) {
       @content;
@@ -276,9 +281,6 @@ a#remove-file-upload {
   tr td {
     display: block;
   }
-  .text-pending, .text-success, .text-warning {
-    width: 60%;
-  }
   table.col-2 td:first-child {
     width: 140px!important;
     font-weight: bold;
@@ -296,6 +298,12 @@ a#remove-file-upload {
       display: block;
       font-weight: bold;
     }
+  }
+}
+
+@include respond-to(handhelds-landscape) {
+  .text-pending, .text-success, .text-warning {
+    width: 60%;
   }
 }
 
