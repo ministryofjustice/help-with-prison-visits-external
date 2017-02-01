@@ -15,7 +15,7 @@ describe('services/validators/url-path-validator', function () {
   const VALID_RELATIONSHIP = { relationship: prisonerRelationshipEnum.PARTNER.urlValue }
   const INVALID_RELATIONSHIP = { relationship: 'invalid' }
 
-  const VALID_BENEFIT = { benefit: benefitsEnum.INCOME_SUPPORT.value }
+  const VALID_BENEFIT = { benefit: benefitsEnum.INCOME_SUPPORT.urlValue }
   const INVALID_BENEFIT = { benefit: 'invalid' }
 
   const VALID_REFERENCE = { reference: '49CCADM' }

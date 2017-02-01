@@ -13,7 +13,7 @@ var app
 
 describe('routes/apply/new-eligibility/about-you', function () {
   const REFERENCEID = 'ABOUTYO-1234'
-  const ROUTE = `/apply/first-time/new-eligibility/113725122/r2/income-support/${REFERENCEID}`
+  const ROUTE = `/apply/first-time/new-eligibility/113725122/r2/b1/${REFERENCEID}`
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()

@@ -38,8 +38,6 @@
 
   {% include "partials/claim-summary/claim-summary-expenses.html" %}
 
-  <br>
-
   {% include "partials/claim-summary/claim-summary-events.html" %}
 
   <form action="/your-claims/{{ dobEncoded }}/{{ encryptedReference }}/{{ claimId }}" method="post" class="form">

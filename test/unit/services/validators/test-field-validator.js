@@ -664,7 +664,7 @@ describe('services/validators/field-validator', function () {
   })
 
   describe('isValidBenefit', function () {
-    const VALID_INPUT = benefitsEnum.INCOME_SUPPORT.value
+    const VALID_INPUT = benefitsEnum.INCOME_SUPPORT.urlValue
     const INVALID_INPUT = 'some invalid input'
     const NONE_OF_THE_ABOVE = 'none'
 
