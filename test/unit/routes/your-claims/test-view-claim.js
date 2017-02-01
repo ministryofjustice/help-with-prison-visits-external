@@ -9,7 +9,8 @@ require('sinon-bluebird')
 const REFERENCE = 'V123456'
 const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
 const ELIGIBILITY_ID = '1234'
-const DOB = '1990-10-10'
+const DOB = '113725122'
+const DECODED_DOB = '1990-10-10'
 const CLAIMID = '1'
 const CLAIM_DOCUMENT_ID = '123'
 const CLAIM_EXPENSE_ID = '12345'
@@ -78,7 +79,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .expect(200)
         .expect(function () {
           sinon.assert.calledWith(decryptStub, ENCRYPTED_REFERENCE)
-          sinon.assert.calledWith(getViewClaimStub, CLAIMID, REFERENCE, DOB)
+          sinon.assert.calledWith(getViewClaimStub, CLAIMID, REFERENCE, DECODED_DOB)
         })
     })
   })
@@ -101,7 +102,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(decryptStub, ENCRYPTED_REFERENCE)
-          sinon.assert.calledWith(getViewClaimStub, CLAIMID, REFERENCE, DOB)
+          sinon.assert.calledWith(getViewClaimStub, CLAIMID, REFERENCE, DECODED_DOB)
           sinon.assert.calledOnce(viewClaimDomainObjectStub)
         })
         .expect('location', `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}?updated=true`)
