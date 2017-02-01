@@ -5,6 +5,7 @@ require('sinon-bluebird')
 
 const REFERENCE = 'LASTCD1'
 const ELIGIBILITYID = '1234'
+const MASK_CHILD_NAME = false
 
 const CHILDREN = [{ClaimChildId: 1}]
 const EXPENSES = [{ClaimExpenseId: 2}]
@@ -22,9 +23,9 @@ const getLastClaimDetails = proxyquire('../../../../app/services/data/get-last-c
 
 describe('services/data/get-last-claim-details', function () {
   it('should call to get last claim children and last claim expenses', function () {
-    return getLastClaimDetails(REFERENCE, ELIGIBILITYID)
+    return getLastClaimDetails(REFERENCE, ELIGIBILITYID, MASK_CHILD_NAME)
       .then(function (result) {
-        sinon.assert.calledWith(getClaimChildrenByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
+        sinon.assert.calledWith(getClaimChildrenByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null, MASK_CHILD_NAME)
         sinon.assert.calledWith(getClaimExpenseByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(getClaimEscortByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
 
