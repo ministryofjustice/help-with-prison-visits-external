@@ -69,9 +69,9 @@ module.exports = function (router) {
         return res.status(400).render('apply/new-eligibility/about-you', {
           errors: error.validationErrors,
           claimType: req.params.claimType,
-          dob: dob,
-          relationship: relationship,
-          benefit: benefit,
+          dob: req.params.dob,
+          relationship: req.params.relationship,
+          benefit: req.params.benefit,
           referenceId: req.params.referenceId,
           visitor: visitorDetails
         })
