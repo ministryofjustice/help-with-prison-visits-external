@@ -34,7 +34,7 @@ describe('services/directory-check', function () {
       'mkdirp': mkdirpStub
     })
 
-    directoryCheck()
+    directoryCheck('', '', '', '')
     sinon.assert.notCalled(mkdirpStub.sync)
   })
 
