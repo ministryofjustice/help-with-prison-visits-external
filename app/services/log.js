@@ -2,6 +2,7 @@ const config = require('../../config')
 const bunyan = require('bunyan')
 const bunyanLogstash = require('bunyan-logstash-tcp')
 const PrettyStream = require('bunyan-prettystream')
+const serializers = require('./log-serializers')
 
 const logsPath = config.LOGGING_PATH || 'logs/external-web.log'
 const logsLevel = config.LOGGING_LEVEL
@@ -17,9 +18,9 @@ var log = bunyan.createLogger({
   name: 'external-web',
   streams: [],
   serializers: {
-    'request': requestSerializer,
-    'response': responseSerializer,
-    'error': errorSerializer
+    'request': serializers.requestSerializer,
+    'response': serializers.responseSerializer,
+    'error': serializers.errorSerializer
   }
 })
 
@@ -53,27 +54,5 @@ log.addStream({
   period: '1d',
   count: 7
 })
-
-function requestSerializer (request) {
-  return {
-    url: request.url,
-    method: request.method,
-    params: request.params
-  }
-}
-
-function responseSerializer (response) {
-  return {
-    statusCode: response.statusCode
-  }
-}
-
-function errorSerializer (error) {
-  return {
-    message: error.message,
-    name: error.name,
-    stack: error.stack
-  }
-}
 
 module.exports = log
