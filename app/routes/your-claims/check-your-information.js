@@ -37,8 +37,9 @@ module.exports = function (router) {
 
       var eligibilityId = req.body.EligibilityId
       var referenceId = referenceIdHelper.getReferenceId(decryptedRef, eligibilityId)
+      var dobDecoded = dateFormatter.decodeDate(req.params.dob)
 
-      getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
+      getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
         .then(function (eligibility) {
           var nameOfPrison = eligibility.NameOfPrison
           var isNorthernIrelandClaim = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
