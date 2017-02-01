@@ -33,11 +33,11 @@ module.exports = function (router) {
 
     try {
       var decryptedRef = decrypt(req.params.reference)
+      var dobDecoded = dateFormatter.decodeDate(req.params.dob)
       new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
 
       var eligibilityId = req.body.EligibilityId
       var referenceId = referenceIdHelper.getReferenceId(decryptedRef, eligibilityId)
-      var dobDecoded = dateFormatter.decodeDate(req.params.dob)
 
       getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
         .then(function (eligibility) {
@@ -57,7 +57,7 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(req.params.dob).toDate(), null)
+        getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
           .then(function (eligibility) {
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,
