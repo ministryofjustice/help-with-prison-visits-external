@@ -46,7 +46,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
   })
 
   describe(`POST ${ROUTE}`, function () {
-    const VALID_BENEFIT = benefitsEnum.INCOME_SUPPORT.value
+    const VALID_BENEFIT = benefitsEnum.INCOME_SUPPORT.urlValue
     const INVALID_BENEFIT = 'none'
     const VALID_PRISONER_BENEFIT = {
       benefit: VALID_BENEFIT

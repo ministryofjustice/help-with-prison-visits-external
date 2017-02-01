@@ -114,7 +114,7 @@ exports.isValidPrisonerRelationship = function (value) {
 exports.isValidBenefit = function (benefit) {
   var result = false
   Object.keys(benefitsEnum).forEach(function (key) {
-    if (key !== 'getByValue' && benefitsEnum[key].value === benefit) {
+    if (key !== 'getByValue' && benefitsEnum[key].urlValue === benefit) {
       result = true
     }
   })
