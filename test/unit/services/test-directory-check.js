@@ -37,7 +37,7 @@ describe('services/directory-check', function () {
   })
 
   it('should not call the mkdirp.sync function if the file path does not exist', function () {
-    var sync = sinon.stub(mkdirpStub, 'sync')
+    var sync = sinon.spy(mkdirpStub, 'sync')
     directoryCheck()
     sinon.assert.notCalled(sync)
     sinon.restore(sync)
