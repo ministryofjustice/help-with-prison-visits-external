@@ -50,7 +50,7 @@ class AboutYou {
       .isRange(3, 100)
 
     FieldValidator(this.county, 'County', errors)
-      .isRequired('dropbox')
+      .isRequired()
       .isRange(4, 100)
 
     FieldValidator(this.postCode, 'PostCode', errors)
@@ -58,7 +58,7 @@ class AboutYou {
       .isPostcode()
 
     FieldValidator(this.country, 'Country', errors)
-      .isRequired()
+      .isRequired('select')
 
     FieldValidator(this.emailAddress, 'EmailAddress', errors)
       .isRequired()

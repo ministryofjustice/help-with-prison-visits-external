@@ -20,15 +20,8 @@ describe('services/validators/field-validator', function () {
   const ERROR_HANDLER = ErrorHandler()
 
   describe('isRequired', function () {
-    const QUESTION_TYPE = 'radio'
-
-    it('should reach radio branch if radio is passed.', function () {
-      var errorHandler = ErrorHandler()
-      FieldValidator(null, FIELD_NAME, errorHandler)
-        .isRequired(QUESTION_TYPE)
-      var errors = errorHandler.get()
-      expect(errors).to.have.property(FIELD_NAME)
-    })
+    const RADIO_QUESTION_TYPE = 'radio'
+    const SELECT_QUESTION_TYPE = 'select'
 
     it('should return an error object if passed null', function () {
       var errorHandler = ErrorHandler()
@@ -66,6 +59,22 @@ describe('services/validators/field-validator', function () {
       var errorHandler = ErrorHandler()
       FieldValidator(INVALID_DATA, FIELD_NAME, errorHandler)
         .isRequired()
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return an error if passed invalid data from a radio input', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(null, FIELD_NAME, errorHandler)
+        .isRequired(RADIO_QUESTION_TYPE)
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return an error if passed invalid data from a select input', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator('select', FIELD_NAME, errorHandler)
+        .isRequired(SELECT_QUESTION_TYPE)
       var errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
