@@ -92,11 +92,11 @@ module.exports.deleteAllExternal = function (reference) {
  */
 module.exports.deleteAllInternal = function (reference) {
   return deleteByReference('IntSchema.Task', reference)
+    .then(function () { return deleteByReference('IntSchema.ClaimEvent', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimDocument', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimBankDetail', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimDeduction', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimExpense', reference) })
-    .then(function () { return deleteByReference('IntSchema.ClaimEvent', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimChild', reference) })
     .then(function () { return deleteByReference('IntSchema.ClaimEscort', reference) })
     .then(function () { return deleteByReference('IntSchema.Claim', reference) })
