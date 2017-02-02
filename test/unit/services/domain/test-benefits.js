@@ -4,7 +4,7 @@ const benefitsEnum = require('../../../../app/constants/benefits-enum')
 const expect = require('chai').expect
 
 describe('services/domain/benefits', function () {
-  const VALID_BENEFIT = benefitsEnum.INCOME_SUPPORT.value
+  const VALID_BENEFIT = benefitsEnum.INCOME_SUPPORT.urlValue
   const INVALID_BENEFIT = ''
 
   it('should construct a domain object given valid input', function () {

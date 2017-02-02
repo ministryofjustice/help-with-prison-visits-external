@@ -14,13 +14,15 @@ const claimEventHelper = require('../../views/helpers/claim-event-helper')
 const forEdit = require('../helpers/for-edit')
 const decrypt = require('../../services/helpers/decrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
+const dateFormatter = require('../../services/date-formatter')
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
     UrlPathValidator(req.params)
 
     var decryptedReference = decrypt(req.params.reference)
-    getViewClaim(req.params.claimId, decryptedReference, req.params.dob)
+    var dobDecoded = dateFormatter.decodeDate(req.params.dob)
+    getViewClaim(req.params.claimId, decryptedReference, dobDecoded)
       .then(function (claimDetails) {
         var referenceId = referenceIdHelper.getReferenceId(decryptedReference, claimDetails.claim.EligibilityId)
         var isRequestInfoPayment = claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
@@ -36,7 +38,7 @@ module.exports = function (router) {
             reference: decryptedReference,
             referenceId: referenceId,
             encryptedReference: req.params.reference,
-            dob: req.params.dob,
+            dob: dobDecoded,
             claimId: req.params.claimId,
             claimDetails: claimDetails,
             dateHelper: dateHelper,
@@ -50,7 +52,8 @@ module.exports = function (router) {
             isRequestInfoPayment: isRequestInfoPayment,
             forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED',
             updated: req.query.updated,
-            addInformation: addInformation
+            addInformation: addInformation,
+            dobEncoded: req.params.dob
           })
       })
   })
@@ -62,8 +65,9 @@ module.exports = function (router) {
     var message = req.body['message-to-caseworker']
 
     var decryptedReference = decrypt(req.params.reference)
+    var dobDecoded = dateFormatter.decodeDate(req.params.dob)
 
-    getViewClaim(req.params.claimId, decryptedReference, req.params.dob)
+    getViewClaim(req.params.claimId, decryptedReference, dobDecoded)
       .then(function (claimDetails) {
         try {
           var benefit = claimDetails.claim.benefitDocument
@@ -96,7 +100,7 @@ module.exports = function (router) {
               claimId: req.params.claimId,
               claimDetails: claimDetails,
               dateHelper: dateHelper,
-              dob: req.params.dob,
+              dob: dobDecoded,
               claimExpenseHelper: claimExpenseHelper,
               displayHelper: displayHelper,
               URL: req.url,
@@ -105,7 +109,8 @@ module.exports = function (router) {
               claimEventHelper: claimEventHelper,
               bankDetails: { AccountNumber, SortCode },
               isRequestInfoPayment: isRequestInfoPayment,
-              addInformation: addInformation
+              addInformation: addInformation,
+              dobEncoded: req.params.dob
             })
           } else {
             next(error)

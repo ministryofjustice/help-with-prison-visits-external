@@ -49,8 +49,6 @@
         <div>{{ claimEscort.FirstName + ' ' + claimEscort.LastName }}</div>
         {% endfor %}
       </p>
-      {% else %}
-      <br>
       {% endif %}
 
       {% if lastClaimDetails.children[0] %}
@@ -60,8 +58,6 @@
         <div>{{ claimChild.FirstName }} {{ claimChild.LastName }}</div>
         {% endfor %}
       </p>
-      {% else %}
-      <br>
       {% endif %}
 
       <h3 class="heading-medium">Are you applying for the same journey as last time?</h3>

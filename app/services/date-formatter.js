@@ -1,6 +1,8 @@
 const moment = require('moment')
 const DATE_FORMAT = 'YYYY-MM-DD'
+const DATE_ENCODE_FORMAT = 'YYYYMMDD'
 const INVALID_DATE_ERROR = 'Invalid date'
+const bases = require('bases')
 
 exports.format = function (date) {
   if (!isDate(date) || isUndefined(date) || isNull(date)) {
@@ -38,6 +40,16 @@ exports.buildFromDateString = function (date) {
   var day = dateSplit[2]
 
   return this.build(day, month, year)
+}
+
+exports.encodeDate = function (date) {
+  return bases.toBase8(date.format(DATE_ENCODE_FORMAT))
+}
+
+exports.decodeDate = function (encodedDate) {
+  var date = moment(bases.fromBase(encodedDate, 8), DATE_ENCODE_FORMAT)
+  var formattedDate = this.format(date)
+  return formattedDate
 }
 
 function applyDST (date) {

@@ -12,7 +12,7 @@ class DateOfBirth {
       year
     ]
     this.dob = dateFormatter.build(day, month, year)
-    this.getDobFormatted = dateFormatter.buildFormatted(day, month, year)
+    this.encodedDate = dateFormatter.encodeDate(this.dob)
     this.IsValid()
   }
 

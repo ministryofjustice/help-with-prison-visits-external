@@ -9,7 +9,7 @@ const prisonerRelationshipEnum = require('../../../../../app/constants/prisoner-
 const benefitsEnum = require('../../../../../app/constants/benefits-enum')
 
 describe('routes/apply/new-eligibility/benefits', function () {
-  const DOB = '1988-05-15'
+  const DOB = '113725122'
   const RELATIONSHIP = prisonerRelationshipEnum.CHILD.urlValue
   const ROUTE = `/apply/first-time/new-eligibility/${DOB}/${RELATIONSHIP}`
 
@@ -46,7 +46,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
   })
 
   describe(`POST ${ROUTE}`, function () {
-    const VALID_BENEFIT = benefitsEnum.INCOME_SUPPORT.value
+    const VALID_BENEFIT = benefitsEnum.INCOME_SUPPORT.urlValue
     const INVALID_BENEFIT = 'none'
     const VALID_PRISONER_BENEFIT = {
       benefit: VALID_BENEFIT

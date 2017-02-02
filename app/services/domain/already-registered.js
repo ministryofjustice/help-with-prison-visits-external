@@ -10,7 +10,7 @@ class AlreadyRegistered {
     this.reference = reference
     this.fields = [ day, month, year ]
     this.dob = dateFormatter.build(day, month, year)
-    this.getDobFormatted = dateFormatter.buildFormatted(day, month, year)
+    this.dobEncoded = dateFormatter.encodeDate(this.dob)
     this.isValid()
   }
 

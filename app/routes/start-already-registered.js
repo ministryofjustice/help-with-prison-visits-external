@@ -21,7 +21,7 @@ module.exports = function (router) {
     try {
       var alreadyRegistered = new AlreadyRegistered(reference, day, month, year)
       var encryptedRef = encrypt(reference)
-      return res.redirect(`/your-claims/${alreadyRegistered.getDobFormatted}/${encryptedRef}`)
+      return res.redirect(`/your-claims/${alreadyRegistered.dobEncoded}/${encryptedRef}`)
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('start-already-registered', {

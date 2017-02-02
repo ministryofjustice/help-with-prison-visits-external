@@ -23,6 +23,11 @@
 
         <div id="has-child" class="form-group {% if errors['has-child'][0] %} error {% endif %}">
 
+          <p>
+            You are only allowed to claim for children if they are the prisoner's 
+            child or if they're your child and you're the prisoner's husband, wife or civil partner.
+          </p>
+
           <p>We may ask you later for evidence of the relationship.</p>
 
           {% if errors['has-child'][0] %}

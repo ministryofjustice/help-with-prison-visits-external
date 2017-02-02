@@ -38,11 +38,9 @@
 
   {% include "partials/claim-summary/claim-summary-expenses.html" %}
 
-  <br>
-
   {% include "partials/claim-summary/claim-summary-events.html" %}
 
-  <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/{{ claimId }}" method="post" class="form">
+  <form action="/your-claims/{{ dobEncoded }}/{{ encryptedReference }}/{{ claimId }}" method="post" class="form">
 
     <div id="bank-details" class="form-group">
       {% include "partials/csrf-hidden-input.html" %}
@@ -85,9 +83,9 @@
                class="button">
         <br>
         <br>
-        <a href="/your-claims/{{ dob }}/{{ encryptedReference }}" id="cancel" class="link">cancel</a>
+        <a href="/your-claims/{{ dobEncoded }}/{{ encryptedReference }}" id="cancel" class="link">cancel</a>
       {% else %}
-        <a href="/your-claims/{{ dob }}/{{ encryptedReference }}" id="back" class="link">back</a>
+        <a href="/your-claims/{{ dobEncoded }}/{{ encryptedReference }}" id="back" class="link">back</a>
       {% endif %}
     </div>
 

@@ -7,7 +7,7 @@ const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 describe('/your-claims/your-claims', function () {
-  const DOB = '2000-05-15'
+  const DOB = '113725122'
   const REFERENCE = 'APVS123'
   const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
   const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}`

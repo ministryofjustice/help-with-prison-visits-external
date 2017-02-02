@@ -48,8 +48,8 @@ describe('routes/start-already-registered', function () {
   describe(`POST ${ROUTE}`, function () {
     const REFERENCE = 'APVS123'
     const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
-    const DOB = '2015-05-15'
-    const ALREADY_REGISTERED = { getDobFormatted: DOB }
+    const DOB = '113725122'
+    const ALREADY_REGISTERED = { dobEncoded: DOB }
 
     it('should respond with a 302 if domain object is built successfully', function () {
       encryptStub.returns(ENCRYPTED_REFERENCE)
