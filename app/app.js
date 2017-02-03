@@ -15,6 +15,7 @@ const cookieParser = require('cookie-parser')
 const csurf = require('csurf')
 const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
 const auth = require('basic-auth')
+const RateLimit = require('express-rate-limit')
 
 var app = express()
 
@@ -39,6 +40,21 @@ app.use(helmet.contentSecurityPolicy({
     imgSrc: ["'self'", 'www.google-analytics.com']
   }
 }))
+
+// rate limiting
+if (config.RATE_LIMITING_ENABLED === 'true') {
+  app.enable('trust proxy')
+  var limiter = new RateLimit({
+    windowMs: parseInt(config.RATE_LIMITING_WINDOW_MILLISECONDS),
+    max: parseInt(config.RATE_LIMITING_REQUEST_LIMIT),
+    delayMs: 0, // disable delaying - full speed until the max limit is reached
+    skip: function (req) {
+      return req.url.startsWith('/public') // skip public assets
+    }
+  })
+  //  apply to all requests
+  app.use(limiter)
+}
 
 var packageJson = require('../package.json')
 var developmentMode = app.get('env') === 'development'
