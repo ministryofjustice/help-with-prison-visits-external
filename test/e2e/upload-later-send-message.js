@@ -23,7 +23,7 @@ describe('Upload later and send a message', function () {
 
       // Start already registered
       .waitForExist('#already-registered-submit')
-      .setValue('#reference', REFERENCE)
+      .setValue('#reference-input', REFERENCE)
       .setValue('#dob-day-input', internalVisitorHelper.DAY)
       .setValue('#dob-month-input', internalVisitorHelper.MONTH)
       .setValue('#dob-year-input', internalVisitorHelper.YEAR)
