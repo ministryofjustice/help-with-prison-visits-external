@@ -22,6 +22,8 @@ class FieldValidator {
       } else {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRequired)
       }
+    } else if (questionType === 'select' && this.data === 'select') {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRequired)
     }
     return this
   }
