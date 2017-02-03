@@ -11,7 +11,7 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
 
-    getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
+    getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true)
       .then(function (lastClaimDetails) {
         return res.render('apply/eligibility/new-claim/same-journey-as-last-claim', {
           referenceId: req.params.referenceId,
@@ -40,7 +40,7 @@ module.exports = function (router) {
       return res.redirect(`/apply/${claimType}/eligibility/${req.params.referenceId}/new-claim/${req.params.advanceOrPast}`)
     } catch (error) {
       if (error instanceof ValidationError) {
-        getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
+        getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true)
           .then(function (lastClaimDetails) {
             return res.status(400).render('apply/eligibility/new-claim/same-journey-as-last-claim', {
               errors: error.validationErrors,

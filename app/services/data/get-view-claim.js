@@ -6,6 +6,7 @@ const getClaimDocumentsHistoricClaim = require('./get-claim-documents-historic-c
 const getAllClaimDocumentsByClaimId = require('./get-all-claim-documents-by-claim-id')
 const getClaimEvents = require('./get-claim-events')
 const sortViewClaimResults = require('../helpers/sort-view-claim-results-helper')
+const maskString = require('../helpers/mask-string')
 const Promise = require('bluebird')
 
 module.exports = function (claimId, reference, dob) {
@@ -25,7 +26,10 @@ module.exports = function (claimId, reference, dob) {
           var claimExpenses = results[2]
           var externalClaimDocuments = results[3]
           var claimEvents = results[4]
-          var claimChild = results[5]
+          var claimChild = results[5].map(function (claimChild) {
+            claimChild.LastName = maskString(claimChild.LastName, 1)
+            return claimChild
+          })
           sortViewClaimResults(claim, eligibility, claimDocuments, claimExpenses, externalClaimDocuments)
           return {
             claim: claim,

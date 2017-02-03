@@ -49,7 +49,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
         .get(ROUTE)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledWith(getLastClaimDetailsStub, REFERENCE, ELIGIBILITYID)
+          sinon.assert.calledWith(getLastClaimDetailsStub, REFERENCE, ELIGIBILITYID, true)
         })
     })
 
@@ -93,7 +93,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
         .post(ROUTE)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledWith(getLastClaimDetailsStub, REFERENCE, ELIGIBILITYID)
+          sinon.assert.calledWith(getLastClaimDetailsStub, REFERENCE, ELIGIBILITYID, true)
         })
     })
 
