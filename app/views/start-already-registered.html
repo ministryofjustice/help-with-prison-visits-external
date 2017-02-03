@@ -25,7 +25,7 @@
 
       <form action="/start-already-registered" method="post">
 
-        <div class="form-group {% if errors['reference'][0] %} error {% endif %}">
+        <div id="reference" class="form-group {% if errors['reference'][0] %} error {% endif %}">
           <label class="form-label-bold" for="reference">Reference number</label>
 
           {% if errors['reference'][0] %}
@@ -33,8 +33,7 @@
           {% endif %}
 
           <p class="form-hint">For example, P1FD187</p>
-          <input id="reference"
-                 name="reference"
+          <input name="reference"
                  type="text"
                  value="{{ reference }}"
                  class="form-control"/>
