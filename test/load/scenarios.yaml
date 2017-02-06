@@ -25,19 +25,19 @@ scenarios:
           url: '/apply/first-time/new-eligibility'
       - think: 2
       - get:
-          url: '/apply/first-time/new-eligibility/1983-08-08'
+          url: '/apply/first-time/new-eligibility/113514030'
       - think: 2
       - get:
-          url: '/apply/first-time/new-eligibility/1983-08-08/child'
+          url: '/apply/first-time/new-eligibility/113514030/r5'
       - think: 2
       - get:
-          url: '/apply/first-time/new-eligibility/1983-08-08/child/income-support'
+          url: '/apply/first-time/new-eligibility/113514030/r5/b1'
           capture:
             selector: "input[name=_csrf]"
             as: 'token'
       - think: 2
       - post:
-          url: '/apply/first-time/new-eligibility/1983-08-08/child/income-support'
+          url: '/apply/first-time/new-eligibility/113514030/r5/b1'
           json:
             FirstName: 'Test'
             LastName: 'Testing'
