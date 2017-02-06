@@ -115,7 +115,7 @@
           {% endif %}
           <!-- Ignore WCAG2AA.Principle4.Guideline4_1.4_1_2.H91 and WCAG2AA.Principle1.Guideline1_3.1_3_1.F68, caused by autocomplete generated input -->
           <select id="prison-name" class="form-control js-autocomplete" name="NameOfPrison">
-            <option>select</option>
+            <option value="">select</option>
             <optgroup label="England / Wales">
             {% for key, prison in displayHelper.getPrisonsByRegion('ENG/WAL') %}
               <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
