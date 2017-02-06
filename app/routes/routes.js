@@ -13,6 +13,7 @@ var routes = [
   require('./terms-and-conditions'),
   require('./cookies'),
   require('./technical-help'),
+  require('./reference-recovery'),
 
   // First Time Flow.
   require('./apply/new-eligibility/date-of-birth'),
