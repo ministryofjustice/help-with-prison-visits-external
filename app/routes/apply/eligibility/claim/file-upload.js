@@ -22,15 +22,18 @@ var csrfToken
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/file-upload', function (req, res) {
+    req.yourClaimUrl = `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`
     get(req, res)
   })
 
   router.get('/your-claims/:dob/:reference/:claimId/file-upload', function (req, res) {
+    req.yourClaimUrl = `/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}`
     get(req, res)
   })
 
   router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/file-upload',
     function (req, res, next) {
+      req.yourClaimUrl = `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`
       post(req, res, next)
     },
     function (req, res, next) {
@@ -39,6 +42,7 @@ module.exports = function (router) {
 
   router.post('/your-claims/:dob/:reference/:claimId/file-upload',
     function (req, res, next) {
+      req.yourClaimUrl = `/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}`
       post(req, res, next)
     },
     function (req, res, next) {
@@ -58,6 +62,7 @@ function get (req, res) {
       document: req.query.document,
       fileUploadGuidingText: DocumentTypeEnum,
       URL: req.url,
+      yourClaimUrl: req.yourClaimUrl,
       hideAlternative: req.query.hideAlt
     })
   } else {
@@ -139,6 +144,7 @@ function handleError (req, res, next, error) {
       document: req.query.document,
       fileUploadGuidingText: DocumentTypeEnum,
       URL: req.URL,
+      yourClaimUrl: req.yourClaimUrl,
       csrfToken: csrfToken,
       hideAlternative: req.query.hideAlt
     })
