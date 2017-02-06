@@ -43,7 +43,18 @@ $path: "/public/images/";
   padding: 15px 10px;
   color:#00823b;
   font-weight: bold;
- }
+}
+
+.summary-link {
+  margin-left: 10px;
+  vertical-align: bottom;
+}
+
+@media (max-width: 640px) {
+  .summary-link {
+    margin-left: 0;
+  }
+}
 
 button.link {
   color: #005ea5;
