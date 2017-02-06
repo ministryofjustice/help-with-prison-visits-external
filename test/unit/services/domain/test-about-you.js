@@ -32,6 +32,8 @@ describe('services/domain/about-you', function () {
   const INVALID_POST_CODE = '123456'
   const INVALID_EMAIL_ADDRESS = '1234'
 
+  const REQUIRED_FIELDS = ['FirstName', 'LastName', 'NationalInsuranceNumber', 'HouseNumberAndStreet', 'Town', 'County', 'PostCode', 'Country', 'EmailAddress']
+
   it('should construct a domain object given valid input', function () {
     aboutYou = new AboutYou(
       VALID_DOB,
@@ -68,6 +70,15 @@ describe('services/domain/about-you', function () {
     expect(function () {
       new AboutYou('', '', '', '', '', '', '', '', '', '', '', '', '')
     }).to.throw(ValidationError)
+  })
+
+  it('should return errors for all required fields', function () {
+    try {
+      new AboutYou('', '', '', '', '', '', '')
+    } catch (error) {
+      expect(error).to.be.instanceof(ValidationError)
+      expect(error.validationErrors).to.have.all.keys(REQUIRED_FIELDS)
+    }
   })
 
   it('should throw a ValidationError if an invalid National Insurance Number is provided as input', function () {

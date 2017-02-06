@@ -19,6 +19,8 @@ describe('services/domain/about-the-prisoner', function () {
   const INVALID_CHARS_FIRST_NAME = 'Joe>&lt><&gt'
   const INVALID_CHARS_LAST_NAME = '<Bloggs>'
 
+  const REQUIRED_FIELDS = ['FirstName', 'LastName', 'dob', 'PrisonerNumber', 'NameOfPrison']
+
   it('should construct a domain object given valid input', function () {
     aboutThePrisoner = new AboutThePrisoner(VALID_FIRST_NAME,
       VALID_LAST_NAME,
@@ -45,6 +47,15 @@ describe('services/domain/about-the-prisoner', function () {
     expect(function () {
       new AboutThePrisoner('', '', '', '', '', '', '')
     }).to.throw(ValidationError)
+  })
+
+  it('should return errors for all required fields', function () {
+    try {
+      new AboutThePrisoner('', '', '', '', '', '', '')
+    } catch (error) {
+      expect(error).to.be.instanceof(ValidationError)
+      expect(error.validationErrors).to.have.all.keys(REQUIRED_FIELDS)
+    }
   })
 
   it('should throw a ValidationError if an invalid date of birth is provided as input', function () {
