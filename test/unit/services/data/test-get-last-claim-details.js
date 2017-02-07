@@ -20,13 +20,13 @@ const ESCORT = [{ClaimEscortId: 3}]
 var getClaimChildrenByIdOrLastApprovedStub = sinon.stub().resolves(CHILDREN)
 var getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves(EXPENSES)
 var getClaimEscortByIdOrLastApprovedStub = sinon.stub().resolves(ESCORT)
-var maskStringStub = sinon.stub().returns(LAST_NAME_MASKED)
+var maskArrayOfNamesStub = sinon.stub().returns(LAST_NAME_MASKED)
 
 const getLastClaimDetails = proxyquire('../../../../app/services/data/get-last-claim-details', {
   './get-claim-children-by-id-or-last-approved': getClaimChildrenByIdOrLastApprovedStub,
   './get-claim-expense-by-id-or-last-approved': getClaimExpenseByIdOrLastApprovedStub,
   './get-claim-escort-by-id-or-last-approved': getClaimEscortByIdOrLastApprovedStub,
-  '../helpers/mask-string': maskStringStub
+  '../helpers/mask-array-of-names': maskArrayOfNamesStub
 })
 
 describe('services/data/get-last-claim-details', function () {
@@ -36,7 +36,7 @@ describe('services/data/get-last-claim-details', function () {
         sinon.assert.calledWith(getClaimChildrenByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(getClaimExpenseByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(getClaimEscortByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
-        sinon.assert.notCalled(maskStringStub)
+        sinon.assert.notCalled(maskArrayOfNamesStub)
 
         expect(result.children).to.be.equal(CHILDREN)
         expect(result.expenses).to.be.equal(EXPENSES)
@@ -50,7 +50,7 @@ describe('services/data/get-last-claim-details', function () {
         sinon.assert.calledWith(getClaimChildrenByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(getClaimExpenseByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(getClaimEscortByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
-        sinon.assert.calledWith(maskStringStub, LAST_NAME, 1)
+        sinon.assert.calledWith(maskArrayOfNamesStub, CHILDREN)
       })
   })
 })

@@ -1,18 +1,15 @@
 const getClaimChildrenByIdOrLastApproved = require('./get-claim-children-by-id-or-last-approved')
 const getClaimExpenseByIdOrLastApproved = require('./get-claim-expense-by-id-or-last-approved')
 const getClaimEscortByIdOrLastApproved = require('./get-claim-escort-by-id-or-last-approved')
-const maskString = require('../helpers/mask-string')
+const maskArrayOfNames = require('../helpers/mask-array-of-names')
 
-module.exports = function (reference, eligibilityId, maskChildName) {
+module.exports = function (reference, eligibilityId, mask) {
   var result = {}
 
   return getClaimChildrenByIdOrLastApproved(reference, eligibilityId, null)
     .then(function (lastClaimChildren) {
-      if (maskChildName) {
-        result.children = lastClaimChildren.map(function (claimChild) {
-          claimChild.LastName = maskString(claimChild.LastName, 1)
-          return claimChild
-        })
+      if (mask) {
+        result.children = maskArrayOfNames(lastClaimChildren)
       } else {
         result.children = lastClaimChildren
       }
