@@ -5,7 +5,12 @@
     <span class="error-message">{{ errors['cost'][0] }}</span>
   {% endif %}
 
-  <p class="form-hint">For example, {{ costExample }}</p>
+  {% if refreshment %}
+    <p class="form-hint">There is a limit of £2.55 per person over one year old</p>
+    <p class="form-hint">(£5.10 per person if away from home over 10 hours)</p>
+  {% else %}
+    <p class="form-hint">For example, {{ costExample }}</p>
+  {% endif %}
   <div class="pound-wrapper">
     <span>£</span>
     <input id="cost-input"
