@@ -15,11 +15,7 @@ module.exports = function (expense) {
       formattedDetail = `${addTicketOwnerPrefix(expense)}${expense.From} to ${expense.To}${addReturnPostfix(expense)}`
       break
     case 'refreshment':
-      if (expense.TravelTime === 'over-five') {
-        formattedDetail = 'Over 5 hours away but under ten hours'
-      } else {
-        formattedDetail = 'Over 10 hours away'
-      }
+      formattedDetail = ''
       break
     case 'accommodation':
       formattedDetail = `Nights stayed: ${expense.DurationOfTravel}`

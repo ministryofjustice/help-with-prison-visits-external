@@ -29,34 +29,6 @@
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/refreshment{{ params }}"
             method="post">
 
-        <div class="form-group {% if errors['travel-time'][0] %} error {% endif %}">
-
-          <h2 id="travel-time" class="form-label-bold">Travel time</h2>
-
-          {% if errors['travel-time'][0] %}
-            <span class="error-message">{{ errors['travel-time'][0] }}</span>
-          {% endif %}
-
-          <label for="travel-time-over-five" class="block-label">
-            <input id="travel-time-over-five"
-                   type="radio"
-                   name="travel-time"
-                   value="over-five"
-                   {% if expense['travel-time'] == 'over-five' %} checked {% endif %}>
-            Over 5 hours
-          </label>
-
-          <label for="travel-time-over-ten" class="block-label">
-            <input id="travel-time-over-ten"
-                   type="radio"
-                   name="travel-time"
-                   value="over-ten"
-                   {% if expense['travel-time'] == 'over-ten' %} checked {% endif %}>
-            Over 10 hours
-          </label>
-
-        </div>
-
         {% set costExample = 5 %}
         {% include "partials/expenses/cost.html" %}
 
