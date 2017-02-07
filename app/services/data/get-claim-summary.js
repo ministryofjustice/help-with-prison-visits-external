@@ -3,6 +3,7 @@ const knex = require('knex')(config)
 const claimTypeEnum = require('../../constants/claim-type-enum')
 const documentTypeEnum = require('../../constants/document-type-enum')
 const getRepeatEligibility = require('./get-repeat-eligibility')
+const maskArrayOfNames = require('../helpers/mask-array-of-names')
 
 module.exports = function (claimId, claimType) {
   return knex('Claim')
@@ -86,9 +87,13 @@ module.exports = function (claimId, claimType) {
             .select()
             .orderBy('ClaimChild.FirstName')
             .then(function (claimChild) {
+              var child = claimChild
+              if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
+                child = maskArrayOfNames(claimChild)
+              }
               return {
                 claimExpenses: claimExpenses,
-                claimChild: claimChild
+                claimChild: child
               }
             })
         })
