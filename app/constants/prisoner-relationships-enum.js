@@ -39,5 +39,11 @@ module.exports = {
     value: 'none',
     displayName: '',
     urlValue: 'r7'
+  },
+
+  NEXT_OF_KIN: {
+    value: 'next-of-kin',
+    displayName: 'Next of kin',
+    urlValue: 'r8'
   }
 }
