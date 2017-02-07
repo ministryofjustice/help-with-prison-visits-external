@@ -162,7 +162,6 @@ scenarios:
           json:
             _csrf: '{{ token.value }}'
             cost: '2'
-            travel-time: 'over-five'
           capture:
             header: 'location'
             as: summaryUrl

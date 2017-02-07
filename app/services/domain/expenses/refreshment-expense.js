@@ -5,16 +5,13 @@ const FieldValidator = require('../../validators/field-validator')
 const ErrorHandler = require('../../validators/error-handler')
 
 class RefreshmentExpense extends BaseExpense {
-  constructor (cost, travelTime) {
-    super(EXPENSE_TYPE.LIGHT_REFRESHMENT.value, cost, travelTime, null, null, null, null, null, null)
+  constructor (cost) {
+    super(EXPENSE_TYPE.LIGHT_REFRESHMENT.value, cost, null, null, null, null, null, null, null)
     this.isValid()
   }
 
   isValid () {
     var errors = ErrorHandler()
-
-    FieldValidator(this.travelTime, 'travel-time', errors)
-      .isRequired()
 
     FieldValidator(this.cost, 'cost', errors)
       .isRequired()

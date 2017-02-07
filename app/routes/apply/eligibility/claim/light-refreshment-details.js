@@ -22,10 +22,7 @@ module.exports = function (router) {
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
 
     try {
-      var expense = new RefreshmentExpense(
-        req.body.cost,
-        req.body['travel-time']
-      )
+      var expense = new RefreshmentExpense(req.body.cost)
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, expense)
         .then(function () {

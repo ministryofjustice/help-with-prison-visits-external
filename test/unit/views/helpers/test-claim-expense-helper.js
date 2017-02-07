@@ -24,11 +24,8 @@ describe('views/helpers/claim-expense-helper', function () {
     expect(claimExpenseHelper({ ExpenseType: 'train', From: FROM, To: TO }))
       .to.equal(`${FROM} to ${TO}`)
 
-    expect(claimExpenseHelper({ ExpenseType: 'refreshment', TravelTime: 'over-five' }))
-      .to.equal('Over 5 hours away but under ten hours')
-
-    expect(claimExpenseHelper({ ExpenseType: 'refreshment', TravelTime: 'over-ten' }))
-      .to.equal('Over 10 hours away')
+    expect(claimExpenseHelper({ ExpenseType: 'refreshment' }))
+      .to.equal('')
 
     expect(claimExpenseHelper({ ExpenseType: 'accommodation', DurationOfTravel: DURATION_OF_TRAVEL }))
       .to.equal(`Nights stayed: ${DURATION_OF_TRAVEL}`)

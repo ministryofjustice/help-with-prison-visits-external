@@ -162,7 +162,6 @@ describe('First Time Claim Flow', () => {
 
       // Light refreshment
       .waitForExist('#light-refreshment-details-submit')
-      .click('[for="travel-time-over-five"]')
       .setValue('#cost-input', '7.99')
       .click('#light-refreshment-details-submit')
 
