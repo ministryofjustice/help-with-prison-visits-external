@@ -15,6 +15,12 @@
 
       {% include "includes/validation-error-messages.html" %}
 
+      {% if recovery %}
+        <h3 id="recovery-requested" class="success-summary medium">
+          Reference recovery request received
+        </h3>
+      {% endif %}
+
       <h2 class="heading-large">
         Return visitors
       </h2>
@@ -47,6 +53,7 @@
             <div class="panel panel-border-narrow" id="details-content-0" aria-hidden="false">
               <ul class="list list-number">
                 <li>Check your confirmation or update emails from the Assisted Prison Visit Service (APVS).</li>
+                <li>Forgotten your reference number <a href="/reference-recovery">click here</a></li>
               </ul>
             </div>
           </details>

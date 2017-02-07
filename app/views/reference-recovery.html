@@ -1,0 +1,53 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+{% if serviceName %} {{ serviceName }} {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h1 class="heading-xlarge">Recover your reference number</h1>
+
+      <p> Please enter the email address you registered with and the prisoner number of the person you are visiting.</p>
+      <p> An email will be sent to your registered address containing your reference number.</p>
+
+      <form action="/reference-recovery" method="post">
+        <div id="EmailAddress" class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
+          <label for="EmailAddress" class="form-label-bold">Email address</label>
+          {% if errors['EmailAddress'][0] %}
+            <span class="error-message" id="error-message-email">{{ errors['EmailAddress'][0] }}</span>
+          {% endif %}
+          <input name="EmailAddress" class="form-control" value="{{ recovery['EmailAddress'] }}">
+        </div>
+
+        <div id="PrisonerNumber" class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
+          <label for="PrisonerNumber" class="form-label-bold">Prisoner number</label>
+          {% if errors['PrisonerNumber'][0] %}
+            <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
+          {% endif %}
+          <input name="PrisonerNumber" class="form-control" value="{{ recovery['PrisonerNumber'] }}">
+        </div>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="recovery-submit"
+               type="submit"
+               value="Submit"
+               class="button">
+      </form>
+    </div>
+
+  </div>
+
+</main>
+
+{% endblock %}

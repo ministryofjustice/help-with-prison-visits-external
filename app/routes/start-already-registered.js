@@ -9,7 +9,7 @@ module.exports = function (router) {
     if (req.query.error === 'yes') {
       errors = { invalidReferenceNumberAndDob: [ ERROR_MESSAGES.getInvalidReferenceNumberAndDob ] }
     }
-    return res.render('start-already-registered', { errors: errors })
+    return res.render('start-already-registered', { errors: errors, recovery: req.query.recovery })
   })
 
   router.post('/start-already-registered', function (req, res) {
