@@ -53,7 +53,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
         })
     })
 
-    it('should respond with a 302', function () {
+    it('should respond with a 302 when no expenses and cannot duplicate claim', function () {
       getLastClaimDetailsStub.resolves({expenses: []})
       return supertest(app)
         .get(ROUTE)
