@@ -15,6 +15,12 @@
 
       {% include "includes/validation-error-messages.html" %}
 
+      {% if recovery %}
+        <h3 id="recovery-requested" class="success-summary medium">
+          Reference recovery request received
+        </h3>
+      {% endif %}
+
       <h2 class="heading-large">
         Return visitors
       </h2>
