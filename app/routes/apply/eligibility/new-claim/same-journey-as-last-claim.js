@@ -13,13 +13,17 @@ module.exports = function (router) {
 
     getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true)
       .then(function (lastClaimDetails) {
-        return res.render('apply/eligibility/new-claim/same-journey-as-last-claim', {
-          referenceId: req.params.referenceId,
-          advanceOrPast: req.params.advanceOrPast,
-          lastClaimDetails: lastClaimDetails,
-          claimExpenseHelper: claimExpenseHelper,
-          displayHelper: displayHelper
-        })
+        if (lastClaimDetails.expenses[0]) {
+          return res.render('apply/eligibility/new-claim/same-journey-as-last-claim', {
+            referenceId: req.params.referenceId,
+            advanceOrPast: req.params.advanceOrPast,
+            lastClaimDetails: lastClaimDetails,
+            claimExpenseHelper: claimExpenseHelper,
+            displayHelper: displayHelper
+          })
+        } else {
+          return res.redirect(`/apply/repeat/eligibility/${req.params.referenceId}/new-claim/${req.params.advanceOrPast}`)
+        }
       })
       .catch(function (error) {
         next(error)

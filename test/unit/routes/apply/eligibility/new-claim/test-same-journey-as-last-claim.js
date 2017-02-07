@@ -44,10 +44,20 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 200', function () {
-      getLastClaimDetailsStub.resolves()
+      getLastClaimDetailsStub.resolves({expenses: [REFERENCE]})
       return supertest(app)
         .get(ROUTE)
         .expect(200)
+        .expect(function () {
+          sinon.assert.calledWith(getLastClaimDetailsStub, REFERENCE, ELIGIBILITYID, true)
+        })
+    })
+
+    it('should respond with a 302', function () {
+      getLastClaimDetailsStub.resolves({expenses: []})
+      return supertest(app)
+        .get(ROUTE)
+        .expect(302)
         .expect(function () {
           sinon.assert.calledWith(getLastClaimDetailsStub, REFERENCE, ELIGIBILITYID, true)
         })
