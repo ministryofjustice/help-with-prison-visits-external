@@ -4,8 +4,8 @@ const ErrorHandler = require('../validators/error-handler')
 
 class ReferenceRecovery {
   constructor (emailAddress, prisonerNumber) {
-    this.EmailAddress = emailAddress
-    this.PrisonerNumber = prisonerNumber
+    this.EmailAddress = emailAddress ? emailAddress.trim() : ''
+    this.PrisonerNumber = prisonerNumber ? prisonerNumber.replace(/ /g, '').toUpperCase() : ''
     this.isValid()
   }
 
