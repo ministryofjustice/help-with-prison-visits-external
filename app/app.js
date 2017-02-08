@@ -59,7 +59,7 @@ if (config.RATE_LIMITING_ENABLED === 'true') {
 var packageJson = require('../package.json')
 var developmentMode = app.get('env') === 'development'
 var releaseVersion = packageJson.version
-var serviceName = 'Get help with prison visits'
+var serviceName = 'Get help with the cost of prison visits'
 
 app.set('view engine', 'html')
 app.set('views', path.join(__dirname, 'views'))
