@@ -42,11 +42,12 @@ module.exports = function (router) {
       getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
         .then(function (eligibility) {
           var nameOfPrison = eligibility.NameOfPrison
-          var isNorthernIrelandClaim = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
+          var isNorthernIrelandClaim = eligibility.Country === 'Northern Ireland'
+          var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
           // Northern Ireland claims cannot be advance claims so skip future-or-past
           var nextPage = 'new-claim'
-          if (isNorthernIrelandClaim) {
+          if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
             nextPage = 'new-claim/same-journey-as-last-claim/past'
           }
 

@@ -37,6 +37,7 @@ module.exports = function (claimId, claimType) {
           .then(function (eligibility) {
             claim.FirstName = eligibility.FirstName
             claim.LastName = eligibility.LastName
+            claim.Country = eligibility.Country
             claim.Benefit = eligibility.Benefit
             claim.PrisonerFirstName = eligibility.PrisonerFirstName
             claim.PrisonerLastName = eligibility.PrisonerLastName
