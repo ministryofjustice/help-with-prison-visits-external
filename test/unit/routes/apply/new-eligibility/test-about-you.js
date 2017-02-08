@@ -74,7 +74,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     it('should redirect to /apply/first-time/eligibility/:reference/new-claim/past for Northern Ireland person and NI Prison', function () {
       stubInsertVisitor.resolves()
       stubGetTravellingFromAndTo.resolves({to: 'maghaberry'})
-      stubAboutYou.returns({Country: 'Northern Ireland'})
+      stubAboutYou.returns({country: 'Northern Ireland'})
 
       return supertest(app)
         .post(ROUTE)
