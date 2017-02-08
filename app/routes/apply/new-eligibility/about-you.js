@@ -50,11 +50,12 @@ module.exports = function (router) {
         return getTravellingFromAndTo(referenceAndEligibilityId.reference)
           .then(function (result) {
             var nameOfPrison = result.to
-            var isNorthernIrelandClaim = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
+            var isNorthernIrelandClaim = aboutYou.Country === 'Northern Ireland'
+            var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
             // Northern Ireland claims cannot be advance claims so skip future-or-past
             var nextPage = 'new-claim'
-            if (isNorthernIrelandClaim) {
+            if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
               nextPage = 'new-claim/past'
             }
 

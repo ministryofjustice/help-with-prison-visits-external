@@ -60,10 +60,21 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/new-claim`)
     })
 
-    it('should redirect to /apply/first-time/eligibility/:reference/new-claim/past for Northern Ireland Prison', function () {
+    it('should redirect to /apply/first-time/eligibility/:reference/new-claim for Northern Ireland person and GB Prison', function () {
+      stubInsertVisitor.resolves()
+      stubGetTravellingFromAndTo.resolves({to: 'hewell'})
+      stubAboutYou.returns({Country: 'Northern Ireland'})
+
+      return supertest(app)
+        .post(ROUTE)
+        .expect(302)
+        .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/new-claim`)
+    })
+
+    it('should redirect to /apply/first-time/eligibility/:reference/new-claim/past for Northern Ireland person and NI Prison', function () {
       stubInsertVisitor.resolves()
       stubGetTravellingFromAndTo.resolves({to: 'maghaberry'})
-      stubAboutYou.returns({})
+      stubAboutYou.returns({Country: 'Northern Ireland'})
 
       return supertest(app)
         .post(ROUTE)
