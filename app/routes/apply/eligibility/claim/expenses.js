@@ -3,7 +3,6 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const expenseUrlRouter = require('../../../../services/routing/expenses-url-router')
 const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimSummary = require('../../../../services/data/get-claim-summary')
-const prisonsHelper = require('../../../../constants/helpers/prisons-helper')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId', function (req, res) {
@@ -11,7 +10,7 @@ module.exports = function (router) {
 
     getClaimSummary(req.params.claimId, req.params.claimType)
       .then(function (claimDetails) {
-        var isNorthernIrelandClaim = prisonsHelper.isNorthernIrelandPrison(claimDetails.claim['NameOfPrison'])
+        var isNorthernIrelandClaim = claimDetails.claim.Country === 'Northern Ireland'
 
         return res.render('apply/eligibility/claim/expenses', {
           claimType: req.params.claimType,
@@ -32,7 +31,7 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         getClaimSummary(req.params.claimId, req.params.claimType)
           .then(function (claimDetails) {
-            var isNorthernIrelandClaim = prisonsHelper.isNorthernIrelandPrison(claimDetails.claim['NameOfPrison'])
+            var isNorthernIrelandClaim = claimDetails.claim.Country === 'Northern Ireland'
 
             return res.status(400).render('apply/eligibility/claim/expenses', {
               errors: error.validationErrors,

@@ -19,21 +19,18 @@ describe('routes/apply/eligibility/claim/expenses', function () {
   var expenseUrlRouterStub
   var expensesStub
   var getClaimSummaryStub
-  var prisonsHelperStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     expenseUrlRouterStub = sinon.stub()
     expensesStub = sinon.stub()
-    getClaimSummaryStub = sinon.stub().resolves({ claim: { NameOfPrison: 'hewell' } })
-    prisonsHelperStub = { isNorthernIrelandPrison: sinon.stub() }
+    getClaimSummaryStub = sinon.stub().resolves({ claim: { Country: 'England' } })
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/expenses', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/domain/expenses/expenses': expensesStub,
-      '../../../../services/data/get-claim-summary': getClaimSummaryStub,
-      '../../../../constants/helpers/prisons-helper': prisonsHelperStub
+      '../../../../services/data/get-claim-summary': getClaimSummaryStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -52,7 +49,6 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .get(ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(getClaimSummaryStub)
-          sinon.assert.calledOnce(prisonsHelperStub.isNorthernIrelandPrison)
         })
     })
 
@@ -103,7 +99,6 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .expect(400)
         .expect(function () {
           sinon.assert.calledOnce(getClaimSummaryStub)
-          sinon.assert.calledOnce(prisonsHelperStub.isNorthernIrelandPrison)
         })
     })
 

@@ -21,6 +21,7 @@ module.exports = function (claimId, claimType) {
       'Visitor.FirstName',
       'Visitor.LastName',
       'Visitor.Benefit',
+      'Visitor.Country',
       'Prisoner.FirstName AS PrisonerFirstName',
       'Prisoner.LastName AS PrisonerLastName',
       'Prisoner.DateOfBirth AS PrisonerDateOfBirth',
