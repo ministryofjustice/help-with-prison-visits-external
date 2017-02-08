@@ -8,14 +8,9 @@ const ELIGIBILITYID = '1234'
 const LAST_NAME = 'Bloggs'
 const LAST_NAME_MASKED = 'B*****'
 
-const CHILDREN = [
-  {
-    ClaimChildId: 1,
-    LastName: LAST_NAME
-  }
-]
+const CHILDREN = [{ClaimChildId: 1, LastName: LAST_NAME}]
 const EXPENSES = [{ClaimExpenseId: 2}]
-const ESCORT = [{ClaimEscortId: 3}]
+const ESCORT = [{ClaimEscortId: 3, LastName: LAST_NAME}]
 
 var getClaimChildrenByIdOrLastApprovedStub = sinon.stub().resolves(CHILDREN)
 var getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves(EXPENSES)
@@ -44,13 +39,14 @@ describe('services/data/get-last-claim-details', function () {
       })
   })
 
-  it('should mask child last name if maskChildName is true', function () {
+  it('should mask child last name and escort last name if mask is true', function () {
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, true)
       .then(function (result) {
         sinon.assert.calledWith(getClaimChildrenByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(getClaimExpenseByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(getClaimEscortByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, null)
         sinon.assert.calledWith(maskArrayOfNamesStub, CHILDREN)
+        sinon.assert.calledWith(maskArrayOfNamesStub, ESCORT)
       })
   })
 })
