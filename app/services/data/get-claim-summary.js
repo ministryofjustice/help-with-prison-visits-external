@@ -107,7 +107,7 @@ module.exports = function (claimId, claimType) {
             .first()
             .then(function (claimEscort) {
               var escort = claimEscort
-              if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
+              if (claimType === claimTypeEnum.REPEAT_DUPLICATE && claimEscort) {
                 escort.LastName = maskString(claimEscort.LastName, 1)
               }
               return {
