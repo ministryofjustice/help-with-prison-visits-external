@@ -21,6 +21,7 @@ module.exports = function (claimId, claimType) {
       'Visitor.FirstName',
       'Visitor.LastName',
       'Visitor.Benefit',
+      'Visitor.Country',
       'Prisoner.FirstName AS PrisonerFirstName',
       'Prisoner.LastName AS PrisonerLastName',
       'Prisoner.DateOfBirth AS PrisonerDateOfBirth',
@@ -36,6 +37,7 @@ module.exports = function (claimId, claimType) {
           .then(function (eligibility) {
             claim.FirstName = eligibility.FirstName
             claim.LastName = eligibility.LastName
+            claim.Country = eligibility.Country
             claim.Benefit = eligibility.Benefit
             claim.PrisonerFirstName = eligibility.PrisonerFirstName
             claim.PrisonerLastName = eligibility.PrisonerLastName

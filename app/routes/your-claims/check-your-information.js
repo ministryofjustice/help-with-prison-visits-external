@@ -7,6 +7,7 @@ const referenceIdHelper = require('../helpers/reference-id-helper')
 const displayHelper = require('../../views/helpers/display-helper')
 const decrypt = require('../../services/helpers/decrypt')
 const prisonsHelper = require('../../constants/helpers/prisons-helper')
+const NORTHERN_IRELAND = 'Northern Ireland'
 
 module.exports = function (router) {
   router.get('/your-claims/:dob/:reference/check-your-information', function (req, res, next) {
@@ -42,11 +43,12 @@ module.exports = function (router) {
       getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
         .then(function (eligibility) {
           var nameOfPrison = eligibility.NameOfPrison
-          var isNorthernIrelandClaim = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
+          var isNorthernIrelandClaim = eligibility.Country === NORTHERN_IRELAND
+          var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
           // Northern Ireland claims cannot be advance claims so skip future-or-past
           var nextPage = 'new-claim'
-          if (isNorthernIrelandClaim) {
+          if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
             nextPage = 'new-claim/same-journey-as-last-claim/past'
           }
 
