@@ -11,7 +11,7 @@ module.exports = function (router) {
 
     getClaimSummary(req.params.claimId, req.params.claimType)
       .then(function (claimDetails) {
-        var isNorthernIrelandClaim = claimDetails.claim.Country === 'Northern Ireland'
+        var isNorthernIrelandClaim = claimDetails.claim.Country === NORTHERN_IRELAND
 
         return res.render('apply/eligibility/claim/expenses', {
           claimType: req.params.claimType,
