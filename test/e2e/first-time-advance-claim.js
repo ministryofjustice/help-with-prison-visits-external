@@ -7,7 +7,7 @@ describe('First Time Advance Claim Flow', () => {
   // The reference will be generated as part of this flow. So capture it once it is generated.
   var reference
 
-  it('should display each page in the first time eligibility flow', () => {
+  it('should display each page in the first time eligibility flow Advance', () => {
     return browser.url('/')
 
       // Index
@@ -63,7 +63,7 @@ describe('First Time Advance Claim Flow', () => {
       .setValue('#town-input', 'Town')
       .setValue('#county-input', 'County')
       .setValue('#post-code-input', 'AA123AA')
-      .selectByVisibleText('#country-input', 'Northern Ireland')
+      .selectByVisibleText('#country-input', 'England')
       .setValue('#email-address-input', 'donotsend@apvs.com')
       .setValue('#phone-number-input', '0123456789')
       .click('#about-you-submit')

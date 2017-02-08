@@ -7,7 +7,7 @@ describe('First Time Claim Flow', () => {
   // The reference will be generated as part of this flow. So capture it once it is generated.
   var reference
 
-  it('should display each page in the first time eligibility flow', () => {
+  it('should display each page in the first time eligibility flow for NI rules', () => {
     return browser.url('/')
 
       // Index

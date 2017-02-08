@@ -33,6 +33,7 @@ module.exports = function (router) {
     var visitorDetails = req.body
 
     try {
+      console.log(req.body['Country'])
       var aboutYou = new AboutYou(dob, relationship, benefit,
         req.body['FirstName'],
         req.body['LastName'],
@@ -50,7 +51,7 @@ module.exports = function (router) {
         return getTravellingFromAndTo(referenceAndEligibilityId.reference)
           .then(function (result) {
             var nameOfPrison = result.to
-            var isNorthernIrelandClaim = aboutYou.Country === 'Northern Ireland'
+            var isNorthernIrelandClaim = aboutYou.country === 'Northern Ireland'
             var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
             // Northern Ireland claims cannot be advance claims so skip future-or-past
