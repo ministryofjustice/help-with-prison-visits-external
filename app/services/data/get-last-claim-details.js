@@ -21,7 +21,11 @@ module.exports = function (reference, eligibilityId, mask) {
       return getClaimEscortByIdOrLastApproved(reference, eligibilityId, null)
     })
     .then(function (lastClaimEscort) {
-      result.escort = lastClaimEscort
+      if (mask) {
+        result.escort = maskArrayOfNames(lastClaimEscort)
+      } else {
+        result.escort = lastClaimEscort
+      }
 
       return result
     })

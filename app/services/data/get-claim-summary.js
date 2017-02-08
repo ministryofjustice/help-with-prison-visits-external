@@ -4,6 +4,7 @@ const claimTypeEnum = require('../../constants/claim-type-enum')
 const documentTypeEnum = require('../../constants/document-type-enum')
 const getRepeatEligibility = require('./get-repeat-eligibility')
 const maskArrayOfNames = require('../helpers/mask-array-of-names')
+const maskString = require('../helpers/mask-string')
 
 module.exports = function (claimId, claimType) {
   return knex('Claim')
@@ -105,6 +106,10 @@ module.exports = function (claimId, claimType) {
             })
             .first()
             .then(function (claimEscort) {
+              var escort = claimEscort
+              if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
+                escort.LastName = maskString(claimEscort.LastName, 1)
+              }
               return {
                 claim: claim,
                 claimExpenses: expensesAndChildren.claimExpenses,
