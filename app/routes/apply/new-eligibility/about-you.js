@@ -9,6 +9,7 @@ const enumHelper = require('../../../constants/helpers/enum-helper')
 const relationshipHelper = require('../../../constants/prisoner-relationships-enum')
 const dateFormatter = require('../../../services/date-formatter')
 const benefitsHelper = require('../../../constants/benefits-enum')
+const NORTHERN_IRELAND = 'Northern Ireland'
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit/:referenceId', function (req, res) {
@@ -33,7 +34,6 @@ module.exports = function (router) {
     var visitorDetails = req.body
 
     try {
-      console.log(req.body['Country'])
       var aboutYou = new AboutYou(dob, relationship, benefit,
         req.body['FirstName'],
         req.body['LastName'],
@@ -51,7 +51,7 @@ module.exports = function (router) {
         return getTravellingFromAndTo(referenceAndEligibilityId.reference)
           .then(function (result) {
             var nameOfPrison = result.to
-            var isNorthernIrelandClaim = aboutYou.country === 'Northern Ireland'
+            var isNorthernIrelandClaim = aboutYou.country === NORTHERN_IRELAND
             var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
             // Northern Ireland claims cannot be advance claims so skip future-or-past

@@ -3,6 +3,7 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const expenseUrlRouter = require('../../../../services/routing/expenses-url-router')
 const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimSummary = require('../../../../services/data/get-claim-summary')
+const NORTHERN_IRELAND = 'Northern Ireland'
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId', function (req, res) {
@@ -31,7 +32,7 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         getClaimSummary(req.params.claimId, req.params.claimType)
           .then(function (claimDetails) {
-            var isNorthernIrelandClaim = claimDetails.claim.Country === 'Northern Ireland'
+            var isNorthernIrelandClaim = claimDetails.claim.Country === NORTHERN_IRELAND
 
             return res.status(400).render('apply/eligibility/claim/expenses', {
               errors: error.validationErrors,
