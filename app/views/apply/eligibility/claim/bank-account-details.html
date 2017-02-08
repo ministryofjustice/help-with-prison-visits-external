@@ -16,7 +16,7 @@
     Your bank details
   </h2>
 
-  <p>This is where you’ll receive payment if your claim is approved.</p>
+  <p>Any money due to you will be paid into your bank account.</p>
 
   <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/bank-account-details?isAdvance={{ isAdvance }}"
         method="post">
@@ -52,7 +52,7 @@
     </div>
 
     <h2 class="heading-medium">
-      Declarations and statement of truth
+      Declaration
     </h2>
 
     {% if isAdvance == 'true' %}
