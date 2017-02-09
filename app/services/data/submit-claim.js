@@ -2,7 +2,6 @@ const Promise = require('bluebird')
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 const insertTask = require('./insert-task')
-const insertTaskSendClaimNotification = require('./insert-task-send-claim-notification')
 const tasksEnum = require('../../constants/tasks-enum')
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const claimStatusEnum = require('../../constants/claim-status-enum')
@@ -20,10 +19,9 @@ module.exports = function (reference, eligibilityId, claimId, claimType, assiste
       }
 
       return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
-        updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker, paymentMethod),
-        insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType)])
+        updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker, paymentMethod)])
           .then(function () {
-            insertTaskSendClaimNotification(reference, eligibilityId, claimId)
+            insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType)
           })
     })
 }
