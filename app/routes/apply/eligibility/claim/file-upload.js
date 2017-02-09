@@ -6,6 +6,7 @@ const Upload = require('../../../../services/upload')
 const ValidationError = require('../../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
 const FileUpload = require('../../../../services/domain/file-upload')
+const disableOldClaimDocuments = require('../../../../services/data/disable-old-claim-documents')
 const ClaimDocumentInsert = require('../../../../services/data/insert-file-upload-details-for-claim')
 const csrfProtection = require('csurf')({ cookie: true })
 const generateCSRFToken = require('../../../../services/generate-csrf-token')
@@ -112,11 +113,15 @@ function checkForMalware (req, res, next, redirectURL) {
         }
 
         moveScannedFileToStorage(req, getTargetDir(req))
-        ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
-          res.redirect(redirectURL)
-        }).catch(function (error) {
-          next(error)
-        })
+        disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
+          .then(function () {
+            ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
+              res.redirect(redirectURL)
+            })
+          })
+          .catch(function (error) {
+            next(error)
+          })
       } catch (error) {
         handleError(req, res, next, error)
       }
@@ -129,11 +134,15 @@ function checkForMalware (req, res, next, redirectURL) {
   } else {
     // This handles the case were Post/Upload Later is selected, so no actual file is being provided,
     // however we still need to insert metadata indicating that the user selected on of these options
-    ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
-      res.redirect(redirectURL)
-    }).catch(function (error) {
-      next(error)
-    })
+    disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
+      .then(function () {
+        ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
+          res.redirect(redirectURL)
+        })
+      })
+      .catch(function (error) {
+        next(error)
+      })
   }
 }
 

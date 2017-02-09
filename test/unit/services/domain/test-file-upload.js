@@ -41,11 +41,11 @@ describe('services/domain/file-upload', function () {
     expect(fileUpload.documentStatus).to.equal(VALID_DOCUMENT_STATUS)
   })
 
-  it('should construct a domain object given valid input when documentStatus is set to alternative', function () {
+  it('should construct a domain object given valid input when documentStatus is set to alternative and change undefined claimExpeneseId to null', function () {
     var fileUpload = new FileUpload(
       VALID_ID,
       VALID_DOCUMENT_TYPE,
-      VALID_ID,
+      undefined,
       undefined,
       undefined,
       VALID_ALTERNATIVE
@@ -53,6 +53,7 @@ describe('services/domain/file-upload', function () {
 
     expect(fileUpload.path).to.equal(undefined)
     expect(fileUpload.claimId).to.equal(VALID_ID)
+    expect(fileUpload.claimExpenseId).to.equal(null)
     expect(fileUpload.documentStatus).to.equal(VALID_ALTERNATIVE)
   })
 

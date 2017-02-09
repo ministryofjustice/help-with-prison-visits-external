@@ -22,6 +22,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
   var clamAvStub
   var configStub
   var insertTaskStub
+  var disableOldClaimDocumentsStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -33,6 +34,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     clamAvStub = sinon.stub()
     configStub = sinon.stub()
     insertTaskStub = sinon.stub()
+    disableOldClaimDocumentsStub = sinon.stub().resolves()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/file-upload', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
@@ -44,6 +46,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
       '../../../../services/clam-av': { clamAvStub, '@noCallThru': true },
       '../../../../../config': configStub,
       '../../../../services/data/insert-task': insertTaskStub,
+      '../../../../services/data/disable-old-claim-documents': disableOldClaimDocumentsStub,
       'csurf': function () { return function () { } }
     })
     app = routeHelper.buildApp(route)

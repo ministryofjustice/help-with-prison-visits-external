@@ -3,7 +3,7 @@ const knex = require('knex')(config)
 const FileUpload = require('../domain/file-upload')
 const Promise = require('bluebird')
 
-module.exports = function (reference, claimId, claimExpenseId, fileUpload, multipageDoc) {
+module.exports = function (reference, claimId, fileUpload, multipageDoc) {
   if (!(fileUpload instanceof FileUpload)) {
     throw new Error('Provided fileUpload object is not an instance of the expected class')
   }
@@ -16,7 +16,7 @@ module.exports = function (reference, claimId, claimExpenseId, fileUpload, multi
       .where({
         'Reference': reference,
         'ClaimId': claimId,
-        'ClaimExpenseId': claimExpenseId,
+        'ClaimExpenseId': fileUpload.claimExpenseId,
         'DocumentType': fileUpload.documentType
       })
   }
