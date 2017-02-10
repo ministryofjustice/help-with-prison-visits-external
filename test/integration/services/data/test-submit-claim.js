@@ -15,11 +15,9 @@ var eligibilityId
 var claimId
 
 var stubInsertTask = sinon.stub().resolves()
-var stubInsertTaskSendClaimNotification = sinon.stub().resolves()
 
 const submitClaim = proxyquire('../../../../app/services/data/submit-claim', {
-  './insert-task': stubInsertTask,
-  './insert-task-send-claim-notification': stubInsertTaskSendClaimNotification
+  './insert-task': stubInsertTask
 })
 
 describe('services/data/submit-claim', function () {
@@ -53,7 +51,6 @@ describe('services/data/submit-claim', function () {
                 expect(claim.PaymentMethod).to.equal(paymentMethod)
 
                 expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true
-                expect(stubInsertTaskSendClaimNotification.calledWith(REFERENCE, eligibilityId, claimId)).to.be.true
               })
           })
       })
