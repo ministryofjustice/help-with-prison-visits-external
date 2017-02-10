@@ -19,6 +19,9 @@ class FileUpload {
     this.claimId = claimId
     this.documentType = documentTypeEnum[documentType].documentType
     this.claimExpenseId = claimExpenseId
+    if (this.claimExpenseId === undefined) {
+      this.claimExpenseId = null
+    }
     this.dateSubmitted = dateFormatter.now().toDate()
 
     if (file) {
