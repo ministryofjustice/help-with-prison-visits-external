@@ -18,7 +18,8 @@ module.exports = function (router) {
           referenceId: req.params.referenceId,
           claimId: req.params.claimId,
           expenseOwners: expenseOwnerData,
-          params: expenseUrlRouter.parseParams(req.query)
+          params: expenseUrlRouter.parseParams(req.query),
+          redirectUrl: expenseUrlRouter.getRedirectUrl(req)
         })
       })
   })
@@ -55,6 +56,7 @@ module.exports = function (router) {
               claimId: req.params.claimId,
               expenseOwners: expenseOwnerData,
               params: expenseUrlRouter.parseParams(req.query),
+              redirectUrl: expenseUrlRouter.getRedirectUrl(req),
               expense: req.body
             })
           })
