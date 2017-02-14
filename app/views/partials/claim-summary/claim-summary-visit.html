@@ -84,20 +84,10 @@
             </form>
           {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' %}
             <span class="text-pending">Uploading visit confirmation later</span>
-            <form
-              action="{{ URL }}/remove-document/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}"
-              method="post" class="form pull-right">
-              <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-              <button class="link" name="change" id="change-visit-confirmation-upload-later">change</button>
-            </form>
+            <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-visit-confirmation-post">change</a>
           {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'post-later' %}
             <span class="text-pending">Sending visit confirmation by post</span>
-            <form
-              action="{{ URL }}/remove-document/{{ claimDetails.claim.visitConfirmation.ClaimDocumentId }}?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}"
-              method="post" class="form pull-right">
-              <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-              <button class="link" name="change" id="change-visit-confirmation-post">change</button>
-            </form>
+            <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-visit-confirmation-post">change</a>
           {% else %}
             <span class="text-warning">Visit confirmation needed</span>
             <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-visit-confirmation" class="button grey pull-right">Add</a>
