@@ -7,6 +7,7 @@ const benefitsEnum = require('../../../../app/constants/benefits-enum')
 const expensesEnum = require('../../../../app/constants/expense-type-enum')
 const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
 const advancePastEnum = require('../../../../app/constants/advance-past-enum')
+const ERROR_MESSAGES = require('../../../../app/services/validators/validation-error-messages')
 
 describe('services/validators/field-validator', function () {
   const VALID_ALPHA = 'data'
@@ -20,8 +21,7 @@ describe('services/validators/field-validator', function () {
   const ERROR_HANDLER = ErrorHandler()
 
   describe('isRequired', function () {
-    const RADIO_QUESTION_TYPE = 'radio'
-    const SELECT_QUESTION_TYPE = 'select'
+    const INVALID_DATA_SELECT = 'select'
 
     it('should return an error object if passed null', function () {
       var errorHandler = ErrorHandler()
@@ -63,18 +63,19 @@ describe('services/validators/field-validator', function () {
       expect(errors).to.have.property(FIELD_NAME)
     })
 
-    it('should return an error if passed invalid data from a radio input', function () {
+    it('should return an error if passed invalid data with a specific message', function () {
       var errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
-        .isRequired(RADIO_QUESTION_TYPE)
+        .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
       var errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
+      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getRadioQuestionIsRequired())
     })
 
     it('should return an error if passed invalid data from a select input', function () {
       var errorHandler = ErrorHandler()
-      FieldValidator('select', FIELD_NAME, errorHandler)
-        .isRequired(SELECT_QUESTION_TYPE)
+      FieldValidator(INVALID_DATA_SELECT, FIELD_NAME, errorHandler)
+        .isRequired()
       var errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })

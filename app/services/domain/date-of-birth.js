@@ -2,6 +2,7 @@ const ValidationError = require('../errors/validation-error')
 const FieldsetValidator = require('../validators/fieldset-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 const MINIMUM_AGE_IN_YEARS = 16
 
 class DateOfBirth {
@@ -20,7 +21,7 @@ class DateOfBirth {
     var errors = ErrorHandler()
 
     FieldsetValidator(this.fields, 'dob', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterYourDateOfBirth)
       .isValidDate(this.dob)
       .isPastDate(this.dob)
       .isOlderThanInYears(this.dob, MINIMUM_AGE_IN_YEARS)

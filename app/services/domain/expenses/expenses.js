@@ -1,6 +1,7 @@
 const ValidationError = require('../../errors/validation-error')
 const FieldValidator = require('../../validators/field-validator')
 const ErrorHandler = require('../../validators/error-handler')
+const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class Expenses {
   constructor (expense) {
@@ -12,7 +13,7 @@ class Expenses {
     var errors = ErrorHandler()
 
     FieldValidator(this.expense, 'expenses', errors)
-      .isRequired('radio')
+      .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
       .isValidExpenseArray()
 
     var validationErrors = errors.get()

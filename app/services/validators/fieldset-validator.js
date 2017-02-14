@@ -15,12 +15,13 @@ class FieldsetValidator {
     this.errors = errors
   }
 
-  isRequired () {
+  isRequired (specificMessage) {
+    var message = (!specificMessage) ? ERROR_MESSAGES.getIsRequired : specificMessage
     var self = this
     if (this.data instanceof Array) {
       this.data.forEach(function (data) {
         if (validator.isNullOrUndefined(data)) {
-          self.errors.add(self.fieldName, ERROR_MESSAGES.getIsRequired)
+          self.errors.add(self.fieldName, message)
         }
       })
     }

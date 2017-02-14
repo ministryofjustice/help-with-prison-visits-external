@@ -3,6 +3,7 @@ const FieldValidator = require('../validators/field-validator')
 const FieldsetValidator = require('../validators/fieldset-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 const MINIMUM_AGE_IN_YEARS = 16
 
 class AlreadyRegistered {
@@ -22,7 +23,7 @@ class AlreadyRegistered {
       .isReference()
 
     FieldsetValidator(this.fields, 'dob', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterYourDateOfBirth)
       .isValidDate(this.dob)
       .isPastDate(this.dob)
       .isOlderThanInYears(this.dob, MINIMUM_AGE_IN_YEARS)

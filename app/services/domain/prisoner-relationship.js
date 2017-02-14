@@ -1,6 +1,7 @@
 const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class PrisonerRelationship {
   constructor (relationship) {
@@ -12,7 +13,7 @@ class PrisonerRelationship {
     var errors = ErrorHandler()
 
     FieldValidator(this.relationship, 'relationship', errors)
-      .isRequired('radio')
+      .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
       .isValidPrisonerRelationship()
 
     var validationErrors = errors.get()

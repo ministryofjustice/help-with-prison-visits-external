@@ -15,15 +15,12 @@ class FieldValidator {
     this.errors = errors
   }
 
-  isRequired (questionType) {
+  isRequired (specificMessage) {
+    var message = (!specificMessage) ? ERROR_MESSAGES.getIsRequired : specificMessage
     if (validator.isNullOrUndefined(this.data)) {
-      if (questionType === 'radio') {
-        this.errors.add(this.fieldName, ERROR_MESSAGES.getRadioQuestionIsRequired)
-      } else {
-        this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRequired)
-      }
-    } else if (questionType === 'select' && this.data === 'select') {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRequired)
+      this.errors.add(this.fieldName, message)
+    } else if (this.data === 'select') {
+      this.errors.add(this.fieldName, message)
     }
     return this
   }
