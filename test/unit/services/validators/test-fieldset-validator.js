@@ -1,6 +1,7 @@
 const expect = require('chai').expect
 const FieldsetValidator = require('../../../../app/services/validators/fieldset-validator')
 const ErrorHandler = require('../../../../app/services/validators/error-handler')
+const ERROR_MESSAGES = require('../../../../app/services/validators/validation-error-messages')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 describe('services/validators/fieldset-validator', function () {
@@ -47,6 +48,14 @@ describe('services/validators/fieldset-validator', function () {
         .isRequired()
       var errors = ERROR_HANDLER.get()
       expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return an error object with specific message if passed an array containing invalid data', function () {
+      FieldsetValidator(DATA, FIELD_NAME, ERROR_HANDLER)
+        .isRequired(ERROR_MESSAGES.getEnterYourDateOfBirth)
+      var errors = ERROR_HANDLER.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getEnterYourDateOfBirth())
     })
 
     it('should return the fieldsetValidator after being called to allow function chaining.', function () {
