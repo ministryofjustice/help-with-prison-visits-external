@@ -1,6 +1,7 @@
 const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class FutureOrPastVisit {
   constructor (advancePast) {
@@ -12,7 +13,7 @@ class FutureOrPastVisit {
     var errors = ErrorHandler()
 
     FieldValidator(this.advancePast, 'advance-past', errors)
-      .isRequired('radio')
+      .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
       .isValidAdvanceOrPast()
 
     var validationErrors = errors.get()

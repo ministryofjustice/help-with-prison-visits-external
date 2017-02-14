@@ -58,7 +58,7 @@ class AboutYou {
       .isPostcode()
 
     FieldValidator(this.country, 'Country', errors)
-      .isRequired('select')
+      .isRequired()
 
     FieldValidator(this.emailAddress, 'EmailAddress', errors)
       .isRequired()

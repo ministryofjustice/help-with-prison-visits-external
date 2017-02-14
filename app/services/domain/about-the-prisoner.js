@@ -4,6 +4,7 @@ const FieldsetValidator = require('../validators/fieldset-validator')
 const dateFormatter = require('../date-formatter')
 const ErrorHandler = require('../validators/error-handler')
 const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutThePrisoner {
   constructor (firstName, lastName, dobDay, dobMonth, dobYear, prisonerNumber, nameOfPrison) {
@@ -22,7 +23,7 @@ class AboutThePrisoner {
     var errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterPrisonerFirstName)
       .isLessThanLength(100)
 
     FieldValidator(this.lastName, 'LastName', errors)

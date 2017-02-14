@@ -26,5 +26,6 @@ module.exports = {
   getInvalidReference: 'Reference is invalid',
   getMalwareDetected: 'We have detected a virus in this file and can not accept it. Please upload a virus free version.',
   getNoExpensesClaimedFor: function () { return 'All expenses were removed, add an expense to continue' },
-  getEnterYourDateOfBirth: function () { return 'Enter your date of birth' }
+  getEnterYourDateOfBirth: function () { return 'Enter your date of birth' },
+  getEnterPrisonerFirstName: function () { return 'Enter the prisoner\'s first name' }
 }
