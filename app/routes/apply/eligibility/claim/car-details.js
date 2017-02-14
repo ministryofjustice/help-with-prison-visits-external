@@ -39,6 +39,7 @@ function get (carOnly, req, res, next) {
           referenceId: req.params.referenceId,
           claimId: req.params.claimId,
           params: expenseUrlRouter.parseParams(req.query),
+          redirectUrl: expenseUrlRouter.getRedirectUrl(req),
           expense: result,
           carOnly: carOnly,
           displayHelper: displayHelper
@@ -56,6 +57,7 @@ function get (carOnly, req, res, next) {
           referenceId: req.params.referenceId,
           claimId: req.params.claimId,
           params: expenseUrlRouter.parseParams(req.query),
+          redirectUrl: expenseUrlRouter.getRedirectUrl(req),
           expense: fromAndTo,
           carOnly: carOnly,
           displayHelper: displayHelper
@@ -96,6 +98,7 @@ function post (carOnly, req, res, next) {
         referenceId: req.params.referenceId,
         claimId: req.params.claimId,
         params: expenseUrlRouter.parseParams(req.query),
+        redirectUrl: expenseUrlRouter.getRedirectUrl(req),
         expense: req.body,
         carOnly: carOnly,
         displayHelper: displayHelper

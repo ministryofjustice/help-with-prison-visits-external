@@ -27,6 +27,7 @@ module.exports = function (router) {
           claimId: req.params.claimId,
           expenseOwners: expenseOwnerData,
           params: expenseUrlRouter.parseParams(req.query),
+          redirectUrl: expenseUrlRouter.getRedirectUrl(req),
           claim: claim.isAdvanceClaim
         })
       })
@@ -66,6 +67,7 @@ module.exports = function (router) {
               claimId: req.params.claimId,
               expenseOwners: expenseOwnerData,
               params: expenseUrlRouter.parseParams(req.query),
+              redirectUrl: expenseUrlRouter.getRedirectUrl(req),
               expense: req.body,
               claim: { IsAdvanceClaim: isAdvanceClaim }
             })

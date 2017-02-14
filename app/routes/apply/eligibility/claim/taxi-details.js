@@ -13,7 +13,8 @@ module.exports = function (router) {
       claimType: req.params.claimType,
       referenceId: req.params.referenceId,
       claimId: req.params.claimId,
-      params: expenseUrlRouter.parseParams(req.query)
+      params: expenseUrlRouter.parseParams(req.query),
+      redirectUrl: expenseUrlRouter.getRedirectUrl(req)
     })
   })
 
@@ -43,6 +44,7 @@ module.exports = function (router) {
           referenceId: req.params.referenceId,
           claimId: req.params.claimId,
           params: expenseUrlRouter.parseParams(req.query),
+          redirectUrl: expenseUrlRouter.getRedirectUrl(req),
           expense: req.body
         })
       } else {
