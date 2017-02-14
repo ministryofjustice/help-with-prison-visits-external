@@ -27,6 +27,10 @@ module.exports = {
   getMalwareDetected: 'We have detected a virus in this file and can not accept it. Please upload a virus free version.',
   getNoExpensesClaimedFor: function () { return 'All expenses were removed, add an expense to continue' },
   getEnterYourDateOfBirth: function () { return 'Enter your date of birth' },
+  getBenefitRequired: function () { return 'Choose a benefit from the list' },
   getEnterPrisonerFirstName: function () { return 'Enter the prisoner\'s first name' },
-  getBenefitRequired: function () { return 'Choose a benefit from the list' }
+  getEnterPrisonerLastName: function () { return 'Enter the prisoner\'s last name' },
+  getEnterPrisonerDateOfBirth: function () { return 'Enter the prisoner\'s date of birth' },
+  getEnterPrisonerNumber: function () { return 'Enter a prisoner number' },
+  getEnterPrison: function () { return 'Enter the prison you are visiting' }
 }

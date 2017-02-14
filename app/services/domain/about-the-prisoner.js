@@ -27,7 +27,7 @@ class AboutThePrisoner {
       .isLessThanLength(100)
 
     FieldValidator(this.lastName, 'LastName', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterPrisonerLastName)
       .isLessThanLength(100)
 
     var dobFields = [
@@ -39,16 +39,16 @@ class AboutThePrisoner {
     var dob = dateFormatter.build(this.dobDay, this.dobMonth, this.dobYear)
 
     FieldsetValidator(dobFields, 'dob', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterPrisonerDateOfBirth)
       .isValidDate(dob)
       .isPastDate(dob)
 
     FieldValidator(this.prisonerNumber, 'PrisonerNumber', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterPrisonerNumber)
       .isLessThanLength(10)
 
     FieldValidator(this.nameOfPrison, 'NameOfPrison', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterPrison)
       .isLessThanLength(100)
 
     var validationErrors = errors.get()
