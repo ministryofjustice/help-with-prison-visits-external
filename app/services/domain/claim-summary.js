@@ -3,7 +3,7 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const BenefitEnum = require('../../constants/benefits-enum')
 const DisplayHelper = require('../../views/helpers/display-helper')
-const ValidationErrorMessages = require('../validators/validation-error-messages')
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class ClaimSummary {
   constructor (visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUploadNotRequired) {
@@ -21,23 +21,23 @@ class ClaimSummary {
 
     if (BenefitEnum.getByValue(this.benefit).requireBenefitUpload && !this.benefitUploadNotRequired) {
       FieldValidator(this.benefitDocumentStatus, 'benefit-information', errors)
-        .isRequired()
+        .isRequired(ERROR_MESSAGES.getDocumentOnSummary)
     }
 
     if (this.claimExpenses.length <= 0) {
-      errors.add('claim-expense', ValidationErrorMessages.getNoExpensesClaimedFor)
+      errors.add('claim-expense', ERROR_MESSAGES.getNoExpensesClaimedFor)
     }
 
     if (!this.isAdvanceClaim) {
       FieldValidator(this.visitConfirmationStatus, 'VisitConfirmation', errors)
-        .isRequired()
+        .isRequired(ERROR_MESSAGES.getDocumentOnSummary)
     }
 
     if (!this.isAdvanceClaim) {
       this.claimExpenses.forEach(function (expense) {
         if (DisplayHelper.getExpenseReceiptRequired(expense.ExpenseType)) {
           FieldValidator(expense.DocumentStatus, 'claim-expense', errors)
-            .isRequired()
+            .isRequired(ERROR_MESSAGES.getDocumentOnSummary)
         }
       })
     }

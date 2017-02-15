@@ -63,5 +63,7 @@ module.exports = {
   getEnterDepartureTime: function () { return 'Enter the departure time of the train you wish to get' },
   getEnterNumberOfDays: function () { return 'Enter the number of days the car was hired for' },
   getTicketType: function () { return 'Tell us what type of ticket you are claiming for' },
-  getEnterNightsStayed: function () { return 'Enter the number of nights you stayed' }
+  getEnterNightsStayed: function () { return 'Enter the number of nights you stayed' },
+  getDocumentOnSummary: function (displayName) { return `Add your ${displayName.toLowerCase()} now or choose to send it later` },
+  getDocumentNeeded: function (displayName) { return `${displayName} needed` }
 }
