@@ -3,6 +3,7 @@ const EXPENSE_TYPE = require('../../../constants/expense-type-enum')
 const ValidationError = require('../../errors/validation-error')
 const FieldValidator = require('../../validators/field-validator')
 const ErrorHandler = require('../../validators/error-handler')
+const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class CarExpense extends BaseExpense {
   constructor (from, to, toll, tollCost, parking, parkingCost) {
@@ -45,14 +46,14 @@ class CarExpense extends BaseExpense {
 
     if (this.toll) {
       FieldValidator(this.tollCost, 'toll-cost', errors)
-        .isRequired()
+        .isRequired(ERROR_MESSAGES.getEnterSpecificCost)
         .isCurrency()
         .isGreaterThanZero()
     }
 
     if (this.parking) {
       FieldValidator(this.parkingCost, 'parking-charge-cost', errors)
-        .isRequired()
+        .isRequired(ERROR_MESSAGES.getEnterSpecificCost)
         .isCurrency()
         .isGreaterThanZero()
     }

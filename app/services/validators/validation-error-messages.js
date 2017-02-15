@@ -53,5 +53,7 @@ module.exports = {
   getEnterChildLastName: function () { return 'Enter the child\'s last name' },
   getEnterChildDateOfBirth: function () { return 'Enter the child\'s date of birth' },
   getEnterChildRelationship: function () { return 'Enter the child\'s relationship' },
-  getSelectAnExpense: function () { return 'Tell us which transport and other expenses you want to claim for' }
+  getSelectAnExpense: function () { return 'Tell us which transport and other expenses you want to claim for' },
+  getEnterCost: function () { return 'Enter the cost' },
+  getEnterSpecificCost: function (displayName) { return `Enter your ${displayName.toLowerCase()}` }
 }
