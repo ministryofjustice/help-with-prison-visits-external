@@ -52,5 +52,6 @@ module.exports = {
   getEnterChildFirstName: function () { return 'Enter the child\'s first name' },
   getEnterChildLastName: function () { return 'Enter the child\'s last name' },
   getEnterChildDateOfBirth: function () { return 'Enter the child\'s date of birth' },
-  getEnterChildRelationship: function () { return 'Enter the child\'s relationship' }
+  getEnterChildRelationship: function () { return 'Enter the child\'s relationship' },
+  getSelectAnExpense: function () { return 'Tell us which transport and other expenses you want to claim for' }
 }
