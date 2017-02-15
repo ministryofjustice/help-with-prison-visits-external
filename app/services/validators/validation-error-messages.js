@@ -65,5 +65,8 @@ module.exports = {
   getTicketType: function () { return 'Tell us what type of ticket you are claiming for' },
   getEnterNightsStayed: function () { return 'Enter the number of nights you stayed' },
   getDocumentOnSummary: function (displayName) { return `Add your ${displayName.toLowerCase()} now or choose to send it later` },
-  getDocumentNeeded: function (displayName) { return `${displayName} needed` }
+  getDocumentNeeded: function (displayName) { return `${displayName} needed` },
+  getEnterAccountNumber: function () { return 'Enter your account number' },
+  getEnterSortCode: function () { return 'Enter your sortcode' },
+  getDisclaimer: function () { return 'You must agree to the disclaimer to finish your claim' }
 }
