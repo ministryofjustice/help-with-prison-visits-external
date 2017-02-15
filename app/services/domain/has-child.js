@@ -13,7 +13,7 @@ class HasChild {
     var errors = ErrorHandler()
 
     FieldValidator(this.hasChild, 'has-child', errors)
-      .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
+      .isRequired(ERROR_MESSAGES.getClaimingForChild)
       .isValidBooleanSelect()
 
     var validationErrors = errors.get()

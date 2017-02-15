@@ -13,7 +13,7 @@ class Expenses {
     var errors = ErrorHandler()
 
     FieldValidator(this.expense, 'expenses', errors)
-      .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
+      .isRequired(ERROR_MESSAGES.getSelectAnExpense)
       .isValidExpenseArray()
 
     var validationErrors = errors.get()

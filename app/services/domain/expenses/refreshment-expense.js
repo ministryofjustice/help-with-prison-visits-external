@@ -3,6 +3,7 @@ const EXPENSE_TYPE = require('../../../constants/expense-type-enum')
 const ValidationError = require('../../errors/validation-error')
 const FieldValidator = require('../../validators/field-validator')
 const ErrorHandler = require('../../validators/error-handler')
+const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class RefreshmentExpense extends BaseExpense {
   constructor (cost) {
@@ -14,7 +15,7 @@ class RefreshmentExpense extends BaseExpense {
     var errors = ErrorHandler()
 
     FieldValidator(this.cost, 'cost', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterCost)
       .isCurrency()
       .isGreaterThanZero()
 

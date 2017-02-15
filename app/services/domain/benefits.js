@@ -13,7 +13,7 @@ class Benefits {
     var errors = ErrorHandler()
 
     FieldValidator(this.benefit, 'benefit', errors)
-      .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
+      .isRequired(ERROR_MESSAGES.getBenefitRequired)
       .isValidBenefit(true)
 
     var validationErrors = errors.get()

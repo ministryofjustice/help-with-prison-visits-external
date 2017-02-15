@@ -3,6 +3,7 @@ const EXPENSE_TYPE = require('../../../constants/expense-type-enum')
 const ValidationError = require('../../errors/validation-error')
 const FieldValidator = require('../../validators/field-validator')
 const ErrorHandler = require('../../validators/error-handler')
+const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class AccommodationExpense extends BaseExpense {
   constructor (cost, durationOfTravel) {
@@ -14,12 +15,12 @@ class AccommodationExpense extends BaseExpense {
     var errors = ErrorHandler()
 
     FieldValidator(this.durationOfTravel, 'duration', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterNightsStayed)
       .isNumeric()
       .isGreaterThanZero()
 
     FieldValidator(this.cost, 'cost', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterCost)
       .isCurrency()
       .isGreaterThanZero()
 

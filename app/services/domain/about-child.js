@@ -5,6 +5,7 @@ const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 const CHILD_MAXIMUM_AGE_IN_YEARS = 18
 const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutChild {
   constructor (firstName, lastName, day, month, year, childRelationship) {
@@ -24,19 +25,19 @@ class AboutChild {
     var errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterChildFirstName)
 
     FieldValidator(this.lastName, 'LastName', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterChildLastName)
 
     FieldsetValidator(this.dobFields, 'dob', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterChildDateOfBirth)
       .isValidDate(this.dob)
       .isPastDate(this.dob)
       .isYoungerThanInYears(this.dob, CHILD_MAXIMUM_AGE_IN_YEARS)
 
     FieldValidator(this.childRelationship, 'child-relationship', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterChildRelationship)
       .isValidChildRelationship()
 
     var validationErrors = errors.get()

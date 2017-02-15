@@ -1,6 +1,7 @@
 const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class BankAccountDetails {
   constructor (accountNumber, sortCode, termsAndConiditions) {
@@ -14,17 +15,17 @@ class BankAccountDetails {
     var errors = ErrorHandler()
 
     FieldValidator(this.accountNumber, 'AccountNumber', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterAccountNumber)
       .isNumeric()
       .isLength(8)
 
     FieldValidator(this.sortCode, 'SortCode', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterSortCode)
       .isNumeric()
       .isLength(6)
 
     FieldValidator(this.termsAndConiditions, 'terms-and-conditions', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getDisclaimer)
 
     var validationErrors = errors.get()
 
