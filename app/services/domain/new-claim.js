@@ -3,10 +3,16 @@ const FieldValidator = require('../validators/field-validator')
 const FieldsetValidator = require('../validators/fieldset-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class NewClaim {
   constructor (reference, day, month, year, isAdvanceClaim) {
     this.reference = reference
+    this.fields = [
+      day,
+      month,
+      year
+    ]
     this.dateOfJourney = dateFormatter.build(day, month, year)
     this.isAdvanceClaim = isAdvanceClaim
     this.IsValid()
@@ -19,12 +25,14 @@ class NewClaim {
       .isRequired()
 
     if (!this.isAdvanceClaim) {
-      FieldsetValidator(this.dateOfJourney, 'DateOfJourney', errors)
+      FieldsetValidator(this.fields, 'DateOfJourney', errors)
+        .isRequired(ERROR_MESSAGES.getEnterDateOfVisit)
         .isValidDate(this.dateOfJourney)
         .isPastDate(this.dateOfJourney)
         .isDateWithinDays(this.dateOfJourney, 28)
     } else {
-      FieldsetValidator(this.dateOfJourney, 'DateOfJourney', errors)
+      FieldsetValidator(this.fields, 'DateOfJourney', errors)
+        .isRequired(ERROR_MESSAGES.getEnterDateOfVisit)
         .isValidDate(this.dateOfJourney)
         .isFutureDate(this.dateOfJourney)
         .isDateWithinDays(this.dateOfJourney, 28)

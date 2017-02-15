@@ -5,6 +5,7 @@ const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 const MINIMUM_AGE_IN_YEARS = 18
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutEscort {
   constructor (firstName, lastName, day, month, year, nationalInsuranceNumber) {
@@ -24,21 +25,21 @@ class AboutEscort {
     var errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterEscortFirstName)
       .isRange(1, 100)
 
     FieldValidator(this.lastName, 'LastName', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterEscortLastName)
       .isRange(1, 100)
 
     FieldsetValidator(this.dobFields, 'dob', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterEscortDateOfBirth)
       .isValidDate(this.dob)
       .isPastDate(this.dob)
       .isOlderThanInYears(this.dob, MINIMUM_AGE_IN_YEARS)
 
     FieldValidator(this.nationalInsuranceNumber, 'NationalInsuranceNumber', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterEscortNINumber)
       .isNationalInsuranceNumber()
 
     var validationErrors = errors.get()

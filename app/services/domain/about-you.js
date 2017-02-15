@@ -3,6 +3,7 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutYou {
   constructor (dob, relationship, benefit, firstName, lastName,
@@ -30,38 +31,38 @@ class AboutYou {
     var errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterYourFirstName)
       .isRange(1, 100)
 
     FieldValidator(this.lastName, 'LastName', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterYourLastName)
       .isRange(1, 100)
 
     FieldValidator(this.nationalInsuranceNumber, 'NationalInsuranceNumber', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterYourNINNumber)
       .isNationalInsuranceNumber()
 
     FieldValidator(this.houseNumberAndStreet, 'HouseNumberAndStreet', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterYourHouseNumber)
       .isRange(1, 200)
 
     FieldValidator(this.town, 'Town', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterYourTown)
       .isRange(3, 100)
 
     FieldValidator(this.county, 'County', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterYourCounty)
       .isRange(4, 100)
 
     FieldValidator(this.postCode, 'PostCode', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterYourPostcode)
       .isPostcode()
 
     FieldValidator(this.country, 'Country', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getSelectACountry)
 
     FieldValidator(this.emailAddress, 'EmailAddress', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterYourEmailAddress)
       .isRange(1, 100)
       .isEmail()
 

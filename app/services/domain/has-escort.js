@@ -13,7 +13,7 @@ class HasEscort {
     var errors = ErrorHandler()
 
     FieldValidator(this.hasEscort, 'has-escort', errors)
-      .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
+      .isRequired(ERROR_MESSAGES.getClaimingForEscort)
       .isValidBooleanSelect()
 
     var validationErrors = errors.get()
