@@ -55,5 +55,13 @@ module.exports = {
   getEnterChildRelationship: function () { return 'Enter the child\'s relationship' },
   getSelectAnExpense: function () { return 'Tell us which transport and other expenses you want to claim for' },
   getEnterCost: function () { return 'Enter the cost' },
-  getEnterSpecificCost: function (displayName) { return `Enter your ${displayName.toLowerCase()}` }
+  getEnterSpecificCost: function (displayName) { return `Enter your ${displayName.toLowerCase()}` },
+  getEnterFrom: function () { return 'Enter the journey start point' },
+  getEnterTo: function () { return 'Enter the journey end point' },
+  getReturn: function () { return 'Tell us if this is a return journey' },
+  getTicketOwner: function () { return 'Tell us whose ticket you are claiming for' },
+  getEnterDepartureTime: function () { return 'Enter the departure time of the train you wish to get' },
+  getEnterNumberOfDays: function () { return 'Enter the number of days the car was hired for' },
+  getTicketType: function () { return 'Tell us what type of ticket you are claiming for' },
+  getEnterNightsStayed: function () { return 'Enter the number of nights you stayed' }
 }
