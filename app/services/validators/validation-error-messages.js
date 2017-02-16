@@ -74,5 +74,6 @@ module.exports = {
   getClaimantNameLessThanLengthMessage: function (displayName, options) { return `Your ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
   getEscortNameLessThanLengthMessage: function (displayName, options) { return `Escort's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
   getChildNameLessThanLengthMessage: function (displayName, options) { return `Child's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
-  getIsLengthDigitsMessage: function (displayName, options) { return `${displayName} must be ${options.length} digits long` }
+  getIsLengthDigitsMessage: function (displayName, options) { return `${displayName} must be ${options.length} digits long` },
+  getIsValidReference: function () { return 'Reference can only contain numbers and letters' }
 }

@@ -99,7 +99,7 @@ class FieldValidator {
 
   isReference () {
     if (!validator.isValidReference(this.data)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidReference)
     }
     return this
   }

@@ -20,6 +20,7 @@ class AlreadyRegistered {
 
     FieldValidator(this.reference, 'reference', errors)
       .isRequired(ERROR_MESSAGES.getEnterReference)
+      .isLength(7)
       .isReference()
 
     FieldsetValidator(this.fields, 'dob', errors)
