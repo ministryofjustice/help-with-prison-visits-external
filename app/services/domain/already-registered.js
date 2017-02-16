@@ -19,7 +19,7 @@ class AlreadyRegistered {
     var errors = ErrorHandler()
 
     FieldValidator(this.reference, 'reference', errors)
-      .isRequired()
+      .isRequired(ERROR_MESSAGES.getEnterReference)
       .isReference()
 
     FieldsetValidator(this.fields, 'dob', errors)

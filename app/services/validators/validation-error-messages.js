@@ -68,5 +68,6 @@ module.exports = {
   getDocumentNeeded: function (displayName) { return `${displayName} needed` },
   getEnterAccountNumber: function () { return 'Enter your account number' },
   getEnterSortCode: function () { return 'Enter your sortcode' },
-  getDisclaimer: function () { return 'You must agree to the disclaimer to finish your claim' }
+  getDisclaimer: function () { return 'You must agree to the disclaimer to finish your claim' },
+  getEnterReference: function () { return 'Enter your reference number' }
 }
