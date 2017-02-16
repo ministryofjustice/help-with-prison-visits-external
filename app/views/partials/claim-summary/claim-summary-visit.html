@@ -20,7 +20,7 @@
     <td>{{ dateHelper(claimDetails.claim['DateOfJourney']) }}</td>
   </tr>
 
-  {% if claimDetails.claim.visitConfirmation.fromInternalWeb %}
+  {% if claimDetails.claim.visitConfirmation.fromInternalWeb or updated %}
     <tr id="VisitConfirmation" {% if forEdit %}{% if errors['VisitConfirmation'][0] or claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' or claimDetails.claim['VisitConfirmationCheck'] == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% endif %}>
       <td>Visit confirmation</td>
       <td>

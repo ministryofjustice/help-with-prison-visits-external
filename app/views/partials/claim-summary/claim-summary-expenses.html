@@ -43,7 +43,7 @@
       {% if claimDetails.claim.IsAdvanceClaim and not forEdit and not claimExpense['DocumentStatus'] %}
         <span class="text-pending">Receipt must be supplied after visit</span>
 
-      {% elif claimExpense.fromInternalWeb %}
+      {% elif claimExpense.fromInternalWeb or updated %}
         {% if forEdit %}
           {% if claimDetails.claim.IsAdvanceClaim %}
             {% if not claimExpense['DocumentStatus'] and claimExpense['Status'] %}

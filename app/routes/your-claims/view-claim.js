@@ -50,7 +50,7 @@ module.exports = function (router) {
             claimStatusHelper: claimStatusHelper,
             claimEventHelper: claimEventHelper,
             isRequestInfoPayment: isRequestInfoPayment,
-            forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED',
+            forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED' || req.query.updated,
             updated: req.query.updated,
             addInformation: addInformation,
             dobEncoded: req.params.dob
