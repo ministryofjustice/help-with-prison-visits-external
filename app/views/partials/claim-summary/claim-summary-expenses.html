@@ -43,11 +43,15 @@
       {% if claimDetails.claim.IsAdvanceClaim and not forEdit and not claimExpense['DocumentStatus'] %}
         <span class="text-pending">Receipt must be supplied after visit</span>
 
-      {% elif claimExpense.fromInternalWeb %}
+      {% elif claimExpense.fromInternalWeb or updated %}
         {% if forEdit %}
-          {% if claimDetails.claim.IsAdvanceClaim and not claimExpense['DocumentStatus'] %}
-            <span class="text-warning">Receipt pending upload</span>
-            <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
+          {% if claimDetails.claim.IsAdvanceClaim %}
+            {% if not claimExpense['DocumentStatus'] and claimExpense['Status'] %}
+              <span class="text-warning">Receipt pending upload</span>
+              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
+            {% else %}
+              <span class="text-pending">Receipt must be supplied after visit</span>
+            {% endif %}
           {% else %}
 
             {% if claimExpense['DocumentStatus'] == 'uploaded' and claimExpense['Status'] != 'REQUEST-INFORMATION' %}

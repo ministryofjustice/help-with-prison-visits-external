@@ -26,7 +26,7 @@
       {% if displayHelper.getBenefitRequireUpload(claimDetails.claim['Benefit']) %}
       <br>
 
-        {% if claimDetails.claim['benefitDocument'][0].fromInternalWeb %}
+        {% if claimDetails.claim['benefitDocument'][0].fromInternalWeb or updated%}
           {% if forEdit %}
             {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'uploaded' and claimDetails.claim['BenefitStatus'] != 'REQUEST-INFORMATION'%}
               <span class="text-success">Benefit documentation uploaded</span>

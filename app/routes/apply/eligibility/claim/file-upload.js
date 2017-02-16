@@ -54,6 +54,7 @@ module.exports = function (router) {
 function get (req, res) {
   csrfToken = generateCSRFToken(req)
   UrlPathValidator(req.params)
+  setReferenceIds(req)
 
   if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
     var decryptedRef = getDecryptedReference(req.params)
