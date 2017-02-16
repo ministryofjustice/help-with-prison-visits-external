@@ -8,13 +8,15 @@ const expensesEnum = require('../../../../app/constants/expense-type-enum')
 const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
 const advancePastEnum = require('../../../../app/constants/advance-past-enum')
 const ERROR_MESSAGES = require('../../../../app/services/validators/validation-error-messages')
+const validationFieldNames = require('../../../../app/services/validators/validation-field-names')
 
 describe('services/validators/field-validator', function () {
   const VALID_ALPHA = 'data'
   const VALID_NUMERIC = '1'
   const INVALID_DATA = ''
   const INVALID_FORMAT_DATA = 'AAAAAA1'
-  const FIELD_NAME = 'field name'
+  const FIELD_NAME = 'FirstName'
+  const DISPLAY_NAME = validationFieldNames[FIELD_NAME]
   const VALID_POSTCODE = 'BT123BT'
   const VALID_NATIONAL_INSURANCE_NUMBER = 'AA123456B'
   const VALID_EMAIL = 'test1@tester.com'
@@ -69,7 +71,7 @@ describe('services/validators/field-validator', function () {
         .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
       var errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
-      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getRadioQuestionIsRequired())
+      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getRadioQuestionIsRequired(DISPLAY_NAME))
     })
 
     it('should return an error if passed invalid data from a select input', function () {
@@ -403,6 +405,15 @@ describe('services/validators/field-validator', function () {
         .isLessThanLength(ACCEPTED_LENGTH)
       var errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
+    })
+
+    it('should return an error if passed invalid data with a specific message', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(INVALID_LENGTH, FIELD_NAME, errorHandler)
+        .isLessThanLength(ACCEPTED_LENGTH, ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage)
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage(DISPLAY_NAME, {length: ACCEPTED_LENGTH}))
     })
   })
 
