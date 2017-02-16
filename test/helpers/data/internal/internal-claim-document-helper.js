@@ -27,7 +27,8 @@ module.exports.insert = function (reference, eligibilityId, claimId, data, claim
     EligibilityId: eligibilityId,
     Reference: reference,
     DocumentType: claimDocument.DocumentType,
-    DocumentStatus: claimDocument.DocumentStatus
+    DocumentStatus: claimDocument.DocumentStatus,
+    IsEnabled: true
   })
   .then(function () {
     if (claimExpenseId) {
@@ -38,7 +39,8 @@ module.exports.insert = function (reference, eligibilityId, claimId, data, claim
         Reference: reference,
         ClaimExpenseId: claimExpenseId,
         DocumentType: claimDocument2.DocumentType,
-        DocumentStatus: claimDocument2.DocumentStatus
+        DocumentStatus: claimDocument2.DocumentStatus,
+        IsEnabled: true
       })
     }
   })
