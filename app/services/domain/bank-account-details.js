@@ -17,12 +17,12 @@ class BankAccountDetails {
     FieldValidator(this.accountNumber, 'AccountNumber', errors)
       .isRequired(ERROR_MESSAGES.getEnterAccountNumber)
       .isNumeric()
-      .isLength(8)
+      .isLength(8, ERROR_MESSAGES.getIsLengthDigitsMessage)
 
     FieldValidator(this.sortCode, 'SortCode', errors)
       .isRequired(ERROR_MESSAGES.getEnterSortCode)
       .isNumeric()
-      .isLength(6)
+      .isLength(6, ERROR_MESSAGES.getIsLengthDigitsMessage)
 
     FieldValidator(this.termsAndConiditions, 'terms-and-conditions', errors)
       .isRequired(ERROR_MESSAGES.getDisclaimer)

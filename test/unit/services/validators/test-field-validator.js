@@ -202,6 +202,15 @@ describe('services/validators/field-validator', function () {
       var errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
+
+    it('should return an error if passed invalid data with a specific message', function () {
+      var errorHandler = ErrorHandler()
+      FieldValidator(INVALID_LENGTH, FIELD_NAME, errorHandler)
+        .isLength(ACCEPTED_LENGTH, ERROR_MESSAGES.getIsLengthDigitsMessage)
+      var errors = errorHandler.get()
+      expect(errors).to.have.property(FIELD_NAME)
+      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getIsLengthDigitsMessage(DISPLAY_NAME, {length: ACCEPTED_LENGTH}))
+    })
   })
 
   describe('isNationalInsuranceNumber', function () {

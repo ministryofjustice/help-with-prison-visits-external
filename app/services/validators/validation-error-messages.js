@@ -2,7 +2,7 @@ module.exports = {
   getIsRequired: function (displayName) { return `${displayName} is required` },
   getRadioQuestionIsRequired: function (displayName) { return `Select a ${displayName}` },
   getIsAlpha: function (displayName) { return `${displayName} must only contain letters` },
-  getIsNumeric: function (displayName) { return `${displayName} must only contain numbers` },
+  getIsNumeric: function (displayName) { return `${displayName} can only contain numbers` },
   getIsLengthMessage: function (displayName, options) { return `${displayName} must be ${options.length} characters long` },
   getIsRangeMessage: function (displayName, options) { return `${displayName} must be between ${options.min} and ${options.max} characters` },
   getIsLessThanLengthMessage: function (displayName, options) { return `${displayName} must be shorter than ${options.length} characters` },
@@ -71,5 +71,8 @@ module.exports = {
   getDisclaimer: function () { return 'You must agree to the disclaimer to finish your claim' },
   getEnterReference: function () { return 'Enter your reference number' },
   getPrisonerNameLessThanLengthMessage: function (displayName, options) { return `Prisoner's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
-  getClaimantNameLessThanLengthMessage: function (displayName, options) { return `Your ${displayName.toLowerCase()} must be shorter than ${options.length} characters` }
+  getClaimantNameLessThanLengthMessage: function (displayName, options) { return `Your ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
+  getEscortNameLessThanLengthMessage: function (displayName, options) { return `Escort's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
+  getChildNameLessThanLengthMessage: function (displayName, options) { return `Child's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
+  getIsLengthDigitsMessage: function (displayName, options) { return `${displayName} must be ${options.length} digits long` }
 }

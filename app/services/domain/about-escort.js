@@ -26,11 +26,11 @@ class AboutEscort {
 
     FieldValidator(this.firstName, 'FirstName', errors)
       .isRequired(ERROR_MESSAGES.getEnterEscortFirstName)
-      .isRange(1, 100)
+      .isLessThanLength(100, ERROR_MESSAGES.getEscortNameLessThanLengthMessage)
 
     FieldValidator(this.lastName, 'LastName', errors)
       .isRequired(ERROR_MESSAGES.getEnterEscortLastName)
-      .isRange(1, 100)
+      .isLessThanLength(100, ERROR_MESSAGES.getEscortNameLessThanLengthMessage)
 
     FieldsetValidator(this.dobFields, 'dob', errors)
       .isRequired(ERROR_MESSAGES.getEnterEscortDateOfBirth)
@@ -40,6 +40,7 @@ class AboutEscort {
 
     FieldValidator(this.nationalInsuranceNumber, 'NationalInsuranceNumber', errors)
       .isRequired(ERROR_MESSAGES.getEnterEscortNINumber)
+      .isLength(9)
       .isNationalInsuranceNumber()
 
     var validationErrors = errors.get()

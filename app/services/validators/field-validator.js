@@ -60,9 +60,10 @@ class FieldValidator {
     return this
   }
 
-  isLength (length) {
+  isLength (length, specificMessage) {
+    var message = (!specificMessage) ? ERROR_MESSAGES.getIsLengthMessage : specificMessage
     if (!validator.isLength(this.data, length)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsLengthMessage, { length: length })
+      this.errors.add(this.fieldName, message, { length: length })
     }
     return this
   }
