@@ -29,13 +29,13 @@ class NewClaim {
         .isRequired(ERROR_MESSAGES.getEnterDateOfVisit)
         .isValidDate(this.dateOfJourney)
         .isPastDate(this.dateOfJourney)
-        .isDateWithinDays(this.dateOfJourney, 28)
+        .isDateWithinDays(this.dateOfJourney, 28, this.isAdvanceClaim)
     } else {
       FieldsetValidator(this.fields, 'DateOfJourney', errors)
         .isRequired(ERROR_MESSAGES.getEnterDateOfVisit)
         .isValidDate(this.dateOfJourney)
         .isFutureDate(this.dateOfJourney)
-        .isDateWithinDays(this.dateOfJourney, 28)
+        .isDateWithinDays(this.dateOfJourney, 28, this.isAdvanceClaim)
         .isNotDateWithinDays(this.dateOfJourney, 5)
     }
 

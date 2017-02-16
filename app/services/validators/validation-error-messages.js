@@ -75,5 +75,7 @@ module.exports = {
   getEscortNameLessThanLengthMessage: function (displayName, options) { return `Escort's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
   getChildNameLessThanLengthMessage: function (displayName, options) { return `Child's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
   getIsLengthDigitsMessage: function (displayName, options) { return `${displayName} must be ${options.length} digits long` },
-  getIsValidReference: function () { return 'Reference can only contain numbers and letters' }
+  getIsValidReference: function () { return 'Reference can only contain numbers and letters' },
+  getFutureDateSetDaysAway: function (displayName, options) { return `${displayName} must be in the next ${options.days} days` },
+  getPastDateSetDaysAway: function (displayName, options) { return `${displayName} must be in the last ${options.days} days` }
 }

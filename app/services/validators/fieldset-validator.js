@@ -56,9 +56,10 @@ class FieldsetValidator {
     return this
   }
 
-  isDateWithinDays (date, days) {
+  isDateWithinDays (date, days, isAdvanceClaim) {
     if (!validator.isDateWithinDays(date, days)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getDateSetDaysAway, { days: days })
+      var message = isAdvanceClaim ? ERROR_MESSAGES.getFutureDateSetDaysAway : ERROR_MESSAGES.getPastDateSetDaysAway
+      this.errors.add(this.fieldName, message, { days: days })
     }
     return this
   }
