@@ -5,7 +5,7 @@ module.exports = {
   getIsNumeric: function (displayName) { return `${displayName} must only contain numbers` },
   getIsLengthMessage: function (displayName, options) { return `${displayName} must be ${options.length} characters in length` },
   getIsRangeMessage: function (displayName, options) { return `${displayName} must be between ${options.min} and ${options.max} characters in length` },
-  getIsLessThanLengthMessage: function (displayName, options) { return `${displayName} must be less than ${options.length} characters in length` },
+  getIsLessThanLengthMessage: function (displayName, options) { return `${displayName} must be shorter than ${options.length} characters` },
   getInvalidDateFormatMessage: function (displayName) { return `${displayName} was invalid` },
   getFutureDateMessage: function (displayName) { return `${displayName} must be in the future` },
   getPastDateMessage: function (displayName) { return `${displayName} must be in the past` },
@@ -69,5 +69,7 @@ module.exports = {
   getEnterAccountNumber: function () { return 'Enter your account number' },
   getEnterSortCode: function () { return 'Enter your sortcode' },
   getDisclaimer: function () { return 'You must agree to the disclaimer to finish your claim' },
-  getEnterReference: function () { return 'Enter your reference number' }
+  getEnterReference: function () { return 'Enter your reference number' },
+  getPrisonerNameLessThanLengthMessage: function (displayName, options) { return `Prisoner's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
+  getClaimantNameLessThanLengthMessage: function (displayName, options) { return `Your ${displayName.toLowerCase()} must be shorter than ${options.length} characters` }
 }
