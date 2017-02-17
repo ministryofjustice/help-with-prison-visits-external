@@ -187,7 +187,7 @@ app.use(function (err, req, res, next) {
     res.render('includes/error-404')
   } else {
     res.render('includes/error', {
-      error: developmentMode ? err : {}
+      error: developmentMode ? err : null
     })
   }
 })
