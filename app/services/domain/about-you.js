@@ -32,19 +32,20 @@ class AboutYou {
 
     FieldValidator(this.firstName, 'FirstName', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourFirstName)
-      .isRange(1, 100)
+      .isLessThanLength(100, ERROR_MESSAGES.getClaimantNameLessThanLengthMessage)
 
     FieldValidator(this.lastName, 'LastName', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourLastName)
-      .isRange(1, 100)
+      .isLessThanLength(100, ERROR_MESSAGES.getClaimantNameLessThanLengthMessage)
 
     FieldValidator(this.nationalInsuranceNumber, 'NationalInsuranceNumber', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourNINNumber)
+      .isLength(9)
       .isNationalInsuranceNumber()
 
     FieldValidator(this.houseNumberAndStreet, 'HouseNumberAndStreet', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourHouseNumber)
-      .isRange(1, 200)
+      .isLessThanLength(200)
 
     FieldValidator(this.town, 'Town', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourTown)
@@ -63,11 +64,11 @@ class AboutYou {
 
     FieldValidator(this.emailAddress, 'EmailAddress', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourEmailAddress)
-      .isRange(1, 100)
+      .isLessThanLength(100)
       .isEmail()
 
     FieldValidator(this.phoneNumber, 'PhoneNumber', errors)
-      .isRange(0, 20)
+      .isLessThanLength(20)
 
     var validationErrors = errors.get()
 

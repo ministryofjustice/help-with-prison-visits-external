@@ -26,9 +26,11 @@ class AboutChild {
 
     FieldValidator(this.firstName, 'FirstName', errors)
       .isRequired(ERROR_MESSAGES.getEnterChildFirstName)
+      .isLessThanLength(100, ERROR_MESSAGES.getChildNameLessThanLengthMessage)
 
     FieldValidator(this.lastName, 'LastName', errors)
       .isRequired(ERROR_MESSAGES.getEnterChildLastName)
+      .isLessThanLength(100, ERROR_MESSAGES.getChildNameLessThanLengthMessage)
 
     FieldsetValidator(this.dobFields, 'dob', errors)
       .isRequired(ERROR_MESSAGES.getEnterChildDateOfBirth)

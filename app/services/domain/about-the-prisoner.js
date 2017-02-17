@@ -24,11 +24,11 @@ class AboutThePrisoner {
 
     FieldValidator(this.firstName, 'FirstName', errors)
       .isRequired(ERROR_MESSAGES.getEnterPrisonerFirstName)
-      .isLessThanLength(100)
+      .isLessThanLength(100, ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage)
 
     FieldValidator(this.lastName, 'LastName', errors)
       .isRequired(ERROR_MESSAGES.getEnterPrisonerLastName)
-      .isLessThanLength(100)
+      .isLessThanLength(100, ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage)
 
     var dobFields = [
       this.dobDay,
