@@ -11,7 +11,7 @@ describe('First Time Claim Flow', () => {
   var reference
 
   it('should display each page in the first time eligibility flow', () => {
-    return browser.url('/')
+    return browser.url('/test')
 
       // Index
       .waitForExist('#start')

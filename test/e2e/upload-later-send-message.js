@@ -10,7 +10,7 @@ describe('Upload later and send a message', function () {
   })
 
   it('should display each page in the repeat claim flow', function () {
-    return browser.url('/')
+    return browser.url('/test')
 
       // Index
       .waitForExist('#start')

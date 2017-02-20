@@ -10,7 +10,7 @@ describe('Claim payment information requested', function () {
   })
 
   it('should display update bank details', function () {
-    return browser.url('/')
+    return browser.url('/test')
 
       // Index
       .waitForExist('#start')
