@@ -7,9 +7,9 @@ const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const dateFormatter = require('../date-formatter')
 
-module.exports = function (reference, eligibilityId, claimId, claimType, assistedDigitalCaseworker, paymentMethod, isTest) {
+module.exports = function (reference, eligibilityId, claimId, claimType, assistedDigitalCaseworker, paymentMethod) {
   var dateSubmitted = dateFormatter.now().toDate()
-  var task = isTest ? 'TEST' : tasksEnum.COMPLETE_CLAIM
+  var task = assistedDigitalCaseworker === 'teste2e@test.com' ? 'TEST' : tasksEnum.COMPLETE_CLAIM
 
   return knex('Claim')
     .where({'Reference': reference, 'EligibilityId': eligibilityId, 'ClaimId': claimId, 'Status': claimStatusEnum.IN_PROGRESS})

@@ -11,7 +11,7 @@ describe('First Time Claim Flow', () => {
   var reference
 
   it('should display each page in the first time eligibility flow', () => {
-    return browser.url('/test')
+    return browser.url('/assisted-digital?caseworker=teste2e@test.com')
 
       // Index
       .waitForExist('#start')
@@ -209,6 +209,7 @@ describe('First Time Claim Flow', () => {
       .click('#bank-account-details-submit')
 
       // Application submitted
+      .debug()
       .waitForExist('#reference')
   })
 

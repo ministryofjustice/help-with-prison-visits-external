@@ -63,7 +63,7 @@ module.exports = function (router) {
     var SortCode = req.body['SortCode']
     var AccountNumber = req.body['AccountNumber']
     var message = req.body['message-to-caseworker']
-    var isTest = req.cookies['apvs-test']
+    var assistedDigitalCookie = req.cookies['apvs-assisted-digital']
 
     var decryptedReference = decrypt(req.params.reference)
     var dobDecoded = dateFormatter.decodeDate(req.params.dob)
@@ -77,8 +77,8 @@ module.exports = function (router) {
           }
 
           var bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT' }
-          var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message, bankDetails, isTest) // eslint-disable-line no-unused-vars
-          submitUpdate(decryptedReference, claimDetails.claim.EligibilityId, req.params.claimId, message, bankDetails)
+          var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message, bankDetails) // eslint-disable-line no-unused-vars
+          submitUpdate(decryptedReference, claimDetails.claim.EligibilityId, req.params.claimId, message, bankDetails, assistedDigitalCookie)
             .then(function () {
               return res.redirect(`/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}?updated=true`)
             })

@@ -10,7 +10,7 @@ describe('Claim payment information requested', function () {
   })
 
   it('should display update bank details', function () {
-    return browser.url('/test')
+    return browser.url('/assisted-digital?caseworker=teste2e@test.com')
 
       // Index
       .waitForExist('#start')

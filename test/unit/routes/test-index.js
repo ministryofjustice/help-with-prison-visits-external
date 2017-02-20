@@ -6,7 +6,6 @@ const expect = require('chai').expect
 describe('routes/index', function () {
   const ROUTE = '/'
   const ASSISTED_DIGITAL_ROUTE = '/assisted-digital'
-  const TEST_ROUTE = '/test'
 
   var app
 
@@ -42,19 +41,6 @@ describe('routes/index', function () {
         .get(ASSISTED_DIGITAL_ROUTE)
         .expect(function (response) {
           expect(response.header['set-cookie']).to.equal(undefined)
-        })
-        .expect(302)
-    })
-  })
-
-  describe(`GET ${TEST_ROUTE}`, function () {
-    const COOKIE_NAME = 'apvs-test'
-
-    it('should set the test cookie and respond with a 302', function () {
-      return supertest(app)
-        .get(TEST_ROUTE)
-        .expect(function (response) {
-          expect(response.header['set-cookie'][0]).to.contain(COOKIE_NAME)
         })
         .expect(302)
     })

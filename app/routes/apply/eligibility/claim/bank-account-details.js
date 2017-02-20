@@ -23,13 +23,12 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
-    var isTest = req.cookies['apvs-test']
     try {
       var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body['terms-and-conditions-input'])
       var paymentMethod = paymentMethods.DIRECT_BANK_PAYMENT.value
       insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, bankAccountDetails)
         .then(function () {
-          return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod, isTest)
+          return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
             .then(function () {
               var encryptedRef = encrypt(referenceAndEligibilityId.reference)
               return res.redirect(`/application-submitted/${encryptedRef}`)

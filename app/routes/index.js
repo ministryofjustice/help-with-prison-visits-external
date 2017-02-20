@@ -15,9 +15,4 @@ module.exports = function (router) {
 
     return res.redirect('/')
   })
-
-  router.get('/test', function (req, res) {
-    res.cookie('apvs-test', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true })
-    return res.redirect('/')
-  })
 }

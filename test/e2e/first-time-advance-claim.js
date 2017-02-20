@@ -8,7 +8,7 @@ describe('First Time Advance Claim Flow', () => {
   var reference
 
   it('should display each page in the first time eligibility flow Advance', () => {
-    return browser.url('/test')
+    return browser.url('/assisted-digital?caseworker=teste2e@test.com')
 
       // Index
       .waitForExist('#start')

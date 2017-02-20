@@ -4,8 +4,8 @@ const tasksEnum = require('../../constants/tasks-enum')
 const insertBankDetails = require('./insert-bank-account-details-for-claim')
 const BankAccountDetails = require('../domain/bank-account-details')
 
-module.exports = function (reference, eligibilityId, claimId, message, bankDetails, isTest) {
-  var task = isTest ? 'TEST' : tasksEnum.REQUEST_INFORMATION_RESPONSE
+module.exports = function (reference, eligibilityId, claimId, message, bankDetails, assistedDigitalCookie) {
+  var task = assistedDigitalCookie === 'teste2e@test.com' ? 'TEST' : tasksEnum.REQUEST_INFORMATION_RESPONSE
   return insertBankDetailsIfRequired(reference, eligibilityId, claimId, bankDetails)
     .then(function () {
       return insertTask(reference, eligibilityId, claimId, task, message)
