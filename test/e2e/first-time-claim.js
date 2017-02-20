@@ -209,7 +209,6 @@ describe('First Time Claim Flow', () => {
       .click('#bank-account-details-submit')
 
       // Application submitted
-      .debug()
       .waitForExist('#reference')
   })
 
