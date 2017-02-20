@@ -5,10 +5,10 @@ const insertBankDetails = require('./insert-bank-account-details-for-claim')
 const BankAccountDetails = require('../domain/bank-account-details')
 
 module.exports = function (reference, eligibilityId, claimId, message, bankDetails, assistedDigitalCookie) {
-  var task = assistedDigitalCookie === 'teste2e@test.com' ? 'TEST' : tasksEnum.REQUEST_INFORMATION_RESPONSE
+  var setTaskStatus = assistedDigitalCookie === 'teste2e@test.com' ? 'TEST' : false // logic for e2e tests
   return insertBankDetailsIfRequired(reference, eligibilityId, claimId, bankDetails)
     .then(function () {
-      return insertTask(reference, eligibilityId, claimId, task, message)
+      return insertTask(reference, eligibilityId, claimId, tasksEnum.REQUEST_INFORMATION_RESPONSE, message, setTaskStatus)
     })
 }
 
