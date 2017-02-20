@@ -23,7 +23,6 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
-
     try {
       var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body['terms-and-conditions-input'])
       var paymentMethod = paymentMethods.DIRECT_BANK_PAYMENT.value

@@ -8,7 +8,7 @@ describe('First Time Claim Flow', () => {
   var reference
 
   it('should display each page in the first time eligibility flow for NI rules', () => {
-    return browser.url('/')
+    return browser.url('/assisted-digital?caseworker=teste2e@test.com')
 
       // Index
       .waitForExist('#start')

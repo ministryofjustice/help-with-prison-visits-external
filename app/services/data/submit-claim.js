@@ -9,6 +9,7 @@ const dateFormatter = require('../date-formatter')
 
 module.exports = function (reference, eligibilityId, claimId, claimType, assistedDigitalCaseworker, paymentMethod) {
   var dateSubmitted = dateFormatter.now().toDate()
+  var setTaskStatus = assistedDigitalCaseworker === 'teste2e@test.com' ? 'TEST' : false // logic for e2e tests
 
   return knex('Claim')
     .where({'Reference': reference, 'EligibilityId': eligibilityId, 'ClaimId': claimId, 'Status': claimStatusEnum.IN_PROGRESS})
@@ -21,7 +22,7 @@ module.exports = function (reference, eligibilityId, claimId, claimType, assiste
       return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
         updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker, paymentMethod)])
           .then(function () {
-            return insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType)
+            return insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType, setTaskStatus)
           })
     })
 }

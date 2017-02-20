@@ -12,7 +12,7 @@ describe('Repeat claim with new eligibility details', function () {
   })
 
   it('should display each page in the repeat claim flow', function () {
-    return browser.url('/')
+    return browser.url('/assisted-digital?caseworker=teste2e@test.com')
 
       // Index
       .waitForExist('#start')
