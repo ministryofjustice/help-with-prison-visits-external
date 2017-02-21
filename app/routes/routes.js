@@ -45,6 +45,7 @@ var routes = [
   require('./apply/eligibility/claim/claim-summary'),
   require('./apply/eligibility/claim/file-upload'),
   require('./apply/eligibility/claim/bank-account-details'),
+  require('./apply/eligibility/claim/payment-details-and-declaration'),
 
   // Your Claims Flow
   require('./your-claims/your-claims'),

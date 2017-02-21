@@ -1,0 +1,59 @@
+const BankAccountDetails = require('../../../../services/domain/bank-account-details')
+const insertBankAccountDetailsForClaim = require('../../../../services/data/insert-bank-account-details-for-claim')
+const submitClaim = require('../../../../services/data/submit-claim')
+const ValidationError = require('../../../../services/errors/validation-error')
+const UrlPathValidator = require('../../../../services/validators/url-path-validator')
+const referenceIdHelper = require('../../../helpers/reference-id-helper')
+const encrypt = require('../../../../services/helpers/encrypt')
+const paymentMethods = require('../../../../constants/payment-method-enum')
+const getAddress = require('../../../../services/data/get-address')
+
+module.exports = function (router) {
+  router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/payment-details-and-declaration', function (req, res) {
+    UrlPathValidator(req.params)
+    getAddress(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
+      .then(function (address) {
+        return res.render('apply/eligibility/claim/payment-details-and-declaration', {
+          claimType: req.params.claimType,
+          referenceId: req.params.referenceId,
+          claimId: req.params.claimId,
+          isAdvance: req.query.isAdvance,
+          address: address
+        })
+      })
+  })
+
+  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/payment-details-and-declaration', function (req, res, next) {
+    UrlPathValidator(req.params)
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+    var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
+    try {
+      var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body['terms-and-conditions-input'])
+      var paymentMethod = paymentMethods.DIRECT_BANK_PAYMENT.value
+      insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, bankAccountDetails)
+        .then(function () {
+          return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
+            .then(function () {
+              var encryptedRef = encrypt(referenceAndEligibilityId.reference)
+              return res.redirect(`/application-submitted/${encryptedRef}`)
+            })
+        })
+        .catch(function (error) {
+          next(error)
+        })
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return res.status(400).render('apply/eligibility/claim/payment-details-and-declaration', {
+          errors: error.validationErrors,
+          claimType: req.params.claimType,
+          paymentDetailsAndDeclaration: req.body,
+          referenceId: req.params.referenceId,
+          claimId: req.params.claimId,
+          isAdvance: req.query.isAdvance
+        })
+      } else {
+        throw error
+      }
+    }
+  })
+}
