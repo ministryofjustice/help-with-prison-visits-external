@@ -1,4 +1,4 @@
-const BankAccountDetails = require('../../../../services/domain/bank-account-details')
+const PaymentDetails = require('../../../../services/domain/payment-details')
 const insertBankAccountDetailsForClaim = require('../../../../services/data/insert-bank-account-details-for-claim')
 const submitClaim = require('../../../../services/data/submit-claim')
 const ValidationError = require('../../../../services/errors/validation-error')
@@ -28,9 +28,9 @@ module.exports = function (router) {
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
     try {
-      var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body['terms-and-conditions-input'])
+      var paymentDetails = new PaymentDetails(req.body.AccountNumber, req.body.SortCode, req.body['terms-and-conditions-input'])
       var paymentMethod = paymentMethods.DIRECT_BANK_PAYMENT.value
-      insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, bankAccountDetails)
+      insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, paymentDetails)
         .then(function () {
           return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
             .then(function () {

@@ -3,7 +3,7 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
-class BankAccountDetails {
+class PaymentDetails {
   constructor (accountNumber, sortCode, termsAndConiditions) {
     this.accountNumber = accountNumber.replace(/ /g, '')
     this.sortCode = sortCode.replace(/ |-/g, '')
@@ -35,4 +35,4 @@ class BankAccountDetails {
   }
 }
 
-module.exports = BankAccountDetails
+module.exports = PaymentDetails

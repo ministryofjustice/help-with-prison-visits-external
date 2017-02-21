@@ -2,7 +2,7 @@ const Promise = require('bluebird')
 const insertTask = require('./insert-task')
 const tasksEnum = require('../../constants/tasks-enum')
 const insertBankDetails = require('./insert-bank-account-details-for-claim')
-const BankAccountDetails = require('../domain/bank-account-details')
+const PaymentDetails = require('../domain/payment-details')
 
 module.exports = function (reference, eligibilityId, claimId, message, bankDetails, assistedDigitalCookie) {
   var setTaskStatus = assistedDigitalCookie === 'teste2e@test.com' ? 'TEST' : false // logic for e2e tests
@@ -15,7 +15,7 @@ module.exports = function (reference, eligibilityId, claimId, message, bankDetai
 function insertBankDetailsIfRequired (reference, eligibilityId, claimId, bankDetails) {
   if (bankDetails.required) {
     var termsAcceptedForUpdate = 'yes'
-    var bankAccountDetails = new BankAccountDetails(bankDetails.accountNumber, bankDetails.sortCode, termsAcceptedForUpdate)
+    var bankAccountDetails = new PaymentDetails(bankDetails.accountNumber, bankDetails.sortCode, termsAcceptedForUpdate)
     return insertBankDetails(reference, eligibilityId, claimId, bankAccountDetails)
   } else {
     return Promise.resolve()

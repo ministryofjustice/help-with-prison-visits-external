@@ -25,20 +25,20 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
 
   var app
 
-  var stubBankAccountDetails
+  var stubPaymentDetails
   var stubInsertBankAccountDetailsForClaim
   var stubSubmitClaim
   var stubUrlPathValidator
 
   beforeEach(function () {
-    stubBankAccountDetails = sinon.stub()
+    stubPaymentDetails = sinon.stub()
     stubInsertBankAccountDetailsForClaim = sinon.stub()
     stubSubmitClaim = sinon.stub()
     stubUrlPathValidator = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/bank-account-details', {
-        '../../../../services/domain/bank-account-details': stubBankAccountDetails,
+        '../../../../services/domain/payment-details': stubPaymentDetails,
         '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
         '../../../../services/data/submit-claim': stubSubmitClaim,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator
@@ -73,7 +73,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
 
     it('should respond with a 302', function () {
       var newBankAccountDetails = {}
-      stubBankAccountDetails.returns(newBankAccountDetails)
+      stubPaymentDetails.returns(newBankAccountDetails)
       stubInsertBankAccountDetailsForClaim.resolves()
       stubSubmitClaim.resolves()
 
@@ -82,7 +82,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
+          sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
           sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newBankAccountDetails)
           sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.DIRECT_BANK_PAYMENT.value)
         })
@@ -91,7 +91,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
 
     it('should use assisted digital cookie value', function () {
       var assistedDigitalCaseWorker = 'a@b.com'
-      stubBankAccountDetails.returns({})
+      stubPaymentDetails.returns({})
       stubInsertBankAccountDetailsForClaim.resolves()
       stubSubmitClaim.resolves()
 
@@ -106,7 +106,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      stubBankAccountDetails.throws(new ValidationError({ 'firstName': {} }))
+      stubPaymentDetails.throws(new ValidationError({ 'firstName': {} }))
       return supertest(app)
         .post(ROUTE)
         .expect(400)

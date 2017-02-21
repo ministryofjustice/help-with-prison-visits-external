@@ -35,19 +35,22 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
   var getClaimSummaryStub
   var claimSummaryStub
   var claimSummaryHelperStub
+  var configStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     getClaimSummaryStub = sinon.stub()
     claimSummaryStub = sinon.stub()
     claimSummaryHelperStub = sinon.stub()
+    configStub = {PAYOUT_FEATURE_TOGGLE: 'false'}
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': urlPathValidatorStub,
         '../../../../services/data/get-claim-summary': getClaimSummaryStub,
         '../../../../services/domain/claim-summary': claimSummaryStub,
-        '../../../helpers/claim-summary-helper': claimSummaryHelperStub
+        '../../../helpers/claim-summary-helper': claimSummaryHelperStub,
+        '../../../../../config': configStub
       })
 
     app = routeHelper.buildApp(route)
