@@ -132,8 +132,17 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
         .expect(400)
     })
 
-    it('should respond with a 500 if promise rejects.', function () {
+    it('should respond with a 500 if promise rejects inserting bank details.', function () {
       stubInsertBankAccountDetailsForClaim.rejects()
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
+
+    it('should respond with a 500 if promise rejects on submitting claim.', function () {
+      var newPaymentDetails = {payout: 'on'}
+      stubPaymentDetails.returns(newPaymentDetails)
+      stubSubmitClaim.rejects()
       return supertest(app)
         .post(ROUTE)
         .expect(500)

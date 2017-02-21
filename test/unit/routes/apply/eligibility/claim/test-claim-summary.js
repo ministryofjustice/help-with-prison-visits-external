@@ -89,12 +89,21 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         })
     })
 
-    it('should respond with a 302', function () {
+    it('should respond with a 302 to bank details', function () {
       getClaimSummaryStub.resolves(CLAIM)
       return supertest(app)
         .post(ROUTE)
         .expect(302)
         .expect('location', `/apply/${CLAIM_TYPE}/eligibility/${REFERENCE_ID}/claim/${CLAIM_ID}/bank-account-details?isAdvance=false`)
+    })
+
+    it('should respond with a 302 to payment details and declaration', function () {
+      configStub.PAYOUT_FEATURE_TOGGLE = 'true'
+      getClaimSummaryStub.resolves(CLAIM)
+      return supertest(app)
+        .post(ROUTE)
+        .expect(302)
+        .expect('location', `/apply/${CLAIM_TYPE}/eligibility/${REFERENCE_ID}/claim/${CLAIM_ID}/payment-details-and-declaration?isAdvance=false`)
     })
 
     it('should respond with a 400 if validation errors', function () {
