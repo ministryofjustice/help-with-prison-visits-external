@@ -9,6 +9,7 @@ describe('services/domain/payment-details', function () {
   const VALID_ACCOUNT_NUMBER = ' 123 45678 '
   const VALID_SORT_CODE = '12 345 6'
   const VALID_TERMS_AND_CONDITIONS = 'yes'
+  const VALID_PAYOUT = 'on'
   const PROCESSED_ACCOUNT_NUMBER = '12345678'
   const PROCESSED_SORT_CODE = '123456'
 
@@ -17,6 +18,12 @@ describe('services/domain/payment-details', function () {
     expect(paymentDetails.accountNumber).to.equal(PROCESSED_ACCOUNT_NUMBER)
     expect(paymentDetails.sortCode).to.equal(PROCESSED_SORT_CODE)
     expect(paymentDetails.termsAndConiditions).to.equal(VALID_TERMS_AND_CONDITIONS)
+  })
+
+  it('should construct a domain object given valid input for payout ignoring invalid bank account details', function () {
+    paymentDetails = new PaymentDetails('', '', VALID_TERMS_AND_CONDITIONS, VALID_PAYOUT)
+    expect(paymentDetails.termsAndConiditions).to.equal(VALID_TERMS_AND_CONDITIONS)
+    expect(paymentDetails.payout).to.equal(VALID_PAYOUT)
   })
 
   it('should construct a domain object given a sort code with hyphens', function () {

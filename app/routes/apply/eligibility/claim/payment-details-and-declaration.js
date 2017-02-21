@@ -28,32 +28,47 @@ module.exports = function (router) {
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
     try {
-      var paymentDetails = new PaymentDetails(req.body.AccountNumber, req.body.SortCode, req.body['terms-and-conditions-input'])
-      var paymentMethod = paymentMethods.DIRECT_BANK_PAYMENT.value
-      insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, paymentDetails)
-        .then(function () {
-          return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
-            .then(function () {
-              var encryptedRef = encrypt(referenceAndEligibilityId.reference)
-              return res.redirect(`/application-submitted/${encryptedRef}`)
-            })
-        })
-        .catch(function (error) {
-          next(error)
-        })
+      var paymentDetails = new PaymentDetails(req.body.AccountNumber, req.body.SortCode, req.body['terms-and-conditions-input'], req.body.payout)
+      var paymentMethod = paymentDetails.payout ? paymentMethods.PAYOUT.value : paymentMethods.DIRECT_BANK_PAYMENT.value
+      if (paymentDetails.payout) {
+        return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
+          .catch(function (error) {
+            next(error)
+          })
+      } else {
+        insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, paymentDetails)
+          .then(function () {
+            return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
+          })
+          .catch(function (error) {
+            next(error)
+          })
+      }
     } catch (error) {
       if (error instanceof ValidationError) {
-        return res.status(400).render('apply/eligibility/claim/payment-details-and-declaration', {
-          errors: error.validationErrors,
-          claimType: req.params.claimType,
-          paymentDetailsAndDeclaration: req.body,
-          referenceId: req.params.referenceId,
-          claimId: req.params.claimId,
-          isAdvance: req.query.isAdvance
-        })
+        getAddress(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
+          .then(function (address) {
+            return res.status(400).render('apply/eligibility/claim/payment-details-and-declaration', {
+              errors: error.validationErrors,
+              claimType: req.params.claimType,
+              paymentDetailsAndDeclaration: req.body,
+              referenceId: req.params.referenceId,
+              claimId: req.params.claimId,
+              isAdvance: req.query.isAdvance,
+              address: address
+            })
+          })
       } else {
         throw error
       }
     }
   })
+}
+
+function finishClaim (res, reference, eligibilityId, claimId, claimType, assistedDigitalCaseWorker, paymentMethod) {
+  return submitClaim(reference, eligibilityId, claimId, claimType, assistedDigitalCaseWorker, paymentMethod)
+    .then(function () {
+      var encryptedRef = encrypt(reference)
+      return res.redirect(`/application-submitted/${encryptedRef}`)
+    })
 }

@@ -18,7 +18,7 @@
 
   <p>Any money due to you will be paid into your bank account.</p>
 
-  <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/bank-account-details?isAdvance={{ isAdvance }}"
+  <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/payment-details-and-declaration?isAdvance={{ isAdvance }}"
         method="post">
 
     <div class="grid-row">
@@ -49,11 +49,11 @@
         </div>
 
         <div class="form-group">
-          <label for="payout-show" class="block-label selection-button-checkbox" data-target="payout" >I dont have a bank account
-          <input id="payout-show" type="checkbox" name="payout-show"></label>
+          <label for="payout" class="block-label selection-button-checkbox" data-target="payout-details" >I dont have a bank account
+          <input id="payout" type="checkbox" name="payout" {% if paymentDetailsAndDeclaration['payout'] %}checked{% endif %}></label>
         </div>
 
-        <div id="payout" class="js-hidden">
+        <div id="payout-details" class="js-hidden">
           <details role="group">
             <summary role="button" aria-controls="details-content-0" aria-expanded="true"><span class="summary">If you don't have a bank account</span></summary>
             <div class="panel panel-border-narrow" id="details-content-0" aria-hidden="false">

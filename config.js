@@ -46,5 +46,5 @@ module.exports = {
   MALWARE_NOTIFICATION_EMAIL_ADDRESS: process.env.APVS_MALWARE_NOTIFICATION_ADDRESS || 'donotsend@apvs.com',
 
   // Payout feature toggle
-  PAYOUT_FEATURE_TOGGLE: process.env.APVS_PAYOUT_FEATURE_TOGGLE || 'true'
+  PAYOUT_FEATURE_TOGGLE: process.env.APVS_PAYOUT_FEATURE_TOGGLE || 'false'
 }
