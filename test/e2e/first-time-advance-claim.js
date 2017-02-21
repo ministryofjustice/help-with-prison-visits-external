@@ -108,11 +108,11 @@ describe('First Time Advance Claim Flow', () => {
       .click('#claim-summary-submit')
 
       // Bank account details
-      .waitForExist('#bank-account-details-submit')
+      .waitForExist('#claim-submit')
       .setValue('#account-number-input', '00123456')
       .setValue('#sort-code-input', '001122')
       .click('[for="terms-and-conditions-input"]')
-      .click('#bank-account-details-submit')
+      .click('#claim-submit')
 
       // Application submitted
       .waitForExist('#reference')
