@@ -6,5 +6,9 @@ module.exports = {
   MANUALLY_PROCESSED: {
     value: 'manual',
     displayName: 'Manually Processed Payment'
+  },
+  PAYOUT: {
+    value: 'payout',
+    displayName: 'Post Office payout'
   }
 }

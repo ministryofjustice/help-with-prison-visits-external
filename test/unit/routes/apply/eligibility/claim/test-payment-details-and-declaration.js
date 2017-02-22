@@ -8,7 +8,7 @@ const paymentMethods = require('../../../../../../app/constants/payment-method-e
 
 var ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('routes/apply/eligibility/claim/bank-account-details', function () {
+describe('routes/apply/eligibility/claim/payment-details-and-declaration', function () {
   const REFERENCE = 'V123456'
   const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
   const ELIGIBILITYID = '1234'
@@ -16,7 +16,7 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
   const ENCRYPTED_REFERENCEID = encrypt(REFERENCEID)
   const CLAIMID = '1'
   const CLAIM_TYPE = 'first-time'
-  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/bank-account-details`
+  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/payment-details-and-declaration`
   const VALID_DATA = {
     'AccountNumber': '12345678',
     'SortCode': '123456',
@@ -29,19 +29,22 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
   var stubInsertBankAccountDetailsForClaim
   var stubSubmitClaim
   var stubUrlPathValidator
+  var stubGetAddress
 
   beforeEach(function () {
     stubPaymentDetails = sinon.stub()
     stubInsertBankAccountDetailsForClaim = sinon.stub()
     stubSubmitClaim = sinon.stub()
     stubUrlPathValidator = sinon.stub()
+    stubGetAddress = sinon.stub().resolves()
 
     var route = proxyquire(
-      '../../../../../../app/routes/apply/eligibility/claim/bank-account-details', {
+      '../../../../../../app/routes/apply/eligibility/claim/payment-details-and-declaration', {
         '../../../../services/domain/payment-details': stubPaymentDetails,
         '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
         '../../../../services/data/submit-claim': stubSubmitClaim,
-        '../../../../services/validators/url-path-validator': stubUrlPathValidator
+        '../../../../services/validators/url-path-validator': stubUrlPathValidator,
+        '../../../../services/data/get-address': stubGetAddress
       })
     app = routeHelper.buildApp(route)
   })
@@ -71,9 +74,9 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
         })
     })
 
-    it('should respond with a 302', function () {
-      var newBankAccountDetails = {}
-      stubPaymentDetails.returns(newBankAccountDetails)
+    it('should respond with a 302 and call submit claim with bank payment', function () {
+      var newPaymentDetails = {}
+      stubPaymentDetails.returns(newPaymentDetails)
       stubInsertBankAccountDetailsForClaim.resolves()
       stubSubmitClaim.resolves()
 
@@ -83,8 +86,25 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
-          sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newBankAccountDetails)
+          sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newPaymentDetails)
           sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.DIRECT_BANK_PAYMENT.value)
+        })
+        .expect('location', `/application-submitted/${ENCRYPTED_REFERENCE}`)
+    })
+
+    it('should respond with a 302 and call submit claim with payout', function () {
+      var newPaymentDetails = {payout: 'on'}
+      stubPaymentDetails.returns(newPaymentDetails)
+      stubSubmitClaim.resolves()
+
+      return supertest(app)
+        .post(ROUTE)
+        .send(VALID_DATA)
+        .expect(302)
+        .expect(function () {
+          sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
+          sinon.assert.notCalled(stubInsertBankAccountDetailsForClaim)
+          sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.PAYOUT.value)
         })
         .expect('location', `/application-submitted/${ENCRYPTED_REFERENCE}`)
     })
@@ -112,8 +132,17 @@ describe('routes/apply/eligibility/claim/bank-account-details', function () {
         .expect(400)
     })
 
-    it('should respond with a 500 if promise rejects.', function () {
+    it('should respond with a 500 if promise rejects inserting bank details.', function () {
       stubInsertBankAccountDetailsForClaim.rejects()
+      return supertest(app)
+        .post(ROUTE)
+        .expect(500)
+    })
+
+    it('should respond with a 500 if promise rejects on submitting claim.', function () {
+      var newPaymentDetails = {payout: 'on'}
+      stubPaymentDetails.returns(newPaymentDetails)
+      stubSubmitClaim.rejects()
       return supertest(app)
         .post(ROUTE)
         .expect(500)

@@ -1,7 +1,7 @@
 const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const insertBankAccountDetailsForClaim = require('../../../app/services/data/insert-bank-account-details-for-claim')
-const BankAccountDetails = require('../../../app/services/domain/bank-account-details')
+const BankAccountDetails = require('../../../app/services/domain/payment-details')
 
 module.exports.ACCOUNT_NUMBER = '07526415'
 module.exports.SORT_CODE = '010203'
