@@ -5,5 +5,6 @@ module.exports = {
   'hc2': {documentType: 'hc2', title: 'Health Certificate (HC2) documentation', guidingText: 'You must provide evidence of your Health Certificate (HC2) documentation'},
   'hc3': {documentType: 'hc3', title: 'Health Certificate (HC3) documentation', guidingText: 'You must provide evidence of your Health Certificate (HC3) documentation'},
   'nhs-tax-credit': {documentType: 'nhs-tax-credit', title: 'NHS Tax credit documentation', guidingText: 'You must provide evidence of your NHS Tax credit documentation'},
+  'universal-credit': {documentType: 'universal-credit', title: 'Universal credit documentation', guidingText: 'You must provide evidence of your Universal credit documentation'},
   'RECEIPT': {documentType: 'RECEIPT', title: 'Add receipt', guidingText: 'Provide a receipt or a copy of your tickets.'}
 }
