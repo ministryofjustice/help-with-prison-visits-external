@@ -9,7 +9,6 @@ module.exports.LAST_NAME = 'SMITH'
 module.exports.DAY = '15'
 module.exports.MONTH = '05'
 module.exports.YEAR = '1984'
-module.exports.NATIONAL_INSURANCE_NUMBER = 'AE192018C'
 module.exports.DOB = dateFormatter.build(this.DAY, this.MONTH, this.YEAR)
 
 module.exports.build = function () {
@@ -18,8 +17,7 @@ module.exports.build = function () {
     this.LAST_NAME,
     this.DAY,
     this.MONTH,
-    this.YEAR,
-    this.NATIONAL_INSURANCE_NUMBER
+    this.YEAR
   )
 }
 

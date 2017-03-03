@@ -8,7 +8,7 @@ const MINIMUM_AGE_IN_YEARS = 18
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutEscort {
-  constructor (firstName, lastName, day, month, year, nationalInsuranceNumber) {
+  constructor (firstName, lastName, day, month, year) {
     this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
     this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''
     this.dobFields = [
@@ -17,7 +17,6 @@ class AboutEscort {
       year ? year.trim() : ''
     ]
     this.dob = dateFormatter.build(day, month, year)
-    this.nationalInsuranceNumber = nationalInsuranceNumber ? nationalInsuranceNumber.trim() : ''
     this.isValid()
   }
 
@@ -37,11 +36,6 @@ class AboutEscort {
       .isValidDate(this.dob)
       .isPastDate(this.dob)
       .isOlderThanInYears(this.dob, MINIMUM_AGE_IN_YEARS)
-
-    FieldValidator(this.nationalInsuranceNumber, 'NationalInsuranceNumber', errors)
-      .isRequired(ERROR_MESSAGES.getEnterEscortNINumber)
-      .isLength(9)
-      .isNationalInsuranceNumber()
 
     var validationErrors = errors.get()
     if (validationErrors) {

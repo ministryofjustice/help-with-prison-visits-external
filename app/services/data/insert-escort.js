@@ -21,7 +21,6 @@ module.exports = function (reference, eligibilityId, claimId, aboutEscort) {
       FirstName: aboutEscort.firstName,
       LastName: aboutEscort.lastName,
       DateOfBirth: aboutEscort.dob.toDate(),
-      NationalInsuranceNumber: aboutEscort.nationalInsuranceNumber,
       IsEnabled: true
     })
   })
