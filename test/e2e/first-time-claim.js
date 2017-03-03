@@ -95,7 +95,6 @@ describe('First Time Claim Flow', () => {
       .setValue('#dob-day', '15')
       .setValue('#dob-month', '07')
       .setValue('#dob-year', '1985')
-      .setValue('#national-insurance-number-input', 'BB123456B')
       .click('#about-escort-submit')
 
       // Has Child
