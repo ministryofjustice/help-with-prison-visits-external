@@ -44,7 +44,7 @@ class FileUpload {
 
     if (!this.file) {
       FieldValidator(this.alternative, 'upload', errors)
-        .isRequired()
+        .isRequired(ERROR_MESSAGES.getUploadRequired)
     }
 
     if (this.file && this.alternative) {
