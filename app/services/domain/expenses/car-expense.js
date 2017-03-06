@@ -46,14 +46,14 @@ class CarExpense extends BaseExpense {
 
     if (this.toll) {
       FieldValidator(this.tollCost, 'toll-cost', errors)
-        .isRequired(ERROR_MESSAGES.getEnterSpecificCost)
+        .isRequired(ERROR_MESSAGES.getEnterTollCost)
         .isCurrency()
         .isGreaterThanZero()
     }
 
     if (this.parking) {
       FieldValidator(this.parkingCost, 'parking-charge-cost', errors)
-        .isRequired(ERROR_MESSAGES.getEnterSpecificCost)
+        .isRequired(ERROR_MESSAGES.getEnterParkingCost)
         .isCurrency()
         .isGreaterThanZero()
     }
