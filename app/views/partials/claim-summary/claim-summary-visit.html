@@ -26,7 +26,7 @@
       <td>
         {% if forEdit %}
           {% if claimDetails.claim.IsAdvanceClaim %}
-            {% if not claimDetails.claim.visitConfirmation['DocumentStatus'] and claimDetails.claim['VisitConfirmationCheck'] %}
+            {% if not claimDetails.claim.visitConfirmation['DocumentStatus'] and claimDetails.claim['Status'] == 'APPROVED' %}
               <span class="text-warning">Visit confirmation stamp pending upload</span>
               <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-visit-confirmation" class="button grey pull-right">Add</a>
             {% else %}
@@ -45,7 +45,7 @@
 
           {% endif %}
         {% else %}
-          {% if forReview and claimDetails.claim['VisitConfirmationCheck'] != 'APPROVED' and not claimDetails.claim.IsAdvanceClaim %}
+          {% if forReview and claimDetails.claim['VisitConfirmationCheck'] != 'APPROVED' %}
             <span class="text-pending">In review</span>
 
           {% else %}
