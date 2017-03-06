@@ -91,20 +91,6 @@ span.button-separator {
   }
 }
 
-.inputfile {
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
-
-.inputfile:focus + label {
-  outline: 1px dotted #000;
-  outline: -webkit-focus-ring-color auto 5px;
-}
-
 .heading-xlarge {
   margin-bottom: 30px;
 }
@@ -1031,6 +1017,19 @@ ul.claim-dialog-public li.claimant {
 }
 
 @if ($is-ie==false) or ($ie-version>=9) {
+  .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .inputfile:focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+  }
   .custom-file-upload input[type="file"] {
     display: none;
   }
