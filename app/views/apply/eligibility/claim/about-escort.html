@@ -90,21 +90,6 @@
           </fieldset>
         </div>
 
-        <div class="form-group {% if errors['NationalInsuranceNumber'][0] %} error {% endif %}">
-          <label id="NationalInsuranceNumber" class="form-label-bold" for="national-insurance-number-input">
-            National Insurance number</label>
-
-          {% if errors['NationalInsuranceNumber'][0] %}
-            <span class="error-message" id="error-message-national">{{ errors['NationalInsuranceNumber'][0] }}</span>
-          {% endif %}
-
-          <input id="national-insurance-number-input"
-                 name="NationalInsuranceNumber"
-                 type="text"
-                 class="form-control"
-                 value="{{ escort['NationalInsuranceNumber'] }}">
-        </div>
-
         {% include "partials/csrf-hidden-input.html" %}
 
         <input id="about-escort-submit"

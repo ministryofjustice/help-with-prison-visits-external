@@ -25,8 +25,7 @@ module.exports = function (router) {
         req.body['LastName'],
         req.body['dob-day'],
         req.body['dob-month'],
-        req.body['dob-year'],
-        req.body['NationalInsuranceNumber']
+        req.body['dob-year']
       )
 
       insertEscort(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, escort)

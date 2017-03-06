@@ -33,7 +33,6 @@ describe('services/data/insert-escort', function () {
           claimEscortHelper.DOB.subtract(1, 'seconds').toDate(),
           claimEscortHelper.DOB.add(1, 'seconds').toDate()
         )
-        expect(escort.NationalInsuranceNumber).to.equal(claimEscortHelper.NATIONAL_INSURANCE_NUMBER)
       })
   })
 
