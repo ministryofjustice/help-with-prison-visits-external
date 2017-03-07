@@ -45,7 +45,7 @@
 
           {% endif %}
         {% else %}
-          {% if forReview and claimDetails.claim['VisitConfirmationCheck'] != 'APPROVED' %}
+          {% if forReview and claimDetails.claim['VisitConfirmationCheck'] != 'APPROVED' and claimDetails.claim['Status'] != 'NEW' %}
             <span class="text-pending">In review</span>
 
           {% elif claimDetails.claim['Status'] == 'APPROVED-ADVANCE-CLOSED' %}
