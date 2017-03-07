@@ -47,7 +47,8 @@ module.exports = function (router) {
     claims.forEach(function (claim) {
       if (claim.Status !== claimStatusEnum.APPROVED &&
           claim.Status !== claimStatusEnum.AUTOAPPROVED &&
-          claim.Status !== claimStatusEnum.REJECTED) {
+          claim.Status !== claimStatusEnum.REJECTED &&
+          claim.Status !== claimStatusEnum.APPROVED_ADVANCE_CLOSED) {
         result = false
       }
     })
