@@ -26,7 +26,7 @@
       <td>
         {% if forEdit %}
           {% if claimDetails.claim.IsAdvanceClaim %}
-            {% if not claimDetails.claim.visitConfirmation['DocumentStatus'] and claimDetails.claim['VisitConfirmationCheck'] %}
+            {% if not claimDetails.claim.visitConfirmation['DocumentStatus'] and claimDetails.claim['Status'] == 'APPROVED' %}
               <span class="text-warning">Visit confirmation stamp pending upload</span>
               <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-visit-confirmation" class="button grey pull-right">Add</a>
             {% else %}
@@ -45,8 +45,18 @@
 
           {% endif %}
         {% else %}
-          {% if forReview and claimDetails.claim['VisitConfirmationCheck'] != 'APPROVED' and not claimDetails.claim.IsAdvanceClaim %}
+          {% if forReview and claimDetails.claim['VisitConfirmationCheck'] != 'APPROVED' and claimDetails.claim['Status'] != 'NEW' %}
             <span class="text-pending">In review</span>
+
+          {% elif claimDetails.claim['Status'] == 'APPROVED-ADVANCE-CLOSED' %}
+            {% if claimDetails.claim.visitConfirmation['DocumentStatus'] == 'uploaded' %}
+              <span class="text-success">
+                Visit confirmation uploaded
+            {% else %}
+              <span class="text-pending">
+                Visit confirmation not uploaded
+            {% endif %}
+              </span>
 
           {% else %}
             <span {% if claimDetails.claim['VisitConfirmationCheck'] == 'APPROVED' and claimDetails.claim.visitConfirmation['DocumentStatus'] %} class="text-success" {% else %}{% if claimDetails.claim.IsAdvanceClaim %}class="text-pending"{% else %}class="text-warning" {% endif %}{% endif %}>
