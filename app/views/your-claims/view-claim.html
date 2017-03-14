@@ -11,18 +11,18 @@
   {% include "includes/phase_banner_beta.html" %}
 
   {% if updated %}
-    <h3 id="application-updated" class="success-summary medium">
+    <div id="application-updated" class="success-summary medium">
       Application updated
-    </h3>
+    </div>
   {% endif %}
 
   {% include "includes/validation-error-messages.html" %}
 
   {% include "partials/claim-summary/claim-summary-information-requested.html" %}
 
-  <h2 class="heading-large">
+  <h1 class="heading-large">
     Your claim
-  </h2>
+  </h1>
 
   {% if not updated %}
     <p>Add evidence for your claim.</p>
