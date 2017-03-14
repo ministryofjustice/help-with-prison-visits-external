@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  {% if serviceName %} {{ serviceName }} {% endif %}
+  Do you want to claim expeneses for any children - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -24,7 +24,7 @@
         <div id="has-child" class="form-group {% if errors['has-child'][0] %} error {% endif %}">
 
           <p>
-            You are only allowed to claim for children if they are the prisoner's 
+            You are only allowed to claim for children if they are the prisoner's
             child or if they're your child and you're the prisoner's husband, wife or civil partner.
           </p>
 
