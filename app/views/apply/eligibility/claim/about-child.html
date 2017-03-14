@@ -15,9 +15,9 @@
 
       {% include "includes/validation-error-messages.html" %}
 
-      <h2 class="heading-large">
+      <h1 class="heading-large">
         About the child
-      </h2>
+      </h1>
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/child" method="post">
 
@@ -91,7 +91,7 @@
 
           <div id="child-relationship" class="form-group {% if errors['child-relationship'][0] %} error {% endif %}">
 
-            <h2 class="form-label-bold">Relationship</h2>
+            <h3 class="form-label-bold">Relationship</h3>
 
             {% if errors['child-relationship'][0] %}
               <span class="error-message">{{ errors['child-relationship'][0] }}</span>
