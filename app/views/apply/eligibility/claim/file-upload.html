@@ -13,12 +13,12 @@
 
     {% include "includes/validation-error-messages.html" %}
 
-      <h2 class="heading-large">
+      <h1 class="heading-large">
       {{ fileUploadGuidingText[document].title }}
-      </h2>
+      </h1>
       <p>{{ fileUploadGuidingText[document].guidingText }}</p>
 
-      <h3 id="upload" class="heading-medium">Upload now</h3>
+      <h2 id="upload" class="heading-medium">Upload now</h2>
       <p>Your claim will be processed faster if you upload your document.</p>
       <form action="{{ URL }}" method="post" class="form" enctype="multipart/form-data">
 
@@ -50,7 +50,7 @@
 
         <div id="alternative" class="form-group" {% if hideAlternative %} hidden {% endif %}>
           <br>
-          <h4 class="heading-small">Can’t upload now?</h4>
+          <h3 class="heading-small">Can’t upload now?</h3>
 
           <label for="Post" class="block-label">
             <input type="radio" name="alternative" value="post-later" id="Post">

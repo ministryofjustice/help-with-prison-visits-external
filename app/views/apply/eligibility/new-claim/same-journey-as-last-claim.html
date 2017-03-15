@@ -15,9 +15,9 @@
 
       {% include "includes/validation-error-messages.html" %}
 
-      <h2 class="heading-large">
+      <h1 class="heading-large">
         Your last journey
-      </h2>
+      </h1>
 
       <table>
         <thead>
@@ -60,7 +60,7 @@
       </p>
       {% endif %}
 
-      <h3 class="heading-medium">Are you applying for the same journey as last time?</h3>
+      <h2 class="heading-medium">Are you applying for the same journey as last time?</h2>
 
       <form action="/apply/repeat/eligibility/{{ referenceId }}/new-claim/same-journey-as-last-claim/{{ advanceOrPast }}" method="post" class="form">
 

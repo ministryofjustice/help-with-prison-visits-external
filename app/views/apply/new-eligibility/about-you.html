@@ -15,9 +15,9 @@ Enter information about you - {{ serviceName }}
 
       {% include "includes/validation-error-messages.html" %}
 
-      <h2 class="heading-large">
+      <h1 class="heading-large">
         About you
-      </h2>
+      </h1>
 
       <form action="/apply/{{ claimType }}/new-eligibility/{{ dob }}/{{ relationship }}/{{ benefit }}/{{ referenceId }}"
             method="post">
