@@ -25,7 +25,8 @@
       {% if errors['advance-past'][0] %}
         <span class="error-message">{{ errors['advance-past'][0] }}</span>
       {% endif %}
-
+        <fieldset>
+          <legend class="visually-hidden">Have you already made the prison visit</legend>
           <div class="form-group">
             <label for="past" class="block-label">
               <input type="radio"
@@ -43,6 +44,7 @@
               No - it's in the future
             </label>
           </div>
+        </fieldset>
 
         <div class="form-group">
           {% include "partials/csrf-hidden-input.html" %}
