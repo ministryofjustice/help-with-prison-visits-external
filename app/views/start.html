@@ -21,21 +21,27 @@
 
       <form action="/start" method="post">
         <div class="form-group">
-          <label for="yes" class="block-label">
-            <input id="yes"
-                   type="radio"
-                   name="madeClaimForPrisonerBefore"
-                   value="yes">
-            Yes
-          </label>
 
-          <label for="no" class="block-label">
-            <input id="no"
-                   type="radio"
-                   name="madeClaimForPrisonerBefore"
-                   value="no">
-            No
-          </label>
+          <fieldset>
+            <legend class="visually-hidden">Have you applied online for help visiting this prisoner before?</legend>
+
+            <label for="yes" class="block-label">
+              <input id="yes"
+                     type="radio"
+                     name="madeClaimForPrisonerBefore"
+                     value="yes">
+              Yes
+            </label>
+
+            <label for="no" class="block-label">
+              <input id="no"
+                     type="radio"
+                     name="madeClaimForPrisonerBefore"
+                     value="no">
+              No
+            </label>
+
+          </fieldset>
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}

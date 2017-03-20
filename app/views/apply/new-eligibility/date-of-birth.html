@@ -31,35 +31,38 @@ What is your date of birth - {{ serviceName }}
             {% endif %}
 
             <div id="dob" class="form-date">
+              <fieldset>
+                <legend class="visually-hidden">Date of birth</legend>
 
-              <p class="form-hint">For example, 18 08 1989</p>
+                <p class="form-hint">For example, 18 08 1989</p>
 
-              <div class="form-group form-group-day">
-                <label id="dob-day" for="dob-day-input">Day</label>
-                <input id="dob-day-input"
-                       type="number"
-                       name="dob-day"
-                       value="{{ claimant['dob-day'] }}"
-                       class="form-control">
-              </div>
+                <div class="form-group form-group-day">
+                  <label id="dob-day" for="dob-day-input">Day</label>
+                  <input id="dob-day-input"
+                         type="number"
+                         name="dob-day"
+                         value="{{ claimant['dob-day'] }}"
+                         class="form-control">
+                </div>
 
-              <div class="form-group form-group-month">
-                <label id="dob-month" for="dob-month-input">Month</label>
-                <input id="dob-month-input"
-                       type="number"
-                       name="dob-month"
-                       value="{{ claimant['dob-month'] }}"
-                       class="form-control">
-              </div>
+                <div class="form-group form-group-month">
+                  <label id="dob-month" for="dob-month-input">Month</label>
+                  <input id="dob-month-input"
+                         type="number"
+                         name="dob-month"
+                         value="{{ claimant['dob-month'] }}"
+                         class="form-control">
+                </div>
 
-              <div class="form-group form-group-year">
-                <label id="dob-year" for="dob-year-input">Year</label>
-                <input id="dob-year-input"
-                       type="number"
-                       name="dob-year"
-                       value="{{ claimant['dob-year'] }}"
-                       class="form-control">
-              </div>
+                <div class="form-group form-group-year">
+                  <label id="dob-year" for="dob-year-input">Year</label>
+                  <input id="dob-year-input"
+                         type="number"
+                         name="dob-year"
+                         value="{{ claimant['dob-year'] }}"
+                         class="form-control">
+                </div>
+              </fieldset>
             </div>
           </div>
         </div>
