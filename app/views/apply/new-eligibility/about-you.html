@@ -143,7 +143,7 @@ Enter information about you - {{ serviceName }}
         </div>
 
         <div class="form-group {% if errors['PhoneNumber'][0] %} error {% endif %}">
-          <label id="PhoneNumber" class="form-label-bold" for="phone-number-input">Phone number</label>
+          <label id="PhoneNumber" class="form-label-bold" for="phone-number-input">Phone number (optional)</label>
           {% if errors['PhoneNumber'][0] %}
           <span class="error-message" id="error-message-phone">{{ errors['PhoneNumber'][0] }}</span>
           {% endif %}
