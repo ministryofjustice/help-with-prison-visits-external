@@ -59,29 +59,34 @@
               <span class="error-message">{{ errors['dob'][0] }}</span>
             {% endif %}
 
-            <div class="form-group form-group-day">
-              <label for="dob-day-input">Day</label>
-              <input id="dob-day-input"
-                     name="dob-day"
-                     value="{{ claimant['dob-day'] }}"
-                     class="form-control">
-            </div>
+            <fieldset>
+              <legend class="visually-hidden">Child date of birth</legend>
 
-            <div class="form-group form-group-month">
-              <label for="dob-month-input">Month</label>
-              <input id="dob-month-input"
-                     name="dob-month"
-                     value="{{ claimant['dob-month'] }}"
-                     class="form-control">
-            </div>
+              <div class="form-group form-group-day">
+                <label for="dob-day-input">Day</label>
+                <input id="dob-day-input"
+                       name="dob-day"
+                       value="{{ claimant['dob-day'] }}"
+                       class="form-control">
+              </div>
 
-            <div class="form-group form-group-year">
-              <label for="dob-year-input">Year</label>
-              <input id="dob-year-input"
-                     name="dob-year"
-                     value="{{ claimant['dob-year'] }}"
-                     class="form-control">
-            </div>
+              <div class="form-group form-group-month">
+                <label for="dob-month-input">Month</label>
+                <input id="dob-month-input"
+                       name="dob-month"
+                       value="{{ claimant['dob-month'] }}"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-year">
+                <label for="dob-year-input">Year</label>
+                <input id="dob-year-input"
+                       name="dob-year"
+                       value="{{ claimant['dob-year'] }}"
+                       class="form-control">
+              </div>
+
+            </fieldset>
 
           </div>
 

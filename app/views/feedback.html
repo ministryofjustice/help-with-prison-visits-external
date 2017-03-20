@@ -21,7 +21,7 @@ Give feedback - {{ serviceName }}
       <form action="/feedback" method="post">
         <div class="form-group {% if errors['rating'][0] %} error {% endif %}">
           <fieldset>
-
+            <legend class="visually-hidden">Rating</legend>
             <label for="very-satisfied" class="block-label">
               <input id="very-satisfied"
                      type="radio"
