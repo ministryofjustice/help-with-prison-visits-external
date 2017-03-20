@@ -6,33 +6,38 @@
       <span class="error-message">{{ errors['ticket-owner'][0] }}</span>
     {% endif %}
 
-    <label for="is-your-ticket" class="block-label inline">
-        <input id="is-your-ticket"
-              type="radio"
-              name="ticket-owner"
-              value="you">
-        Yourself
-    </label>
+    <fieldset>
+      <legend class="visually-hidden">Who is this ticket for</legend>
 
-    {% if expenseOwners.child %}
-      <label for="is-child-ticket" class="block-label inline">
-        <input id="is-child-ticket"
+      <label for="is-your-ticket" class="block-label inline">
+          <input id="is-your-ticket"
                 type="radio"
                 name="ticket-owner"
-                value="child">
-        Child
+                value="you">
+          Yourself
       </label>
-    {% endif %}
 
-    {% if expenseOwners.escort %}
-      <label for="is-escort-ticket" class="block-label inline">
-        <input id="is-escort-ticket"
-                type="radio"
-                name="ticket-owner"
-                value="escort">
-        Escort
-      </label>
-    {% endif %}
+      {% if expenseOwners.child %}
+        <label for="is-child-ticket" class="block-label inline">
+          <input id="is-child-ticket"
+                  type="radio"
+                  name="ticket-owner"
+                  value="child">
+          Child
+        </label>
+      {% endif %}
+
+      {% if expenseOwners.escort %}
+        <label for="is-escort-ticket" class="block-label inline">
+          <input id="is-escort-ticket"
+                  type="radio"
+                  name="ticket-owner"
+                  value="escort">
+          Escort
+        </label>
+      {% endif %}
+
+    </fieldset>
 
   </div>
 {% else %}
