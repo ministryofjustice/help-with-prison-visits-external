@@ -33,23 +33,27 @@
           {% if errors['has-child'][0] %}
             <span class="error-message">{{ errors['has-child'][0] }}</span>
           {% endif %}
+          <fieldset>
+            <legend class="visually-hidden">Do you want to claim expenses for any children</legend>
 
-          <label for="child-yes" class="block-label inline">
-            <input id="child-yes"
-                   type="radio"
-                   name="has-child"
-                   value="yes"
-                   {% if claim['has-child'] == 'yes' %} checked {% endif %}>
-            Yes
-          </label>
-          <label for="child-no" class="block-label inline">
-            <input id="child-no"
-                   type="radio"
-                   name="has-child"
-                   value="no"
-                   {% if claim['has-child'] == 'no' %} checked {% endif %}>
-            No
-          </label>
+            <label for="child-yes" class="block-label inline">
+              <input id="child-yes"
+                     type="radio"
+                     name="has-child"
+                     value="yes"
+                     {% if claim['has-child'] == 'yes' %} checked {% endif %}>
+              Yes
+            </label>
+            <label for="child-no" class="block-label inline">
+              <input id="child-no"
+                     type="radio"
+                     name="has-child"
+                     value="no"
+                     {% if claim['has-child'] == 'no' %} checked {% endif %}>
+              No
+            </label>
+
+          </fieldset>
 
         </div>
 
