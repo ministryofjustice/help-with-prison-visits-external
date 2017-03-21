@@ -52,14 +52,14 @@
 
         {% if claim.IsAdvanceClaim %}
 
-          <div id="arrival-time-input" class="panel panel-border-narrow js-hidden">
+          <div id="return-time-input" class="panel panel-border-narrow js-hidden">
             <div class="form-group">
-              <label class="form-label-bold" for="arrival-time">What time is your return train home?</label>
-                {% if errors['arrival-time'][0] %}
-                  <span class="error-message">{{ errors['arrival-time'][0] }}</span>
+              <label class="form-label-bold" for="return-time">What time is your return train home?</label>
+                {% if errors['return-time'][0] %}
+                  <span class="error-message">{{ errors['return-time'][0] }}</span>
                 {% endif %}
               <p class="form-hint">For example, 4pm</p>
-              <input id="arrival-time" name="arrival-time" type="text" class="form-control">
+              <input id="return-time" name="return-time" type="text" class="form-control">
 
             </div>
           </div>
