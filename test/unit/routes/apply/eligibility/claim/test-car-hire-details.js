@@ -21,18 +21,21 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
   var expenseUrlRouterStub
   var insertExpenseStub
   var hireExpenseStub
+  var isAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     expenseUrlRouterStub = sinon.stub()
     insertExpenseStub = sinon.stub()
     hireExpenseStub = sinon.stub()
+    isAdvanceClaimStub = sinon.stub().resolves({})
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/car-hire-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-expense': insertExpenseStub,
-      '../../../../services/domain/expenses/hire-expense': hireExpenseStub
+      '../../../../services/domain/expenses/hire-expense': hireExpenseStub,
+      '../../../../services/data/is-advance-claim': isAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -50,6 +53,9 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
       return supertest(app)
         .get(ROUTE)
         .expect(200)
+        .expect(function () {
+          sinon.assert.calledOnce(isAdvanceClaimStub)
+        })
     })
 
     it('should call parseParams', function () {
@@ -104,6 +110,9 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(400)
+        .expect(function () {
+          sinon.assert.calledOnce(isAdvanceClaimStub)
+        })
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
