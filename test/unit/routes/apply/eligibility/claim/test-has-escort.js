@@ -45,6 +45,9 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
       return supertest(app)
         .get(ROUTE)
         .expect(200)
+        .expect(function () {
+          sinon.assert.calledOnce(isAdvanceClaimStub)
+        })
     })
   })
 
@@ -85,6 +88,9 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(400)
+        .expect(function () {
+          sinon.assert.calledOnce(isAdvanceClaimStub)
+        })
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
