@@ -53,7 +53,7 @@
         {% if claim.IsAdvanceClaim %}
 
           <div id="return-time-input" class="panel panel-border-narrow js-hidden">
-            <div class="form-group">
+            <div class="form-group {% if errors['return-time'][0] %} error {% endif %}">
               <label class="form-label-bold" for="return-time">What time is your return train home?</label>
                 {% if errors['return-time'][0] %}
                   <span class="error-message">{{ errors['return-time'][0] }}</span>

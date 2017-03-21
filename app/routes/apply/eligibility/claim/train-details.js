@@ -46,6 +46,7 @@ module.exports = function (router) {
         req.body['return-journey'],
         req.body['ticket-owner'],
         req.body['departure-time'],
+        req.body['return-time'],
         isAdvanceClaim
       )
 
