@@ -63,6 +63,9 @@ describe('routes/apply/eligibility/claim/car-details', function () {
       return supertest(app)
         .get(ROUTE)
         .expect(200)
+        .expect(function () {
+          sinon.assert.calledOnce(isAdvanceClaimStub)
+        })
     })
 
     it('should call parseParams', function () {
@@ -98,6 +101,9 @@ describe('routes/apply/eligibility/claim/car-details', function () {
       return supertest(app)
         .get(ROUTE_REPEAT)
         .expect(200)
+        .expect(function () {
+          sinon.assert.calledOnce(isAdvanceClaimStub)
+        })
     })
 
     it('should call parseParams', function () {
@@ -169,6 +175,9 @@ describe('routes/apply/eligibility/claim/car-details', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(400)
+        .expect(function () {
+          sinon.assert.calledOnce(isAdvanceClaimStub)
+        })
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {

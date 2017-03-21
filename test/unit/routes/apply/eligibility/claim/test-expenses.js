@@ -59,6 +59,9 @@ describe('routes/apply/eligibility/claim/expenses', function () {
       return supertest(app)
         .get(ROUTE)
         .expect(200)
+        .expect(function () {
+          sinon.assert.calledOnce(isAdvanceClaimStub)
+        })
     })
   })
 
@@ -102,6 +105,7 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .expect(400)
         .expect(function () {
           sinon.assert.calledOnce(getClaimSummaryStub)
+          sinon.assert.calledOnce(isAdvanceClaimStub)
         })
     })
 
