@@ -19,7 +19,7 @@
         Your ferry journey
       </h1>
 
-      <p>You may be able to get help with the cost of a ferry ticket if your journey involved a sea crossing
+      <p>You may be able to get help with the cost of a ferry ticket if your journey {% if isAdvanceClaim %}involves{% else %}involved{% endif %} a sea crossing
         - for example from the Isle of Wight to the mainland.</p>
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/ferry{{ params }}"
