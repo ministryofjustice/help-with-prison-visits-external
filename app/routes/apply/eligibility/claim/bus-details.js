@@ -5,22 +5,28 @@ const expenseUrlRouter = require('../../../../services/routing/expenses-url-rout
 const BusExpense = require('../../../../services/domain/expenses/bus-expense')
 const insertExpense = require('../../../../services/data/insert-expense')
 const getExpenseOwnerData = require('../../../../services/data/get-expense-owner-data')
+const isAdvanceClaim = require('../../../../services/data/is-advance-claim')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/bus', function (req, res) {
     UrlPathValidator(req.params)
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
-    return getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
-      .then(function (expenseOwnerData) {
-        return res.render('apply/eligibility/claim/bus-details', {
-          claimType: req.params.claimType,
-          referenceId: req.params.referenceId,
-          claimId: req.params.claimId,
-          expenseOwners: expenseOwnerData,
-          params: expenseUrlRouter.parseParams(req.query),
-          redirectUrl: expenseUrlRouter.getRedirectUrl(req)
-        })
+
+    isAdvanceClaim(req.params.claimId)
+      .then(function (isAdvanceClaim) {
+        return getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
+          .then(function (expenseOwnerData) {
+            return res.render('apply/eligibility/claim/bus-details', {
+              claimType: req.params.claimType,
+              referenceId: req.params.referenceId,
+              claimId: req.params.claimId,
+              expenseOwners: expenseOwnerData,
+              params: expenseUrlRouter.parseParams(req.query),
+              redirectUrl: expenseUrlRouter.getRedirectUrl(req),
+              isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+            })
+          })
       })
   })
 
@@ -46,18 +52,22 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        return getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
-          .then(function (expenseOwnerData) {
-            return res.status(400).render('apply/eligibility/claim/bus-details', {
-              errors: error.validationErrors,
-              claimType: req.params.claimType,
-              referenceId: req.params.referenceId,
-              claimId: req.params.claimId,
-              expenseOwners: expenseOwnerData,
-              params: expenseUrlRouter.parseParams(req.query),
-              redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-              expense: req.body
-            })
+        isAdvanceClaim(req.params.claimId)
+          .then(function (isAdvanceClaim) {
+            return getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
+              .then(function (expenseOwnerData) {
+                return res.status(400).render('apply/eligibility/claim/bus-details', {
+                  errors: error.validationErrors,
+                  claimType: req.params.claimType,
+                  referenceId: req.params.referenceId,
+                  claimId: req.params.claimId,
+                  expenseOwners: expenseOwnerData,
+                  params: expenseUrlRouter.parseParams(req.query),
+                  redirectUrl: expenseUrlRouter.getRedirectUrl(req),
+                  expense: req.body,
+                  isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+                })
+              })
           })
       } else {
         throw error
