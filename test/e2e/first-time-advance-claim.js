@@ -99,8 +99,9 @@ describe('First Time Advance Claim Flow', () => {
       .waitForExist('#train-details-submit')
       .setValue('#from-input', 'Euston')
       .setValue('#to-input', 'Birmingham New Street')
-      .click('[for="return-no"]')
+      .click('[for="return-yes"]')
       .setValue('#departure-time-input', '10am')
+      .setValue('#return-time-input', '4pm')
       .click('#train-details-submit')
 
       // Claim summary (advance claims do not need visit confirmation/expense upload)
