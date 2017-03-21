@@ -19,18 +19,21 @@ describe('routes/apply/eligibility/claim/expenses', function () {
   var expenseUrlRouterStub
   var expensesStub
   var getClaimSummaryStub
+  var isAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     expenseUrlRouterStub = sinon.stub()
     expensesStub = sinon.stub()
     getClaimSummaryStub = sinon.stub().resolves({ claim: { Country: 'England' } })
+    isAdvanceClaimStub = sinon.stub().resolves({})
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/expenses', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/domain/expenses/expenses': expensesStub,
-      '../../../../services/data/get-claim-summary': getClaimSummaryStub
+      '../../../../services/data/get-claim-summary': getClaimSummaryStub,
+      '../../../../services/data/is-advance-claim': isAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })

@@ -15,12 +15,21 @@
 
       {% include "includes/validation-error-messages.html" %}
 
-      <h1 class="heading-large">
-        What kind of transport did you use?
-      </h1>
+      {% if isAdvanceClaim %}
+        <h1 class="heading-large">
+          What kind of transport will you use?
+        </h1>
 
-      <p>You can select more than one. You will need to show us receipts or tickets
-        for all parts of the journey, except for car or motorcycle travel.</p>
+        <p>If your application’s approved you will be sent train tickets or money to cover for expenses. Tickets will be the cheapest available for the time of day.</p>
+
+      {% else %}
+        <h1 class="heading-large">
+          What kind of transport did you use?
+        </h1>
+
+        <p>You can select more than one. You will need to show us receipts or tickets
+          for all parts of the journey, except for car or motorcycle travel.</p>
+      {% endif %}
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}" method="post">
         <div class="form-group">
@@ -80,9 +89,15 @@
 
           </fieldset>
 
-          <h2 class="heading-medium">
-            Did you have any other expenses?
-          </h2>
+          {% if isAdvanceClaim %}
+            <h2 class="heading-medium">
+              Will you have any other expenses?
+            </h2>
+          {% else %}
+            <h2 class="heading-medium">
+              Did you have any other expenses?
+            </h2>
+          {% endif %}
 
           <p>You may be able to get help paying for light refreshments and accommodation.</p>
 
