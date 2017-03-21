@@ -17,14 +17,17 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
 
   var urlPathValidatorStub
   var hasEscortStub
+  var isAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     hasEscortStub = sinon.stub()
+    isAdvanceClaimStub = sinon.stub().resolves({})
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/has-escort', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/has-escort': hasEscortStub
+      '../../../../services/domain/has-escort': hasEscortStub,
+      '../../../../services/data/is-advance-claim': isAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })
