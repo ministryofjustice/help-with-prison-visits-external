@@ -73,7 +73,7 @@
           </label>
 
           <div id="toll-question" class="panel panel-border-narrow {% if errors['toll-cost'][0] %} error {% else %} js-hidden {% endif %}">
-            <label id="toll-cost" for="toll-cost-input" class="form-label">Cost</label>
+            <label id="toll-cost" for="toll-cost-input" class="form-label">{% if isAdvanceClaim %}Estimated cost{% else %}Cost{% endif %}</label>
 
             {% if errors['toll-cost'][0] %}
               <span class="error-message">{{ errors['toll-cost'][0] }}</span>
@@ -100,7 +100,7 @@
           <div id="parking-charge-question"
                class="panel panel-border-narrow {% if errors['parking-charge-cost'][0] %} error {% else %} js-hidden {% endif %}">
 
-            <label id="parking-charge-cost" for="parking-charge-cost-input" class="form-label">Cost</label>
+            <label id="parking-charge-cost" for="parking-charge-cost-input" class="form-label">{% if isAdvanceClaim %}Estimated cost{% else %}Cost{% endif %}</label>
 
             {% if errors['parking-charge-cost'][0] %}
               <span class="error-message">{{ errors['parking-charge-cost'][0] }}</span>

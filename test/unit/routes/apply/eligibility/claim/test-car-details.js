@@ -25,6 +25,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
   var getTravellingFromAndToStub
   var carExpenseStub
   var getMaskedEligibilityStub
+  var isAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -33,6 +34,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
     getTravellingFromAndToStub = sinon.stub()
     carExpenseStub = sinon.stub()
     getMaskedEligibilityStub = sinon.stub()
+    isAdvanceClaimStub = sinon.stub().resolves({})
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/car-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
@@ -40,13 +42,15 @@ describe('routes/apply/eligibility/claim/car-details', function () {
       '../../../../services/data/insert-car-expenses': insertCarExpensesStub,
       '../../../../services/data/get-travelling-from-and-to': getTravellingFromAndToStub,
       '../../../../services/domain/expenses/car-expense': carExpenseStub,
-      '../../../../services/data/get-masked-eligibility': getMaskedEligibilityStub
+      '../../../../services/data/get-masked-eligibility': getMaskedEligibilityStub,
+      '../../../../services/data/is-advance-claim': isAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })
 
   describe(`GET ${ROUTE}`, function () {
     it('should call the URL Path Validator', function () {
+      getTravellingFromAndToStub.resolves()
       return supertest(app)
         .get(ROUTE)
         .expect(function () {
@@ -81,6 +85,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
 
   describe(`GET ${ROUTE_REPEAT}`, function () {
     it('should call the URL Path Validator', function () {
+      getMaskedEligibilityStub.resolves()
       return supertest(app)
         .get(ROUTE_REPEAT)
         .expect(function () {
