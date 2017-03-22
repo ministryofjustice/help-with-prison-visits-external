@@ -10,6 +10,9 @@ describe('services/domain/expenses/train-expense', function () {
   const VALID_IS_RETURN = 'yes'
   const VALID_TICKET_OWNER = 'you'
   const VALID_DEPARTURE_TIME = '10am'
+  const EMPTY_DEPARTURE_TIME = ''
+  const VALID_RETURN_TIME = '4pm'
+  const EMPTY_RETURN_TIME = ''
   const INVALID_COST = '0'
 
   const IS_PAST_CLAIM = false
@@ -25,7 +28,8 @@ describe('services/domain/expenses/train-expense', function () {
       VALID_TO,
       VALID_IS_RETURN,
       VALID_TICKET_OWNER,
-      VALID_DEPARTURE_TIME,
+      EMPTY_DEPARTURE_TIME,
+      EMPTY_RETURN_TIME,
       IS_PAST_CLAIM
     )
     expect(expense.cost).to.equal(VALID_COST)
@@ -43,6 +47,7 @@ describe('services/domain/expenses/train-expense', function () {
       VALID_IS_RETURN,
       VALID_TICKET_OWNER,
       VALID_DEPARTURE_TIME,
+      VALID_RETURN_TIME,
       IS_ADVANCE_CLAIM
     )
     expect(expense.cost).to.equal(VALID_COST)
@@ -61,7 +66,8 @@ describe('services/domain/expenses/train-expense', function () {
       INVALID_CHARS_TO,
       VALID_IS_RETURN,
       VALID_TICKET_OWNER,
-      VALID_DEPARTURE_TIME,
+      EMPTY_DEPARTURE_TIME,
+      EMPTY_RETURN_TIME,
       IS_PAST_CLAIM
     )
     expect(expense.cost).to.equal(VALID_COST)
@@ -72,15 +78,32 @@ describe('services/domain/expenses/train-expense', function () {
     expect(expense.isAdvanceClaim).to.equal(IS_PAST_CLAIM)
   })
 
-  it('should throw an error if passed invalid data', function () {
+  it('should throw an error if passed invalid past claim data', function () {
     expect(function () {
       new TrainExpense(
         INVALID_COST,
         VALID_FROM,
         VALID_TO,
         VALID_IS_RETURN,
+        EMPTY_DEPARTURE_TIME,
         VALID_TICKET_OWNER,
+        EMPTY_RETURN_TIME,
         IS_PAST_CLAIM
+      )
+    }).to.throw(ValidationError)
+  })
+
+  it('should throw an error if passed invalid advance claim data - no return', function () {
+    expect(function () {
+      new TrainExpense(
+        VALID_COST,
+        VALID_FROM,
+        VALID_TO,
+        VALID_IS_RETURN,
+        EMPTY_DEPARTURE_TIME,
+        VALID_TICKET_OWNER,
+        EMPTY_RETURN_TIME,
+        IS_ADVANCE_CLAIM
       )
     }).to.throw(ValidationError)
   })

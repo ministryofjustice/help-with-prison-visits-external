@@ -26,12 +26,7 @@
         {% set exampleFrom = 'Euston' %}
         {% include "partials/expenses/from.html" %}
 
-        {% set exampleTo = 'Birmingham New Street' %}
-        {% include "partials/expenses/to.html" %}
-
-        {% include "partials/expenses/return-journey.html" %}
-
-        {% if isAdvanceClaim %}
+        {% if isAdvanceClaim  %}
 
           <div id="departure-time" class="form-group {% if errors['departure-time'][0] %} error {% endif %}">
             <label for="departure-time-input" class="form-label-bold">Departure time</label>
@@ -46,6 +41,27 @@
                    name="departure-time"
                    value="{{ expense['departure-time'] }}"
                    class="form-control">
+          </div>
+
+        {% endif %}
+
+        {% set exampleTo = 'Birmingham New Street' %}
+        {% include "partials/expenses/to.html" %}
+
+        {% include "partials/expenses/return-journey.html" %}
+
+        {% if isAdvanceClaim %}
+
+          <div id="return-time" class="panel panel-border-narrow js-hidden">
+            <div class="form-group {% if errors['return-time'][0] %} error {% endif %}">
+              <label class="form-label-bold" for="return-time-input">What time is your return train home?</label>
+                {% if errors['return-time'][0] %}
+                  <span class="error-message">{{ errors['return-time'][0] }}</span>
+                {% endif %}
+              <p class="form-hint">For example, 4pm</p>
+              <input id="return-time-input" name="return-time-input" type="text" class="form-control">
+
+            </div>
           </div>
 
         {% else %}

@@ -12,7 +12,8 @@ module.exports = function (expense) {
     case 'bus':
     case 'plane':
     case 'train':
-      formattedDetail = `${addTicketOwnerPrefix(expense)}${expense.From} to ${expense.To}${addReturnPostfix(expense)}`
+      var travelTime = expense.TravelTime ? ` (${expense.TravelTime})` : ''
+      formattedDetail = `${addTicketOwnerPrefix(expense)}${expense.From} to ${expense.To}${travelTime}${addReturnPostfix(expense)}`
       break
     case 'refreshment':
       formattedDetail = ''
@@ -49,7 +50,11 @@ function addTicketOwnerPrefix (expense) {
 
 function addReturnPostfix (expense) {
   if (expense.IsReturn) {
-    return ' - Return'
+    if (expense.ExpenseType === 'train' && expense.ReturnTime) {
+      return ` - Return (${expense.ReturnTime})`
+    } else {
+      return ' - Return'
+    }
   } else {
     return ''
   }

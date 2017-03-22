@@ -7,7 +7,7 @@ const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class RefreshmentExpense extends BaseExpense {
   constructor (cost) {
-    super(EXPENSE_TYPE.LIGHT_REFRESHMENT.value, cost, null, null, null, null, null, null, null)
+    super(EXPENSE_TYPE.LIGHT_REFRESHMENT.value, cost, null, null, null, null, null, null, null, null)
     this.isValid()
   }
 

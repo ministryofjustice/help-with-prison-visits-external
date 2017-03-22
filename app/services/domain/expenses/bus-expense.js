@@ -7,7 +7,7 @@ const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class BusExpense extends BaseExpense {
   constructor (cost, from, to, isReturn, ticketOwner) {
-    super(EXPENSE_TYPE.BUS.value, cost, null, from, to, isReturn, null, null, ticketOwner)
+    super(EXPENSE_TYPE.BUS.value, cost, null, from, to, isReturn, null, null, ticketOwner, null)
     this.isValid()
   }
 
