@@ -17,14 +17,17 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
 
   var urlPathValidatorStub
   var hasEscortStub
+  var getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     hasEscortStub = sinon.stub()
+    getIsAdvanceClaimStub = sinon.stub().resolves()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/has-escort', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/has-escort': hasEscortStub
+      '../../../../services/domain/has-escort': hasEscortStub,
+      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -42,6 +45,9 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
       return supertest(app)
         .get(ROUTE)
         .expect(200)
+        .expect(function () {
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
+        })
     })
   })
 
@@ -82,6 +88,9 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(400)
+        .expect(function () {
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
+        })
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {

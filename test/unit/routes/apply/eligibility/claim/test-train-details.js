@@ -22,7 +22,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
   var insertExpenseStub
   var trainExpenseStub
   var getExpenseOwnerDataStub
-  var isAdvanceClaimStub
+  var getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -30,7 +30,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     insertExpenseStub = sinon.stub()
     trainExpenseStub = sinon.stub()
     getExpenseOwnerDataStub = sinon.stub()
-    isAdvanceClaimStub = sinon.stub()
+    getIsAdvanceClaimStub = sinon.stub()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/train-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
@@ -38,7 +38,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
       '../../../../services/data/insert-expense': insertExpenseStub,
       '../../../../services/domain/expenses/train-expense': trainExpenseStub,
       '../../../../services/data/get-expense-owner-data': getExpenseOwnerDataStub,
-      '../../../../services/data/is-advance-claim': isAdvanceClaimStub
+      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -54,16 +54,16 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     })
 
     it('should call the function to determine if claim is advance or not', function () {
-      isAdvanceClaimStub.resolves()
+      getIsAdvanceClaimStub.resolves()
       return supertest(app)
         .get(ROUTE)
         .expect(function () {
-          sinon.assert.calledOnce(isAdvanceClaimStub)
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
         })
     })
 
     it('should call the function to get expense owner data', function () {
-      isAdvanceClaimStub.resolves()
+      getIsAdvanceClaimStub.resolves()
       getExpenseOwnerDataStub.resolves()
       return supertest(app)
         .get(ROUTE)
@@ -73,7 +73,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     })
 
     it('should respond with a 200', function () {
-      isAdvanceClaimStub.resolves()
+      getIsAdvanceClaimStub.resolves()
       getExpenseOwnerDataStub.resolves()
       return supertest(app)
         .get(ROUTE)
@@ -81,7 +81,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     })
 
     it('should call parseParams', function () {
-      isAdvanceClaimStub.resolves()
+      getIsAdvanceClaimStub.resolves()
       getExpenseOwnerDataStub.resolves()
       var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
       return supertest(app)

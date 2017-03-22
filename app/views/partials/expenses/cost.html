@@ -1,5 +1,5 @@
 <div id="cost" class="form-group {% if errors['cost'][0] %} error {% endif %}">
-  <label for="cost-input" class="form-label-bold">Cost</label>
+  <label for="cost-input" class="form-label-bold">{% if isAdvanceClaim %}Estimated cost{% else %}Cost{% endif %}</label>
 
   {% if errors['cost'][0] %}
     <span class="error-message">{{ errors['cost'][0] }}</span>

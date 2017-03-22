@@ -1,9 +1,9 @@
 const expect = require('chai').expect
-const isAdvanceClaim = require('../../../../app/services/data/is-advance-claim')
+const getIsAdvanceClaim = require('../../../../app/services/data/get-is-advance-claim')
 const eligibilityHelper = require('../../../helpers/data/eligibility-helper')
 const claimHelper = require('../../../helpers/data/claim-helper')
 
-describe('services/data/get-historic-claim-by-claim-id', function () {
+describe('services/data/get-is-advance-claim', function () {
   const REFERENCE = 'ISADV12'
   var claimId
 
@@ -16,10 +16,10 @@ describe('services/data/get-historic-claim-by-claim-id', function () {
     return eligibilityHelper.deleteAll(REFERENCE)
   })
 
-  it('should retrieve the isAdvance field for the given claimId', function () {
-    return isAdvanceClaim(claimId)
-      .then(function (claim) {
-        expect(claim.IsAdvanceClaim).to.equal(claimHelper.IS_ADVANCE_CLAIM)
+  it('should retrieve the isAdvanceClaim field for the given claimId', function () {
+    return getIsAdvanceClaim(claimId)
+      .then(function (result) {
+        expect(result).to.equal(claimHelper.IS_ADVANCE_CLAIM)
       })
   })
 })

@@ -5,7 +5,7 @@ const expenseUrlRouter = require('../../../../services/routing/expenses-url-rout
 const TrainExpense = require('../../../../services/domain/expenses/train-expense')
 const insertExpense = require('../../../../services/data/insert-expense')
 const getExpenseOwnerData = require('../../../../services/data/get-expense-owner-data')
-const isAdvanceClaim = require('../../../../services/data/is-advance-claim')
+const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/train', function (req, res) {
@@ -13,7 +13,7 @@ module.exports = function (router) {
 
     var claim = {}
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
-    isAdvanceClaim(req.params.claimId)
+    getIsAdvanceClaim(req.params.claimId)
       .then(function (isAdvanceClaim) {
         claim.isAdvanceClaim = isAdvanceClaim
       })
@@ -28,7 +28,7 @@ module.exports = function (router) {
           expenseOwners: expenseOwnerData,
           params: expenseUrlRouter.parseParams(req.query),
           redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-          claim: claim.isAdvanceClaim
+          isAdvanceClaim: claim.isAdvanceClaim
         })
       })
   })

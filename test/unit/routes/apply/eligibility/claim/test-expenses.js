@@ -19,18 +19,21 @@ describe('routes/apply/eligibility/claim/expenses', function () {
   var expenseUrlRouterStub
   var expensesStub
   var getClaimSummaryStub
+  var getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     expenseUrlRouterStub = sinon.stub()
     expensesStub = sinon.stub()
     getClaimSummaryStub = sinon.stub().resolves({ claim: { Country: 'England' } })
+    getIsAdvanceClaimStub = sinon.stub().resolves()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/expenses', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/domain/expenses/expenses': expensesStub,
-      '../../../../services/data/get-claim-summary': getClaimSummaryStub
+      '../../../../services/data/get-claim-summary': getClaimSummaryStub,
+      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -56,6 +59,9 @@ describe('routes/apply/eligibility/claim/expenses', function () {
       return supertest(app)
         .get(ROUTE)
         .expect(200)
+        .expect(function () {
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
+        })
     })
   })
 
@@ -99,6 +105,7 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .expect(400)
         .expect(function () {
           sinon.assert.calledOnce(getClaimSummaryStub)
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
         })
     })
 

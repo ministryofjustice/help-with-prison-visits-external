@@ -7,7 +7,7 @@ require('sinon-bluebird')
 
 describe('routes/application-submitted', function () {
   const ENCRYPTED_REFERENCE = encrypt('RA2E0QZ')
-  const ROUTE = `/application-submitted/${ENCRYPTED_REFERENCE}`
+  const ROUTE = `/application-submitted/past/${ENCRYPTED_REFERENCE}`
   var app
   var urlPathValidatorStub
 

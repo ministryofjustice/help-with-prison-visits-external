@@ -20,8 +20,9 @@
       </h1>
 
       <p>You may get help paying for air travel if it is cheaper than other public transport options.</p>
-
-      <p>Claims that include air travel should be approved before you travel by the Assisted Prison Visits Unit.</p>
+      {% if not isAdvanceClaim %}
+        <p>Claims that include air travel should be approved before you travel by the Assisted Prison Visits Unit.</p>
+      {% endif %}
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/plane{{ params }}"
             method="post">

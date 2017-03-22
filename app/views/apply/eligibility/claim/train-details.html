@@ -26,7 +26,7 @@
         {% set exampleFrom = 'Euston' %}
         {% include "partials/expenses/from.html" %}
 
-        {% if claim.IsAdvanceClaim %}
+        {% if isAdvanceClaim  %}
 
           <div id="departure-time" class="form-group {% if errors['departure-time'][0] %} error {% endif %}">
             <label for="departure-time-input" class="form-label-bold">Departure time</label>
@@ -50,7 +50,7 @@
 
         {% include "partials/expenses/return-journey.html" %}
 
-        {% if claim.IsAdvanceClaim %}
+        {% if isAdvanceClaim %}
 
           <div id="return-time" class="panel panel-border-narrow js-hidden">
             <div class="form-group {% if errors['return-time'][0] %} error {% endif %}">
@@ -91,7 +91,7 @@
 
         {% include "partials/csrf-hidden-input.html" %}
 
-        <input type="hidden" name="isAdvanceClaim" value="{{ claim.IsAdvanceClaim }}" />
+        <input type="hidden" name="isAdvanceClaim" value="{{ isAdvanceClaim }}" />
         <input id="train-details-submit"
                type="submit"
                class="button"
