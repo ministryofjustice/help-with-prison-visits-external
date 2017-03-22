@@ -30,7 +30,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
   var stubSubmitClaim
   var stubUrlPathValidator
   var stubGetAddress
-  var stubIsAdvanceClaim
+  var stubGetIsAdvanceClaim
 
   beforeEach(function () {
     stubPaymentDetails = sinon.stub()
@@ -38,7 +38,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
     stubSubmitClaim = sinon.stub()
     stubUrlPathValidator = sinon.stub()
     stubGetAddress = sinon.stub().resolves()
-    stubIsAdvanceClaim = sinon.stub()
+    stubGetIsAdvanceClaim = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/payment-details-and-declaration', {
@@ -47,7 +47,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
         '../../../../services/data/submit-claim': stubSubmitClaim,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator,
         '../../../../services/data/get-address': stubGetAddress,
-        '../../../../services/data/is-advance-claim': stubIsAdvanceClaim
+        '../../../../services/data/get-is-advance-claim': stubGetIsAdvanceClaim
       })
     app = routeHelper.buildApp(route)
   })
@@ -82,7 +82,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
       stubPaymentDetails.returns(newPaymentDetails)
       stubInsertBankAccountDetailsForClaim.resolves()
       stubSubmitClaim.resolves()
-      stubIsAdvanceClaim.resolves({IsAdvanceClaim: false})
+      stubGetIsAdvanceClaim.resolves(false)
 
       return supertest(app)
         .post(ROUTE)
@@ -92,7 +92,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
           sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
           sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newPaymentDetails)
           sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.DIRECT_BANK_PAYMENT.value)
-          sinon.assert.calledWith(stubIsAdvanceClaim, CLAIMID)
+          sinon.assert.calledWith(stubGetIsAdvanceClaim, CLAIMID)
         })
         .expect('location', `/application-submitted/past/${ENCRYPTED_REFERENCE}`)
     })
@@ -101,7 +101,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
       var newPaymentDetails = {payout: 'on'}
       stubPaymentDetails.returns(newPaymentDetails)
       stubSubmitClaim.resolves()
-      stubIsAdvanceClaim.resolves({IsAdvanceClaim: true})
+      stubGetIsAdvanceClaim.resolves(true)
 
       return supertest(app)
         .post(ROUTE)
@@ -111,7 +111,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
           sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
           sinon.assert.notCalled(stubInsertBankAccountDetailsForClaim)
           sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.PAYOUT.value)
-          sinon.assert.calledWith(stubIsAdvanceClaim, CLAIMID)
+          sinon.assert.calledWith(stubGetIsAdvanceClaim, CLAIMID)
         })
         .expect('location', `/application-submitted/advance/${ENCRYPTED_REFERENCE}`)
     })
@@ -121,7 +121,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
       stubPaymentDetails.returns({})
       stubInsertBankAccountDetailsForClaim.resolves()
       stubSubmitClaim.resolves()
-      stubIsAdvanceClaim.resolves({})
+      stubGetIsAdvanceClaim.resolves()
 
       return supertest(app)
         .post(ROUTE)

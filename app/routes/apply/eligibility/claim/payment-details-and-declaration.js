@@ -7,7 +7,7 @@ const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const encrypt = require('../../../../services/helpers/encrypt')
 const paymentMethods = require('../../../../constants/payment-method-enum')
 const getAddress = require('../../../../services/data/get-address')
-const isAdvanceClaim = require('../../../../services/data/is-advance-claim')
+const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/payment-details-and-declaration', function (req, res) {
@@ -69,9 +69,9 @@ module.exports = function (router) {
 function finishClaim (res, reference, eligibilityId, claimId, claimType, assistedDigitalCaseWorker, paymentMethod) {
   return submitClaim(reference, eligibilityId, claimId, claimType, assistedDigitalCaseWorker, paymentMethod)
     .then(function () {
-      isAdvanceClaim(claimId)
+      getIsAdvanceClaim(claimId)
         .then(function (isAdvanceClaim) {
-          var advanceOrPast = isAdvanceClaim.IsAdvanceClaim ? 'advance' : 'past'
+          var advanceOrPast = isAdvanceClaim ? 'advance' : 'past'
           var encryptedRef = encrypt(reference)
           return res.redirect(`/application-submitted/${advanceOrPast}/${encryptedRef}`)
         })
