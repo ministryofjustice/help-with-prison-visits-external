@@ -8,7 +8,7 @@ const getMaskedEligibility = require('../../../../services/data/get-masked-eligi
 const insertCarExpenses = require('../../../../services/data/insert-car-expenses')
 const claimTypeEnum = require('../../../../constants/claim-type-enum')
 const displayHelper = require('../../../../views/helpers/display-helper')
-const isAdvanceClaim = require('../../../../services/data/is-advance-claim')
+const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/car', function (req, res, next) {
@@ -32,7 +32,7 @@ function get (carOnly, req, res, next) {
   UrlPathValidator(req.params)
   var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
 
-  isAdvanceClaim(req.params.claimId)
+  getIsAdvanceClaim(req.params.claimId)
     .then(function (isAdvanceClaim) {
       if (req.params.claimType === claimTypeEnum.FIRST_TIME || req.params.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
         getTravellingFromAndTo(referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
@@ -46,7 +46,7 @@ function get (carOnly, req, res, next) {
               expense: result,
               carOnly: carOnly,
               displayHelper: displayHelper,
-              isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+              isAdvanceClaim: isAdvanceClaim
             })
           })
           .catch(function (error) {
@@ -65,7 +65,7 @@ function get (carOnly, req, res, next) {
               expense: fromAndTo,
               carOnly: carOnly,
               displayHelper: displayHelper,
-              isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+              isAdvanceClaim: isAdvanceClaim
             })
           })
           .catch(function (error) {
@@ -98,7 +98,7 @@ function post (carOnly, req, res, next) {
       })
   } catch (error) {
     if (error instanceof ValidationError) {
-      isAdvanceClaim(req.params.claimId)
+      getIsAdvanceClaim(req.params.claimId)
         .then(function (isAdvanceClaim) {
           return res.status(400).render('apply/eligibility/claim/car-details', {
             errors: error.validationErrors,
@@ -110,7 +110,7 @@ function post (carOnly, req, res, next) {
             expense: req.body,
             carOnly: carOnly,
             displayHelper: displayHelper,
-            isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+            isAdvanceClaim: isAdvanceClaim
           })
         })
     } else {

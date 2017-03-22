@@ -22,7 +22,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
   var insertExpenseStub
   var planeExpenseStub
   var getExpenseOwnerDataStub
-  var isAdvanceClaimStub
+  var getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -30,7 +30,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
     insertExpenseStub = sinon.stub()
     planeExpenseStub = sinon.stub()
     getExpenseOwnerDataStub = sinon.stub()
-    isAdvanceClaimStub = sinon.stub().resolves({})
+    getIsAdvanceClaimStub = sinon.stub().resolves()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/plane-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
@@ -38,7 +38,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
       '../../../../services/data/insert-expense': insertExpenseStub,
       '../../../../services/domain/expenses/plane-expense': planeExpenseStub,
       '../../../../services/data/get-expense-owner-data': getExpenseOwnerDataStub,
-      '../../../../services/data/is-advance-claim': isAdvanceClaimStub
+      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -68,7 +68,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
         .get(ROUTE)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(isAdvanceClaimStub)
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
         })
     })
 
@@ -127,7 +127,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
         .post(ROUTE)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(isAdvanceClaimStub)
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
         })
     })
 

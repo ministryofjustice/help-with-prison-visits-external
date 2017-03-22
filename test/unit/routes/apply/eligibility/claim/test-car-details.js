@@ -25,7 +25,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
   var getTravellingFromAndToStub
   var carExpenseStub
   var getMaskedEligibilityStub
-  var isAdvanceClaimStub
+  var getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -34,7 +34,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
     getTravellingFromAndToStub = sinon.stub()
     carExpenseStub = sinon.stub()
     getMaskedEligibilityStub = sinon.stub()
-    isAdvanceClaimStub = sinon.stub().resolves({})
+    getIsAdvanceClaimStub = sinon.stub().resolves()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/car-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
@@ -43,7 +43,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
       '../../../../services/data/get-travelling-from-and-to': getTravellingFromAndToStub,
       '../../../../services/domain/expenses/car-expense': carExpenseStub,
       '../../../../services/data/get-masked-eligibility': getMaskedEligibilityStub,
-      '../../../../services/data/is-advance-claim': isAdvanceClaimStub
+      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -64,7 +64,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .get(ROUTE)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(isAdvanceClaimStub)
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
         })
     })
 
@@ -102,7 +102,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .get(ROUTE_REPEAT)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(isAdvanceClaimStub)
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
         })
     })
 
@@ -176,7 +176,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .post(ROUTE)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(isAdvanceClaimStub)
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
         })
     })
 

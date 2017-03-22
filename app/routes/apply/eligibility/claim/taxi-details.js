@@ -4,12 +4,12 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const expenseUrlRouter = require('../../../../services/routing/expenses-url-router')
 const TaxiExpense = require('../../../../services/domain/expenses/taxi-expense')
 const insertExpense = require('../../../../services/data/insert-expense')
-const isAdvanceClaim = require('../../../../services/data/is-advance-claim')
+const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/taxi', function (req, res) {
     UrlPathValidator(req.params)
-    isAdvanceClaim(req.params.claimId)
+    getIsAdvanceClaim(req.params.claimId)
       .then(function (isAdvanceClaim) {
         return res.render('apply/eligibility/claim/taxi-details', {
           claimType: req.params.claimType,
@@ -17,7 +17,7 @@ module.exports = function (router) {
           claimId: req.params.claimId,
           params: expenseUrlRouter.parseParams(req.query),
           redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-          isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+          isAdvanceClaim: isAdvanceClaim
         })
       })
   })
@@ -42,7 +42,7 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        isAdvanceClaim(req.params.claimId)
+        getIsAdvanceClaim(req.params.claimId)
           .then(function (isAdvanceClaim) {
             return res.status(400).render('apply/eligibility/claim/taxi-details', {
               errors: error.validationErrors,
@@ -52,7 +52,7 @@ module.exports = function (router) {
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
               expense: req.body,
-              isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+              isAdvanceClaim: isAdvanceClaim
             })
           })
       } else {

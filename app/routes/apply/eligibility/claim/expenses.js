@@ -3,7 +3,7 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const expenseUrlRouter = require('../../../../services/routing/expenses-url-router')
 const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimSummary = require('../../../../services/data/get-claim-summary')
-const isAdvanceClaim = require('../../../../services/data/is-advance-claim')
+const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const NORTHERN_IRELAND = 'Northern Ireland'
 
 module.exports = function (router) {
@@ -12,7 +12,7 @@ module.exports = function (router) {
 
     getClaimSummary(req.params.claimId, req.params.claimType)
       .then(function (claimDetails) {
-        isAdvanceClaim(req.params.claimId)
+        getIsAdvanceClaim(req.params.claimId)
           .then(function (isAdvanceClaim) {
             var isNorthernIrelandClaim = claimDetails.claim.Country === NORTHERN_IRELAND
 
@@ -21,7 +21,7 @@ module.exports = function (router) {
               referenceId: req.params.referenceId,
               claimId: req.params.claimId,
               isNorthernIrelandClaim: isNorthernIrelandClaim,
-              isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+              isAdvanceClaim: isAdvanceClaim
             })
           })
       })
@@ -37,7 +37,7 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         getClaimSummary(req.params.claimId, req.params.claimType)
           .then(function (claimDetails) {
-            isAdvanceClaim(req.params.claimId)
+            getIsAdvanceClaim(req.params.claimId)
               .then(function (isAdvanceClaim) {
                 var isNorthernIrelandClaim = claimDetails.claim.Country === NORTHERN_IRELAND
 
@@ -47,7 +47,7 @@ module.exports = function (router) {
                   referenceId: req.params.referenceId,
                   claimId: req.params.claimId,
                   isNorthernIrelandClaim: isNorthernIrelandClaim,
-                  isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+                  isAdvanceClaim: isAdvanceClaim
                 })
               })
           })

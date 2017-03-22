@@ -21,21 +21,21 @@ describe('routes/apply/eligibility/claim/taxi-details', function () {
   var expenseUrlRouterStub
   var insertExpenseStub
   var taxiExpenseStub
-  var isAdvanceClaimStub
+  var getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     expenseUrlRouterStub = sinon.stub()
     insertExpenseStub = sinon.stub()
     taxiExpenseStub = sinon.stub()
-    isAdvanceClaimStub = sinon.stub().resolves({})
+    getIsAdvanceClaimStub = sinon.stub().resolves({})
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/taxi-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-expense': insertExpenseStub,
       '../../../../services/domain/expenses/taxi-expense': taxiExpenseStub,
-      '../../../../services/data/is-advance-claim': isAdvanceClaimStub
+      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -54,7 +54,7 @@ describe('routes/apply/eligibility/claim/taxi-details', function () {
         .get(ROUTE)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(isAdvanceClaimStub)
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
         })
     })
 
@@ -111,7 +111,7 @@ describe('routes/apply/eligibility/claim/taxi-details', function () {
         .post(ROUTE)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(isAdvanceClaimStub)
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
         })
     })
 

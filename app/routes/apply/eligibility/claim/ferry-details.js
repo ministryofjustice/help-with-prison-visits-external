@@ -5,14 +5,14 @@ const expenseUrlRouter = require('../../../../services/routing/expenses-url-rout
 const FerryExpense = require('../../../../services/domain/expenses/ferry-expense')
 const insertExpense = require('../../../../services/data/insert-expense')
 const getExpenseOwnerData = require('../../../../services/data/get-expense-owner-data')
-const isAdvanceClaim = require('../../../../services/data/is-advance-claim')
+const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/ferry', function (req, res) {
     UrlPathValidator(req.params)
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
-    isAdvanceClaim(req.params.claimId)
+    getIsAdvanceClaim(req.params.claimId)
       .then(function (isAdvanceClaim) {
         return getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
           .then(function (expenseOwnerData) {
@@ -23,7 +23,7 @@ module.exports = function (router) {
               expenseOwners: expenseOwnerData,
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-              isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+              isAdvanceClaim: isAdvanceClaim
             })
           })
       })
@@ -52,7 +52,7 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        isAdvanceClaim(req.params.claimId)
+        getIsAdvanceClaim(req.params.claimId)
           .then(function (isAdvanceClaim) {
             return getExpenseOwnerData(req.params.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
               .then(function (expenseOwnerData) {
@@ -65,7 +65,7 @@ module.exports = function (router) {
                   params: expenseUrlRouter.parseParams(req.query),
                   redirectUrl: expenseUrlRouter.getRedirectUrl(req),
                   expense: req.body,
-                  isAdvanceClaim: isAdvanceClaim.IsAdvanceClaim
+                  isAdvanceClaim: isAdvanceClaim
                 })
               })
           })
