@@ -30,6 +30,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
   var stubSubmitClaim
   var stubUrlPathValidator
   var stubGetAddress
+  var stubIsAdvanceClaim
 
   beforeEach(function () {
     stubPaymentDetails = sinon.stub()
@@ -37,6 +38,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
     stubSubmitClaim = sinon.stub()
     stubUrlPathValidator = sinon.stub()
     stubGetAddress = sinon.stub().resolves()
+    stubIsAdvanceClaim = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/payment-details-and-declaration', {
@@ -44,7 +46,8 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
         '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
         '../../../../services/data/submit-claim': stubSubmitClaim,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator,
-        '../../../../services/data/get-address': stubGetAddress
+        '../../../../services/data/get-address': stubGetAddress,
+        '../../../../services/data/is-advance-claim': stubIsAdvanceClaim
       })
     app = routeHelper.buildApp(route)
   })
@@ -74,11 +77,12 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
         })
     })
 
-    it('should respond with a 302 and call submit claim with bank payment', function () {
+    it('should respond with a 302 and call submit claim with bank payment and past in route', function () {
       var newPaymentDetails = {}
       stubPaymentDetails.returns(newPaymentDetails)
       stubInsertBankAccountDetailsForClaim.resolves()
       stubSubmitClaim.resolves()
+      stubIsAdvanceClaim.resolves({IsAdvanceClaim: false})
 
       return supertest(app)
         .post(ROUTE)
@@ -88,14 +92,16 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
           sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
           sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newPaymentDetails)
           sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.DIRECT_BANK_PAYMENT.value)
+          sinon.assert.calledWith(stubIsAdvanceClaim, CLAIMID)
         })
-        .expect('location', `/application-submitted/${ENCRYPTED_REFERENCE}`)
+        .expect('location', `/application-submitted/past/${ENCRYPTED_REFERENCE}`)
     })
 
-    it('should respond with a 302 and call submit claim with payout', function () {
+    it('should respond with a 302 and call submit claim with payout and advance in route', function () {
       var newPaymentDetails = {payout: 'on'}
       stubPaymentDetails.returns(newPaymentDetails)
       stubSubmitClaim.resolves()
+      stubIsAdvanceClaim.resolves({IsAdvanceClaim: true})
 
       return supertest(app)
         .post(ROUTE)
@@ -105,8 +111,9 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
           sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
           sinon.assert.notCalled(stubInsertBankAccountDetailsForClaim)
           sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.PAYOUT.value)
+          sinon.assert.calledWith(stubIsAdvanceClaim, CLAIMID)
         })
-        .expect('location', `/application-submitted/${ENCRYPTED_REFERENCE}`)
+        .expect('location', `/application-submitted/advance/${ENCRYPTED_REFERENCE}`)
     })
 
     it('should use assisted digital cookie value', function () {
@@ -114,6 +121,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
       stubPaymentDetails.returns({})
       stubInsertBankAccountDetailsForClaim.resolves()
       stubSubmitClaim.resolves()
+      stubIsAdvanceClaim.resolves({})
 
       return supertest(app)
         .post(ROUTE)

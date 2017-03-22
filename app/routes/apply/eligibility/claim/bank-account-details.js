@@ -6,6 +6,7 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const encrypt = require('../../../../services/helpers/encrypt')
 const paymentMethods = require('../../../../constants/payment-method-enum')
+const isAdvanceClaim = require('../../../../services/data/is-advance-claim')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/bank-account-details', function (req, res) {
@@ -30,8 +31,12 @@ module.exports = function (router) {
         .then(function () {
           return submitClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
             .then(function () {
-              var encryptedRef = encrypt(referenceAndEligibilityId.reference)
-              return res.redirect(`/application-submitted/${encryptedRef}`)
+              isAdvanceClaim(req.params.claimId)
+                .then(function (isAdvanceClaim) {
+                  var advanceOrPast = isAdvanceClaim.IsAdvanceClaim ? 'advance' : 'past'
+                  var encryptedRef = encrypt(referenceAndEligibilityId.reference)
+                  return res.redirect(`/application-submitted/${advanceOrPast}/${encryptedRef}`)
+                })
             })
         })
         .catch(function (error) {
