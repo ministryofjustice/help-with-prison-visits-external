@@ -52,5 +52,6 @@ module.exports = {
   'issue': 'Message',
   'name': 'Name',
   'advance-past': 'response',
-  'departure-time': 'Departure time'
+  'departure-time': 'Departure time',
+  'return-time': 'Return time'
 }

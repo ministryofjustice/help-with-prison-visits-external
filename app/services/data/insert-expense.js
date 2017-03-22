@@ -23,7 +23,8 @@ module.exports = function (reference, eligibilityId, claimId, expense) {
         DurationOfTravel: expense.durationOfTravel || null,
         TicketType: expense.ticketType || null,
         TicketOwner: expense.ticketOwner || null,
-        IsEnabled: true
+        IsEnabled: true,
+        ReturnTime: expense.returnTime || null
       })
     })
 }

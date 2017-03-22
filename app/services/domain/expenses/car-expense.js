@@ -7,7 +7,7 @@ const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class CarExpense extends BaseExpense {
   constructor (from, to, toll, tollCost, parking, parkingCost) {
-    super(EXPENSE_TYPE.CAR.value, null, null, from, to, null, null, null, null)
+    super(EXPENSE_TYPE.CAR.value, null, null, from, to, null, null, null, null, null)
     this.toll = toll
     this.createField('tollCost', tollCost)
     this.parking = parking

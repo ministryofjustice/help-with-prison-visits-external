@@ -6,8 +6,8 @@ const ErrorHandler = require('../../validators/error-handler')
 const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class TrainExpense extends BaseExpense {
-  constructor (cost, from, to, isReturn, ticketOwner, departureTime, isAdvanceClaim) {
-    super(EXPENSE_TYPE.TRAIN.value, cost, departureTime, from, to, isReturn, null, null, ticketOwner)
+  constructor (cost, from, to, isReturn, ticketOwner, departureTime, returnTime, isAdvanceClaim) {
+    super(EXPENSE_TYPE.TRAIN.value, cost, departureTime, from, to, isReturn, null, null, ticketOwner, returnTime)
     this.isAdvanceClaim = isAdvanceClaim
     this.isValid()
   }
@@ -32,6 +32,10 @@ class TrainExpense extends BaseExpense {
     if (this.isAdvanceClaim) {
       FieldValidator(this.travelTime, 'departure-time', errors)
         .isRequired(ERROR_MESSAGES.getEnterDepartureTime)
+      if (this.isReturn === 'yes') {
+        FieldValidator(this.returnTime, 'return-time', errors)
+          .isRequired(ERROR_MESSAGES.getEnterReturnTime)
+      }
     } else {
       FieldValidator(this.cost, 'cost', errors)
         .isRequired(ERROR_MESSAGES.getEnterCost)
