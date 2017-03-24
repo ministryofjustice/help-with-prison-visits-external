@@ -21,18 +21,21 @@ describe('routes/apply/eligibility/claim/light-refreshment-details', function ()
   var expenseUrlRouterStub
   var insertExpenseStub
   var refreshmentExpenseStub
+  var getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     expenseUrlRouterStub = sinon.stub()
     insertExpenseStub = sinon.stub()
     refreshmentExpenseStub = sinon.stub()
+    getIsAdvanceClaimStub = sinon.stub().resolves()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/light-refreshment-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-expense': insertExpenseStub,
-      '../../../../services/domain/expenses/refreshment-expense': refreshmentExpenseStub
+      '../../../../services/domain/expenses/refreshment-expense': refreshmentExpenseStub,
+      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -50,6 +53,9 @@ describe('routes/apply/eligibility/claim/light-refreshment-details', function ()
       return supertest(app)
         .get(ROUTE)
         .expect(200)
+        .expect(function () {
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
+        })
     })
 
     it('should call parseParams', function () {
@@ -104,6 +110,9 @@ describe('routes/apply/eligibility/claim/light-refreshment-details', function ()
       return supertest(app)
         .post(ROUTE)
         .expect(400)
+        .expect(function () {
+          sinon.assert.calledOnce(getIsAdvanceClaimStub)
+        })
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
