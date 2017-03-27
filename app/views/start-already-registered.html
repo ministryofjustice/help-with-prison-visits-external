@@ -32,7 +32,7 @@
       <form action="/start-already-registered" method="post">
 
         <div id="reference" class="form-group {% if errors['reference'][0] %} error {% endif %}">
-          <label class="form-label-bold" for="reference">Reference number</label>
+          <label class="form-label-bold" for="reference-input">Reference number</label>
 
           {% if errors['reference'][0] %}
             <span class="error-message">{{ errors['reference'][0] }}</span>
