@@ -7,6 +7,7 @@ const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const tasksEnum = require('../../../../app/constants/tasks-enum')
 const eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
 const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
+const dateFormatter = require('../../../../app/services/date-formatter')
 require('sinon-bluebird')
 
 const REFERENCE = 'SUBMITF'
@@ -30,9 +31,9 @@ describe('services/data/submit-claim', function () {
   })
 
   it('should update Eligibility/Claim Status, DateSubmitted and insert tasks', function () {
-    var currentDate = new Date()
-    var twoMinutesAgo = new Date().setMinutes(currentDate.getMinutes() - 2)
-    var twoMinutesAhead = new Date().setMinutes(currentDate.getMinutes() + 2)
+    var currentDate = dateFormatter.now()
+    var twoMinutesAgo = dateFormatter.now().minutes(currentDate.get('minutes') - 2)
+    var twoMinutesAhead = dateFormatter.now().minutes(currentDate.get('minutes') + 2)
     var assistedDigitalCaseworker = 'a@b.com'
     var paymentMethod = 'bank'
 
@@ -43,7 +44,7 @@ describe('services/data/submit-claim', function () {
             return knex.first().from('ExtSchema.Claim').where('Reference', REFERENCE)
               .then(function (claim) {
                 expect(eligibility.Status).to.equal(eligibilityStatusEnum.SUBMITTED)
-                expect(eligibility.DateSubmitted).to.be.within(twoMinutesAgo, twoMinutesAhead)
+                expect(eligibility.DateSubmitted).to.be.within(twoMinutesAgo.toDate(), twoMinutesAhead.toDate())
 
                 expect(claim.Status).to.equal(claimStatusEnum.SUBMITTED)
                 expect(claim.AssistedDigitalCaseworker).to.equal(assistedDigitalCaseworker)
