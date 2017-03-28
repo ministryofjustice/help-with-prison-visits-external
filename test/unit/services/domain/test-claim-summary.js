@@ -18,8 +18,9 @@ describe('services/domain/claim-summary', function () {
 
   const BENEFIT_UPLOAD_NOT_REQUIRED = false
 
-  const VALID_CLAIM_EXPENSE_DOCUMENT = [ { ExpenseType: 'bus', DocumentStatus: 'uploaded' } ]
-  const INVALID_CLAIM_EXPENSE_DOCUMENT = [ { ExpenseType: 'bus', DocumentStatus: null } ]
+  const VALID_CLAIM_EXPENSE_DOCUMENT = [ { ExpenseType: 'train', DocumentStatus: 'uploaded', Cost: 2 } ]
+  const INVALID_CLAIM_EXPENSE_DOCUMENT = [ { ExpenseType: 'bus', DocumentStatus: null, Cost: 2 } ]
+  const INVALID_CLAIM_EXPENSE_COST = [ { ExpenseType: 'train', DocumentStatus: 'uploaded', Cost: 0 } ]
   const RECEIPT_NOT_REQUIRED_CLAIM_EXPENSE_DOCUMENT = [ { ExpenseType: 'car', DocumentStatus: null } ]
 
   it('should construct a domain object given valid input', function () {
@@ -59,6 +60,12 @@ describe('services/domain/claim-summary', function () {
   it('should throw a ValidationError if given no claim expenses', function () {
     expect(function () {
       new ClaimSummary(VALID_VISIT_CONFIRMATION, VALID_BENEFIT_UPLOAD_NEEDED, VALID_BENEFIT_DOCUMENT, [], IS_PAST_CLAIM, BENEFIT_UPLOAD_NOT_REQUIRED)
+    }).to.throw(ValidationError)
+  })
+
+  it('should throw a ValidationError if expense has 0 or less cost', function () {
+    expect(function () {
+      new ClaimSummary(VALID_VISIT_CONFIRMATION, VALID_BENEFIT_UPLOAD_NEEDED, VALID_BENEFIT_DOCUMENT, INVALID_CLAIM_EXPENSE_COST, IS_PAST_CLAIM, BENEFIT_UPLOAD_NOT_REQUIRED)
     }).to.throw(ValidationError)
   })
 

@@ -88,4 +88,23 @@ describe('views/helpers/display-helper', function () {
       expect(result).to.equal(undefined)
     })
   })
+
+  describe('zeroCostWarning', function () {
+    const ADVANCE = true
+    const RETRO = false
+    const ZERO_COST = 0
+    const COST = 2.5
+
+    it('should give false when no warnings are needed', function () {
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.CAR.value, ZERO_COST, RETRO)).to.be.false
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.CAR.value, ZERO_COST, ADVANCE)).to.be.false
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.TRAIN.value, ZERO_COST, ADVANCE)).to.be.false
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.BUS.value, COST, RETRO)).to.be.false
+    })
+
+    it('should return true if the cost is zero or less and not one of the expections', function () {
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.BUS.value, ZERO_COST, RETRO)).to.be.true
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.TRAIN.value, ZERO_COST, RETRO)).to.be.true
+    })
+  })
 })

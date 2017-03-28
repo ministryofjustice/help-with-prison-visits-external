@@ -74,3 +74,10 @@ module.exports.toCurrency = function (value) {
 
   return result
 }
+
+module.exports.zeroCostWarning = function (expenseType, cost, isAdvanceClaim) {
+  if (cost > 0 || expenseType === expenseTypeEnum.CAR.value || (expenseType === expenseTypeEnum.TRAIN.value && isAdvanceClaim)) {
+    return false
+  }
+  return true
+}
