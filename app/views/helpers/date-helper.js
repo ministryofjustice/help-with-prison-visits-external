@@ -1,5 +1,5 @@
 const moment = require('moment')
 
 module.exports = function (date) {
-  return moment(date).format('dddd D MMMM YYYY')
+  return moment.utc(date).format('dddd D MMMM YYYY')
 }
