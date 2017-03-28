@@ -14,6 +14,8 @@
 
   {% if claimExpense.fromInternalWeb %}
     <tr {% if forEdit %}{% if claimExpense.DocumentStatus == 'upload-later' or claimExpense.Status == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% endif %}>
+  {% elif errors['claim-expense'][0] and displayHelper.zeroCostWarning(claimExpense.ExpenseType, claimExpense.Cost, claimDetails.claim.IsAdvanceClaim) %}
+    <tr class="warning">
   {% else %}
     <tr {% if errors['claim-expense'][0] %} {% if claimExpense.DocumentStatus == null %} {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %} class="warning" {% endif %}{% endif %}{% endif %}>
   {% endif %}

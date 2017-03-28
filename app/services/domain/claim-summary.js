@@ -2,6 +2,7 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const BenefitEnum = require('../../constants/benefits-enum')
+const ExpenseEnum = require('../../constants/expense-type-enum')
 const DisplayHelper = require('../../views/helpers/display-helper')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
@@ -42,6 +43,8 @@ class ClaimSummary {
       })
     }
 
+    checkForZeroExpense(this.claimExpenses, this.isAdvanceClaim, errors)
+
     var validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
@@ -50,3 +53,12 @@ class ClaimSummary {
 }
 
 module.exports = ClaimSummary
+
+function checkForZeroExpense (claimExpenses, isAdvanceClaim, errors) {
+  claimExpenses.forEach(function (expense) {
+    if (expense.ExpenseType !== ExpenseEnum.CAR.value && !(expense.ExpenseType === ExpenseEnum.TRAIN.value && isAdvanceClaim)) {
+      FieldValidator(expense.Cost, 'claim-expense', errors)
+        .isGreaterThanZero()
+    }
+  })
+}

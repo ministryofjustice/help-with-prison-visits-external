@@ -38,6 +38,7 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
     Reference: reference,
     ExpenseType: expense.ExpenseType,
     Cost: expense.Cost,
+    ApprovedCost: expense.Cost,
     TravelTime: expense.TravelTime,
     From: expense.From,
     To: expense.To,
