@@ -19,17 +19,19 @@
         Light refreshments
       </h1>
 
-      <p>If you were away from home for more than 5 hours for your visit, you can claim a contribution towards food and drink purchased.</p>
+      <p>If you were away from home for more than 5 hours you may get a contribution for food and drink.</p>
 
-      <p>Provide the total cost for everyone you are claiming for below.</p>
+      <p>There’s a limit of £2.55 per person for trips over 5 hours and £5.10 for trips over 10 hours.</p>
+
+      <p>Give the total for every person you are claiming for.</p>
 
       <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/refreshment{{ params }}"
             method="post">
 
-        {% set refreshment = true %}
+        {% set costExample = 2.55 %}
         {% include "partials/expenses/cost.html" %}
 
-        <p>Please obtain and keep any receipts in case we need to see these later.<p>
+        <p>Keep receipts as you may need to show them later on.<p>
 
         {% include "partials/csrf-hidden-input.html" %}
 
