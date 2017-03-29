@@ -10,7 +10,7 @@ module.exports = function (claimDocumentId) {
       'IsEnabled': false
     })
     .then(function (filepath) {
-      if (filepath[0]) {
+      if (filepath[0] && fs.existsSync(filepath[0])) {
         fs.unlinkSync(filepath[0])
       }
     })
