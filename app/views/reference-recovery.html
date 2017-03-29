@@ -17,8 +17,7 @@
 
       <h1 class="heading-xlarge">Recover your reference number</h1>
 
-      <p> Please enter the email address you registered with and the prisoner number of the person you are visiting.</p>
-      <p> An email will be sent to your registered address containing your reference number.</p>
+      <p> Enter your email address and the prisoner number to recover your reference number.</p>
 
       <form action="/reference-recovery" method="post">
         <div id="EmailAddress" class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
@@ -31,6 +30,7 @@
 
         <div id="PrisonerNumber" class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
           <label for="PrisonerNumber" class="form-label-bold">Prisoner number</label>
+          <p class="form-hint">For example, A1234BC</p>
           {% if errors['PrisonerNumber'][0] %}
             <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
           {% endif %}
@@ -41,9 +41,11 @@
 
         <input id="recovery-submit"
                type="submit"
-               value="Submit"
+               value="Continue"
                class="button">
       </form>
+      <br>
+      <a href="/start-already-registered" id="back" class="link">back</a>
     </div>
 
   </div>
