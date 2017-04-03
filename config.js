@@ -43,8 +43,5 @@ module.exports = {
   CLAM_AV_CONF_PATH: process.env.APVS_CLAM_AV_CONF_PATH || '/usr/local/etc/clamav/clamd.conf',
   CLAM_REMOVE_INFECTED: process.env.APVS_CLAM_AV_REMOVE_INFECTED || 'true',
   UPLOAD_FILE_TMP_DIR: process.env.APVS_UPLOAD_FILE_TMP_DIR || '/tmp',
-  MALWARE_NOTIFICATION_EMAIL_ADDRESS: process.env.APVS_MALWARE_NOTIFICATION_ADDRESS || 'donotsend@apvs.com',
-
-  // Payout feature toggle
-  PAYOUT_FEATURE_TOGGLE: process.env.APVS_PAYOUT_FEATURE_TOGGLE || 'true'
+  MALWARE_NOTIFICATION_EMAIL_ADDRESS: process.env.APVS_MALWARE_NOTIFICATION_ADDRESS || 'donotsend@apvs.com'
 }

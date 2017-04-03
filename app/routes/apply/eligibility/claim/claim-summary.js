@@ -7,7 +7,6 @@ const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
 const benefitUploadNotRequired = require('../../../helpers/benefit-upload-not-required')
 const displayHelper = require('../../../../views/helpers/display-helper')
-const config = require('../../../../../config')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
@@ -53,11 +52,7 @@ module.exports = function (router) {
         var benefitUpload = benefitUploadNotRequired(claimType)
 
         new ClaimSummary(visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUpload) // eslint-disable-line no-new
-        if (config.PAYOUT_FEATURE_TOGGLE === 'true') {
-          return res.redirect(`/apply/${claimType}/eligibility/${referenceId}/claim/${claimId}/payment-details-and-declaration?isAdvance=${isAdvanceClaim}`)
-        } else {
-          return res.redirect(`/apply/${claimType}/eligibility/${referenceId}/claim/${claimId}/bank-account-details?isAdvance=${isAdvanceClaim}`)
-        }
+        return res.redirect(`/apply/${claimType}/eligibility/${referenceId}/claim/${claimId}/payment-details-and-declaration?isAdvance=${isAdvanceClaim}`)
       })
       .catch(function (error) {
         if (error instanceof ValidationError) {
