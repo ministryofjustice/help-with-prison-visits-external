@@ -9,6 +9,7 @@ const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 require('sinon-bluebird')
+const moment = require('moment')
 
 const MASKED_ELIGIBILITY = {LastName: 'MASKED_LAST_NAME'}
 const getRepeatEligibilityStub = sinon.stub().resolves(MASKED_ELIGIBILITY)
@@ -42,10 +43,7 @@ describe('services/data/get-claim-summary', function () {
       return getClaimSummary(claimId, claimTypeEnum.FIRST_TIME)
         .then(function (result) {
           expect(result.claim.Reference).to.equal(REFERENCE)
-          expect(result.claim.DateOfJourney).to.be.within(
-            claimHelper.DATE_OF_JOURNEY.subtract(1, 'seconds').toDate(),
-            claimHelper.DATE_OF_JOURNEY.add(1, 'seconds').toDate()
-          )
+          expect(moment(result.claim.DateOfJourney).format('DD/MM/YYYY')).to.equal(claimHelper.DATE_OF_JOURNEY.format('DD/MM/YYYY'))
           expect(result.claim.IsAdvanceClaim).to.equal(false)
           expect(result.claim.visitConfirmation.DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
           expect(result.claim.benefitDocument[0].DocumentStatus).to.equal(claimDocumentHelper.DOCUMENT_STATUS)
