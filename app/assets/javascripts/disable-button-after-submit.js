@@ -1,3 +1,3 @@
 $('form').submit(function (event) {
-  $(this).children('input[type=submit]').prop('disabled', true)
+  $('input[type=submit]').prop('disabled', true)
 })
