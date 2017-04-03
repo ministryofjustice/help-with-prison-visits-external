@@ -35,22 +35,19 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
   var getClaimSummaryStub
   var claimSummaryStub
   var claimSummaryHelperStub
-  var configStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     getClaimSummaryStub = sinon.stub()
     claimSummaryStub = sinon.stub()
     claimSummaryHelperStub = sinon.stub()
-    configStub = {PAYOUT_FEATURE_TOGGLE: 'false'}
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': urlPathValidatorStub,
         '../../../../services/data/get-claim-summary': getClaimSummaryStub,
         '../../../../services/domain/claim-summary': claimSummaryStub,
-        '../../../helpers/claim-summary-helper': claimSummaryHelperStub,
-        '../../../../../config': configStub
+        '../../../helpers/claim-summary-helper': claimSummaryHelperStub
       })
 
     app = routeHelper.buildApp(route)
@@ -89,16 +86,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         })
     })
 
-    it('should respond with a 302 to bank details', function () {
-      getClaimSummaryStub.resolves(CLAIM)
-      return supertest(app)
-        .post(ROUTE)
-        .expect(302)
-        .expect('location', `/apply/${CLAIM_TYPE}/eligibility/${REFERENCE_ID}/claim/${CLAIM_ID}/bank-account-details?isAdvance=false`)
-    })
-
     it('should respond with a 302 to payment details and declaration', function () {
-      configStub.PAYOUT_FEATURE_TOGGLE = 'true'
       getClaimSummaryStub.resolves(CLAIM)
       return supertest(app)
         .post(ROUTE)
