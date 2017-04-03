@@ -8,6 +8,7 @@ const encrypt = require('../../../../services/helpers/encrypt')
 const paymentMethods = require('../../../../constants/payment-method-enum')
 const getAddress = require('../../../../services/data/get-address')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
+const checkStatusForFinishingClaim = require('../../../../services/data/check-status-for-finishing-claim')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/payment-details-and-declaration', function (req, res) {
@@ -31,20 +32,27 @@ module.exports = function (router) {
     try {
       var paymentDetails = new PaymentDetails(req.body.AccountNumber, req.body.SortCode, req.body['terms-and-conditions-input'], req.body.payout)
       var paymentMethod = paymentDetails.payout ? paymentMethods.PAYOUT.value : paymentMethods.DIRECT_BANK_PAYMENT.value
-      if (paymentDetails.payout) {
-        return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
-          .catch(function (error) {
-            next(error)
-          })
-      } else {
-        insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, paymentDetails)
-          .then(function () {
-            return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
-          })
-          .catch(function (error) {
-            next(error)
-          })
-      }
+      return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId)
+        .then(function (claimInProgress) {
+          if (claimInProgress) {
+            if (paymentDetails.payout) {
+              return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
+                .catch(function (error) {
+                  next(error)
+                })
+            } else {
+              insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, paymentDetails)
+                .then(function () {
+                  return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, paymentMethod)
+                })
+                .catch(function (error) {
+                  next(error)
+                })
+            }
+          } else {
+            redirectApplicationSubmitted(res, referenceAndEligibilityId.reference, req.params.claimId)
+          }
+        })
     } catch (error) {
       if (error instanceof ValidationError) {
         getAddress(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
@@ -69,11 +77,15 @@ module.exports = function (router) {
 function finishClaim (res, reference, eligibilityId, claimId, claimType, assistedDigitalCaseWorker, paymentMethod) {
   return submitClaim(reference, eligibilityId, claimId, claimType, assistedDigitalCaseWorker, paymentMethod)
     .then(function () {
-      getIsAdvanceClaim(claimId)
-        .then(function (isAdvanceClaim) {
-          var advanceOrPast = isAdvanceClaim ? 'advance' : 'past'
-          var encryptedRef = encrypt(reference)
-          return res.redirect(`/application-submitted/${advanceOrPast}/${encryptedRef}`)
-        })
+      return redirectApplicationSubmitted(res, reference, claimId)
+    })
+}
+
+function redirectApplicationSubmitted (res, reference, claimId) {
+  getIsAdvanceClaim(claimId)
+    .then(function (isAdvanceClaim) {
+      var advanceOrPast = isAdvanceClaim ? 'advance' : 'past'
+      var encryptedRef = encrypt(reference)
+      return res.redirect(`/application-submitted/${advanceOrPast}/${encryptedRef}`)
     })
 }
