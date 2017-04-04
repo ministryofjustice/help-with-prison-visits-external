@@ -3,14 +3,11 @@ const routeHelper = require('../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 describe('/your-claims/your-claims', function () {
-  const DOB = '113725122'
-  const REFERENCE = 'APVS123'
-  const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
-  const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}`
+  const COOKIES = [ 'apvs-start-already-registered=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
+  const ROUTE = `/your-claims`
 
   const CLAIMS_CAN_START_NEW_CLAIM = [{Status: 'APPROVED'}, {Status: 'AUTO-APPROVED'}, {Status: 'REJECTED'}]
   const CLAIMS_CANNOT_START_NEW_CLAIM = [{Status: 'INPROGRESS'}]
@@ -38,6 +35,7 @@ describe('/your-claims/your-claims', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -46,6 +44,7 @@ describe('/your-claims/your-claims', function () {
     it('should call the decrypt function', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(decryptStub)
         })
@@ -55,6 +54,7 @@ describe('/your-claims/your-claims', function () {
       getHistoricClaimsStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
     })
 
@@ -62,6 +62,7 @@ describe('/your-claims/your-claims', function () {
       getHistoricClaimsStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function (response) {
           expect(response.text).to.contain('"canStartNewClaim":true')
         })
@@ -71,6 +72,7 @@ describe('/your-claims/your-claims', function () {
       getHistoricClaimsStub.resolves(CLAIMS_CANNOT_START_NEW_CLAIM)
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function (response) {
           expect(response.text).to.contain('"canStartNewClaim":false')
         })
@@ -80,6 +82,7 @@ describe('/your-claims/your-claims', function () {
       getHistoricClaimsStub.resolves([])
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect('location', '/start-already-registered?error=yes')
     })
@@ -88,6 +91,7 @@ describe('/your-claims/your-claims', function () {
       getHistoricClaimsStub.rejects()
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })

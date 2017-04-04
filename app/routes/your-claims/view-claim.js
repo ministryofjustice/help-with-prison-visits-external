@@ -16,12 +16,24 @@ const decrypt = require('../../services/helpers/decrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 const dateFormatter = require('../../services/date-formatter')
 
+const REFERENCE_DOB_ERROR = '?error=yes'
+
 module.exports = function (router) {
-  router.get('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
+  router.get('/your-claims/:claimId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    var decryptedReference = decrypt(req.params.reference)
-    var dobDecoded = dateFormatter.decodeDate(req.params.dob)
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.encryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+    }
+
+    var dobEncoded = req.session.dobEncoded
+    var encryptedRef = req.session.encryptedRef
+
+    var decryptedReference = decrypt(encryptedRef)
+    var dobDecoded = dateFormatter.decodeDate(dobEncoded)
+
     getViewClaim(req.params.claimId, decryptedReference, dobDecoded)
       .then(function (claimDetails) {
         var referenceId = referenceIdHelper.getReferenceId(decryptedReference, claimDetails.claim.EligibilityId)
@@ -37,7 +49,6 @@ module.exports = function (router) {
           {
             reference: decryptedReference,
             referenceId: referenceId,
-            encryptedReference: req.params.reference,
             dob: dobDecoded,
             claimId: req.params.claimId,
             claimDetails: claimDetails,
@@ -52,21 +63,29 @@ module.exports = function (router) {
             isRequestInfoPayment: isRequestInfoPayment,
             forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED' || req.query.updated,
             updated: req.query.updated,
-            addInformation: addInformation,
-            dobEncoded: req.params.dob
+            addInformation: addInformation
           })
       })
   })
 
-  router.post('/your-claims/:dob/:reference/:claimId', function (req, res, next) {
+  router.post('/your-claims/:claimId', function (req, res, next) {
     UrlPathValidator(req.params)
     var SortCode = req.body['SortCode']
     var AccountNumber = req.body['AccountNumber']
     var message = req.body['message-to-caseworker']
     var assistedDigitalCookie = req.cookies['apvs-assisted-digital']
 
-    var decryptedReference = decrypt(req.params.reference)
-    var dobDecoded = dateFormatter.decodeDate(req.params.dob)
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.encryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+    }
+
+    var dobEncoded = req.session.dobEncoded
+    var encryptedRef = req.session.encryptedRef
+
+    var decryptedReference = decrypt(encryptedRef)
+    var dobDecoded = dateFormatter.decodeDate(dobEncoded)
 
     getViewClaim(req.params.claimId, decryptedReference, dobDecoded)
       .then(function (claimDetails) {
@@ -80,11 +99,11 @@ module.exports = function (router) {
           var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message, bankDetails) // eslint-disable-line no-unused-vars
           submitUpdate(decryptedReference, claimDetails.claim.EligibilityId, req.params.claimId, message, bankDetails, assistedDigitalCookie)
             .then(function () {
-              return res.redirect(`/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}?updated=true`)
+              return res.redirect(`/your-claims/${req.params.claimId}?updated=true`)
             })
         } catch (error) {
           if (error instanceof ValidationError) {
-            var referenceId = referenceIdHelper.getReferenceId(req.params.reference, claimDetails.claim.EligibilityId)
+            var referenceId = referenceIdHelper.getReferenceId(encryptedRef, claimDetails.claim.EligibilityId)
             var isRequestInfoPayment = bankDetails.required
             var addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
               claimDetails.claim.BenefitStatus,
@@ -97,7 +116,6 @@ module.exports = function (router) {
               errors: error.validationErrors,
               reference: decryptedReference,
               referenceId: referenceId,
-              encryptedReference: req.params.reference,
               claimId: req.params.claimId,
               claimDetails: claimDetails,
               dateHelper: dateHelper,
@@ -110,8 +128,7 @@ module.exports = function (router) {
               claimEventHelper: claimEventHelper,
               bankDetails: { AccountNumber, SortCode },
               isRequestInfoPayment: isRequestInfoPayment,
-              addInformation: addInformation,
-              dobEncoded: req.params.dob
+              addInformation: addInformation
             })
           } else {
             next(error)
@@ -120,8 +137,14 @@ module.exports = function (router) {
       })
   })
 
-  router.get('/your-claims/:dob/:reference/:claimId/view-document/:claimDocumentId', function (req, res, next) {
+  router.get('/your-claims/:claimId/view-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
+
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.encryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+    }
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
       .then(function (result) {
@@ -138,18 +161,24 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/your-claims/:dob/:reference/:claimId/remove-document/:claimDocumentId', function (req, res, next) {
+  router.post('/your-claims/:claimId/remove-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
+
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.encryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+    }
 
     removeClaimDocument(req.params.claimDocumentId)
       .then(function () {
         if (req.query.multipage) {
-          return res.redirect(`/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}`)
+          return res.redirect(`/your-claims/${req.params.claimId}`)
         } else {
           if (req.query.claimExpenseId) {
-            return res.redirect(`/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}&eligibilityId=${req.query.eligibilityId}`)
+            return res.redirect(`/your-claims/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}&eligibilityId=${req.query.eligibilityId}`)
           } else {
-            return res.redirect(`/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}/file-upload?document=${req.query.document}&eligibilityId=${req.query.eligibilityId}`)
+            return res.redirect(`/your-claims/${req.params.claimId}/file-upload?document=${req.query.document}&eligibilityId=${req.query.eligibilityId}`)
           }
         }
       })

@@ -36,7 +36,7 @@
 
   <hr>
 
-    <a id="change-contact-details" href="/your-claims/{{ dob }}/{{ encryptedReference }}/update-contact-details?eligibility={{ eligibility['EligibilityId'] }}" class="button grey push-right">Change contact details</a>
+    <a id="change-contact-details" href="/your-claims/update-contact-details?eligibility={{ eligibility['EligibilityId'] }}" class="button grey push-right">Change contact details</a>
 
     <p>Contact email address: <span class="bold">{{ eligibility['EmailAddress'] }}</span></p>
 
@@ -44,7 +44,7 @@
 
   <hr>
 
-  <form action="/your-claims/{{ dob }}/{{ encryptedReference }}/check-your-information" method="post">
+  <form action="/your-claims/check-your-information" method="post">
     <div class="form-group">
       <label for="confirm-correct" class="block-label">
         <input id="confirm-correct" type="checkbox" name="confirm-correct" value="true" >

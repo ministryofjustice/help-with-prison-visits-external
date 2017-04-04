@@ -27,8 +27,8 @@ module.exports = function (router) {
     get(req, res)
   })
 
-  router.get('/your-claims/:dob/:reference/:claimId/file-upload', function (req, res) {
-    req.yourClaimUrl = `/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}`
+  router.get('/your-claims/:claimId/file-upload', function (req, res) {
+    req.yourClaimUrl = `/your-claims/${req.params.claimId}`
     get(req, res)
   })
 
@@ -41,13 +41,13 @@ module.exports = function (router) {
       checkForMalware(req, res, next, `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
     })
 
-  router.post('/your-claims/:dob/:reference/:claimId/file-upload',
+  router.post('/your-claims/:claimId/file-upload',
     function (req, res, next) {
-      req.yourClaimUrl = `/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}`
+      req.yourClaimUrl = `/your-claims/${req.params.claimId}`
       post(req, res, next)
     },
     function (req, res, next) {
-      checkForMalware(req, res, next, `/your-claims/${req.params.dob}/${req.params.reference}/${req.params.claimId}`)
+      checkForMalware(req, res, next, `/your-claims/${req.params.claimId}`)
     })
 }
 
@@ -57,7 +57,7 @@ function get (req, res) {
   setReferenceIds(req)
 
   if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
-    var decryptedRef = getDecryptedReference(req.params)
+    var decryptedRef = getDecryptedReference(req.params, req.session)
     var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
     DirectoryCheck(decryptedRef, claimId, req.query.claimExpenseId, req.query.document)
     return res.render('apply/eligibility/claim/file-upload', {
@@ -171,7 +171,8 @@ function setReferenceIds (req) {
     reference = referenceAndEligibility.reference
     id = referenceAndEligibility.id
   } else {
-    reference = decrypt(req.params.reference)
+    var encryptedRef = req.session.encryptedRef
+    reference = decrypt(encryptedRef)
     id = req.query.eligibilityId
     req.params.referenceId = referenceIdHelper.getReferenceId(reference, id)
   }
@@ -200,11 +201,11 @@ function getTargetDir (req) {
   return targetDir
 }
 
-function getDecryptedReference (requestParams) {
+function getDecryptedReference (requestParams, session) {
   if (requestParams.referenceId) {
     return decrypt(requestParams.referenceId)
-  } else if (requestParams.reference) {
-    return decrypt(requestParams.reference)
+  } else if (session.encryptedRef) {
+    return decrypt(session.encryptedRef)
   } else {
     return null
   }

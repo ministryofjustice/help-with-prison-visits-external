@@ -18,7 +18,7 @@
         Update your contact details
       </h1>
 
-      <form action="/your-claims/{{ dob }}/{{ reference }}/update-contact-details" method="post" class="form">
+      <form action="/your-claims/update-contact-details" method="post" class="form">
 
         <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}" >
           <label id="EmailAddress" class="form-label" for="email-address">Email address</label>
@@ -45,7 +45,7 @@
         <input type="hidden" name="EligibilityId" value="{{ eligibilityId }}">
 
         <div class="form-group"><input id="submit" type="submit" name="commit" value="Save" class="button"></div>
-        <a href="/your-claims/{{ dob }}/{{ reference }}/check-your-information" class="link">Cancel</a>
+        <a href="/your-claims/check-your-information" class="link">Cancel</a>
       </form>
 
       </div>

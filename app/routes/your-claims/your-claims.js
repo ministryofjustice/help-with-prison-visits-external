@@ -11,11 +11,21 @@ const decrypt = require('../../services/helpers/decrypt')
 const REFERENCE_DOB_ERROR = '?error=yes'
 
 module.exports = function (router) {
-  router.get('/your-claims/:dob/:reference', function (req, res, next) {
+  router.get('/your-claims', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    var decryptedReference = decrypt(req.params.reference)
-    var decodedDOB = dateFormatter.decodeDate(req.params.dob)
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.encryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+    }
+
+    var dobEncoded = req.session.dobEncoded
+    var encryptedRef = req.session.encryptedRef
+
+    var decryptedReference = decrypt(encryptedRef)
+    var decodedDOB = dateFormatter.decodeDate(dobEncoded)
+
     getHistoricClaims(decryptedReference, dateFormatter.buildFromDateString(decodedDOB).toDate())
       .then(function (claims) {
         if (claims.length === 0) {
@@ -25,9 +35,7 @@ module.exports = function (router) {
         var canStartNewClaim = noClaimsInProgress(claims)
 
         return res.render('your-claims/your-claims', {
-          dob: req.params.dob,
           reference: decryptedReference,
-          encryptedReference: req.params.reference,
           claims: claims,
           dateHelper: dateHelper,
           claimStatusHelper: claimStatusHelper,
