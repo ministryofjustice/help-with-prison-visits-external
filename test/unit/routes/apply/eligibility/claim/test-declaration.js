@@ -37,8 +37,8 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     stubCheckStatusForFinishingClaim = sinon.stub()
 
     var route = proxyquire(
-      '../../../../../../app/routes/apply/eligibility/claim/payment-details-and-declaration', {
-        '../../../../services/domain/payment-details': stubDeclaration,
+      '../../../../../../app/routes/apply/eligibility/claim/declaration', {
+        '../../../../services/domain/declaration': stubDeclaration,
         '../../../../services/data/submit-claim': stubSubmitClaim,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator,
         '../../../../services/data/get-is-advance-claim': stubGetIsAdvanceClaim,
@@ -79,7 +79,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
       stubCheckStatusForFinishingClaim.resolves(true)
 
       return supertest(app)
-        .post(ROUTE)
+        .post(`${ROUTE}?paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
@@ -98,7 +98,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
       stubCheckStatusForFinishingClaim.resolves(true)
 
       return supertest(app)
-        .post(ROUTE)
+        .post(`${ROUTE}?paymentMethod=${paymentMethods.PAYOUT.value}`)
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
@@ -118,7 +118,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
       stubCheckStatusForFinishingClaim.resolves(true)
 
       return supertest(app)
-        .post(ROUTE)
+        .post(`${ROUTE}?paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
         .send(VALID_DATA)
         .set('Cookie', [`apvs-assisted-digital=${assistedDigitalCaseWorker}`])
         .expect(302)
