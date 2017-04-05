@@ -9,8 +9,9 @@ const checkStatusForFinishingClaim = require('../../../../services/data/check-st
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/declaration', function (req, res) {
+    console.log(req.params)
     UrlPathValidator(req.params)
-    return res.render('apply/eligibility/claim/payment-details-and-declaration', {
+    return res.render('apply/eligibility/claim/declaration', {
       claimType: req.params.claimType,
       referenceId: req.params.referenceId,
       claimId: req.params.claimId,
@@ -38,7 +39,7 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        return res.status(400).render('apply/eligibility/claim/payment-details-and-declaration', {
+        return res.status(400).render('apply/eligibility/claim/declaration', {
           errors: error.validationErrors,
           claimType: req.params.claimType,
           paymentDetailsAndDeclaration: req.body,
