@@ -4,10 +4,9 @@ const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class PaymentDetails {
-  constructor (accountNumber, sortCode, termsAndConiditions, payout) {
+  constructor (accountNumber, sortCode, payout) {
     this.accountNumber = accountNumber.replace(/ /g, '')
     this.sortCode = sortCode.replace(/ |-/g, '')
-    this.termsAndConiditions = termsAndConiditions
     this.payout = payout
     this.IsValid()
   }
@@ -26,9 +25,6 @@ class PaymentDetails {
         .isNumeric()
         .isLength(6, ERROR_MESSAGES.getIsLengthDigitsMessage)
     }
-
-    FieldValidator(this.termsAndConiditions, 'terms-and-conditions', errors)
-      .isRequired(ERROR_MESSAGES.getDisclaimer)
 
     var validationErrors = errors.get()
 
