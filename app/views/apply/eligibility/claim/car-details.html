@@ -60,6 +60,41 @@
                  value="{{ expense['to'] }}">
         </div>
 
+        <div class="form-group">
+          <label for="new-destination" class="block-label selection-button-checkbox" data-target="new-destination-details" >Was this not your journey?
+          <input id="new-destination" type="checkbox" name="new-destination" {% if expense['new-destination'] %}checked{% endif %}></label>
+        </div>
+
+        <div id="new-destination-details" class="panel panel-border-narrow js-hidden">
+          <div class="form-group {% if errors['destination'][0] %} error {% endif %}">
+            <label id="destination" for="destination-input" class="form-label-bold">Destination</label>
+
+            {% if errors['destination'][0] %}
+              <span class="error-message">{{ errors['destination'][0] }}</span>
+            {% endif %}
+
+            <p class="form-hint">For example, Euston train station</p>
+            <input id="destination-input"
+                   type="text"
+                   name="destination"
+                   value="{{ expense['destination'] }}"
+                   class="form-control">
+          </div>
+
+          <div class="form-group {% if errors['postcode'][0] %} error {% endif %}">
+            <label id="postcode" for="postcode-input" class="form-label-bold">Postcode</label>
+
+            {% if errors['postcode'][0] %}
+              <span class="error-message">{{ errors['postcode'][0] }}</span>
+            {% endif %}
+            <input id="postcode-input"
+                   type="text"
+                   name="postcode"
+                   value="{{ expense['postcode'] }}"
+                   class="form-control">
+          </div>
+        </div>
+
         {% if not carOnly %}
         <fieldset>
           <legend class="hidden">Parking and Toll charges</legend>
