@@ -17,6 +17,7 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
   const CLAIM_TYPE = 'first-time'
   const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/payment-details?isAdvance=false`
   const VALID_DATA = {
+    'PaymentMethod': 'bank',
     'AccountNumber': '12345678',
     'SortCode': '123456'
   }
@@ -70,7 +71,7 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
     })
 
     it('should respond with a 302 and insert bank details', function () {
-      var newPaymentDetails = {}
+      var newPaymentDetails = {paymentMethod: 'bank'}
       stubPaymentDetails.returns(newPaymentDetails)
       stubInsertBankAccountDetailsForClaim.resolves()
 
@@ -79,14 +80,14 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
+          sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.PaymentMethod, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
           sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newPaymentDetails)
         })
         .expect('location', `/apply/${CLAIM_TYPE}/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/declaration?isAdvance=false&paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
     })
 
     it('should respond with a 302 not submit bank details', function () {
-      var newPaymentDetails = {payout: 'on'}
+      var newPaymentDetails = {paymentMethod: 'payout'}
       stubPaymentDetails.returns(newPaymentDetails)
 
       return supertest(app)
@@ -94,7 +95,7 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
+          sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.PaymentMethod, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
           sinon.assert.notCalled(stubInsertBankAccountDetailsForClaim)
         })
         .expect('location', `/apply/${CLAIM_TYPE}/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/declaration?isAdvance=false&paymentMethod=${paymentMethods.PAYOUT.value}`)

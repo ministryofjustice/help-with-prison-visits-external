@@ -13,10 +13,10 @@ Payment details and declaration - {{ serviceName }}
   {% include "includes/validation-error-messages.html" %}
 
   <h1 class="heading-large">
-    Your bank details
+    Your payment
   </h1>
 
-  <p>Any money due to you will be paid into your bank account.</p>
+  <p>If your application is successful you will be given a payment for your travel and expenses.</p>
 
   <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/payment-details?isAdvance={{ isAdvance }}"
         method="post">
@@ -24,57 +24,75 @@ Payment details and declaration - {{ serviceName }}
     <div class="grid-row">
       <div class="column-two-thirds">
 
-        <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
-          <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account number</label>
-          {% if errors['AccountNumber'][0] %}
-          <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
-          {% endif %}
-          <input id="account-number-input"
-                 name="AccountNumber"
-                 type="text"
-                 class="form-control"
-                 value="{{ paymentDetailsAndDeclaration['AccountNumber'] }}">
+      <h2 class="heading-small">How do you want to receive your payment? </h2>
+        {% if errors['PaymentMethod'][0] %}
+        <span class="error-message" id="error-message-payment-method">{{ errors['PaymentMethod'][0] }}</span>
+        {% endif %}
+
+        <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
+          <fieldset>
+            <legend class="visually-hidden">How do you want to receive your payment</legend>
+              <label for="bank" class="block-label" data-target="bank-details">
+                <input id="bank"
+                       type="radio"
+                       name="PaymentMethod"
+                       value="bank"
+                       {% if paymentDetails['PaymentMethod'] == 'bank' %} checked {% endif %}>
+
+                <span>Bank transfer</span>
+                <br>
+              </label>
+
+              <div id="bank-details" class="panel panel-border-narrow js-hidden">
+                <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
+                  <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account number</label>
+                  {% if errors['AccountNumber'][0] %}
+                  <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
+                  {% endif %}
+                  <input id="account-number-input"
+                         name="AccountNumber"
+                         type="text"
+                         class="form-control"
+                         value="{{ paymentDetails['AccountNumber'] }}">
+                </div>
+
+                <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
+                  <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort code</label>
+                  {% if errors['SortCode'][0] %}
+                  <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
+                  {% endif %}
+                  <input id="sort-code-input"
+                         name="SortCode"
+                         type="text"
+                         class="form-control"
+                         value="{{ paymentDetails['SortCode'] }}">
+                </div>
+              </div>
+
+              <label for="payout" class="block-label" data-target="payout-details">
+                <input id="payout"
+                       type="radio"
+                       name="PaymentMethod"
+                       value="payout"
+                       {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}>
+
+                <span>Voucher</span>
+                <br>
+              </label>
+
+              <div id="payout-details" class="panel panel-border-narrow js-hidden">
+                <span class="text-secondary">You can exchange this for cash at any post office</span>
+                <br>
+                <br>
+
+                <p>Your voucher will be posted to:</p>
+                <p>{{ address.HouseNumberAndStreet }}
+                <br>{{ address.Town }}
+                <br>{{ address.PostCode }}</p>
+
+              </div>
+          </fieldset>
         </div>
-
-        <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
-          <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort code</label>
-          {% if errors['SortCode'][0] %}
-          <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
-          {% endif %}
-          <input id="sort-code-input"
-                 name="SortCode"
-                 type="text"
-                 class="form-control"
-                 value="{{ paymentDetailsAndDeclaration['SortCode'] }}">
-        </div>
-
-        <div class="form-group">
-          <label for="payout" class="block-label selection-button-checkbox" data-target="payout-details" >I don't have a bank account
-          <input id="payout" type="checkbox" name="payout" {% if paymentDetailsAndDeclaration['payout'] %}checked{% endif %}></label>
-        </div>
-
-        <div id="payout-details" class="js-hidden">
-          <details>
-            <summary><span class="summary">If you don't have a bank account</span>
-              <span class="visually-hidden">If using a screen reader such as JAWS if having difficulty accessing this list then try pressing control + space to expand the list then L + down to read list items</span>
-            </summary>
-            <div class="panel panel-border-narrow">
-              <ul class=" list list-bullet">
-                <li>Post Office payout is an easy way of claiming back your visit costs
-                </li>
-                <li>You will receive a unique reference barcode which can be scanned in any post office branch</li>
-                <li>The reference barcode will be sent out to the address you have provided </li>
-              </ul>
-            </div>
-          </details>
-
-          <p>Address to be sent to:</p>
-          <p>{{ address.HouseNumberAndStreet }}
-          <br>{{ address.Town }}
-          <br>{{ address.PostCode }}</p>
-
-        </div>
-
       </div>
     </div>
 

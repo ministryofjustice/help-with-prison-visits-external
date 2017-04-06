@@ -25,10 +25,9 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
     try {
-      var paymentDetails = new PaymentDetails(req.body.AccountNumber, req.body.SortCode, req.body.payout)
-      var paymentMethod = paymentDetails.payout ? paymentMethods.PAYOUT.value : paymentMethods.DIRECT_BANK_PAYMENT.value
-      var redirectURL = `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/declaration?isAdvance=${req.query.isAdvance}&paymentMethod=${paymentMethod}`
-      if (paymentDetails.payout) {
+      var paymentDetails = new PaymentDetails(req.body.PaymentMethod, req.body.AccountNumber, req.body.SortCode)
+      var redirectURL = `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/declaration?isAdvance=${req.query.isAdvance}&paymentMethod=${paymentDetails.paymentMethod}`
+      if (paymentDetails.paymentMethod === paymentMethods.PAYOUT.value) {
         return res.redirect(redirectURL)
       } else {
         insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, paymentDetails)
@@ -46,7 +45,7 @@ module.exports = function (router) {
             return res.status(400).render('apply/eligibility/claim/payment-details', {
               errors: error.validationErrors,
               claimType: req.params.claimType,
-              paymentDetailsAndDeclaration: req.body,
+              paymentDetails: req.body,
               referenceId: req.params.referenceId,
               claimId: req.params.claimId,
               isAdvance: req.query.isAdvance,
