@@ -66,13 +66,16 @@
         </div>
 
         <div id="new-destination-details" class="panel panel-border-narrow js-hidden">
+          <span class="text-secondary">Please enter your prefered journey</span>
+          <br>
+          <br>
+
           <div class="form-group {% if errors['destination'][0] %} error {% endif %}">
             <label id="destination" for="destination-input" class="form-label-bold">Destination</label>
 
             {% if errors['destination'][0] %}
               <span class="error-message">{{ errors['destination'][0] }}</span>
             {% endif %}
-
             <p class="form-hint">For example, Euston train station</p>
             <input id="destination-input"
                    type="text"
