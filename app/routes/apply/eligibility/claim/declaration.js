@@ -9,7 +9,6 @@ const checkStatusForFinishingClaim = require('../../../../services/data/check-st
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/declaration', function (req, res) {
-    console.log(req.params)
     UrlPathValidator(req.params)
     return res.render('apply/eligibility/claim/declaration', {
       claimType: req.params.claimType,

@@ -24,13 +24,13 @@ Payment details and declaration - {{ serviceName }}
     <div class="grid-row">
       <div class="column-two-thirds">
 
-      <h2 class="heading-small">How do you want to receive your payment? </h2>
+      <h2 class="heading-small" {% if privateBeta == 'true' %} hidden {% endif %}>How do you want to receive your payment? </h2>
         {% if errors['PaymentMethod'][0] %}
         <span class="error-message" id="error-message-payment-method">{{ errors['PaymentMethod'][0] }}</span>
         {% endif %}
 
         <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
-          <fieldset>
+          <fieldset {% if privateBeta == 'true' %} hidden {% endif %}>
             <legend class="visually-hidden">How do you want to receive your payment</legend>
               <label for="bank" class="block-label" data-target="bank-details">
                 <input id="bank"
@@ -74,24 +74,30 @@ Payment details and declaration - {{ serviceName }}
                        type="radio"
                        name="PaymentMethod"
                        value="payout"
-                       {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}>
+                       {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}
+                       {% if privateBeta == 'true' %} checked {% endif %}>
 
                 <span>Voucher</span>
                 <br>
+                <br>
               </label>
-
-              <div id="payout-details" class="panel panel-border-narrow js-hidden">
-                <span class="text-secondary">You can exchange this for cash at any post office</span>
-                <br>
-                <br>
-
-                <p>Your voucher will be posted to:</p>
-                <p>{{ address.HouseNumberAndStreet }}
-                <br>{{ address.Town }}
-                <br>{{ address.PostCode }}</p>
-
-              </div>
           </fieldset>
+
+          {% if privateBeta == 'true' %}
+          <h2 class="heading-small">Payment by voucher</h2>
+          {% endif %}
+
+          <div id="payout-details" class="{% if privateBeta != 'true' %} panel panel-border-narrow {% endif %} js-hidden">
+            <span class="text-secondary">You can exchange this for cash at any post office</span>
+            <br>
+            <br>
+
+            <p>Your voucher will be posted to:</p>
+            <p>{{ address.HouseNumberAndStreet }}
+            <br>{{ address.Town }}
+            <br>{{ address.PostCode }}</p>
+
+          </div>
         </div>
       </div>
     </div>

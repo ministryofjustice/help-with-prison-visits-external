@@ -5,6 +5,7 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const paymentMethods = require('../../../../constants/payment-method-enum')
 const getAddress = require('../../../../services/data/get-address')
+const config = require('../../../../../config')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/payment-details', function (req, res) {
@@ -16,7 +17,8 @@ module.exports = function (router) {
           referenceId: req.params.referenceId,
           claimId: req.params.claimId,
           isAdvance: req.query.isAdvance,
-          address: address
+          address: address,
+          privateBeta: config.PRIVATE_BETA_TOGGLE
         })
       })
   })
@@ -49,7 +51,8 @@ module.exports = function (router) {
               referenceId: req.params.referenceId,
               claimId: req.params.claimId,
               isAdvance: req.query.isAdvance,
-              address: address
+              address: address,
+              privateBeta: config.PRIVATE_BETA_TOGGLE
             })
           })
       } else {
