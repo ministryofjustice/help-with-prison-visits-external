@@ -84,16 +84,16 @@
                    class="form-control">
           </div>
 
-          <div class="form-group {% if errors['postcode'][0] %} error {% endif %}">
-            <label id="postcode" for="postcode-input" class="form-label-bold">Postcode</label>
+          <div class="form-group {% if errors['PostCode'][0] %} error {% endif %}">
+            <label id="PostCode" for="postcode-input" class="form-label-bold">Postcode</label>
 
-            {% if errors['postcode'][0] %}
-              <span class="error-message">{{ errors['postcode'][0] }}</span>
+            {% if errors['PostCode'][0] %}
+              <span class="error-message">{{ errors['PostCode'][0] }}</span>
             {% endif %}
             <input id="postcode-input"
                    type="text"
-                   name="postcode"
-                   value="{{ expense['postcode'] }}"
+                   name="PostCode"
+                   value="{{ expense['PostCode'] }}"
                    class="form-control">
           </div>
         </div>
