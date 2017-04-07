@@ -52,9 +52,10 @@ class CarExpense extends BaseExpense {
         .isRequired(ERROR_MESSAGES.getNewCarDestination)
         .isLessThanLength(100)
 
-      FieldValidator(this.toPostCode, 'PostCode', errors)
-        .isRequired(ERROR_MESSAGES.getToPostCode)
-        .isPostcode()
+      if (this.toPostCode) {
+        FieldValidator(this.toPostCode, 'PostCode', errors)
+          .isPostcode()
+      }
     }
 
     if (this.toll) {

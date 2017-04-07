@@ -81,6 +81,5 @@ module.exports = {
   getPastDateSetDaysAway: function (displayName, options) { return `${displayName} must be in the last ${options.days} days` },
   getUploadRequired: function () { return 'Upload your document now or choose to send it later' },
   getEnterReturnTime: function () { return 'Enter the return time of your train home' },
-  getNewCarDestination: function () { return 'Enter the destination of your car journey' },
-  getToPostCode: function () { return 'Enter the postcode of the destination of your car journey' }
+  getNewCarDestination: function () { return 'Enter the destination of your car journey' }
 }
