@@ -8,9 +8,9 @@ module.exports.SORT_CODE = '010203'
 
 module.exports.build = function () {
   return new BankAccountDetails(
+    'bank',
     this.ACCOUNT_NUMBER,
-    this.SORT_CODE,
-    'yes'
+    this.SORT_CODE
   )
 }
 

@@ -1,0 +1,115 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+Payment details and declaration - {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  {% include "includes/validation-error-messages.html" %}
+
+  <h1 class="heading-large">
+    Your payment
+  </h1>
+
+  <p>If your application is successful you will be given a payment for your travel and expenses.</p>
+
+  <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/payment-details?isAdvance={{ isAdvance }}"
+        method="post">
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+      <h2 class="heading-small" {% if privateBeta == 'true' %} hidden {% endif %}>How do you want to receive your payment? </h2>
+        {% if errors['PaymentMethod'][0] %}
+        <span class="error-message" id="error-message-payment-method">{{ errors['PaymentMethod'][0] }}</span>
+        {% endif %}
+
+        <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
+          <fieldset {% if privateBeta == 'true' %} hidden {% endif %}>
+            <legend class="visually-hidden">How do you want to receive your payment</legend>
+              <label for="bank" class="block-label" data-target="bank-details">
+                <input id="bank"
+                       type="radio"
+                       name="PaymentMethod"
+                       value="bank"
+                       {% if paymentDetails['PaymentMethod'] == 'bank' %} checked {% endif %}>
+
+                <span>Bank transfer</span>
+                <br>
+              </label>
+
+              <div id="bank-details" class="panel panel-border-narrow js-hidden">
+                <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
+                  <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account number</label>
+                  {% if errors['AccountNumber'][0] %}
+                  <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
+                  {% endif %}
+                  <input id="account-number-input"
+                         name="AccountNumber"
+                         type="text"
+                         class="form-control"
+                         value="{{ paymentDetails['AccountNumber'] }}">
+                </div>
+
+                <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
+                  <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort code</label>
+                  {% if errors['SortCode'][0] %}
+                  <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
+                  {% endif %}
+                  <input id="sort-code-input"
+                         name="SortCode"
+                         type="text"
+                         class="form-control"
+                         value="{{ paymentDetails['SortCode'] }}">
+                </div>
+              </div>
+
+              <label for="payout" class="block-label" data-target="payout-details">
+                <input id="payout"
+                       type="radio"
+                       name="PaymentMethod"
+                       value="payout"
+                       {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}
+                       {% if privateBeta == 'true' %} checked {% endif %}>
+
+                <span>Voucher</span>
+                <br>
+                <br>
+              </label>
+          </fieldset>
+
+          {% if privateBeta == 'true' %}
+          <h2 class="heading-small">Payment by voucher</h2>
+          {% endif %}
+
+          <div id="payout-details" class="{% if privateBeta != 'true' %} panel panel-border-narrow {% endif %} js-hidden">
+            <span class="text-secondary">You can exchange this for cash at any post office</span>
+            <br>
+            <br>
+
+            <p>Your voucher will be posted to:</p>
+            <p>{{ address.HouseNumberAndStreet }}
+            <br>{{ address.Town }}
+            <br>{{ address.PostCode }}</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "partials/csrf-hidden-input.html" %}
+
+    <input id="payment-submit"
+           type="submit"
+           class="button"
+           value="Continue">
+  </form>
+
+</main>
+
+{% endblock %}
