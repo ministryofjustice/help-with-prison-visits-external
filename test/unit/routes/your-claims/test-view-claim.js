@@ -6,10 +6,10 @@ const routeHelper = require('../../../helpers/routes/route-helper')
 const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
-const REFERENCE = 'V123456'
+const COOKIES = [ 'apvs-start-already-registered=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
+const REFERENCE = 'APVS123'
 const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
 const ELIGIBILITY_ID = '1234'
-const DOB = '113725122'
 const DECODED_DOB = '1990-10-10'
 const CLAIMID = '1'
 const CLAIM_DOCUMENT_ID = '123'
@@ -25,7 +25,7 @@ const CLAIM = {
   }
 }
 
-const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}`
+const ROUTE = `/your-claims/${CLAIMID}`
 const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIM_DOCUMENT_ID}`
 const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIM_DOCUMENT_ID}?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITY_ID}`
 
@@ -66,6 +66,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -76,6 +77,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       getViewClaimStub.resolves(CLAIM)
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
           sinon.assert.calledWith(decryptStub, ENCRYPTED_REFERENCE)
@@ -88,6 +90,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -99,13 +102,14 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       getViewClaimStub.resolves(CLAIM)
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(decryptStub, ENCRYPTED_REFERENCE)
           sinon.assert.calledWith(getViewClaimStub, CLAIMID, REFERENCE, DECODED_DOB)
           sinon.assert.calledOnce(viewClaimDomainObjectStub)
         })
-        .expect('location', `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/${CLAIMID}?updated=true`)
+        .expect('location', `/your-claims/${CLAIMID}?updated=true`)
     })
 
     it('should respond with a 400 if validation errors', function () {
@@ -113,6 +117,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       viewClaimDomainObjectStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(400)
     })
 
@@ -121,6 +126,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       viewClaimDomainObjectStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })
@@ -130,6 +136,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       getClaimDocumentFilePathStub.resolves(VALID_FILEPATH_RESULT)
       return supertest(app)
         .get(VIEW_DOCUMENT_ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
         .expect('content-length', '4')
     })
@@ -138,6 +145,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       getClaimDocumentFilePathStub.resolves(INVALID_FILEPATH_RESULT)
       return supertest(app)
         .get(VIEW_DOCUMENT_ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })
@@ -147,6 +155,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       removeClaimDocumentStub.resolves()
       return supertest(app)
         .post(REMOVE_DOCUMENT_ROUTE)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
@@ -158,6 +167,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       removeClaimDocumentStub.resolves()
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
@@ -169,6 +179,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       removeClaimDocumentStub.resolves()
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&claimExpenseId=${CLAIM_EXPENSE_ID}`)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
@@ -180,6 +191,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       removeClaimDocumentStub.rejects()
       return supertest(app)
         .post(REMOVE_DOCUMENT_ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })

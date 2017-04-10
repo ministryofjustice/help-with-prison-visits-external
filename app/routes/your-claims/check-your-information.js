@@ -7,20 +7,31 @@ const referenceIdHelper = require('../helpers/reference-id-helper')
 const displayHelper = require('../../views/helpers/display-helper')
 const decrypt = require('../../services/helpers/decrypt')
 const prisonsHelper = require('../../constants/helpers/prisons-helper')
+
 const NORTHERN_IRELAND = 'Northern Ireland'
+const REFERENCE_DOB_ERROR = '?error=yes'
 
 module.exports = function (router) {
-  router.get('/your-claims/:dob/:reference/check-your-information', function (req, res, next) {
+  router.get('/your-claims/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
-    var dobDecoded = dateFormatter.decodeDate(req.params.dob)
 
-    var reference = decrypt(req.params.reference)
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.encryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+    }
+
+    var dobEncoded = req.session.dobEncoded
+    var encryptedRef = req.session.encryptedRef
+
+    var dobDecoded = dateFormatter.decodeDate(dobEncoded)
+    var reference = decrypt(encryptedRef)
+
     getRepeatEligibility(reference, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
       .then(function (eligibility) {
         return res.render('your-claims/check-your-information', {
-          dob: req.params.dob,
+          dob: dobEncoded,
           reference: reference,
-          encryptedReference: req.params.reference,
           eligibility: eligibility,
           displayHelper: displayHelper})
       })
@@ -29,12 +40,22 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/your-claims/:dob/:reference/check-your-information', function (req, res, next) {
+  router.post('/your-claims/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
 
     try {
-      var decryptedRef = decrypt(req.params.reference)
-      var dobDecoded = dateFormatter.decodeDate(req.params.dob)
+      if (!req.session ||
+          !req.session.dobEncoded ||
+          !req.session.encryptedRef) {
+        return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+      }
+
+      var dobEncoded = req.session.dobEncoded
+      var encryptedRef = req.session.encryptedRef
+
+      var decryptedRef = decrypt(encryptedRef)
+      var dobDecoded = dateFormatter.decodeDate(dobEncoded)
+
       new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
 
       var eligibilityId = req.body.EligibilityId
@@ -64,7 +85,7 @@ module.exports = function (router) {
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,
               dob: req.params.dob,
-              encryptedReference: req.params.reference,
+              reference: decryptedRef,
               eligibility: eligibility,
               displayHelper: displayHelper
             })

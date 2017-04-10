@@ -62,7 +62,7 @@ describe('routes/start-already-registered', function () {
         .expect(302)
     })
 
-    it('should redirect to the your-claims page with the reference and the dob set in the domain object', function () {
+    it('should redirect to the your-claims page with the reference and the dob set in a cookie', function () {
       alreadyRegisteredStub.returns(ALREADY_REGISTERED)
       encryptStub.returns(ENCRYPTED_REFERENCE)
       return supertest(app)
@@ -70,7 +70,8 @@ describe('routes/start-already-registered', function () {
         .send({
           reference: REFERENCE
         })
-        .expect('location', `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}`)
+        .expect('location', `/your-claims`)
+        .expect(hasSetCookie)
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
@@ -94,4 +95,8 @@ describe('routes/start-already-registered', function () {
         .expect(500)
     })
   })
+
+  function hasSetCookie (res) {
+    if (!JSON.stringify(res.header['set-cookie']).includes('apvs-start-already-registered')) throw new Error('response does not contain expected cookie')
+  }
 })
