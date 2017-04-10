@@ -6,8 +6,11 @@ const ErrorHandler = require('../../validators/error-handler')
 const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class CarExpense extends BaseExpense {
-  constructor (from, to, toll, tollCost, parking, parkingCost) {
-    super(EXPENSE_TYPE.CAR.value, null, null, from, to, null, null, null, null, null)
+  constructor (from, to, toll, tollCost, parking, parkingCost, newDestination, destination, postcode) {
+    var journeyTo = newDestination ? destination : to
+    var toPostCode = newDestination ? postcode.replace(/ /g, '').toUpperCase() : null
+    super(EXPENSE_TYPE.CAR.value, null, null, from, journeyTo, null, null, null, null, null, toPostCode)
+    this.newDestination = newDestination
     this.toll = toll
     this.createField('tollCost', tollCost)
     this.parking = parking
@@ -43,6 +46,17 @@ class CarExpense extends BaseExpense {
 
   isValid () {
     var errors = ErrorHandler()
+
+    if (this.newDestination) {
+      FieldValidator(this.to, 'destination', errors)
+        .isRequired(ERROR_MESSAGES.getNewCarDestination)
+        .isLessThanLength(100)
+
+      if (this.toPostCode) {
+        FieldValidator(this.toPostCode, 'PostCode', errors)
+          .isPostcode()
+      }
+    }
 
     if (this.toll) {
       FieldValidator(this.tollCost, 'toll-cost', errors)

@@ -78,7 +78,6 @@ function get (carOnly, req, res, next) {
 function post (carOnly, req, res, next) {
   UrlPathValidator(req.params)
   var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
-
   try {
     var expense = new CarExpense(
       req.body.from,
@@ -86,7 +85,10 @@ function post (carOnly, req, res, next) {
       req.body.toll,
       req.body[ 'toll-cost' ],
       req.body[ 'parking-charge' ],
-      req.body[ 'parking-charge-cost' ]
+      req.body[ 'parking-charge-cost' ],
+      req.body['new-destination'],
+      req.body.destination,
+      req.body.PostCode
     )
 
     insertCarExpenses(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, expense)
