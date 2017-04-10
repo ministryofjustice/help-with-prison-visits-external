@@ -43,7 +43,8 @@ var routes = [
   // Claim Summary
   require('./apply/eligibility/claim/claim-summary'),
   require('./apply/eligibility/claim/file-upload'),
-  require('./apply/eligibility/claim/payment-details-and-declaration'),
+  require('./apply/eligibility/claim/payment-details'),
+  require('./apply/eligibility/claim/declaration'),
 
   // Your Claims Flow
   require('./your-claims/your-claims'),

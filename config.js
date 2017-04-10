@@ -46,5 +46,8 @@ module.exports = {
   CLAM_AV_CONF_PATH: process.env.APVS_CLAM_AV_CONF_PATH || '/usr/local/etc/clamav/clamd.conf',
   CLAM_REMOVE_INFECTED: process.env.APVS_CLAM_AV_REMOVE_INFECTED || 'true',
   UPLOAD_FILE_TMP_DIR: process.env.APVS_UPLOAD_FILE_TMP_DIR || '/tmp',
-  MALWARE_NOTIFICATION_EMAIL_ADDRESS: process.env.APVS_MALWARE_NOTIFICATION_ADDRESS || 'donotsend@apvs.com'
+  MALWARE_NOTIFICATION_EMAIL_ADDRESS: process.env.APVS_MALWARE_NOTIFICATION_ADDRESS || 'donotsend@apvs.com',
+
+  // Toggle for turning private beta setting on and off
+  PRIVATE_BETA_TOGGLE: process.env.APVS_PRIVATE_BETA_TOGGLE || 'true'
 }

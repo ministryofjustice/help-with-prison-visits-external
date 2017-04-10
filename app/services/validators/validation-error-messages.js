@@ -80,5 +80,7 @@ module.exports = {
   getFutureDateSetDaysAway: function (displayName, options) { return `${displayName} must be in the next ${options.days} days` },
   getPastDateSetDaysAway: function (displayName, options) { return `${displayName} must be in the last ${options.days} days` },
   getUploadRequired: function () { return 'Upload your document now or choose to send it later' },
-  getEnterReturnTime: function () { return 'Enter the return time of your train home' }
+  getEnterReturnTime: function () { return 'Enter the return time of your train home' },
+  getPaymentMethod: function () { return 'Tell us how you want to be paid' },
+  getNewCarDestination: function () { return 'Enter the destination of your car journey' }
 }

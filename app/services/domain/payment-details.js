@@ -2,20 +2,23 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
+const paymentMethods = require('../../constants/payment-method-enum')
 
 class PaymentDetails {
-  constructor (accountNumber, sortCode, termsAndConiditions, payout) {
+  constructor (paymentMethod, accountNumber, sortCode) {
+    this.paymentMethod = paymentMethod
     this.accountNumber = accountNumber.replace(/ /g, '')
     this.sortCode = sortCode.replace(/ |-/g, '')
-    this.termsAndConiditions = termsAndConiditions
-    this.payout = payout
     this.IsValid()
   }
 
   IsValid () {
     var errors = ErrorHandler()
 
-    if (!this.payout) {
+    FieldValidator(this.paymentMethod, 'PaymentMethod', errors)
+      .isRequired(ERROR_MESSAGES.getPaymentMethod)
+
+    if (this.paymentMethod === paymentMethods.DIRECT_BANK_PAYMENT.value) {
       FieldValidator(this.accountNumber, 'AccountNumber', errors)
         .isRequired(ERROR_MESSAGES.getEnterAccountNumber)
         .isNumeric()
@@ -26,9 +29,6 @@ class PaymentDetails {
         .isNumeric()
         .isLength(6, ERROR_MESSAGES.getIsLengthDigitsMessage)
     }
-
-    FieldValidator(this.termsAndConiditions, 'terms-and-conditions', errors)
-      .isRequired(ERROR_MESSAGES.getDisclaimer)
 
     var validationErrors = errors.get()
 

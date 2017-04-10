@@ -24,7 +24,8 @@ module.exports = function (reference, eligibilityId, claimId, expense) {
         TicketType: expense.ticketType || null,
         TicketOwner: expense.ticketOwner || null,
         IsEnabled: true,
-        ReturnTime: expense.returnTime || null
+        ReturnTime: expense.returnTime || null,
+        ToPostCode: expense.toPostCode || null
       })
     })
 }

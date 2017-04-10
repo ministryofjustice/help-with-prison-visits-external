@@ -201,9 +201,16 @@ describe('First Time Claim Flow', () => {
       .click('#claim-summary-submit')
 
       // Bank account details
+      .waitForExist('#payment-submit')
+
+      // Uncomment when private beta toggle is turned off
+      // .click('[for="bank"]')
+      // .setValue('#account-number-input', '00123456')
+      // .setValue('#sort-code-input', '001122')
+      .click('#payment-submit')
+
+      // Declaration page
       .waitForExist('#claim-submit')
-      .setValue('#account-number-input', '00123456')
-      .setValue('#sort-code-input', '001122')
       .click('[for="terms-and-conditions-input"]')
       .click('#claim-submit')
 

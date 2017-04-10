@@ -8,7 +8,7 @@ const paymentMethods = require('../../../../../../app/constants/payment-method-e
 
 var ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-describe('routes/apply/eligibility/claim/payment-details-and-declaration', function () {
+describe('routes/apply/eligibility/claim/declaration', function () {
   const REFERENCE = 'V123456'
   const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
   const ELIGIBILITYID = '1234'
@@ -16,39 +16,31 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
   const ENCRYPTED_REFERENCEID = encrypt(REFERENCEID)
   const CLAIMID = '1'
   const CLAIM_TYPE = 'first-time'
-  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/payment-details-and-declaration`
+  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/declaration`
   const VALID_DATA = {
-    'AccountNumber': '12345678',
-    'SortCode': '123456',
     'terms-and-conditions-input': 'yes'
   }
 
   var app
 
-  var stubPaymentDetails
-  var stubInsertBankAccountDetailsForClaim
+  var stubDeclaration
   var stubSubmitClaim
   var stubUrlPathValidator
-  var stubGetAddress
   var stubGetIsAdvanceClaim
   var stubCheckStatusForFinishingClaim
 
   beforeEach(function () {
-    stubPaymentDetails = sinon.stub()
-    stubInsertBankAccountDetailsForClaim = sinon.stub()
+    stubDeclaration = sinon.stub()
     stubSubmitClaim = sinon.stub()
     stubUrlPathValidator = sinon.stub()
-    stubGetAddress = sinon.stub().resolves()
     stubGetIsAdvanceClaim = sinon.stub()
     stubCheckStatusForFinishingClaim = sinon.stub()
 
     var route = proxyquire(
-      '../../../../../../app/routes/apply/eligibility/claim/payment-details-and-declaration', {
-        '../../../../services/domain/payment-details': stubPaymentDetails,
-        '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
+      '../../../../../../app/routes/apply/eligibility/claim/declaration', {
+        '../../../../services/domain/declaration': stubDeclaration,
         '../../../../services/data/submit-claim': stubSubmitClaim,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator,
-        '../../../../services/data/get-address': stubGetAddress,
         '../../../../services/data/get-is-advance-claim': stubGetIsAdvanceClaim,
         '../../../../services/data/check-status-for-finishing-claim': stubCheckStatusForFinishingClaim
       })
@@ -80,22 +72,19 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
         })
     })
 
-    it('should respond with a 302 and call submit claim with bank payment and past in route', function () {
-      var newPaymentDetails = {}
-      stubPaymentDetails.returns(newPaymentDetails)
-      stubInsertBankAccountDetailsForClaim.resolves()
+    it('should respond with a 302 and call submit claim and put past in route', function () {
+      stubDeclaration.returns()
       stubSubmitClaim.resolves()
       stubGetIsAdvanceClaim.resolves(false)
       stubCheckStatusForFinishingClaim.resolves(true)
 
       return supertest(app)
-        .post(ROUTE)
+        .post(`${ROUTE}?paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
+          sinon.assert.calledWith(stubDeclaration, VALID_DATA['terms-and-conditions-input'])
           sinon.assert.calledWith(stubCheckStatusForFinishingClaim, REFERENCE, ELIGIBILITYID, CLAIMID)
-          sinon.assert.calledWith(stubInsertBankAccountDetailsForClaim, REFERENCE, ELIGIBILITYID, CLAIMID, newPaymentDetails)
           sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.DIRECT_BANK_PAYMENT.value)
           sinon.assert.calledWith(stubGetIsAdvanceClaim, CLAIMID)
         })
@@ -103,20 +92,18 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
     })
 
     it('should respond with a 302 and call submit claim with payout and advance in route', function () {
-      var newPaymentDetails = {payout: 'on'}
-      stubPaymentDetails.returns(newPaymentDetails)
+      stubDeclaration.returns()
       stubSubmitClaim.resolves()
       stubGetIsAdvanceClaim.resolves(true)
       stubCheckStatusForFinishingClaim.resolves(true)
 
       return supertest(app)
-        .post(ROUTE)
+        .post(`${ROUTE}?paymentMethod=${paymentMethods.PAYOUT.value}`)
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode, VALID_DATA['terms-and-conditions-input'])
+          sinon.assert.calledWith(stubDeclaration, VALID_DATA['terms-and-conditions-input'])
           sinon.assert.calledWith(stubCheckStatusForFinishingClaim, REFERENCE, ELIGIBILITYID, CLAIMID)
-          sinon.assert.notCalled(stubInsertBankAccountDetailsForClaim)
           sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.PAYOUT.value)
           sinon.assert.calledWith(stubGetIsAdvanceClaim, CLAIMID)
         })
@@ -125,14 +112,13 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
 
     it('should use assisted digital cookie value', function () {
       var assistedDigitalCaseWorker = 'a@b.com'
-      stubPaymentDetails.returns({})
-      stubInsertBankAccountDetailsForClaim.resolves()
+      stubDeclaration.returns()
       stubSubmitClaim.resolves()
       stubGetIsAdvanceClaim.resolves()
       stubCheckStatusForFinishingClaim.resolves(true)
 
       return supertest(app)
-        .post(ROUTE)
+        .post(`${ROUTE}?paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
         .send(VALID_DATA)
         .set('Cookie', [`apvs-assisted-digital=${assistedDigitalCaseWorker}`])
         .expect(302)
@@ -143,7 +129,7 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
     })
 
     it('should just go to redirect if checkStatusForFinishingClaim returns false in case of double submission', function () {
-      stubPaymentDetails.returns({})
+      stubDeclaration.returns()
       stubGetIsAdvanceClaim.resolves()
       stubCheckStatusForFinishingClaim.resolves(false)
 
@@ -158,22 +144,14 @@ describe('routes/apply/eligibility/claim/payment-details-and-declaration', funct
     })
 
     it('should respond with a 400 if validation fails', function () {
-      stubPaymentDetails.throws(new ValidationError({ 'firstName': {} }))
+      stubDeclaration.throws(new ValidationError({ 'firstName': {} }))
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
-    it('should respond with a 500 if promise rejects inserting bank details.', function () {
-      stubInsertBankAccountDetailsForClaim.rejects()
-      return supertest(app)
-        .post(ROUTE)
-        .expect(500)
-    })
-
     it('should respond with a 500 if promise rejects on submitting claim.', function () {
-      var newPaymentDetails = {payout: 'on'}
-      stubPaymentDetails.returns(newPaymentDetails)
+      stubDeclaration.returns()
       stubSubmitClaim.rejects()
       return supertest(app)
         .post(ROUTE)
