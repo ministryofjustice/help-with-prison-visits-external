@@ -3,15 +3,13 @@ const ValidationError = require('../../../../app/services/errors/validation-erro
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 describe('/your-claims/update-contact-details', function () {
-  const DOB = '113725122'
   const REFERENCE = 'APVS123'
-  const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
   const ELIGIBILITYID = '1'
-  const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/update-contact-details?eligibility=${ELIGIBILITYID}`
+  const COOKIES = [ 'apvs-start-already-registered=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
+  const ROUTE = `/your-claims/update-contact-details?eligibility=${ELIGIBILITYID}`
 
   var app
   var urlPathValidatorStub
@@ -38,6 +36,7 @@ describe('/your-claims/update-contact-details', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -46,6 +45,7 @@ describe('/your-claims/update-contact-details', function () {
     it('should respond with a 200', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
     })
   })
@@ -56,6 +56,7 @@ describe('/your-claims/update-contact-details', function () {
       insertEligibilityVisitorUpdatedContactDetailStub.resolves({})
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -64,17 +65,19 @@ describe('/your-claims/update-contact-details', function () {
     it('should call the decrypt function', function () {
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(decryptStub)
         })
     })
 
-    it('should respond with a 302 and redirect to /your-claims/:dob/:reference/check-your-information', function () {
+    it('should respond with a 302 and redirect to /your-claims/check-your-information', function () {
       updatedContactDetailsStub.returns({})
       insertEligibilityVisitorUpdatedContactDetailStub.resolves({})
 
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .send({'email-address': 'test@test.com', 'phone-number': '5553425172'})
         .expect(302)
         .expect(function () {
@@ -82,13 +85,14 @@ describe('/your-claims/update-contact-details', function () {
           sinon.assert.calledOnce(updatedContactDetailsStub)
           sinon.assert.calledOnce(insertEligibilityVisitorUpdatedContactDetailStub)
         })
-        .expect('location', `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/check-your-information`)
+        .expect('location', `/your-claims/check-your-information`)
     })
 
     it('should respond with a 400 for a validation error', function () {
       updatedContactDetailsStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(400)
     })
 
@@ -96,6 +100,7 @@ describe('/your-claims/update-contact-details', function () {
       decryptStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
 
@@ -103,6 +108,7 @@ describe('/your-claims/update-contact-details', function () {
       updatedContactDetailsStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
 
@@ -110,6 +116,7 @@ describe('/your-claims/update-contact-details', function () {
       insertEligibilityVisitorUpdatedContactDetailStub.rejects()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })

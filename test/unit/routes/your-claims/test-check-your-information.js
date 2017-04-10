@@ -7,10 +7,9 @@ const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 describe('/your-claims/check-your-information', function () {
-  const DOB = '113725122'
   const REFERENCE = 'APVS123'
-  const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
-  const ROUTE = `/your-claims/${DOB}/${ENCRYPTED_REFERENCE}/check-your-information`
+  const COOKIES = [ 'apvs-start-already-registered=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
+  const ROUTE = `/your-claims/check-your-information`
 
   var app
 
@@ -38,6 +37,7 @@ describe('/your-claims/check-your-information', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -47,6 +47,7 @@ describe('/your-claims/check-your-information', function () {
       decryptStub.returns(REFERENCE)
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(decryptStub)
         })
@@ -56,6 +57,7 @@ describe('/your-claims/check-your-information', function () {
       getRepeatEligibility.resolves({})
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
           sinon.assert.calledOnce(getRepeatEligibility)
@@ -66,6 +68,7 @@ describe('/your-claims/check-your-information', function () {
       getRepeatEligibility.rejects()
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })
@@ -74,6 +77,7 @@ describe('/your-claims/check-your-information', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -88,6 +92,7 @@ describe('/your-claims/check-your-information', function () {
 
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .send({EligibilityId: eligibilityId})
         .expect(302)
         .expect(function () {
@@ -105,6 +110,7 @@ describe('/your-claims/check-your-information', function () {
 
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .send({EligibilityId: eligibilityId})
         .expect(302)
         .expect(function () {
@@ -122,6 +128,7 @@ describe('/your-claims/check-your-information', function () {
 
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .send({EligibilityId: eligibilityId})
         .expect(302)
         .expect(function () {
@@ -135,6 +142,7 @@ describe('/your-claims/check-your-information', function () {
       getRepeatEligibility.resolves({})
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(400)
         .expect(function () {
           sinon.assert.calledOnce(getRepeatEligibility)
@@ -146,6 +154,7 @@ describe('/your-claims/check-your-information', function () {
       getRepeatEligibility.rejects()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
 
@@ -153,6 +162,7 @@ describe('/your-claims/check-your-information', function () {
       CheckYourInformation.throws(new Error())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
 
@@ -160,6 +170,7 @@ describe('/your-claims/check-your-information', function () {
       getRepeatEligibility.rejects()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })
