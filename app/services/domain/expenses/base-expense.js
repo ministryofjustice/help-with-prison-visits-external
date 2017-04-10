@@ -3,7 +3,7 @@ const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
  * This is a base class for all of the expense domain objects.
  */
 class BaseExpense {
-  constructor (expenseType, cost, travelTime, from, to, isReturn, durationOfTravel, ticketType, ticketOwner, returnTime) {
+  constructor (expenseType, cost, travelTime, from, to, isReturn, durationOfTravel, ticketType, ticketOwner, returnTime, toPostCode) {
     this.createField('expenseType', expenseType)
     this.createField('cost', cost)
     this.createField('travelTime', travelTime)
@@ -14,6 +14,7 @@ class BaseExpense {
     this.createField('ticketType', ticketType)
     this.createField('ticketOwner', ticketOwner)
     this.createField('returnTime', returnTime)
+    this.createField('toPostCode', toPostCode)
   }
 
   createField (key, value) {

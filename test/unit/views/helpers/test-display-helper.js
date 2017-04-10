@@ -9,6 +9,7 @@ describe('views/helpers/display-helper', function () {
   const VALID_PRISONER_RELATIONSHIP_VALUE = prisonerRelationshipsEnum.HUSBAND_WIFE_CIVIL.value
   const VALID_BENEFIT_VALUE = benefitsEnum.INCOME_SUPPORT.value
   const VALID_PRISON_VALUE = prisonsEnum.ALTCOURSE.value
+  const INVALID_PRISON_VALUE = 'testing'
   const VALID_EXPENSE_VALUE = expenseTypeEnum.BUS.value
 
   var displayHelper
@@ -47,6 +48,11 @@ describe('views/helpers/display-helper', function () {
   it('should return the correct prison display name given a valid value', function () {
     var result = displayHelper.getPrisonDisplayName(VALID_PRISON_VALUE)
     expect(result).to.equal(prisonsEnum.ALTCOURSE.displayName)
+  })
+
+  it('should return the value given if prison not found', function () {
+    var result = displayHelper.getPrisonDisplayName(INVALID_PRISON_VALUE)
+    expect(result).to.equal(INVALID_PRISON_VALUE)
   })
 
   it('should return the correct expense name given a valid value', function () {

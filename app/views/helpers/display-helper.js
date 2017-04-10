@@ -26,7 +26,7 @@ module.exports.getBenefitMultipage = function (value) {
 
 module.exports.getPrisonDisplayName = function (value) {
   var element = enumHelper.getKeyByAttribute(prisonsEnum, value)
-  return element.displayName
+  return !element.displayName ? value : element.displayName
 }
 
 module.exports.getExpenseDisplayName = function (value) {
