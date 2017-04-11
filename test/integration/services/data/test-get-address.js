@@ -10,7 +10,7 @@ require('sinon-bluebird')
 const MASKED_ADDRESS = {PostCode: '****3BT'}
 var getRepeatEligibilityStub
 
-var getAddress
+var getAddressAndLinkDetails
 
 const REFERENCE = 'V123456'
 var eligibilityId
@@ -20,7 +20,7 @@ describe('services/data/get-claim-summary', function () {
   describe('first time claim', function () {
     before(function () {
       getRepeatEligibilityStub = sinon.stub().resolves(MASKED_ADDRESS)
-      getAddress = proxyquire('../../../../app/services/data/get-address', {
+      getAddressAndLinkDetails = proxyquire('../../../../app/services/data/get-address-and-link-details', {
         './get-repeat-eligibility': getRepeatEligibilityStub
       })
       return eligiblityHelper.insertEligibilityVisitorAndPrisoner(REFERENCE)
@@ -34,16 +34,19 @@ describe('services/data/get-claim-summary', function () {
     })
 
     it('should return an unmasked address', function () {
-      return getAddress(REFERENCE, claimId, claimTypeEnum.FIRST_TIME)
+      return getAddressAndLinkDetails(REFERENCE, claimId, claimTypeEnum.FIRST_TIME)
         .then(function (address) {
           expect(address.HouseNumberAndStreet).to.equal(visitorHelper.HOUSE_NUMBER_AND_STREET)
           expect(address.Town).to.equal(visitorHelper.TOWN)
           expect(address.PostCode).to.equal(visitorHelper.POST_CODE)
+          expect(address.DateOfBirth).to.equal(visitorHelper.DATE_OF_BIRTH)
+          expect(address.Benefit).to.equal(visitorHelper.BENEFIT)
+          expect(address.Relationship).to.equal(visitorHelper.RELATIONSHIP)
         })
     })
 
     it('should call getRepeatEligibility and return masked data', function () {
-      return getAddress(REFERENCE, claimId, claimTypeEnum.REPEAT_CLAIM)
+      return getAddressAndLinkDetails(REFERENCE, claimId, claimTypeEnum.REPEAT_CLAIM)
         .then(function (maskedAddress) {
           expect(getRepeatEligibilityStub.calledOnce).to.be.true
           expect(maskedAddress.PostCode).to.equal(MASKED_ADDRESS.PostCode)

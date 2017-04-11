@@ -4,21 +4,23 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const paymentMethods = require('../../../../constants/payment-method-enum')
-const getAddress = require('../../../../services/data/get-address')
+const getAddressAndLinkDetails = require('../../../../services/data/get-address-and-link-details')
+const getChangeAddressLink = require('../../../helpers/get-change-address-link')
 const config = require('../../../../../config')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/payment-details', function (req, res) {
     UrlPathValidator(req.params)
-    getAddress(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
-      .then(function (address) {
+    getAddressAndLinkDetails(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
+      .then(function (addressAndLinkDetails) {
         return res.render('apply/eligibility/claim/payment-details', {
           claimType: req.params.claimType,
           referenceId: req.params.referenceId,
           claimId: req.params.claimId,
           isAdvance: req.query.isAdvance,
-          address: address,
-          privateBeta: config.PRIVATE_BETA_TOGGLE
+          address: addressAndLinkDetails,
+          privateBeta: config.PRIVATE_BETA_TOGGLE,
+          changeAddressLink: getChangeAddressLink(req.params.claimType, req.params.referenceId, addressAndLinkDetails.DateOfBirth, addressAndLinkDetails.Benefit, addressAndLinkDetails.Relationship)
         })
       })
   })
@@ -42,8 +44,8 @@ module.exports = function (router) {
       }
     } catch (error) {
       if (error instanceof ValidationError) {
-        getAddress(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
-          .then(function (address) {
+        getAddressAndLinkDetails(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
+          .then(function (addressAndLinkDetails) {
             return res.status(400).render('apply/eligibility/claim/payment-details', {
               errors: error.validationErrors,
               claimType: req.params.claimType,
@@ -51,8 +53,9 @@ module.exports = function (router) {
               referenceId: req.params.referenceId,
               claimId: req.params.claimId,
               isAdvance: req.query.isAdvance,
-              address: address,
-              privateBeta: config.PRIVATE_BETA_TOGGLE
+              address: addressAndLinkDetails,
+              privateBeta: config.PRIVATE_BETA_TOGGLE,
+              changeAddressLink: getChangeAddressLink(req.params.claimType, req.params.referenceId, addressAndLinkDetails.DateOfBirth, addressAndLinkDetails.Benefit, addressAndLinkDetails.Relationship)
             })
           })
       } else {
