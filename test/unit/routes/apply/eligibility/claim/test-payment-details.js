@@ -27,20 +27,20 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
   var stubPaymentDetails
   var stubInsertBankAccountDetailsForClaim
   var stubUrlPathValidator
-  var stubGetAddress
+  var stubGetAddressAndLinkDetails
 
   beforeEach(function () {
     stubPaymentDetails = sinon.stub()
     stubInsertBankAccountDetailsForClaim = sinon.stub()
     stubUrlPathValidator = sinon.stub()
-    stubGetAddress = sinon.stub().resolves()
+    stubGetAddressAndLinkDetails = sinon.stub().resolves()
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/payment-details', {
         '../../../../services/domain/payment-details': stubPaymentDetails,
         '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator,
-        '../../../../services/data/get-address': stubGetAddress
+        '../../../../services/data/get-address-and-link-details': stubGetAddressAndLinkDetails
       })
     app = routeHelper.buildApp(route)
   })

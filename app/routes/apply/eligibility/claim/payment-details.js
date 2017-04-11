@@ -4,13 +4,13 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const paymentMethods = require('../../../../constants/payment-method-enum')
-const getAddress = require('../../../../services/data/get-address')
+const getAddressAndLinkDetails = require('../../../../services/data/get-address-and-link-details')
 const config = require('../../../../../config')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/payment-details', function (req, res) {
     UrlPathValidator(req.params)
-    getAddress(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
+    getAddressAndLinkDetails(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
       .then(function (address) {
         return res.render('apply/eligibility/claim/payment-details', {
           claimType: req.params.claimType,
@@ -42,7 +42,7 @@ module.exports = function (router) {
       }
     } catch (error) {
       if (error instanceof ValidationError) {
-        getAddress(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
+        getAddressAndLinkDetails(referenceIdHelper.extractReferenceId(req.params.referenceId).reference, req.params.claimId, req.params.claimType)
           .then(function (address) {
             return res.status(400).render('apply/eligibility/claim/payment-details', {
               errors: error.validationErrors,

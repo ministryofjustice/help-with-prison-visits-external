@@ -13,7 +13,7 @@ module.exports = function (reference, claimId, claimType) {
       } else {
         return knex('Visitor')
           .where({'Reference': reference, 'EligibilityId': claim.EligibilityId})
-          .first('HouseNumberAndStreet', 'Town', 'PostCode')
+          .first('HouseNumberAndStreet', 'Town', 'PostCode', 'DateOfBirth', 'Benefit', 'Relationship')
       }
     })
 }
