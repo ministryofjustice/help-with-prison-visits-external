@@ -28,29 +28,34 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
   var stubInsertBankAccountDetailsForClaim
   var stubUrlPathValidator
   var stubGetAddressAndLinkDetails
+  var stubGetChangeAddressLink
 
   beforeEach(function () {
     stubPaymentDetails = sinon.stub()
     stubInsertBankAccountDetailsForClaim = sinon.stub()
     stubUrlPathValidator = sinon.stub()
-    stubGetAddressAndLinkDetails = sinon.stub().resolves()
+    stubGetAddressAndLinkDetails = sinon.stub().resolves({})
+    stubGetChangeAddressLink = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/payment-details', {
         '../../../../services/domain/payment-details': stubPaymentDetails,
         '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator,
-        '../../../../services/data/get-address-and-link-details': stubGetAddressAndLinkDetails
+        '../../../../services/data/get-address-and-link-details': stubGetAddressAndLinkDetails,
+        '../../../helpers/get-change-address-link': stubGetChangeAddressLink
       })
     app = routeHelper.buildApp(route)
   })
 
   describe(`GET ${ROUTE}`, function () {
-    it('should call the URL Path Validator', function () {
+    it('should call the URL Path Validator, get address and get change address link', function () {
       return supertest(app)
         .get(ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(stubUrlPathValidator)
+          sinon.assert.calledOnce(stubGetAddressAndLinkDetails)
+          sinon.assert.calledOnce(stubGetAddressAndLinkDetails)
         })
     })
 
