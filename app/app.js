@@ -100,8 +100,7 @@ if (config.BASIC_AUTH_ENABLED === 'true') {
 app.set('trust proxy', 1) // trust first proxy
 app.use(cookieSession({
   name: 'apvs-start-already-registered',
-  keys: [config.SESSION_COOKIE_SECRET],
-  maxAge: 24 * 60 * 60 * 1000 // expiry is session, max age 1 day
+  keys: [config.SESSION_COOKIE_SECRET]
 }))
 
 app.use(bodyParser.json())
