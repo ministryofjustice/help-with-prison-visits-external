@@ -7,6 +7,7 @@ const ValidationError = require('../../../../../app/services/errors/validation-e
 
 var urlPathValidatorStub
 var stubInsertVisitor
+var stubDuplicateClaimCheck
 var stubGetTravellingFromAndTo
 var stubAboutYou
 var app
@@ -18,11 +19,13 @@ describe('routes/apply/new-eligibility/about-you', function () {
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     stubInsertVisitor = sinon.stub()
+    stubDuplicateClaimCheck = sinon.stub()
     stubGetTravellingFromAndTo = sinon.stub()
     stubAboutYou = sinon.stub()
 
     var route = proxyquire('../../../../../app/routes/apply/new-eligibility/about-you', {
       '../../../services/data/insert-visitor': stubInsertVisitor,
+      '../../../services/data/duplicate-claim-check': stubDuplicateClaimCheck,
       '../../../services/data/get-travelling-from-and-to': stubGetTravellingFromAndTo,
       '../../../services/domain/about-you': stubAboutYou,
       '../../../services/validators/url-path-validator': urlPathValidatorStub
@@ -44,6 +47,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
 
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to /apply/first-time/eligibility/:reference/new-claim for valid data', function () {
+      stubDuplicateClaimCheck.resolves(false)
       stubInsertVisitor.resolves()
       stubGetTravellingFromAndTo.resolves({to: 'hewell'})
       stubAboutYou.returns({})
@@ -61,6 +65,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     })
 
     it('should redirect to /apply/first-time/eligibility/:reference/new-claim for Northern Ireland person and GB Prison', function () {
+      stubDuplicateClaimCheck.resolves(false)
       stubInsertVisitor.resolves()
       stubGetTravellingFromAndTo.resolves({to: 'hewell'})
       stubAboutYou.returns({Country: 'Northern Ireland'})
@@ -72,6 +77,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     })
 
     it('should redirect to /apply/first-time/eligibility/:reference/new-claim/past for Northern Ireland person and NI Prison', function () {
+      stubDuplicateClaimCheck.resolves(false)
       stubInsertVisitor.resolves()
       stubGetTravellingFromAndTo.resolves({to: 'maghaberry'})
       stubAboutYou.returns({country: 'Northern Ireland'})
@@ -84,6 +90,13 @@ describe('routes/apply/new-eligibility/about-you', function () {
 
     it('should respond with a 400 for invalid data', function () {
       stubAboutYou.throws(new ValidationError())
+      return supertest(app)
+        .post(ROUTE)
+        .expect(400)
+    })
+
+    it('should respond with a 400 for a duplicate claim', function () {
+      stubDuplicateClaimCheck.resolves(true)
       return supertest(app)
         .post(ROUTE)
         .expect(400)

@@ -3,6 +3,7 @@ const ValidationError = require('../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../helpers/reference-id-helper')
 const insertVisitor = require('../../../services/data/insert-visitor')
+const duplicateClaimCheck = require('../../../services/data/duplicate-claim-check')
 const getTravellingFromAndTo = require('../../../services/data/get-travelling-from-and-to')
 const prisonsHelper = require('../../../constants/helpers/prisons-helper')
 const enumHelper = require('../../../constants/helpers/enum-helper')
@@ -46,40 +47,52 @@ module.exports = function (router) {
         req.body['EmailAddress'],
         req.body['PhoneNumber'])
 
-      insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou)
-      .then(function () {
-        return getTravellingFromAndTo(referenceAndEligibilityId.reference)
-          .then(function (result) {
-            var nameOfPrison = result.to
-            var isNorthernIrelandClaim = aboutYou.country === NORTHERN_IRELAND
-            var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
+      duplicateClaimCheck(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou.nationalInsuranceNumber)
+      .then(function (isDuplicate) {
+        if (isDuplicate) {
+          return renderValidationError(req, res, visitorDetails, null, true)
+        }
 
-            // Northern Ireland claims cannot be advance claims so skip future-or-past
-            var nextPage = 'new-claim'
-            if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
-              nextPage = 'new-claim/past'
-            }
+        return insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou)
+        .then(function () {
+          return getTravellingFromAndTo(referenceAndEligibilityId.reference)
+            .then(function (result) {
+              var nameOfPrison = result.to
+              var isNorthernIrelandClaim = aboutYou.country === NORTHERN_IRELAND
+              var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
-            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/${nextPage}`)
-          })
+              // Northern Ireland claims cannot be advance claims so skip future-or-past
+              var nextPage = 'new-claim'
+              if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
+                nextPage = 'new-claim/past'
+              }
+
+              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/${nextPage}`)
+            })
+        })
       })
       .catch(function (error) {
         next(error)
       })
     } catch (error) {
       if (error instanceof ValidationError) {
-        return res.status(400).render('apply/new-eligibility/about-you', {
-          errors: error.validationErrors,
-          claimType: req.params.claimType,
-          dob: req.params.dob,
-          relationship: req.params.relationship,
-          benefit: req.params.benefit,
-          referenceId: req.params.referenceId,
-          visitor: visitorDetails
-        })
+        return renderValidationError(req, res, visitorDetails, error.validationErrors, false)
       } else {
         throw error
       }
     }
+  })
+}
+
+function renderValidationError (req, res, visitorDetails, validationErrors, isDuplicateClaim) {
+  return res.status(400).render('apply/new-eligibility/about-you', {
+    errors: validationErrors,
+    isDuplicateClaim: isDuplicateClaim,
+    claimType: req.params.claimType,
+    dob: req.params.dob,
+    relationship: req.params.relationship,
+    benefit: req.params.benefit,
+    referenceId: req.params.referenceId,
+    visitor: visitorDetails
   })
 }
