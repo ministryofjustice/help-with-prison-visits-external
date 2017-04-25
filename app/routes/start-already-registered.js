@@ -8,6 +8,8 @@ module.exports = function (router) {
     var errors
     if (req.query.error === 'yes') {
       errors = { invalidReferenceNumberAndDob: [ ERROR_MESSAGES.getInvalidReferenceNumberAndDob ] }
+    } else if ((req.query.error === 'expired')) {
+      errors = { expired: [ ERROR_MESSAGES.getExpiredSession ] }
     }
     return res.render('start-already-registered', { errors: errors, recovery: req.query.recovery })
   })

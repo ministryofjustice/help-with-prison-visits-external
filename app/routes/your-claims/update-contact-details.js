@@ -4,7 +4,7 @@ const ValidationError = require('../../services/errors/validation-error')
 const insertEligibilityVisitorUpdatedContactDetail = require('../../services/data/insert-eligibility-visitor-updated-contact-detail')
 const decrypt = require('../../services/helpers/decrypt')
 
-const REFERENCE_DOB_ERROR = '?error=yes'
+const REFERENCE_DOB_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/your-claims/update-contact-details', function (req, res) {

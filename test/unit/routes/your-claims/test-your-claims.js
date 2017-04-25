@@ -84,7 +84,7 @@ describe('/your-claims/your-claims', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
-        .expect('location', '/start-already-registered?error=yes')
+        .expect('location', '/start-already-registered?error=expired')
     })
 
     it('should respond with a 500 if promise rejects.', function () {

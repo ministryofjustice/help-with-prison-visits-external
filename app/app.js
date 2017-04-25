@@ -100,8 +100,14 @@ if (config.BASIC_AUTH_ENABLED === 'true') {
 app.set('trust proxy', 1) // trust first proxy
 app.use(cookieSession({
   name: 'apvs-start-already-registered',
-  keys: [config.SESSION_COOKIE_SECRET]
+  keys: [config.SESSION_COOKIE_SECRET],
+  maxAge: parseInt(config.SESSION_COOKIE_MAXAGE)
 }))
+// Update a value in the cookie so that the set-cookie will be sent
+app.use(function (req, res, next) {
+  req.session.nowInMinutes = Date.now() / 60e3
+  next()
+})
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
