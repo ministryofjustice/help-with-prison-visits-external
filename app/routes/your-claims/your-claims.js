@@ -8,7 +8,7 @@ const displayHelper = require('../../views/helpers/display-helper')
 const forEdit = require('../helpers/for-edit')
 const decrypt = require('../../services/helpers/decrypt')
 
-const REFERENCE_DOB_ERROR = '?error=yes'
+const REFERENCE_DOB_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/your-claims', function (req, res, next) {

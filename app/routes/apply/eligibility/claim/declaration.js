@@ -27,6 +27,8 @@ module.exports = function (router) {
       new Declaration(req.body['terms-and-conditions-input'])  // eslint-disable-line no-new
       return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId)
         .then(function (claimInProgress) {
+          clearSessionCookieOnSubmission(req)
+
           if (claimInProgress) {
             return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, req.query.paymentMethod)
               .catch(function (error) {
@@ -68,4 +70,11 @@ function redirectApplicationSubmitted (res, reference, claimId) {
       var encryptedRef = encrypt(reference)
       return res.redirect(`/application-submitted/${advanceOrPast}/${encryptedRef}`)
     })
+}
+
+function clearSessionCookieOnSubmission (req) {
+  if (req.session) {
+    req.session.dobEncoded = null
+    req.session.encryptedRef = null
+  }
 }

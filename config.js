@@ -17,6 +17,7 @@ module.exports = {
 
   // Session cookie
   SESSION_COOKIE_SECRET: process.env.SESSION_COOKIE_SECRET || 'apvs-external-web',
+  SESSION_COOKIE_MAXAGE: process.env.SESSION_COOKIE_MAXAGE || '1200000', // 20 min default
 
   // DB
   DATABASE_SERVER: process.env.APVS_DATABASE_SERVER,

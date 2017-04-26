@@ -9,7 +9,7 @@ const decrypt = require('../../services/helpers/decrypt')
 const prisonsHelper = require('../../constants/helpers/prisons-helper')
 
 const NORTHERN_IRELAND = 'Northern Ireland'
-const REFERENCE_DOB_ERROR = '?error=yes'
+const REFERENCE_DOB_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/your-claims/check-your-information', function (req, res, next) {

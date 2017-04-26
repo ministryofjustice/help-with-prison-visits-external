@@ -16,7 +16,7 @@ const decrypt = require('../../services/helpers/decrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 const dateFormatter = require('../../services/date-formatter')
 
-const REFERENCE_DOB_ERROR = '?error=yes'
+const REFERENCE_DOB_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/your-claims/:claimId', function (req, res, next) {
