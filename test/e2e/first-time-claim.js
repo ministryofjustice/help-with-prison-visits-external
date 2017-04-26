@@ -46,7 +46,7 @@ describe('First Time Claim Flow', () => {
       .setValue('#dob-day', '01')
       .setValue('#dob-month', '05')
       .setValue('#dob-year', '1955')
-      .setValue('#prisoner-number', 'A1234BC')
+      .setValue('#prisoner-number', 'Z6541TS')
       .setValue('#prison-name-text-input', 'Hewell')
       .click('#NameOfPrison') // click label to remove input focus
       .click('#about-the-prisoner-submit')
@@ -61,7 +61,7 @@ describe('First Time Claim Flow', () => {
 
       .setValue('#first-name-input', 'Joe')
       .setValue('#last-name-input', 'Bloggs')
-      .setValue('#national-insurance-number-input', 'AA123456A')
+      .setValue('#national-insurance-number-input', 'TS876541T')
       .setValue('#house-number-and-street-input', '1')
       .setValue('#town-input', 'Town')
       .setValue('#county-input', 'County')

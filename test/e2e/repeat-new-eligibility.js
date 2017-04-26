@@ -64,7 +64,7 @@ describe('Repeat claim with new eligibility details', function () {
       .waitForExist('#about-you-submit')
       .setValue('#first-name-input', 'Joe')
       .setValue('#last-name-input', 'Bloggs')
-      .setValue('#national-insurance-number-input', 'AA123456A')
+      .setValue('#national-insurance-number-input', 'TS876545T')
       .setValue('#house-number-and-street-input', '1')
       .setValue('#town-input', 'Town')
       .setValue('#county-input', 'County')
