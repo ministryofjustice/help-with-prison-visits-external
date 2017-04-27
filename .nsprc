@@ -1,4 +1,4 @@
 {
-  // child dependency of gulp, Minimatch, has vulnerability, but gulp only used to generate SASS on startup
-  "exceptions": ["https://nodesecurity.io/advisories/118"]
+  // child dependencies of gulp, Minimatch/brace-expansion, has vulnerability, but gulp only used to generate SASS on startup
+  "exceptions": ["https://nodesecurity.io/advisories/118", "https://nodesecurity.io/advisories/338"]
 }
