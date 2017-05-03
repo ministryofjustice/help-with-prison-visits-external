@@ -9,6 +9,7 @@ const forEdit = require('../helpers/for-edit')
 const decrypt = require('../../services/helpers/decrypt')
 
 const REFERENCE_DOB_ERROR = '?error=expired'
+const REFERENCE_DOB_INCORRECT_ERROR = '?error=yes'
 
 module.exports = function (router) {
   router.get('/your-claims', function (req, res, next) {
@@ -29,7 +30,7 @@ module.exports = function (router) {
     getHistoricClaims(decryptedReference, dateFormatter.buildFromDateString(decodedDOB).toDate())
       .then(function (claims) {
         if (claims.length === 0) {
-          return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+          return res.redirect(`/start-already-registered${REFERENCE_DOB_INCORRECT_ERROR}`)
         }
 
         var canStartNewClaim = noClaimsInProgress(claims)

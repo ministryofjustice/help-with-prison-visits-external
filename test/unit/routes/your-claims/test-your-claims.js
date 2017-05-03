@@ -7,6 +7,7 @@ require('sinon-bluebird')
 
 describe('/your-claims/your-claims', function () {
   const COOKIES = [ 'apvs-start-already-registered=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
+  const COOKIES_EXPIRED = [ 'apvs-start-already-registered=' ]
   const ROUTE = `/your-claims`
 
   const CLAIMS_CAN_START_NEW_CLAIM = [{Status: 'APPROVED'}, {Status: 'AUTO-APPROVED'}, {Status: 'REJECTED'}]
@@ -83,6 +84,15 @@ describe('/your-claims/your-claims', function () {
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
+        .expect(302)
+        .expect('location', '/start-already-registered?error=yes')
+    })
+
+    it('should respond with a 302 and redirect if cookie is missing reference and dob', function () {
+      getHistoricClaimsStub.resolves([])
+      return supertest(app)
+        .get(ROUTE)
+        .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
         .expect('location', '/start-already-registered?error=expired')
     })
