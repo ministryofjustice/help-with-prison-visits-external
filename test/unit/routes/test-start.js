@@ -38,7 +38,7 @@ describe('routes/start', function () {
           madeClaimForPrisonerBefore: 'no'
         })
         .expect(302)
-        .expect('location', `/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility`)
+        .expect('location', `/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth`)
     })
 
     it('should redirect to already registered if made Claim for prisoner before', function () {

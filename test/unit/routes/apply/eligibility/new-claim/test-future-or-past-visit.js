@@ -6,9 +6,8 @@ const expect = require('chai').expect
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () {
-  const REFERENCEID = 'FUTPAST-1234'
-  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/new-claim`
-  const REPEAT_ROUTE = `/apply/repeat/eligibility/${REFERENCEID}/new-claim`
+  const ROUTE = `/apply/first-time/eligibility/new-claim`
+  const REPEAT_ROUTE = `/apply/repeat/eligibility/new-claim`
   var app
   var urlValidatorCalled = false
   var futureOrPastVisitStub

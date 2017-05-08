@@ -5,42 +5,35 @@ const ValidationError = require('../../../services/errors/validation-error')
 const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
 const displayHelper = require('../../../views/helpers/display-helper')
 
-const REFERENCE_DOB_ERROR = '?error=expired'
+const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit', function (req, res) {
+  router.get('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res) {
     UrlPathValidator(req.params)
 
     if (!req.session ||
-        !req.session.claimType ||
         !req.session.dobEncoded ||
         !req.session.relationship ||
         !req.session.benefit) {
-      return res.redirect(`/apply/first-time/new-eligibility${REFERENCE_DOB_ERROR}`)
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
     }
 
     return res.render('apply/new-eligibility/about-the-prisoner', {
       URL: req.url,
-      prisonerNumber: req.query['prisoner-number'],
+      prisonerNumber: req.session.prisonerNumber,
       displayHelper: displayHelper
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    if (!req.session || !req.session.claimType || !req.session.dobEncoded || !req.session.relationship || !req.session.benefit) {
-      req.session.claimType = null
-      req.session.dobEncoded = null
-      req.session.relationship = null
-      req.session.benefit = null
-      return res.redirect(`/apply/first-time/new-eligibility${REFERENCE_DOB_ERROR}`)
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.relationship ||
+        !req.session.benefit) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
     }
-
-    var claimType = req.session.claimType
-    var dobEncoded = req.session.dobEncoded
-    var relationship = req.session.relationship
-    var benefit = req.session.benefit
 
     var prisoner = req.body
 
@@ -52,12 +45,12 @@ module.exports = function (router) {
         req.body['dob-year'],
         req.body['PrisonerNumber'],
         req.body['NameOfPrison'])
-      insertNewEligibilityAndPrisoner(aboutThePrisoner, claimType, req.query.reference)
+      insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.query.reference)
         .then(function (result) {
           var referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
           req.session.referenceId = referenceId
 
-          return res.redirect(`/apply/${claimType}/new-eligibility/${dobEncoded}/${relationship}/${benefit}/${referenceId}`)
+          return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
         })
         .catch(function (error) {
           next(error)

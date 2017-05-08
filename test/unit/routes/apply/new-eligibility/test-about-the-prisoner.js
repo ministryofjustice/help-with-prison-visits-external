@@ -2,7 +2,6 @@ const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const encrypt = require('../../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
@@ -14,7 +13,7 @@ var app
 describe('routes/apply/new-eligibility/about-the-prisoner', function () {
   const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAxMDQxLjkxNjQ1LCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InIyIiwiYmVuZWZpdCI6ImIxIn0=' ]
   const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
-  const ROUTE = '/apply/first-time/new-eligibility/113725122/r2/b1'
+  const ROUTE = '/apply/first-time/new-eligibility/about-the-prisoner'
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -58,7 +57,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
           sinon.assert.calledOnce(stubAboutThePrisoner)
           sinon.assert.calledWith(stubInsertNewEligibilityAndPrisoner, newAboutThePrisoner, 'first-time', undefined)
         })
-        .expect('location', `${ROUTE}/${encrypt(`${newReference}-${newEligibilityId}`)}`)
+        .expect('location', `/apply/first-time/new-eligibility/about-you`)
     })
 
     it('should persist data and redirect to /apply/first-time/new-eligibility?error=expired', function () {
@@ -72,7 +71,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', `/apply/first-time/new-eligibility?error=expired`)
+        .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
     })
 
     it('should respond with a 400 for invalid data', function () {

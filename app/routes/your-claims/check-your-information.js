@@ -7,7 +7,6 @@ const referenceIdHelper = require('../helpers/reference-id-helper')
 const displayHelper = require('../../views/helpers/display-helper')
 const decrypt = require('../../services/helpers/decrypt')
 const prisonsHelper = require('../../constants/helpers/prisons-helper')
-const claimTypeEnum = require('../../constants/claim-type-enum')
 
 const NORTHERN_IRELAND = 'Northern Ireland'
 const REFERENCE_DOB_ERROR = '?error=expired'
@@ -22,19 +21,16 @@ module.exports = function (router) {
       return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
     }
 
-    req.session.claimType = claimTypeEnum.REPEAT_NEW_ELIGIBILITY
+    var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
+    var decryptedRef = decrypt(req.session.encryptedRef)
 
-    var dobEncoded = req.session.dobEncoded
-    var encryptedRef = req.session.encryptedRef
-
-    var dobDecoded = dateFormatter.decodeDate(dobEncoded)
-    var reference = decrypt(encryptedRef)
-
-    getRepeatEligibility(reference, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
+    getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
       .then(function (eligibility) {
+        req.session.prisonerNumber = eligibility['PrisonNumber']
+
         return res.render('your-claims/check-your-information', {
-          dob: dobEncoded,
-          reference: reference,
+          dob: dobDecoded,
+          reference: decryptedRef,
           eligibility: eligibility,
           displayHelper: displayHelper})
       })
@@ -53,24 +49,21 @@ module.exports = function (router) {
         return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
       }
 
-      var dobEncoded = req.session.dobEncoded
-      var encryptedRef = req.session.encryptedRef
-
-      var decryptedRef = decrypt(encryptedRef)
-      var dobDecoded = dateFormatter.decodeDate(dobEncoded)
+      var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
+      var decryptedRef = decrypt(req.session.encryptedRef)
 
       new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
 
       var eligibilityId = req.body.EligibilityId
       var referenceId = referenceIdHelper.getReferenceId(decryptedRef, eligibilityId)
 
-      req.session.claimType =
-
-      getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
+      getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
         .then(function (eligibility) {
           var nameOfPrison = eligibility.NameOfPrison
           var isNorthernIrelandClaim = eligibility.Country === NORTHERN_IRELAND
           var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
+
+          req.session.prisonerNumber = eligibility['PrisonNumber']
 
           // Northern Ireland claims cannot be advance claims so skip future-or-past
           var nextPage = 'new-claim'
@@ -85,12 +78,14 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
+        getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(req.session.dobDecoded).toDate(), null)
           .then(function (eligibility) {
+            req.session.prisonerNumber = eligibility['PrisonNumber']
+
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,
-              dob: req.params.dob,
-              reference: decryptedRef,
+              dob: req.session.dobDecoded,
+              reference: req.session.decryptedRef,
               eligibility: eligibility,
               displayHelper: displayHelper
             })

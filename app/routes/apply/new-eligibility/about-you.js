@@ -12,62 +12,48 @@ const dateFormatter = require('../../../services/date-formatter')
 const benefitsHelper = require('../../../constants/benefits-enum')
 const NORTHERN_IRELAND = 'Northern Ireland'
 
-const REFERENCE_DOB_ERROR = '?error=expired'
+const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit/:referenceId', function (req, res) {
+  router.get('/apply/:claimType/new-eligibility/about-you', function (req, res) {
     UrlPathValidator(req.params)
 
     if (!req.session ||
-        !req.session.claimType ||
-        !req.session.dobEncoded ||
-        !req.session.relationship ||
-        !req.session.benefit ||
-        !req.session.referenceId) {
-      return res.redirect(`/apply/first-time/new-eligibility${REFERENCE_DOB_ERROR}`)
+          !req.session.dobEncoded ||
+          !req.session.relationship ||
+          !req.session.benefit ||
+          !req.session.referenceId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
     }
 
-    var claimType = req.session.claimType
-    var dobEncoded = req.session.dobEncoded
-    var relationship = req.session.relationship
-    var benefit = req.session.benefit
-    var referenceId = req.session.referenceId
-
     return res.render('apply/new-eligibility/about-you', {
-      claimType: claimType,
-      dob: dobEncoded,
-      relationship: relationship,
-      benefit: benefit,
-      referenceId: referenceId
+      claimType: req.session.claimType,
+      dob: req.session.dobEncoded,
+      relationship: req.session.relationship,
+      benefit: req.session.benefit,
+      referenceId: req.session.referenceId
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit/:referenceId', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/about-you', function (req, res, next) {
     UrlPathValidator(req.params)
 
     if (!req.session ||
-        !req.session.claimType ||
         !req.session.dobEncoded ||
         !req.session.relationship ||
         !req.session.benefit ||
         !req.session.referenceId) {
-      return res.redirect(`/apply/first-time/new-eligibility${REFERENCE_DOB_ERROR}`)
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
     }
 
-    var claimType = req.session.claimType
-    var dobEncoded = req.session.dobEncoded
-    var relationship = req.session.relationship
-    var benefit = req.session.benefit
-    var referenceId = req.session.referenceId
-
-    var dobFormatted = dateFormatter.decodeDate(dobEncoded)
-    var relationshipFormatted = enumHelper.getKeyByAttribute(relationshipHelper, relationship, 'urlValue').value
-    var benefitFormatted = enumHelper.getKeyByAttribute(benefitsHelper, benefit, 'urlValue').value
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(referenceId)
+    var dob = dateFormatter.decodeDate(req.session.dobEncoded)
+    var relationship = enumHelper.getKeyByAttribute(relationshipHelper, req.session.relationship, 'urlValue').value
+    var benefit = enumHelper.getKeyByAttribute(benefitsHelper, req.session.benefit, 'urlValue').value
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
     var visitorDetails = req.body
 
     try {
-      var aboutYou = new AboutYou(dobFormatted, relationshipFormatted, benefitFormatted,
+      var aboutYou = new AboutYou(dob, relationship, benefit,
         req.body['FirstName'],
         req.body['LastName'],
         req.body['NationalInsuranceNumber'],
@@ -99,7 +85,9 @@ module.exports = function (router) {
                 nextPage = 'new-claim/past'
               }
 
-              return res.redirect(`/apply/${claimType}/eligibility/${referenceId}/${nextPage}`)
+              console.dir(nextPage)
+
+              return res.redirect(`/apply/${req.params.claimType}/eligibility/${nextPage}`)
             })
         })
       })

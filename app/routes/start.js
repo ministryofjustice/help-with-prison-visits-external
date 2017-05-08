@@ -6,6 +6,7 @@ module.exports = function (router) {
     var errors
 
     if ((req.query.error === 'expired')) {
+      req.session = null
       errors = { expired: [ ERROR_MESSAGES.getExpiredSession ] }
     }
 
@@ -19,7 +20,7 @@ module.exports = function (router) {
     } else if (req.body.madeClaimForPrisonerBefore === 'yes') {
       return res.redirect('/start-already-registered')
     } else {
-      return res.redirect(`/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility`)
+      return res.redirect(`/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth`)
     }
   })
 }

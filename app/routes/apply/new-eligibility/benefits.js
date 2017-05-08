@@ -3,37 +3,59 @@ const UrlPathValidator = require('../../../services/validators/url-path-validato
 const ValidationError = require('../../../services/errors/validation-error')
 const claimTypeEnum = require('../../../constants/claim-type-enum')
 
-const REFERENCE_DOB_ERROR = '?error=expired'
+const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/:dob/:relationship', function (req, res) {
+  router.get('/apply/:claimType/new-eligibility/benefits', function (req, res) {
     UrlPathValidator(req.params)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.dobEncoded ||
-        !req.session.relationship) {
-      return res.redirect(`/apply/first-time/new-eligibility${REFERENCE_DOB_ERROR}`)
+    if (req.params.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
+      if (!req.session ||
+          !req.session.relationship ||
+          !req.session.dobEncoded ||
+          !req.session.dobDecoded ||
+          !req.session.encryptedRef ||
+          !req.session.decryptedRef ||
+          !req.session.prisonerNumber) {
+        return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+      }
+    } else {
+      if (!req.session ||
+          !req.session.dobEncoded ||
+          !req.session.relationship) {
+        return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+      }
     }
+
+    req.session.claimType = req.params.claimType
 
     return res.render('apply/new-eligibility/benefits', {
       URL: req.url
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/:dob/:relationship', function (req, res) {
+  router.post('/apply/:claimType/new-eligibility/benefits', function (req, res) {
     UrlPathValidator(req.params)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.dobEncoded ||
-        !req.session.relationship) {
-      return res.redirect(`/apply/first-time/new-eligibility${REFERENCE_DOB_ERROR}`)
+    if (req.params.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
+      if (!req.session ||
+          !req.session.relationship ||
+          !req.session.dobEncoded ||
+          !req.session.dobDecoded ||
+          !req.session.encryptedRef ||
+          !req.session.decryptedRef ||
+          !req.session.prisonerNumber) {
+        return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+      }
+    } else {
+      if (!req.session ||
+          !req.session.dobEncoded ||
+          !req.session.relationship) {
+        return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+      }
     }
 
-    var claimType = req.session.claimType
-    var dobEncoded = req.session.dobEncoded
-    var relationship = req.session.relationship
+    req.session.claimType = req.params.claimType
 
     try {
       var benefits = new Benefits(req.body.benefit)
@@ -44,14 +66,7 @@ module.exports = function (router) {
       if (benefit === 'none') {
         return res.redirect('/eligibility-fail')
       } else {
-        var params = ''
-        if (claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
-          var referenceId = req.query.reference
-          var prisonerNumber = req.query['prisoner-number']
-
-          params = `?reference=${referenceId}&prisoner-number=${prisonerNumber}`
-        }
-        return res.redirect(`/apply/${claimType}/new-eligibility/${dobEncoded}/${relationship}/${benefit}${params}`)
+        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-the-prisoner`)
       }
     } catch (error) {
       if (error instanceof ValidationError) {
