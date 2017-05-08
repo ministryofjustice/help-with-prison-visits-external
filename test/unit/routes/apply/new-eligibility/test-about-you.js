@@ -13,7 +13,9 @@ var stubAboutYou
 var app
 
 describe('routes/apply/new-eligibility/about-you', function () {
-  const REFERENCEID = 'ABOUTYO-1234'
+  const REFERENCEID = '5247041cbdbb30a70cae'
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAxMDc0LjY3Njk1LCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InIyIiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1MjQ3MDQxY2JkYmIzMGE3MGNhZSJ9' ]
+  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
   const ROUTE = `/apply/first-time/new-eligibility/113725122/r2/b1/${REFERENCEID}`
 
   beforeEach(function () {
@@ -38,6 +40,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     it('should respond with a 200 for valid path parameters', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
@@ -55,6 +58,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(302)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
           sinon.assert.calledOnce(stubAboutYou)
@@ -62,6 +66,19 @@ describe('routes/apply/new-eligibility/about-you', function () {
           sinon.assert.calledOnce(stubGetTravellingFromAndTo)
         })
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/new-claim`)
+    })
+
+    it('should persist data and redirect to /apply/first-time/new-eligibility?error=expired', function () {
+      stubDuplicateClaimCheck.resolves(false)
+      stubInsertVisitor.resolves()
+      stubGetTravellingFromAndTo.resolves({to: 'hewell'})
+      stubAboutYou.returns({})
+
+      return supertest(app)
+        .post(ROUTE)
+        .expect(302)
+        .set('Cookie', COOKIES_EXPIRED)
+        .expect('location', `/apply/first-time/new-eligibility?error=expired`)
     })
 
     it('should redirect to /apply/first-time/eligibility/:reference/new-claim for Northern Ireland person and GB Prison', function () {
@@ -72,6 +89,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
 
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/new-claim`)
     })
@@ -84,6 +102,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
 
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect('location', `/apply/first-time/eligibility/${REFERENCEID}/new-claim/past`)
     })
@@ -92,6 +111,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
       stubAboutYou.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(400)
     })
 
@@ -99,6 +119,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
       stubDuplicateClaimCheck.resolves(true)
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(400)
     })
 
@@ -106,6 +127,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
       stubAboutYou.throws(new Error())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
 
@@ -113,6 +135,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
       stubInsertVisitor.rejects()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })

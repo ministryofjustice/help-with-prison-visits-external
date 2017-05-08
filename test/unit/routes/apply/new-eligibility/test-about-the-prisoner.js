@@ -12,6 +12,8 @@ var stubInsertNewEligibilityAndPrisoner
 var app
 
 describe('routes/apply/new-eligibility/about-the-prisoner', function () {
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAxMDQxLjkxNjQ1LCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InIyIiwiYmVuZWZpdCI6ImIxIn0=' ]
+  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
   const ROUTE = '/apply/first-time/new-eligibility/113725122/r2/b1'
 
   beforeEach(function () {
@@ -29,10 +31,10 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
   })
 
   describe(`GET ${ROUTE}`, function () {
-    it('should respond with a 200 for valid path parameters', function () {
+    it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
-        .expect(200)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -49,6 +51,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
 
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
@@ -58,10 +61,25 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
         .expect('location', `${ROUTE}/${encrypt(`${newReference}-${newEligibilityId}`)}`)
     })
 
+    it('should persist data and redirect to /apply/first-time/new-eligibility?error=expired', function () {
+      var newReference = 'NEWREF1'
+      var newEligibilityId = 1234
+      var newAboutThePrisoner = {}
+      stubInsertNewEligibilityAndPrisoner.resolves({reference: newReference, eligibilityId: newEligibilityId})
+      stubAboutThePrisoner.returns(newAboutThePrisoner)
+
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES_EXPIRED)
+        .expect(302)
+        .expect('location', `/apply/first-time/new-eligibility?error=expired`)
+    })
+
     it('should respond with a 400 for invalid data', function () {
       stubAboutThePrisoner.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(400)
     })
 
@@ -69,6 +87,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
       stubAboutThePrisoner.throws(new Error())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
 
@@ -76,6 +95,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
       stubInsertNewEligibilityAndPrisoner.rejects()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })

@@ -10,6 +10,8 @@ var stubDateOfBirth
 var app
 
 describe('routes/apply/new-eligibility/date-of-birth', function () {
+  const DOB = '113725122'
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAwMjE5LjI3OTk4MzMzNCwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSJ9' ]
   const ROUTE = '/apply/first-time/new-eligibility'
 
   beforeEach(function () {
@@ -29,6 +31,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -37,6 +40,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
     it('should respond with a 200', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
     })
   })
@@ -46,27 +50,30 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
       it('should call the URL Path Validator', function () {
         return supertest(app)
           .get(ROUTE)
+          .set('Cookie', COOKIES)
           .expect(function () {
             sinon.assert.calledOnce(urlPathValidatorStub)
           })
       })
 
       it('should respond with a 302 and redirect to /apply/first-time/new-eligibility/:dob', function () {
-        var dob = '113725122'
-        stubDateOfBirth.returns({encodedDate: dob, sixteenOrUnder: false})
+        stubDateOfBirth.returns({encodedDate: DOB, sixteenOrUnder: false})
         return supertest(app)
           .post(ROUTE)
+          .set('Cookie', COOKIES)
           .expect(302)
           .expect(function () {
             sinon.assert.calledOnce(stubDateOfBirth)
           })
-          .expect('location', `/apply/first-time/new-eligibility/${dob}`)
+          .expect('location', `/apply/first-time/new-eligibility/${DOB}`)
+          .expect(hasSetCookie)
       })
 
       it('should respond with a 400 for a validation error', function () {
         stubDateOfBirth.throws(new ValidationError())
         return supertest(app)
           .post(ROUTE)
+          .set('Cookie', COOKIES)
           .expect(400)
       })
 
@@ -74,8 +81,13 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
         stubDateOfBirth.throws(new Error())
         return supertest(app)
           .post(ROUTE)
+          .set('Cookie', COOKIES)
           .expect(500)
       })
     })
   })
+
+  function hasSetCookie (res) {
+    if (!JSON.stringify(res.header['set-cookie']).includes('apvs-start-application')) throw new Error('response does not contain expected cookie')
+  }
 })

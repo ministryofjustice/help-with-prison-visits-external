@@ -6,8 +6,8 @@ const sinon = require('sinon')
 require('sinon-bluebird')
 
 describe('/your-claims/your-claims', function () {
-  const COOKIES = [ 'apvs-start-already-registered=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-already-registered=' ]
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0ODk5ODg3LjQ5MjI1LCJkb2JFbmNvZGVkIjoiMTE0MDE3NjA3IiwiZW5jcnlwdGVkUmVmIjoiNTM0NTAxMWFhNmIzNTAifQ==' ]
+  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
   const ROUTE = `/your-claims`
 
   const CLAIMS_CAN_START_NEW_CLAIM = [{Status: 'APPROVED'}, {Status: 'AUTO-APPROVED'}, {Status: 'REJECTED'}]

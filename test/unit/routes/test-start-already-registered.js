@@ -97,6 +97,6 @@ describe('routes/start-already-registered', function () {
   })
 
   function hasSetCookie (res) {
-    if (!JSON.stringify(res.header['set-cookie']).includes('apvs-start-already-registered')) throw new Error('response does not contain expected cookie')
+    if (!JSON.stringify(res.header['set-cookie']).includes('apvs-start-application')) throw new Error('response does not contain expected cookie')
   }
 })

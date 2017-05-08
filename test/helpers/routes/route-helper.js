@@ -15,7 +15,7 @@ module.exports.buildApp = function (route) {
   app.use(cookieParser())
 
   app.use(cookieSession({
-    name: 'apvs-start-already-registered',
+    name: 'apvs-start-application',
     keys: ['test-secret'],
     expires: new Date(2050, 1),
     signed: false

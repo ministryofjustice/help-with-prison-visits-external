@@ -8,7 +8,7 @@ require('sinon-bluebird')
 
 describe('/your-claims/check-your-information', function () {
   const REFERENCE = 'APVS123'
-  const COOKIES = [ 'apvs-start-already-registered=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
+  const COOKIES = [ 'apvs-start-application=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
   const ROUTE = `/your-claims/check-your-information`
 
   var app

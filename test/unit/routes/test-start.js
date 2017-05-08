@@ -34,7 +34,9 @@ describe('routes/start', function () {
     it('should redirect to first time if not made Claim for prisoner before', function () {
       return supertest(app)
         .post(ROUTE)
-        .send({madeClaimForPrisonerBefore: 'no'})
+        .send({
+          madeClaimForPrisonerBefore: 'no'
+        })
         .expect(302)
         .expect('location', `/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility`)
     })

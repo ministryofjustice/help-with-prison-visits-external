@@ -3,7 +3,13 @@ const claimTypeEnum = require('../constants/claim-type-enum')
 
 module.exports = function (router) {
   router.get('/start', function (req, res) {
-    return res.render('start')
+    var errors
+
+    if ((req.query.error === 'expired')) {
+      errors = { expired: [ ERROR_MESSAGES.getExpiredSession ] }
+    }
+
+    return res.render('start', { errors: errors, recovery: req.query.recovery })
   })
 
   router.post('/start', function (req, res) {

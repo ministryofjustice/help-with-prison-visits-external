@@ -8,7 +8,7 @@ require('sinon-bluebird')
 describe('/your-claims/update-contact-details', function () {
   const REFERENCE = 'APVS123'
   const ELIGIBILITYID = '1'
-  const COOKIES = [ 'apvs-start-already-registered=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
+  const COOKIES = [ 'apvs-start-application=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
   const ROUTE = `/your-claims/update-contact-details?eligibility=${ELIGIBILITYID}`
 
   var app

@@ -7,6 +7,7 @@ const referenceIdHelper = require('../helpers/reference-id-helper')
 const displayHelper = require('../../views/helpers/display-helper')
 const decrypt = require('../../services/helpers/decrypt')
 const prisonsHelper = require('../../constants/helpers/prisons-helper')
+const claimTypeEnum = require('../../constants/claim-type-enum')
 
 const NORTHERN_IRELAND = 'Northern Ireland'
 const REFERENCE_DOB_ERROR = '?error=expired'
@@ -20,6 +21,8 @@ module.exports = function (router) {
         !req.session.encryptedRef) {
       return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
     }
+
+    req.session.claimType = claimTypeEnum.REPEAT_NEW_ELIGIBILITY
 
     var dobEncoded = req.session.dobEncoded
     var encryptedRef = req.session.encryptedRef
@@ -60,6 +63,8 @@ module.exports = function (router) {
 
       var eligibilityId = req.body.EligibilityId
       var referenceId = referenceIdHelper.getReferenceId(decryptedRef, eligibilityId)
+
+      req.session.claimType =
 
       getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
         .then(function (eligibility) {

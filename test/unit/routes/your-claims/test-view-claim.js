@@ -6,7 +6,7 @@ const routeHelper = require('../../../helpers/routes/route-helper')
 const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
-const COOKIES = [ 'apvs-start-already-registered=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
+const COOKIES = [ 'apvs-start-application=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
 const REFERENCE = 'APVS123'
 const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
 const ELIGIBILITY_ID = '1234'

@@ -3,9 +3,19 @@ const UrlPathValidator = require('../../../services/validators/url-path-validato
 const ValidationError = require('../../../services/errors/validation-error')
 const claimTypeEnum = require('../../../constants/claim-type-enum')
 
+const REFERENCE_DOB_ERROR = '?error=expired'
+
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/:dob/:relationship', function (req, res) {
     UrlPathValidator(req.params)
+
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.dobEncoded ||
+        !req.session.relationship) {
+      return res.redirect(`/apply/first-time/new-eligibility${REFERENCE_DOB_ERROR}`)
+    }
+
     return res.render('apply/new-eligibility/benefits', {
       URL: req.url
     })
@@ -14,21 +24,34 @@ module.exports = function (router) {
   router.post('/apply/:claimType/new-eligibility/:dob/:relationship', function (req, res) {
     UrlPathValidator(req.params)
 
-    var dob = req.params.dob
-    var relationship = req.params.relationship
-    var benefit = req.body.benefit
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.dobEncoded ||
+        !req.session.relationship) {
+      return res.redirect(`/apply/first-time/new-eligibility${REFERENCE_DOB_ERROR}`)
+    }
+
+    var claimType = req.session.claimType
+    var dobEncoded = req.session.dobEncoded
+    var relationship = req.session.relationship
 
     try {
-      var benefits = new Benefits(benefit)
+      var benefits = new Benefits(req.body.benefit)
 
-      if (benefits.benefit === 'none') {
+      var benefit = benefits.benefit
+      req.session.benefit = req.body.benefit
+
+      if (benefit === 'none') {
         return res.redirect('/eligibility-fail')
       } else {
         var params = ''
-        if (req.params.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
-          params = `?reference=${req.query.reference}&prisoner-number=${req.query['prisoner-number']}`
+        if (claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
+          var referenceId = req.query.reference
+          var prisonerNumber = req.query['prisoner-number']
+
+          params = `?reference=${referenceId}&prisoner-number=${prisonerNumber}`
         }
-        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dob}/${relationship}/${benefits.benefit}${params}`)
+        return res.redirect(`/apply/${claimType}/new-eligibility/${dobEncoded}/${relationship}/${benefit}${params}`)
       }
     } catch (error) {
       if (error instanceof ValidationError) {
