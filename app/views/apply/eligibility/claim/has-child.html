@@ -19,7 +19,7 @@
         Do you want to claim expenses for any children?
       </h1>
 
-      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/has-child" method="post">
+      <form action="/apply/eligibility/claim/has-child" method="post">
 
         <div id="has-child" class="form-group {% if errors['has-child'][0] %} error {% endif %}">
 

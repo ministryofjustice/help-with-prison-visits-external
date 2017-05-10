@@ -5,7 +5,7 @@ const getClaimDocumentFilePath = require('../../services/data/get-claim-document
 const DEFAULT_FILE_NAME = 'APVS-Upload'
 
 module.exports.buildClaimSummaryUrl = function (req) {
-  return `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`
+  return `/apply/${req.params.claimType}/eligibility/claim/summary`
 }
 
 module.exports.buildRemoveDocumentUrl = function (req) {

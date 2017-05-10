@@ -17,20 +17,19 @@ module.exports = function (router) {
 
     if (!req.session ||
         !req.session.dobEncoded ||
-        !req.session.encryptedRef) {
+        !req.session.decryptedRef) {
       return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
     }
 
     var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
-    var decryptedRef = decrypt(req.session.encryptedRef)
 
-    getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
+    getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
       .then(function (eligibility) {
         req.session.prisonerNumber = eligibility['PrisonNumber']
 
         return res.render('your-claims/check-your-information', {
           dob: dobDecoded,
-          reference: decryptedRef,
+          reference: req.session.decryptedRef,
           eligibility: eligibility,
           displayHelper: displayHelper})
       })
@@ -45,17 +44,16 @@ module.exports = function (router) {
     try {
       if (!req.session ||
           !req.session.dobEncoded ||
-          !req.session.encryptedRef) {
+          !req.session.decryptedRef) {
         return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
       }
 
       var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
-      var decryptedRef = decrypt(req.session.encryptedRef)
 
       new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
 
       var eligibilityId = req.body.EligibilityId
-      var referenceId = referenceIdHelper.getReferenceId(decryptedRef, eligibilityId)
+      req.session.referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, eligibilityId)
 
       getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
         .then(function (eligibility) {
@@ -66,12 +64,13 @@ module.exports = function (router) {
           req.session.prisonerNumber = eligibility['PrisonNumber']
 
           // Northern Ireland claims cannot be advance claims so skip future-or-past
-          var nextPage = 'new-claim'
+          var nextPage = 'future-or-past-visit'
           if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
-            nextPage = 'new-claim/same-journey-as-last-claim/past'
+            req.session.advanceOrPast = 'past'
+            nextPage = 'same-journey-as-last-claim'
           }
 
-          return res.redirect(`/apply/repeat/eligibility/${referenceId}/${nextPage}`)
+          return res.redirect(`/apply/repeat/eligibility/new-claim/${nextPage}`)
         })
         .catch(function (error) {
           next(error)

@@ -3,49 +3,68 @@ const submitClaim = require('../../../../services/data/submit-claim')
 const ValidationError = require('../../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
-const encrypt = require('../../../../services/helpers/encrypt')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const checkStatusForFinishingClaim = require('../../../../services/data/check-status-for-finishing-claim')
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/declaration', function (req, res) {
+  router.get('/apply/eligibility/claim/declaration', function (req, res) {
     UrlPathValidator(req.params)
+
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.advanceOrPast ||
+        !req.session.claimId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
     return res.render('apply/eligibility/claim/declaration', {
-      claimType: req.params.claimType,
-      referenceId: req.params.referenceId,
-      claimId: req.params.claimId,
+      claimType: req.session.claimType,
+      referenceId: req.session.referenceId,
+      claimId: req.session.claimId,
       isAdvance: req.query.isAdvance,
       paymentMethod: req.query.paymentMethod
     })
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/declaration', function (req, res, next) {
+  router.post('/apply/eligibility/claim/declaration', function (req, res, next) {
     UrlPathValidator(req.params)
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
     var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
+
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.advanceOrPast ||
+        !req.session.claimId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
     try {
       new Declaration(req.body['terms-and-conditions-input'])  // eslint-disable-line no-new
-      return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId)
+      return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId)
         .then(function (claimInProgress) {
-          clearSessionCookieOnSubmission(req)
-
           if (claimInProgress) {
-            return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, req.params.claimType, assistedDigitalCaseWorker, req.query.paymentMethod)
+            return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, req.session.claimType, assistedDigitalCaseWorker, req.query.paymentMethod)
               .catch(function (error) {
                 next(error)
               })
           } else {
-            redirectApplicationSubmitted(res, referenceAndEligibilityId.reference, req.params.claimId)
+            redirectApplicationSubmitted(res, referenceAndEligibilityId.reference, req.session.claimId)
           }
         })
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/eligibility/claim/declaration', {
           errors: error.validationErrors,
-          claimType: req.params.claimType,
+          claimType: req.session.claimType,
           paymentDetailsAndDeclaration: req.body,
-          referenceId: req.params.referenceId,
-          claimId: req.params.claimId,
+          referenceId: req.session.referenceId,
+          claimId: req.session.claimId,
           isAdvance: req.query.isAdvance,
           paymentMethod: req.query.paymentMethod
         })
@@ -66,15 +85,7 @@ function finishClaim (res, reference, eligibilityId, claimId, claimType, assiste
 function redirectApplicationSubmitted (res, reference, claimId) {
   getIsAdvanceClaim(claimId)
     .then(function (isAdvanceClaim) {
-      var advanceOrPast = isAdvanceClaim ? 'advance' : 'past'
-      var encryptedRef = encrypt(reference)
-      return res.redirect(`/application-submitted/${advanceOrPast}/${encryptedRef}`)
+      return res.redirect(`/application-submitted`)
     })
 }
 
-function clearSessionCookieOnSubmission (req) {
-  if (req.session) {
-    req.session.dobEncoded = null
-    req.session.encryptedRef = null
-  }
-}

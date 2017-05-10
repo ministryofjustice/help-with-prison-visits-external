@@ -18,11 +18,15 @@ module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/about-you', function (req, res) {
     UrlPathValidator(req.params)
 
+    req.session.claimType = req.params.claimType
+
     if (!req.session ||
-          !req.session.dobEncoded ||
-          !req.session.relationship ||
-          !req.session.benefit ||
-          !req.session.referenceId) {
+        !req.session.dobEncoded ||
+        !req.session.relationship ||
+        !req.session.benefit ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.claimType) {
       return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
     }
 
@@ -38,11 +42,15 @@ module.exports = function (router) {
   router.post('/apply/:claimType/new-eligibility/about-you', function (req, res, next) {
     UrlPathValidator(req.params)
 
+    req.session.claimType = req.params.claimType
+
     if (!req.session ||
         !req.session.dobEncoded ||
         !req.session.relationship ||
         !req.session.benefit ||
-        !req.session.referenceId) {
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.claimType) {
       return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
     }
 
@@ -80,14 +88,13 @@ module.exports = function (router) {
               var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
               // Northern Ireland claims cannot be advance claims so skip future-or-past
-              var nextPage = 'new-claim'
+              var nextPage = 'future-or-past-visit'
               if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
-                nextPage = 'new-claim/past'
+                req.session.advanceOrPast = 'past'
+                nextPage = 'journey-information'
               }
 
-              console.dir(nextPage)
-
-              return res.redirect(`/apply/${req.params.claimType}/eligibility/${nextPage}`)
+              return res.redirect(`/apply/eligibility/new-claim/${nextPage}`)
             })
         })
       })

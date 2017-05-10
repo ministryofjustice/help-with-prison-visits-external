@@ -24,7 +24,7 @@
       {% else %}
         <p>The visit must be in the next 28 days.</p>
       {% endif %}
-      <form action="/apply/{{ claimType }}/eligibility/new-claim/{{ advanceOrPast }}" method="post">
+      <form action="/apply/eligibility/new-claim/journey-information" method="post">
 
         <div class="form-group {% if errors['DateOfJourney'][0] %} error {% endif %}">
           <fieldset>

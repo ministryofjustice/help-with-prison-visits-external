@@ -24,7 +24,7 @@
 
       <p>If you are over 75 or have a medical reason, you can take a longer taxi journey.</p>
 
-      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/taxi{{ params }}"
+      <form action="/apply/eligibility/claim/taxi{{ params }}"
             method="post">
 
         <div class="form-group {% if errors['from'][0] %} error {% endif %}">

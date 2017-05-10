@@ -2,7 +2,6 @@ const UrlPathValidator = require('../../services/validators/url-path-validator')
 const UpdatedContactDetails = require('../../services/domain/updated-contact-details')
 const ValidationError = require('../../services/errors/validation-error')
 const insertEligibilityVisitorUpdatedContactDetail = require('../../services/data/insert-eligibility-visitor-updated-contact-detail')
-const decrypt = require('../../services/helpers/decrypt')
 
 const REFERENCE_DOB_ERROR = '?error=expired'
 
@@ -19,16 +18,13 @@ module.exports = function (router) {
 
     if (!req.session ||
         !req.session.dobEncoded ||
-        !req.session.encryptedRef) {
+        !req.session.decryptedRef) {
       return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
     }
 
-    var encryptedRef = req.session.encryptedRef
-    var decryptedRef = decrypt(encryptedRef)
-
     try {
       var updatedContactDetails = new UpdatedContactDetails(req.body['email-address'], req.body['phone-number'])
-      insertEligibilityVisitorUpdatedContactDetail(decryptedRef, req.body.EligibilityId, updatedContactDetails)
+      insertEligibilityVisitorUpdatedContactDetail(req.session.decryptedRef, req.body.EligibilityId, updatedContactDetails)
         .then(function () {
           res.redirect(`/your-claims/check-your-information`)
         })

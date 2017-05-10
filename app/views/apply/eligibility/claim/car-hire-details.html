@@ -28,7 +28,7 @@
         You are allowed one car hire per claim.
       </p>
 
-      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/hire{{ params }}"
+      <form action="/apply/eligibility/claim/hire{{ params }}"
             method="post">
 
         <div class="form-group {% if errors['duration'][0] %} error {% endif %}">

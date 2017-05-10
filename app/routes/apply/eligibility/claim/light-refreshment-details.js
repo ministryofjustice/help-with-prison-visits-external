@@ -6,16 +6,27 @@ const RefreshmentExpense = require('../../../../services/domain/expenses/refresh
 const insertExpense = require('../../../../services/data/insert-expense')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/refreshment', function (req, res) {
+  router.get('/apply/eligibility/claim/refreshment', function (req, res) {
     UrlPathValidator(req.params)
 
-    getIsAdvanceClaim(req.params.claimId)
+    if (!req.session ||
+      !req.session.claimType ||
+      !req.session.referenceId ||
+      !req.session.decryptedRef ||
+      !req.session.advanceOrPast ||
+      !req.session.claimId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
+    getIsAdvanceClaim(req.session.claimId)
       .then(function (isAdvanceClaim) {
         return res.render('apply/eligibility/claim/light-refreshment-details', {
-          claimType: req.params.claimType,
-          referenceId: req.params.referenceId,
-          claimId: req.params.claimId,
+          claimType: req.session.claimType,
+          referenceId: req.session.referenceId,
+          claimId: req.session.claimId,
           params: expenseUrlRouter.parseParams(req.query),
           redirectUrl: expenseUrlRouter.getRedirectUrl(req),
           isAdvanceClaim: isAdvanceClaim
@@ -23,14 +34,23 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/refreshment', function (req, res, next) {
+  router.post('/apply/eligibility/claim/refreshment', function (req, res, next) {
     UrlPathValidator(req.params)
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+
+    if (!req.session ||
+      !req.session.claimType ||
+      !req.session.referenceId ||
+      !req.session.decryptedRef ||
+      !req.session.advanceOrPast ||
+      !req.session.claimId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
 
     try {
       var expense = new RefreshmentExpense(req.body.cost)
 
-      insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, expense)
+      insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
         .then(function () {
           return res.redirect(expenseUrlRouter.getRedirectUrl(req))
         })
@@ -39,13 +59,13 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        getIsAdvanceClaim(req.params.claimId)
+        getIsAdvanceClaim(req.session.claimId)
           .then(function (isAdvanceClaim) {
             return res.status(400).render('apply/eligibility/claim/light-refreshment-details', {
               errors: error.validationErrors,
-              claimType: req.params.claimType,
-              referenceId: req.params.referenceId,
-              claimId: req.params.claimId,
+              claimType: req.session.claimType,
+              referenceId: req.session.referenceId,
+              claimId: req.session.claimId,
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
               expense: req.body,

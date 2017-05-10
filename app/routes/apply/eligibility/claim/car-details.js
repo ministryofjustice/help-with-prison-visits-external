@@ -10,37 +10,48 @@ const claimTypeEnum = require('../../../../constants/claim-type-enum')
 const displayHelper = require('../../../../views/helpers/display-helper')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/car', function (req, res, next) {
+  router.get('/apply/eligibility/claim/car', function (req, res, next) {
     return get(false, req, res, next)
   })
 
-  router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/car-only', function (req, res, next) {
+  router.get('/apply/eligibility/claim/car-only', function (req, res, next) {
     return get(true, req, res, next)
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/car', function (req, res, next) {
+  router.post('/apply/eligibility/claim/car', function (req, res, next) {
     return post(false, req, res, next)
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/car-only', function (req, res, next) {
+  router.post('/apply/eligibility/claim/car-only', function (req, res, next) {
     return post(true, req, res, next)
   })
 }
 
 function get (carOnly, req, res, next) {
   UrlPathValidator(req.params)
-  var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+  var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
-  getIsAdvanceClaim(req.params.claimId)
+  if (!req.session ||
+      !req.session.claimType ||
+      !req.session.referenceId ||
+      !req.session.decryptedRef ||
+      !req.session.advanceOrPast ||
+      !req.session.claimId) {
+    return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+  }
+
+  getIsAdvanceClaim(req.session.claimId)
     .then(function (isAdvanceClaim) {
-      if (req.params.claimType === claimTypeEnum.FIRST_TIME || req.params.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
+      if (req.session.claimType === claimTypeEnum.FIRST_TIME || req.session.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
         getTravellingFromAndTo(referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
           .then(function (result) {
             return res.render('apply/eligibility/claim/car-details', {
-              claimType: req.params.claimType,
-              referenceId: req.params.referenceId,
-              claimId: req.params.claimId,
+              claimType: req.session.claimType,
+              referenceId: req.session.referenceId,
+              claimId: req.session.claimId,
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
               expense: result,
@@ -57,9 +68,9 @@ function get (carOnly, req, res, next) {
           .then(function (result) {
             var fromAndTo = {from: result.Town, to: result.NameOfPrison}
             return res.render('apply/eligibility/claim/car-details', {
-              claimType: req.params.claimType,
-              referenceId: req.params.referenceId,
-              claimId: req.params.claimId,
+              claimType: req.session.claimType,
+              referenceId: req.session.referenceId,
+              claimId: req.session.claimId,
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
               expense: fromAndTo,
@@ -77,7 +88,17 @@ function get (carOnly, req, res, next) {
 
 function post (carOnly, req, res, next) {
   UrlPathValidator(req.params)
-  var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+  var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+
+  if (!req.session ||
+      !req.session.claimType ||
+      !req.session.referenceId ||
+      !req.session.decryptedRef ||
+      !req.session.advanceOrPast ||
+      !req.session.claimId) {
+    return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+  }
+
   try {
     var expense = new CarExpense(
       req.body.from,
@@ -91,7 +112,7 @@ function post (carOnly, req, res, next) {
       req.body.PostCode
     )
 
-    insertCarExpenses(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, expense)
+    insertCarExpenses(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
       .then(function () {
         return res.redirect(expenseUrlRouter.getRedirectUrl(req))
       })
@@ -100,13 +121,13 @@ function post (carOnly, req, res, next) {
       })
   } catch (error) {
     if (error instanceof ValidationError) {
-      getIsAdvanceClaim(req.params.claimId)
+      getIsAdvanceClaim(req.session.claimId)
         .then(function (isAdvanceClaim) {
           return res.status(400).render('apply/eligibility/claim/car-details', {
             errors: error.validationErrors,
-            claimType: req.params.claimType,
-            referenceId: req.params.referenceId,
-            claimId: req.params.claimId,
+            claimType: req.session.claimType,
+            referenceId: req.session.referenceId,
+            claimId: req.session.claimId,
             params: expenseUrlRouter.parseParams(req.query),
             redirectUrl: expenseUrlRouter.getRedirectUrl(req),
             expense: req.body,

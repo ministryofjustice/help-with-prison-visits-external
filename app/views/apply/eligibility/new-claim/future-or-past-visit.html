@@ -21,7 +21,7 @@
 
       <p>You can apply for help with one visit at a time.</p>
 
-      <form action="/apply/{{ claimType }}/eligibility/new-claim" method="post" class="form">
+      <form action="/apply/eligibility/new-claim/future-or-past-visit" method="post" class="form">
       {% if errors['advance-past'][0] %}
         <span class="error-message">{{ errors['advance-past'][0] }}</span>
       {% endif %}

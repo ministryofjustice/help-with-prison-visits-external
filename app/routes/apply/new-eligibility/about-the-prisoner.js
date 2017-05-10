@@ -45,10 +45,10 @@ module.exports = function (router) {
         req.body['dob-year'],
         req.body['PrisonerNumber'],
         req.body['NameOfPrison'])
-      insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.query.reference)
+      insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.session.decryptedRef)
         .then(function (result) {
-          var referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
-          req.session.referenceId = referenceId
+          req.session.referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
+          req.session.decryptedRef = result.reference
 
           return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
         })
