@@ -52,12 +52,10 @@ describe('routes/start-already-registered', function () {
     const ALREADY_REGISTERED = { dobEncoded: DOB }
 
     it('should respond with a 302 if domain object is built successfully', function () {
-      encryptStub.returns(ENCRYPTED_REFERENCE)
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(alreadyRegisteredStub)
-          sinon.assert.calledOnce(encryptStub)
         })
         .expect(302)
     })
@@ -83,13 +81,6 @@ describe('routes/start-already-registered', function () {
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
       alreadyRegisteredStub.throws(new Error())
-      return supertest(app)
-        .post(ROUTE)
-        .expect(500)
-    })
-
-    it('should respond with a 500 if an encryption error occurs.', function () {
-      encryptStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .expect(500)

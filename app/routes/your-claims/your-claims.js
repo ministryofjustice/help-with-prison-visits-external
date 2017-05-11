@@ -7,7 +7,7 @@ const dateFormatter = require('../../services/date-formatter')
 const displayHelper = require('../../views/helpers/display-helper')
 const forEdit = require('../helpers/for-edit')
 
-const REFERENCE_DOB_ERROR = '?error=expired'
+const REFERENCE_SESSION_ERROR = '?error=expired'
 const REFERENCE_DOB_INCORRECT_ERROR = '?error=yes'
 
 module.exports = function (router) {
@@ -17,7 +17,7 @@ module.exports = function (router) {
     if (!req.session ||
         !req.session.dobEncoded ||
         !req.session.decryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
     var decodedDOB = dateFormatter.decodeDate(req.session.dobEncoded)

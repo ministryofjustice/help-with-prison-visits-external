@@ -64,3 +64,13 @@ module.exports.delete = function (claimId) {
     .where('ClaimId', claimId)
     .del()
 }
+
+module.exports.getRef = function (caseworker) {
+  return knex.first('Reference')
+    .from('ExtSchema.Claim')
+    .where('AssistedDigitalCaseworker', caseworker)
+    .orderBy('DateCreated', 'desc')
+    .then(function (result) {
+      return result.Reference
+    })
+}

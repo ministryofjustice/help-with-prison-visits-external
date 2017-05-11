@@ -16,7 +16,7 @@ const encrypt = require('../../services/helpers/encrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 const dateFormatter = require('../../services/date-formatter')
 
-const REFERENCE_DOB_ERROR = '?error=expired'
+const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/your-claims/:claimId', function (req, res, next) {
@@ -25,7 +25,7 @@ module.exports = function (router) {
     if (!req.session ||
         !req.session.dobEncoded ||
         !req.session.decryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
     var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
@@ -74,7 +74,7 @@ module.exports = function (router) {
     if (!req.session ||
         !req.session.dobEncoded ||
         !req.session.decryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
     var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
@@ -136,7 +136,7 @@ module.exports = function (router) {
     if (!req.session ||
         !req.session.dobEncoded ||
         !req.session.decryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
@@ -160,7 +160,7 @@ module.exports = function (router) {
     if (!req.session ||
         !req.session.dobEncoded ||
         !req.session.decryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
     removeClaimDocument(req.params.claimDocumentId)

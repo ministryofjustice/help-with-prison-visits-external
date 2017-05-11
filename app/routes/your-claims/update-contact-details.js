@@ -3,13 +3,22 @@ const UpdatedContactDetails = require('../../services/domain/updated-contact-det
 const ValidationError = require('../../services/errors/validation-error')
 const insertEligibilityVisitorUpdatedContactDetail = require('../../services/data/insert-eligibility-visitor-updated-contact-detail')
 
-const REFERENCE_DOB_ERROR = '?error=expired'
+const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/your-claims/update-contact-details', function (req, res) {
     UrlPathValidator(req.params)
+
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.decryptedRef ||
+        !req.session.prisonerNumber ||
+        !req.session.eligibilityId) {
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+    }
+
     return res.render('your-claims/update-contact-details', {
-      eligibilityId: req.query.eligibility
+      eligibilityId: req.session.eligibilityId
     })
   })
 
@@ -18,13 +27,15 @@ module.exports = function (router) {
 
     if (!req.session ||
         !req.session.dobEncoded ||
-        !req.session.decryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+        !req.session.decryptedRef ||
+        !req.session.prisonerNumber ||
+        !req.session.eligibilityId) {
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
     try {
       var updatedContactDetails = new UpdatedContactDetails(req.body['email-address'], req.body['phone-number'])
-      insertEligibilityVisitorUpdatedContactDetail(req.session.decryptedRef, req.body.EligibilityId, updatedContactDetails)
+      insertEligibilityVisitorUpdatedContactDetail(req.session.decryptedRef, req.session.eligibilityId, updatedContactDetails)
         .then(function () {
           res.redirect(`/your-claims/check-your-information`)
         })
@@ -35,7 +46,7 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         return res.status(400).render('your-claims/update-contact-details', {
           errors: error.validationErrors,
-          eligibilityId: req.body.EligibilityId,
+          eligibilityId: req.session.eligibilityId,
           contactDetails: req.body
         })
       } else {

@@ -6,28 +6,23 @@ const sinon = require('sinon')
 require('sinon-bluebird')
 
 describe('/your-claims/update-contact-details', function () {
-  const REFERENCE = 'APVS123'
-  const ELIGIBILITYID = '1'
-  const COOKIES = [ 'apvs-start-application=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
-  const ROUTE = `/your-claims/update-contact-details?eligibility=${ELIGIBILITYID}`
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjM3LjI5MDYxNjY2NSwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJlbGlnaWJpbGl0eUlkIjoxfQ==' ]
+  const ROUTE = `/your-claims/update-contact-details`
 
   var app
   var urlPathValidatorStub
   var updatedContactDetailsStub
   var insertEligibilityVisitorUpdatedContactDetailStub
-  var decryptStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     updatedContactDetailsStub = sinon.stub()
     insertEligibilityVisitorUpdatedContactDetailStub = sinon.stub()
-    decryptStub = sinon.stub().returns(REFERENCE)
 
     var route = proxyquire('../../../../app/routes/your-claims/update-contact-details', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../services/domain/updated-contact-details': updatedContactDetailsStub,
-      '../../services/data/insert-eligibility-visitor-updated-contact-detail': insertEligibilityVisitorUpdatedContactDetailStub,
-      '../../services/helpers/decrypt': decryptStub
+      '../../services/data/insert-eligibility-visitor-updated-contact-detail': insertEligibilityVisitorUpdatedContactDetailStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -62,15 +57,6 @@ describe('/your-claims/update-contact-details', function () {
         })
     })
 
-    it('should call the decrypt function', function () {
-      return supertest(app)
-        .post(ROUTE)
-        .set('Cookie', COOKIES)
-        .expect(function () {
-          sinon.assert.calledOnce(decryptStub)
-        })
-    })
-
     it('should respond with a 302 and redirect to /your-claims/check-your-information', function () {
       updatedContactDetailsStub.returns({})
       insertEligibilityVisitorUpdatedContactDetailStub.resolves({})
@@ -81,7 +67,6 @@ describe('/your-claims/update-contact-details', function () {
         .send({'email-address': 'test@test.com', 'phone-number': '5553425172'})
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(decryptStub)
           sinon.assert.calledOnce(updatedContactDetailsStub)
           sinon.assert.calledOnce(insertEligibilityVisitorUpdatedContactDetailStub)
         })
@@ -94,14 +79,6 @@ describe('/your-claims/update-contact-details', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(400)
-    })
-
-    it('should respond with a 500 for a decryption error', function () {
-      decryptStub.throws(new Error())
-      return supertest(app)
-        .post(ROUTE)
-        .set('Cookie', COOKIES)
-        .expect(500)
     })
 
     it('should respond with a 500 for a non-validation error', function () {

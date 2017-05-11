@@ -8,7 +8,7 @@ const displayHelper = require('../../views/helpers/display-helper')
 const prisonsHelper = require('../../constants/helpers/prisons-helper')
 
 const NORTHERN_IRELAND = 'Northern Ireland'
-const REFERENCE_DOB_ERROR = '?error=expired'
+const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/your-claims/check-your-information', function (req, res, next) {
@@ -17,7 +17,7 @@ module.exports = function (router) {
     if (!req.session ||
         !req.session.dobEncoded ||
         !req.session.decryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
     var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
@@ -25,6 +25,7 @@ module.exports = function (router) {
     getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
       .then(function (eligibility) {
         req.session.prisonerNumber = eligibility['PrisonNumber']
+        req.session.eligibilityId = eligibility['EligibilityId']
 
         return res.render('your-claims/check-your-information', {
           dob: dobDecoded,
@@ -44,15 +45,15 @@ module.exports = function (router) {
       if (!req.session ||
           !req.session.dobEncoded ||
           !req.session.decryptedRef) {
-        return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+        return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
       }
 
       var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
-      new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
+      req.session.eligibilityId = req.body.EligibilityId
+      req.session.referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, req.session.EligibilityId)
 
-      var eligibilityId = req.body.EligibilityId
-      req.session.referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, eligibilityId)
+      new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
 
       getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
         .then(function (eligibility) {
@@ -77,13 +78,11 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(req.session.dobDecoded).toDate(), null)
+        getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate, null)
           .then(function (eligibility) {
-            req.session.prisonerNumber = eligibility['PrisonNumber']
-
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,
-              dob: req.session.dobDecoded,
+              dob: req.session.dobEncoded,
               reference: req.session.decryptedRef,
               eligibility: eligibility,
               displayHelper: displayHelper
