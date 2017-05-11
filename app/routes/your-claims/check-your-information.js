@@ -51,7 +51,7 @@ module.exports = function (router) {
       var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
       req.session.eligibilityId = req.body.EligibilityId
-      req.session.referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, req.session.EligibilityId)
+      req.session.referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, req.session.eligibilityId)
 
       new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
 

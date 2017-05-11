@@ -28,9 +28,10 @@ module.exports = function (router) {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
+    req.session.claimId = req.params.claimId
     var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
-    getViewClaim(req.params.claimId, req.session.decryptedRef, dobDecoded)
+    getViewClaim(req.session.claimId, req.session.decryptedRef, dobDecoded)
       .then(function (claimDetails) {
         var referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, claimDetails.claim.EligibilityId)
         var isRequestInfoPayment = claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
@@ -46,7 +47,7 @@ module.exports = function (router) {
             reference: req.session.decryptedRef,
             referenceId: referenceId,
             dob: dobDecoded,
-            claimId: req.params.claimId,
+            claimId: req.session.claimId,
             claimDetails: claimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
@@ -77,10 +78,12 @@ module.exports = function (router) {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
+    req.session.claimId = req.params.claimId
+
     var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
     var encryptedRef = encrypt(req.session.decryptedRef)
 
-    getViewClaim(req.params.claimId, req.session.decryptedRef, dobDecoded)
+    getViewClaim(req.session.claimId, req.session.decryptedRef, dobDecoded)
       .then(function (claimDetails) {
         try {
           var benefit = claimDetails.claim.benefitDocument
@@ -90,9 +93,9 @@ module.exports = function (router) {
 
           var bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT' }
           var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message, bankDetails) // eslint-disable-line no-unused-vars
-          submitUpdate(req.session.decryptedRef, claimDetails.claim.EligibilityId, req.params.claimId, message, bankDetails, assistedDigitalCookie)
+          submitUpdate(req.session.decryptedRef, claimDetails.claim.EligibilityId, req.session.claimId, message, bankDetails, assistedDigitalCookie)
             .then(function () {
-              return res.redirect(`/your-claims/${req.params.claimId}?updated=true`)
+              return res.redirect(`/your-claims/${req.session.claimId}?updated=true`)
             })
         } catch (error) {
           if (error instanceof ValidationError) {
@@ -109,7 +112,7 @@ module.exports = function (router) {
               errors: error.validationErrors,
               reference: req.session.decryptedRef,
               referenceId: referenceId,
-              claimId: req.params.claimId,
+              claimId: req.session.claimId,
               claimDetails: claimDetails,
               dateHelper: dateHelper,
               dob: dobDecoded,

@@ -8,7 +8,6 @@ const dateFormatter = require('../../services/date-formatter')
  * Takes the params property of a HTTP request as input.
  */
 class UrlPathValidator {
-
   static validate (path) {
     if (path['referenceId']) {
       var referenceId = decrypt(path['referenceId'])

@@ -17,8 +17,6 @@ module.exports = function (router) {
         !req.session.referenceId ||
         !req.session.decryptedRef ||
         !req.session.advanceOrPast) {
-      console.log('same-journey-as-last-claim GET SESSION')
-      console.dir(req.session)
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
@@ -51,8 +49,6 @@ module.exports = function (router) {
         !req.session.referenceId ||
         !req.session.decryptedRef ||
         !req.session.advanceOrPast) {
-      console.log('same-journey-as-last-claim POST SESSION')
-      console.dir(req.session)
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 

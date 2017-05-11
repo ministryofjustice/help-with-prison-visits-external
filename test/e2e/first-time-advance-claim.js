@@ -125,7 +125,6 @@ describe('First Time Advance Claim Flow', () => {
   after(function () {
     return claimHelper.getRef(caseworker)
     .then(function (reference) {
-      console.log(reference)
       return internalEligibilityHelper.deleteAll(reference)
     })
   })

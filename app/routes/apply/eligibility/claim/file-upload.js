@@ -29,8 +29,8 @@ module.exports = function (router) {
     get(req, res)
   })
 
-  router.get('/your-claims/file-upload', function (req, res) {
-    req.yourClaimUrl = `/your-claims/${req.session.claimId}`
+  router.get('/your-claims/:claimId/file-upload', function (req, res) {
+    req.yourClaimUrl = `/your-claims/${req.params.claimId}`
     get(req, res)
   })
 
@@ -43,13 +43,13 @@ module.exports = function (router) {
       checkForMalware(req, res, next, `/apply/eligibility/claim/summary`)
     })
 
-  router.post('/your-claims/file-upload',
+  router.post('/your-claims/:claimId/file-upload',
     function (req, res, next) {
-      req.yourClaimUrl = `/your-claims/${req.session.claimId}`
+      req.yourClaimUrl = `/your-claims/${req.params.claimId}`
       post(req, res, next)
     },
     function (req, res, next) {
-      checkForMalware(req, res, next, `/your-claims/${req.session.claimId}`)
+      checkForMalware(req, res, next, `/your-claims/${req.params.claimId}`)
     })
 }
 
@@ -59,11 +59,10 @@ function get (req, res) {
   setReferenceIds(req)
 
   if (!req.session ||
-      !req.session.claimType ||
       !req.session.referenceId ||
       !req.session.decryptedRef ||
-      !req.session.advanceOrPast ||
       !req.session.claimId) {
+    console.log(req.session)
     return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
   }
 
@@ -90,11 +89,10 @@ function post (req, res, next, redirectURL) {
   setReferenceIds(req)
 
   if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.advanceOrPast ||
-        !req.session.claimId) {
+      !req.session.referenceId ||
+      !req.session.decryptedRef ||
+      !req.session.claimId) {
+    console.log(req.session)
     return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
   }
 
