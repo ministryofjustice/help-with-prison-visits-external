@@ -17,7 +17,7 @@ module.exports = function (router) {
     }
 
     return res.render('apply/eligibility/new-claim/future-or-past-visit', {
-      claimType: req.params.claimType,
+      claimType: req.session.claimType,
       referenceId: req.session.referenceId
     })
   })
@@ -38,7 +38,7 @@ module.exports = function (router) {
 
       var nextPage = 'journey-information'
       if (req.session.claimType === claimTypeEnum.REPEAT_CLAIM) {
-        nextPage = `same-journey-as-last-claim`
+        nextPage = 'same-journey-as-last-claim'
       }
 
       return res.redirect(`/apply/eligibility/new-claim/${nextPage}`)

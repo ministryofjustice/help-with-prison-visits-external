@@ -7,9 +7,12 @@ const claimExpenseHelper = require('../../../../views/helpers/claim-expense-help
 const displayHelper = require('../../../../views/helpers/display-helper')
 
 module.exports = function (router) {
-  router.get('/apply/repeat/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
+  router.get('/apply/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
     UrlPathValidator(req.params)
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+
+    console.dir('GET SAME JOURNEY')
+    console.dir(req.session)
 
     getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true)
       .then(function (lastClaimDetails) {
@@ -22,7 +25,7 @@ module.exports = function (router) {
             displayHelper: displayHelper
           })
         } else {
-          return res.redirect(`/apply/repeat/eligibility/new-claim/${req.session.advanceOrPast}`)
+          return res.redirect(`/apply/eligibility/new-claim/same-journey-as-last-claim`)
         }
       })
       .catch(function (error) {
@@ -30,8 +33,9 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/apply/repeat/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
+  router.post('/apply/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
     UrlPathValidator(req.params)
+
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {

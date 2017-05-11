@@ -32,8 +32,6 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/declaration', function (req, res, next) {
     UrlPathValidator(req.params)
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
 
     if (!req.session ||
         !req.session.claimType ||
@@ -43,6 +41,9 @@ module.exports = function (router) {
         !req.session.claimId) {
       return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
     }
+
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
 
     try {
       new Declaration(req.body['terms-and-conditions-input'])  // eslint-disable-line no-new

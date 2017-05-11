@@ -94,7 +94,7 @@ module.exports = function (router) {
       })
   })
 
-  router.get('/apply/eligibility/:referenceId/claim/summary/view-document/:claimDocumentId', function (req, res, next) {
+  router.get('/apply/eligibility/claim/summary/view-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
 
     return claimSummaryHelper.getDocumentFilePath(req.params.claimDocumentId)

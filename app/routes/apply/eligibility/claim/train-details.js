@@ -46,8 +46,6 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/train', function (req, res, next) {
     UrlPathValidator(req.params)
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    var isAdvanceClaim = req.body.isAdvanceClaim === 'true'
 
     if (!req.session ||
       !req.session.claimType ||
@@ -57,6 +55,9 @@ module.exports = function (router) {
       !req.session.claimId) {
       return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
     }
+
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    var isAdvanceClaim = req.body.isAdvanceClaim === 'true'
 
     try {
       var expense = new TrainExpense(

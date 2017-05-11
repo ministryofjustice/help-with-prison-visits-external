@@ -28,7 +28,6 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/about-child', function (req, res, next) {
     UrlPathValidator(req.params)
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     if (!req.session ||
         !req.session.claimType ||
@@ -37,6 +36,8 @@ module.exports = function (router) {
         !req.session.claimId) {
       return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
     }
+
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
       var child = new AboutChild(

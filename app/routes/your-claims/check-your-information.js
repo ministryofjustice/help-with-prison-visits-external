@@ -5,7 +5,6 @@ const CheckYourInformation = require('../../services/domain/check-your-informati
 const ValidationError = require('../../services/errors/validation-error')
 const referenceIdHelper = require('../helpers/reference-id-helper')
 const displayHelper = require('../../views/helpers/display-helper')
-const decrypt = require('../../services/helpers/decrypt')
 const prisonsHelper = require('../../constants/helpers/prisons-helper')
 
 const NORTHERN_IRELAND = 'Northern Ireland'
@@ -62,6 +61,7 @@ module.exports = function (router) {
           var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
           req.session.prisonerNumber = eligibility['PrisonNumber']
+          req.session.claimType = 'repeat'
 
           // Northern Ireland claims cannot be advance claims so skip future-or-past
           var nextPage = 'future-or-past-visit'
@@ -70,7 +70,7 @@ module.exports = function (router) {
             nextPage = 'same-journey-as-last-claim'
           }
 
-          return res.redirect(`/apply/repeat/eligibility/new-claim/${nextPage}`)
+          return res.redirect(`/apply/eligibility/new-claim/${nextPage}`)
         })
         .catch(function (error) {
           next(error)

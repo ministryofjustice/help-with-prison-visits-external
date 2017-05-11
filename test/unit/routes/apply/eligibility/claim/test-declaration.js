@@ -2,21 +2,15 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const encrypt = require('../../../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 const paymentMethods = require('../../../../../../app/constants/payment-method-enum')
 
 var ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/claim/declaration', function () {
-  const REFERENCE = 'V123456'
-  const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
-  const ELIGIBILITYID = '1234'
-  const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
-  const ENCRYPTED_REFERENCEID = encrypt(REFERENCEID)
-  const CLAIMID = '1'
-  const CLAIM_TYPE = 'first-time'
-  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/declaration`
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9' ]
+  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
+  const ROUTE = `/apply/eligibility/claim/declaration`
   const VALID_DATA = {
     'terms-and-conditions-input': 'yes'
   }
@@ -51,6 +45,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(stubUrlPathValidator)
         })
@@ -59,6 +54,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     it('should respond with a 200', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
     })
   })
@@ -67,6 +63,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(stubUrlPathValidator)
         })
@@ -80,15 +77,21 @@ describe('routes/apply/eligibility/claim/declaration', function () {
 
       return supertest(app)
         .post(`${ROUTE}?paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
+        .set('Cookie', COOKIES)
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(stubDeclaration, VALID_DATA['terms-and-conditions-input'])
-          sinon.assert.calledWith(stubCheckStatusForFinishingClaim, REFERENCE, ELIGIBILITYID, CLAIMID)
-          sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.DIRECT_BANK_PAYMENT.value)
-          sinon.assert.calledWith(stubGetIsAdvanceClaim, CLAIMID)
         })
-        .expect('location', `/application-submitted/past/${ENCRYPTED_REFERENCE}`)
+        .expect('location', `/application-submitted`)
+    })
+
+    it('should redirect to date-of-birth error page if cookie is expired', function () {
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES_EXPIRED)
+        .expect(302)
+        .expect('location', '/apply/first-time/new-eligibility/date-of-birth?error=expired')
     })
 
     it('should respond with a 302 and call submit claim with payout and advance in route', function () {
@@ -99,15 +102,13 @@ describe('routes/apply/eligibility/claim/declaration', function () {
 
       return supertest(app)
         .post(`${ROUTE}?paymentMethod=${paymentMethods.PAYOUT.value}`)
+        .set('Cookie', COOKIES)
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(stubDeclaration, VALID_DATA['terms-and-conditions-input'])
-          sinon.assert.calledWith(stubCheckStatusForFinishingClaim, REFERENCE, ELIGIBILITYID, CLAIMID)
-          sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, undefined, paymentMethods.PAYOUT.value)
-          sinon.assert.calledWith(stubGetIsAdvanceClaim, CLAIMID)
         })
-        .expect('location', `/application-submitted/advance/${ENCRYPTED_REFERENCE}`)
+        .expect('location', `/application-submitted`)
     })
 
     it('should use assisted digital cookie value', function () {
@@ -119,13 +120,10 @@ describe('routes/apply/eligibility/claim/declaration', function () {
 
       return supertest(app)
         .post(`${ROUTE}?paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
+        .set('Cookie', COOKIES)
         .send(VALID_DATA)
         .set('Cookie', [`apvs-assisted-digital=${assistedDigitalCaseWorker}`])
         .expect(302)
-        .expect(function () {
-          sinon.assert.calledWith(stubCheckStatusForFinishingClaim, REFERENCE, ELIGIBILITYID, CLAIMID)
-          sinon.assert.calledWith(stubSubmitClaim, REFERENCE, ELIGIBILITYID, CLAIMID, CLAIM_TYPE, assistedDigitalCaseWorker, paymentMethods.DIRECT_BANK_PAYMENT.value)
-        })
     })
 
     it('should just go to redirect if checkStatusForFinishingClaim returns false in case of double submission', function () {
@@ -135,10 +133,10 @@ describe('routes/apply/eligibility/claim/declaration', function () {
 
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubCheckStatusForFinishingClaim, REFERENCE, ELIGIBILITYID, CLAIMID)
           sinon.assert.notCalled(stubSubmitClaim)
         })
     })
@@ -147,6 +145,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
       stubDeclaration.throws(new ValidationError({ 'firstName': {} }))
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(400)
     })
 
@@ -155,6 +154,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
       stubSubmitClaim.rejects()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })

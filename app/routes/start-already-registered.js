@@ -17,6 +17,7 @@ module.exports = function (router) {
       req.session.advanceOrPast = null
       req.session.claimId = null
       req.session.advanceOrPast = null
+      req.session.prisonerNumber = null
 
       errors = { expired: [ ERROR_MESSAGES.getExpiredSession ] }
     }

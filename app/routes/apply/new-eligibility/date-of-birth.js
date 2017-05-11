@@ -9,7 +9,17 @@ module.exports = function (router) {
     var errors
 
     if ((req.query.error === 'expired')) {
-      req.session = null
+      req.session.dobEncoded = null
+      req.session.relationship = null
+      req.session.benefit = null
+      req.session.referenceId = null
+      req.session.decryptedRef = null
+      req.session.claimType = null
+      req.session.advanceOrPast = null
+      req.session.claimId = null
+      req.session.advanceOrPast = null
+      req.session.prisonerNumber = null
+
       errors = { expired: [ ERROR_MESSAGES.getExpiredSessionDOB ] }
     }
 

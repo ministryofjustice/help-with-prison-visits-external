@@ -9,7 +9,7 @@ const prisonerRelationshipEnum = require('../../../../../app/constants/prisoner-
 
 describe('routes/apply/new-eligibility/prisoner-relationship', function () {
   const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAwMjc0Ljc0NjYzMzMzMiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImRvYkVuY29kZWQiOiIxMTM3MjUxMjIifQ==' ]
-  const COOKIES_REPEAT = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAxNDc4LjI4NjQxNjY3LCJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiMzIyNDdmMDBiYWM3NWEiLCJjbGFpbVR5cGUiOiJyZXBlYXQtbmV3LWVsaWdpYmlsaXR5In0=' ]
+  const COOKIES_REPEAT = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MTM3LjcxOTk2NjY2NSwiZGVjcnlwdGVkUmVmIjoiVEtZQ0NSQSIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QlEifQ==' ]
   const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
   const ROUTE = `/apply/first-time/new-eligibility/prisoner-relationship`
 
@@ -93,7 +93,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
         .post(REPEAT_NEW_ELIGIBILITY_ROUTE)
         .set('Cookie', COOKIES_REPEAT)
         .expect(302)
-        .expect('location', `/apply/repeat-new-eligibility/new-eligibility/prisoner-relationship`)
+        .expect('location', `/apply/repeat-new-eligibility/new-eligibility/benefits`)
     })
 
     it('should respond with a 302 and redirect to /eligibility-fail if the relationship is set to none', function () {

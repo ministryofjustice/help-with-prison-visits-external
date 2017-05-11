@@ -2,18 +2,14 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const encrypt = require('../../../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/claim/accommodation-details', function () {
-  const REFERENCE = 'A123456'
-  const ELIGIBILITYID = '1234'
-  const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
-  const ENCRYPTED_REFERENCEID = encrypt(REFERENCEID)
-  const CLAIMID = '1'
-  const ROUTE = `/apply/first-time/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/accommodation`
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9' ]
+  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
+  const ROUTE = `/apply/eligibility/claim/accommodation`
 
   var app
 
@@ -44,6 +40,7 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -52,6 +49,7 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
     it('should respond with a 200', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
           sinon.assert.calledOnce(getIsAdvanceClaimStub)
@@ -62,6 +60,7 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
       var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(parseParams)
         })
@@ -76,6 +75,7 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
       insertExpenseStub.resolves()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -86,12 +86,20 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
       insertExpenseStub.resolves()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(accommodationExpense)
           sinon.assert.calledOnce(insertExpenseStub)
-          sinon.assert.calledWith(insertExpenseStub, REFERENCE, ELIGIBILITYID, CLAIMID, ACCOMMODATION_EXPENSE)
         })
         .expect(302)
+    })
+
+    it('should redirect to date-of-birth error page if cookie is expired', function () {
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES_EXPIRED)
+        .expect(302)
+        .expect('location', '/apply/first-time/new-eligibility/date-of-birth?error=expired')
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
@@ -99,6 +107,7 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
       insertExpenseStub.resolves()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(getRedirectUrl)
         })
@@ -109,6 +118,7 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
       accommodationExpense.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(400)
         .expect(function () {
           sinon.assert.calledOnce(getIsAdvanceClaimStub)
@@ -119,6 +129,7 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
       accommodationExpense.throws(new Error())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
 
@@ -126,6 +137,7 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
       insertExpenseStub.rejects()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })

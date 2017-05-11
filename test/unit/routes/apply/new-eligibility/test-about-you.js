@@ -13,7 +13,7 @@ var stubAboutYou
 var app
 
 describe('routes/apply/new-eligibility/about-you', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAxMDc0LjY3Njk1LCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InIyIiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1MjQ3MDQxY2JkYmIzMGE3MGNhZSJ9' ]
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MTUxLjk1MzU1LCJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwicmVsYXRpb25zaGlwIjoicjQiLCJiZW5lZml0IjoiYjEiLCJyZWZlcmVuY2VJZCI6IjMyMjEwYzdmYmViMTU5YTcwYSIsImRlY3J5cHRlZFJlZiI6IjhXSzFCR1AiLCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIn0=' ]
   const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
   const ROUTE = `/apply/first-time/new-eligibility/about-you`
 
@@ -48,7 +48,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
   })
 
   describe(`POST ${ROUTE}`, function () {
-    it('should persist data and redirect to /apply/first-time/eligibility/:reference/new-claim for valid data', function () {
+    it('should persist data and redirect to /apply/eligibility/new-claim/future-or-past-visit for valid data', function () {
       stubDuplicateClaimCheck.resolves(false)
       stubInsertVisitor.resolves()
       stubGetTravellingFromAndTo.resolves({to: 'hewell'})
@@ -64,7 +64,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
           sinon.assert.calledOnce(stubInsertVisitor)
           sinon.assert.calledOnce(stubGetTravellingFromAndTo)
         })
-        .expect('location', `/apply/first-time/eligibility/new-claim`)
+        .expect('location', `/apply/eligibility/new-claim/future-or-past-visit`)
     })
 
     it('should persist data and redirect to /apply/first-time/new-eligibility/date-of-birth?error=expired', function () {
@@ -80,7 +80,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
     })
 
-    it('should redirect to /apply/first-time/eligibility/:reference/new-claim for Northern Ireland person and GB Prison', function () {
+    it('should redirect to /apply/eligibility/new-claim/future-or-past-visit for Northern Ireland person and GB Prison', function () {
       stubDuplicateClaimCheck.resolves(false)
       stubInsertVisitor.resolves()
       stubGetTravellingFromAndTo.resolves({to: 'hewell'})
@@ -90,10 +90,10 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
-        .expect('location', `/apply/first-time/eligibility/new-claim`)
+        .expect('location', `/apply/eligibility/new-claim/future-or-past-visit`)
     })
 
-    it('should redirect to /apply/first-time/eligibility/:reference/new-claim/past for Northern Ireland person and NI Prison', function () {
+    it('should redirect to /apply/eligibility/new-claim/journey-information for Northern Ireland person and NI Prison', function () {
       stubDuplicateClaimCheck.resolves(false)
       stubInsertVisitor.resolves()
       stubGetTravellingFromAndTo.resolves({to: 'maghaberry'})
@@ -103,7 +103,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
-        .expect('location', `/apply/first-time/eligibility/new-claim/past`)
+        .expect('location', `/apply/eligibility/new-claim/journey-information`)
     })
 
     it('should respond with a 400 for invalid data', function () {

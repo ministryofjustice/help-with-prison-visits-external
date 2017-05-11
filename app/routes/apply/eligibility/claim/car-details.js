@@ -88,7 +88,6 @@ function get (carOnly, req, res, next) {
 
 function post (carOnly, req, res, next) {
   UrlPathValidator(req.params)
-  var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
   if (!req.session ||
       !req.session.claimType ||
@@ -98,6 +97,8 @@ function post (carOnly, req, res, next) {
       !req.session.claimId) {
     return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
   }
+
+  var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
   try {
     var expense = new CarExpense(
