@@ -6,23 +6,34 @@ const getLastClaimDetails = require('../../../../services/data/get-last-claim-de
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
 const displayHelper = require('../../../../views/helpers/display-helper')
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/repeat/eligibility/:referenceId/new-claim/same-journey-as-last-claim/:advanceOrPast', function (req, res, next) {
+  router.get('/apply/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
     UrlPathValidator(req.params)
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.advanceOrPast) {
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+    }
+
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true)
       .then(function (lastClaimDetails) {
         if (lastClaimDetails.expenses[0]) {
           return res.render('apply/eligibility/new-claim/same-journey-as-last-claim', {
-            referenceId: req.params.referenceId,
-            advanceOrPast: req.params.advanceOrPast,
+            referenceId: req.session.referenceId,
+            advanceOrPast: req.session.advanceOrPast,
             lastClaimDetails: lastClaimDetails,
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper
           })
         } else {
-          return res.redirect(`/apply/repeat/eligibility/${req.params.referenceId}/new-claim/${req.params.advanceOrPast}`)
+          return res.redirect(`/apply/eligibility/new-claim/same-journey-as-last-claim`)
         }
       })
       .catch(function (error) {
@@ -30,26 +41,36 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/apply/repeat/eligibility/:referenceId/new-claim/same-journey-as-last-claim/:advanceOrPast', function (req, res, next) {
+  router.post('/apply/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
     UrlPathValidator(req.params)
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.advanceOrPast) {
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+    }
+
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
       new SameJourneyAsLastClaim(req.body['same-journey-as-last-claim']) // eslint-disable-line no-new
 
-      var claimType = 'repeat'
+      req.session.claimType = 'repeat'
       if (req.body['same-journey-as-last-claim'] === 'yes') {
-        claimType = 'repeat-duplicate'
+        req.session.claimType = 'repeat-duplicate'
       }
-      return res.redirect(`/apply/${claimType}/eligibility/${req.params.referenceId}/new-claim/${req.params.advanceOrPast}`)
+
+      return res.redirect(`/apply/eligibility/new-claim/journey-information`)
     } catch (error) {
       if (error instanceof ValidationError) {
         getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true)
           .then(function (lastClaimDetails) {
             return res.status(400).render('apply/eligibility/new-claim/same-journey-as-last-claim', {
               errors: error.validationErrors,
-              referenceId: req.params.referenceId,
-              advanceOrPast: req.params.advanceOrPast,
+              referenceId: req.session.referenceId,
+              advanceOrPast: req.session.advanceOrPast,
               lastClaimDetails: lastClaimDetails,
               claimExpenseHelper: claimExpenseHelper,
               displayHelper: displayHelper

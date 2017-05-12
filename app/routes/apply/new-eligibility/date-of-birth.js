@@ -1,17 +1,38 @@
 const DateOfBirth = require('../../../services/domain/date-of-birth')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const ValidationError = require('../../../services/errors/validation-error')
+const ERROR_MESSAGES = require('../../../services/validators/validation-error-messages')
 
 module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility', function (req, res) {
+  router.get('/apply/:claimType/new-eligibility/date-of-birth', function (req, res) {
     UrlPathValidator(req.params)
+    var errors
+
+    if ((req.query.error === 'expired')) {
+      req.session.dobEncoded = null
+      req.session.relationship = null
+      req.session.benefit = null
+      req.session.referenceId = null
+      req.session.decryptedRef = null
+      req.session.claimType = null
+      req.session.advanceOrPast = null
+      req.session.claimId = null
+      req.session.advanceOrPast = null
+      req.session.prisonerNumber = null
+
+      errors = { expired: [ ERROR_MESSAGES.getExpiredSessionDOB ] }
+    }
+
     return res.render('apply/new-eligibility/date-of-birth', {
+      errors: errors,
+      recovery: req.query.recovery,
       claimType: req.params.claimType
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility', function (req, res) {
+  router.post('/apply/:claimType/new-eligibility/date-of-birth', function (req, res, next) {
     UrlPathValidator(req.params)
+
     try {
       var dateOfBirth = new DateOfBirth(
         req.body['dob-day'],
@@ -19,7 +40,9 @@ module.exports = function (router) {
         req.body['dob-year']
       )
 
-      return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dateOfBirth.encodedDate}`)
+      req.session.dobEncoded = dateOfBirth.encodedDate
+
+      return res.redirect(`/apply/${req.params.claimType}/new-eligibility/prisoner-relationship`)
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/new-eligibility/date-of-birth', {

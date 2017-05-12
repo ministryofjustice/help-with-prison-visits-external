@@ -52,12 +52,10 @@ describe('routes/start-already-registered', function () {
     const ALREADY_REGISTERED = { dobEncoded: DOB }
 
     it('should respond with a 302 if domain object is built successfully', function () {
-      encryptStub.returns(ENCRYPTED_REFERENCE)
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
           sinon.assert.calledOnce(alreadyRegisteredStub)
-          sinon.assert.calledOnce(encryptStub)
         })
         .expect(302)
     })
@@ -87,16 +85,9 @@ describe('routes/start-already-registered', function () {
         .post(ROUTE)
         .expect(500)
     })
-
-    it('should respond with a 500 if an encryption error occurs.', function () {
-      encryptStub.throws(new Error())
-      return supertest(app)
-        .post(ROUTE)
-        .expect(500)
-    })
   })
 
   function hasSetCookie (res) {
-    if (!JSON.stringify(res.header['set-cookie']).includes('apvs-start-already-registered')) throw new Error('response does not contain expected cookie')
+    if (!JSON.stringify(res.header['set-cookie']).includes('apvs-start-application')) throw new Error('response does not contain expected cookie')
   }
 })

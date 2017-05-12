@@ -1,4 +1,4 @@
-{% extends "includes/layout.html" %}
+x{% extends "includes/layout.html" %}
 
 {% block page_title %}
 Enter information about you - {{ serviceName }}
@@ -36,7 +36,7 @@ Enter information about you - {{ serviceName }}
         About you
       </h1>
 
-      <form action="/apply/{{ claimType }}/new-eligibility/{{ dob }}/{{ relationship }}/{{ benefit }}/{{ referenceId }}"
+      <form action="/apply/{{ claimType }}/new-eligibility/about-you"
             method="post">
 
         <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">

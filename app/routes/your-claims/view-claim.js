@@ -12,11 +12,11 @@ const submitUpdate = require('../../services/data/submit-update')
 const claimStatusHelper = require('../../views/helpers/claim-status-helper')
 const claimEventHelper = require('../../views/helpers/claim-event-helper')
 const forEdit = require('../helpers/for-edit')
-const decrypt = require('../../services/helpers/decrypt')
+const encrypt = require('../../services/helpers/encrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 const dateFormatter = require('../../services/date-formatter')
 
-const REFERENCE_DOB_ERROR = '?error=expired'
+const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/your-claims/:claimId', function (req, res, next) {
@@ -24,19 +24,16 @@ module.exports = function (router) {
 
     if (!req.session ||
         !req.session.dobEncoded ||
-        !req.session.encryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+        !req.session.decryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
-    var dobEncoded = req.session.dobEncoded
-    var encryptedRef = req.session.encryptedRef
+    req.session.claimId = req.params.claimId
+    var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
-    var decryptedReference = decrypt(encryptedRef)
-    var dobDecoded = dateFormatter.decodeDate(dobEncoded)
-
-    getViewClaim(req.params.claimId, decryptedReference, dobDecoded)
+    getViewClaim(req.session.claimId, req.session.decryptedRef, dobDecoded)
       .then(function (claimDetails) {
-        var referenceId = referenceIdHelper.getReferenceId(decryptedReference, claimDetails.claim.EligibilityId)
+        var referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, claimDetails.claim.EligibilityId)
         var isRequestInfoPayment = claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
         var addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
           claimDetails.claim.BenefitStatus,
@@ -47,10 +44,10 @@ module.exports = function (router) {
           isRequestInfoPayment)
         return res.render('your-claims/view-claim',
           {
-            reference: decryptedReference,
+            reference: req.session.decryptedRef,
             referenceId: referenceId,
             dob: dobDecoded,
-            claimId: req.params.claimId,
+            claimId: req.session.claimId,
             claimDetails: claimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
@@ -77,17 +74,16 @@ module.exports = function (router) {
 
     if (!req.session ||
         !req.session.dobEncoded ||
-        !req.session.encryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+        !req.session.decryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
-    var dobEncoded = req.session.dobEncoded
-    var encryptedRef = req.session.encryptedRef
+    req.session.claimId = req.params.claimId
 
-    var decryptedReference = decrypt(encryptedRef)
-    var dobDecoded = dateFormatter.decodeDate(dobEncoded)
+    var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
+    var encryptedRef = encrypt(req.session.decryptedRef)
 
-    getViewClaim(req.params.claimId, decryptedReference, dobDecoded)
+    getViewClaim(req.session.claimId, req.session.decryptedRef, dobDecoded)
       .then(function (claimDetails) {
         try {
           var benefit = claimDetails.claim.benefitDocument
@@ -97,9 +93,9 @@ module.exports = function (router) {
 
           var bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT' }
           var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message, bankDetails) // eslint-disable-line no-unused-vars
-          submitUpdate(decryptedReference, claimDetails.claim.EligibilityId, req.params.claimId, message, bankDetails, assistedDigitalCookie)
+          submitUpdate(req.session.decryptedRef, claimDetails.claim.EligibilityId, req.session.claimId, message, bankDetails, assistedDigitalCookie)
             .then(function () {
-              return res.redirect(`/your-claims/${req.params.claimId}?updated=true`)
+              return res.redirect(`/your-claims/${req.session.claimId}?updated=true`)
             })
         } catch (error) {
           if (error instanceof ValidationError) {
@@ -114,9 +110,9 @@ module.exports = function (router) {
               isRequestInfoPayment)
             return res.status(400).render('your-claims/view-claim', {
               errors: error.validationErrors,
-              reference: decryptedReference,
+              reference: req.session.decryptedRef,
               referenceId: referenceId,
-              claimId: req.params.claimId,
+              claimId: req.session.claimId,
               claimDetails: claimDetails,
               dateHelper: dateHelper,
               dob: dobDecoded,
@@ -142,8 +138,8 @@ module.exports = function (router) {
 
     if (!req.session ||
         !req.session.dobEncoded ||
-        !req.session.encryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+        !req.session.decryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
@@ -166,8 +162,8 @@ module.exports = function (router) {
 
     if (!req.session ||
         !req.session.dobEncoded ||
-        !req.session.encryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+        !req.session.decryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
     removeClaimDocument(req.params.claimDocumentId)

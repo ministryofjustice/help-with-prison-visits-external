@@ -507,6 +507,11 @@
       "from": "currently-unhandled@>=0.4.1 <0.5.0",
       "resolved": "https://registry.npmjs.org/currently-unhandled/-/currently-unhandled-0.4.1.tgz"
     },
+    "dargs": {
+      "version": "5.1.0",
+      "from": "dargs@>=5.1.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/dargs/-/dargs-5.1.0.tgz"
+    },
     "dashdash": {
       "version": "1.14.1",
       "from": "dashdash@>=1.12.0 <2.0.0",
@@ -864,7 +869,7 @@
     "fsevents": {
       "version": "1.1.1",
       "from": "fsevents@>=1.0.0 <2.0.0",
-      "resolved": "http://registry.npmjs.org/fsevents/-/fsevents-1.1.1.tgz",
+      "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-1.1.1.tgz",
       "optional": true,
       "dependencies": {
         "abbrev": {
@@ -1767,6 +1772,23 @@
         }
       }
     },
+    "gulp-install": {
+      "version": "1.1.0",
+      "from": "gulp-install@latest",
+      "resolved": "https://registry.npmjs.org/gulp-install/-/gulp-install-1.1.0.tgz",
+      "dependencies": {
+        "isexe": {
+          "version": "2.0.0",
+          "from": "isexe@>=2.0.0 <3.0.0",
+          "resolved": "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz"
+        },
+        "which": {
+          "version": "1.2.14",
+          "from": "which@>=1.2.14 <2.0.0",
+          "resolved": "https://registry.npmjs.org/which/-/which-1.2.14.tgz"
+        }
+      }
+    },
     "gulp-sass": {
       "version": "2.3.2",
       "from": "gulp-sass@>=2.3.2 <3.0.0",
@@ -2240,6 +2262,11 @@
       "from": "lodash.escape@>=3.0.0 <4.0.0",
       "resolved": "http://registry.npmjs.org/lodash.escape/-/lodash.escape-3.2.0.tgz"
     },
+    "lodash.groupby": {
+      "version": "4.6.0",
+      "from": "lodash.groupby@>=4.6.0 <5.0.0",
+      "resolved": "https://registry.npmjs.org/lodash.groupby/-/lodash.groupby-4.6.0.tgz"
+    },
     "lodash.isarguments": {
       "version": "3.1.0",
       "from": "lodash.isarguments@>=3.0.0 <4.0.0",
@@ -2617,6 +2644,11 @@
       "version": "0.1.4",
       "from": "osenv@>=0.0.0 <1.0.0",
       "resolved": "http://registry.npmjs.org/osenv/-/osenv-0.1.4.tgz"
+    },
+    "p-queue": {
+      "version": "1.0.0",
+      "from": "p-queue@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/p-queue/-/p-queue-1.0.0.tgz"
     },
     "parse-filepath": {
       "version": "1.0.1",

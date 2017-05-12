@@ -8,22 +8,33 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const benefitUploadNotRequired = require('../../../helpers/benefit-upload-not-required')
 const displayHelper = require('../../../../views/helpers/display-helper')
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
+  router.get('/apply/eligibility/claim/summary', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    getClaimSummary(req.params.claimId, req.params.claimType)
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.advanceOrPast ||
+        !req.session.claimId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
+    getClaimSummary(req.session.claimId, req.session.claimType)
       .then(function (claimDetails) {
         return res.render('apply/eligibility/claim/claim-summary',
           {
-            claimType: req.params.claimType,
-            referenceId: req.params.referenceId,
-            claimId: req.params.claimId,
+            claimType: req.session.claimType,
+            referenceId: req.session.referenceId,
+            claimId: req.session.claimId,
             claimDetails: claimDetails,
             dateHelper: dateHelper,
             claimExpenseHelper: claimExpenseHelper,
             displayHelper: displayHelper,
-            benefitUploadNotRequired: benefitUploadNotRequired(req.params.claimType),
+            benefitUploadNotRequired: benefitUploadNotRequired(req.session.claimType),
             URL: req.url
           })
       })
@@ -32,15 +43,24 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary', function (req, res, next) {
+  router.post('/apply/eligibility/claim/summary', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    var referenceId = req.params.referenceId
-    var claimId = req.params.claimId
-    var claimType = req.params.claimType
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.advanceOrPast ||
+        !req.session.claimId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
+    var referenceId = req.session.referenceId
+    var claimId = req.session.claimId
+    var claimType = req.session.claimType
 
     var savedClaimDetails
-    getClaimSummary(req.params.claimId, req.params.claimType)
+    getClaimSummary(req.session.claimId, req.session.claimType)
       .then(function (claimDetails) {
         savedClaimDetails = claimDetails
 
@@ -52,7 +72,7 @@ module.exports = function (router) {
         var benefitUpload = benefitUploadNotRequired(claimType)
 
         new ClaimSummary(visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUpload) // eslint-disable-line no-new
-        return res.redirect(`/apply/${claimType}/eligibility/${referenceId}/claim/${claimId}/payment-details?isAdvance=${isAdvanceClaim}`)
+        return res.redirect(`/apply/eligibility/claim/payment-details?isAdvance=${isAdvanceClaim}`)
       })
       .catch(function (error) {
         if (error instanceof ValidationError) {
@@ -74,7 +94,7 @@ module.exports = function (router) {
       })
   })
 
-  router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/view-document/:claimDocumentId', function (req, res, next) {
+  router.get('/apply/eligibility/claim/summary/view-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
 
     return claimSummaryHelper.getDocumentFilePath(req.params.claimDocumentId)
@@ -86,10 +106,10 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/remove-expense/:claimExpenseId', function (req, res, next) {
+  router.post('/apply/eligibility/claim/summary/remove-expense/:claimExpenseId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    return claimSummaryHelper.removeExpenseAndDocument(req.params.claimId, req.params.claimExpenseId, req.query.claimDocumentId)
+    return claimSummaryHelper.removeExpenseAndDocument(req.session.claimId, req.params.claimExpenseId, req.query.claimDocumentId)
       .then(function () {
         return res.redirect(claimSummaryHelper.buildClaimSummaryUrl(req))
       })
@@ -98,7 +118,7 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/remove-document/:claimDocumentId', function (req, res, next) {
+  router.post('/apply/eligibility/claim/summary/remove-document/:claimDocumentId', function (req, res, next) {
     UrlPathValidator(req.params)
 
     return claimSummaryHelper.removeDocument(req.params.claimDocumentId)

@@ -4,20 +4,40 @@ const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const ValidationError = require('../../../../services/errors/validation-error')
 const insertEscort = require('../../../../services/data/insert-escort')
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/escort', function (req, res) {
+  router.get('/apply/eligibility/claim/about-escort', function (req, res) {
     UrlPathValidator(req.params)
 
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.advanceOrPast ||
+        !req.session.claimId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
     return res.render('apply/eligibility/claim/about-escort', {
-      claimType: req.params.claimType,
-      referenceId: req.params.referenceId,
-      claimId: req.params.claimId
+      claimType: req.session.claimType,
+      referenceId: req.session.referenceId,
+      claimId: req.session.claimId
     })
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/escort', function (req, res, next) {
+  router.post('/apply/eligibility/claim/about-escort', function (req, res, next) {
     UrlPathValidator(req.params)
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.referenceId ||
+        !req.session.advanceOrPast ||
+        !req.session.claimId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
       var escort = new AboutEscort(
@@ -28,9 +48,9 @@ module.exports = function (router) {
         req.body['dob-year']
       )
 
-      insertEscort(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, escort)
+      insertEscort(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, escort)
         .then(function () {
-          return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/has-child`)
+          return res.redirect(`/apply/eligibility/claim/has-child`)
         })
         .catch(function (error) {
           next(error)
@@ -39,9 +59,9 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/eligibility/claim/about-escort', {
           errors: error.validationErrors,
-          claimType: req.params.claimType,
-          referenceId: req.params.referenceId,
-          claimId: req.params.claimId,
+          claimType: req.session.claimType,
+          referenceId: req.session.referenceId,
+          claimId: req.session.claimId,
           escort: req.body
         })
       } else {

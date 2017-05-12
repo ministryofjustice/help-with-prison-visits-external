@@ -24,7 +24,7 @@
         <p>Claims that include air travel should be approved before you travel by the Assisted Prison Visits Unit.</p>
       {% endif %}
 
-      <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/plane{{ params }}"
+      <form action="/apply/eligibility/claim/plane{{ params }}"
             method="post">
         {% include "partials/expenses/ticket-owner.html" %}
 

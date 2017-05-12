@@ -1,14 +1,31 @@
 const UrlPathValidator = require('../services/validators/url-path-validator')
-const decrypt = require('../services/helpers/decrypt')
 
 module.exports = function (router) {
-  router.get('/application-submitted/:advanceOrPast/:reference', function (req, res) {
+  router.get('/application-submitted', function (req, res) {
     UrlPathValidator(req.params)
-    var decryptedRef = decrypt(req.params.reference)
+    var decryptedRef = req.session.decryptedRef
+    var advanceOrPast = req.session.advanceOrPast
+
+    clearSessionCookieOnSubmission(req)
 
     return res.render('application-submitted', {
       reference: decryptedRef,
-      advanceOrPast: req.params.advanceOrPast
+      advanceOrPast: advanceOrPast
     })
   })
+
+  function clearSessionCookieOnSubmission (req) {
+    if (req.session) {
+      req.session.dobEncoded = null
+      req.session.relationship = null
+      req.session.benefit = null
+      req.session.referenceId = null
+      req.session.decryptedRef = null
+      req.session.claimType = null
+      req.session.advanceOrPast = null
+      req.session.claimId = null
+      req.session.advanceOrPast = null
+      req.session.prisonerNumber = null
+    }
+  }
 }

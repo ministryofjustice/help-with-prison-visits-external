@@ -1,11 +1,12 @@
 const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
-const referenceHelper = require('../helpers/e2e/reference-helper')
 const dateFormatter = require('../../app/services/date-formatter')
+const claimHelper = require('../helpers/data/claim-helper')
 
 var futureDate = dateFormatter.now().add(14, 'days')
 describe('First Time Advance Claim Flow', () => {
   // The reference will be generated as part of this flow. So capture it once it is generated.
-  var reference
+  // var reference
+  var caseworker = 'teste2e@test.com'
 
   it('should display each page in the first time eligibility flow Advance', () => {
     return browser.url('/assisted-digital?caseworker=teste2e@test.com')
@@ -50,11 +51,6 @@ describe('First Time Advance Claim Flow', () => {
 
       // About you
       .waitForExist('#about-you-submit')
-
-      // Capture the reference.
-      .getUrl().then(function (url) {
-        reference = referenceHelper.extractReference(url)
-      })
 
       .setValue('#first-name-input', 'Joe')
       .setValue('#last-name-input', 'Bloggs')
@@ -127,6 +123,9 @@ describe('First Time Advance Claim Flow', () => {
   })
 
   after(function () {
-    return internalEligibilityHelper.deleteAll(reference)
+    return claimHelper.getRef(caseworker)
+    .then(function (reference) {
+      return internalEligibilityHelper.deleteAll(reference)
+    })
   })
 })

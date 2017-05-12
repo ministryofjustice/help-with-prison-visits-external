@@ -2,21 +2,17 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const encrypt = require('../../../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/new-claim/journey-information', function () {
-  const REFERENCE = 'JOURNEY'
-  const ELIGIBILITYID = '1234'
-  const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
-  const ENCRYPTED_REFERENCEID = encrypt(REFERENCEID)
   const CLAIM_ID = '123'
-  const CLAIM_TYPE = 'first-time'
-  const ADVANCE_OR_PAST = 'advance'
-  const ROUTE = `/apply/${CLAIM_TYPE}/eligibility/${ENCRYPTED_REFERENCEID}/new-claim/${ADVANCE_OR_PAST}`
-  const REPEAT_DUPLICATE_ROUTE = `/apply/repeat-duplicate/eligibility/${ENCRYPTED_REFERENCEID}/new-claim/${ADVANCE_OR_PAST}`
+  const ROUTE = `/apply/eligibility/new-claim/journey-information`
+
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjI4LjQxMjQzMzMzNCwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1MjJmMWQxZWJhYzY1ZGE3MGIiLCJkZWNyeXB0ZWRSZWYiOiJYWVpQRjBUIiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0In0=' ]
+  const COOKIES_REPEAT_DUPLICATE = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjQwLjY4ODE2NjY2NywiZGVjcnlwdGVkUmVmIjoiVEtZQ0NSQSIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QlEiLCJyZWZlcmVuY2VJZCI6IjVlM2QxZTBkYmZhNDQ4YTcwYyIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1UeXBlIjoicmVwZWF0LWR1cGxpY2F0ZSJ9' ]
+  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
 
   var app
 
@@ -44,6 +40,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -52,6 +49,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     it('should respond with a 200', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
     })
   })
@@ -64,6 +62,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
       insertNewClaimStub.resolves()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -74,10 +73,10 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
       insertNewClaimStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(newClaimStub)
           sinon.assert.calledOnce(insertNewClaimStub)
-          sinon.assert.calledWith(insertNewClaimStub, REFERENCE, ELIGIBILITYID, CLAIM_TYPE, FIRST_TIME_CLAIM)
         })
         .expect(302)
     })
@@ -86,24 +85,33 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
       insertNewClaimStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
-        .expect('location', `/apply/first-time/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIM_ID}/has-escort`)
+        .set('Cookie', COOKIES)
+        .expect('location', `/apply/eligibility/claim/has-escort`)
     })
 
     it('should redirect to claim summary page if claim is repeat duplicate', function () {
       newClaimStub.returns(REPEAT_DUPLICATE_CLAIM)
       insertRepeatDuplicateClaimStub.resolves(CLAIM_ID)
       return supertest(app)
-        .post(REPEAT_DUPLICATE_ROUTE)
-        .expect('location', `/apply/repeat-duplicate/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIM_ID}/summary`)
-        .expect(function () {
-          sinon.assert.calledWith(insertRepeatDuplicateClaimStub, REFERENCE, ELIGIBILITYID, REPEAT_DUPLICATE_CLAIM)
-        })
+        .post(ROUTE)
+        .set('Cookie', COOKIES_REPEAT_DUPLICATE)
+        .expect('location', `/apply/eligibility/claim/summary`)
+    })
+
+    it('should redirect to date-of-birth error page if cookie is expired', function () {
+      insertNewClaimStub.resolves(CLAIM_ID)
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES_EXPIRED)
+        .expect(302)
+        .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
     })
 
     it('should respond with a 500 if promise rejects.', function () {
       insertRepeatDuplicateClaimStub.rejects()
       return supertest(app)
-        .post(REPEAT_DUPLICATE_ROUTE)
+        .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
 
@@ -111,6 +119,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
       insertNewClaimStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(400)
     })
 
@@ -118,6 +127,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
       insertNewClaimStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
 
@@ -125,6 +135,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
       insertNewClaimStub.rejects()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })

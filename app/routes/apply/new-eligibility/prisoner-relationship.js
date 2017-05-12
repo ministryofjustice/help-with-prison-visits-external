@@ -1,34 +1,42 @@
 const PrisonerRelationship = require('../../../services/domain/prisoner-relationship')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const ValidationError = require('../../../services/errors/validation-error')
-const claimTypeEnum = require('../../../constants/claim-type-enum')
 const prisonerRelationshipEnum = require('../../../constants/prisoner-relationships-enum')
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/:dob', function (req, res) {
+  router.get('/apply/:claimType/new-eligibility/prisoner-relationship', function (req, res) {
     UrlPathValidator(req.params)
+
+    if (!req.session ||
+        !req.session.dobEncoded) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
     return res.render('apply/new-eligibility/prisoner-relationship', {
       URL: req.url
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/:dob', function (req, res) {
+  router.post('/apply/:claimType/new-eligibility/prisoner-relationship', function (req, res) {
     UrlPathValidator(req.params)
 
-    var relationship = req.body.relationship
-    var dob = req.params.dob
+    if (!req.session ||
+        !req.session.dobEncoded) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
 
     try {
-      var prisonerRelationship = new PrisonerRelationship(relationship)
+      var prisonerRelationship = new PrisonerRelationship(req.body.relationship)
 
-      if (prisonerRelationship.relationship === prisonerRelationshipEnum.NONE.urlValue) {
+      var relationship = prisonerRelationship.relationship
+      req.session.relationship = relationship
+
+      if (relationship === prisonerRelationshipEnum.NONE.urlValue) {
         return res.redirect('/eligibility-fail')
       } else {
-        var params = ''
-        if (req.params.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
-          params = `?reference=${req.query.reference}&prisoner-number=${req.query['prisoner-number']}`
-        }
-        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dob}/${prisonerRelationship.relationship}${params}`)
+        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefits`)
       }
     } catch (error) {
       if (error instanceof ValidationError) {

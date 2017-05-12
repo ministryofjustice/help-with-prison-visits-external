@@ -3,14 +3,10 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const routeHelper = require('../../../helpers/routes/route-helper')
-const encrypt = require('../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
-const COOKIES = [ 'apvs-start-already-registered=eyJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwiZW5jcnlwdGVkUmVmIjoiNGIyNjExMWRjZGM0M2EifQ==' ]
-const REFERENCE = 'APVS123'
-const ENCRYPTED_REFERENCE = encrypt(REFERENCE)
+const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjQ5LjM2NTU1LCJkZWNyeXB0ZWRSZWYiOiJRSFFDWFdaIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyJ9' ]
 const ELIGIBILITY_ID = '1234'
-const DECODED_DOB = '1990-10-10'
 const CLAIMID = '1'
 const CLAIM_DOCUMENT_ID = '123'
 const CLAIM_EXPENSE_ID = '12345'
@@ -38,7 +34,6 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
   var viewClaimDomainObjectStub
   var submitUpdateStub
   var removeClaimDocumentStub
-  var decryptStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -47,7 +42,6 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
     viewClaimDomainObjectStub = sinon.stub()
     submitUpdateStub = sinon.stub()
     removeClaimDocumentStub = sinon.stub()
-    decryptStub = sinon.stub()
 
     var route = proxyquire(
       '../../../../app/routes/your-claims/view-claim', {
@@ -56,8 +50,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         '../../services/data/get-claim-document-file-path': getClaimDocumentFilePathStub,
         '../../services/domain/view-claim': viewClaimDomainObjectStub,
         '../../services/data/submit-update': submitUpdateStub,
-        '../../services/data/remove-claim-document': removeClaimDocumentStub,
-        '../../services/helpers/decrypt': decryptStub
+        '../../services/data/remove-claim-document': removeClaimDocumentStub
       })
     app = routeHelper.buildApp(route)
   })
@@ -73,16 +66,11 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
     })
 
     it('should respond with a 200', function () {
-      decryptStub.returns(REFERENCE)
       getViewClaimStub.resolves(CLAIM)
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(200)
-        .expect(function () {
-          sinon.assert.calledWith(decryptStub, ENCRYPTED_REFERENCE)
-          sinon.assert.calledWith(getViewClaimStub, CLAIMID, REFERENCE, DECODED_DOB)
-        })
     })
   })
 
@@ -97,7 +85,6 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
     })
 
     it('should respond with a 302', function () {
-      decryptStub.returns(REFERENCE)
       submitUpdateStub.resolves()
       getViewClaimStub.resolves(CLAIM)
       return supertest(app)
@@ -105,8 +92,6 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(decryptStub, ENCRYPTED_REFERENCE)
-          sinon.assert.calledWith(getViewClaimStub, CLAIMID, REFERENCE, DECODED_DOB)
           sinon.assert.calledOnce(viewClaimDomainObjectStub)
         })
         .expect('location', `/your-claims/${CLAIMID}?updated=true`)

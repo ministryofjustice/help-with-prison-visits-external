@@ -32,13 +32,13 @@
   {% if not claimDetails.claimExpenses[0] %}
     <span class="error-message" id="error-message-no-expenses">{{ errors['claim-expense'][0] }}</span>
   {% endif %}
-  <a href="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}" class="link">Add another expense</a>
+  <a href="/apply/eligibility/claim/expenses" class="link">Add another expense</a>
 
   <br>
   <br>
   <br>
 
-  <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/summary" method="post" class="form">
+  <form action="/apply/eligibility/claim/summary" method="post" class="form">
 
     <div class="form-group">
       {% include "partials/csrf-hidden-input.html" %}

@@ -21,9 +21,11 @@ var Promise = require('bluebird').Promise
 var fs = Promise.promisifyAll(require('fs'))
 var csrfToken
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/file-upload', function (req, res) {
-    req.yourClaimUrl = `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`
+  router.get('/apply/eligibility/claim/summary/file-upload', function (req, res) {
+    req.yourClaimUrl = `/apply/eligibility/claim/summary`
     get(req, res)
   })
 
@@ -32,13 +34,13 @@ module.exports = function (router) {
     get(req, res)
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/summary/file-upload',
+  router.post('/apply/eligibility/claim/summary/file-upload',
     function (req, res, next) {
-      req.yourClaimUrl = `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`
+      req.yourClaimUrl = `/apply/eligibility/claim/summary`
       post(req, res, next)
     },
     function (req, res, next) {
-      checkForMalware(req, res, next, `/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}/summary`)
+      checkForMalware(req, res, next, `/apply/eligibility/claim/summary`)
     })
 
   router.post('/your-claims/:claimId/file-upload',
@@ -56,10 +58,20 @@ function get (req, res) {
   UrlPathValidator(req.params)
   setReferenceIds(req)
 
+  if (!req.session ||
+      !req.session.referenceId ||
+      !req.session.decryptedRef ||
+      !req.session.claimId) {
+    console.log(req.session)
+    return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+  }
+
   if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
-    var decryptedRef = getDecryptedReference(req.params, req.session)
-    var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
+    var decryptedRef = decrypt(req.session.referenceId)
+
+    var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
     DirectoryCheck(decryptedRef, claimId, req.query.claimExpenseId, req.query.document)
+
     return res.render('apply/eligibility/claim/file-upload', {
       document: req.query.document,
       fileUploadGuidingText: DocumentTypeEnum,
@@ -75,6 +87,14 @@ function get (req, res) {
 function post (req, res, next, redirectURL) {
   UrlPathValidator(req.params)
   setReferenceIds(req)
+
+  if (!req.session ||
+      !req.session.referenceId ||
+      !req.session.decryptedRef ||
+      !req.session.claimId) {
+    console.log(req.session)
+    return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+  }
 
   Upload(req, res, function (error) {
     try {
@@ -92,7 +112,7 @@ function post (req, res, next, redirectURL) {
           throw new Error('Not a valid document type')
         }
       }
-      req.fileUpload = new FileUpload(req.params.claimId, req.query.document, req.query.claimExpenseId, req.file, req.error, req.body.alternative)
+      req.fileUpload = new FileUpload(req.session.claimId, req.query.document, req.query.claimExpenseId, req.file, req.error, req.body.alternative)
       next()
     } catch (error) {
       handleError(req, res, next, error)
@@ -102,7 +122,7 @@ function post (req, res, next, redirectURL) {
 
 function checkForMalware (req, res, next, redirectURL) {
   var ids = setReferenceIds(req)
-  var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.params.claimId)
+  var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
   if (req.file) {
     clam.scan(req.file.path).then((infected) => {
       try {
@@ -166,15 +186,14 @@ function handleError (req, res, next, error) {
 function setReferenceIds (req) {
   var reference
   var id
-  if (req.params.referenceId) {
-    var referenceAndEligibility = referenceIdHelper.extractReferenceId(req.params.referenceId)
+  if (req.session.referenceId) {
+    var referenceAndEligibility = referenceIdHelper.extractReferenceId(req.session.referenceId)
     reference = referenceAndEligibility.reference
     id = referenceAndEligibility.id
   } else {
-    var encryptedRef = req.session.encryptedRef
-    reference = decrypt(encryptedRef)
+    reference = req.session.decryptedRef
     id = req.query.eligibilityId
-    req.params.referenceId = referenceIdHelper.getReferenceId(reference, id)
+    req.session.referenceId = referenceIdHelper.getReferenceId(reference, id)
   }
   return { eligibilityId: id, reference: reference }
 }
@@ -189,26 +208,16 @@ function moveScannedFileToStorage (req, targetDir) {
 }
 
 function getTargetDir (req) {
-  var decryptedReferenceId = decrypt(req.params.referenceId)
+  var decryptedReferenceId = decrypt(req.session.referenceId)
   var targetDir
   if (req.query.document !== 'VISIT_CONFIRMATION' && req.query.document !== 'RECEIPT') {
     targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.query.document}`
   } else if (req.query.claimExpenseId) {
-    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.claimExpenseId}/${req.query.document}`
+    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.session.claimId}/${req.query.claimExpenseId}/${req.query.document}`
   } else {
-    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.params.claimId}/${req.query.document}`
+    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.session.claimId}/${req.query.document}`
   }
   return targetDir
-}
-
-function getDecryptedReference (requestParams, session) {
-  if (requestParams.referenceId) {
-    return decrypt(requestParams.referenceId)
-  } else if (session.encryptedRef) {
-    return decrypt(session.encryptedRef)
-  } else {
-    return null
-  }
 }
 
 function addClaimIdIfNotBenefitDocument (document, claimId) {

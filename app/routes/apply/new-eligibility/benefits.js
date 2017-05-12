@@ -1,34 +1,43 @@
 const Benefits = require('../../../services/domain/benefits')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const ValidationError = require('../../../services/errors/validation-error')
-const claimTypeEnum = require('../../../constants/claim-type-enum')
+
+const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/:dob/:relationship', function (req, res) {
+  router.get('/apply/:claimType/new-eligibility/benefits', function (req, res) {
     UrlPathValidator(req.params)
+
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.relationship) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
     return res.render('apply/new-eligibility/benefits', {
       URL: req.url
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/:dob/:relationship', function (req, res) {
+  router.post('/apply/:claimType/new-eligibility/benefits', function (req, res) {
     UrlPathValidator(req.params)
 
-    var dob = req.params.dob
-    var relationship = req.params.relationship
-    var benefit = req.body.benefit
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.relationship) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
 
     try {
-      var benefits = new Benefits(benefit)
+      var benefits = new Benefits(req.body.benefit)
 
-      if (benefits.benefit === 'none') {
+      var benefit = benefits.benefit
+      req.session.benefit = req.body.benefit
+
+      if (benefit === 'none') {
         return res.redirect('/eligibility-fail')
       } else {
-        var params = ''
-        if (req.params.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
-          params = `?reference=${req.query.reference}&prisoner-number=${req.query['prisoner-number']}`
-        }
-        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dob}/${relationship}/${benefits.benefit}${params}`)
+        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-the-prisoner`)
       }
     } catch (error) {
       if (error instanceof ValidationError) {

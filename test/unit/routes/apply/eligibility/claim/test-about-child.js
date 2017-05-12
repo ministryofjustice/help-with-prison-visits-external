@@ -2,18 +2,16 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const encrypt = require('../../../../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/claim/about-child', function () {
-  const REFERENCE = 'ABOUTCH'
-  const ELIGIBILITYID = '1234'
-  const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
-  const ENCRYPTED_REFERENCEID = encrypt(REFERENCEID)
   const CLAIMID = '123'
-  const ROUTE = `/apply/first-time/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}/child`
+
+  const ROUTE = `/apply/eligibility/claim/about-child`
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MzcyLjM2NDU2NjY2NSwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiIzYjI0NzE3YWI5YTI0N2E3MGIiLCJkZWNyeXB0ZWRSZWYiOiIxUjY0RVROIiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6OH0=' ]
+  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
 
   var app
 
@@ -38,6 +36,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -46,6 +45,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     it('should respond with a 200', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(200)
     })
   })
@@ -57,6 +57,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
       insertChildStub.resolves()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -67,25 +68,35 @@ describe('routes/apply/eligibility/claim/about-child', function () {
       insertChildStub.resolves(CLAIMID)
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(aboutChildStub)
           sinon.assert.calledOnce(insertChildStub)
-          sinon.assert.calledWith(insertChildStub, REFERENCE, ELIGIBILITYID, CLAIMID, ABOUT_CHILD)
         })
         .expect(302)
+    })
+
+    it('should redirect to date-of-birth error page if cookie is expired', function () {
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES_EXPIRED)
+        .expect(302)
+        .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
     })
 
     it('should redirect to expenses page if add-another-child is set to no', function () {
       insertChildStub.resolves(CLAIMID)
       return supertest(app)
         .post(ROUTE)
-        .expect('location', `/apply/first-time/eligibility/${ENCRYPTED_REFERENCEID}/claim/${CLAIMID}`)
+        .set('Cookie', COOKIES)
+        .expect('location', `/apply/eligibility/claim/expenses`)
     })
 
     it('should redirect to the about-child page if add-another-child is set to yes', function () {
       insertChildStub.resolves(CLAIMID)
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .send({
           'add-another-child': 'yes'
         })
@@ -96,6 +107,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
       insertChildStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(400)
     })
 
@@ -103,6 +115,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
       insertChildStub.throws(new Error())
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
 
@@ -110,6 +123,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
       insertChildStub.rejects()
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })

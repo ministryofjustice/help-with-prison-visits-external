@@ -5,11 +5,10 @@ const CheckYourInformation = require('../../services/domain/check-your-informati
 const ValidationError = require('../../services/errors/validation-error')
 const referenceIdHelper = require('../helpers/reference-id-helper')
 const displayHelper = require('../../views/helpers/display-helper')
-const decrypt = require('../../services/helpers/decrypt')
 const prisonsHelper = require('../../constants/helpers/prisons-helper')
 
 const NORTHERN_IRELAND = 'Northern Ireland'
-const REFERENCE_DOB_ERROR = '?error=expired'
+const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/your-claims/check-your-information', function (req, res, next) {
@@ -17,21 +16,20 @@ module.exports = function (router) {
 
     if (!req.session ||
         !req.session.dobEncoded ||
-        !req.session.encryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+        !req.session.decryptedRef) {
+      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
-    var dobEncoded = req.session.dobEncoded
-    var encryptedRef = req.session.encryptedRef
+    var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
-    var dobDecoded = dateFormatter.decodeDate(dobEncoded)
-    var reference = decrypt(encryptedRef)
-
-    getRepeatEligibility(reference, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
+    getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
       .then(function (eligibility) {
+        req.session.prisonerNumber = eligibility['PrisonNumber']
+        req.session.eligibilityId = eligibility['EligibilityId']
+
         return res.render('your-claims/check-your-information', {
-          dob: dobEncoded,
-          reference: reference,
+          dob: dobDecoded,
+          reference: req.session.decryptedRef,
           eligibility: eligibility,
           displayHelper: displayHelper})
       })
@@ -46,46 +44,46 @@ module.exports = function (router) {
     try {
       if (!req.session ||
           !req.session.dobEncoded ||
-          !req.session.encryptedRef) {
-        return res.redirect(`/start-already-registered${REFERENCE_DOB_ERROR}`)
+          !req.session.decryptedRef) {
+        return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
       }
 
-      var dobEncoded = req.session.dobEncoded
-      var encryptedRef = req.session.encryptedRef
+      var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
-      var decryptedRef = decrypt(encryptedRef)
-      var dobDecoded = dateFormatter.decodeDate(dobEncoded)
+      req.session.eligibilityId = req.body.EligibilityId
+      req.session.referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, req.session.eligibilityId)
 
       new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
 
-      var eligibilityId = req.body.EligibilityId
-      var referenceId = referenceIdHelper.getReferenceId(decryptedRef, eligibilityId)
-
-      getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
+      getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
         .then(function (eligibility) {
           var nameOfPrison = eligibility.NameOfPrison
           var isNorthernIrelandClaim = eligibility.Country === NORTHERN_IRELAND
           var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
+          req.session.prisonerNumber = eligibility['PrisonNumber']
+          req.session.claimType = 'repeat'
+
           // Northern Ireland claims cannot be advance claims so skip future-or-past
-          var nextPage = 'new-claim'
+          var nextPage = 'future-or-past-visit'
           if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
-            nextPage = 'new-claim/same-journey-as-last-claim/past'
+            req.session.advanceOrPast = 'past'
+            nextPage = 'same-journey-as-last-claim'
           }
 
-          return res.redirect(`/apply/repeat/eligibility/${referenceId}/${nextPage}`)
+          return res.redirect(`/apply/eligibility/new-claim/${nextPage}`)
         })
         .catch(function (error) {
           next(error)
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        getRepeatEligibility(decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
+        getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
           .then(function (eligibility) {
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,
-              dob: req.params.dob,
-              reference: decryptedRef,
+              dob: req.session.dobEncoded,
+              reference: req.session.decryptedRef,
               eligibility: eligibility,
               displayHelper: displayHelper
             })

@@ -21,7 +21,7 @@ What is your date of birth - {{ serviceName }}
 
       <p>You must be 18 or over (16 or over in Scotland)</p>
 
-      <form action="/apply/{{ claimType }}/new-eligibility" method="post">
+      <form action="/apply/{{ claimType }}/new-eligibility/date-of-birth" method="post">
 
         <div class="form-group">
           <div class="date-of-birth {% if errors['dob'][0] %} error {% endif %}">

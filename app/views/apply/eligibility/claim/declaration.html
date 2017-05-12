@@ -16,7 +16,7 @@ Declaration - {{ serviceName }}
     Declaration
   </h1>
 
-  <form action="/apply/{{ claimType }}/eligibility/{{ referenceId }}/claim/{{ claimId }}/declaration?isAdvance={{ isAdvance }}&paymentMethod={{ paymentMethod }}" method="post">
+  <form action="/apply/eligibility/claim/declaration?isAdvance={{ isAdvance }}&paymentMethod={{ paymentMethod }}" method="post">
 
     {% if isAdvance == 'true' %}
       <p>I declare that:</p>

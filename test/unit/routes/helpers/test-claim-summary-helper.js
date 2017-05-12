@@ -62,29 +62,27 @@ describe('routes/helpers/claim-summary-helper', function () {
   describe('buildClaimSummaryUrl', function () {
     it('should return claim summary URL constaining the claim type, reference, and claim id', function () {
       var result = claimSummaryHelper.buildClaimSummaryUrl(MULTIPAGE_DOCUMENT)
-      expect(result).to.equal(buildSummaryUrl(CLAIM_TYPE, REFERENCE, CLAIM_ID))
+      expect(result).to.equal('/apply/eligibility/claim/summary')
     })
   })
 
   describe('buildRemoveDocumentUrl', function () {
     it('should return the claim summary url if the document is multipage', function () {
       var result = claimSummaryHelper.buildRemoveDocumentUrl(MULTIPAGE_DOCUMENT)
-      expect(result).to.equal(
-        buildSummaryUrl(CLAIM_TYPE, REFERENCE, CLAIM_ID)
-      )
+      expect(result).to.equal('/apply/eligibility/claim/summary')
     })
 
     it('should return the file upload url if the document is single page and claim expense id is set', function () {
       var result = claimSummaryHelper.buildRemoveDocumentUrl(SINGLEPAGE_DOCUMENT_WITH_CLAIM_EXPENSE_ID)
       expect(result).to.equal(
-        `${buildSummaryUrl(CLAIM_TYPE, REFERENCE, CLAIM_ID)}/file-upload?document=${CLAIM_DOCUMENT_ID}&claimExpenseId=${CLAIM_EXPENSE_ID}`
+        `/apply/eligibility/claim/summary/file-upload?document=${CLAIM_DOCUMENT_ID}&claimExpenseId=${CLAIM_EXPENSE_ID}`
       )
     })
 
     it('should return the file upload url if the document is single page and the claim expense id is not set', function () {
       var result = claimSummaryHelper.buildRemoveDocumentUrl(SINGLEPAGE_DOCUMENT_WITHOUT_CLAIM_EXPENSE_ID)
       expect(result).to.equal(
-        `${buildSummaryUrl(CLAIM_TYPE, REFERENCE, CLAIM_ID)}/file-upload?document=${CLAIM_DOCUMENT_ID}`
+        `/apply/eligibility/claim/summary/file-upload?document=${CLAIM_DOCUMENT_ID}`
       )
     })
   })
@@ -151,7 +149,3 @@ describe('routes/helpers/claim-summary-helper', function () {
     })
   })
 })
-
-function buildSummaryUrl (claimType, reference, claimId) {
-  return `/apply/${claimType}/eligibility/${reference}/claim/${claimId}/summary`
-}

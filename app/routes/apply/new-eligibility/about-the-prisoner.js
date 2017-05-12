@@ -5,23 +5,36 @@ const ValidationError = require('../../../services/errors/validation-error')
 const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
 const displayHelper = require('../../../views/helpers/display-helper')
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit', function (req, res) {
+  router.get('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res) {
     UrlPathValidator(req.params)
+
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.relationship ||
+        !req.session.benefit) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
 
     return res.render('apply/new-eligibility/about-the-prisoner', {
       URL: req.url,
-      prisonerNumber: req.query['prisoner-number'],
+      prisonerNumber: req.session.prisonerNumber,
       displayHelper: displayHelper
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    var dob = req.params.dob
-    var relationship = req.params.relationship
-    var benefit = req.params.benefit
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.relationship ||
+        !req.session.benefit) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
     var prisoner = req.body
 
     try {
@@ -32,11 +45,12 @@ module.exports = function (router) {
         req.body['dob-year'],
         req.body['PrisonerNumber'],
         req.body['NameOfPrison'])
-
-      insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.query.reference)
+      insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.session.decryptedRef)
         .then(function (result) {
-          var referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
-          return res.redirect(`/apply/${req.params.claimType}/new-eligibility/${dob}/${relationship}/${benefit}/${referenceId}`)
+          req.session.referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
+          req.session.decryptedRef = result.reference
+
+          return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
         })
         .catch(function (error) {
           next(error)

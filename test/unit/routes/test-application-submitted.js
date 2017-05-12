@@ -2,12 +2,10 @@ const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const encrypt = require('../../../app/services/helpers/encrypt')
 require('sinon-bluebird')
 
 describe('routes/application-submitted', function () {
-  const ENCRYPTED_REFERENCE = encrypt('RA2E0QZ')
-  const ROUTE = `/application-submitted/past/${ENCRYPTED_REFERENCE}`
+  const ROUTE = `/application-submitted`
   var app
   var urlPathValidatorStub
 

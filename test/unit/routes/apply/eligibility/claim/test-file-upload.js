@@ -6,11 +6,9 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 require('sinon-bluebird')
 
 describe('routes/apply/eligibility/claim/file-upload', function () {
-  const REFERENCE = 'V123456'
-  const ELIGIBILITYID = '1234'
-  const REFERENCEID = `${REFERENCE}-${ELIGIBILITYID}`
-  const CLAIMID = '1'
-  const ROUTE = `/apply/first-time/eligibility/${REFERENCEID}/claim/${CLAIMID}/summary/file-upload?document=`
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9' ]
+  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
+  const ROUTE = `/apply/eligibility/claim/summary/file-upload?document=`
 
   var app
   var urlPathValidatorStub
@@ -56,6 +54,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     it('should call the URL Path Validator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -64,6 +63,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     it('should call the CSRFToken generator', function () {
       return supertest(app)
         .get(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(generateCSRFTokenStub)
         })
@@ -72,12 +72,14 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     it('should respond with a 200 if passed valid document type', function () {
       return supertest(app)
         .get(`${ROUTE}VISIT_CONFIRMATION`)
+        .set('Cookie', COOKIES)
         .expect(200)
     })
 
     it('should call the directory check', function () {
       return supertest(app)
         .get(`${ROUTE}VISIT_CONFIRMATION`)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(directoryCheckStub)
         })
@@ -86,6 +88,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     it('should respond with a 500 if passed invalid document type', function () {
       return supertest(app)
         .get(`${ROUTE}TEST`)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })
@@ -96,6 +99,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
       uploadStub.callsArg(2)
       return supertest(app)
         .post(ROUTE)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
         })
@@ -107,6 +111,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
       clamAvStub.resolves()
       return supertest(app)
         .post(`${ROUTE}VISIT_CONFIRMATION`)
+        .set('Cookie', COOKIES)
         .expect(function () {
           sinon.assert.calledOnce(uploadStub)
           sinon.assert.calledOnce(fileUploadStub)
@@ -115,12 +120,21 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
         .expect(302)
     })
 
+    it('should redirect to date-of-birth error page if cookie is expired', function () {
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES_EXPIRED)
+        .expect(302)
+        .expect('location', '/apply/first-time/new-eligibility/date-of-birth?error=expired')
+    })
+
     it('should catch a validation error', function () {
       uploadStub.callsArg(2).returns({})
       fileUploadStub.throws(new ValidationError())
       clamAvStub.resolves()
       return supertest(app)
         .post(`${ROUTE}VISIT_CONFIRMATION`)
+        .set('Cookie', COOKIES)
         .expect(400)
     })
 
@@ -128,6 +142,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
       uploadStub.callsArg(2).returns({})
       return supertest(app)
         .post(`${ROUTE}TEST`)
+        .set('Cookie', COOKIES)
         .expect(500)
     })
   })

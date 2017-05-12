@@ -12,26 +12,52 @@ const dateFormatter = require('../../../services/date-formatter')
 const benefitsHelper = require('../../../constants/benefits-enum')
 const NORTHERN_IRELAND = 'Northern Ireland'
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit/:referenceId', function (req, res) {
+  router.get('/apply/:claimType/new-eligibility/about-you', function (req, res) {
     UrlPathValidator(req.params)
 
+    req.session.claimType = req.params.claimType
+
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.relationship ||
+        !req.session.benefit ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.claimType) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
     return res.render('apply/new-eligibility/about-you', {
-      claimType: req.params.claimType,
-      dob: req.params.dob,
-      relationship: req.params.relationship,
-      benefit: req.params.benefit,
-      referenceId: req.params.referenceId
+      claimType: req.session.claimType,
+      dob: req.session.dobEncoded,
+      relationship: req.session.relationship,
+      benefit: req.session.benefit,
+      referenceId: req.session.referenceId
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/:dob/:relationship/:benefit/:referenceId', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/about-you', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    var dob = dateFormatter.decodeDate(req.params.dob)
-    var relationship = enumHelper.getKeyByAttribute(relationshipHelper, req.params.relationship, 'urlValue').value
-    var benefit = enumHelper.getKeyByAttribute(benefitsHelper, req.params.benefit, 'urlValue').value
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+    req.session.claimType = req.params.claimType
+
+    if (!req.session ||
+        !req.session.dobEncoded ||
+        !req.session.relationship ||
+        !req.session.benefit ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.claimType) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
+    var dob = dateFormatter.decodeDate(req.session.dobEncoded)
+    var relationship = enumHelper.getKeyByAttribute(relationshipHelper, req.session.relationship, 'urlValue').value
+    var benefit = enumHelper.getKeyByAttribute(benefitsHelper, req.session.benefit, 'urlValue').value
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
     var visitorDetails = req.body
 
     try {
@@ -62,12 +88,13 @@ module.exports = function (router) {
               var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
               // Northern Ireland claims cannot be advance claims so skip future-or-past
-              var nextPage = 'new-claim'
+              var nextPage = 'future-or-past-visit'
               if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
-                nextPage = 'new-claim/past'
+                req.session.advanceOrPast = 'past'
+                nextPage = 'journey-information'
               }
 
-              return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/${nextPage}`)
+              return res.redirect(`/apply/eligibility/new-claim/${nextPage}`)
             })
         })
       })
@@ -88,11 +115,11 @@ function renderValidationError (req, res, visitorDetails, validationErrors, isDu
   return res.status(400).render('apply/new-eligibility/about-you', {
     errors: validationErrors,
     isDuplicateClaim: isDuplicateClaim,
-    claimType: req.params.claimType,
-    dob: req.params.dob,
-    relationship: req.params.relationship,
-    benefit: req.params.benefit,
-    referenceId: req.params.referenceId,
+    claimType: req.session.claimType,
+    dob: req.session.dobEncoded,
+    relationship: req.session.relationship,
+    benefit: req.session.benefit,
+    referenceId: req.session.referenceId,
     visitor: visitorDetails
   })
 }

@@ -4,20 +4,40 @@ const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const ValidationError = require('../../../../services/errors/validation-error')
 const insertChild = require('../../../../services/data/insert-child')
 
+const REFERENCE_SESSION_ERROR = '?error=expired'
+
 module.exports = function (router) {
-  router.get('/apply/:claimType/eligibility/:referenceId/claim/:claimId/child', function (req, res) {
+  router.get('/apply/eligibility/claim/about-child', function (req, res) {
     UrlPathValidator(req.params)
 
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.referenceId ||
+        !req.session.decryptedRef ||
+        !req.session.advanceOrPast ||
+        !req.session.claimId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
     return res.render('apply/eligibility/claim/about-child', {
-      claimType: req.params.claimType,
-      referenceId: req.params.referenceId,
-      claimId: req.params.claimId
+      claimType: req.session.claimType,
+      referenceId: req.session.referenceId,
+      claimId: req.session.claimId
     })
   })
 
-  router.post('/apply/:claimType/eligibility/:referenceId/claim/:claimId/child', function (req, res, next) {
+  router.post('/apply/eligibility/claim/about-child', function (req, res, next) {
     UrlPathValidator(req.params)
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.params.referenceId)
+
+    if (!req.session ||
+        !req.session.claimType ||
+        !req.session.referenceId ||
+        !req.session.advanceOrPast ||
+        !req.session.claimId) {
+      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    }
+
+    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
       var child = new AboutChild(
@@ -29,12 +49,12 @@ module.exports = function (router) {
         req.body['child-relationship']
       )
 
-      insertChild(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.params.claimId, child)
+      insertChild(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, child)
         .then(function () {
           if (req.body['add-another-child']) {
             return res.redirect(req.originalUrl)
           } else {
-            return res.redirect(`/apply/${req.params.claimType}/eligibility/${req.params.referenceId}/claim/${req.params.claimId}`)
+            return res.redirect(`/apply/eligibility/claim/expenses`)
           }
         })
         .catch(function (error) {
@@ -44,9 +64,9 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/eligibility/claim/about-child', {
           errors: error.validationErrors,
-          claimType: req.params.claimType,
-          referenceId: req.params.referenceId,
-          claimId: req.params.claimId,
+          claimType: req.session.claimType,
+          referenceId: req.session.referenceId,
+          claimId: req.session.claimId,
           claimant: req.body
         })
       } else {
