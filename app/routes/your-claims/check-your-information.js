@@ -78,7 +78,7 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate, null)
+        getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
           .then(function (eligibility) {
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,
