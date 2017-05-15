@@ -2,18 +2,17 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const claimTypeEnum = require('../../../../constants/claim-type-enum')
 const FutureOrPastVisit = require('../../../../services/domain/future-or-past-visit')
 const ValidationError = require('../../../../services/errors/validation-error')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionValidator = require('../../../../services/validators/session-validator')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/new-claim/future-or-past-visit', function (req, res) {
     UrlPathValidator(req.params)
+    var validatorResult = SessionValidator(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    console.dir(validatorResult)
+
+    if (!validatorResult[0]) {
+      return res.redirect(validatorResult[1])
     }
 
     return res.render('apply/eligibility/new-claim/future-or-past-visit', {
@@ -24,12 +23,12 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/new-claim/future-or-past-visit', function (req, res) {
     UrlPathValidator(req.params)
+    var validatorResult = SessionValidator(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    console.dir(validatorResult)
+
+    if (!validatorResult[0]) {
+      return res.redirect(validatorResult[1])
     }
 
     try {

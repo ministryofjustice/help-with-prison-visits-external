@@ -8,18 +8,18 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     var errors
 
-    if ((req.query.error === 'expired')) {
-      req.session.dobEncoded = null
-      req.session.relationship = null
-      req.session.benefit = null
-      req.session.referenceId = null
-      req.session.decryptedRef = null
-      req.session.claimType = null
-      req.session.advanceOrPast = null
-      req.session.claimId = null
-      req.session.advanceOrPast = null
-      req.session.prisonerNumber = null
+    req.session.dobEncoded = null
+    req.session.relationship = null
+    req.session.benefit = null
+    req.session.referenceId = null
+    req.session.decryptedRef = null
+    req.session.claimType = null
+    req.session.advanceOrPast = null
+    req.session.claimId = null
+    req.session.advanceOrPast = null
+    req.session.prisonerNumber = null
 
+    if ((req.query.error === 'expired')) {
       errors = { expired: [ ERROR_MESSAGES.getExpiredSessionDOB ] }
     }
 

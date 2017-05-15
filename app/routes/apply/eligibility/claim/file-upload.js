@@ -16,12 +16,11 @@ const config = require('../../../../../config')
 const tasksEnum = require('../../../../constants/tasks-enum')
 const insertTask = require('../../../../services/data/insert-task')
 const logger = require('../../../../services/log')
+const SessionValidator = require('../../../../services/validators/session-validator')
 var path = require('path')
 var Promise = require('bluebird').Promise
 var fs = Promise.promisifyAll(require('fs'))
 var csrfToken
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/summary/file-upload', function (req, res) {
@@ -56,15 +55,15 @@ module.exports = function (router) {
 function get (req, res) {
   csrfToken = generateCSRFToken(req)
   UrlPathValidator(req.params)
-  setReferenceIds(req)
+  var validatorResult = SessionValidator(req.session, req.url)
 
-  if (!req.session ||
-      !req.session.referenceId ||
-      !req.session.decryptedRef ||
-      !req.session.claimId) {
-    console.log(req.session)
-    return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+  console.dir(validatorResult)
+
+  if (!validatorResult[0]) {
+    return res.redirect(validatorResult[1])
   }
+
+  setReferenceIds(req)
 
   if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
     var decryptedRef = decrypt(req.session.referenceId)
@@ -86,15 +85,15 @@ function get (req, res) {
 
 function post (req, res, next, redirectURL) {
   UrlPathValidator(req.params)
-  setReferenceIds(req)
+  var validatorResult = SessionValidator(req.session, req.url)
 
-  if (!req.session ||
-      !req.session.referenceId ||
-      !req.session.decryptedRef ||
-      !req.session.claimId) {
-    console.log(req.session)
-    return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+  console.dir(validatorResult)
+
+  if (!validatorResult[0]) {
+    return res.redirect(validatorResult[1])
   }
+
+  setReferenceIds(req)
 
   Upload(req, res, function (error) {
     try {

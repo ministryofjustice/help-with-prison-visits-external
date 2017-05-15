@@ -6,23 +6,20 @@ const BusExpense = require('../../../../services/domain/expenses/bus-expense')
 const insertExpense = require('../../../../services/data/insert-expense')
 const getExpenseOwnerData = require('../../../../services/data/get-expense-owner-data')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionValidator = require('../../../../services/validators/session-validator')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/bus', function (req, res) {
     UrlPathValidator(req.params)
+    var validatorResult = SessionValidator(req.session, req.url)
+
+    console.dir(validatorResult)
+
+    if (!validatorResult[0]) {
+      return res.redirect(validatorResult[1])
+    }
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.advanceOrPast ||
-        !req.session.claimId) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
-    }
 
     getIsAdvanceClaim(req.session.claimId)
       .then(function (isAdvanceClaim) {
@@ -43,14 +40,12 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/bus', function (req, res, next) {
     UrlPathValidator(req.params)
+    var validatorResult = SessionValidator(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.advanceOrPast ||
-        !req.session.claimId) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    console.dir(validatorResult)
+
+    if (!validatorResult[0]) {
+      return res.redirect(validatorResult[1])
     }
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)

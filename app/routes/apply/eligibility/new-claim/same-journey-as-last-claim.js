@@ -5,19 +5,17 @@ const SameJourneyAsLastClaim = require('../../../../services/domain/same-journey
 const getLastClaimDetails = require('../../../../services/data/get-last-claim-details')
 const claimExpenseHelper = require('../../../../views/helpers/claim-expense-helper')
 const displayHelper = require('../../../../views/helpers/display-helper')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionValidator = require('../../../../services/validators/session-validator')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
     UrlPathValidator(req.params)
+    var validatorResult = SessionValidator(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.advanceOrPast) {
-      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+    console.dir(validatorResult)
+
+    if (!validatorResult[0]) {
+      return res.redirect(validatorResult[1])
     }
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
@@ -43,13 +41,12 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
     UrlPathValidator(req.params)
+    var validatorResult = SessionValidator(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.advanceOrPast) {
-      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+    console.dir(validatorResult)
+
+    if (!validatorResult[0]) {
+      return res.redirect(validatorResult[1])
     }
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)

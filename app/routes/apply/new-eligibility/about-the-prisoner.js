@@ -4,18 +4,17 @@ const AboutThePrisoner = require('../../../services/domain/about-the-prisoner')
 const ValidationError = require('../../../services/errors/validation-error')
 const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
 const displayHelper = require('../../../views/helpers/display-helper')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionValidator = require('../../../services/validators/session-validator')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res) {
     UrlPathValidator(req.params)
+    var validatorResult = SessionValidator(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.relationship ||
-        !req.session.benefit) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    console.dir(validatorResult)
+
+    if (!validatorResult[0]) {
+      return res.redirect(validatorResult[1])
     }
 
     return res.render('apply/new-eligibility/about-the-prisoner', {
@@ -27,12 +26,12 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res, next) {
     UrlPathValidator(req.params)
+    var validatorResult = SessionValidator(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.relationship ||
-        !req.session.benefit) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    console.dir(validatorResult)
+
+    if (!validatorResult[0]) {
+      return res.redirect(validatorResult[1])
     }
 
     var prisoner = req.body
@@ -45,6 +44,7 @@ module.exports = function (router) {
         req.body['dob-year'],
         req.body['PrisonerNumber'],
         req.body['NameOfPrison'])
+
       insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.session.decryptedRef)
         .then(function (result) {
           req.session.referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)

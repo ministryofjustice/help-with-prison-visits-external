@@ -6,18 +6,19 @@ const claimStatusHelper = require('../../views/helpers/claim-status-helper')
 const dateFormatter = require('../../services/date-formatter')
 const displayHelper = require('../../views/helpers/display-helper')
 const forEdit = require('../helpers/for-edit')
+const SessionValidator = require('../../services/validators/session-validator')
 
-const REFERENCE_SESSION_ERROR = '?error=expired'
 const REFERENCE_DOB_INCORRECT_ERROR = '?error=yes'
 
 module.exports = function (router) {
   router.get('/your-claims', function (req, res, next) {
     UrlPathValidator(req.params)
+    var validatorResult = SessionValidator(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.decryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+    console.dir(validatorResult)
+
+    if (!validatorResult[0]) {
+      return res.redirect(validatorResult[1])
     }
 
     var decodedDOB = dateFormatter.decodeDate(req.session.dobEncoded)
