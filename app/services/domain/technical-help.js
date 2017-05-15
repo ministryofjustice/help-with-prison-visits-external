@@ -1,11 +1,12 @@
 const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
+const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class Feedback {
-  constructor (name, PhoneNumber, issue) {
-    this.name = name
-    this.PhoneNumber = PhoneNumber
+  constructor (name, emailAddress, issue) {
+    this.name = name ? name.trim() : ''
+    this.emailAddress = emailAddress ? emailAddress.trim() : ''
     this.issue = issue
     this.isValid()
   }
@@ -17,9 +18,10 @@ class Feedback {
       .isRequired()
       .isRange(1, 200)
 
-    FieldValidator(this.PhoneNumber, 'PhoneNumber', errors)
-      .isRequired()
-      .isRange(0, 20)
+    FieldValidator(this.emailAddress, 'emailAddress', errors)
+      .isRequired(ERROR_MESSAGES.getEnterYourEmailAddress)
+      .isLessThanLength(100)
+      .isEmail()
 
     FieldValidator(this.issue, 'issue', errors)
       .isRequired()
