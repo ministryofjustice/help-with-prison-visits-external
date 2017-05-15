@@ -23,6 +23,8 @@ module.exports = function (router) {
       return res.redirect(validatorResult[1])
     }
 
+    req.session.claimType = req.params.claimType
+
     return res.render('apply/new-eligibility/about-you', {
       claimType: req.session.claimType,
       dob: req.session.dobEncoded,
