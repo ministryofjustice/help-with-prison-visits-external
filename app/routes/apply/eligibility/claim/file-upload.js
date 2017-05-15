@@ -57,8 +57,6 @@ function get (req, res) {
   UrlPathValidator(req.params)
   var validatorResult = SessionValidator(req.session, req.url)
 
-  console.dir(validatorResult)
-
   if (!validatorResult[0]) {
     return res.redirect(validatorResult[1])
   }
@@ -86,8 +84,6 @@ function get (req, res) {
 function post (req, res, next, redirectURL) {
   UrlPathValidator(req.params)
   var validatorResult = SessionValidator(req.session, req.url)
-
-  console.dir(validatorResult)
 
   if (!validatorResult[0]) {
     return res.redirect(validatorResult[1])

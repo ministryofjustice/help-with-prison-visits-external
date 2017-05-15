@@ -152,6 +152,7 @@ class sessionValidator {
         page === 'accommodation' ||
         page === 'bus' ||
         page === 'car' ||
+        page === 'car-only' ||
         page === 'hire' ||
         page === 'ferry' ||
         page === 'refreshment' ||
@@ -171,8 +172,7 @@ class sessionValidator {
         return [true, path]
       }
     } else if (page === 'file-upload') {
-      if (!session['referenceId'] ||
-          !session['decryptedRef'] ||
+      if (!session['decryptedRef'] ||
           !session['claimId']) {
         return [false, path]
       } else {

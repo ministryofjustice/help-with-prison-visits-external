@@ -9,8 +9,6 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     var validatorResult = SessionValidator(req.session, req.url)
 
-    console.dir(validatorResult)
-
     if (!validatorResult[0]) {
       return res.redirect(validatorResult[1])
     }
@@ -23,8 +21,6 @@ module.exports = function (router) {
   router.post('/your-claims/update-contact-details', function (req, res, next) {
     UrlPathValidator(req.params)
     var validatorResult = SessionValidator(req.session, req.url)
-
-    console.dir(validatorResult)
 
     if (!validatorResult[0]) {
       return res.redirect(validatorResult[1])

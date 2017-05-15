@@ -71,7 +71,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
+        .expect('location', `/start-already-registered?error=expired`)
     })
 
     it('should respond redirect to child page if hasChild equals yes', function () {

@@ -19,8 +19,6 @@ module.exports = function (router) {
     req.session.claimType = req.params.claimType
     var validatorResult = SessionValidator(req.session, req.url)
 
-    console.dir(validatorResult)
-
     if (!validatorResult[0]) {
       return res.redirect(validatorResult[1])
     }
@@ -38,8 +36,6 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
     var validatorResult = SessionValidator(req.session, req.url)
-
-    console.dir(validatorResult)
 
     if (!validatorResult[0]) {
       return res.redirect(validatorResult[1])

@@ -91,7 +91,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', '/apply/first-time/new-eligibility/date-of-birth?error=expired')
+        .expect('location', '/start-already-registered?error=expired')
     })
 
     it('should respond with a 302 and call submit claim with payout and advance in route', function () {

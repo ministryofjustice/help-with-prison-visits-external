@@ -55,7 +55,7 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
+        .expect('location', `/start-already-registered?error=expired`)
     })
 
     it('should redirect to /apply/eligibility/new-claim/journey-information for repeat claim', function () {
