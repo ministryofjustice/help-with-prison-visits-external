@@ -11,7 +11,7 @@ describe('routes/technical-help', function () {
   const ROUTE = `/technical-help`
   const VALID_DATA = {
     name: 'Joe Bloggs',
-    PhoneNumber: '02874628481',
+    emailAddress: 'test@test.com',
     issue: 'Testing problems are occuring'
   }
 
@@ -47,8 +47,8 @@ describe('routes/technical-help', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(technicalHelpStub, VALID_DATA.name, VALID_DATA.PhoneNumber, VALID_DATA.issue)
-          sinon.assert.calledWith(insertTaskStub, null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${VALID_DATA.name}~~${VALID_DATA.PhoneNumber}~~${VALID_DATA.issue}`)
+          sinon.assert.calledWith(technicalHelpStub, VALID_DATA.name, VALID_DATA.emailAddress, VALID_DATA.issue)
+          sinon.assert.calledWith(insertTaskStub, null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${VALID_DATA.name}~~${VALID_DATA.emailAddress}~~${VALID_DATA.issue}`)
         })
     })
 

@@ -18,7 +18,7 @@ class Feedback {
       .isRequired()
       .isRange(1, 200)
 
-    FieldValidator(this.emailAddress, 'emailAddress', errors)
+    FieldValidator(this.emailAddress, 'EmailAddress', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourEmailAddress)
       .isLessThanLength(100)
       .isEmail()
