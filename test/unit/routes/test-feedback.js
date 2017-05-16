@@ -11,7 +11,8 @@ describe('routes/feedback', function () {
   const ROUTE = `/feedback`
   const VALID_DATA = {
     rating: 'satisfied',
-    improvements: 'This is a test message'
+    improvements: 'This is a test message',
+    emailAddress: 'test@test.com'
   }
 
   var app
@@ -46,8 +47,8 @@ describe('routes/feedback', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(feedbackStub, VALID_DATA.rating, VALID_DATA.improvements)
-          sinon.assert.calledWith(insertTaskStub, null, null, null, TaskEnums.FEEDBACK_SUBMITTED, `${VALID_DATA.rating}~~${VALID_DATA.improvements}`)
+          sinon.assert.calledWith(feedbackStub, VALID_DATA.rating, VALID_DATA.improvements, VALID_DATA.emailAddress)
+          sinon.assert.calledWith(insertTaskStub, null, null, null, TaskEnums.FEEDBACK_SUBMITTED, `${VALID_DATA.rating}~~${VALID_DATA.improvements}~~${VALID_DATA.emailAddress}`)
         })
     })
 

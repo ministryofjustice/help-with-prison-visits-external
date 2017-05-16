@@ -11,8 +11,8 @@ module.exports = function (router) {
 
   router.post('/feedback', function (req, res, next) {
     try {
-      var feedback = new Feedback(req.body.rating, req.body.improvements)
-      insertTask(null, null, null, TaskEnums.FEEDBACK_SUBMITTED, `${feedback.rating}~~${feedback.improvements}`)
+      var feedback = new Feedback(req.body.rating, req.body.improvements, req.body.emailAddress)
+      insertTask(null, null, null, TaskEnums.FEEDBACK_SUBMITTED, `${feedback.rating}~~${feedback.improvements}~~${feedback.emailAddress}`)
         .then(function () {
           return res.redirect('/')
         })
@@ -21,7 +21,8 @@ module.exports = function (router) {
         return res.status(400).render('feedback', {
           errors: error.validationErrors,
           rating: req.body.rating,
-          improvements: req.body.improvements
+          improvements: req.body.improvements,
+          emailAddress: req.body.emailAddress
         })
       } else {
         next(error)
