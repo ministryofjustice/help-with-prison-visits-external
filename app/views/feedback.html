@@ -74,10 +74,10 @@ Give feedback - {{ serviceName }}
         <p>(Limit is 1200 characters)</p>
         <p>Please don't include any personal information or financial information, for example your National Insurance or bank details.</p>
 
-        <div class="form-group {% if errors['emailAddress'][0] %} error {% endif %}">
+        <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
           <label for="EmailAddress" class="form-label-bold">Email address (optional, include if you want us to get back to you)</label>
-          {% if errors['emailAddress'][0] %}
-            <span class="error-message" id="error-message-email-address">{{ errors['emailAddress'][0] }}</span>
+          {% if errors['EmailAddress'][0] %}
+            <span class="error-message" id="error-message-email-address">{{ errors['EmailAddress'][0] }}</span>
           {% endif %}
           <input id="EmailAddress" name="emailAddress" class="form-control" value="{{ emailAddress }}">
         </div>
