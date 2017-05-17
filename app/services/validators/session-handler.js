@@ -4,7 +4,7 @@ const decrypt = require('../../services/helpers/decrypt')
 const dateFormatter = require('../../services/date-formatter')
 const claimTypeEnum = require('../../constants/claim-type-enum')
 
-class sessionValidator {
+class sessionHandler {
   static validateData (session) {
     if (session['dobEncoded'] && session['dobEncoded'] != null) {
       var dob = dateFormatter.decodeDate(session['dobEncoded'])
@@ -66,28 +66,7 @@ class sessionValidator {
     }
   }
 
-  static getErrorPath (session, url) {
-    var splitUrl = url.split('/')
-    var claimType = splitUrl[2]
-
-    if (claimType !== claimTypeEnum.FIRST_TIME ||
-        claimType !== claimTypeEnum.REPEAT_CLAIM ||
-        claimType !== claimTypeEnum.REPEAT_DUPLICATE ||
-        claimType !== claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
-      if (session['claimType'] && session['claimType'] != null) {
-        claimType = session['claimType']
-      }
-    }
-
-    var path = '/start-already-registered?error=expired'
-    if (claimType === claimTypeEnum.FIRST_TIME) {
-      path = `/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth?error=expired`
-    }
-
-    return path
-  }
-
-  static checkDependencies (session, url, path) {
+  static checkDependencies (session, url) {
     var splitUrl = url.split('/')
     var page = splitUrl.pop(-1)
 
@@ -96,55 +75,73 @@ class sessionValidator {
       page = tempPage[0]
     }
 
+    if (page === 'start' ||
+        page === 'start-already-registered' ||
+        page === 'date-of-birth') {
+      console.log(page)
+    }
+
     if (page === 'prisoner-relationship') {
       if (!session['dobEncoded']) {
-        return [false, path]
+        return false
       } else {
-        return [true, path]
+        return true
       }
-    } else if (page === 'benefits') {
+    }
+
+    if (page === 'benefits') {
       if (!session['dobEncoded'] ||
           !session['relationship']) {
-        return [false, path]
+        return false
       } else {
-        return [true, path]
+        return true
       }
-    } else if (page === 'about-the-prisoner') {
+    }
+
+    if (page === 'about-the-prisoner') {
       if (!session['dobEncoded'] ||
           !session['relationship'] ||
           !session['benefit']) {
-        return [false, path]
+        return false
       } else {
-        return [true, path]
+        return true
       }
-    } else if (page === 'about-you') {
+    }
+
+    if (page === 'about-you') {
       if (!session['dobEncoded'] ||
           !session['relationship'] ||
           !session['benefit'] ||
           !session['referenceId'] ||
           !session['decryptedRef']) {
-        return [false, path]
+        return false
       } else {
-        return [true, path]
+        return true
       }
-    } else if (page === 'future-or-past-visit') {
+    }
+
+    if (page === 'future-or-past-visit') {
       if (!session['referenceId'] ||
           !session['decryptedRef'] ||
           !session['claimType']) {
-        return [false, path]
+        return false
       } else {
-        return [true, path]
+        return true
       }
-    } else if (page === 'journey-information') {
+    }
+
+    if (page === 'journey-information') {
       if (!session['referenceId'] ||
           !session['decryptedRef'] ||
           !session['claimType'] ||
           !session['advanceOrPast']) {
-        return [false, path]
+        return false
       } else {
-        return [true, path]
+        return true
       }
-    } else if (page === 'has-escort' ||
+    }
+
+    if (page === 'has-escort' ||
         page === 'about-escort' ||
         page === 'has-child' ||
         page === 'about-child' ||
@@ -167,49 +164,87 @@ class sessionValidator {
           !session['claimType'] ||
           !session['advanceOrPast'] ||
           !session['claimId']) {
-        return [false, path]
+        return false
       } else {
-        return [true, path]
+        return true
       }
-    } else if (page === 'file-upload') {
+    }
+
+    if (page === 'file-upload') {
       if (!session['decryptedRef'] ||
           !session['claimId']) {
-        return [false, path]
+        return false
       } else {
-        return [true, path]
+        return true
       }
-    } else if (page === 'your-claims') {
-      if (!session['dobEncoded'] ||
-          !session['decryptedRef']) {
-        return [false, path]
-      } else {
-        return [true, path]
-      }
-    } else if (page === 'view-claim' ||
+    }
+
+    if (page === 'view-claim' ||
                page === 'your-claims' ||
                page === 'update-contact-details' ||
                page === 'check-your-information') {
       if (!session['dobEncoded'] ||
           !session['decryptedRef']) {
-        return [false, path]
+        return false
       } else {
-        return [true, path]
+        return true
       }
-    } else if (page === 'same-journey-as-last-claim') {
+    }
+
+    if (page === 'same-journey-as-last-claim') {
       if (!session['claimType'] ||
           !session['referenceId'] ||
           !session['decryptedRef'] ||
           !session['advanceOrPast']) {
-        return [false, path]
+        return false
       } else {
-        return [true, path]
+        return true
       }
     }
   }
 }
 
 module.exports = function (session, url) {
-  sessionValidator.validateData(session)
-  var path = sessionValidator.getErrorPath(session, url)
-  return sessionValidator.checkDependencies(session, url, path)
+  sessionHandler.validateData(session)
+  return sessionHandler.checkDependencies(session, url)
+}
+
+module.exports.getErrorPath = function (session, url) {
+  var splitUrl = url.split('/')
+  var claimType = splitUrl[2]
+
+  if (claimType !== claimTypeEnum.FIRST_TIME ||
+      claimType !== claimTypeEnum.REPEAT_CLAIM ||
+      claimType !== claimTypeEnum.REPEAT_DUPLICATE ||
+      claimType !== claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
+    if (session['claimType'] && session['claimType'] != null) {
+      claimType = session['claimType']
+    }
+  }
+
+  var path = '/start-already-registered?error=expired'
+  if (claimType === claimTypeEnum.FIRST_TIME) {
+    path = `/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth?error=expired`
+  }
+
+  return path
+}
+
+module.exports.clearSession = function (session, url) {
+  var splitUrl = url.split('/')
+  var page = splitUrl.pop(-1)
+
+  if (page.includes('?')) {
+    var tempPage = page.split('?')
+    page = tempPage[0]
+  }
+
+  if (page === 'start' ||
+      page === 'start-already-registered' ||
+      page === 'date-of-birth' ||
+      page === 'application-submitted') {
+    session = null
+  }
+
+  return session
 }

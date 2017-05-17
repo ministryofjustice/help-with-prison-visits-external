@@ -11,16 +11,16 @@ const relationshipHelper = require('../../../constants/prisoner-relationships-en
 const dateFormatter = require('../../../services/date-formatter')
 const benefitsHelper = require('../../../constants/benefits-enum')
 const NORTHERN_IRELAND = 'Northern Ireland'
-const SessionValidator = require('../../../services/validators/session-validator')
+const SessionHandler = require('../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/about-you', function (req, res) {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     req.session.claimType = req.params.claimType
@@ -37,10 +37,10 @@ module.exports = function (router) {
   router.post('/apply/:claimType/new-eligibility/about-you', function (req, res, next) {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var dob = dateFormatter.decodeDate(req.session.dobEncoded)

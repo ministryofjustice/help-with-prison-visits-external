@@ -6,17 +6,17 @@ const ValidationError = require('../../services/errors/validation-error')
 const referenceIdHelper = require('../helpers/reference-id-helper')
 const displayHelper = require('../../views/helpers/display-helper')
 const prisonsHelper = require('../../constants/helpers/prisons-helper')
-const SessionValidator = require('../../services/validators/session-validator')
+const SessionHandler = require('../../services/validators/session-handler')
 
 const NORTHERN_IRELAND = 'Northern Ireland'
 
 module.exports = function (router) {
   router.get('/your-claims/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
@@ -39,10 +39,10 @@ module.exports = function (router) {
 
   router.post('/your-claims/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {

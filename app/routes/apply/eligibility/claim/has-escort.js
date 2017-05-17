@@ -2,15 +2,15 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const HasEscort = require('../../../../services/domain/has-escort')
 const ValidationError = require('../../../../services/errors/validation-error')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
-const SessionValidator = require('../../../../services/validators/session-validator')
+const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/has-escort', function (req, res) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     getIsAdvanceClaim(req.session.claimId)
@@ -26,10 +26,10 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/has-escort', function (req, res) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {

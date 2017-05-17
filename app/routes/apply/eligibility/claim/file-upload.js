@@ -16,7 +16,7 @@ const config = require('../../../../../config')
 const tasksEnum = require('../../../../constants/tasks-enum')
 const insertTask = require('../../../../services/data/insert-task')
 const logger = require('../../../../services/log')
-const SessionValidator = require('../../../../services/validators/session-validator')
+const SessionHandler = require('../../../../services/validators/session-handler')
 var path = require('path')
 var Promise = require('bluebird').Promise
 var fs = Promise.promisifyAll(require('fs'))
@@ -55,10 +55,10 @@ module.exports = function (router) {
 function get (req, res) {
   csrfToken = generateCSRFToken(req)
   UrlPathValidator(req.params)
-  var validatorResult = SessionValidator(req.session, req.url)
+  var isValidSession = SessionHandler(req.session, req.url)
 
-  if (!validatorResult[0]) {
-    return res.redirect(validatorResult[1])
+  if (!isValidSession) {
+    return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
   }
 
   setReferenceIds(req)
@@ -83,10 +83,10 @@ function get (req, res) {
 
 function post (req, res, next, redirectURL) {
   UrlPathValidator(req.params)
-  var validatorResult = SessionValidator(req.session, req.url)
+  var isValidSession = SessionHandler(req.session, req.url)
 
-  if (!validatorResult[0]) {
-    return res.redirect(validatorResult[1])
+  if (!isValidSession) {
+    return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
   }
 
   setReferenceIds(req)

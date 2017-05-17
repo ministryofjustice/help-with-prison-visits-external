@@ -7,15 +7,15 @@ const ClaimSummary = require('../../../../services/domain/claim-summary')
 const ValidationError = require('../../../../services/errors/validation-error')
 const benefitUploadNotRequired = require('../../../helpers/benefit-upload-not-required')
 const displayHelper = require('../../../../views/helpers/display-helper')
-const SessionValidator = require('../../../../services/validators/session-validator')
+const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/summary', function (req, res, next) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     getClaimSummary(req.session.claimId, req.session.claimType)
@@ -40,10 +40,10 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/summary', function (req, res, next) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var referenceId = req.session.referenceId

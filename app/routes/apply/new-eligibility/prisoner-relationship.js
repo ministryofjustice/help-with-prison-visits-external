@@ -2,15 +2,15 @@ const PrisonerRelationship = require('../../../services/domain/prisoner-relation
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const ValidationError = require('../../../services/errors/validation-error')
 const prisonerRelationshipEnum = require('../../../constants/prisoner-relationships-enum')
-const SessionValidator = require('../../../services/validators/session-validator')
+const SessionHandler = require('../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/prisoner-relationship', function (req, res) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     return res.render('apply/new-eligibility/prisoner-relationship', {
@@ -20,10 +20,10 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/new-eligibility/prisoner-relationship', function (req, res) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {

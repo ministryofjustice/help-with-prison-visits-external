@@ -4,15 +4,15 @@ const AboutThePrisoner = require('../../../services/domain/about-the-prisoner')
 const ValidationError = require('../../../services/errors/validation-error')
 const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
 const displayHelper = require('../../../views/helpers/display-helper')
-const SessionValidator = require('../../../services/validators/session-validator')
+const SessionHandler = require('../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     return res.render('apply/new-eligibility/about-the-prisoner', {
@@ -24,10 +24,10 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res, next) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var prisoner = req.body

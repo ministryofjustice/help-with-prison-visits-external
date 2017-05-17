@@ -4,16 +4,16 @@ const expenseUrlRouter = require('../../../../services/routing/expenses-url-rout
 const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimSummary = require('../../../../services/data/get-claim-summary')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
-const SessionValidator = require('../../../../services/validators/session-validator')
+const SessionHandler = require('../../../../services/validators/session-handler')
 const NORTHERN_IRELAND = 'Northern Ireland'
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/expenses', function (req, res) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     getClaimSummary(req.session.claimId, req.session.claimType)
@@ -35,10 +35,10 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/expenses', function (req, res) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {

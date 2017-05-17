@@ -3,15 +3,15 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const ValidationError = require('../../../../services/errors/validation-error')
 const insertChild = require('../../../../services/data/insert-child')
-const SessionValidator = require('../../../../services/validators/session-validator')
+const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/about-child', function (req, res) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     return res.render('apply/eligibility/claim/about-child', {
@@ -23,10 +23,10 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/about-child', function (req, res, next) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)

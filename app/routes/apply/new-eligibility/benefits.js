@@ -1,15 +1,15 @@
 const Benefits = require('../../../services/domain/benefits')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
-const SessionValidator = require('../../../services/validators/session-validator')
+const SessionHandler = require('../../../services/validators/session-handler')
 const ValidationError = require('../../../services/errors/validation-error')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/benefits', function (req, res) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     return res.render('apply/new-eligibility/benefits', {
@@ -19,10 +19,10 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/new-eligibility/benefits', function (req, res) {
     UrlPathValidator(req.params)
-    var validatorResult = SessionValidator(req.session, req.url)
+    var isValidSession = SessionHandler(req.session, req.url)
 
-    if (!validatorResult[0]) {
-      return res.redirect(validatorResult[1])
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {
