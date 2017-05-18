@@ -13,7 +13,7 @@ const NORTHERN_IRELAND = 'Northern Ireland'
 module.exports = function (router) {
   router.get('/your-claims/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler(req.session, req.url)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -39,7 +39,7 @@ module.exports = function (router) {
 
   router.post('/your-claims/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler(req.session, req.url)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))

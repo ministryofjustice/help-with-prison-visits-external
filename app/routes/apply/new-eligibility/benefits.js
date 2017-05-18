@@ -6,7 +6,7 @@ const ValidationError = require('../../../services/errors/validation-error')
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/benefits', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler(req.session, req.url)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -19,7 +19,7 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/new-eligibility/benefits', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler(req.session, req.url)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))

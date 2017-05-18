@@ -55,7 +55,7 @@ module.exports = function (router) {
 function get (req, res) {
   csrfToken = generateCSRFToken(req)
   UrlPathValidator(req.params)
-  var isValidSession = SessionHandler(req.session, req.url)
+  var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
   if (!isValidSession) {
     return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -83,7 +83,7 @@ function get (req, res) {
 
 function post (req, res, next, redirectURL) {
   UrlPathValidator(req.params)
-  var isValidSession = SessionHandler(req.session, req.url)
+  var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
   if (!isValidSession) {
     return res.redirect(SessionHandler.getErrorPath(req.session, req.url))

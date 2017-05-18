@@ -17,7 +17,7 @@ module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/about-you', function (req, res) {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
-    var isValidSession = SessionHandler(req.session, req.url)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -37,7 +37,7 @@ module.exports = function (router) {
   router.post('/apply/:claimType/new-eligibility/about-you', function (req, res, next) {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
-    var isValidSession = SessionHandler(req.session, req.url)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))

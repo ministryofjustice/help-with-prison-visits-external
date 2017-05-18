@@ -7,7 +7,7 @@ const SessionHandler = require('../../services/validators/session-handler')
 module.exports = function (router) {
   router.get('/your-claims/update-contact-details', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler(req.session, req.url)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -20,7 +20,7 @@ module.exports = function (router) {
 
   router.post('/your-claims/update-contact-details', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler(req.session, req.url)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
