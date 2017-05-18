@@ -2,19 +2,15 @@ const UrlPathValidator = require('../../services/validators/url-path-validator')
 const UpdatedContactDetails = require('../../services/domain/updated-contact-details')
 const ValidationError = require('../../services/errors/validation-error')
 const insertEligibilityVisitorUpdatedContactDetail = require('../../services/data/insert-eligibility-visitor-updated-contact-detail')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionHandler = require('../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/your-claims/update-contact-details', function (req, res) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.decryptedRef ||
-        !req.session.prisonerNumber ||
-        !req.session.eligibilityId) {
-      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     return res.render('your-claims/update-contact-details', {
@@ -24,13 +20,10 @@ module.exports = function (router) {
 
   router.post('/your-claims/update-contact-details', function (req, res, next) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.decryptedRef ||
-        !req.session.prisonerNumber ||
-        !req.session.eligibilityId) {
-      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {

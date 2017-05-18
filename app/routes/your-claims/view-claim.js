@@ -67,16 +67,17 @@ module.exports = function (router) {
 
   router.post('/your-claims/:claimId', function (req, res, next) {
     UrlPathValidator(req.params)
-    var SortCode = req.body['SortCode']
-    var AccountNumber = req.body['AccountNumber']
-    var message = req.body['message-to-caseworker']
-    var assistedDigitalCookie = req.cookies['apvs-assisted-digital']
 
     if (!req.session ||
         !req.session.dobEncoded ||
         !req.session.decryptedRef) {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
+
+    var SortCode = req.body['SortCode']
+    var AccountNumber = req.body['AccountNumber']
+    var message = req.body['message-to-caseworker']
+    var assistedDigitalCookie = req.cookies['apvs-assisted-digital']
 
     req.session.claimId = req.params.claimId
 

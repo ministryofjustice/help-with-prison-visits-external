@@ -5,19 +5,15 @@ const claimTypeEnum = require('../../../../constants/claim-type-enum')
 const NewClaim = require('../../../../services/domain/new-claim')
 const insertNewClaim = require('../../../../services/data/insert-new-claim')
 const insertRepeatDuplicateClaim = require('../../../../services/data/insert-repeat-duplicate-claim')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/new-claim/journey-information', function (req, res) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.advanceOrPast) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     return res.render('apply/eligibility/new-claim/journey-information', {
@@ -29,13 +25,10 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/new-claim/journey-information', function (req, res, next) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.advanceOrPast) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)

@@ -2,16 +2,15 @@ const PrisonerRelationship = require('../../../services/domain/prisoner-relation
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const ValidationError = require('../../../services/errors/validation-error')
 const prisonerRelationshipEnum = require('../../../constants/prisoner-relationships-enum')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionHandler = require('../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/prisoner-relationship', function (req, res) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.dobEncoded) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     return res.render('apply/new-eligibility/prisoner-relationship', {
@@ -21,10 +20,10 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/new-eligibility/prisoner-relationship', function (req, res) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.dobEncoded) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {

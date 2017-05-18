@@ -1,22 +1,14 @@
 const ERROR_MESSAGES = require('../services/validators/validation-error-messages')
 const claimTypeEnum = require('../constants/claim-type-enum')
+const SessionHandler = require('../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/start', function (req, res) {
     var errors
 
-    if ((req.query.error === 'expired')) {
-      req.session.dobEncoded = null
-      req.session.relationship = null
-      req.session.benefit = null
-      req.session.referenceId = null
-      req.session.decryptedRef = null
-      req.session.claimType = null
-      req.session.advanceOrPast = null
-      req.session.claimId = null
-      req.session.advanceOrPast = null
-      req.session.prisonerNumber = null
+    req.session = SessionHandler.clearSession(req.session, req.url)
 
+    if ((req.query.error === 'expired')) {
       errors = { expired: [ ERROR_MESSAGES.getExpiredSession ] }
     }
 

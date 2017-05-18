@@ -11,24 +11,19 @@ const relationshipHelper = require('../../../constants/prisoner-relationships-en
 const dateFormatter = require('../../../services/date-formatter')
 const benefitsHelper = require('../../../constants/benefits-enum')
 const NORTHERN_IRELAND = 'Northern Ireland'
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionHandler = require('../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/about-you', function (req, res) {
     UrlPathValidator(req.params)
+    req.session.claimType = req.params.claimType
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
+    }
 
     req.session.claimType = req.params.claimType
-
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.relationship ||
-        !req.session.benefit ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.claimType) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
-    }
 
     return res.render('apply/new-eligibility/about-you', {
       claimType: req.session.claimType,
@@ -41,17 +36,11 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/new-eligibility/about-you', function (req, res, next) {
     UrlPathValidator(req.params)
-
     req.session.claimType = req.params.claimType
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.relationship ||
-        !req.session.benefit ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.claimType) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var dob = dateFormatter.decodeDate(req.session.dobEncoded)

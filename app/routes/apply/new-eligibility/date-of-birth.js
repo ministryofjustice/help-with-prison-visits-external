@@ -2,24 +2,16 @@ const DateOfBirth = require('../../../services/domain/date-of-birth')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const ValidationError = require('../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../services/validators/validation-error-messages')
+const SessionHandler = require('../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/date-of-birth', function (req, res) {
     UrlPathValidator(req.params)
     var errors
 
-    if ((req.query.error === 'expired')) {
-      req.session.dobEncoded = null
-      req.session.relationship = null
-      req.session.benefit = null
-      req.session.referenceId = null
-      req.session.decryptedRef = null
-      req.session.claimType = null
-      req.session.advanceOrPast = null
-      req.session.claimId = null
-      req.session.advanceOrPast = null
-      req.session.prisonerNumber = null
+    req.session = SessionHandler.clearSession(req.session, req.url)
 
+    if ((req.query.error === 'expired')) {
       errors = { expired: [ ERROR_MESSAGES.getExpiredSessionDOB ] }
     }
 

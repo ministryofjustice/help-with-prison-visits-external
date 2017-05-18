@@ -1,20 +1,15 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const HasChild = require('../../../../services/domain/has-child')
 const ValidationError = require('../../../../services/errors/validation-error')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/has-child', function (req, res) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.advanceOrPast ||
-        !req.session.claimId) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     return res.render('apply/eligibility/claim/has-child', {
@@ -26,14 +21,10 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/has-child', function (req, res) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.claimType ||
-        !req.session.referenceId ||
-        !req.session.decryptedRef ||
-        !req.session.advanceOrPast ||
-        !req.session.claimId) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {

@@ -1,24 +1,17 @@
 const AlreadyRegistered = require('../services/domain/already-registered')
 const ValidationError = require('../services/errors/validation-error')
 const ERROR_MESSAGES = require('../services/validators/validation-error-messages')
+const SessionHandler = require('../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/start-already-registered', function (req, res) {
     var errors
+
+    req.session = SessionHandler.clearSession(req.session, req.url)
+
     if (req.query.error === 'yes') {
       errors = { invalidReferenceNumberAndDob: [ ERROR_MESSAGES.getInvalidReferenceNumberAndDob ] }
     } else if ((req.query.error === 'expired')) {
-      req.session.dobEncoded = null
-      req.session.relationship = null
-      req.session.benefit = null
-      req.session.referenceId = null
-      req.session.decryptedRef = null
-      req.session.claimType = null
-      req.session.advanceOrPast = null
-      req.session.claimId = null
-      req.session.advanceOrPast = null
-      req.session.prisonerNumber = null
-
       errors = { expired: [ ERROR_MESSAGES.getExpiredSession ] }
     }
     return res.render('start-already-registered', { errors: errors, recovery: req.query.recovery })

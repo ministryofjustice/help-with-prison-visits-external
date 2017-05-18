@@ -9,8 +9,7 @@ const insertCarExpenses = require('../../../../services/data/insert-car-expenses
 const claimTypeEnum = require('../../../../constants/claim-type-enum')
 const displayHelper = require('../../../../views/helpers/display-helper')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/car', function (req, res, next) {
@@ -32,16 +31,13 @@ module.exports = function (router) {
 
 function get (carOnly, req, res, next) {
   UrlPathValidator(req.params)
-  var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+  var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-  if (!req.session ||
-      !req.session.claimType ||
-      !req.session.referenceId ||
-      !req.session.decryptedRef ||
-      !req.session.advanceOrPast ||
-      !req.session.claimId) {
-    return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+  if (!isValidSession) {
+    return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
   }
+
+  var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
   getIsAdvanceClaim(req.session.claimId)
     .then(function (isAdvanceClaim) {
@@ -88,14 +84,10 @@ function get (carOnly, req, res, next) {
 
 function post (carOnly, req, res, next) {
   UrlPathValidator(req.params)
+  var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-  if (!req.session ||
-      !req.session.claimType ||
-      !req.session.referenceId ||
-      !req.session.decryptedRef ||
-      !req.session.advanceOrPast ||
-      !req.session.claimId) {
-    return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+  if (!isValidSession) {
+    return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
   }
 
   var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)

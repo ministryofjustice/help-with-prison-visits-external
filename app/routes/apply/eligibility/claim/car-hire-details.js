@@ -5,20 +5,15 @@ const expenseUrlRouter = require('../../../../services/routing/expenses-url-rout
 const HireExpense = require('../../../../services/domain/expenses/hire-expense')
 const insertExpense = require('../../../../services/data/insert-expense')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/hire', function (req, res) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-      !req.session.claimType ||
-      !req.session.referenceId ||
-      !req.session.decryptedRef ||
-      !req.session.advanceOrPast ||
-      !req.session.claimId) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     getIsAdvanceClaim(req.session.claimId)
@@ -36,13 +31,10 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/hire', function (req, res, next) {
     UrlPathValidator(req.params)
-    if (!req.session ||
-      !req.session.claimType ||
-      !req.session.referenceId ||
-      !req.session.decryptedRef ||
-      !req.session.advanceOrPast ||
-      !req.session.claimId) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)

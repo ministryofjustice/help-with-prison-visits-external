@@ -6,20 +6,15 @@ const FerryExpense = require('../../../../services/domain/expenses/ferry-expense
 const insertExpense = require('../../../../services/data/insert-expense')
 const getExpenseOwnerData = require('../../../../services/data/get-expense-owner-data')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
+const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/ferry', function (req, res) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-      !req.session.claimType ||
-      !req.session.referenceId ||
-      !req.session.decryptedRef ||
-      !req.session.advanceOrPast ||
-      !req.session.claimId) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
@@ -42,14 +37,10 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/ferry', function (req, res, next) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-      !req.session.claimType ||
-      !req.session.referenceId ||
-      !req.session.decryptedRef ||
-      !req.session.advanceOrPast ||
-      !req.session.claimId) {
-      return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)

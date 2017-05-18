@@ -6,18 +6,17 @@ const ValidationError = require('../../services/errors/validation-error')
 const referenceIdHelper = require('../helpers/reference-id-helper')
 const displayHelper = require('../../views/helpers/display-helper')
 const prisonsHelper = require('../../constants/helpers/prisons-helper')
+const SessionHandler = require('../../services/validators/session-handler')
 
 const NORTHERN_IRELAND = 'Northern Ireland'
-const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/your-claims/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.decryptedRef) {
-      return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
@@ -40,14 +39,13 @@ module.exports = function (router) {
 
   router.post('/your-claims/check-your-information', function (req, res, next) {
     UrlPathValidator(req.params)
+    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
+    }
 
     try {
-      if (!req.session ||
-          !req.session.dobEncoded ||
-          !req.session.decryptedRef) {
-        return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
-      }
-
       var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
       req.session.eligibilityId = req.body.EligibilityId

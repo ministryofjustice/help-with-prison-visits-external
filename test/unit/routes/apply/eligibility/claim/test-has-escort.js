@@ -76,7 +76,7 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
+        .expect('location', `/start-already-registered?error=expired`)
     })
 
     it('should respond redirect to child page if hasEscort equals yes', function () {

@@ -81,7 +81,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
+        .expect('location', `/start-already-registered?error=expired`)
     })
 
     it('should redirect to expenses page if add-another-child is set to no', function () {

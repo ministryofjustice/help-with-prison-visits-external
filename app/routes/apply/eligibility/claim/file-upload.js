@@ -16,12 +16,11 @@ const config = require('../../../../../config')
 const tasksEnum = require('../../../../constants/tasks-enum')
 const insertTask = require('../../../../services/data/insert-task')
 const logger = require('../../../../services/log')
+const SessionHandler = require('../../../../services/validators/session-handler')
 var path = require('path')
 var Promise = require('bluebird').Promise
 var fs = Promise.promisifyAll(require('fs'))
 var csrfToken
-
-const REFERENCE_SESSION_ERROR = '?error=expired'
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/summary/file-upload', function (req, res) {
@@ -56,15 +55,13 @@ module.exports = function (router) {
 function get (req, res) {
   csrfToken = generateCSRFToken(req)
   UrlPathValidator(req.params)
-  setReferenceIds(req)
+  var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-  if (!req.session ||
-      !req.session.referenceId ||
-      !req.session.decryptedRef ||
-      !req.session.claimId) {
-    console.log(req.session)
-    return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+  if (!isValidSession) {
+    return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
   }
+
+  setReferenceIds(req)
 
   if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
     var decryptedRef = decrypt(req.session.referenceId)
@@ -86,15 +83,13 @@ function get (req, res) {
 
 function post (req, res, next, redirectURL) {
   UrlPathValidator(req.params)
-  setReferenceIds(req)
+  var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-  if (!req.session ||
-      !req.session.referenceId ||
-      !req.session.decryptedRef ||
-      !req.session.claimId) {
-    console.log(req.session)
-    return res.redirect(`/apply/first-time/new-eligibility/date-of-birth${REFERENCE_SESSION_ERROR}`)
+  if (!isValidSession) {
+    return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
   }
+
+  setReferenceIds(req)
 
   Upload(req, res, function (error) {
     try {
