@@ -17,6 +17,11 @@
       {{ fileUploadGuidingText[document].title }}
       </h1>
       <p>{{ fileUploadGuidingText[document].guidingText }}</p>
+      {% if fileUploadGuidingText[document].displayDataProtection %}
+      <p>
+        We ask you to provide this information in order to assess your eligibility to apply for financial assistance. The information you provide will be managed in accordance with our <a href="/terms-and-conditions">terms and conditions</a>.
+      </p>
+      {% endif %}
 
       <h2 id="upload" class="heading-medium">Upload now</h2>
       <p>Your claim will be processed faster if you upload your document.</p>
