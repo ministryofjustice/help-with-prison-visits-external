@@ -25,7 +25,7 @@
           {% if errors['EmailAddress'][0] %}
             <span class="error-message" id="error-message-email">{{ errors['EmailAddress'][0] }}</span>
           {% endif %}
-          <input name="EmailAddress" class="form-control" value="{{ recovery['EmailAddress'] }}">
+          <input name="EmailAddress" autocomplete="off" class="form-control" value="{{ recovery['EmailAddress'] }}">
         </div>
 
         <div id="PrisonerNumber" class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
@@ -34,7 +34,7 @@
           {% if errors['PrisonerNumber'][0] %}
             <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
           {% endif %}
-          <input name="PrisonerNumber" class="form-control" value="{{ recovery['PrisonerNumber'] }}">
+          <input name="PrisonerNumber" autocomplete="off" class="form-control" value="{{ recovery['PrisonerNumber'] }}">
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}

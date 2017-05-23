@@ -38,6 +38,7 @@
             <p class="form-hint">For example, 10am</p>
             <input id="departure-time-input"
                    type="text"
+                   autocomplete="off"
                    name="departure-time"
                    value="{{ expense['departure-time'] }}"
                    class="form-control">
@@ -59,7 +60,7 @@
                   <span class="error-message">{{ errors['return-time'][0] }}</span>
                 {% endif %}
               <p class="form-hint">For example, 4pm</p>
-              <input id="return-time-input" name="return-time-input" type="text" class="form-control">
+              <input id="return-time-input" name="return-time-input" type="text" autocomplete="off" class="form-control">
 
             </div>
           </div>
@@ -78,6 +79,7 @@
               <span>£</span>
               <input id="cost-input"
                      type="text"
+                     autocomplete="off"
                      name="cost"
                      value="{{ expense['cost'] }}"
                      class="form-control">

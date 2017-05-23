@@ -41,6 +41,7 @@
           <label class="form-label-bold" for="from">From</label>
           <input id="from"
                  type="text"
+                 autocomplete="off"
                  name="from"
                  value="{{ expense['from'] }}"
                  class="form-control"
@@ -51,6 +52,7 @@
           <label class="form-label-bold" for="to-display">To</label>
           <input id="to-display"
                  name="to-display"
+                 autocomplete="off"
                  class="form-control"
                  value="{{ displayHelper.getPrisonDisplayName(expense['to']) }}"
                  readonly>
@@ -80,6 +82,7 @@
             <input id="destination-input"
                    type="text"
                    name="destination"
+                   autocomplete="off"
                    value="{{ expense['destination'] }}"
                    class="form-control">
           </div>
@@ -93,6 +96,7 @@
             <input id="postcode-input"
                    type="text"
                    name="PostCode"
+                   autocomplete="off"
                    value="{{ expense['PostCode'] }}"
                    class="form-control">
           </div>
@@ -120,6 +124,7 @@
               <span>£</span>
               <input id="toll-cost-input"
                      type="text"
+                     autocomplete="off"
                      name="toll-cost"
                      value="{{ expense['toll-cost'] }}"
                      class="form-control">
@@ -147,6 +152,7 @@
               <span>£</span>
               <input id="parking-charge-cost-input"
                      type="text"
+                     autocomplete="off"
                      name="parking-charge-cost"
                      value="{{ expense['parking-charge-cost'] }}"
                      class="form-control">
