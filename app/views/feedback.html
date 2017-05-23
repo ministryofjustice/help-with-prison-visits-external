@@ -79,7 +79,7 @@ Give feedback - {{ serviceName }}
           {% if errors['EmailAddress'][0] %}
             <span class="error-message" id="error-message-email-address">{{ errors['EmailAddress'][0] }}</span>
           {% endif %}
-          <input id="EmailAddress" name="emailAddress" class="form-control" value="{{ emailAddress }}">
+          <input id="EmailAddress" autocomplete="off" name="emailAddress" class="form-control" value="{{ emailAddress }}">
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}

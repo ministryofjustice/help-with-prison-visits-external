@@ -26,7 +26,7 @@ Ask for help - {{ serviceName }}
           {% if errors['name'][0] %}
             <span class="error-message" id="error-message-name">{{ errors['name'][0] }}</span>
           {% endif %}
-          <input id="name" name="name" class="form-control" value="{{ help['name'] }}">
+          <input id="name" autocomplete="off" name="name" class="form-control" value="{{ help['name'] }}">
         </div>
 
         <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
@@ -34,7 +34,7 @@ Ask for help - {{ serviceName }}
           {% if errors['EmailAddress'][0] %}
             <span class="error-message" id="error-message-email-address">{{ errors['EmailAddress'][0] }}</span>
           {% endif %}
-          <input id="EmailAddress" name="emailAddress" class="form-control" value="{{ help['emailAddress'] }}">
+          <input id="EmailAddress" autocomplete="off" name="emailAddress" class="form-control" value="{{ help['emailAddress'] }}">
         </div>
 
         <p id="issue" class="heading-small">Describe what you'd like to talk about</p>

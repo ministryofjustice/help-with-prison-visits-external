@@ -30,6 +30,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
                  name="FirstName"
                  value="{{ prisoner['FirstName'] }}"
                  type="text"
+                 autocomplete="off"
                  class="form-control">
         </div>
 
@@ -42,6 +43,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
                  name="LastName"
                  value="{{ prisoner['LastName'] }}"
                  type="text"
+                 autocomplete="off"
                  class="form-control">
         </div>
 
@@ -63,6 +65,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
                        name="dob-day"
                        value="{{ prisoner['dob-day'] }}"
                        type="number"
+                       autocomplete="off"
                        class="form-control">
               </div>
 
@@ -72,6 +75,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
                        name="dob-month"
                        value="{{ prisoner['dob-month'] }}"
                        type="number"
+                       autocomplete="off"
                        class="form-control">
               </div>
 
@@ -81,6 +85,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
                        name="dob-year"
                        value="{{ prisoner['dob-year'] }}"
                        type="number"
+                       autocomplete="off"
                        class="form-control">
               </div>
             </div>
@@ -100,6 +105,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
                  name="PrisonerNumber"
                  value="{{ prisoner['PrisonerNumber'] }}"
                  type="text"
+                 autocomplete="off"
                  class="form-control">
         {% else %}
           <span>{{ prisonerNumber }}</span>

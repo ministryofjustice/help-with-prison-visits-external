@@ -52,6 +52,7 @@ Payment details and declaration - {{ serviceName }}
                   <input id="account-number-input"
                          name="AccountNumber"
                          type="text"
+                         autocomplete="off"
                          class="form-control"
                          value="{{ paymentDetails['AccountNumber'] }}">
                 </div>
@@ -64,6 +65,7 @@ Payment details and declaration - {{ serviceName }}
                   <input id="sort-code-input"
                          name="SortCode"
                          type="text"
+                         autocomplete="off"
                          class="form-control"
                          value="{{ paymentDetails['SortCode'] }}">
                 </div>
