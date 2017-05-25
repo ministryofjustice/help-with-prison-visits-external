@@ -15,10 +15,6 @@ module.exports = {
   RATE_LIMITING_WINDOW_MILLISECONDS: process.env.RATE_LIMITING_WINDOW_MILLISECONDS || '1000',
   RATE_LIMITING_REQUEST_LIMIT: process.env.RATE_LIMITING_REQUEST_LIMIT || '100',
 
-  // Session cookie
-  SESSION_COOKIE_SECRET: process.env.SESSION_COOKIE_SECRET || 'apvs-external-web',
-  SESSION_COOKIE_MAXAGE: process.env.SESSION_COOKIE_MAXAGE || '1200000', // 20 min default
-
   // DB
   DATABASE_SERVER: process.env.APVS_DATABASE_SERVER,
   DATABASE: process.env.APVS_DATABASE,
@@ -35,8 +31,9 @@ module.exports = {
   FILE_UPLOAD_MAXSIZE: process.env.FILE_UPLOAD_MAXSIZE || '5242880', // 5MB in Bytes.
 
   // Session and Cookie security (defaults for development)
-  EXT_APPLICATION_SECRET: process.env.APVS_EXT_APPLICATION_SECRET || 'secret',
+  EXT_APPLICATION_SECRET: process.env.APVS_EXT_APPLICATION_SECRET, // NO DEFAULT FOR SECURITY REASONS, WILL FAIL IF NOT SET
   EXT_SECURE_COOKIE: process.env.APVS_EXT_SECURE_COOKIE || 'false',
+  EXT_SESSION_COOKIE_MAXAGE: process.env.APVS_EXT_SESSION_COOKIE_MAXAGE || '1200000', // 20 min default
 
   // Common salt used for hashing reference ids (32 chars)
   EXT_REFERENCE_SALT: process.env.APVS_EXT_REFERENCE_SALT || 'c1e59a204dd1b24c7130817b834eec69',
