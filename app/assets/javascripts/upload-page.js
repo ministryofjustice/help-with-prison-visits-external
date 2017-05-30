@@ -7,4 +7,6 @@ $('#document').change(function () {
     $('#label').hide()
     $('#remove-file-upload').show()
   }
+
+  $('.error-summary').hide()
 })
