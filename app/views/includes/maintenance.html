@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-Temporarily down for maintenance - {{ serviceName }}
+{{ __('Temporarily down for maintenance') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -13,9 +13,9 @@ Temporarily down for maintenance - {{ serviceName }}
   <div class="grid-row">
     <div class="column-two-thirds">
 
-      <h1 class="heading-large">Temporarily down for maintenance</h1>
-      <p>We are currently performing system maintenance</p>
-      <p>We should be back online shortly.</p>
+      <h1 class="heading-large">{{ __('Temporarily down for maintenance') }}</h1>
+      <p>{{ __('We are currently performing system maintenance') }}</p>
+      <p>{{ __('We should be back online shortly.') }}</p>
 
     </div>
   </div>

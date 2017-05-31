@@ -2,13 +2,13 @@
 <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
 
   <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
-    There was a problem
+    {{ __('There was a problem') }}
   </h1>
 
   <ul class="error-summary-list">
     {% for field, messages in errors %}
       {% if messages[0] %}
-        <li><a href="#{{ field }}">{{ messages[0] }}</a></li>
+        <li><a href="#{{ field }}">{{ __(messages[0]) }}</a></li>
       {% endif %}
     {% endfor %}
   </ul>

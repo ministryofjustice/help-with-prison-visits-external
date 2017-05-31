@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-Not Eligible - {{ serviceName }}
+{{ __('Not Eligible') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -14,20 +14,20 @@ Not Eligible - {{ serviceName }}
     <div class="column-two-thirds">
 
       <h1 class="heading-large">
-        You can’t apply this time
+        {{ __('You can’t apply this time') }}
       </h1>
 
-      <p>Based on the information you’ve given, you aren’t eligible for help with the cost of prison visits.</p>
+      <p>{{ __('Based on the information you’ve given, you aren’t eligible for help with the cost of prison visits.') }}</p>
 
       <p>
-        For more information about who can apply and what for see the <a target="_blank" href="https://www.gov.uk/government/publications/assisted-prison-visits-form">guide to applying</a>.
+        {{ __('For more information about who can apply and what for see the') }} <a target="_blank" href="https://www.gov.uk/government/publications/assisted-prison-visits-form">{{ __('guide to applying') }}</a>.
       </p>
 
       <p>
-        You can also <a target="_blank" href="/technical-help">contact the Assisted Prison Visits Unit for help</a>.
+        {{ __('You can also') }} <a target="_blank" href="/technical-help">{{ __('contact the Assisted Prison Visits Unit for help') }}</a>.
       </p>
 
-      <a href="https://www.gov.uk/">Continue to GOV.UK</a>
+      <a href="https://www.gov.uk/">{{ __('Continue to GOV.UK') }}</a>
 
     </div>
   </div>

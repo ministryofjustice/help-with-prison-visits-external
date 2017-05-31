@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Have you applied online for help visiting this prisoner before - {{ serviceName }}
+  {{ __('Have you applied online for help visiting this prisoner before') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,21 +16,21 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 id="start" class="heading-large">
-        Have you applied online for help visiting this prisoner before?
+        {{ __('Have you applied online for help visiting this prisoner before?') }}
       </h1>
 
       <form action="/start" method="post">
         <div class="form-group">
 
           <fieldset>
-            <legend class="visually-hidden">Have you applied online for help visiting this prisoner before?</legend>
+            <legend class="visually-hidden">{{ __('Have you applied online for help visiting this prisoner before?') }}</legend>
 
             <label for="yes" class="block-label">
               <input id="yes"
                      type="radio"
                      name="madeClaimForPrisonerBefore"
                      value="yes">
-              Yes
+              {{ __('Yes') }}
             </label>
 
             <label for="no" class="block-label">
@@ -38,7 +38,7 @@
                      type="radio"
                      name="madeClaimForPrisonerBefore"
                      value="no">
-              No
+              {{ __('No') }}
             </label>
 
           </fieldset>
@@ -48,7 +48,7 @@
 
         <input id="start-submit"
                type="submit"
-               value="Continue"
+               value="{{ __('Continue') }}"
                class="button">
       </form>
 
@@ -56,9 +56,9 @@
   </div>
 
   </br>
-  <div class="bold-small">Please note</div>
+  <div class="bold-small">{{ __('Please note') }}</div>
     <p class="note">
-      If you don’t enter any information for more than 20 minutes, your session will time out and you’ll need to start again.
+      {{ __('If you don’t enter any information for more than 20 minutes, your session will time out and you’ll need to start again.') }}
     </p>
   </div>
 

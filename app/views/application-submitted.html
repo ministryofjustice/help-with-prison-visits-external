@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-Application submitted - {{ serviceName }}
+{{ __('Application submitted') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -14,45 +14,45 @@ Application submitted - {{ serviceName }}
     <div class="column-two-thirds">
 
       <div class="govuk-box-highlight">
-        <h1 class="bold-large">Application submitted</h1>
+        <h1 class="bold-large">{{ __('Application submitted') }}</h1>
         <p class="lede">
-          Your reference number is <br>
+          {{ __('Your reference number is') }} <br>
           <strong id="reference" class="heading-medium">{{reference}}</strong>
         </p>
-        <p class="lede">You will need this reference number for further claims or if you need to contact us
+        <p class="lede">{{ __('You will need this reference number for further claims or if you need to contact us') }}
         </p>
       </div>
 
-      <p>If you have chosen to upload or post any documentation later this should be done within 7 days.</p>
+      <p>{{ __('If you have chosen to upload or post any documentation later this should be done within 7 days.') }}</p>
 
-      <p>We have sent your application confirmation by email.</p>
+      <p>{{ __('We have sent your application confirmation by email.') }}</p>
 
-      <a href="/start-already-registered">Check progress on your claim</a>
+      <a href="/start-already-registered">{{ __('Check progress on your claim') }}</a>
 
-      <h2 class="heading-medium">What happens next</h2>
+      <h2 class="heading-medium">{{ __('What happens next') }}</h2>
 
-      <p>The Assisted Prison Visits Unit will email you within 5 working days.</p>
+      <p>{{ __('The Assisted Prison Visits Unit will email you within 5 working days.') }}</p>
 
       {% if advanceOrPast == 'advance' %}
-        <p>If your claim is approved you will receive:</p>
+        <p>{{ __('If your claim is approved you will receive:') }}</p>
 
         <ul class=" list list-bullet">
-          <li>a FastTicket reference number if you’ve chosen train travel</li>
-          <li>money by your chosen method for other travel and expenses</li>
+          <li>{{ __('a FastTicket reference number if you’ve chosen train travel') }}</li>
+          <li>{{ __('money by your chosen method for other travel and expenses') }}</li>
         </ul>
 
-        <p>Once you’ve made your visit you’ll be asked to send your completed visit confirmation form.</p>
+        <p>{{ __('Once you’ve made your visit you’ll be asked to send your completed visit confirmation form.') }}</p>
 
-        <p>If you don’t make the visit you may need to refund the cost of your travel.</p>
+        <p>{{ __('If you don’t make the visit you may need to refund the cost of your travel.') }}</p>
 
       {% endif %}
 
       <div class="download-confirmation-form">
-        <a href="https://www.gov.uk/government/publications/assisted-prison-visits-form">Download a confirmation of visit form</a>
+        <a href="https://www.gov.uk/government/publications/assisted-prison-visits-form">{{ __('Download a confirmation of visit form') }}</a>
       </div>
 
       <div class="print-page">
-        <a class="print-link" href="#">Print this page</a>
+        <a class="print-link" href="#">{{ __('Print this page') }}</a>
       </div>
     </div>
 

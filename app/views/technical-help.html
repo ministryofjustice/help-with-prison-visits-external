@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-Ask for help - {{ serviceName }}
+{{ __('Ask for help') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -15,14 +15,14 @@ Ask for help - {{ serviceName }}
 
       {% include "includes/validation-error-messages.html" %}
 
-      <h1 class="heading-xlarge">Ask for help</h1>
+      <h1 class="heading-xlarge">{{ __('Ask for help') }}</h1>
 
-      <p>Enter your name, email address and a brief description of what you need help with. We'll get back to you within two working days.</p>
-      <p>We’ll only use your details to call you back. Don’t include any personal information, for example address or date of birth.</p>
+      <p>{{ __('Enter your name, email address and a brief description of what you need help with. We\'ll get back to you within two working days.') }}</p>
+      <p>{{ __('We\’ll only use your details to call you back. Don’t include any personal information, for example address or date of birth.') }}</p>
 
       <form action="/technical-help" method="post">
         <div class="form-group {% if errors['name'][0] %} error {% endif %}">
-          <label for="name" class="form-label-bold">Name</label>
+          <label for="name" class="form-label-bold">{{ __('Name') }}</label>
           {% if errors['name'][0] %}
             <span class="error-message" id="error-message-name">{{ errors['name'][0] }}</span>
           {% endif %}
@@ -30,26 +30,26 @@ Ask for help - {{ serviceName }}
         </div>
 
         <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
-          <label for="emailAddress" class="form-label-bold">Email address</label>
+          <label for="emailAddress" class="form-label-bold">{{ __('Email address') }}</label>
           {% if errors['EmailAddress'][0] %}
             <span class="error-message" id="error-message-email-address">{{ errors['EmailAddress'][0] }}</span>
           {% endif %}
           <input id="EmailAddress" autocomplete="off" name="emailAddress" class="form-control" value="{{ help['emailAddress'] }}">
         </div>
 
-        <p id="issue" class="heading-small">Describe what you'd like to talk about</p>
+        <p id="issue" class="heading-small"{{ __('>Describe what you\'d like to talk about') }}</p>
         {% if errors['issue'][0] %}
           <span class="error-message" id="error-message-phone-number">{{ errors['issue'][0] }}</span>
         {% endif %}
         <textarea id="issue" name="issue" class="form-control full {% if errors['issue'][0] %} error {% endif %}" rows="6">{{ help['issue'] }}</textarea>
-        <p>(Limit is 1200 characters)</p>
-        <p>Please don't include any personal information or financial information, for example your National Insurance or bank details.</p>
+        <p>{{ __('(Limit is 1200 characters)') }}</p>
+        <p>{{ __('Please don\'t include any personal information or financial information, for example your National Insurance or bank details.') }}</p>
 
         {% include "partials/csrf-hidden-input.html" %}
 
         <input id="technical-submit"
                type="submit"
-               value="Continue"
+               value="{{ __('Continue') }}"
                class="button">
       </form>
     </div>
