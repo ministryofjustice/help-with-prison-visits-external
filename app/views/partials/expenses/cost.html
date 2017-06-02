@@ -2,7 +2,7 @@
   <label for="cost-input" class="form-label-bold">{% if isAdvanceClaim %} {{ __('Estimated cost') }} {% else %} {{ __('Cost') }} {% endif %}</label>
 
   {% if errors['cost'][0] %}
-    <span class="error-message">{{ errors['cost'][0] }}</span>
+    <span class="error-message">{{ __(errors['cost'][0]) }}</span>
   {% endif %}
 
   <p class="form-hint">{{ __('For example') }} , {{ costExample }}</p>

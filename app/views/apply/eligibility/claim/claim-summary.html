@@ -30,7 +30,7 @@
 
   <br>
   {% if not claimDetails.claimExpenses[0] %}
-    <span class="error-message" id="error-message-no-expenses">{{ errors['claim-expense'][0] }}</span>
+    <span class="error-message" id="error-message-no-expenses">{{ __(errors['claim-expense'][0]) }}</span>
   {% endif %}
   <a href="/apply/eligibility/claim/expenses" class="link">{{ __('Add another expense') }}</a>
 

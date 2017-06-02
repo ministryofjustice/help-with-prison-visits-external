@@ -42,7 +42,7 @@
           <h2 id="ticket-type" class="form-label-bold">{{ __('Ticket type') }}</h2>
 
           {% if errors['ticket-type'][0] %}
-            <span class="error-message">{{ errors['ticket-type'][0] }}</span>
+            <span class="error-message">{{ __(errors['ticket-type'][0]) }}</span>
           {% endif %}
 
           <label for="ticket-type-yes" class="block-label">

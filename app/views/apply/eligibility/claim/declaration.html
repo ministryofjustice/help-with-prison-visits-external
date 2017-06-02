@@ -43,7 +43,7 @@
 
     <div id="terms-and-conditions" class="form-group{% if errors['terms-and-conditions'][0] %} error {% endif %}">
       {% if errors['terms-and-conditions'][0] %}
-      <span class="error-message" id="error-message-terms-an-conditions">{{ errors['terms-and-conditions'][0] }}</span>
+      <span class="error-message" id="error-message-terms-an-conditions">{{ __(errors['terms-and-conditions'][0]) }}</span>
       {% endif %}
       <label for="terms-and-conditions-input" class="block-label">
         <input id="terms-and-conditions-input"

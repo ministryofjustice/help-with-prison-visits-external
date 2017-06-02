@@ -20,7 +20,7 @@
       </h1>
 
       {% if errors['relationship'][0] %}
-      <span class="error-message" id="error-message-relaionship">{{ errors['relationship'][0] }}</span>
+      <span class="error-message" id="error-message-relaionship">{{ __(errors['relationship'][0]) }}</span>
       {% endif %}
 
       <form action="{{ URL }}" method="post">

@@ -2,7 +2,7 @@
   <label id="to" for="to-input" class="form-label-bold">{{ __('To') }}</label>
 
   {% if errors['to'][0] %}
-  <span class="error-message">{{ errors['to'][0] }}</span>
+  <span class="error-message">{{ __(errors['to'][0]) }}</span>
   {% endif %}
 
   <p class="form-hint">{{ __('For example') }}, {{ exampleTo }}</p>

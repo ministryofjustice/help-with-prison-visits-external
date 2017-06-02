@@ -77,7 +77,7 @@
         <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
           <label for="EmailAddress" class="form-label-bold">{{ __('Email address (optional, include if you want us to get back to you)') }}</label>
           {% if errors['EmailAddress'][0] %}
-            <span class="error-message" id="error-message-email-address">{{ errors['EmailAddress'][0] }}</span>
+            <span class="error-message" id="error-message-email-address">{{ __(errors['EmailAddress'][0]) }}</span>
           {% endif %}
           <input id="EmailAddress" autocomplete="off" name="emailAddress" class="form-control" value="{{ emailAddress }}">
         </div>

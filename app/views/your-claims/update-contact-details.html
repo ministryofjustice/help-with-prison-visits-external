@@ -24,7 +24,7 @@
           <label id="EmailAddress" class="form-label" for="email-address">{{ __('Email address') }}</label>
           <p class="form-hint">{{ __('You’ll receive confirmation by email') }}</p>
           {% if errors['EmailAddress'][0] %}
-            <span class="error-message">{{ errors['EmailAddress'][0] }}</span>
+            <span class="error-message">{{ __(errors['EmailAddress'][0]) }}</span>
           {% endif %}
           <input type="text" autocomplete="off" class="form-control" name="email-address" id="email-address" value="{{ contactDetails['email-address'] }}">
         </div>
@@ -32,7 +32,7 @@
         <div class="form-group {% if errors['PhoneNumber'][0] %} error {% endif %}">
           <label id="PhoneNumber" class="form-label" for="phone-number">{{ __('Phone number') }}</label>
           {% if errors['PhoneNumber'][0] %}
-            <span class="error-message">{{ errors['PhoneNumber'][0] }}</span>
+            <span class="error-message">{{ __(errors['PhoneNumber'][0]) }}</span>
           {% endif %}
           <input type="text" autocomplete="off" class="form-control" name="phone-number"  id="phone-number" value="{{ contactDetails['phone-number'] }}">
         </div>

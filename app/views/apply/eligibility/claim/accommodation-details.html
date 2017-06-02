@@ -32,7 +32,7 @@
           <label for="duration-input" class="form-label-bold">{{ __('Number of nights') }}</label>
 
           {% if errors['duration'][0] %}
-            <span class="error-message">{{ errors['duration'][0] }}</span>
+            <span class="error-message">{{ __(errors['duration'][0]) }}</span>
           {% endif %}
 
           <p class="form-hint">{{ __('For example') }}, 1</p>

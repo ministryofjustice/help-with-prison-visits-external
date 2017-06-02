@@ -75,7 +75,7 @@
             <label id="destination" for="destination-input" class="form-label-bold">{{ __('Destination') }}</label>
 
             {% if errors['destination'][0] %}
-              <span class="error-message">{{ errors['destination'][0] }}</span>
+              <span class="error-message">{{ __(errors['destination'][0]) }}</span>
             {% endif %}
             <p class="form-hint">{{ __('For example') }}, Euston train station</p>
             <input id="destination-input"
@@ -90,7 +90,7 @@
             <label id="PostCode" for="postcode-input" class="form-label-bold">{{ __('Postcode (optional)') }}</label>
 
             {% if errors['PostCode'][0] %}
-              <span class="error-message">{{ errors['PostCode'][0] }}</span>
+              <span class="error-message">{{ __(errors['PostCode'][0]) }}</span>
             {% endif %}
             <input id="postcode-input"
                    type="text"
@@ -117,7 +117,7 @@
             <label id="toll-cost" for="toll-cost-input" class="form-label">{% if isAdvanceClaim %}Estimated cost{% else %}Cost{% endif %}</label>
 
             {% if errors['toll-cost'][0] %}
-              <span class="error-message">{{ errors['toll-cost'][0] }}</span>
+              <span class="error-message">{{ __(errors['toll-cost'][0]) }}</span>
             {% endif %}
             <div class="pound-wrapper">
               <span>£</span>
@@ -145,7 +145,7 @@
             <label id="parking-charge-cost" for="parking-charge-cost-input" class="form-label">{% if isAdvanceClaim %}Estimated cost{% else %}Cost{% endif %}</label>
 
             {% if errors['parking-charge-cost'][0] %}
-              <span class="error-message">{{ errors['parking-charge-cost'][0] }}</span>
+              <span class="error-message">{{ __(errors['parking-charge-cost'][0]) }}</span>
             {% endif %}
             <div class="pound-wrapper">
               <span>£</span>

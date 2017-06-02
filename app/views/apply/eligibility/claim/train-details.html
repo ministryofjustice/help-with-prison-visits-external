@@ -32,7 +32,7 @@
             <label for="departure-time-input" class="form-label-bold">{{ __('Departure time') }}</label>
 
             {% if errors['departure-time'][0] %}
-            <span class="error-message">{{ errors['departure-time'][0] }}</span>
+            <span class="error-message">{{ __(errors['departure-time'][0]) }}</span>
             {% endif %}
 
             <p class="form-hint">{{ __('For example') }}, 10am</p>
@@ -57,7 +57,7 @@
             <div class="form-group {% if errors['return-time'][0] %} error {% endif %}">
               <label class="form-label-bold" for="return-time-input">{{ __('What time is your return train home?') }}</label>
                 {% if errors['return-time'][0] %}
-                  <span class="error-message">{{ errors['return-time'][0] }}</span>
+                  <span class="error-message">{{ __(errors['return-time'][0]) }}</span>
                 {% endif %}
               <p class="form-hint">{{ __('For example') }}, 4pm</p>
               <input id="return-time-input" name="return-time-input" type="text" autocomplete="off" class="form-control">
@@ -71,7 +71,7 @@
             <label for="cost-input" class="form-label-bold">{{ __('Cost') }}</label>
 
             {% if errors['cost'][0] %}
-            <span class="error-message">{{ errors['cost'][0] }}</span>
+            <span class="error-message">{{ __(errors['cost'][0]) }}</span>
             {% endif %}
 
             <p class="form-hint">{{ __('For example') }}, 20</p>

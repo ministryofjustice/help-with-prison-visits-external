@@ -25,7 +25,7 @@
           <label class="form-label-bold" for="first-name-input">{{ __('First name') }}</label>
 
           {% if errors['FirstName'][0] %}
-          <span class="error-message">{{ errors['FirstName'][0] }}</span>
+          <span class="error-message">{{ __(errors['FirstName'][0]) }}</span>
           {% endif %}
 
           <input id="first-name-input"
@@ -40,7 +40,7 @@
           <label class="form-label-bold" for="last-name-input">{{ __('Last name') }}</label>
 
           {% if errors['LastName'][0] %}
-          <span class="error-message">{{ errors['LastName'][0] }}</span>
+          <span class="error-message">{{ __(errors['LastName'][0]) }}</span>
           {% endif %}
 
           <input id="last-name-input"
@@ -58,7 +58,7 @@
             <h2 class="form-label-bold">{{ __('Date of birth') }}</h2>
 
             {% if errors['dob'][0] %}
-              <span class="error-message">{{ errors['dob'][0] }}</span>
+              <span class="error-message">{{ __(errors['dob'][0]) }}</span>
             {% endif %}
 
             <fieldset>
@@ -104,7 +104,7 @@
             <h3 class="form-label-bold">{{ __('Relationship') }}</h3>
 
             {% if errors['child-relationship'][0] %}
-              <span class="error-message">{{ errors['child-relationship'][0] }}</span>
+              <span class="error-message">{{ __(errors['child-relationship'][0]) }}</span>
             {% endif %}
 
             <label for="my-child" class="block-label">

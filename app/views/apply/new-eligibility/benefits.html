@@ -20,7 +20,7 @@
       </h1>
 
       {% if errors['benefit'][0] %}
-        <span class="error-message">{{ errors['benefit'][0] }}</span>
+        <span class="error-message">{{ __(errors['benefit'][0]) }}</span>
       {% endif %}
 
       <form action="{{ URL }}" method="post">

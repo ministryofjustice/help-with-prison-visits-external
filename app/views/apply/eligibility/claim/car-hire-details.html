@@ -34,7 +34,7 @@
           <label id="duration" for="duration-input" class="form-label-bold">{{ __('Number of days') }}</label>
 
           {% if errors['duration'][0] %}
-            <span class="error-message">{{ errors['duration'][0] }}</span>
+            <span class="error-message">{{ __(errors['duration'][0]) }}</span>
           {% endif %}
 
           <input id="duration-input"
@@ -49,7 +49,7 @@
           <label id="from" for="from-input" class="form-label-bold">{{ __('From') }}</label>
 
           {% if errors['from'][0] %}
-            <span class="error-message">{{ errors['from'][0] }}</span>
+            <span class="error-message">{{ __(errors['from'][0]) }}</span>
           {% endif %}
 
           <p class="form-hint">{{ __('For example') }}, Euston</p>
@@ -66,7 +66,7 @@
           <label id="to" for="to-input" class="form-label-bold">{{ __('To') }}</label>
 
           {% if errors['to'][0] %}
-            <span class="error-message">{{ errors['to'][0] }}</span>
+            <span class="error-message">{{ __(errors['to'][0]) }}</span>
           {% endif %}
 
           <p class="form-hint">{{ __('For example, Birmingham New Street') }}</p>

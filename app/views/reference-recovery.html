@@ -23,7 +23,7 @@
         <div id="EmailAddress" class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
           <label for="EmailAddress" class="form-label-bold">{{ ('Email address') }}</label>
           {% if errors['EmailAddress'][0] %}
-            <span class="error-message" id="error-message-email">{{ errors['EmailAddress'][0] }}</span>
+            <span class="error-message" id="error-message-email">{{ __(errors['EmailAddress'][0]) }}</span>
           {% endif %}
           <input name="EmailAddress" autocomplete="off" class="form-control" value="{{ recovery['EmailAddress'] }}">
         </div>
@@ -32,7 +32,7 @@
           <label for="PrisonerNumber" class="form-label-bold">{{ ('Prisoner number') }}</label>
           <p class="form-hint">{{ ('For example') }}, A1234BC</p>
           {% if errors['PrisonerNumber'][0] %}
-            <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
+            <span class="error-message" id="error-message-PrisonerNumber">{{ __(errors['PrisonerNumber'][0]) }}</span>
           {% endif %}
           <input name="PrisonerNumber" autocomplete="off" class="form-control" value="{{ recovery['PrisonerNumber'] }}">
         </div>

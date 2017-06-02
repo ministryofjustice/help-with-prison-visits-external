@@ -35,7 +35,7 @@
           <label class="form-label-bold" for="reference-input">{{ __('Reference number') }}</label>
 
           {% if errors['reference'][0] %}
-            <span class="error-message">{{ errors['reference'][0] }}</span>
+            <span class="error-message">{{ __(errors['reference'][0]) }}</span>
           {% endif %}
 
           <p class="form-hint">{{ __('For example') }}, P1FD187</p>
@@ -71,7 +71,7 @@
               <label class="form-label-bold">{{ __('Your date of birth') }}</label>
 
               {% if errors['dob'][0] %}
-                <span class="error-message">{{ errors['dob'][0] }}</span>
+                <span class="error-message">{{ __(errors['dob'][0]) }}</span>
               {% endif %}
 
               <div class="form-group form-group-day">

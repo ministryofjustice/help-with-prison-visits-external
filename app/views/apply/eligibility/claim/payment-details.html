@@ -26,7 +26,7 @@
 
       <h2 class="heading-small" {% if privateBeta == 'true' %} hidden {% endif %}>{{ __('How do you want to receive your payment?') }}</h2>
         {% if errors['PaymentMethod'][0] %}
-        <span class="error-message" id="error-message-payment-method">{{ errors['PaymentMethod'][0] }}</span>
+        <span class="error-message" id="error-message-payment-method">{{ __(errors['PaymentMethod'][0]) }}</span>
         {% endif %}
 
         <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
@@ -47,7 +47,7 @@
                 <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
                   <label id="AccountNumber" class="form-label-bold" for="account-number-input">{{ __('Account number') }}</label>
                   {% if errors['AccountNumber'][0] %}
-                  <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
+                  <span class="error-message" id="error-message-account-number">{{ __(errors['AccountNumber'][0]) }}</span>
                   {% endif %}
                   <input id="account-number-input"
                          name="AccountNumber"
@@ -60,7 +60,7 @@
                 <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
                   <label id="SortCode" class="form-label-bold" for="sort-code-input">{{ __('Sort code') }}</label>
                   {% if errors['SortCode'][0] %}
-                  <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
+                  <span class="error-message" id="error-message-sort-code">{{ __(errors['SortCode'][0]) }}</span>
                   {% endif %}
                   <input id="sort-code-input"
                          name="SortCode"

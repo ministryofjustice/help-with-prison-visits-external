@@ -24,7 +24,7 @@
         <div class="form-group {% if errors['name'][0] %} error {% endif %}">
           <label for="name" class="form-label-bold">{{ __('Name') }}</label>
           {% if errors['name'][0] %}
-            <span class="error-message" id="error-message-name">{{ errors['name'][0] }}</span>
+            <span class="error-message" id="error-message-name">{{ __(errors['name'][0]) }}</span>
           {% endif %}
           <input id="name" autocomplete="off" name="name" class="form-control" value="{{ help['name'] }}">
         </div>
@@ -32,14 +32,14 @@
         <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
           <label for="emailAddress" class="form-label-bold">{{ __('Email address') }}</label>
           {% if errors['EmailAddress'][0] %}
-            <span class="error-message" id="error-message-email-address">{{ errors['EmailAddress'][0] }}</span>
+            <span class="error-message" id="error-message-email-address">{{ __(errors['EmailAddress'][0]) }}</span>
           {% endif %}
           <input id="EmailAddress" autocomplete="off" name="emailAddress" class="form-control" value="{{ help['emailAddress'] }}">
         </div>
 
         <p id="issue" class="heading-small"{{ __('>Describe what you\'d like to talk about') }}</p>
         {% if errors['issue'][0] %}
-          <span class="error-message" id="error-message-phone-number">{{ errors['issue'][0] }}</span>
+          <span class="error-message" id="error-message-phone-number">{{ __(errors['issue'][0]) }}</span>
         {% endif %}
         <textarea id="issue" name="issue" class="form-control full {% if errors['issue'][0] %} error {% endif %}" rows="6">{{ help['issue'] }}</textarea>
         <p>{{ __('(Limit is 1200 characters)') }}</p>

@@ -24,7 +24,7 @@ x{% extends "includes/layout.html" %}
 
         <ul class="error-summary-list">
           <li>
-            <a href="#NationalInsuranceNumber">{{ __('You've already applied') }}</a>
+            <a href="#NationalInsuranceNumber">{{ __('You\'ve already applied') }}</a>
             <br><a class="repeat-link" href="/start-already-registered">{{ __('Start a repeat claim') }}</a>
           </li>
         </ul>
@@ -42,7 +42,7 @@ x{% extends "includes/layout.html" %}
         <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
           <label id="FirstName" class="form-label-bold" for="first-name-input">{{ __('First name') }}</label>
           {% if errors['FirstName'][0] %}
-          <span class="error-message" id="error-message-first-name">{{ errors['FirstName'][0] }}</span>
+          <span class="error-message" id="error-message-first-name">{{ __(errors['FirstName'][0]) }}</span>
           {% endif %}
           <input id="first-name-input"
                  name="FirstName"
@@ -55,7 +55,7 @@ x{% extends "includes/layout.html" %}
         <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
           <label id="LastName" class="form-label-bold" for="last-name-input">{{ __('Last name') }}</label>
           {% if errors['LastName'][0] %}
-          <span class="error-message" id="error-message-last-name">{{ errors['LastName'][0] }}</span>
+          <span class="error-message" id="error-message-last-name">{{ __(errors['LastName'][0]) }}</span>
           {% endif %}
           <input id="last-name-input"
                  name="LastName"
@@ -68,7 +68,7 @@ x{% extends "includes/layout.html" %}
         <div class="form-group {% if errors['NationalInsuranceNumber'][0] or isDuplicateClaim %} error {% endif %}">
           <label id="NationalInsuranceNumber" class="form-label-bold" for="national-insurance-number-input">{{ __('National Insurance number') }}</label>
           {% if errors['NationalInsuranceNumber'][0] %}
-          <span class="error-message" id="error-message-national">{{ errors['NationalInsuranceNumber'][0] }}</span>
+          <span class="error-message" id="error-message-national">{{ __(errors['NationalInsuranceNumber'][0]) }}</span>
           {% endif %}
           <input id="national-insurance-number-input"
                  name="NationalInsuranceNumber"
@@ -86,7 +86,7 @@ x{% extends "includes/layout.html" %}
         <div class="form-group {% if errors['HouseNumberAndStreet'][0] %} error {% endif %}">
           <label id="HouseNumberAndStreet" class="form-label-bold" for="house-number-and-street-input">{{ __('House number and street') }}</label>
           {% if errors['HouseNumberAndStreet'][0] %}
-          <span class="error-message" id="error-message-house-street">{{ errors['HouseNumberAndStreet'][0] }}</span>
+          <span class="error-message" id="error-message-house-street">{{ __(errors['HouseNumberAndStreet'][0]) }}</span>
           {% endif %}
           <p class="form-hint">{{ __('For example') }}, 123 Street Name</p>
           <input id="house-number-and-street-input"
@@ -100,7 +100,7 @@ x{% extends "includes/layout.html" %}
         <div class="form-group {% if errors['Town'][0] %} error {% endif %}">
           <label id="Town" class="form-label-bold" for="town-input">{{ __('Town') }}</label>
           {% if errors['Town'][0] %}
-          <span class="error-message" id="error-message-town">{{ errors['Town'][0] }}</span>
+          <span class="error-message" id="error-message-town">{{ __(errors['Town'][0]) }}</span>
           {% endif %}
           <input id="town-input"
                  name="Town"
@@ -113,7 +113,7 @@ x{% extends "includes/layout.html" %}
         <div class="form-group {% if errors['County'][0] %} error {% endif %}">
           <label id="County" class="form-label-bold" for="county-input">{{ __('County') }}</label>
           {% if errors['County'][0] %}
-          <span class="error-message" id="error-message-county">{{ errors['County'][0] }}</span>
+          <span class="error-message" id="error-message-county">{{ __(errors['County'][0]) }}</span>
           {% endif %}
           <input id="county-input"
                  name="County"
@@ -126,7 +126,7 @@ x{% extends "includes/layout.html" %}
         <div class="form-group {% if errors['PostCode'][0] %} error {% endif %}">
           <label id="PostCode" class="form-label-bold" for="post-code-input">{{ __('Postcode') }}</label>
           {% if errors['PostCode'][0] %}
-          <span class="error-message" id="error-message-post-code">{{ errors['PostCode'][0] }}</span>
+          <span class="error-message" id="error-message-post-code">{{ __(errors['PostCode'][0]) }}</span>
           {% endif %}
           <input id="post-code-input"
                  name="PostCode"
@@ -139,7 +139,7 @@ x{% extends "includes/layout.html" %}
         <div class="form-group {% if errors['Country'][0] %} error {% endif %}">
           <label id="Country" class="form-label-bold" for="country-input">{{ __('Country') }}</label>
           {% if errors['Country'][0] %}
-          <span class="error-message" id="error-message-country">{{ errors['Country'][0] }}</span>
+          <span class="error-message" id="error-message-country">{{ __(errors['Country'][0]) }}</span>
           {% endif %}
           <select id="country-input" class="form-control" name="Country">
             <option>select</option>
@@ -155,7 +155,7 @@ x{% extends "includes/layout.html" %}
         <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
           <label id="EmailAddress" class="form-label-bold" for="email-address-input">{{ __('Email address') }}</label>
           {% if errors['EmailAddress'][0] %}
-          <span class="error-message" id="error-message-email">{{ errors['EmailAddress'][0] }}</span>
+          <span class="error-message" id="error-message-email">{{ __(errors['EmailAddress'][0]) }}</span>
           {% endif %}
           <p class="form-hint">{{ __('You\’ll receive confirmation by email') }}</p>
           <input id="email-address-input"
@@ -169,7 +169,7 @@ x{% extends "includes/layout.html" %}
         <div class="form-group {% if errors['PhoneNumber'][0] %} error {% endif %}">
           <label id="PhoneNumber" class="form-label-bold" for="phone-number-input">{{ __('Phone number (optional)') }}</label>
           {% if errors['PhoneNumber'][0] %}
-          <span class="error-message" id="error-message-phone">{{ errors['PhoneNumber'][0] }}</span>
+          <span class="error-message" id="error-message-phone">{{ __(errors['PhoneNumber'][0]) }}</span>
           {% endif %}
           <input id="phone-number-input"
                  name="PhoneNumber"

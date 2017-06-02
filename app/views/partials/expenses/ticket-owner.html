@@ -3,7 +3,7 @@
     <h2 class='form-label-bold'>{{ __('Who is this ticket for?') }}</h2>
 
     {% if errors['ticket-owner'][0] %}
-      <span class="error-message">{{ errors['ticket-owner'][0] }}</span>
+      <span class="error-message">{{ __(errors['ticket-owner'][0]) }}</span>
     {% endif %}
 
     <fieldset>

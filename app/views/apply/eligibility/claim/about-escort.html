@@ -25,7 +25,7 @@
           <label id="FirstName" class="form-label-bold" for="first-name-input">{{ __('First name') }}</label>
 
           {% if errors['FirstName'][0] %}
-            <span class="error-message" id="error-message-first-name">{{ errors['FirstName'][0] }}</span>
+            <span class="error-message" id="error-message-first-name">{{ __(errors['FirstName'][0]) }}</span>
           {% endif %}
 
           <input id="first-name-input"
@@ -40,7 +40,7 @@
           <label id="LastName" class="form-label-bold" for="last-name-input">{{ __('Last name') }}</label>
 
           {% if errors['LastName'][0] %}
-            <span class="error-message" id="error-message-last-name">{{ errors['LastName'][0] }}</span>
+            <span class="error-message" id="error-message-last-name">{{ __(errors['LastName'][0]) }}</span>
           {% endif %}
 
           <input id="last-name-input"
@@ -56,7 +56,7 @@
             <legend id="dob" class="form-label-bold">{{ __('Date of birth') }}</legend>
 
             {% if errors['dob'][0] %}
-              <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
+              <span class="error-message" id="error-message-dob">{{ __(errors['dob'][0]) }}</span>
             {% endif %}
 
             <div class="form-date">

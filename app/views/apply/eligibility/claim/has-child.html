@@ -30,7 +30,7 @@
           <p>{{ __('We may ask you later for evidence of the relationship.') }}</p>
 
           {% if errors['has-child'][0] %}
-            <span class="error-message">{{ errors['has-child'][0] }}</span>
+            <span class="error-message">{{ __(errors['has-child'][0]) }}</span>
           {% endif %}
           <fieldset>
             <legend class="visually-hidden">{{ __('Do you want to claim expenses for any children') }}</legend>

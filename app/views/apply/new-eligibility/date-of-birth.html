@@ -27,7 +27,7 @@
           <div class="date-of-birth {% if errors['dob'][0] %} error {% endif %}">
 
             {% if errors['dob'][0] %}
-              <span class="error-message">{{ errors['dob'][0] }}</span>
+              <span class="error-message">{{ __(errors['dob'][0]) }}</span>
             {% endif %}
 
             <div id="dob" class="form-date">

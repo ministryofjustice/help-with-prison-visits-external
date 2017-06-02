@@ -24,7 +24,7 @@
         <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
           <label id="FirstName" class="form-label-bold" for="prisoner-first-name">{{ __('Prisoner first name') }}</label>
           {% if errors['FirstName'][0] %}
-          <span class="error-message" id="error-message-FirstName">{{ errors['FirstName'][0] }}</span>
+          <span class="error-message" id="error-message-FirstName">{{ __(errors['FirstName'][0]) }}</span>
           {% endif %}
           <input id="prisoner-first-name"
                  name="FirstName"
@@ -37,7 +37,7 @@
         <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
           <label id="LastName" class="form-label-bold" for="prisoner-last-name">{{ __('Prisoner last name') }}</label>
           {% if errors['LastName'][0] %}
-          <span class="error-message" id="error-message-LastName">{{ errors['LastName'][0] }}</span>
+          <span class="error-message" id="error-message-LastName">{{ __(errors['LastName'][0]) }}</span>
           {% endif %}
           <input id="prisoner-last-name"
                  name="LastName"
@@ -52,7 +52,7 @@
             <legend id="dob" class="form-label-bold">{{ __('Prisoner date of birth') }}</legend>
 
             {% if errors['dob'][0] %}
-            <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
+            <span class="error-message" id="error-message-dob">{{ __(errors['dob'][0]) }}</span>
             {% endif %}
 
             <div class="form-date">
@@ -98,7 +98,7 @@
         {% if not prisonerNumber %}
           <p class="form-hint">{{ __('For example') }}, A1234BC</p>
           {% if errors['PrisonerNumber'][0] %}
-          <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
+          <span class="error-message" id="error-message-PrisonerNumber">{{ __(errors['PrisonerNumber'][0]) }}</span>
           {% endif %}
 
           <input id="prisoner-number"
@@ -117,7 +117,7 @@
           <label id="NameOfPrison" class="form-label-bold" for="prison-name">{{ __('Name of the prison') }}</label>
           <p class="form-hint">{{ __('For example') }}, Hewell</p>
           {% if errors['NameOfPrison'][0] %}
-          <span class="error-message" id="error-message-NameOfPrison">{{ errors['NameOfPrison'][0] }}</span>
+          <span class="error-message" id="error-message-NameOfPrison">{{ __(errors['NameOfPrison'][0]) }}</span>
           {% endif %}
           <!-- Ignore WCAG2AA.Principle4.Guideline4_1.4_1_2.H91 and WCAG2AA.Principle1.Guideline1_3.1_3_1.F68, caused by autocomplete generated input -->
           <select id="prison-name" class="form-control js-autocomplete" name="NameOfPrison" aria-label="Name of the prison">

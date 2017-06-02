@@ -30,7 +30,7 @@
           <fieldset>
 
             {% if errors['DateOfJourney'][0] %}
-              <span class="error-message" id="error-message-benefit">{{ errors['DateOfJourney'][0] }}</span>
+              <span class="error-message" id="error-message-benefit">{{ __(errors['DateOfJourney'][0]) }}</span>
             {% endif %}
 
             <div id="DateOfJourney" class="form-date">

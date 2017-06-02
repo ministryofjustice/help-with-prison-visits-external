@@ -23,7 +23,7 @@
 
       <form action="/apply/eligibility/new-claim/future-or-past-visit" method="post" class="form">
       {% if errors['advance-past'][0] %}
-        <span class="error-message">{{ errors['advance-past'][0] }}</span>
+        <span class="error-message">{{ __(errors['advance-past'][0]) }}</span>
       {% endif %}
         <fieldset>
           <legend class="visually-hidden">{{ __('Have you already made the prison visit') }}</legend>
@@ -41,7 +41,7 @@
                      name="advance-past"
                      value="advance"
                      id="advance">
-              {{ __('No - it's in the future') }}
+              {{ __('No - it\'s in the future') }}
             </label>
           </div>
         </fieldset>
