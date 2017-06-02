@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Enter your car or motorcycle journey details - {{ serviceName }}
+  {{ __('Enter your car or motorcycle journey details') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,29 +16,28 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Your car or motorcycle journey
+        {{ __('Your car or motorcycle journey') }}
       </h1>
 
       <p>
-        You will get 13p per mile for this kind of travel. The distance is calculated as the shortest route between
-        your home and the prison’s visitor centre.
+        {{ __('You will get 13p per mile for this kind of travel. The distance is calculated as the shortest route between your home and the prison’s visitor centre.') }}
       </p>
 
       {% if not carOnly %}
       <p>
-        You can also claim for parking, and tolls for bridges or tunnels.
+        {{ __('You can also claim for parking, and tolls for bridges or tunnels.') }}
       </p>
       {% endif %}
 
       <p>
-        You are allowed one car journey per claim
+        {{ __('You are allowed one car journey per claim') }}
       </p>
 
       <form action="/apply/eligibility/claim/car{{ params }}"
             method="post">
 
         <div class="form-group hide-border">
-          <label class="form-label-bold" for="from">From</label>
+          <label class="form-label-bold" for="from">{{ __('From') }}</label>
           <input id="from"
                  type="text"
                  autocomplete="off"
@@ -49,7 +48,7 @@
         </div>
 
         <div class="form-group hide-border">
-          <label class="form-label-bold" for="to-display">To</label>
+          <label class="form-label-bold" for="to-display">{{ __('To') }}</label>
           <input id="to-display"
                  name="to-display"
                  autocomplete="off"
@@ -63,22 +62,22 @@
         </div>
 
         <div class="form-group">
-          <label for="new-destination" class="block-label selection-button-checkbox" data-target="new-destination-details" >Was this not your journey?
+          <label for="new-destination" class="block-label selection-button-checkbox" data-target="new-destination-details" >{{ __('Was this not your journey?') }}
           <input id="new-destination" type="checkbox" name="new-destination" {% if expense['new-destination'] %}checked{% endif %}></label>
         </div>
 
         <div id="new-destination-details" class="panel panel-border-narrow js-hidden">
-          <span class="text-secondary">Please enter your prefered journey</span>
+          <span class="text-secondary">{{ __('Please enter your prefered journey') }}</span>
           <br>
           <br>
 
           <div class="form-group {% if errors['destination'][0] %} error {% endif %}">
-            <label id="destination" for="destination-input" class="form-label-bold">Destination</label>
+            <label id="destination" for="destination-input" class="form-label-bold">{{ __('Destination') }}</label>
 
             {% if errors['destination'][0] %}
               <span class="error-message">{{ errors['destination'][0] }}</span>
             {% endif %}
-            <p class="form-hint">For example, Euston train station</p>
+            <p class="form-hint">{{ __('For example') }}, Euston train station</p>
             <input id="destination-input"
                    type="text"
                    name="destination"
@@ -88,7 +87,7 @@
           </div>
 
           <div class="form-group {% if errors['PostCode'][0] %} error {% endif %}">
-            <label id="PostCode" for="postcode-input" class="form-label-bold">Postcode (optional)</label>
+            <label id="PostCode" for="postcode-input" class="form-label-bold">{{ __('Postcode (optional)') }}</label>
 
             {% if errors['PostCode'][0] %}
               <span class="error-message">{{ errors['PostCode'][0] }}</span>
@@ -104,14 +103,14 @@
 
         {% if not carOnly %}
         <fieldset>
-          <legend class="hidden">Parking and Toll charges</legend>
+          <legend class="hidden">{{ __('Parking and Toll charges') }}</legend>
           <label for="toll" data-target="toll-question" class="block-label">
             <input id="toll"
                    type="checkbox"
                    name="toll"
                    value="yes"
                    {% if expense['toll'] == 'yes' %} checked {% endif %}>
-            Add toll charge (bridges or tunnels only)
+            {{ __('Add toll charge (bridges or tunnels only)') }}
           </label>
 
           <div id="toll-question" class="panel panel-border-narrow {% if errors['toll-cost'][0] %} error {% else %} js-hidden {% endif %}">
@@ -137,7 +136,7 @@
                    name="parking-charge"
                    value="yes"
                    {% if expense['parking-charge'] == 'yes' %} checked {% endif %}>
-            Add parking charge
+            {{ __('Add parking charge') }}
           </label>
 
           <div id="parking-charge-question"
@@ -169,11 +168,11 @@
         <input id="car-details-submit"
                type="submit"
                class="button"
-               value="Continue">
+               value="{{ __('Continue') }}">
       </form>
 
       <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
+      <a href="{{ redirectUrl }}" class="link">{{ __('Remove this journey') }}</a>
 
     </div>
   </div>

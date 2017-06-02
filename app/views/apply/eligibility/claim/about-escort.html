@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Enter details about your escort - {{ serviceName }}
+  {{ __('Enter details about your escort') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,13 +16,13 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        About your escort
+        {{ __('About your escort') }}
       </h1>
 
       <form action="/apply/eligibility/claim/about-escort" method="post">
 
         <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
-          <label id="FirstName" class="form-label-bold" for="first-name-input">First name</label>
+          <label id="FirstName" class="form-label-bold" for="first-name-input">{{ __('First name') }}</label>
 
           {% if errors['FirstName'][0] %}
             <span class="error-message" id="error-message-first-name">{{ errors['FirstName'][0] }}</span>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-          <label id="LastName" class="form-label-bold" for="last-name-input">Last name</label>
+          <label id="LastName" class="form-label-bold" for="last-name-input">{{ __('Last name') }}</label>
 
           {% if errors['LastName'][0] %}
             <span class="error-message" id="error-message-last-name">{{ errors['LastName'][0] }}</span>
@@ -53,7 +53,7 @@
 
         <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
           <fieldset>
-            <legend id="dob" class="form-label-bold">Date of birth</legend>
+            <legend id="dob" class="form-label-bold">{{ __('Date of birth') }}</legend>
 
             {% if errors['dob'][0] %}
               <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
@@ -62,7 +62,7 @@
             <div class="form-date">
 
               <div class="form-group form-group-day">
-                <label for="dob-day">Day</label>
+                <label for="dob-day">{{ __('Day') }}</label>
                 <input id="dob-day"
                        name="dob-day"
                        autocomplete="off"
@@ -72,7 +72,7 @@
               </div>
 
               <div class="form-group form-group-month">
-                <label for="dob-month">Month</label>
+                <label for="dob-month">{{ __('Month') }}</label>
                 <input id="dob-month"
                        name="dob-month"
                        autocomplete="off"
@@ -82,7 +82,7 @@
               </div>
 
               <div class="form-group form-group-year">
-                <label for="dob-year">Year</label>
+                <label for="dob-year">{{ __('Year') }}</label>
                 <input id="dob-year"
                        name="dob-year"
                        autocomplete="off"
@@ -99,7 +99,7 @@
 
         <input id="about-escort-submit"
                type="submit"
-               value="Continue"
+               value="{{ __('Continue') }}"
                class="button">
       </form>
     </div>

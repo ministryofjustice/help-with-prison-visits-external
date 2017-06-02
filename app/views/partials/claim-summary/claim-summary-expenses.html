@@ -3,8 +3,8 @@
 
   <thead>
   <tr>
-    <th>Expense{% if claimDetails.claimExpenses[1] %}s{% endif %}</th>
-    <th>Amount</th>
+    <th>{% if claimDetails.claimExpenses[1] %} {{ __('Expenses') }} {% else %} {{ __('Expense') }} {% endif %}</th>
+    <th>{{ __('Amount') }}</th>
     <th></th>
   </tr>
   </thead>
@@ -26,7 +26,7 @@
         action="{{ URL }}/remove-expense/{{ claimExpense.ClaimExpenseId}}?claimDocumentId={{ claimExpense.ClaimDocumentId }}"
         method="post" class="form">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-        <button class="expense link" name="remove">remove expense</button>
+        <button class="expense link" name="remove">{{ __('remove expense') }}</button>
       </form>
       {% endif %}
       <div>{{ claimExpenseHelper(claimExpense) }}</div>
@@ -35,7 +35,7 @@
     {% if claimExpense.ExpenseType == 'train' and claimDetails.claim.IsAdvanceClaim %}
       <td></td>
     {% elseif claimExpense.ExpenseType == 'car' and claimExpense.Cost === 0 %}
-      <td>13p per mile</td>
+      <td>{{ __('13p per mile') }}</td>
     {% else %}
       <td>{{ displayHelper.toCurrency(claimExpense.Cost) }}</td>
     {% endif %}
@@ -43,37 +43,37 @@
     <td>
     {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %}
       {% if claimDetails.claim.IsAdvanceClaim and not forEdit and not claimExpense['DocumentStatus'] %}
-        <span class="text-pending">Receipt must be supplied after visit</span>
+        <span class="text-pending">{{ __('Receipt must be supplied after visit') }}</span>
 
       {% elif claimExpense.fromInternalWeb or updated %}
         {% if forEdit %}
           {% if claimDetails.claim.IsAdvanceClaim %}
             {% if not claimExpense['DocumentStatus'] and claimExpense['Status'] %}
-              <span class="text-warning">Receipt pending upload</span>
-              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
+              <span class="text-warning">{{ __('Receipt pending upload') }}</span>
+              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">{{ __('Add') }}</a>
             {% else %}
-              <span class="text-pending">Receipt must be supplied after visit</span>
+              <span class="text-pending">{{ __('Receipt must be supplied after visit') }}</span>
             {% endif %}
           {% else %}
 
             {% if claimExpense['DocumentStatus'] == 'uploaded' and claimExpense['Status'] != 'REQUEST-INFORMATION' %}
-              <span class="text-success">Receipt uploaded</span>
+              <span class="text-success">{{ __('Receipt uploaded') }}</span>
             {% elif claimExpense['DocumentStatus'] == 'upload-later' or claimExpense['Status'] == 'REQUEST-INFORMATION' %}
-              <span class="text-warning">Receipt pending upload</span>
-              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
+              <span class="text-warning">{{ __('Receipt pending upload') }}</span>
+              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">{{ __('Add') }}</a>
             {% elif claimExpense['DocumentStatus'] == 'post-later' %}
-              <span class="text-pending">Sending receipt by post</span>
-              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">change</button>
+              <span class="text-pending">{{ __('Sending receipt by post') }}</span>
+              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">{{ __('change') }}</button>
             {% endif %}
           {% endif %}
 
         {% else %}
           {% if forReview and claimExpense.Status != 'APPROVED'  %}
-            <span class="text-pending">In review</span>
+            <span class="text-pending">{{ __('In review') }}</span>
           {% else %}
             <span {% if claimExpense.Status == 'APPROVED' or claimExpense.Status == 'APPROVED-DIFF-AMOUNT' %} class="text-success" {% else %} class="text-warning" {% endif %}>
               {% if claimExpense.Status == 'REQUEST-INFORMATION' and not forEdit %}
-                Response with case worker
+                {{ __('Response with case worker') }}
               {% else %}
                 {{ claimStatusHelper(claimExpense.Status) }}
               {% endif %}
@@ -83,32 +83,32 @@
 
       {% else %}
         {% if claimExpense.DocumentStatus == 'uploaded' %}
-          <span class="text-success">Receipt uploaded</span>
+          <span class="text-success">{{ __('Receipt uploaded') }}</span>
           <form
             action="{{ URL }}/view-document/{{ claimExpense.ClaimDocumentId }}"
             method="get" class="form pull-right">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-            <button class="link">view</button>
+            <button class="link">{{ __('view') }}</button>
           </form>
           <span class="button-separator"></span>
           <form
             action="{{ URL }}/remove-document/{{ claimExpense.ClaimDocumentId }}?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}"
             method="post" class="form pull-right">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-            <button class="link" name="remove">remove</button>
+            <button class="link" name="remove">{{ __('remove') }}</button>
           </form>
 
         {% elif claimExpense.DocumentStatus == 'upload-later' %}
-          <span class="text-pending">Uploading receipt later</span>
-          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">change</button>
+          <span class="text-pending">{{ __('Uploading receipt later') }}</span>
+          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">{{ __('change') }}</button>
 
         {% elif claimExpense.DocumentStatus == 'post-later' %}
-          <span class="text-pending">Sending receipt by post</span>
-          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">change</button>
+          <span class="text-pending">{{ __('Sending receipt by post') }}</span>
+          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">{{ __('change') }}</button>
 
         {% else %}
-          <span class="text-warning">Receipt needed</span>
-          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt ">Add</a>
+          <span class="text-warning">{{ __('Receipt needed') }}</span>
+          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt ">{{ __('Add') }}</a>
 
         {% endif %}
       {% endif %}

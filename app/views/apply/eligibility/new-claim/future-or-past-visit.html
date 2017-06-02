@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Have you already made the prison visit - {{ serviceName }}
+  {{ __('Have you already made the prison visit') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,24 +16,24 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Have you already made the prison visit?
+        {{ __('Have you already made the prison visit?') }}
       </h1>
 
-      <p>You can apply for help with one visit at a time.</p>
+      <p>{{ __('You can apply for help with one visit at a time.') }}</p>
 
       <form action="/apply/eligibility/new-claim/future-or-past-visit" method="post" class="form">
       {% if errors['advance-past'][0] %}
         <span class="error-message">{{ errors['advance-past'][0] }}</span>
       {% endif %}
         <fieldset>
-          <legend class="visually-hidden">Have you already made the prison visit</legend>
+          <legend class="visually-hidden">{{ __('Have you already made the prison visit') }}</legend>
           <div class="form-group">
             <label for="past" class="block-label">
               <input type="radio"
                      name="advance-past"
                      value="past"
                      id="past">
-              Yes
+              {{ __('Yes') }}
             </label>
 
             <label for="advance" class="block-label">
@@ -41,7 +41,7 @@
                      name="advance-past"
                      value="advance"
                      id="advance">
-              No - it's in the future
+              {{ __('No - it's in the future') }}
             </label>
           </div>
         </fieldset>
@@ -52,7 +52,7 @@
           <input type="submit"
                  id="future-or-past-submit"
                  name="commit"
-                 value="Continue"
+                 value="{{ __('Continue') }}"
                  class="button">
         </div>
 

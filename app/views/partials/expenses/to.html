@@ -1,11 +1,11 @@
 <div class="form-group {% if errors['to'][0] %} error {% endif %}">
-  <label id="to" for="to-input" class="form-label-bold">To</label>
+  <label id="to" for="to-input" class="form-label-bold">{{ __('To') }}</label>
 
   {% if errors['to'][0] %}
   <span class="error-message">{{ errors['to'][0] }}</span>
   {% endif %}
 
-  <p class="form-hint">For example, {{ exampleTo }}</p>
+  <p class="form-hint">{{ __('For example') }}, {{ exampleTo }}</p>
 
   <input id="to-input"
          type="text"

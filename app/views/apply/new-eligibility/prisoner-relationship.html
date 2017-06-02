@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-How are you related to the prisoner - {{ serviceName }}
+{{ __('How are you related to the prisoner') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@ How are you related to the prisoner - {{ serviceName }}
       {% include "includes/validation-error-messages.html" %}
 
       <h1 id='relationship' class="heading-large">
-        How are you related to the prisoner?
+        {{ __('How are you related to the prisoner?') }}
       </h1>
 
       {% if errors['relationship'][0] %}
@@ -25,16 +25,16 @@ How are you related to the prisoner - {{ serviceName }}
 
       <form action="{{ URL }}" method="post">
         <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
-          <p>They are:</p>
+          <p>{{ __('They are:') }}</p>
           <fieldset>
-            <legend class="visually-hidden">Relationship to prisoner</legend>
+            <legend class="visually-hidden">{{ __('Relationship to prisoner') }}</legend>
             <label for="husband-wife-civil" class="block-label" data-target="husband-wife-civil-question">
               <input id="husband-wife-civil"
                      type="radio"
                      name="relationship"
                      value="r1">
 
-              <span class="heading-small">My husband, wife or civil partner</span>
+              <span class="heading-small">{{ __('My husband, wife or civil partner') }}</span>
               <br>
             </label>
 
@@ -43,9 +43,9 @@ How are you related to the prisoner - {{ serviceName }}
                      type="radio"
                      name="relationship"
                      value="r2">
-              <span class="heading-small">My partner</span>
+              <span class="heading-small">{{ __('My partner') }}</span>
               <br>
-              You were living together as a couple before they went to prison or remand
+              {{ __('You were living together as a couple before they went to prison or remand') }}
             </label>
 
             <label for="parent-grandparent" class="block-label" data-target="parent-grandparent-question">
@@ -53,9 +53,9 @@ How are you related to the prisoner - {{ serviceName }}
                      type="radio"
                      name="relationship"
                      value="r3">
-              <span class="heading-small">My parent or grand-parent</span>
+              <span class="heading-small">{{ __('My parent or grand-parent') }}</span>
               <br>
-              Includes step-parent or adoptive parent
+              {{ __('Includes step-parent or adoptive parent') }}
             </label>
 
             <label for="sibling" class="block-label" data-target="sibling-question">
@@ -63,9 +63,9 @@ How are you related to the prisoner - {{ serviceName }}
                      type="radio"
                      name="relationship"
                      value="r4">
-              <span class="heading-small">My brother or sister</span>
+              <span class="heading-small">{{ __('My brother or sister') }}</span>
               <br>
-              Includes half-sibling, or step-sibling
+              {{ __('Includes half-sibling, or step-sibling') }}
             </label>
 
             <label for="child" class="block-label" data-target="child-question">
@@ -73,9 +73,9 @@ How are you related to the prisoner - {{ serviceName }}
                      type="radio"
                      name="relationship"
                      value="r5">
-              <span class="heading-small">My son or daughter</span>
+              <span class="heading-small">{{ __('My son or daughter') }}</span>
               <br>
-              Includes step- or adopted son or daughter
+              {{ __('Includes step- or adopted son or daughter') }}
             </label>
 
             <label for="next-of-kin" class="block-label" data-target="next-of-kin-question">
@@ -83,9 +83,9 @@ How are you related to the prisoner - {{ serviceName }}
                      type="radio"
                      name="relationship"
                      value="r8">
-              <span class="heading-small">Next of kin</span>
+              <span class="heading-small">{{ __('Next of kin') }}</span>
               <br>
-              As noted by prisoner in prison records
+              {{ __('As noted by prisoner in prison records') }}
             </label>
 
             <label for="sole-visitor" class="block-label">
@@ -93,7 +93,7 @@ How are you related to the prisoner - {{ serviceName }}
                      type="radio"
                      name="relationship"
                      value="r6">
-              <span class="heading-small">None of the above, but I was their only visitor in the previous 4 weeks (sole visitor)</span>
+              <span class="heading-small">{{ __('None of the above, but I was their only visitor in the previous 4 weeks (sole visitor)') }}</span>
               <br>
             </label>
 
@@ -102,7 +102,7 @@ How are you related to the prisoner - {{ serviceName }}
                      type="radio"
                      name="relationship"
                      value="r7">
-              <span class="heading-small">None of the above</span>
+              <span class="heading-small">{{ __('None of the above') }}</span>
               <br>
             </label>
 
@@ -114,7 +114,7 @@ How are you related to the prisoner - {{ serviceName }}
           <input id="prisoner-relationship-submit"
                  type="submit"
                  class="button"
-                 value="Continue">
+                 value="{{ __('Continue') }}">
         </div>
       </form>
 

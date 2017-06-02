@@ -1,25 +1,25 @@
 <table class="col-2">
   <tr>
-    <td>Visitor</td>
+    <td>{{ __('Visitor') }}</td>
     <td>{{ claimDetails.claim['FirstName'] }} {{ claimDetails.claim['LastName'] }}</td>
   </tr>
 
   {% if claimDetails.claimEscort %}
   <tr>
-    <td>Escort</td>
+    <td>{{ __('Escort') }}</td>
     <td>{{ claimDetails.claimEscort['FirstName'] }} {{ claimDetails.claimEscort['LastName'] }}</td>
   </tr>
   {% endif %}
 
   {% for child in claimDetails.claimChild %}
   <tr>
-    <td>Child</td>
+    <td>{{ __('Child') }}</td>
     <td>{{ child['FirstName'] }} {{ child['LastName'] }}</td>
   </tr>
   {% endfor %}
 
   <tr id='benefit-information' {% if errors['benefit-information'][0] %} class="warning" {% endif %}{% if forEdit %}{% if claimDetails.claim['benefitDocument'][0].fromInternalWeb %} {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or  claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% endif %}{% endif %}>
-    <td>Benefit information</td>
+    <td>{{ __('Benefit information') }}</td>
     <td>
       {{ displayHelper.getBenefitDisplayName(claimDetails.claim['Benefit']) }}
 
@@ -29,18 +29,18 @@
         {% if claimDetails.claim['benefitDocument'][0].fromInternalWeb or updated%}
           {% if forEdit %}
             {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'uploaded' and claimDetails.claim['BenefitStatus'] != 'REQUEST-INFORMATION'%}
-              <span class="text-success">Benefit documentation uploaded</span>
+              <span class="text-success">{{ __('Benefit documentation uploaded') }}</span>
             {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION'%}
-              <span class="text-warning">Benefit documentation needed</span>
-              <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-benefit-documentation" class="button grey pull-right">Add</a>
+              <span class="text-warning">{{ __('Benefit documentation needed') }}</span>
+              <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-benefit-documentation" class="button grey pull-right">{{ __('Add') }}</a>
             {% else %}
-              <span class="text-pending">Sending benefit documentation by post</span>
-              <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">change</a>
+              <span class="text-pending">{{ __('Sending benefit documentation by post') }}</span>
+              <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">{{ __('change') }}</a>
             {% endif %}
 
           {% else %}
             {% if forReview and claimDetails.claim['BenefitStatus'] != 'APPROVED' %}
-              <span class="text-pending">In review</span>
+              <span class="text-pending">{{ __('In review') }}</span>
             {% else %}
               <span {% if claimDetails.claim['BenefitStatus'] == 'APPROVED' %} class="text-success" {% else %} class="text-warning" {% endif %}>{{ claimStatusHelper(claimDetails.claim['BenefitStatus']) }}</span>
             {% endif %}
@@ -52,51 +52,51 @@
             <ul class="list doc-upload">
               {% for benefit in claimDetails.claim['benefitDocument'] %}
                 <li>
-                  <span class="text-success">Benefit documentation uploaded</span>
+                  <span class="text-success">{{ __('Benefit documentation uploaded') }}</span>
                   <form
                     action="{{ URL }}/view-document/{{ benefit['ClaimDocumentId'] }}"
                     method="get" class="form pull-right">
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                    <button class="link">view</button>
+                    <button class="link">{{ __('view') }}</button>
                   </form>
                   <span class="button-separator"></span>
                   <form
                     action="{{ URL }}/remove-document/{{ benefit['ClaimDocumentId'] }}?document={{ claimDetails.claim['Benefit'] }}&multipage=true"
                     method="post" class="form pull-right">
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                    <button class="link" name="remove">remove</button>
+                    <button class="link" name="remove">{{ __('remove') }}</button>
                   </form>
                 </li>
               {% endfor %}
-              <li><a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&hideAlt=true&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-benefit" class="button grey pull-right">Add another page</a></li>
+              <li><a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&hideAlt=true&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-benefit" class="button grey pull-right">{{ __('Add another page') }}</a></li>
             </ul>
             {% else %}
-              <span class="text-success">Benefit documentation uploaded</span>
+              <span class="text-success">{{ __('Benefit documentation uploaded') }}</span>
               <form
                 action="{{ URL }}/view-document/{{ claimDetails.claim.benefitDocument[0]['ClaimDocumentId'] }}"
                 method="get" class="form pull-right">
                 <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                <button class="link">view</button>
+                <button class="link">{{ __('view') }}</button>
               </form>
               <span class="button-separator"></span>
               <form
                 action="{{ URL }}/remove-document/{{ claimDetails.claim.benefitDocument[0]['ClaimDocumentId'] }}?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}"
                 method="post" class="form pull-right">
                 <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                <button class="remove link" name="remove">remove</button>
+                <button class="remove link" name="remove">{{ __('remove') }}</button>
               </form>
             {% endif %}
           {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' %}
-            <span class="text-pending">Uploading benefit documentation later</span>
-            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">change</a>
+            <span class="text-pending">{{ __('Uploading benefit documentation later') }}</span>
+            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">{{ __('change') }}</a>
           {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'post-later' %}
-            <span class="text-pending">Sending benefit documentation by post</span>
-            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">change</a>
+            <span class="text-pending">{{ __('Sending benefit documentation by post') }}</span>
+            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">{{ __('change') }}</a>
           {% elif benefitUploadNotRequired %}
-            <span class="text-success">Benefit document previously uploaded</span>
+            <span class="text-success">{{ __('Benefit document previously uploaded') }}</span>
           {% else %}
-            <span class="text-warning">Benefit documentation needed</span>
-            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-benefit" class="button grey pull-right">Add</a>
+            <span class="text-warning">{{ __('Benefit documentation needed') }}</span>
+            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-benefit" class="button grey pull-right">{{ __('Add') }}</a>
           {% endif %}
 
         {% endif %}

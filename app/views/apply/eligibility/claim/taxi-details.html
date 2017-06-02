@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Enter your taxi journey details - {{ serviceName }}
+  {{ __('Enter your taxi journey details') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,25 +16,28 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Your taxi journey
+        {{ __('Your taxi journey') }}
       </h1>
 
-      <p>You can get help paying for a taxi if public transport {% if isAdvanceClaim %}isn't{% else %}wasn’t{% endif %} available for part of the journey and it would
-        take longer that 20 minutes to walk.</p>
-
-      <p>If you are over 75 or have a medical reason, you can take a longer taxi journey.</p>
+      {% if isAdvanceClaim %}
+      <p>{{ __('You can get help paying for a taxi if public transport isn\'t available for part of the journey and it would take longer that 20 minutes to walk.') }}</p>
+      {% else %}
+      <p>{{ __('You can get help paying for a taxi if public transport wasn\’t available for part of the journey and it would take longer that 20 minutes to walk.') }}</p>
+      {% endif %}
+      
+      <p>{{ __('If you are over 75 or have a medical reason, you can take a longer taxi journey.') }}</p>
 
       <form action="/apply/eligibility/claim/taxi{{ params }}"
             method="post">
 
         <div class="form-group {% if errors['from'][0] %} error {% endif %}">
-          <label id="from" for="from-input" class="form-label-bold">From</label>
+          <label id="from" for="from-input" class="form-label-bold">{{ __('From') }}</label>
 
           {% if errors['from'][0] %}
             <span class="error-message">{{ errors['from'][0] }}</span>
           {% endif %}
 
-          <p class="form-hint">For example, Birmingham New Street</p>
+          <p class="form-hint">{{ __('For example') }}, Birmingham New Street</p>
 
           <input id="from-input"
                  type="text"
@@ -45,13 +48,13 @@
         </div>
 
         <div class="form-group {% if errors['to'][0] %} error {% endif %}">
-          <label id="to" for="to-input" class="form-label-bold">To</label>
+          <label id="to" for="to-input" class="form-label-bold">{{ __('To') }}</label>
 
           {% if errors['to'][0] %}
             <span class="error-message">{{ errors['to'][0] }}</span>
           {% endif %}
 
-          <p class="form-hint">For example, Hewell</p>
+          <p class="form-hint">{{ __('For example') }}, Hewell</p>
 
           <input id="to-input"
                  type="text"
@@ -71,12 +74,12 @@
 
         <input id="taxi-details-submit"
                type="submit"
-               value="Continue"
+               value="{{ __('Continue') }}"
                class="button">
       </form>
 
       <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
+      <a href="{{ redirectUrl }}" class="link">{{ __('Remove this journey') }}</a>
 
     </div>
   </div>

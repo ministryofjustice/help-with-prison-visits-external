@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Start a new claim or view existing claim - {{ serviceName }}
+  {{ __('Start a new claim or view existing claim') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@
 
     <div class="column-two-thirds">
       <h1 class="heading-large push-top">
-        <span class="heading-secondary">Reference number</span>{{ reference }}
+        <span class="heading-secondary">{{ __('Reference number') }}</span>{{ reference }}
       </h1>
     </div>
 
@@ -26,17 +26,17 @@
   <div class="grid-row">
 
     <div class="column-one-third">
-      <span class="text-secondary">Prisoner name</span>
+      <span class="text-secondary">{{ __('Prisoner name') }}</span>
       <div class="bold-small">{{ claims[0].FirstName }} {{ claims[0].LastName }}</div>
     </div>
 
     <div class="column-one-third">
-      <span class="text-secondary">Prison</span>
+      <span class="text-secondary">{{ __('Prison') }}</span>
       <div class="bold-small">{{ displayHelper.getPrisonDisplayName(claims[0].NameOfPrison) }}</div>
     </div>
 
     <div class="column-one-third">
-      <span class="text-secondary">Prisoner number</span>
+      <span class="text-secondary">{{ __('Prisoner number') }}</span>
       <div class="bold-small">{{ claims[0].PrisonNumber }}</div>
     </div>
 
@@ -49,55 +49,59 @@
   {% else %}
   <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />
   <br />
-  <p class="text-warning">You can't start a new claim as you have an existing claim in progress</p>
+  <p class="text-warning">{{ __('You can\'t start a new claim as you have an existing claim in progress') }}</p>
   <br />
   {% endif %}
 
   <br />
-  <a href="/start" class="link">Make a claim for a different prisoner</a>
+  <a href="/start" class="link">{{ __('Make a claim for a different prisoner') }}</a>
 
   <hr>
 
   <h2 class="heading-medium">
-    Your claim{% if claims[1] %}s{% endif %}
+    {% if claims[1] %}
+    {{ __('Your claims') }}
+    {% else %}
+    {{ __('Your claim') }}
+    {% endif %}
   </h2>
 
   <table class="claim-list">
 
     <tr>
-      <th>Date sent</th>
-      <th>Date of visit</th>
-      <th>Progress</th>
+      <th>{{ __('Date sent') }}</th>
+      <th>{{ __('Date of visit') }}</th>
+      <th>{{ __('Progress') }}</th>
       <th></th>
     </tr>
 
     {% for claim in claims %}
       <tr {% if forEdit(claim.Status) %} class='warning' {% endif %}>
-        <td><span class="date-submmited">Date sent </span>{{ dateHelper(claim.DateSubmitted) }}
-        <td><span class="visit-date">	Date of visit </span>{{ dateHelper(claim.DateOfJourney) }}</td>
+        <td><span class="date-submmited">{{ __('Date sent') }} </span>{{ dateHelper(claim.DateSubmitted) }}
+        <td><span class="visit-date">{{ __('Date of visit') }} </span>{{ dateHelper(claim.DateOfJourney) }}</td>
         <td
           {% if claim.IsAdvanceClaim %}
             {% if claim.Status == 'APPROVED-ADVANCE-CLOSED' %}
-              >Approved
+              >{{ __('Approved') }}
             {% elif forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
-              class ="text-warning your-claims"><span class="claim-status">Progress </span>Information needed
+              class ="text-warning your-claims"><span class="claim-status">{{ __('Progress') }} </span>{{ __('Information needed') }}
             {% elif claim.Status == 'APPROVED' %}
-              class ="text-pending your-claims"><span class="claim-status">Progress </span>Information needed after visit takes place
+              class ="text-pending your-claims"><span class="claim-status">{{ __('Progress') }} </span>{{ __('Information needed after visit takes place') }}
             {% elif claim.Status == 'REJECTED' %}
-              >Rejected
+              >__('Rejected') }}
             {% else %}
-              class ="text-pending your-claims"><span class="claim-status">Progress </span>In progress
+              class ="text-pending your-claims"><span class="claim-status">{{ __('Progress') }} </span>{{ __('In progress') }}
             {% endif %}
 
           {% else %}
-            ><span class="claim-status">Progress </span>{{ claimStatusHelper(claim.Status) }}
+            ><span class="claim-status">{{ __('Progress') }} </span>{{ claimStatusHelper(claim.Status) }}
           {% endif %}
         </td>
         <td><a id="add-info" href="/your-claims/{{ claim.ClaimId }}"
         {% if forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
-          class="button grey"> Add information
+          class="button grey"> {{ __('Add information') }}
         {% else %}
-          >View
+          >{{ __('View') }}
         {% endif %}
         </a></td>
       </tr>

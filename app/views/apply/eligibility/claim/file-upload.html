@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Upload your documentation - {{ serviceName }}
+  {{ __('Upload your documentation') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,40 +16,40 @@
       <h1 class="heading-large">
       {{ fileUploadGuidingText[document].title }}
       </h1>
-      <p>{{ fileUploadGuidingText[document].guidingText }}</p>
+      <p>{{ __(fileUploadGuidingText[document].guidingText) }}</p>
       {% if fileUploadGuidingText[document].displayDataProtection %}
       <p>
-        We ask you to provide this information in order to assess your eligibility to apply for financial assistance. The information you provide will be managed in accordance with our <a href="/terms-and-conditions">terms and conditions</a>.
+        {{ __('We ask you to provide this information in order to assess your eligibility to apply for financial assistance. The information you provide will be managed in accordance with our') }} <a href="/terms-and-conditions">{{ __('terms and conditions') }}</a>.
       </p>
       {% endif %}
 
-      <h2 id="upload" class="heading-medium">Upload now</h2>
-      <p>Your claim will be processed faster if you upload your document.</p>
+      <h2 id="upload" class="heading-medium">{{ __('Upload now') }}</h2>
+      <p>{{ __('Your claim will be processed faster if you upload your document.') }}</p>
       <form action="{{ URL }}" method="post" class="form" enctype="multipart/form-data">
 
       {% include "partials/csrf-hidden-input.html" %}
         <div>
           <div>
             <p id='document-name' class="column-two-quarter"></p>
-            <a id="remove-file-upload" class="link pull-right remove-upload" href="{{ URL }}">remove</a>
+            <a id="remove-file-upload" class="link pull-right remove-upload" href="{{ URL }}">{{ __('remove') }}</a>
           </div>
           <div>
               <input id="document" type="file" name="document" class="inputfile"/>
-              <label id="label" class="custom-file-upload" for="document">Choose File</label>
+              <label id="label" class="custom-file-upload" for="document">{{ __('Choose File') }}</label>
           </div>
 
         </div>
         <br>
         <div class="form-group">
           <details>
-            <summary><span class="summary">How to upload a file</span>
-              <span class="visually-hidden">If using a screen reader such as JAWS if having difficulty accessing this list then try pressing control + space to expand the list then L + down to read list items</span>
+            <summary><span class="summary">{{ __('How to upload a file') }}</span>
+              <span class="visually-hidden">{{ __('If using a screen reader such as JAWS if having difficulty accessing this list then try pressing control + space to expand the list then L + down to read list items') }}</span>
             </summary>
             <div class="panel panel-border-narrow">
               <ul class="list list-number">
-                <li>Take a photo using your smartphone, tablet or camera, or scan the document</li>
-                <li>Transfer the image to your computer or the device you’re using to make the claim</li>
-                <li>Go to ‘choose file’ above and find the image</li>
+                <li>{{ __('Take a photo using your smartphone, tablet or camera, or scan the document') }}</li>
+                <li>{{ __('Transfer the image to your computer or the device you’re using to make the claim') }}</li>
+                <li>{{ __('Go to ‘choose file’ above and find the image') }}</li>
               </ul>
             </div>
           </details>
@@ -57,21 +57,21 @@
 
         <div id="alternative" class="form-group" {% if hideAlternative %} hidden {% endif %}>
           <br>
-          <h3 class="heading-small">Can’t upload now?</h3>
+          <h3 class="heading-small">{{ __('Can\’t upload now?') }}</h3>
 
           <fieldset>
-            <legend class="visually-hidden">Choose alternative option to upload</legend>
+            <legend class="visually-hidden">{{ __('Choose alternative option to upload') }}</legend>
 
             <label for="Post" class="block-label">
               <input type="radio" name="alternative" value="post-later" id="Post">
-              <span class="heading-small">Send by post</span>
-              <br>It will take 10 or more days longer to process your claim
+              <span class="heading-small">{{ __('Send by post') }}</span>
+              <br>{{ __('It will take 10 or more days longer to process your claim') }}
             </label>
 
             <label for="UploadLater" class="block-label">
               <input type="radio" name="alternative" value="upload-later" id="UploadLater">
-              <span class="heading-small">Upload later</span>
-              <br> You will get a reference number allowing you to return and complete your application
+              <span class="heading-small">{{ __('Upload later') }}</span>
+              <br>{{ __('You will get a reference number allowing you to return and complete your application') }}
             </label>
 
           </fieldset>
@@ -81,11 +81,11 @@
           <input id="file-upload-submit"
                  type="submit"
                  name="commit"
-                 value="Continue"
+                 value="{{ __('Continue') }}"
                  class="button">
         </div>
       </form>
-      <a href="{{ yourClaimUrl }}" class="link">Cancel and return to your claim</a>
+      <a href="{{ yourClaimUrl }}" class="link">{{ __('Cancel and return to your claim') }}</a>
     </div>
   </div>
 </main>

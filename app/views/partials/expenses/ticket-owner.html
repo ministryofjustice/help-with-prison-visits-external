@@ -1,20 +1,20 @@
 {% if expenseOwners.child or expenseOwners.escort %}
   <div class='form-group {% if errors['ticket-owner'][0] %} error {% endif %}' id='ticket-owner'>
-    <h2 class='form-label-bold'>Who is this ticket for?</h2>
+    <h2 class='form-label-bold'>{{ __('Who is this ticket for?') }}</h2>
 
     {% if errors['ticket-owner'][0] %}
       <span class="error-message">{{ errors['ticket-owner'][0] }}</span>
     {% endif %}
 
     <fieldset>
-      <legend class="visually-hidden">Who is this ticket for</legend>
+      <legend class="visually-hidden">{{ __('Who is this ticket for') }}</legend>
 
       <label for="is-your-ticket" class="block-label inline">
           <input id="is-your-ticket"
                 type="radio"
                 name="ticket-owner"
                 value="you">
-          Yourself
+          {{ __('Yourself') }}
       </label>
 
       {% if expenseOwners.child %}
@@ -23,7 +23,7 @@
                   type="radio"
                   name="ticket-owner"
                   value="child">
-          Child
+          {{ __('Child') }}
         </label>
       {% endif %}
 
@@ -33,7 +33,7 @@
                   type="radio"
                   name="ticket-owner"
                   value="escort">
-          Escort
+          {{ __('Escort') }}
         </label>
       {% endif %}
 
@@ -48,7 +48,7 @@
               name="ticket-owner"
               value="you"
               checked>
-        Yourself
+        {{ __('Yourself') }}
     </label>
   </div>
 {% endif %}

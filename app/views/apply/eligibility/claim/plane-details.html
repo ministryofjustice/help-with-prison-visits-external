@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Enter your plane journey details - {{ serviceName }}
+  {{ __('Enter your plane journey details') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,12 +16,12 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Your plane journey
+        {{ __('Your plane journey') }}
       </h1>
 
-      <p>You may get help paying for air travel if it is cheaper than other public transport options.</p>
+      <p>{{ __('You may get help paying for air travel if it is cheaper than other public transport options.') }}</p>
       {% if not isAdvanceClaim %}
-        <p>Claims that include air travel should be approved before you travel by the Assisted Prison Visits Unit.</p>
+        <p>{{ __('Claims that include air travel should be approved before you travel by the Assisted Prison Visits Unit.') }}</p>
       {% endif %}
 
       <form action="/apply/eligibility/claim/plane{{ params }}"
@@ -47,11 +47,11 @@
         <input id="plane-details-submit"
                type="submit"
                class="button"
-               value="Continue">
+               value="{{ __('Continue') }}">
       </form>
 
       <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
+      <a href="{{ redirectUrl }}" class="link">{{ __('Remove this journey') }}</a>
 
     </div>
   </div>

@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Enter your light refreshment details - {{ serviceName }}
+  {{ __('Enter your light refreshment details') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,14 +16,14 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Light refreshments
+        {{ __('Light refreshments') }}
       </h1>
 
-      <p>If you were away from home for more than 5 hours you may get a contribution for food and drink.</p>
+      <p>{{ __('If you were away from home for more than 5 hours you may get a contribution for food and drink.') }}</p>
 
-      <p>There’s a limit of £2.55 per person for trips over 5 hours and £5.10 for trips over 10 hours.</p>
+      <p>{{ __('There’s a limit of £2.55 per person for trips over 5 hours and £5.10 for trips over 10 hours.') }}</p>
 
-      <p>Give the total for every person you are claiming for.</p>
+      <p>{{ __('Give the total for every person you are claiming for.') }}</p>
 
       <form action="/apply/eligibility/claim/refreshment{{ params }}"
             method="post">
@@ -31,18 +31,18 @@
         {% set costExample = 2.55 %}
         {% include "partials/expenses/cost.html" %}
 
-        <p>Keep receipts as you may need to show them later on.<p>
+        <p>{{ __('Keep receipts as you may need to show them later on.') }}<p>
 
         {% include "partials/csrf-hidden-input.html" %}
 
         <input id="light-refreshment-details-submit"
                type="submit"
-               value="Continue"
+               value="{{ __('Continue') }}"
                class="button">
       </form>
 
       <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this expense</a>
+      <a href="{{ redirectUrl }}" class="link">{{ __('Remove this expense') }}</a>
 
     </div>
   </div>

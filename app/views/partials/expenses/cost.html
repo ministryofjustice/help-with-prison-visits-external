@@ -1,11 +1,11 @@
 <div id="cost" class="form-group {% if errors['cost'][0] %} error {% endif %}">
-  <label for="cost-input" class="form-label-bold">{% if isAdvanceClaim %}Estimated cost{% else %}Cost{% endif %}</label>
+  <label for="cost-input" class="form-label-bold">{% if isAdvanceClaim %} {{ __('Estimated cost') }} {% else %} {{ __('Cost') }} {% endif %}</label>
 
   {% if errors['cost'][0] %}
     <span class="error-message">{{ errors['cost'][0] }}</span>
   {% endif %}
 
-  <p class="form-hint">For example, {{ costExample }}</p>
+  <p class="form-hint">{{ __('For example') }} , {{ costExample }}</p>
   <div class="pound-wrapper">
     <span>£</span>
     <input id="cost-input"

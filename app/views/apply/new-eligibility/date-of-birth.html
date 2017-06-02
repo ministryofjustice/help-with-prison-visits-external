@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-What is your date of birth - {{ serviceName }}
+{{ __('What is your date of birth') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,10 +16,10 @@ What is your date of birth - {{ serviceName }}
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        What is your date of birth?
+        {{ __('What is your date of birth?') }}
       </h1>
 
-      <p>You must be 18 or over (16 or over in Scotland)</p>
+      <p>{{ __('You must be 18 or over (16 or over in Scotland)') }}</p>
 
       <form action="/apply/{{ claimType }}/new-eligibility/date-of-birth" method="post">
 
@@ -32,12 +32,12 @@ What is your date of birth - {{ serviceName }}
 
             <div id="dob" class="form-date">
               <fieldset>
-                <legend class="visually-hidden">Date of birth</legend>
+                <legend class="visually-hidden">{{ __('Date of birth') }}</legend>
 
-                <p class="form-hint">For example, 18 08 1989</p>
+                <p class="form-hint">{{ __('For example') }}, 18 08 1989</p>
 
                 <div class="form-group form-group-day">
-                  <label id="dob-day" for="dob-day-input">Day</label>
+                  <label id="dob-day" for="dob-day-input">{{ __('Day') }}</label>
                   <input id="dob-day-input"
                          type="number"
                          name="dob-day"
@@ -47,7 +47,7 @@ What is your date of birth - {{ serviceName }}
                 </div>
 
                 <div class="form-group form-group-month">
-                  <label id="dob-month" for="dob-month-input">Month</label>
+                  <label id="dob-month" for="dob-month-input">{{ __('Month') }}</label>
                   <input id="dob-month-input"
                          type="number"
                          name="dob-month"
@@ -57,7 +57,7 @@ What is your date of birth - {{ serviceName }}
                 </div>
 
                 <div class="form-group form-group-year">
-                  <label id="dob-year" for="dob-year-input">Year</label>
+                  <label id="dob-year" for="dob-year-input">{{ __('Year') }}</label>
                   <input id="dob-year-input"
                          type="number"
                          name="dob-year"
@@ -74,7 +74,7 @@ What is your date of birth - {{ serviceName }}
         <div class="form-group">
           <input id="date-of-birth-submit"
                  type="submit"
-                 value="Continue"
+                 value="{{ __('Continue') }}"
                  class="button">
         </div>
       </form>

@@ -1,11 +1,11 @@
 <div class="form-group {% if errors['from'][0] %} error {% endif %}">
-  <label id="from" for="from-input" class="form-label-bold">From</label>
+  <label id="from" for="from-input" class="form-label-bold">{{ __('From') }} </label>
 
   {% if errors['from'][0] %}
     <span class="error-message">{{ errors['from'][0] }}</span>
   {% endif %}
 
-  <p class="form-hint">For example, {{ exampleFrom }}</p>
+  <p class="form-hint">{{ __('For example') }} , {{ exampleFrom }}</p>
   <input id="from-input"
          type="text"
          name="from"

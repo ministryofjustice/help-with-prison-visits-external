@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Your claim - {{ serviceName }}
+  {{ __('Your claim') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
 
   {% if updated %}
     <div id="application-updated" class="success-summary medium">
-      Application updated
+      {{ __('Application updated') }}
     </div>
   {% endif %}
 
@@ -21,16 +21,16 @@
   {% include "partials/claim-summary/claim-summary-information-requested.html" %}
 
   <h1 class="heading-large">
-    Your claim
+    {{ __('Your claim') }}
   </h1>
 
   {% if not updated %}
-    <p>Add evidence for your claim.</p>
+    <p>{{ __('Add evidence for your claim.') }}</p>
   {% endif %}
 
   {% include "partials/claim-summary/claim-summary-visitor.html" %}
 
-  <h2 class="heading-medium">Your visit</h2>
+  <h2 class="heading-medium">{{ __('Your visit') }}</h2>
 
   {% include "partials/claim-summary/claim-summary-visit.html" %}
 
@@ -48,7 +48,7 @@
 
         {% if isRequestInfoPayment %}
           <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
-            <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account Number</label>
+            <label id="AccountNumber" class="form-label-bold" for="account-number-input">{{ __('Account Number') }}</label>
             {% if errors['AccountNumber'][0] %}
             <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
             {% endif %}
@@ -60,7 +60,7 @@
           </div>
 
           <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
-            <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort Code</label>
+            <label id="SortCode" class="form-label-bold" for="sort-code-input">{{ __('Sort Code') }}</label>
             {% if errors['SortCode'][0] %}
             <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
             {% endif %}
@@ -72,7 +72,7 @@
           </div>
         {% endif %}
 
-        <label id="send-message-to-caseworker" name="send-message-to-caseworker" class="form-label-bold">Send a message to your caseworker (optional)</label>
+        <label id="send-message-to-caseworker" name="send-message-to-caseworker" class="form-label-bold">{{ __('Send a message to your caseworker (optional)') }}</label>
         <textarea id="message-to-caseworker" name="message-to-caseworker" type="text" class="form-control"></textarea>
 
         <br>
@@ -83,9 +83,9 @@
                class="button">
         <br>
         <br>
-        <a href="/your-claims" id="cancel" class="link">cancel</a>
+        <a href="/your-claims" id="cancel" class="link">{{ __('cancel') }}</a>
       {% else %}
-        <a href="/your-claims" id="back" class="link">back</a>
+        <a href="/your-claims" id="back" class="link">{{ __('back') }}</a>
       {% endif %}
     </div>
 

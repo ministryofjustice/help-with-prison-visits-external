@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Enter your train journey details - {{ serviceName }}
+  {{ __('Enter your train journey details') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,9 +16,9 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Your train journey
+        {{ __('Your train journey') }}
       </h1>
-      <p>You can only claim for standard off peak trains</p>
+      <p>{{ __('You can only claim for standard off peak trains') }}</p>
       <form action="/apply/eligibility/claim/train{{ params }}"
             method="post">
         {% include "partials/expenses/ticket-owner.html" %}
@@ -29,13 +29,13 @@
         {% if isAdvanceClaim  %}
 
           <div id="departure-time" class="form-group {% if errors['departure-time'][0] %} error {% endif %}">
-            <label for="departure-time-input" class="form-label-bold">Departure time</label>
+            <label for="departure-time-input" class="form-label-bold">{{ __('Departure time') }}</label>
 
             {% if errors['departure-time'][0] %}
             <span class="error-message">{{ errors['departure-time'][0] }}</span>
             {% endif %}
 
-            <p class="form-hint">For example, 10am</p>
+            <p class="form-hint">{{ __('For example') }}, 10am</p>
             <input id="departure-time-input"
                    type="text"
                    autocomplete="off"
@@ -55,11 +55,11 @@
 
           <div id="return-time" class="panel panel-border-narrow js-hidden">
             <div class="form-group {% if errors['return-time'][0] %} error {% endif %}">
-              <label class="form-label-bold" for="return-time-input">What time is your return train home?</label>
+              <label class="form-label-bold" for="return-time-input">{{ __('What time is your return train home?') }}</label>
                 {% if errors['return-time'][0] %}
                   <span class="error-message">{{ errors['return-time'][0] }}</span>
                 {% endif %}
-              <p class="form-hint">For example, 4pm</p>
+              <p class="form-hint">{{ __('For example') }}, 4pm</p>
               <input id="return-time-input" name="return-time-input" type="text" autocomplete="off" class="form-control">
 
             </div>
@@ -68,13 +68,13 @@
         {% else %}
 
           <div id="cost" class="form-group {% if errors['cost'][0] %} error {% endif %}">
-            <label for="cost-input" class="form-label-bold">Cost</label>
+            <label for="cost-input" class="form-label-bold">{{ __('Cost') }}</label>
 
             {% if errors['cost'][0] %}
             <span class="error-message">{{ errors['cost'][0] }}</span>
             {% endif %}
 
-            <p class="form-hint">For example, 20</p>
+            <p class="form-hint">{{ __('For example') }}, 20</p>
             <div class="pound-wrapper">
               <span>£</span>
               <input id="cost-input"
@@ -97,11 +97,11 @@
         <input id="train-details-submit"
                type="submit"
                class="button"
-               value="Continue">
+               value="{{ __('Continue') }}">
       </form>
 
       <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
+      <a href="{{ redirectUrl }}" class="link">{{ __('Remove this journey') }}</a>
 
     </div>
   </div>

@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Date of the prison visit you are claiming for - {{ serviceName }}
+  {{ __('Date of the prison visit you are claiming for') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,13 +16,13 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Date of prison visit
+        {{ __('Date of prison visit') }}
       </h1>
 
       {% if advanceOrPast == 'past' %}
-        <p>The visit must have been in the last 28 days.</p>
+        <p>{{ __('The visit must have been in the last 28 days.') }}</p>
       {% else %}
-        <p>The visit must be in the next 28 days.</p>
+        <p>{{ __('The visit must be in the next 28 days.') }}</p>
       {% endif %}
       <form action="/apply/eligibility/new-claim/journey-information" method="post">
 
@@ -35,10 +35,10 @@
 
             <div id="DateOfJourney" class="form-date">
               <fieldset>
-                <legend class="visually-hidden">Date of visit</legend>
+                <legend class="visually-hidden">{{ __('Date of visit') }}</legend>
 
                 <div class="form-group form-group-day">
-                  <label for="date-of-journey-day">Day</label>
+                  <label for="date-of-journey-day">{{ __('Day') }}</label>
                   <input id="date-of-journey-day"
                          name="date-of-journey-day"
                          autocomplete="off"
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="form-group form-group-month">
-                  <label for="date-of-journey-month">Month</label>
+                  <label for="date-of-journey-month">{{ __('Month') }}</label>
                   <input id="date-of-journey-month"
                          name="date-of-journey-month"
                          autocomplete="off"
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="form-group form-group-year">
-                  <label for="date-of-journey-year">Year</label>
+                  <label for="date-of-journey-year">{{ __('Year') }}</label>
                   <input id="date-of-journey-year"
                          name="date-of-journey-year"
                          autocomplete="off"
@@ -73,7 +73,7 @@
 
         <input id="journey-information-submit"
                type="submit"
-               value="Continue"
+               value="{{ __('Continue') }}"
                class="button">
       </form>
 

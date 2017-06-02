@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Enter your bus journey details - {{ serviceName }}
+  {{ __('Enter your bus journey details') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Your bus journey
+        {{ __('Your bus journey') }}
       </h1>
 
       <form action="/apply/eligibility/claim/bus{{ params }}"
@@ -42,11 +42,11 @@
         <input id="bus-details-submit"
                type="submit"
                class="button"
-               value="Continue">
+               value="{{ __('Continue') }}">
       </form>
 
       <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
+      <a href="{{ redirectUrl }}" class="link">{{ __('Remove this journey') }}</a>
 
     </div>
   </div>

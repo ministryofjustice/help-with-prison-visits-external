@@ -5,7 +5,7 @@
            type="checkbox"
            name="add-another-journey"
            {% if expense['add-another-journey'] == 'on' %} checked {% endif %}>
-    Add another {{ journeyType }} journey
+    {{ __('Add another')) }} {{ journeyType }} {{ __('journey') }}
   </label>
 
 </div>

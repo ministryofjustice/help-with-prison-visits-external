@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-Enter information about the prisoner being visited - {{ serviceName }}
+{{ __('Enter information about the prisoner being visited') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,13 +16,13 @@ Enter information about the prisoner being visited - {{ serviceName }}
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        About the prisoner
+        {{ __('About the prisoner') }}
       </h1>
 
       <form action="{{ URL }}" method="post">
 
         <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
-          <label id="FirstName" class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
+          <label id="FirstName" class="form-label-bold" for="prisoner-first-name">{{ __('Prisoner first name') }}</label>
           {% if errors['FirstName'][0] %}
           <span class="error-message" id="error-message-FirstName">{{ errors['FirstName'][0] }}</span>
           {% endif %}
@@ -35,7 +35,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
         </div>
 
         <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-          <label id="LastName" class="form-label-bold" for="prisoner-last-name">Prisoner last name</label>
+          <label id="LastName" class="form-label-bold" for="prisoner-last-name">{{ __('Prisoner last name') }}</label>
           {% if errors['LastName'][0] %}
           <span class="error-message" id="error-message-LastName">{{ errors['LastName'][0] }}</span>
           {% endif %}
@@ -49,7 +49,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
 
         <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
           <fieldset>
-            <legend id="dob" class="form-label-bold">Prisoner date of birth</legend>
+            <legend id="dob" class="form-label-bold">{{ __('Prisoner date of birth') }}</legend>
 
             {% if errors['dob'][0] %}
             <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
@@ -57,10 +57,10 @@ Enter information about the prisoner being visited - {{ serviceName }}
 
             <div class="form-date">
 
-              <p class="form-hint">For example, 18 08 1989</p>
+              <p class="form-hint">{{ __('For example') }}, 18 08 1989</p>
 
               <div class="form-group form-group-day">
-                <label for="dob-day">Day</label>
+                <label for="dob-day">{{ __('Day') }}</label>
                 <input id="dob-day"
                        name="dob-day"
                        value="{{ prisoner['dob-day'] }}"
@@ -70,7 +70,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
               </div>
 
               <div class="form-group form-group-month">
-                <label for="dob-month">Month</label>
+                <label for="dob-month">{{ __('Month') }}</label>
                 <input id="dob-month"
                        name="dob-month"
                        value="{{ prisoner['dob-month'] }}"
@@ -80,7 +80,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
               </div>
 
               <div class="form-group form-group-year">
-                <label for="dob-year">Year</label>
+                <label for="dob-year">{{ __('Year') }}</label>
                 <input id="dob-year"
                        name="dob-year"
                        value="{{ prisoner['dob-year'] }}"
@@ -94,9 +94,9 @@ Enter information about the prisoner being visited - {{ serviceName }}
         </div>
 
         <div class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
-          <label id="PrisonerNumber" class="form-label-bold" for="prisoner-number">Prisoner number</label>
+          <label id="PrisonerNumber" class="form-label-bold" for="prisoner-number">{{ __('Prisoner number') }}</label>
         {% if not prisonerNumber %}
-          <p class="form-hint">For example, A1234BC</p>
+          <p class="form-hint">{{ __('For example') }}, A1234BC</p>
           {% if errors['PrisonerNumber'][0] %}
           <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
           {% endif %}
@@ -114,14 +114,14 @@ Enter information about the prisoner being visited - {{ serviceName }}
         </div>
 
         <div class="form-group {% if errors['NameOfPrison'][0] %} error {% endif %}">
-          <label id="NameOfPrison" class="form-label-bold" for="prison-name">Name of the prison</label>
-          <p class="form-hint">For example, Hewell</p>
+          <label id="NameOfPrison" class="form-label-bold" for="prison-name">{{ __('Name of the prison') }}</label>
+          <p class="form-hint">{{ __('For example') }}, Hewell</p>
           {% if errors['NameOfPrison'][0] %}
           <span class="error-message" id="error-message-NameOfPrison">{{ errors['NameOfPrison'][0] }}</span>
           {% endif %}
           <!-- Ignore WCAG2AA.Principle4.Guideline4_1.4_1_2.H91 and WCAG2AA.Principle1.Guideline1_3.1_3_1.F68, caused by autocomplete generated input -->
           <select id="prison-name" class="form-control js-autocomplete" name="NameOfPrison" aria-label="Name of the prison">
-            <option value="">select</option>
+            <option value="">{{ __('select') }}</option>
             <optgroup label="England / Wales">
             {% for key, prison in displayHelper.getPrisonsByRegion('ENG/WAL') %}
               <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
@@ -155,7 +155,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
         <input id="about-the-prisoner-submit"
                type="submit"
                class="button"
-               value="Continue">
+               value="{{ __('Continue') }}">
       </form>
 
     </div>

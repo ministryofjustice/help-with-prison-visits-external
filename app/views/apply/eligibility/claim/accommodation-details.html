@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Enter your accommodation details - {{ serviceName }}
+  {{ __('Enter your accommodation details') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,26 +16,26 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Your accommodation
+        {{ __('Your accommodation') }}
       </h1>
 
-      <p>Claims that include accommodation must be approved before you travel by the Assisted Prison Visits Unit.</p>
+      <p>{{ __('Claims that include accommodation must be approved before you travel by the Assisted Prison Visits Unit.') }}</p>
 
       <p>
-        You are allowed one accommodation expense per claim.
+        {{ __('You are allowed one accommodation expense per claim.') }}
       </p>
 
       <form action="/apply/eligibility/claim/accommodation{{ params }}"
             method="post">
 
         <div id="duration" class="form-group {% if errors['duration'][0] %} error {% endif %}">
-          <label for="duration-input" class="form-label-bold">Number of nights</label>
+          <label for="duration-input" class="form-label-bold">{{ __('Number of nights') }}</label>
 
           {% if errors['duration'][0] %}
             <span class="error-message">{{ errors['duration'][0] }}</span>
           {% endif %}
 
-          <p class="form-hint">For example, 1</p>
+          <p class="form-hint">{{ __('For example') }}, 1</p>
 
           <input id="duration-input"
                  type="text"
@@ -52,12 +52,12 @@
 
         <input id="accommodation-details-submit"
                type="submit"
-               value="Continue"
+               value="{{ __('Continue') }}"
                class="button">
       </form>
 
       <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this expense</a>
+      <a href="{{ redirectUrl }}" class="link">{{ __('Remove this expense') }}</a>
 
     </div>
   </div>

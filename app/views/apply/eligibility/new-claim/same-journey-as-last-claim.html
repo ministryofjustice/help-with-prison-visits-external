@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Are you applying for the same journey as last time - {{ serviceName }}
+  {{ __('Are you applying for the same journey as last time') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,14 +16,14 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Your last journey
+        {{ __('Your last journey') }}
       </h1>
 
       <table>
         <thead>
           <tr>
-            <th>Expense</th>
-            <th>Amount</th>
+            <th>{{ __('Expense') }}</th>
+            <th>{{ __('Amount') }}</th>
           </tr>
         </thead>
 
@@ -44,7 +44,7 @@
 
       {% if lastClaimDetails.escort[0] %}
       <p>
-        <div class="bold">Escort</div>
+        <div class="bold">{{ __('Escort') }}</div>
         {% for claimEscort in lastClaimDetails.escort %}
         <div>{{ claimEscort.FirstName + ' ' + claimEscort.LastName }}</div>
         {% endfor %}
@@ -53,26 +53,26 @@
 
       {% if lastClaimDetails.children[0] %}
       <p>
-        <div class="bold">Children</div>
+        <div class="bold">{{ __('Children') }}</div>
         {% for claimChild in lastClaimDetails.children %}
         <div>{{ claimChild.FirstName }} {{ claimChild.LastName }}</div>
         {% endfor %}
       </p>
       {% endif %}
 
-      <h2 class="heading-medium">Are you applying for the same journey as last time?</h2>
+      <h2 class="heading-medium">{{ __('Are you applying for the same journey as last time?') }}</h2>
 
       <form action="/apply/eligibility/new-claim/same-journey-as-last-claim" method="post" class="form">
 
         <div class="form-group">
           <fieldset>
-            <legend class="visually-hidden">Are you applying for the same journey as last time</legend>
+            <legend class="visually-hidden">{{ __('Are you applying for the same journey as last time') }}</legend>
             <label for="yes" class="block-label inline">
               <input type="radio"
                      name="same-journey-as-last-claim"
                      value="yes"
                      id="yes">
-              Yes
+              {{ __('Yes') }}
             </label>
 
             <label for="no" class="block-label inline">
@@ -80,7 +80,7 @@
                      name="same-journey-as-last-claim"
                      value="no"
                      id="no">
-              No
+              {{ __('No') }}
             </label>
           </fieldset>
         </div>
@@ -91,7 +91,7 @@
           <input type="submit"
                  id="same-journey-as-last-claim-submit"
                  name="commit"
-                 value="Continue"
+                 value="{{ __('Continue') }}"
                  class="button">
         </div>
 

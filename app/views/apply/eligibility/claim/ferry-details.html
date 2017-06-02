@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Enter your ferry journey details - {{ serviceName }}
+  {{ __('Enter your ferry journey details') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,11 +16,14 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Your ferry journey
+        {{ __('Your ferry journey
       </h1>
 
-      <p>You may be able to get help with the cost of a ferry ticket if your journey {% if isAdvanceClaim %}involves{% else %}involved{% endif %} a sea crossing
-        - for example from the Isle of Wight to the mainland.</p>
+      {% if isAdvanceClaim %}
+      <p>{{ __('You may be able to get help with the cost of a ferry ticket if your journey involves a sea crossing - for example from the Isle of Wight to the mainland.') }}</p>
+      {% else %}
+      <p>{{ __('You may be able to get help with the cost of a ferry ticket if your journey involved a sea crossing - for example from the Isle of Wight to the mainland.') }}</p>
+      {% endif %}
 
       <form action="/apply/eligibility/claim/ferry{{ params }}"
             method="post">
@@ -36,7 +39,7 @@
 
         <div class="form-group {% if errors['ticket-type'][0] %} error {% endif %}">
 
-          <h2 id="ticket-type" class="form-label-bold">Ticket type</h2>
+          <h2 id="ticket-type" class="form-label-bold">{{ __('Ticket type') }}</h2>
 
           {% if errors['ticket-type'][0] %}
             <span class="error-message">{{ errors['ticket-type'][0] }}</span>
@@ -48,7 +51,7 @@
                    name="ticket-type"
                    value="foot-passenger"
                    {% if expense['ticket-type'] == 'foot-passenger' %} checked {% endif %}>
-            Foot passenger
+            {{ __('Foot passenger') }}
           </label>
           <label for="ticket-type-no" class="block-label">
             <input id="ticket-type-no"
@@ -56,7 +59,7 @@
                    name="ticket-type"
                    value="car-passenger"
                    {% if expense['ticket-type'] == 'car-passenger' %} checked {% endif %}>
-            Car
+            {{ __('Car') }}
           </label>
 
         </div>
@@ -69,11 +72,11 @@
         <input id="ferry-details-submit"
                type="submit"
                class="button"
-               value="Continue">
+               value="{{ __('Continue') }}">
       </form>
 
       <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
+      <a href="{{ redirectUrl }}" class="link">{{ __('Remove this journey') }}</a>
 
     </div>
   </div>

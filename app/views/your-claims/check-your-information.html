@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Check your information - {{ serviceName }}
+  {{ __('Check your information') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -13,34 +13,34 @@
   {% include "includes/validation-error-messages.html" %}
 
   <h1 class="heading-large">
-    Check your information
+    {{ __('Check your information') }}
   </h1>
 
   <hr>
 
-    <a id="change-your-details" href="/apply/repeat-new-eligibility/new-eligibility/prisoner-relationship" class="button grey push-right">Change your details</a>
+    <a id="change-your-details" href="/apply/repeat-new-eligibility/new-eligibility/prisoner-relationship" class="button grey push-right">{{ __('Change your details') }}</a>
 
-    <p>Your name: <span class="bold">{{ eligibility['FirstName'] }} {{ eligibility['LastName'] }}</span></p>
+    <p>{{ __('Your name:') }} <span class="bold">{{ eligibility['FirstName'] }} {{ eligibility['LastName'] }}</span></p>
 
-    <p>Your address: <span class="bold">{{ eligibility['HouseNumberAndStreet'] }}, {{ eligibility['Town'] }}, {{ eligibility['PostCode'] }}</span></p>
+    <p>{{ __('Your address:') }} <span class="bold">{{ eligibility['HouseNumberAndStreet'] }}, {{ eligibility['Town'] }}, {{ eligibility['PostCode'] }}</span></p>
 
-    <p>You receive: <span class="bold">{{ displayHelper.getBenefitDisplayName(eligibility['Benefit']) }}</span></p>
+    <p>{{ __('You receive:') }} <span class="bold">{{ displayHelper.getBenefitDisplayName(eligibility['Benefit']) }}</span></p>
 
-    <p>You're the prisoner's: <span class="bold">{{ displayHelper.getPrisonerRelationshipDisplayName(eligibility['Relationship']) }}</span></p>
+    <p>{{ __('You're the prisoner\'s:') }} <span class="bold">{{ displayHelper.getPrisonerRelationshipDisplayName(eligibility['Relationship']) }}</span></p>
 
-    <p>You're visiting: <span class="bold">{{ eligibility['PrisonerFirstName'] }} {{ eligibility['PrisonerLastName'] }}</span></p>
+    <p>{{ __('You're visiting:') }} <span class="bold">{{ eligibility['PrisonerFirstName'] }} {{ eligibility['PrisonerLastName'] }}</span></p>
 
-    <p>Prisoner number: <span class="bold">{{ eligibility['PrisonNumber'] }}</span></p>
+    <p>{{ __('Prisoner number:') }} <span class="bold">{{ eligibility['PrisonNumber'] }}</span></p>
 
-    <p>Prison location: <span class="bold">{{ displayHelper.getPrisonDisplayName(eligibility['NameOfPrison']) }}</span></p>
+    <p>{{ __('Prison location:') }} <span class="bold">{{ displayHelper.getPrisonDisplayName(eligibility['NameOfPrison']) }}</span></p>
 
   <hr>
 
-    <a id="change-contact-details" href="/your-claims/update-contact-details" class="button grey push-right">Change contact details</a>
+    <a id="change-contact-details" href="/your-claims/update-contact-details" class="button grey push-right">{{ __('Change contact details') }}</a>
 
-    <p>Contact email address: <span class="bold">{{ eligibility['EmailAddress'] }}</span></p>
+    <p>{{ __('Contact email address:') }} <span class="bold">{{ eligibility['EmailAddress'] }}</span></p>
 
-    <p>Phone number: <span class="bold">{{ eligibility['PhoneNumber'] }}</span></p>
+    <p>{{ __('Phone number:') }} <span class="bold">{{ eligibility['PhoneNumber'] }}</span></p>
 
   <hr>
 
@@ -48,7 +48,7 @@
     <div class="form-group">
       <label for="confirm-correct" class="block-label">
         <input id="confirm-correct" type="checkbox" name="confirm-correct" value="true" >
-        Confirm these details are correct
+        {{ __('Confirm these details are correct') }}
       </label>
     </div>
 
@@ -56,7 +56,7 @@
 
     {% include "partials/csrf-hidden-input.html" %}
 
-    <input id="continue" type="submit" name="commit" value="Continue" class="button">
+    <input id="continue" type="submit" name="commit" value="{{ __('Continue') }}" class="button">
   </form>
 </main>
 

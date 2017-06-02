@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  What expenses are you claiming for - {{ serviceName }}
+  {{ __('What expenses are you claiming for') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -17,18 +17,18 @@
 
       {% if isAdvanceClaim %}
         <h1 class="heading-large">
-          What kind of transport will you use?
+          {{ __('What kind of transport will you use?') }}
         </h1>
 
-        <p>If your application’s approved you will be sent train tickets or money to cover for expenses. Tickets will be the cheapest available for the time of day.</p>
+        <p>{{ __('If your application’s approved you will be sent train tickets or money to cover for expenses. Tickets will be the cheapest available for the time of day.') }}</p>
 
       {% else %}
         <h1 class="heading-large">
-          What kind of transport did you use?
+          {{ __('What kind of transport did you use?') }}
         </h1>
 
-        <p>You can select more than one. You will need to show us receipts or tickets
-          for all parts of the journey, except for car or motorcycle travel.</p>
+        <p>{{ __('You can select more than one. You will need to show us receipts or tickets
+          for all parts of the journey, except for car or motorcycle travel.') }}</p>
       {% endif %}
 
       <form action="/apply/eligibility/claim/expenses" method="post">
@@ -42,64 +42,64 @@
                      type="checkbox"
                      name="expenses"
                      value="car">
-              Car or motorcycle
+              {{ __('Car or motorcycle') }}
             </label>
             <label for="train" class="block-label">
               <input id="train"
                      type="checkbox"
                      name="expenses"
                      value="train">
-              Train
+              {{ __('Train') }}
             </label>
             <label for="bus" class="block-label">
               <input id="bus"
                      type="checkbox"
                      name="expenses"
                      value="bus">
-              Bus
+              {{ __('Bus') }}
             </label>
             <label for="hire" class="block-label">
               <input id="hire"
                      type="checkbox"
                      name="expenses"
                      value="hire">
-              Car hire
+              {{ __('Car hire') }}
             </label>
             <label for="taxi" class="block-label">
               <input id="taxi"
                      type="checkbox"
                      name="expenses"
                      value="taxi">
-              Taxi
+              {{ __('Taxi') }}
             </label>
             <label for="ferry" class="block-label">
               <input id="ferry"
                      type="checkbox"
                      name="expenses"
                      value="ferry">
-              Ferry
+              {{ __('Ferry') }}
             </label>
             <label for="plane" class="block-label">
               <input id="plane"
                      type="checkbox"
                      name="expenses"
                      value="plane">
-              Plane
+              {{ __('Plane') }}
             </label>
 
           </fieldset>
 
           {% if isAdvanceClaim %}
             <h2 class="heading-medium">
-              Will you have any other expenses?
+              {{ __('Will you have any other expenses?') }}
             </h2>
           {% else %}
             <h2 class="heading-medium">
-              Did you have any other expenses?
+              {{ __('Did you have any other expenses?') }}
             </h2>
           {% endif %}
 
-          <p>You may be able to get help paying for light refreshments and accommodation.</p>
+          <p>{{ __('You may be able to get help paying for light refreshments and accommodation.') }}</p>
 
           <fieldset>
             <legend class="hidden">Other</legend>
@@ -108,47 +108,47 @@
                      type="checkbox"
                      name="expenses"
                      value="refreshment">
-              Light refreshment
+              {{ __('Light refreshment') }}
             </label>
             <label for="accommodation" class="block-label">
               <input id="accommodation"
                      type="checkbox"
                      name="expenses"
                      value="accommodation">
-              Accommodation
+              {{ __('Accommodation') }}
             </label>
 
           </fieldset>
         {% else %}
           <fieldset>
-            <legend class="hidden">Travel</legend>
+            <legend class="hidden">{{ __('Travel') }}</legend>
             <label for="car-only" class="block-label">
               <input id="car-only"
                      type="checkbox"
                      name="expenses"
                      value="car-only">
-              Car/Motorcycle
+              {{ __('Car/Motorcycle') }}
             </label>
             <label for="train" class="block-label">
               <input id="train"
                      type="checkbox"
                      name="expenses"
                      value="train">
-              Train (standard class)
+              {{ __('Train (standard class)') }}
             </label>
             <label for="bus" class="block-label">
               <input id="bus"
                      type="checkbox"
                      name="expenses"
                      value="bus">
-              Bus
+              {{ __('Bus') }}
             </label>
             <label for="taxi" class="block-label">
               <input id="taxi"
                      type="checkbox"
                      name="expenses"
                      value="taxi">
-              Taxi
+              {{ __('Taxi') }}
             </label>
 
           </fieldset>
@@ -161,7 +161,7 @@
         <input id="expenses-submit"
                type="submit"
                class="button"
-               value="Continue">
+               value="{{ __('Continue') }}">
       </form>
 
     </div>

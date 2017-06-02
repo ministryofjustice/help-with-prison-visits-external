@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-Payment details and declaration - {{ serviceName }}
+{{ __('Payment details and declaration') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -13,10 +13,10 @@ Payment details and declaration - {{ serviceName }}
   {% include "includes/validation-error-messages.html" %}
 
   <h1 class="heading-large">
-    Your payment
+    {{ __('Your payment') }}
   </h1>
 
-  <p>If your application is successful you will be given a payment for your travel and expenses.</p>
+  <p>{{ __('If your application is successful you will be given a payment for your travel and expenses.') }}</p>
 
   <form action="/apply/eligibility/claim/payment-details?isAdvance={{ isAdvance }}"
         method="post">
@@ -24,7 +24,7 @@ Payment details and declaration - {{ serviceName }}
     <div class="grid-row">
       <div class="column-two-thirds">
 
-      <h2 class="heading-small" {% if privateBeta == 'true' %} hidden {% endif %}>How do you want to receive your payment? </h2>
+      <h2 class="heading-small" {% if privateBeta == 'true' %} hidden {% endif %}>{{ __('How do you want to receive your payment?') }}</h2>
         {% if errors['PaymentMethod'][0] %}
         <span class="error-message" id="error-message-payment-method">{{ errors['PaymentMethod'][0] }}</span>
         {% endif %}
@@ -39,13 +39,13 @@ Payment details and declaration - {{ serviceName }}
                        value="bank"
                        {% if paymentDetails['PaymentMethod'] == 'bank' %} checked {% endif %}>
 
-                <span>Bank transfer</span>
+                <span>{{ __('Bank transfer') }}</span>
                 <br>
               </label>
 
               <div id="bank-details" class="panel panel-border-narrow js-hidden">
                 <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
-                  <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account number</label>
+                  <label id="AccountNumber" class="form-label-bold" for="account-number-input">{{ __('Account number') }}</label>
                   {% if errors['AccountNumber'][0] %}
                   <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
                   {% endif %}
@@ -58,7 +58,7 @@ Payment details and declaration - {{ serviceName }}
                 </div>
 
                 <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
-                  <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort code</label>
+                  <label id="SortCode" class="form-label-bold" for="sort-code-input">{{ __('Sort code') }}</label>
                   {% if errors['SortCode'][0] %}
                   <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
                   {% endif %}
@@ -79,28 +79,28 @@ Payment details and declaration - {{ serviceName }}
                        {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}
                        {% if privateBeta == 'true' %} checked {% endif %}>
 
-                <span>Voucher</span>
+                <span>{{ __('Voucher') }}</span>
                 <br>
                 <br>
               </label>
           </fieldset>
 
           {% if privateBeta == 'true' %}
-          <h2 class="heading-small">Payment by voucher</h2>
+          <h2 class="heading-small">{{ __('Payment by voucher') }}</h2>
           {% endif %}
 
           <div id="payout-details" class="{% if privateBeta != 'true' %} panel panel-border-narrow {% endif %} js-hidden">
-            <span class="text-secondary">You can exchange this for cash at any Post Office.</span>
+            <span class="text-secondary">{{ __('You can exchange this for cash at any Post Office.') }}</span>
             <br>
             <br>
 
-            <p>Your voucher will be posted to:</p>
+            <p>{{ __('Your voucher will be posted to:') }}</p>
             <p>{{ address.HouseNumberAndStreet }}
             <br>{{ address.Town }}
             <br>{{ address.PostCode }}</p>
 
-            <a href="{{ changeAddressLink }}" class="link">Change address</a><br><br>
-            <span class="text-secondary">(this will take you back to near the start of your application)</span>
+            <a href="{{ changeAddressLink }}" class="link">{{ __('Change address') }}</a><br><br>
+            <span class="text-secondary">{{ __('(this will take you back to near the start of your application)') }}</span>
 
           </div>
         </div>
@@ -112,7 +112,7 @@ Payment details and declaration - {{ serviceName }}
     <input id="payment-submit"
            type="submit"
            class="button"
-           value="Continue">
+           value="{{ __('Continue') }}">
   </form>
 
 </main>

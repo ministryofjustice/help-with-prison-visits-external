@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Do you want to claim expeneses for any children - {{ serviceName }}
+  {{ __('Do you want to claim expeneses for any children') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        Do you want to claim expenses for any children?
+        {{ __('Do you want to claim expenses for any children?') }}
       </h1>
 
       <form action="/apply/eligibility/claim/has-child" method="post">
@@ -24,17 +24,16 @@
         <div id="has-child" class="form-group {% if errors['has-child'][0] %} error {% endif %}">
 
           <p>
-            You are only allowed to claim for children if they are the prisoner's
-            child or if they're your child and you're the prisoner's husband, wife or civil partner.
+            {{ __('You are only allowed to claim for children if they are the prisoner\'s child or if they\'re your child and you\'re the prisoner\'s husband, wife or civil partner.') }}
           </p>
 
-          <p>We may ask you later for evidence of the relationship.</p>
+          <p>{{ __('We may ask you later for evidence of the relationship.') }}</p>
 
           {% if errors['has-child'][0] %}
             <span class="error-message">{{ errors['has-child'][0] }}</span>
           {% endif %}
           <fieldset>
-            <legend class="visually-hidden">Do you want to claim expenses for any children</legend>
+            <legend class="visually-hidden">{{ __('Do you want to claim expenses for any children') }}</legend>
 
             <label for="child-yes" class="block-label inline">
               <input id="child-yes"
@@ -42,7 +41,7 @@
                      name="has-child"
                      value="yes"
                      {% if claim['has-child'] == 'yes' %} checked {% endif %}>
-              Yes
+              {{ __('Yes') }}
             </label>
             <label for="child-no" class="block-label inline">
               <input id="child-no"
@@ -50,7 +49,7 @@
                      name="has-child"
                      value="no"
                      {% if claim['has-child'] == 'no' %} checked {% endif %}>
-              No
+              {{ __('No') }}
             </label>
 
           </fieldset>
@@ -61,7 +60,7 @@
 
         <input id="has-child-submit"
                type="submit"
-               value="Continue"
+               value="{{ __('Continue') }}"
                class="button">
       </form>
 

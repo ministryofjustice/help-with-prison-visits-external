@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Summary of your claim - {{ serviceName }}
+  {{ __('Summary of your claim') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -13,14 +13,14 @@
   {% include "includes/validation-error-messages.html" %}
 
   <h1 class="heading-large">
-    Your claim
+    {{ __('Your claim') }}
   </h1>
 
-  <p>Add evidence to support your claim, and check that everything is correct.</p>
+  <p>{{ __('Add evidence to support your claim, and check that everything is correct.') }}</p>
 
   {% include "partials/claim-summary/claim-summary-visitor.html" %}
 
-  <h2 class="heading-medium">Your visit</h2>
+  <h2 class="heading-medium">{{ __('Your visit') }}</h2>
 
   {% include "partials/claim-summary/claim-summary-visit.html" %}
 
@@ -32,7 +32,7 @@
   {% if not claimDetails.claimExpenses[0] %}
     <span class="error-message" id="error-message-no-expenses">{{ errors['claim-expense'][0] }}</span>
   {% endif %}
-  <a href="/apply/eligibility/claim/expenses" class="link">Add another expense</a>
+  <a href="/apply/eligibility/claim/expenses" class="link">{{ __('Add another expense') }}</a>
 
   <br>
   <br>
@@ -45,7 +45,7 @@
 
       <input id="claim-summary-submit"
              type="submit"
-             value="Continue"
+             value="{{ __('Continue') }}"
              class="button">
     </div>
 

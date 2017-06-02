@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-  Enter details about your child - {{ serviceName }}
+  {{ __('Enter details about your child') }} - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,13 +16,13 @@
       {% include "includes/validation-error-messages.html" %}
 
       <h1 class="heading-large">
-        About the child
+        {{ __('About the child') }}
       </h1>
 
       <form action="/apply/eligibility/claim/about-child" method="post">
 
         <div id="FirstName" class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
-          <label class="form-label-bold" for="first-name-input">First name</label>
+          <label class="form-label-bold" for="first-name-input">{{ __('First name') }}</label>
 
           {% if errors['FirstName'][0] %}
           <span class="error-message">{{ errors['FirstName'][0] }}</span>
@@ -37,7 +37,7 @@
         </div>
 
         <div id="LastName" class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-          <label class="form-label-bold" for="last-name-input">Last name</label>
+          <label class="form-label-bold" for="last-name-input">{{ __('Last name') }}</label>
 
           {% if errors['LastName'][0] %}
           <span class="error-message">{{ errors['LastName'][0] }}</span>
@@ -55,17 +55,17 @@
 
           <div class="form-date">
 
-            <h2 class="form-label-bold">Date of birth</h2>
+            <h2 class="form-label-bold">{{ __('Date of birth') }}</h2>
 
             {% if errors['dob'][0] %}
               <span class="error-message">{{ errors['dob'][0] }}</span>
             {% endif %}
 
             <fieldset>
-              <legend class="visually-hidden">Child date of birth</legend>
+              <legend class="visually-hidden">{{ __('Child date of birth') }}</legend>
 
               <div class="form-group form-group-day">
-                <label for="dob-day-input">Day</label>
+                <label for="dob-day-input">{{ __('Day') }}</label>
                 <input id="dob-day-input"
                        name="dob-day"
                        autocomplete="off"
@@ -74,7 +74,7 @@
               </div>
 
               <div class="form-group form-group-month">
-                <label for="dob-month-input">Month</label>
+                <label for="dob-month-input">{{ __('Month') }}</label>
                 <input id="dob-month-input"
                        name="dob-month"
                        autocomplete="off"
@@ -83,7 +83,7 @@
               </div>
 
               <div class="form-group form-group-year">
-                <label for="dob-year-input">Year</label>
+                <label for="dob-year-input">{{ __('Year') }}</label>
                 <input id="dob-year-input"
                        name="dob-year"
                        autocomplete="off"
@@ -101,7 +101,7 @@
 
           <div id="child-relationship" class="form-group {% if errors['child-relationship'][0] %} error {% endif %}">
 
-            <h3 class="form-label-bold">Relationship</h3>
+            <h3 class="form-label-bold">{{ __('Relationship') }}</h3>
 
             {% if errors['child-relationship'][0] %}
               <span class="error-message">{{ errors['child-relationship'][0] }}</span>
@@ -113,7 +113,7 @@
                      name="child-relationship"
                      value="claimants-child"
                      {% if claimant['child-relationship'] == 'claimants-child' %} checked {% endif %}>
-              My child
+              {{ __('My child') }}
             </label>
             <label for="prisoners-child" class="block-label">
               <input id="prisoners-child"
@@ -121,7 +121,7 @@
                      name="child-relationship"
                      value="prisoners-child"
                      {% if claimant['child-relationship'] == 'prisoners-child' %} checked {% endif %}>
-              Prisoner's child
+              {{ __('Prisoner\'s child') }}
             </label>
 
           </div>
@@ -134,7 +134,7 @@
                    type="checkbox"
                    name="add-another-child"
                    {% if expense['add-another-child'] == 'on' %} checked {% endif %}>
-            Add another child
+            {{ __('Add another child') }}
           </label>
 
         </div>
@@ -143,7 +143,7 @@
 
         <input id="about-child-submit"
                type="submit"
-               value="Continue"
+               value="{{ __('Continue') }}"
                class="button">
       </form>
     </div>
