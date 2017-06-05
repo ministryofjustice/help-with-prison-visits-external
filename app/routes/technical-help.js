@@ -4,12 +4,12 @@ const ValidationError = require('../services/errors/validation-error')
 const TaskEnums = require('../constants/tasks-enum')
 
 module.exports = function (router) {
-  router.get('/technical-help', function (req, res) {
+  router.get('/help', function (req, res) {
     return res.render('technical-help', {
     })
   })
 
-  router.post('/technical-help', function (req, res, next) {
+  router.post('/help', function (req, res, next) {
     try {
       var technicalHelp = new TechnicalHelp(req.body.name, req.body.emailAddress, req.body.issue)
       insertTask(null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${technicalHelp.name}~~${technicalHelp.emailAddress}~~${technicalHelp.issue}`)

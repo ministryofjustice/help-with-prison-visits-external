@@ -20,7 +20,7 @@ Ask for help - {{ serviceName }}
       <p>Enter your name, email address and a brief description of what you need help with. We'll get back to you within two working days.</p>
       <p>We’ll only use your details to call you back. Don’t include any personal information, for example address or date of birth.</p>
 
-      <form action="/technical-help" method="post">
+      <form action="/help" method="post">
         <div class="form-group {% if errors['name'][0] %} error {% endif %}">
           <label for="name" class="form-label-bold">Name</label>
           {% if errors['name'][0] %}
