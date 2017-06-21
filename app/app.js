@@ -175,6 +175,16 @@ var router = express.Router()
 routes(router)
 app.use('/', router)
 
+// Use robots.txt and root level redirections
+app.use(function (req, res, next) {
+  if (req.url === '/robots.txt') {
+    res.type('text/plain')
+    res.send('User-agent: *\nDisallow: /')
+  } else {
+    next()
+  }
+})
+
 // catch 404 and forward to error handler.
 app.use(function (req, res, next) {
   var err = new Error('Not Found')
