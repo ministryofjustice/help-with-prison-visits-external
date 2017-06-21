@@ -1,10 +1,4 @@
 module.exports = function (router) {
-  router.get('/', function (req, res) {
-    return res.render('index', {
-      title: 'APVS index'
-    })
-  })
-
   router.get('/assisted-digital', function (req, res) {
     var caseworker = req.query.caseworker
 
@@ -13,6 +7,6 @@ module.exports = function (router) {
       res.cookie('apvs-assisted-digital', caseworker, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true })
     }
 
-    return res.redirect('/')
+    return res.redirect('/start')
   })
 }
