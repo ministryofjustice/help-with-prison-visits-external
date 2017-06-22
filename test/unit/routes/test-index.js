@@ -4,21 +4,12 @@ const route = require('../../../app/routes/index')
 const expect = require('chai').expect
 
 describe('routes/index', function () {
-  const ROUTE = '/'
   const ASSISTED_DIGITAL_ROUTE = '/assisted-digital'
 
   var app
 
   beforeEach(function () {
     app = routeHelper.buildApp(route)
-  })
-
-  describe(`GET ${ROUTE}`, function () {
-    it('should respond with a 200', function () {
-      return supertest(app)
-        .get(ROUTE)
-        .expect(200)
-    })
   })
 
   describe(`GET ${ASSISTED_DIGITAL_ROUTE}`, function () {

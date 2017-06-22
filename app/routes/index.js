@@ -1,8 +1,6 @@
 module.exports = function (router) {
   router.get('/', function (req, res) {
-    return res.render('index', {
-      title: 'APVS index'
-    })
+    return res.redirect('https://www.gov.uk/help-with-prison-visits')
   })
 
   router.get('/assisted-digital', function (req, res) {
@@ -13,6 +11,6 @@ module.exports = function (router) {
       res.cookie('apvs-assisted-digital', caseworker, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true })
     }
 
-    return res.redirect('/')
+    return res.redirect('/start')
   })
 }
