@@ -29,7 +29,7 @@ module.exports = function (router) {
             displayHelper: displayHelper
           })
         } else {
-          return res.redirect(`/apply/eligibility/new-claim/same-journey-as-last-claim`)
+          return res.redirect(`/apply/eligibility/new-claim/journey-information`)
         }
       })
       .catch(function (error) {
