@@ -33,12 +33,12 @@ module.exports = function (reference, eligibilityId, aboutYou) {
   .then(function (countResult) {
     var count = countResult[ 0 ].ReferenceCount
 
-    if(count===0){
+    if (count === 0) {
       return knex('Visitor')
       .insert(visitorInformation)
     } else {
       return knex('Visitor')
-      .where('Reference',reference)
+      .where('Reference', reference)
       .update(visitorInformation)
     }
   })

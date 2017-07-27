@@ -22,8 +22,8 @@ module.exports = function (aboutThePrisoner, claimType, existingReference) {
       // odds of two references in a row being non-unique 1x10e21
       reference = referenceGenerator.generate()
     }
-      
-    if(count > 0 && claimType == claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
+
+    if (count > 0 && claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
       return updateExistingEligibilityAndPrisoner(aboutThePrisoner, reference)
     } else {
       return insertNewEligibiltyAndPrisoner(aboutThePrisoner, reference)
@@ -31,8 +31,7 @@ module.exports = function (aboutThePrisoner, claimType, existingReference) {
   })
 }
 
-function insertNewEligibiltyAndPrisoner(aboutThePrisoner, uniqueReference) {
-  
+function insertNewEligibiltyAndPrisoner (aboutThePrisoner, uniqueReference) {
   var newEligibilityId
 
   return knex.insert({
@@ -65,8 +64,7 @@ function insertNewEligibiltyAndPrisoner(aboutThePrisoner, uniqueReference) {
   })
 }
 
-function updateExistingEligibilityAndPrisoner(aboutThePrisoner, uniqueReference) {
-
+function updateExistingEligibilityAndPrisoner (aboutThePrisoner, uniqueReference) {
   var newEligibilityId
 
   return knex('Eligibility')
@@ -77,7 +75,7 @@ function updateExistingEligibilityAndPrisoner(aboutThePrisoner, uniqueReference)
     Status: eligibilityStatusEnum.IN_PROGRESS
   })
   .returning('EligibilityId')
-  .then( function(updatedIds){
+  .then(function (updatedIds) {
     newEligibilityId = updatedIds[0]
 
     return knex('Prisoner')
@@ -87,7 +85,7 @@ function updateExistingEligibilityAndPrisoner(aboutThePrisoner, uniqueReference)
         FirstName: aboutThePrisoner.firstName,
         LastName: aboutThePrisoner.lastName,
         DateOfBirth: aboutThePrisoner.dob,
-        PrisonNumber: aboutThePrisoner.prisonerNumber,
+        PrisonNumber: aboutThePrisoner.prisonerNumber
       })
     .then(function () {
       return { reference: uniqueReference, eligibilityId: newEligibilityId }
@@ -96,5 +94,5 @@ function updateExistingEligibilityAndPrisoner(aboutThePrisoner, uniqueReference)
       // Will leave orphaned Eligibility but will be cleaned up by worker
       throw error
     })
-  }) 
+  })
 }
