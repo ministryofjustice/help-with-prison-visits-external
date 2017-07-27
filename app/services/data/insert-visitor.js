@@ -27,7 +27,7 @@ module.exports = function (reference, eligibilityId, aboutYou) {
     Benefit: aboutYou.benefit
   }
 
-  return knex('Eligibility')
+  return knex('Visitor')
   .where('Reference', reference)
   .count('Reference as ReferenceCount')
   .then(function (countResult) {
