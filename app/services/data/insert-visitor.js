@@ -9,7 +9,7 @@ module.exports = function (reference, eligibilityId, aboutYou) {
 
   var dateOfBirth = aboutYou.dob.toDate()
 
-  return knex('Visitor').insert({
+  var visitorInformation = {
     EligibilityId: eligibilityId,
     Reference: reference,
     FirstName: aboutYou.firstName,
@@ -25,5 +25,21 @@ module.exports = function (reference, eligibilityId, aboutYou) {
     DateOfBirth: dateOfBirth,
     Relationship: aboutYou.relationship,
     Benefit: aboutYou.benefit
+  }
+
+  return knex('Eligibility')
+  .where('Reference', reference)
+  .count('Reference as ReferenceCount')
+  .then(function (countResult) {
+    var count = countResult[ 0 ].ReferenceCount
+
+    if(count===0){
+      return knex('Visitor')
+      .insert(visitorInformation)
+    } else {
+      return knex('Visitor')
+      .where('Reference',reference)
+      .update(visitorInformation)
+    }
   })
 }
