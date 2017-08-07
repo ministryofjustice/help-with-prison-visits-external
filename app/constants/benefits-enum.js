@@ -73,6 +73,14 @@ module.exports = {
     urlValue: 'b9'
   },
 
+  NONE: {
+    value: 'none',
+    requireBenefitUpload: false,
+    displayName: 'None',
+    multipage: false,
+    urlValue: 'none'
+  },
+
   getByValue: function (value) {
     return EnumHelper.getKeyByAttribute(this, value)
   }
