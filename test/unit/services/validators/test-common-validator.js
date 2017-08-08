@@ -404,7 +404,7 @@ describe('services/validators/common-validator', function () {
   })
 
   describe('isPostcode', function () {
-    const VALID_STRING = 'AA123AA'
+    const VALID_STRING = 'AA12 3AA'
     const INVALID_STRING = '1234567'
 
     it('should throw an error if passed null', function () {

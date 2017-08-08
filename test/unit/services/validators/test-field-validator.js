@@ -17,7 +17,7 @@ describe('services/validators/field-validator', function () {
   const INVALID_FORMAT_DATA = 'AAAAAA1'
   const FIELD_NAME = 'FirstName'
   const DISPLAY_NAME = validationFieldNames[FIELD_NAME]
-  const VALID_POSTCODE = 'BT123BT'
+  const VALID_POSTCODE = 'BT12 3BT'
   const VALID_NATIONAL_INSURANCE_NUMBER = 'AA123456B'
   const VALID_EMAIL = 'test1@tester.com'
   const ERROR_HANDLER = ErrorHandler()
