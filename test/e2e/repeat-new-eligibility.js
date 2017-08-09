@@ -68,7 +68,7 @@ describe('Repeat claim with new eligibility details', function () {
       .setValue('#house-number-and-street-input', '1')
       .setValue('#town-input', 'Town')
       .setValue('#county-input', 'County')
-      .setValue('#post-code-input', 'AA123AA')
+      .setValue('#post-code-input', 'AA12 3AA')
       .selectByVisibleText('#country-input', 'Northern Ireland')
       .setValue('#email-address-input', 'donotsend@apvs.com')
       .setValue('#phone-number-input', '0123456789')
