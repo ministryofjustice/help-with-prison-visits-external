@@ -8,7 +8,7 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 require('sinon-bluebird')
 
-const MASKED_ADDRESS = {PostCode: '****3BT'}
+const MASKED_ADDRESS = {PostCode: '**** 3BT'}
 var getRepeatEligibilityStub
 
 var getAddressAndLinkDetails
