@@ -6,7 +6,7 @@ const logger = require('./log')
 module.exports = function (tempPath, targetDir, targetFile) {
   return new Promise(function (resolve, reject) {
     var targetFilePath = path.join(targetDir, targetFile)
-    fs.createReadStream(tempPath)
+    return fs.createReadStream(tempPath)
       .pipe(fs.createWriteStream(targetFilePath))
       .on('error', function (error) {
         logger.error('Error occurred writing file ' + targetFilePath)

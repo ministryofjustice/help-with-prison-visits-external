@@ -120,27 +120,22 @@ function checkForMalware (req, res, next, redirectURL) {
   var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
   if (req.file) {
     clam.scan(req.file.path).then((infected) => {
-      try {
-        if (infected) {
-          insertTask(ids.reference, ids.eligibilityId, claimId, tasksEnum.SEND_MALWARE_ALERT, config.MALWARE_NOTIFICATION_EMAIL_ADDRESS).then(function () {
-            logger.warn(`Malware detected in file ${req.file.path}`)
-          })
-          throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
-        }
+      if (infected) {
+        insertTask(ids.reference, ids.eligibilityId, claimId, tasksEnum.SEND_MALWARE_ALERT, config.MALWARE_NOTIFICATION_EMAIL_ADDRESS).then(function () {
+          logger.warn(`Malware detected in file ${req.file.path}`)
+        })
+        throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
+      }
 
-        moveScannedFileToStorage(req, res, next)
-        disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
+      return moveScannedFileToStorage(req, res, next).then(function () {
+        return disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
           .then(function () {
-            ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
+            return ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload)
+            .then(function () {
               res.redirect(redirectURL)
             })
           })
-          .catch(function (error) {
-            next(error)
-          })
-      } catch (error) {
-        handleError(req, res, next, error)
-      }
+      })
     }).catch((error) => {
       handleError(req, res, next, error)
     }).finally(() => {
@@ -200,14 +195,11 @@ function moveScannedFileToStorage (req, res, next) {
   var tempPath = req.file.path
   var targetDir = getTargetDir(req)
   var filename = req.file.filename
-  moveFile(tempPath, targetDir, filename)
-  .then(function (result) {
-    req.fileUpload.destination = result.dest
-    req.fileUpload.path = result.path
-  })
-  .catch(function (error) {
-    handleError(req, res, next, error)
-  })
+  return moveFile(tempPath, targetDir, filename)
+    .then(function (result) {
+      req.fileUpload.destination = result.dest
+      req.fileUpload.path = result.path
+    })
 }
 
 function getTargetDir (req) {
