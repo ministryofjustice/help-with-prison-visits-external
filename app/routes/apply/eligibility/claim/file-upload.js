@@ -6,6 +6,7 @@ const Upload = require('../../../../services/upload')
 const ValidationError = require('../../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
 const FileUpload = require('../../../../services/domain/file-upload')
+const moveFile = require('../../../../services/move-file')
 const disableOldClaimDocuments = require('../../../../services/data/disable-old-claim-documents')
 const ClaimDocumentInsert = require('../../../../services/data/insert-file-upload-details-for-claim')
 const csrfProtection = require('csurf')({ cookie: true })
@@ -17,7 +18,6 @@ const tasksEnum = require('../../../../constants/tasks-enum')
 const insertTask = require('../../../../services/data/insert-task')
 const logger = require('../../../../services/log')
 const SessionHandler = require('../../../../services/validators/session-handler')
-var path = require('path')
 var Promise = require('bluebird').Promise
 var fs = Promise.promisifyAll(require('fs'))
 var csrfToken
@@ -128,7 +128,7 @@ function checkForMalware (req, res, next, redirectURL) {
           throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
         }
 
-        moveScannedFileToStorage(req, getTargetDir(req))
+        moveScannedFileToStorage(req, res, next)
         disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
           .then(function () {
             ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
@@ -142,10 +142,13 @@ function checkForMalware (req, res, next, redirectURL) {
         handleError(req, res, next, error)
       }
     }).catch((error) => {
-      error.message = 'Virus scan failed whilst calling Clam AV executable'
-      logger.error(error)
-      if (req.file) fs.unlinkAsync(req.file.path).catch()
-      handleError(req, res, next, new Error('There was an error processing your file'))
+      handleError(req, res, next, error)
+    }).finally(() => {
+      if (req.file) {
+        fs.unlinkAsync(req.file.path).catch(function (error) {
+          logger.error(error)
+        })
+      }
     })
   } else {
     // This handles the case were Post/Upload Later is selected, so no actual file is being provided,
@@ -193,13 +196,18 @@ function setReferenceIds (req) {
   return { eligibilityId: id, reference: reference }
 }
 
-function moveScannedFileToStorage (req, targetDir) {
-  var targetFilePath = path.join(targetDir, req.file.filename)
-  // fs.rename will fail when mapped to Azure FS, thus copy + delete
-  fs.createReadStream(req.file.path).pipe(fs.createWriteStream(targetFilePath))
-  fs.unlinkAsync(req.file.path).catch()
-  req.fileUpload.destination = targetDir
-  req.fileUpload.path = targetFilePath
+function moveScannedFileToStorage (req, res, next) {
+  var tempPath = req.file.path
+  var targetDir = getTargetDir(req)
+  var filename = req.file.filename
+  moveFile(tempPath, targetDir, filename)
+  .then(function (result) {
+    req.fileUpload.destination = result.dest
+    req.fileUpload.path = result.path
+  })
+  .catch(function (error) {
+    handleError(req, res, next, error)
+  })
 }
 
 function getTargetDir (req) {
