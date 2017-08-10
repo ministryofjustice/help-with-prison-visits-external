@@ -120,43 +120,25 @@ function checkForMalware (req, res, next, redirectURL) {
   var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
   if (req.file) {
     clam.scan(req.file.path).then((infected) => {
-      if (infected) {
-        insertTask(ids.reference, ids.eligibilityId, claimId, tasksEnum.SEND_MALWARE_ALERT, config.MALWARE_NOTIFICATION_EMAIL_ADDRESS).then(function () {
-          logger.warn(`Malware detected in file ${req.file.path}`)
-        })
-        throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
-      }
-
+      if (infected) insertMalwareAlertTask(ids, claimId, req.file.path)
       return moveScannedFileToStorage(req, res, next).then(function () {
-        return disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
-          .then(function () {
-            return ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload)
-            .then(function () {
-              res.redirect(redirectURL)
-            })
-          })
+        return updateClaimDocumentMetadata(ids, claimId, req).then(function () {
+          res.redirect(redirectURL)
+        })
       })
     }).catch((error) => {
       handleError(req, res, next, error)
     }).finally(() => {
-      if (req.file) {
-        fs.unlinkAsync(req.file.path).catch(function (error) {
-          logger.error(error)
-        })
-      }
+      if (req.file) unlinkFile(req.file.path)
     })
   } else {
     // This handles the case were Post/Upload Later is selected, so no actual file is being provided,
     // however we still need to insert metadata indicating that the user selected on of these options
-    disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
-      .then(function () {
-        ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
-          res.redirect(redirectURL)
-        })
-      })
-      .catch(function (error) {
-        next(error)
-      })
+    updateClaimDocumentMetadata(ids, claimId, req).then(function () {
+      res.redirect(redirectURL)
+    }).catch(function (error) {
+      next(error)
+    })
   }
 }
 
@@ -200,6 +182,30 @@ function moveScannedFileToStorage (req, res, next) {
       req.fileUpload.destination = result.dest
       req.fileUpload.path = result.path
     })
+}
+
+function insertMalwareAlertTask (ids, claimId, path) {
+  insertTask(ids.reference, ids.eligibilityId, claimId, tasksEnum.SEND_MALWARE_ALERT, config.MALWARE_NOTIFICATION_EMAIL_ADDRESS)
+    .then(function () {
+      logger.warn(`Malware detected in file ${path}`)
+    })
+
+  throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
+}
+
+function updateClaimDocumentMetadata (ids, claimId, req) {
+  return disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
+    .then(function () {
+      return ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload)
+    })
+}
+
+function unlinkFile (path) {
+  return fs.unlinkAsync(path).then(() => {
+    logger.info(`Removed temporary file ${path}`)
+  }).catch(function (error) {
+    logger.error(error)
+  })
 }
 
 function getTargetDir (req) {

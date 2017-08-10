@@ -13,11 +13,7 @@ module.exports = function (tempPath, targetDir, targetFile) {
         return reject(error)
       })
       .on('finish', function () {
-        fs.unlinkAsync(tempPath).catch(function (error) {
-          logger.error('Failed to remove temporary file ' + tempPath)
-          logger.error(error)
-        })
-
+        logger.info(`Move file to location ${targetFilePath}`)
         return resolve({ dest: targetDir, path: targetFilePath })
       })
   })
