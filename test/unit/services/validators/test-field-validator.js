@@ -739,13 +739,13 @@ describe('services/validators/field-validator', function () {
       expect(errors).to.equal(false)
     })
 
-    it('should return an error object if passed none and fromDomain is false', function () {
+    it('should return not return an error object if passed none and fromDomain is false', function () {
       var errorHandler = ErrorHandler()
       var fromDomain = false
-      FieldValidator(NONE_OF_THE_ABOVE, FIELD_NAME, errorHandler)
+      FieldValidator(NONE_OF_THE_ABOVE, 'None', errorHandler)
         .isValidBenefit(fromDomain)
       var errors = errorHandler.get()
-      expect(errors).to.have.property(FIELD_NAME)
+      expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed an invalid benefits value', function () {
