@@ -35,6 +35,8 @@ module.exports = function (router) {
     var isAdvancedClaim = req.session.advanceOrPast === 'advance'
 
     try {
+      console.dir('try')
+
       var newClaim = new NewClaim(
         req.session.referenceId,
         req.body['date-of-journey-day'],
