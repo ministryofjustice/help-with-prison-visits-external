@@ -8,7 +8,7 @@ const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 class CarExpense extends BaseExpense {
   constructor (from, to, toll, tollCost, parking, parkingCost, newDestination, destination, postcode) {
     var journeyTo = newDestination ? destination : to
-    var toPostCode = newDestination ? postcode.toUpperCase() : null
+    var toPostCode = newDestination ? postcode.replace(/ /g, '').toUpperCase() : null
     super(EXPENSE_TYPE.CAR.value, null, null, from, journeyTo, null, null, null, null, null, toPostCode)
     this.newDestination = newDestination
     this.toll = toll

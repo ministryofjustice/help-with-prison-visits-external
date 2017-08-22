@@ -11,7 +11,7 @@ describe('services/domain/expenses/car-expense', function () {
   const VALID_PARKING_COST = '20'
   const VALID_NEW_DESTINATION = 'on'
   const VALID_DESTINATION = 'some place'
-  const VALID_POSTCODE = 'BT12 3BT'
+  const VALID_POSTCODE = 'BT123BT'
   const INVALID_TOLL_COST = '0'
   const INVALID_PARKING_COST = '0'
   const INVALID_POSTCODE = 'testing'

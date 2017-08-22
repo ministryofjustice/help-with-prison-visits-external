@@ -76,7 +76,7 @@ exports.isNationalInsuranceNumber = function (value) {
 }
 
 exports.isPostcode = function (value) {
-  return validator.matches(value, '^[A-Z]{1,2}[0-9]{1,2}[A-Z]? [0-9]{1}[A-Z]{2}$')
+  return validator.matches(value, '^[A-Z]{1,2}[0-9]{1,2}[A-Z]?[0-9]{1}[A-Z]{2}$')
 }
 
 exports.isEmail = function (value) {
