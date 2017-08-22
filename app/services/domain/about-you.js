@@ -19,7 +19,7 @@ class AboutYou {
     this.houseNumberAndStreet = houseNumberAndStreet ? houseNumberAndStreet.replace(unsafeInputPattern, '').trim() : ''
     this.town = town ? town.replace(unsafeInputPattern, '').trim() : ''
     this.county = county ? county.replace(unsafeInputPattern, '').trim() : ''
-    this.postCode = postCode ? postCode.toUpperCase() : ''
+    this.postCode = postCode ? postCode.replace(/ /g, '').toUpperCase() : ''
     this.country = country ? country.replace(unsafeInputPattern, '').trim() : ''
     this.emailAddress = emailAddress ? emailAddress.trim() : ''
     this.phoneNumber = phoneNumber ? phoneNumber.replace(unsafeInputPattern, '').trim() : ''
