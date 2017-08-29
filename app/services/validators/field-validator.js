@@ -104,6 +104,13 @@ class FieldValidator {
     return this
   }
 
+  isEmptyOrReference () {
+    if (!validator.isNullOrUndefined(this.data) && !validator.isValidReference(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidReference)
+    }
+    return this
+  }
+
   isValidChildRelationship () {
     if (!validator.isValidChildRelationship(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)

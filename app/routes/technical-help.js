@@ -11,8 +11,17 @@ module.exports = function (router) {
 
   router.post('/help', function (req, res, next) {
     try {
-      var technicalHelp = new TechnicalHelp(req.body.name, req.body.emailAddress, req.body.issue)
-      insertTask(null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${technicalHelp.name}~~${technicalHelp.emailAddress}~~${technicalHelp.issue}`)
+      var technicalHelp = new TechnicalHelp(
+        req.body.name,
+        req.body.emailAddress,
+        req.body.referenceNumber,
+        req.body['date-of-claim-day'],
+        req.body['date-of-claim-month'],
+        req.body['date-of-claim-year'],
+        req.body.issue
+      )
+
+      insertTask(null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${technicalHelp.name}~~${technicalHelp.emailAddress}~~${technicalHelp.referenceNumber}~~${technicalHelp.dateOfClaim}~~${technicalHelp.issue}`)
         .then(function () {
           return res.redirect('/')
         })
@@ -21,7 +30,15 @@ module.exports = function (router) {
         return res.status(400).render('technical-help', {
           errors: error.validationErrors,
           rating: req.body.rating,
-          help: {name: req.body.name, emailAddress: req.body.emailAddress, issue: req.body.issue}
+          help: {
+            name: req.body.name,
+            emailAddress: req.body.emailAddress,
+            referenceNumber: req.body.referenceNumber,
+            'date-of-claim-day': req.body['date-of-claim-day'],
+            'date-of-claim-month': req.body['date-of-claim-month'],
+            'date-of-claim-year': req.body['date-of-claim-year'],
+            issue: req.body.issue
+          }
         })
       } else {
         next(error)

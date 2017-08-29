@@ -17,7 +17,7 @@ Ask for help - {{ serviceName }}
 
       <h1 class="heading-xlarge">Ask for help</h1>
 
-      <p>Enter your name, email address and a brief description of what you need help with. We'll get back to you within two working days.</p>
+      <p>Enter your name, email address and a brief description of what you need help with. The Assisted Prison Visits Unit will respond as soon as possible.</p>
       <p>We’ll only use your details to call you back. Don’t include any personal information, for example address or date of birth.</p>
 
       <form action="/help" method="post">
@@ -35,6 +35,55 @@ Ask for help - {{ serviceName }}
             <span class="error-message" id="error-message-email-address">{{ errors['EmailAddress'][0] }}</span>
           {% endif %}
           <input id="EmailAddress" autocomplete="off" name="emailAddress" class="form-control" value="{{ help['emailAddress'] }}">
+        </div>
+
+        <div class="form-group {% if errors['ReferenceNumber'][0] %} error {% endif %}">
+          <label for="referenceNumber" class="form-label-bold">Reference Number (optional)</label>
+          {% if errors['Reference Number'][0] %}
+            <span class="error-message" id="error-message-reference-number">{{ errors['ReferenceNumber'][0] }}</span>
+          {% endif %}
+          <input id="ReferenceNumber" autocomplete="off" name="referenceNumber" class="form-control" value="{{ help['referenceNumber'] }}">
+        </div>
+
+        <div class="form-group {% if errors['DateOfClaim'][0] %} error {% endif %}">
+          <fieldset>
+            <legend class="hidden">Date of claim</legend>
+            <div id="date-of-claim" class="form-date">
+              <label class="form-label-bold">Date of claim (optional)</label>
+
+              {% if errors['DateOfClaim'][0] %}
+                <span class="error-message">{{ errors['DateOfClaim'][0] }}</span>
+              {% endif %}
+
+              <div class="form-group form-group-day">
+                <label id="date-of-claim-day" for="date-of-claim-day-input">Day</label>
+                <input id="date-of-claim-day-input"
+                        type="number"
+                        name="date-of-claim-day"
+                        autocomplete="off"
+                        value="{{ help['date-of-claim-day'] }}"
+                        class="form-control"/>
+              </div>
+              <div class="form-group form-group-month">
+                <label id="date-of-claim-month" for="date-of-claim-month-input">Month</label>
+                <input id="date-of-claim-month-input"
+                        type="number"
+                        name="date-of-claim-month"
+                        autocomplete="off"
+                        value="{{ help['date-of-claim-month'] }}"
+                        class="form-control"/>
+              </div>
+              <div class="form-group form-group-year">
+                <label id="date-of-claim-year" for="date-of-claim-year-input">Year</label>
+                <input id="date-of-claim-year-input"
+                        type="number"
+                        name="date-of-claim-year"
+                        autocomplete="off"
+                        value="{{ help['date-of-claim-year'] }}"
+                        class="form-control"/>
+              </div>
+            </div>
+          </fieldset>
         </div>
 
         <p id="issue" class="heading-small">Describe what you'd like to talk about</p>

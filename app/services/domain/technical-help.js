@@ -1,12 +1,16 @@
 const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
+const FieldsetValidator = require('../validators/fieldset-validator')
 const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
+const dateFormatter = require('../date-formatter')
 
 class Feedback {
-  constructor (name, emailAddress, issue) {
+  constructor (name, emailAddress, referenceNumber, day, month, year, issue) {
     this.name = name ? name.trim() : ''
     this.emailAddress = emailAddress ? emailAddress.trim() : ''
+    this.referenceNumber = referenceNumber ? referenceNumber.trim() : ''
+    this.dateOfClaim = day || month || year ? dateFormatter.build(day, month, year) : ''
     this.issue = issue
     this.isValid()
   }
@@ -22,6 +26,13 @@ class Feedback {
       .isRequired(ERROR_MESSAGES.getEnterYourEmailAddress)
       .isLessThanLength(100)
       .isEmail()
+
+    FieldValidator(this.referenceNumber, 'ReferenceNumber', errors)
+      .isLessThanLength(100)
+      .isEmptyOrReference()
+
+    FieldsetValidator(this.dateOfClaim, 'DateOfClaim', errors)
+      .isEmptyOrValidDate(this.dateOfClaim)
 
     FieldValidator(this.issue, 'issue', errors)
       .isRequired()
