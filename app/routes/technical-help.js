@@ -21,7 +21,9 @@ module.exports = function (router) {
         req.body.issue
       )
 
-      insertTask(null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${technicalHelp.name}~~${technicalHelp.emailAddress}~~Reference number: ${technicalHelp.referenceNumber}\n\nDate of Claim: ${technicalHelp.dateOfClaim.format('DD-MM-YYYY')}\n\n${technicalHelp.issue}`)
+      var formattedDate = technicalHelp.dateOfClaim ? `${req.body['date-of-claim-day']}-${req.body['date-of-claim-month']}-${req.body['date-of-claim-year']}` : ''
+
+      insertTask(null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${technicalHelp.name}~~${technicalHelp.emailAddress}~~Reference number: ${technicalHelp.referenceNumber}\n\nDate of Claim: ${formattedDate}\n\n${technicalHelp.issue}`)
         .then(function () {
           return res.redirect('/')
         })
