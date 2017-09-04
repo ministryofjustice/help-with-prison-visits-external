@@ -28,7 +28,7 @@ class FieldsetValidator {
     return this
   }
 
-  isEmptyOrValidDate(date) {
+  isEmptyOrValidDate (date) {
     if (!validator.isNullOrUndefined(date) && !validator.isValidDate(date)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getInvalidDateFormatMessage)
     }

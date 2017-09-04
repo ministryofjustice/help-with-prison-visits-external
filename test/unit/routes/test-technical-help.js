@@ -13,13 +13,13 @@ describe('routes/help', function () {
     name: 'Joe Bloggs',
     emailAddress: 'test@test.com',
     referenceNumber: '',
-    'date-of-claim-day': undefined,
-    'date-of-claim-month': undefined,
-    'date-of-claim-year': undefined,
+    'date-of-claim-day': '',
+    'date-of-claim-month': '',
+    'date-of-claim-year': '',
     issue: 'Testing problems are occuring'
   }
 
-  var dateOfClaim = undefined
+  var dateOfClaim
   var app
 
   var technicalHelpStub
@@ -53,7 +53,7 @@ describe('routes/help', function () {
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(technicalHelpStub, VALID_DATA.name, VALID_DATA.emailAddress, VALID_DATA.referenceNumber, VALID_DATA.day, VALID_DATA.month, VALID_DATA.year, VALID_DATA.issue)
-          sinon.assert.calledWith(insertTaskStub, null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${VALID_DATA.name}~~${VALID_DATA.emailAddress}~~${VALID_DATA.referenceNumber}~~${dateOfClaim}~~${VALID_DATA.issue}`)
+          sinon.assert.calledWith(insertTaskStub, null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${VALID_DATA.name}~~${VALID_DATA.emailAddress}~~Reference number: ${VALID_DATA.referenceNumber}\n\nDate of Claim: \n\n${VALID_DATA.issue}`)
         })
     })
 

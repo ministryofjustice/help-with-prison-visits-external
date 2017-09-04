@@ -21,7 +21,7 @@ module.exports = function (router) {
         req.body.issue
       )
 
-      insertTask(null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${technicalHelp.name}~~${technicalHelp.emailAddress}~~${technicalHelp.referenceNumber}~~${technicalHelp.dateOfClaim}~~${technicalHelp.issue}`)
+      insertTask(null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${technicalHelp.name}~~${technicalHelp.emailAddress}~~Reference number: ${technicalHelp.referenceNumber}\n\nDate of Claim: ${technicalHelp.dateOfClaim.format('DD-MM-YYYY')}\n\n${technicalHelp.issue}`)
         .then(function () {
           return res.redirect('/')
         })
