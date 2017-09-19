@@ -6,6 +6,7 @@ const Upload = require('../../../../services/upload')
 const ValidationError = require('../../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
 const FileUpload = require('../../../../services/domain/file-upload')
+const moveFile = require('../../../../services/move-file')
 const disableOldClaimDocuments = require('../../../../services/data/disable-old-claim-documents')
 const ClaimDocumentInsert = require('../../../../services/data/insert-file-upload-details-for-claim')
 const csrfProtection = require('csurf')({ cookie: true })
@@ -17,7 +18,6 @@ const tasksEnum = require('../../../../constants/tasks-enum')
 const insertTask = require('../../../../services/data/insert-task')
 const logger = require('../../../../services/log')
 const SessionHandler = require('../../../../services/validators/session-handler')
-var path = require('path')
 var Promise = require('bluebird').Promise
 var fs = Promise.promisifyAll(require('fs'))
 var csrfToken
@@ -120,45 +120,25 @@ function checkForMalware (req, res, next, redirectURL) {
   var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
   if (req.file) {
     clam.scan(req.file.path).then((infected) => {
-      try {
-        if (infected) {
-          insertTask(ids.reference, ids.eligibilityId, claimId, tasksEnum.SEND_MALWARE_ALERT, config.MALWARE_NOTIFICATION_EMAIL_ADDRESS).then(function () {
-            logger.warn(`Malware detected in file ${req.file.path}`)
-          })
-          throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
-        }
-
-        moveScannedFileToStorage(req, getTargetDir(req))
-        disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
-          .then(function () {
-            ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
-              res.redirect(redirectURL)
-            })
-          })
-          .catch(function (error) {
-            next(error)
-          })
-      } catch (error) {
-        handleError(req, res, next, error)
-      }
+      if (infected) insertMalwareAlertTask(ids, claimId, req.file.path)
+      return moveScannedFileToStorage(req, res, next).then(function () {
+        return updateClaimDocumentMetadata(ids, claimId, req).then(function () {
+          res.redirect(redirectURL)
+        })
+      })
     }).catch((error) => {
-      error.message = 'Virus scan failed whilst calling Clam AV executable'
-      logger.error(error)
-      if (req.file) fs.unlinkAsync(req.file.path).catch()
-      handleError(req, res, next, new Error('There was an error processing your file'))
+      handleError(req, res, next, error)
+    }).finally(() => {
+      if (req.file) unlinkFile(req.file.path)
     })
   } else {
     // This handles the case were Post/Upload Later is selected, so no actual file is being provided,
     // however we still need to insert metadata indicating that the user selected on of these options
-    disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
-      .then(function () {
-        ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload).then(function () {
-          res.redirect(redirectURL)
-        })
-      })
-      .catch(function (error) {
-        next(error)
-      })
+    updateClaimDocumentMetadata(ids, claimId, req).then(function () {
+      res.redirect(redirectURL)
+    }).catch(function (error) {
+      next(error)
+    })
   }
 }
 
@@ -193,13 +173,39 @@ function setReferenceIds (req) {
   return { eligibilityId: id, reference: reference }
 }
 
-function moveScannedFileToStorage (req, targetDir) {
-  var targetFilePath = path.join(targetDir, req.file.filename)
-  // fs.rename will fail when mapped to Azure FS, thus copy + delete
-  fs.createReadStream(req.file.path).pipe(fs.createWriteStream(targetFilePath))
-  fs.unlinkAsync(req.file.path).catch()
-  req.fileUpload.destination = targetDir
-  req.fileUpload.path = targetFilePath
+function moveScannedFileToStorage (req, res, next) {
+  var tempPath = req.file.path
+  var targetDir = getTargetDir(req)
+  var filename = req.file.filename
+  return moveFile(tempPath, targetDir, filename)
+    .then(function (result) {
+      req.fileUpload.destination = result.dest
+      req.fileUpload.path = result.path
+    })
+}
+
+function insertMalwareAlertTask (ids, claimId, path) {
+  insertTask(ids.reference, ids.eligibilityId, claimId, tasksEnum.SEND_MALWARE_ALERT, config.MALWARE_NOTIFICATION_EMAIL_ADDRESS)
+    .then(function () {
+      logger.warn(`Malware detected in file ${path}`)
+    })
+
+  throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
+}
+
+function updateClaimDocumentMetadata (ids, claimId, req) {
+  return disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
+    .then(function () {
+      return ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload)
+    })
+}
+
+function unlinkFile (path) {
+  return fs.unlinkAsync(path).then(() => {
+    logger.info(`Removed temporary file ${path}`)
+  }).catch(function (error) {
+    logger.error(error)
+  })
 }
 
 function getTargetDir (req) {
