@@ -78,7 +78,7 @@
         <td
           {% if claim.IsAdvanceClaim %}
             {% if claim.Status == 'APPROVED-ADVANCE-CLOSED' %}
-              >Approved
+              >Closed
             {% elif forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
               class ="text-warning your-claims"><span class="claim-status">Progress </span>Information needed
             {% elif claim.Status == 'APPROVED' %}
