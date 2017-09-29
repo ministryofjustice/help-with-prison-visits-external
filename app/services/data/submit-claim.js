@@ -6,7 +6,6 @@ const tasksEnum = require('../../constants/tasks-enum')
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const dateFormatter = require('../date-formatter')
-const log = require('../log')
 
 module.exports = function (reference, eligibilityId, claimId, claimType, assistedDigitalCaseworker, paymentMethod) {
   var dateSubmitted = dateFormatter.now().toDate()
