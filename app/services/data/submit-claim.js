@@ -6,6 +6,7 @@ const tasksEnum = require('../../constants/tasks-enum')
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const dateFormatter = require('../date-formatter')
+const log = require('../log')
 
 module.exports = function (reference, eligibilityId, claimId, claimType, assistedDigitalCaseworker, paymentMethod) {
   var dateSubmitted = dateFormatter.now().toDate()
@@ -22,6 +23,7 @@ module.exports = function (reference, eligibilityId, claimId, claimType, assiste
       return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
         updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker, paymentMethod)])
           .then(function () {
+            log.info('Claim Submitted: ', claimId)
             return insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType, setTaskStatus)
           })
     })
