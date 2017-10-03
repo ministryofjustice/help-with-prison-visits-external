@@ -11,6 +11,7 @@ module.exports = function (claimStatus, benefitStatus, benefitDocument, visitCon
   if (!benefitDocument) {
     benefitDocument = {DocumentStatus: false}
   }
+
   if (requiredAttention(benefitStatus, benefitDocument)) {
     var benefit = {field: 'benefit-information', message: informationRequiredMessagesEnum.BENEFIT}
     addInformation.push(benefit)

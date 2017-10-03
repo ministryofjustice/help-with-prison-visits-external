@@ -43,7 +43,7 @@ module.exports = {
 
   PENSION_CREDIT: {
     value: 'pension-credit',
-    requireBenefitUpload: true,
+    requireBenefitUpload: false,
     displayName: 'Pension Credit',
     multipage: true,
     urlValue: 'b6'
