@@ -57,6 +57,7 @@
                 Visit confirmation not uploaded
             {% endif %}
               </span>
+              
           {% else %}
             {% if claimDetails.claim['VisitConfirmationCheck'] == 'APPROVED' and claimDetails.claim.visitConfirmation['DocumentStatus'] %}
               <span class="text-success">
@@ -65,7 +66,7 @@
                 <span class="text-pending">
               {% else %}
                 <span class="text-warning">In review
-              {% endif%}
+              {% endif %}
             {% endif %}
             {% if claimDetails.claim.IsAdvanceClaim and not claimDetails.claim.visitConfirmation['DocumentStatus'] %}
               Visit confirmation must be supplied after visit
