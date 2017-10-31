@@ -32,15 +32,18 @@ class TrainExpense extends BaseExpense {
     if (this.isAdvanceClaim) {
       FieldValidator(this.travelTime, 'departure-time', errors)
         .isRequired(ERROR_MESSAGES.getEnterDepartureTime)
+        .isLessThanLength(100)
       if (this.isReturn === 'yes') {
         FieldValidator(this.returnTime, 'return-time', errors)
           .isRequired(ERROR_MESSAGES.getEnterReturnTime)
+          .isLessThanLength(100)
       }
     } else {
       FieldValidator(this.cost, 'cost', errors)
         .isRequired(ERROR_MESSAGES.getEnterCost)
         .isCurrency()
         .isGreaterThanZero()
+        .isMaxIntOrLess()
     }
 
     var validationErrors = errors.get()

@@ -63,6 +63,7 @@ class CarExpense extends BaseExpense {
         .isRequired(ERROR_MESSAGES.getEnterTollCost)
         .isCurrency()
         .isGreaterThanZero()
+        .isMaxIntOrLess()
     }
 
     if (this.parking) {
@@ -70,6 +71,7 @@ class CarExpense extends BaseExpense {
         .isRequired(ERROR_MESSAGES.getEnterParkingCost)
         .isCurrency()
         .isGreaterThanZero()
+        .isMaxIntOrLess()
     }
 
     var validationErrors = errors.get()

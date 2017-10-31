@@ -18,11 +18,14 @@ class AccommodationExpense extends BaseExpense {
       .isRequired(ERROR_MESSAGES.getEnterNightsStayed)
       .isNumeric()
       .isGreaterThanZero()
+      .isInteger()
+      .isMaxIntOrLess()
 
     FieldValidator(this.cost, 'cost', errors)
       .isRequired(ERROR_MESSAGES.getEnterCost)
       .isCurrency()
       .isGreaterThanZero()
+      .isMaxIntOrLess()
 
     var validationErrors = errors.get()
     if (validationErrors) {

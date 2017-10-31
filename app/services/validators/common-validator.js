@@ -14,6 +14,7 @@ const advancePastEnum = require('../../constants/advance-past-enum')
 const referenceNumber = require('../../constants/reference-number-enum')
 const dateFormatter = require('../date-formatter')
 const NUM_YEARS_LIMIT = 120
+const SQL_MAX_INT = 2147483647
 
 exports.isNullOrUndefined = function (value) {
   return !value
@@ -89,6 +90,14 @@ exports.isCurrency = function (value) {
 
 exports.isGreaterThanZero = function (value) {
   return value > 0
+}
+
+exports.isInteger = function (value) {
+  return validator.isInt(value)
+}
+
+exports.isMaxIntOrLess = function (value) {
+  return value <= SQL_MAX_INT
 }
 
 exports.isValidDateOfBirth = function (dob) {
