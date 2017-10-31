@@ -2,7 +2,6 @@ const validator = require('./common-validator')
 const ERROR_MESSAGES = require('./validation-error-messages')
 
 class FieldsetValidator {
-
   /**
    * Build a validator for validating fieldsets (I.e. a group of fields).
    * @param data An array of elements to validate as a set.

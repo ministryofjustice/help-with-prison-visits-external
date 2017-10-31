@@ -80,4 +80,3 @@ function redirectApplicationSubmitted (res, reference, claimId) {
       return res.redirect(`/application-submitted`)
     })
 }
-
