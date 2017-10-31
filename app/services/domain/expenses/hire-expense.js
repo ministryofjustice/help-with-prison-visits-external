@@ -17,9 +17,9 @@ class HireExpense extends BaseExpense {
     FieldValidator(this.durationOfTravel, 'duration', errors)
       .isRequired(ERROR_MESSAGES.getEnterNumberOfDays)
       .isNumeric()
+      .isInteger()
       .isGreaterThanZero()
       .isMaxIntOrLess()
-      .isInteger()
 
     FieldValidator(this.from, 'from', errors)
       .isRequired(ERROR_MESSAGES.getEnterFrom)
