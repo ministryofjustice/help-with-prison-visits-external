@@ -18,12 +18,12 @@
   </tr>
   {% endfor %}
 
-  <tr id='benefit-information' {% if errors['benefit-information'][0] or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% if forEdit %}{% if claimDetails.claim['benefitDocument'][0].fromInternalWeb %} {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or  claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% endif %}{% endif %}>
+  <tr id='benefit-information' {% if errors['benefit-information'][0] or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' or (claimDetails.claim.DWPBenefitCheckerResult and claimDetails.claim.DWPBenefitCheckerResult != 'YES' and claimDetails.claim['BenefitStatus'] != 'APPROVED') %} class="warning" {% endif %}{% if forEdit %}{% if claimDetails.claim['benefitDocument'][0].fromInternalWeb %} {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or  claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% endif %}{% endif %}>
     <td>Benefit information</td>
     <td>
       {{ displayHelper.getBenefitDisplayName(claimDetails.claim['Benefit']) }}
 
-      {% if displayHelper.getBenefitRequireUpload(claimDetails.claim['Benefit']) or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %}
+      {% if displayHelper.getBenefitRequireUpload(claimDetails.claim['Benefit']) or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' or (claimDetails.claim.DWPBenefitCheckerResult and claimDetails.claim.DWPBenefitCheckerResult != 'YES' and claimDetails.claim['BenefitStatus'] != 'APPROVED') %}
       <br>
 
         {% if claimDetails.claim['benefitDocument'][0].fromInternalWeb or updated%}
