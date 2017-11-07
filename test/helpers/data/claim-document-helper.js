@@ -18,6 +18,17 @@ module.exports.build = function (claimId) {
   )
 }
 
+module.exports.buildExpenseDoc = function (claimId, expenseId) {
+  return new FileUpload(
+    claimId,
+    'RECEIPT',
+    expenseId,
+    {path: 'random/path'},
+    undefined,
+    undefined
+  )
+}
+
 module.exports.insert = function (reference, eligibilityId, claimId, documentType) {
   return knex('ExtSchema.ClaimDocument')
     .returning('ClaimDocumentId')
@@ -37,6 +48,12 @@ module.exports.get = function (claimId) {
   return knex.first()
     .from('ExtSchema.ClaimDocument')
     .where('ClaimId', claimId)
+}
+
+module.exports.getAllForExpense = function (expenseId) {
+  return knex.select('*')
+    .from('ExtSchema.ClaimDocument')
+    .where('ClaimExpenseId', expenseId)
 }
 
 module.exports.delete = function (claimId) {
