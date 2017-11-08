@@ -5,7 +5,6 @@ const disableNonTicketedExpensesForClaim = require('../../../../app/services/dat
 const insertExpense = require('../../../../app/services/data/insert-expense')
 const insertClaimDocument = require('../../../../app/services/data/insert-file-upload-details-for-claim')
 const documentHelper = require('../../../helpers/data/claim-document-helper')
-const log = require('../../../../app/services/log')
 
 describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
   const REFERENCE = 'DISEXPS'
