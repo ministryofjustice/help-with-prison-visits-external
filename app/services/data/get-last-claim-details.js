@@ -9,7 +9,6 @@ module.exports = function (reference, eligibilityId, mask) {
   var claimId = null
   return getLastClaimForReference(reference, eligibilityId)
     .then(function (claimIdReturned) {
-      console.log(claimIdReturned)
       if (claimIdReturned.length > 0) {
         claimId = parseInt(claimIdReturned[0].ClaimId)
       }
