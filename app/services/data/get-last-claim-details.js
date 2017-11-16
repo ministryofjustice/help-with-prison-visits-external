@@ -1,7 +1,7 @@
+const getLastClaimForReference = require('./get-last-claim-for-reference')
 const getClaimChildrenByIdOrLastApproved = require('./get-claim-children-by-id-or-last-approved')
 const getClaimExpenseByIdOrLastApproved = require('./get-claim-expense-by-id-or-last-approved')
 const getClaimEscortByIdOrLastApproved = require('./get-claim-escort-by-id-or-last-approved')
-const getLastClaimForReference = require('./get-last-claim-for-reference')
 const maskArrayOfNames = require('../helpers/mask-array-of-names')
 
 module.exports = function (reference, eligibilityId, mask) {
