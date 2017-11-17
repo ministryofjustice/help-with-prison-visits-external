@@ -9,7 +9,7 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     var errors
 
-    if (req.params.claimType == 'first-time') {
+    if (req.params.claimType === 'first-time') {
       console.log('Clearing session')
       req.session = SessionHandler.clearSession(req.session, req.url)
     } else {
