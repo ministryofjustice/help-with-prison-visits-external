@@ -26,6 +26,6 @@ module.exports = function (reference, eligibilityId, claimId, expense) {
         IsEnabled: true,
         ReturnTime: expense.returnTime || null,
         ToPostCode: expense.toPostCode || null
-      })
+      }).returning('ClaimExpenseId')
     })
 }
