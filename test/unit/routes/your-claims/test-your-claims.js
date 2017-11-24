@@ -44,6 +44,7 @@ describe('/your-claims/your-claims', function () {
 
     it('should respond with a 200 if the database query returns a result', function () {
       getHistoricClaimsStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
+      getMostRecentClaimStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -52,6 +53,7 @@ describe('/your-claims/your-claims', function () {
 
     it('should set canStartNewClaim to true if no claims in progress', function () {
       getHistoricClaimsStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
+      getMostRecentClaimStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -62,6 +64,7 @@ describe('/your-claims/your-claims', function () {
 
     it('should set canStartNewClaim to false if claims in progress', function () {
       getHistoricClaimsStub.resolves(CLAIMS_CANNOT_START_NEW_CLAIM)
+      getMostRecentClaimStub.resolves(CLAIMS_CANNOT_START_NEW_CLAIM)
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
