@@ -17,6 +17,7 @@ describe('/your-claims/your-claims', function () {
 
   var urlPathValidatorStub
   var getHistoricClaimsStub
+  var getMostRecentClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
