@@ -8,7 +8,6 @@ const dateFormatter = require('../../services/date-formatter')
 const displayHelper = require('../../views/helpers/display-helper')
 const forEdit = require('../helpers/for-edit')
 const SessionHandler = require('../../services/validators/session-handler')
-const log = require('../../services/log')
 
 const REFERENCE_DOB_INCORRECT_ERROR = '?error=yes'
 

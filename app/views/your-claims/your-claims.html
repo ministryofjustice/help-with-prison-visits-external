@@ -41,16 +41,21 @@
     </div>
 
   </div>
-
-  {% if canStartNewClaim %}
-  <form action="/your-claims/check-your-information" method="GET">
-      <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" />
-  </form>
+  {% if hasMostRecentDOB %}
+    {% if canStartNewClaim %}
+    <form action="/your-claims/check-your-information" method="GET">
+        <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" />
+    </form>
+    {% else %}
+    <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />
+    <br />
+    <p class="text-warning">You can't start a new claim as you have an existing claim in progress</p>
+    <br />
+    {% endif %}
   {% else %}
-  <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />
-  <br />
-  <p class="text-warning">You can't start a new claim as you have an existing claim in progress</p>
-  <br />
+    <br />
+    <p class="text-warning">You can't start a new claim as you have logged in using an old DOB</p>
+    <br />
   {% endif %}
 
   <br />
