@@ -1,5 +1,6 @@
 const UrlPathValidator = require('../../services/validators/url-path-validator')
 const getHistoricClaims = require('../../services/data/get-historic-claims')
+const getMostRecentClaim = require('../../services/data/get-most-recent-claim')
 const dateHelper = require('../../views/helpers/date-helper')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const claimStatusHelper = require('../../views/helpers/claim-status-helper')
@@ -7,6 +8,7 @@ const dateFormatter = require('../../services/date-formatter')
 const displayHelper = require('../../views/helpers/display-helper')
 const forEdit = require('../helpers/for-edit')
 const SessionHandler = require('../../services/validators/session-handler')
+const log = require('../../services/log')
 
 const REFERENCE_DOB_INCORRECT_ERROR = '?error=yes'
 
@@ -28,16 +30,22 @@ module.exports = function (router) {
         }
 
         var canStartNewClaim = noClaimsInProgress(claims)
+        var hasMostRecentDOB = false
 
-        return res.render('your-claims/your-claims', {
-          reference: req.session.decryptedRef,
-          claims: claims,
-          dateHelper: dateHelper,
-          claimStatusHelper: claimStatusHelper,
-          canStartNewClaim: canStartNewClaim,
-          displayHelper: displayHelper,
-          forEdit: forEdit
-        })
+        getMostRecentClaim(req.session.decryptedRef, dateFormatter.buildFromDateString(decodedDOB).toDate())
+          .then(function (mostRecentClaims) {
+            hasMostRecentDOB = (mostRecentClaims.length > 0)
+            return res.render('your-claims/your-claims', {
+              reference: req.session.decryptedRef,
+              claims: claims,
+              dateHelper: dateHelper,
+              claimStatusHelper: claimStatusHelper,
+              canStartNewClaim: canStartNewClaim,
+              displayHelper: displayHelper,
+              forEdit: forEdit,
+              hasMostRecentDOB: hasMostRecentDOB
+            })
+          })
       })
       .catch(function (error) {
         next(error)
