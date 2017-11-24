@@ -21,10 +21,12 @@ describe('/your-claims/your-claims', function () {
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     getHistoricClaimsStub = sinon.stub()
+    getMostRecentClaimStub = sinon.stub()
 
     var route = proxyquire('../../../../app/routes/your-claims/your-claims', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/data/get-historic-claims': getHistoricClaimsStub
+      '../../services/data/get-historic-claims': getHistoricClaimsStub,
+      '../../services/data/get-most-recent-claims': getMostRecentClaimStub
     })
     app = routeHelper.buildApp(route)
   })
