@@ -28,12 +28,9 @@ module.exports = function (router) {
           return res.redirect(`/start-already-registered${REFERENCE_DOB_INCORRECT_ERROR}`)
         }
 
-        var canStartNewClaim = noClaimsInProgress(claims)
-        var hasMostRecentDOB = false
-
         getMostRecentClaim(req.session.decryptedRef, dateFormatter.buildFromDateString(decodedDOB).toDate())
-          .then(function (mostRecentClaims) {
-            hasMostRecentDOB = (mostRecentClaims.length > 0)
+          .then(function (claims) {
+            var canStartNewClaim = noClaimsInProgress(claims)
             return res.render('your-claims/your-claims', {
               reference: req.session.decryptedRef,
               claims: claims,
@@ -41,8 +38,7 @@ module.exports = function (router) {
               claimStatusHelper: claimStatusHelper,
               canStartNewClaim: canStartNewClaim,
               displayHelper: displayHelper,
-              forEdit: forEdit,
-              hasMostRecentDOB: hasMostRecentDOB
+              forEdit: forEdit
             })
           })
       })
