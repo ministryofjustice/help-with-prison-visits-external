@@ -1,6 +1,6 @@
 const UrlPathValidator = require('../../services/validators/url-path-validator')
 const getHistoricClaims = require('../../services/data/get-historic-claims')
-const getMostRecentClaim = require('../../services/data/get-most-recent-claim')
+const getHistoricClaimsByReference = require('../../services/data/get-historic-claims-by-reference')
 const dateHelper = require('../../views/helpers/date-helper')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const claimStatusHelper = require('../../views/helpers/claim-status-helper')
@@ -28,7 +28,7 @@ module.exports = function (router) {
           return res.redirect(`/start-already-registered${REFERENCE_DOB_INCORRECT_ERROR}`)
         }
 
-        getMostRecentClaim(req.session.decryptedRef, dateFormatter.buildFromDateString(decodedDOB).toDate())
+        getHistoricClaimsByReference(req.session.decryptedRef)
           .then(function (claims) {
             var canStartNewClaim = noClaimsInProgress(claims)
             return res.render('your-claims/your-claims', {
