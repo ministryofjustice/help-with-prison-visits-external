@@ -31,6 +31,7 @@ module.exports = function (router) {
         getHistoricClaimsByReference(req.session.decryptedRef)
           .then(function (claims) {
             var canStartNewClaim = noClaimsInProgress(claims)
+
             return res.render('your-claims/your-claims', {
               reference: req.session.decryptedRef,
               claims: claims,
