@@ -23,10 +23,10 @@
     <td>
       {{ displayHelper.getBenefitDisplayName(claimDetails.claim['Benefit']) }}
 
-      {% if displayHelper.getBenefitRequireUpload(claimDetails.claim['Benefit']) or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %}
+      {% if displayHelper.getBenefitRequireUpload(claimDetails.claim['Benefit']) or claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %}
       <br>
 
-        {% if claimDetails.claim['benefitDocument'][0].fromInternalWeb or updated%}
+        {% if claimDetails.claim['benefitDocument'][0].fromInternalWeb or updated %}
           {% if forEdit %}
             {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'uploaded' and claimDetails.claim['BenefitStatus'] != 'REQUEST-INFORMATION'%}
               <span class="text-success">Benefit documentation uploaded</span>
