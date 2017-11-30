@@ -39,6 +39,13 @@ describe('Repeat claim with new eligibility details', function () {
       .waitForExist('#continue')
       .click('#change-your-details')
 
+      // Date of birth
+      .waitForExist('#date-of-birth-submit')
+      .setValue('#dob-day-input', '01')
+      .setValue('#dob-month-input', '05')
+      .setValue('#dob-year-input', '1955')
+      .click('#date-of-birth-submit')
+
       // Prisoner relationship
       .waitForExist('#prisoner-relationship-submit')
       .click('[for="partner"]')
