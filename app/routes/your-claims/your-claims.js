@@ -1,5 +1,6 @@
 const UrlPathValidator = require('../../services/validators/url-path-validator')
 const getHistoricClaims = require('../../services/data/get-historic-claims')
+const getHistoricClaimsByReference = require('../../services/data/get-historic-claims-by-reference')
 const dateHelper = require('../../views/helpers/date-helper')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 const claimStatusHelper = require('../../views/helpers/claim-status-helper')
@@ -27,17 +28,20 @@ module.exports = function (router) {
           return res.redirect(`/start-already-registered${REFERENCE_DOB_INCORRECT_ERROR}`)
         }
 
-        var canStartNewClaim = noClaimsInProgress(claims)
+        getHistoricClaimsByReference(req.session.decryptedRef)
+          .then(function (claims) {
+            var canStartNewClaim = noClaimsInProgress(claims)
 
-        return res.render('your-claims/your-claims', {
-          reference: req.session.decryptedRef,
-          claims: claims,
-          dateHelper: dateHelper,
-          claimStatusHelper: claimStatusHelper,
-          canStartNewClaim: canStartNewClaim,
-          displayHelper: displayHelper,
-          forEdit: forEdit
-        })
+            return res.render('your-claims/your-claims', {
+              reference: req.session.decryptedRef,
+              claims: claims,
+              dateHelper: dateHelper,
+              claimStatusHelper: claimStatusHelper,
+              canStartNewClaim: canStartNewClaim,
+              displayHelper: displayHelper,
+              forEdit: forEdit
+            })
+          })
       })
       .catch(function (error) {
         next(error)

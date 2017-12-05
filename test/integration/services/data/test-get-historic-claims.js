@@ -1,5 +1,5 @@
 const expect = require('chai').expect
-const getHistoricClaims = require('../../../../app/services/data/get-historic-claims')
+const getHistoricClaimsByReference = require('../../../../app/services/data/get-historic-claims-by-reference')
 const internalEligiblityHelper = require('../../../helpers/data/internal/internal-eligibility-helper')
 const internalClaimHelper = require('../../../helpers/data/internal/internal-claim-helper')
 const internalVisitorHelper = require('../../../helpers/data/internal/internal-visitor-helper')
@@ -18,8 +18,8 @@ describe('services/data/get-historic-claims', function () {
     return internalEligiblityHelper.deleteAll(REFERENCE)
   })
 
-  it('should retrieve all claims with the given reference and dob', function () {
-    return getHistoricClaims(REFERENCE, internalVisitorHelper.DATE_OF_BIRTH.toDate())
+  it('should retrieve all claims with the given reference', function () {
+    return getHistoricClaimsByReference(REFERENCE)
       .then(function (claims) {
         // Claim Details
         expect(claims[0].ClaimId).to.equal(claimId)
