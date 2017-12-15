@@ -33,6 +33,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     configStub = sinon.stub()
     insertTaskStub = sinon.stub()
     disableOldClaimDocumentsStub = sinon.stub().resolves()
+    checkExpenseIsEnabledStub = sinon.stub().resolves()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/file-upload', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
@@ -45,6 +46,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
       '../../../../../config': configStub,
       '../../../../services/data/insert-task': insertTaskStub,
       '../../../../services/data/disable-old-claim-documents': disableOldClaimDocumentsStub,
+      '../../../../services/data/check-expense-is-enabled': checkExpenseIsEnabledStub,
       'csurf': function () { return function () { } }
     })
     app = routeHelper.buildApp(route)

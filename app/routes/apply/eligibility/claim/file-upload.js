@@ -18,6 +18,7 @@ const tasksEnum = require('../../../../constants/tasks-enum')
 const insertTask = require('../../../../services/data/insert-task')
 const logger = require('../../../../services/log')
 const SessionHandler = require('../../../../services/validators/session-handler')
+const checkExpenseIsEnabled = require('../../../../services/data/check-expense-is-enabled')
 var Promise = require('bluebird').Promise
 var fs = Promise.promisifyAll(require('fs'))
 var csrfToken
@@ -62,7 +63,23 @@ function get (req, res) {
   }
 
   setReferenceIds(req)
+  if(req.query.claimExpenseId != null) {
+    //check that the expense is still enabled
+    checkExpenseIsEnabled(req.query.claimExpenseId)
+      .then(function (claimExpense) {
+        if (claimExpense[0].IsEnabled) {
+          renderFileUploadPage(req,res)
+        } else {
+          //claimant has probably clicked the back button after deleting expense
+          res.redirect(req.yourClaimUrl)
+        }
+      })
+  } else {
+    renderFileUploadPage(req, res)
+  }
+}
 
+function renderFileUploadPage (req, res) {
   if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
     var decryptedRef = decrypt(req.session.referenceId)
 
