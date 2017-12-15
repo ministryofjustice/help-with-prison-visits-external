@@ -63,14 +63,14 @@ function get (req, res) {
   }
 
   setReferenceIds(req)
-  if(req.query.claimExpenseId != null) {
-    //check that the expense is still enabled
+  if (req.query.claimExpenseId != null) {
+    // check that the expense is still enabled
     checkExpenseIsEnabled(req.query.claimExpenseId)
       .then(function (claimExpense) {
         if (claimExpense[0].IsEnabled) {
-          renderFileUploadPage(req,res)
+          renderFileUploadPage(req, res)
         } else {
-          //claimant has probably clicked the back button after deleting expense
+          // claimant has probably clicked the back button after deleting expense
           res.redirect(req.yourClaimUrl)
         }
       })

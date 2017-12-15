@@ -21,6 +21,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
   var configStub
   var insertTaskStub
   var disableOldClaimDocumentsStub
+  var checkExpenseIsEnabledStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
