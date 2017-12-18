@@ -71,6 +71,7 @@ function get (req, res) {
           renderFileUploadPage(req, res)
         } else {
           // claimant has probably clicked the back button after deleting expense
+          req.session.ExpenseIsEnabled = 'false'
           res.redirect(req.yourClaimUrl)
         }
       })
