@@ -84,5 +84,6 @@ module.exports = {
   getUploadRequired: function () { return 'Upload your document now or choose to send it later' },
   getEnterReturnTime: function () { return 'Enter the return time of your train home' },
   getPaymentMethod: function () { return 'Tell us how you want to be paid' },
-  getNewCarDestination: function () { return 'Enter the destination of your car journey' }
+  getNewCarDestination: function () { return 'Enter the destination of your car journey' },
+  getExpenseDisabled: function () { return 'You cannot upload a document for this expense as it has already been deleted' }
 }
