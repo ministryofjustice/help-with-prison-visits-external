@@ -67,7 +67,9 @@ function get (req, res) {
     // check that the expense is still enabled
     checkExpenseIsEnabled(req.query.claimExpenseId)
       .then(function (claimExpense) {
-        if (claimExpense[0].IsEnabled) {
+        if (claimExpense.length === 0) {
+          renderFileUploadPage(req, res)
+        } else if (claimExpense[0].IsEnabled) {
           renderFileUploadPage(req, res)
         } else {
           // claimant has probably clicked the back button after deleting expense
