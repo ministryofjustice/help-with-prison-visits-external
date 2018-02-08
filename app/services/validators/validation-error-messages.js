@@ -86,5 +86,6 @@ module.exports = {
   getPaymentMethod: function () { return 'Tell us how you want to be paid' },
   getNewCarDestination: function () { return 'Enter the destination of your car journey' },
   getIsIntegerFormat: function (displayName) { return `${displayName} must be a whole number` },
-  getValueIsTooLarge: function (displayName) { return `${displayName} value is too large for this field` }
+  getValueIsTooLarge: function (displayName) { return `${displayName} value is too large for this field` },
+  getExpenseDisabled: function () { return 'You cannot upload a document for this expense as it has already been deleted' }
 }

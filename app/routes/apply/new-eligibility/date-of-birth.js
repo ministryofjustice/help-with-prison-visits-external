@@ -9,7 +9,9 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
     var errors
 
-    req.session = SessionHandler.clearSession(req.session, req.url)
+    if (req.params.claimType === 'first-time') {
+      req.session = SessionHandler.clearSession(req.session, req.url)
+    }
 
     if ((req.query.error === 'expired')) {
       errors = { expired: [ ERROR_MESSAGES.getExpiredSessionDOB ] }

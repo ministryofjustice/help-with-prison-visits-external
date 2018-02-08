@@ -11,7 +11,6 @@ module.exports = function (reference, eligibiltyId, claimId) {
         expense.Cost = Number(expense.Cost).toFixed(2)
       }
     })
-
     return claimExpenses
   })
 }

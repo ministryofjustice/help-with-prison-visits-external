@@ -5,7 +5,7 @@ module.exports = {
     value: 'income-support',
     requireBenefitUpload: false,
     displayName: 'Income Support',
-    multipage: false,
+    multipage: true,
     urlValue: 'b1'
   },
 
@@ -13,7 +13,7 @@ module.exports = {
     value: 'jobseekers-allowance',
     requireBenefitUpload: false,
     displayName: 'Jobseeker’s Allowance (JSA)',
-    multipage: false,
+    multipage: true,
     urlValue: 'b2'
   },
 
@@ -21,7 +21,7 @@ module.exports = {
     value: 'employment-support',
     requireBenefitUpload: false,
     displayName: 'Employment and Support Allowance (ESA)',
-    multipage: false,
+    multipage: true,
     urlValue: 'b3'
   },
 
@@ -43,7 +43,7 @@ module.exports = {
 
   PENSION_CREDIT: {
     value: 'pension-credit',
-    requireBenefitUpload: false,
+    requireBenefitUpload: true,
     displayName: 'Pension Credit',
     multipage: true,
     urlValue: 'b6'
