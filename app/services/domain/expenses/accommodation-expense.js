@@ -25,7 +25,7 @@ class AccommodationExpense extends BaseExpense {
       .isRequired(ERROR_MESSAGES.getEnterCost)
       .isCurrency()
       .isGreaterThanZero()
-      .isMaxIntOrLess()
+      .isMaxCostOrLess()
 
     var validationErrors = errors.get()
     if (validationErrors) {
