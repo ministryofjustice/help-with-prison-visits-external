@@ -15,6 +15,7 @@ const referenceNumber = require('../../constants/reference-number-enum')
 const dateFormatter = require('../date-formatter')
 const NUM_YEARS_LIMIT = 120
 const SQL_MAX_INT = 2147483647
+const SQL_DEC_8_COMMA_2 = 999999.99
 
 exports.isNullOrUndefined = function (value) {
   return !value
@@ -98,6 +99,10 @@ exports.isInteger = function (value) {
 
 exports.isMaxIntOrLess = function (value) {
   return value <= SQL_MAX_INT
+}
+
+exports.isMaxCostOrLess = function (value) {
+  return value <= SQL_DEC_8_COMMA_2
 }
 
 exports.isValidDateOfBirth = function (dob) {

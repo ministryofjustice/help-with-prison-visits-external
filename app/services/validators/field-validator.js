@@ -109,6 +109,12 @@ class FieldValidator {
     }
   }
 
+  isMaxCostOrLess () {
+    if (!validator.isMaxCostOrLess(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getValueIsTooLarge)
+    }
+  }
+
   isReference () {
     if (!validator.isValidReference(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidReference)
