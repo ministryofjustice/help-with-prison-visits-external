@@ -82,7 +82,7 @@ module.exports = function (router) {
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
               expense: req.body,
-              isAdvanceClaim: { isAdvanceClaim: isAdvanceClaim }
+              isAdvanceClaim: isAdvanceClaim
             })
           })
       } else {
