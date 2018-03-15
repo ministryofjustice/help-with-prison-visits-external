@@ -1,5 +1,6 @@
 const validator = require('./common-validator')
 const ERROR_MESSAGES = require('./validation-error-messages')
+const config = require('../../../config')
 
 class FieldValidator {
   /**
@@ -111,7 +112,7 @@ class FieldValidator {
 
   isMaxCostOrLess () {
     if (!validator.isMaxCostOrLess(this.data)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getValueIsTooLarge)
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getCostIsTooLarge, { cost: parseFloat(config.MAX_COST) })
     }
   }
 

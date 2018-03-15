@@ -88,5 +88,6 @@ module.exports = {
   getIsIntegerFormat: function (displayName) { return `${displayName} must be a whole number` },
   getValueIsTooLarge: function (displayName) { return `${displayName} value is too large for this field` },
   getExpenseDisabled: function () { return 'You cannot upload a document for this expense as it has already been deleted' },
-  getIsPhoneNumberLessThanLengthMessage: function (displayName, options) { return `${displayName} must be ${options.length} characters or less` }
+  getIsPhoneNumberLessThanLengthMessage: function (displayName, options) { return `${displayName} must be ${options.length} characters or less` },
+  getCostIsTooLarge: function (displayName, options) { return `${displayName} must be £${options.cost} or less` }
 }
