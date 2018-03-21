@@ -1,8 +1,8 @@
 const validator = require('./common-validator')
 const ERROR_MESSAGES = require('./validation-error-messages')
+const config = require('../../../config')
 
 class FieldValidator {
-
   /**
    * Build a validator for validating fields.
    * @param data A single element to validate.
@@ -69,7 +69,7 @@ class FieldValidator {
   }
 
   isLessThanLength (length, specificMessage) {
-    var message = (!specificMessage) ? ERROR_MESSAGES.getIsLessThanLengthMessage : specificMessage
+    var message = (!specificMessage) ? ERROR_MESSAGES.getIsPhoneNumberLessThanLengthMessage : specificMessage
     if (!validator.isLessThanLength(this.data, length)) {
       this.errors.add(this.fieldName, message, { length: length })
     }
@@ -95,6 +95,25 @@ class FieldValidator {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
     }
     return this
+  }
+
+  isInteger () {
+    if (!validator.isInteger(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsIntegerFormat)
+    }
+    return this
+  }
+
+  isMaxIntOrLess () {
+    if (!validator.isMaxIntOrLess(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getValueIsTooLarge)
+    }
+  }
+
+  isMaxCostOrLess () {
+    if (!validator.isMaxCostOrLess(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getCostIsTooLarge, { cost: parseFloat(config.MAX_COST) })
+    }
   }
 
   isReference () {

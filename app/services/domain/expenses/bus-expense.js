@@ -32,6 +32,7 @@ class BusExpense extends BaseExpense {
       .isRequired(ERROR_MESSAGES.getEnterCost)
       .isCurrency()
       .isGreaterThanZero()
+      .isMaxCostOrLess()
 
     var validationErrors = errors.get()
     if (validationErrors) {

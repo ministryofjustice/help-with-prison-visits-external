@@ -1,7 +1,6 @@
 const FIELD_NAMES = require('./validation-field-names')
 
 class ErrorHandler {
-
   constructor () {
     this.errors = {}
   }

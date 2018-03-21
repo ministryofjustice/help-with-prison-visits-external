@@ -22,6 +22,7 @@ module.exports = function (router) {
     getIsAdvanceClaim(req.session.claimId)
       .then(function (isAdvanceClaim) {
         claim.isAdvanceClaim = isAdvanceClaim
+        req.session.isAdvanceClaim = isAdvanceClaim
       })
       .then(function () {
         return getExpenseOwnerData(req.session.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
@@ -48,8 +49,7 @@ module.exports = function (router) {
     }
 
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    var isAdvanceClaim = req.body.isAdvanceClaim === 'true'
-
+    var isAdvanceClaim = req.session.isAdvanceClaim
     try {
       var expense = new TrainExpense(
         req.body.cost,
@@ -82,7 +82,7 @@ module.exports = function (router) {
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
               expense: req.body,
-              claim: { IsAdvanceClaim: isAdvanceClaim }
+              isAdvanceClaim: isAdvanceClaim
             })
           })
       } else {

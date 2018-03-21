@@ -17,7 +17,9 @@ class HireExpense extends BaseExpense {
     FieldValidator(this.durationOfTravel, 'duration', errors)
       .isRequired(ERROR_MESSAGES.getEnterNumberOfDays)
       .isNumeric()
+      .isInteger()
       .isGreaterThanZero()
+      .isMaxIntOrLess()
 
     FieldValidator(this.from, 'from', errors)
       .isRequired(ERROR_MESSAGES.getEnterFrom)
@@ -31,6 +33,7 @@ class HireExpense extends BaseExpense {
       .isRequired(ERROR_MESSAGES.getEnterCost)
       .isCurrency()
       .isGreaterThanZero()
+      .isMaxCostOrLess()
 
     var validationErrors = errors.get()
     if (validationErrors) {
