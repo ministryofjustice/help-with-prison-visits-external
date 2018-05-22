@@ -9,7 +9,7 @@ var routes = [
   require('./eligibility-fail'),
   require('./application-submitted'),
   require('./feedback'),
-  require('./terms-and-conditions'),
+  require('./privacy'),
   require('./cookies'),
   require('./technical-help'),
   require('./reference-recovery'),

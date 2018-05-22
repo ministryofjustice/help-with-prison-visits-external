@@ -1,12 +1,12 @@
 const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
 
-describe('routes/terms-and-conditions', function () {
-  const ROUTE = `/terms-and-conditions`
+describe('routes/privacy', function () {
+  const ROUTE = `/privacy`
   var app
 
   beforeEach(function () {
-    var route = require('../../../app/routes/terms-and-conditions')
+    var route = require('../../../app/routes/privacy')
     app = routeHelper.buildApp(route)
   })
 
