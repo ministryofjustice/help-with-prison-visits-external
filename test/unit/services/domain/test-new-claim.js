@@ -59,8 +59,8 @@ describe('services/domain/new-claim', function () {
     }).to.throw(ValidationError)
   })
 
-  it('should throw a ValidationError if given a date more than 99 days away for a past claim', function () {
-    var dateFurtherThan99Days = dateFormatter.now().subtract(130, 'days') // 30 rather than 29 as locally fails in BST, server runs GMT
+  it('should throw a ValidationError if given a date more than 28 days away for a past claim', function () {
+    var dateFurtherThan99Days = dateFormatter.now().subtract(30, 'days') // 30 rather than 29 as locally fails in BST, server runs GMT
     expect(function () {
       new NewClaim(
         VALID_REFERENCE,
