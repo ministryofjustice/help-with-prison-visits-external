@@ -15,7 +15,9 @@ class NewClaim {
       month,
       year
     ]
-    this.dateOfJourney = dateFormatter.build(day, month, year)
+    // APVS0125 Adding .startOf('day') to fix an issue that would
+    // allow someone to enter a date 29 days in the past during Daylight Saving Time
+    this.dateOfJourney = dateFormatter.build(day, month, year).startOf('day')
     this.isAdvanceClaim = isAdvanceClaim
     this.IsValid()
   }
