@@ -16,7 +16,7 @@ describe('services/domain/new-claim', function () {
   const IS_PAST_CLAIM = false
   const IS_ADVANCE_CLAIM = true
 
-  var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR).startOf('day')
+  var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
 
   it('should construct a domain object given valid input', function () {
     claim = new NewClaim(
