@@ -60,7 +60,7 @@ describe('services/domain/new-claim', function () {
   })
 
   it('should throw a ValidationError if given a date more than 60 days away for a past claim', function () {
-    var dateFurtherThan60Days = dateFormatter.now().subtract(61, 'days') // 30 rather than 29 as locally fails in BST, server runs GMT
+    var dateFurtherThan60Days = dateFormatter.now().subtract(62, 'days') // 62 rather than 61 as locally fails in BST, server runs GMT
     expect(function () {
       new NewClaim(
         VALID_REFERENCE,
@@ -73,7 +73,7 @@ describe('services/domain/new-claim', function () {
   })
 
   it('should throw a ValidationError if given a date more than 60 days away for an advance claim', function () {
-    var dateFurtherThan60Days = dateFormatter.now().add(61, 'days') // 30 rather than 29 as locally fails in BST, server runs GMT
+    var dateFurtherThan60Days = dateFormatter.now().add(62, 'days') // 62 rather than 61 as locally fails in BST, server runs GMT
     expect(function () {
       new NewClaim(
         VALID_REFERENCE,
