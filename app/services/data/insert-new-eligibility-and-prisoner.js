@@ -85,7 +85,8 @@ function updateExistingEligibilityAndPrisoner (aboutThePrisoner, uniqueReference
         FirstName: aboutThePrisoner.firstName,
         LastName: aboutThePrisoner.lastName,
         DateOfBirth: aboutThePrisoner.dob,
-        PrisonNumber: aboutThePrisoner.prisonerNumber
+        PrisonNumber: aboutThePrisoner.prisonerNumber,
+        NameOfPrison: aboutThePrisoner.nameOfPrison
       })
     .then(function () {
       return { reference: uniqueReference, eligibilityId: newEligibilityId }
