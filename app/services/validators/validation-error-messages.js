@@ -23,6 +23,7 @@ module.exports = {
   getInvalidReferenceNumberAndDob: 'Could not find any claims for these details',
   getExpiredSession: 'Your session has expired, please enter your reference number and date of birth again',
   getExpiredSessionDOB: 'Your session has expired, please enter your date of birth again',
+  getReferenceDisabled: 'This Reference has been disabled',
   getMadeClaimForPrisonerBeforeIsRequired: 'You must confirm if you have made a claim before',
   getNoUpdatesMade: 'No updates were made, please ensure all documents are uploaded for your application to be processed or send a message to your caseworker. Otherwise press cancel to return to your claims',
   getInvalidReference: 'Reference is invalid',

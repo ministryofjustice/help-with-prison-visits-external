@@ -5,6 +5,7 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const checkStatusForFinishingClaim = require('../../../../services/data/check-status-for-finishing-claim')
+const checkIfReferenceIsDisabled = require('../../../../services/data/check-if-reference-is-disabled')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = function (router) {
@@ -38,17 +39,24 @@ module.exports = function (router) {
 
     try {
       new Declaration(req.body['terms-and-conditions-input'])  // eslint-disable-line no-new
-      return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId)
-        .then(function (claimInProgress) {
-          if (claimInProgress) {
-            return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, req.session.claimType, assistedDigitalCaseWorker, req.query.paymentMethod)
-              .catch(function (error) {
-                next(error)
-              })
-          } else {
-            redirectApplicationSubmitted(res, referenceAndEligibilityId.reference, req.session.claimId)
-          }
-        })
+      return checkIfReferenceIsDisabled(referenceAndEligibilityId.reference)
+        .then(function (isDisabled) {
+          return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId)
+            .then(function (claimInProgress) {
+              if (isDisabled) {
+                return res.redirect(SessionHandler.getErrorPath(req.session, req.url, true))
+              } else {
+                if (claimInProgress) {
+                  return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, req.session.claimType, assistedDigitalCaseWorker, req.query.paymentMethod)
+                    .catch(function (error) {
+                      next(error)
+                    })
+                } else {
+                  redirectApplicationSubmitted(res, referenceAndEligibilityId.reference, req.session.claimId)
+                }
+              }
+            })
+      })
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/eligibility/claim/declaration', {
