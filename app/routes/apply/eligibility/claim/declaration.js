@@ -56,7 +56,7 @@ module.exports = function (router) {
                 }
               }
             })
-      })
+        })
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/eligibility/claim/declaration', {
