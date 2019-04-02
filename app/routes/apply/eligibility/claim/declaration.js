@@ -43,7 +43,7 @@ module.exports = function (router) {
         .then(function (isDisabled) {
           return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId)
             .then(function (claimInProgress) {
-              if (isDisabled) {
+              if (isDisabled === true) {
                 return res.redirect(SessionHandler.getErrorPath(req.session, req.url, true))
               } else {
                 if (claimInProgress) {

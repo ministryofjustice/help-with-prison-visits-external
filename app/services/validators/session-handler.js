@@ -223,7 +223,7 @@ module.exports = {
     if (claimType === claimTypeEnum.FIRST_TIME) {
       path = `/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth?error=expired`
     }
-    if (referenceDisabled) {
+    if (referenceDisabled === true) {
       path = '/start-already-registered?error=disabled'
     }
 
