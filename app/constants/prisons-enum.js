@@ -343,9 +343,9 @@ module.exports = {
     region: 'ENG/WAL'
   },
 
-  HMP_HUMBER: {
-    value: 'hmp-humber',
-    displayName: 'Hmp Humber',
+  HUMBER: {
+    value: 'humber',
+    displayName: 'Humber',
     region: 'ENG/WAL'
   },
 
