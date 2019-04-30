@@ -9,6 +9,7 @@ module.exports = {
   'Town': 'Town',
   'County': 'County',
   'PostCode': 'Postcode',
+  'FromPostCode': 'Postcode',
   'Country': 'Country',
   'EmailAddress': 'Email address',
   'PhoneNumber': 'Phone number',

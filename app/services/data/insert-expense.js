@@ -25,7 +25,8 @@ module.exports = function (reference, eligibilityId, claimId, expense) {
         TicketOwner: expense.ticketOwner || null,
         IsEnabled: true,
         ReturnTime: expense.returnTime || null,
-        ToPostCode: expense.toPostCode || null
+        ToPostCode: expense.toPostCode || null,
+        FromPostCode: expense.fromPostCode || null
       }).returning('ClaimExpenseId')
     })
 }
