@@ -2,7 +2,6 @@ const Benefits = require('../../../services/domain/benefits')
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const SessionHandler = require('../../../services/validators/session-handler')
 const ValidationError = require('../../../services/errors/validation-error')
-const log = require('../../../services/log')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/benefits', function (req, res) {

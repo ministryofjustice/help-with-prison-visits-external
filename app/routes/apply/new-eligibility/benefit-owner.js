@@ -8,20 +8,15 @@ const ValidationError = require('../../../services/errors/validation-error')
 const insertBenefitOwner = require('../../../services/data/insert-benefit-owner')
 const displayHelper = require('../../../views/helpers/display-helper')
 const SessionHandler = require('../../../services/validators/session-handler')
-const log = require('../../../services/log')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/benefit-owner', function (req, res) {
     UrlPathValidator(req.params)
     var isValidSession = SessionHandler.validateSession(req.session, req.url)
 
-    log.info('Before isValidSession')
-
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
-
-    log.info('After isValidSession')
 
     return res.render('apply/new-eligibility/benefit-owner', {
       claimType: req.session.claimType,
