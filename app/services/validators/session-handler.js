@@ -102,20 +102,20 @@ module.exports = {
         if (!session['dobEncoded'] ||
             !session['relationship'] ||
             !session['benefit'] ||
-            !session['benefitAbout']) {
+            !session['benefitOwner']) {
           return false
         } else {
           return true
         }
       }
 
-      if (page === 'benefit-about') {
+      if (page === 'benefit-owner') {
         if (!session['dobEncoded'] ||
             !session['relationship'] ||
             !session['benefit'] ||
             !session['referenceId'] ||
             !session['decryptedRef'] ||
-            !session['benefitAbout']) {
+            !session['benefitOwner']) {
           return false
         } else {
           return true

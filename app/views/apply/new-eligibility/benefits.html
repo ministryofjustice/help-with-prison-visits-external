@@ -117,18 +117,18 @@
           </div>
         </fieldset>
 
-        <h1 id="benefitAbout" class="heading-large">
+        <h1 id="benefitOwner" class="heading-large">
           Are you the benefit owner?
         </h1>
 
 
-        <fieldset class="{% if errors['benefitAbout'][0] %} error {% endif %}">
-          <legend class="visually-hidden">BenefitAbout</legend>
+        <fieldset class="{% if errors['benefitOwner'][0] %} error {% endif %}">
+          <legend class="visually-hidden">BenefitOwner</legend>
           <div class="form-group">
             <label for="yes" class="block-label">
               <input id="yes"
                      type="radio"
-                     name="benefitAbout"
+                     name="benefitOwner"
                      value="yes">
              <span class="heading-small">Yes</span>
             </label>
@@ -136,7 +136,7 @@
             <label for="no" class="block-label">
               <input id="no"
                      type="radio"
-                     name="benefitAbout"
+                     name="benefitOwner"
                      value="no">
              <span class="heading-small">No</span>
             </label>

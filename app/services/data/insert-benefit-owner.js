@@ -1,19 +1,19 @@
 const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
-const BenefitAbout = require('../domain/benefit-about')
+const BenefitOwner = require('../domain/benefit-owner')
 
-module.exports = function (reference, eligibilityId, benefitAbout) {
-  if (!(benefitAbout instanceof BenefitAbout)) {
-    throw new Error('Provided benefitAbout object is not an instance of the expected class')
+module.exports = function (reference, eligibilityId, benefitOwner) {
+  if (!(benefitOwner instanceof BenefitOwner)) {
+    throw new Error('Provided benefitOwner object is not an instance of the expected class')
   }
 
   var benefitInformation = {
     EligibilityId: eligibilityId,
     Reference: reference,
-    FirstName: benefitAbout.firstName,
-    LastName: benefitAbout.lastName,
-    NationalInsuranceNumber: benefitAbout.nationalInsuranceNumber,
-    DateOfBirth: benefitAbout.dob
+    FirstName: benefitOwner.firstName,
+    LastName: benefitOwner.lastName,
+    NationalInsuranceNumber: benefitOwner.nationalInsuranceNumber,
+    DateOfBirth: benefitOwner.dob
   }
 
   return knex('Benefit')

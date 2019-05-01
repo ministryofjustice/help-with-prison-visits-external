@@ -27,11 +27,11 @@ module.exports = function (router) {
     }
 
     try {
-      var benefits = new Benefits(req.body.benefit, req.body.benefitAbout)
+      var benefits = new Benefits(req.body.benefit, req.body.benefitOwner)
 
       var benefit = benefits.benefit
       req.session.benefit = req.body.benefit
-      req.session.benefitAbout = req.body.benefitAbout
+      req.session.benefitOwner = req.body.benefitOwner
 
       if (benefit === 'none') {
         return res.redirect('/eligibility-fail')
