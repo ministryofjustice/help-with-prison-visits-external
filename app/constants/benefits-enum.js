@@ -81,6 +81,22 @@ module.exports = {
     urlValue: 'none'
   },
 
+  YES: {
+    value: 'yes',
+    requireBenefitUpload: false,
+    displayName: 'Yes',
+    multipage: false,
+    urlValue: 'yes'
+  },
+
+  NO: {
+    value: 'no',
+    requireBenefitUpload: false,
+    displayName: 'No',
+    multipage: false,
+    urlValue: 'no'
+  },
+
   getByValue: function (value) {
     return EnumHelper.getKeyByAttribute(this, value)
   }

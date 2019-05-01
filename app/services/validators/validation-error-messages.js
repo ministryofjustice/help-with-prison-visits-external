@@ -30,6 +30,7 @@ module.exports = {
   getNoExpensesClaimedFor: function () { return 'All expenses were removed, add an expense to continue' },
   getEnterYourDateOfBirth: function () { return 'Enter your date of birth' },
   getBenefitRequired: function () { return 'Choose a benefit from the list' },
+  getBenefitAboutRequired: function () { return 'You must confirm if you are the benefit owner' },
   getEnterPrisonerFirstName: function () { return 'Enter the prisoner\'s first name' },
   getEnterPrisonerLastName: function () { return 'Enter the prisoner\'s last name' },
   getEnterPrisonerDateOfBirth: function () { return 'Enter the prisoner\'s date of birth' },

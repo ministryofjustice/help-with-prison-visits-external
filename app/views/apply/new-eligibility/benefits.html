@@ -115,6 +115,32 @@
              <span class="heading-small">None of the above</span>
             </label>
           </div>
+        </fieldset>
+
+        <h1 id="benefitAbout" class="heading-large">
+          Are you the benefit owner?
+        </h1>
+
+
+        <fieldset class="{% if errors['benefitAbout'][0] %} error {% endif %}">
+          <legend class="visually-hidden">BenefitAbout</legend>
+          <div class="form-group">
+            <label for="yes" class="block-label">
+              <input id="yes"
+                     type="radio"
+                     name="benefitAbout"
+                     value="yes">
+             <span class="heading-small">Yes</span>
+            </label>
+
+            <label for="no" class="block-label">
+              <input id="no"
+                     type="radio"
+                     name="benefitAbout"
+                     value="no">
+             <span class="heading-small">No</span>
+            </label>
+          </div>
 
         </fieldset>
 

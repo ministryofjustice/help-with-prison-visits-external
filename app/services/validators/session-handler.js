@@ -101,7 +101,21 @@ module.exports = {
       if (page === 'about-the-prisoner') {
         if (!session['dobEncoded'] ||
             !session['relationship'] ||
-            !session['benefit']) {
+            !session['benefit'] ||
+            !session['benefitAbout']) {
+          return false
+        } else {
+          return true
+        }
+      }
+
+      if (page === 'benefit-about') {
+        if (!session['dobEncoded'] ||
+            !session['relationship'] ||
+            !session['benefit'] ||
+            !session['referenceId'] ||
+            !session['decryptedRef'] ||
+            !session['benefitAbout']) {
           return false
         } else {
           return true

@@ -1,0 +1,141 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+Enter information about the benefit owner - {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      {% if isDuplicateClaim %}
+      <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
+
+        <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
+          There was a problem
+        </h1>
+
+        <ul class="error-summary-list">
+          <li>
+            <a href="#NationalInsuranceNumber">You've already applied</a>
+            <br><a class="repeat-link" href="/start-already-registered">Start a repeat claim</a>
+          </li>
+        </ul>
+
+      </div>
+      {% endif %}
+
+      <h1 class="heading-large">
+        About the benefit owner
+      </h1>
+
+      <form action="{{ URL }}" method="post">
+
+        <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
+          <label id="FirstName" class="form-label-bold" for="benefit-first-name">First name</label>
+          {% if errors['FirstName'][0] %}
+          <span class="error-message" id="error-message-FirstName">{{ errors['FirstName'][0] }}</span>
+          {% endif %}
+          <input id="benefit-first-name"
+                 name="FirstName"
+                 value="{{ benefit['FirstName'] }}"
+                 type="text"
+                 autocomplete="off"
+                 class="form-control">
+        </div>
+
+        <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
+          <label id="LastName" class="form-label-bold" for="benefit-last-name">Last name</label>
+          {% if errors['LastName'][0] %}
+          <span class="error-message" id="error-message-LastName">{{ errors['LastName'][0] }}</span>
+          {% endif %}
+          <input id="benefit-last-name"
+                 name="LastName"
+                 value="{{ benefit['LastName'] }}"
+                 type="text"
+                 autocomplete="off"
+                 class="form-control">
+        </div>
+
+        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
+          <fieldset>
+            <legend id="dob" class="form-label-bold">Date of birth</legend>
+
+            {% if errors['dob'][0] %}
+            <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
+            {% endif %}
+
+            <div class="form-date">
+
+              <p class="form-hint">For example, 18 08 1989</p>
+
+              <div class="form-group form-group-day">
+                <label for="dob-day">Day</label>
+                <input id="dob-day"
+                       name="dob-day"
+                       value="{{ benefit['dob-day'] }}"
+                       type="number"
+                       autocomplete="off"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-month">
+                <label for="dob-month">Month</label>
+                <input id="dob-month"
+                       name="dob-month"
+                       value="{{ benefit['dob-month'] }}"
+                       type="number"
+                       autocomplete="off"
+                       class="form-control">
+              </div>
+
+              <div class="form-group form-group-year">
+                <label for="dob-year">Year</label>
+                <input id="dob-year"
+                       name="dob-year"
+                       value="{{ benefit['dob-year'] }}"
+                       type="number"
+                       autocomplete="off"
+                       class="form-control">
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+
+        <div class="form-group {% if errors['NationalInsuranceNumber'][0] %} error {% endif %}">
+          <label id="NationalInsuranceNumber" class="form-label-bold" for="national-insurance-number-input">National
+            Insurance number</label>
+          {% if errors['NationalInsuranceNumber'][0] %}
+          <span class="error-message" id="error-message-national">{{ errors['NationalInsuranceNumber'][0] }}</span>
+          {% endif %}
+          <p class="form-hint">For example, QQ123456C</p>
+          <input id="national-insurance-number-input"
+                 name="NationalInsuranceNumber"
+                 type="text"
+                 autocomplete="off"
+                 class="form-control"
+                 value="{{ benefit['NationalInsuranceNumber'] }}">
+        </div>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="about-the-benefit-owner-submit"
+               type="submit"
+               class="button"
+               value="Continue">
+      </form>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}
