@@ -127,7 +127,8 @@ module.exports = {
             !session['relationship'] ||
             !session['benefit'] ||
             !session['referenceId'] ||
-            !session['decryptedRef']) {
+            !session['decryptedRef'] ||
+            !session['benefitOwner']) {
           return false
         } else {
           return true
