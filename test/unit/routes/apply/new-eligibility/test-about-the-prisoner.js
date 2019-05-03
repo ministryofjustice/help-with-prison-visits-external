@@ -98,7 +98,6 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
       stubAboutThePrisoner.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
-        .send({'benefitOwner': 'yes'})
         .set('Cookie', COOKIES)
         .expect(400)
     })
