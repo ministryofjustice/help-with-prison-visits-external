@@ -25,7 +25,7 @@ module.exports = function (reference, eligibilityId, aboutYou) {
     DateOfBirth: dateOfBirth,
     Relationship: aboutYou.relationship,
     Benefit: aboutYou.benefit,
-    BenefitOwner: aboutYou.benefitOwner,
+    BenefitOwner: aboutYou.benefitOwner
   }
 
   return knex('Visitor')

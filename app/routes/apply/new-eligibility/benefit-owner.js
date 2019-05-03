@@ -1,12 +1,9 @@
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../helpers/reference-id-helper')
 const BenefitOwner = require('../../../services/domain/benefit-owner')
-const DateOfBirth = require('../../../services/domain/date-of-birth')
 const duplicateClaimCheck = require('../../../services/data/duplicate-claim-check')
-const dateFormatter = require('../../../services/date-formatter')
 const ValidationError = require('../../../services/errors/validation-error')
 const insertBenefitOwner = require('../../../services/data/insert-benefit-owner')
-const displayHelper = require('../../../views/helpers/display-helper')
 const SessionHandler = require('../../../services/validators/session-handler')
 
 module.exports = function (router) {
@@ -35,7 +32,7 @@ module.exports = function (router) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var benefitOwner = req.body
+    var benefitOwnerBody = req.body
 
     try {
       var benefitOwner = new BenefitOwner(
@@ -64,7 +61,7 @@ module.exports = function (router) {
       })
     } catch (error) {
       if (error instanceof ValidationError) {
-        return renderValidationError(req, res, benefitOwner, error.validationErrors, false)
+        return renderValidationError(req, res, benefitOwnerBody, error.validationErrors, false)
       } else {
         throw error
       }
@@ -72,7 +69,7 @@ module.exports = function (router) {
   })
 }
 
-function renderValidationError (req, res, benefitOwner, validationErrors, isDuplicateClaim) {
+function renderValidationError (req, res, benefitOwnerBody, validationErrors, isDuplicateClaim) {
   return res.status(400).render('apply/new-eligibility/benefit-owner', {
     errors: validationErrors,
     isDuplicateClaim: isDuplicateClaim,
@@ -81,6 +78,6 @@ function renderValidationError (req, res, benefitOwner, validationErrors, isDupl
     relationship: req.session.relationship,
     benefit: req.session.benefit,
     referenceId: req.session.referenceId,
-    benefit: benefitOwner
+    benefitOwner: benefitOwnerBody
   })
 }
