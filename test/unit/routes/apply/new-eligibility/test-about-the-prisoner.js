@@ -41,9 +41,31 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
   })
 
   describe(`POST ${ROUTE}`, function () {
-    it('should persist data and redirect to first-time/about-you for valid data', function () {
+    it('should persist data and redirect to first-time/about-you for valid data and benefit owner', function () {
       var newReference = 'NEWREF1'
       var newEligibilityId = 1234
+      var benefitOwner = 'yes'
+      var newAboutThePrisoner = {}
+      stubInsertNewEligibilityAndPrisoner.resolves({reference: newReference, eligibilityId: newEligibilityId})
+      stubAboutThePrisoner.returns(newAboutThePrisoner)
+
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES)
+        .expect(302)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+          sinon.assert.calledOnce(stubAboutThePrisoner)
+          sinon.assert.calledWith(stubInsertNewEligibilityAndPrisoner, newAboutThePrisoner, 'first-time', undefined)
+        })
+        .expect('location', `/apply/first-time/new-eligibility/about-you`)
+    })
+
+    describe(`POST ${ROUTE}`, function () {
+    it('should persist data and redirect to first-time/benefit-owner for valid data and not benefit owner', function () {
+      var newReference = 'NEWREF1'
+      var newEligibilityId = 1234
+      var benefitOwner = 'no'
       var newAboutThePrisoner = {}
       stubInsertNewEligibilityAndPrisoner.resolves({reference: newReference, eligibilityId: newEligibilityId})
       stubAboutThePrisoner.returns(newAboutThePrisoner)
@@ -63,6 +85,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     it('should persist data and redirect to /apply/first-time/new-eligibility?error=expired', function () {
       var newReference = 'NEWREF1'
       var newEligibilityId = 1234
+      var benefitOwner = 'yes'
       var newAboutThePrisoner = {}
       stubInsertNewEligibilityAndPrisoner.resolves({reference: newReference, eligibilityId: newEligibilityId})
       stubAboutThePrisoner.returns(newAboutThePrisoner)
