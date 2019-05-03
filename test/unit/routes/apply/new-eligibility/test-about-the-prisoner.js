@@ -11,7 +11,8 @@ var stubInsertNewEligibilityAndPrisoner
 var app
 
 describe('routes/apply/new-eligibility/about-the-prisoner', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAxMDQxLjkxNjQ1LCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InIyIiwiYmVuZWZpdCI6ImIxIn0=' ]
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MDg2LjY0NDMsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJyZWxhdGlvbnNoaXAiOiJyNCIsImJlbmVmaXQiOiJiMSIsImJlbmVmaXRPd25lciI6InllcyJ9' ]
+  const COOKIES_NOT_BENEFIT_OWNER = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MDk3LjE1MTI4MzMzNSwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InIxIiwiYmVuZWZpdCI6ImIxIiwiYmVuZWZpdE93bmVyIjoibm8ifQ==' ]
   const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
   const ROUTE = '/apply/first-time/new-eligibility/about-the-prisoner'
 
@@ -44,7 +45,6 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     it('should persist data and redirect to first-time/about-you for valid data and benefit owner', function () {
       var newReference = 'NEWREF1'
       var newEligibilityId = 1234
-      var benefitOwner = 'yes'
       var newAboutThePrisoner = {}
       stubInsertNewEligibilityAndPrisoner.resolves({reference: newReference, eligibilityId: newEligibilityId})
       stubAboutThePrisoner.returns(newAboutThePrisoner)
@@ -61,31 +61,28 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
         .expect('location', `/apply/first-time/new-eligibility/about-you`)
     })
 
-    describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to first-time/benefit-owner for valid data and not benefit owner', function () {
       var newReference = 'NEWREF1'
       var newEligibilityId = 1234
-      var benefitOwner = 'no'
       var newAboutThePrisoner = {}
       stubInsertNewEligibilityAndPrisoner.resolves({reference: newReference, eligibilityId: newEligibilityId})
       stubAboutThePrisoner.returns(newAboutThePrisoner)
 
       return supertest(app)
         .post(ROUTE)
-        .set('Cookie', COOKIES)
+        .set('Cookie', COOKIES_NOT_BENEFIT_OWNER)
         .expect(302)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
           sinon.assert.calledOnce(stubAboutThePrisoner)
           sinon.assert.calledWith(stubInsertNewEligibilityAndPrisoner, newAboutThePrisoner, 'first-time', undefined)
         })
-        .expect('location', `/apply/first-time/new-eligibility/about-you`)
+        .expect('location', `/apply/first-time/new-eligibility/benefit-owner`)
     })
 
     it('should persist data and redirect to /apply/first-time/new-eligibility?error=expired', function () {
       var newReference = 'NEWREF1'
       var newEligibilityId = 1234
-      var benefitOwner = 'yes'
       var newAboutThePrisoner = {}
       stubInsertNewEligibilityAndPrisoner.resolves({reference: newReference, eligibilityId: newEligibilityId})
       stubAboutThePrisoner.returns(newAboutThePrisoner)
@@ -101,6 +98,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
       stubAboutThePrisoner.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
+        .send({'benefitOwner': 'yes'})
         .set('Cookie', COOKIES)
         .expect(400)
     })
