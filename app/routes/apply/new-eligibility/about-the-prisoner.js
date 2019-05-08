@@ -45,8 +45,13 @@ module.exports = function (router) {
         .then(function (result) {
           req.session.referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
           req.session.decryptedRef = result.reference
+          var benefitOwner = req.session.benefitOwner
 
-          return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+          if (benefitOwner === 'no') {
+            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+          } else {
+            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+          }
         })
         .catch(function (error) {
           next(error)

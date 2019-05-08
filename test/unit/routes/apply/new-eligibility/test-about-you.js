@@ -13,7 +13,7 @@ var stubAboutYou
 var app
 
 describe('routes/apply/new-eligibility/about-you', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MTUxLjk1MzU1LCJkb2JFbmNvZGVkIjoiMTEzNzI1MTIyIiwicmVsYXRpb25zaGlwIjoicjQiLCJiZW5lZml0IjoiYjEiLCJyZWZlcmVuY2VJZCI6IjMyMjEwYzdmYmViMTU5YTcwYSIsImRlY3J5cHRlZFJlZiI6IjhXSzFCR1AiLCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIn0=' ]
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MDkwLjYyODkxNjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwiYmVuZWZpdE93bmVyIjoieWVzIiwicmVmZXJlbmNlSWQiOiI0ZTMzMDkxZmJkY2YzZmE3MGFhYjhhYjUiLCJkZWNyeXB0ZWRSZWYiOiJERU5RQTk2IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSJ9' ]
   const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
   const ROUTE = `/apply/first-time/new-eligibility/about-you`
 

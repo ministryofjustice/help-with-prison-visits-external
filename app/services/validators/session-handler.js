@@ -101,7 +101,21 @@ module.exports = {
       if (page === 'about-the-prisoner') {
         if (!session['dobEncoded'] ||
             !session['relationship'] ||
-            !session['benefit']) {
+            !session['benefit'] ||
+            !session['benefitOwner']) {
+          return false
+        } else {
+          return true
+        }
+      }
+
+      if (page === 'benefit-owner') {
+        if (!session['dobEncoded'] ||
+            !session['relationship'] ||
+            !session['benefit'] ||
+            !session['referenceId'] ||
+            !session['decryptedRef'] ||
+            !session['benefitOwner']) {
           return false
         } else {
           return true
@@ -113,7 +127,8 @@ module.exports = {
             !session['relationship'] ||
             !session['benefit'] ||
             !session['referenceId'] ||
-            !session['decryptedRef']) {
+            !session['decryptedRef'] ||
+            !session['benefitOwner']) {
           return false
         } else {
           return true

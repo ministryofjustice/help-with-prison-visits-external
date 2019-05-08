@@ -30,6 +30,7 @@ module.exports = function (router) {
       dob: req.session.dobEncoded,
       relationship: req.session.relationship,
       benefit: req.session.benefit,
+      benefitOwner: req.session.benefitOwner,
       referenceId: req.session.referenceId
     })
   })
@@ -46,11 +47,12 @@ module.exports = function (router) {
     var dob = dateFormatter.decodeDate(req.session.dobEncoded)
     var relationship = enumHelper.getKeyByAttribute(relationshipHelper, req.session.relationship, 'urlValue').value
     var benefit = enumHelper.getKeyByAttribute(benefitsHelper, req.session.benefit, 'urlValue').value
+    var benefitOwner = req.session.benefitOwner
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
     var visitorDetails = req.body
 
     try {
-      var aboutYou = new AboutYou(dob, relationship, benefit,
+      var aboutYou = new AboutYou(dob, relationship, benefit, benefitOwner,
         req.body['FirstName'],
         req.body['LastName'],
         req.body['NationalInsuranceNumber'],
@@ -108,6 +110,7 @@ function renderValidationError (req, res, visitorDetails, validationErrors, isDu
     dob: req.session.dobEncoded,
     relationship: req.session.relationship,
     benefit: req.session.benefit,
+    benefitOwner: req.session.benefitOwner,
     referenceId: req.session.referenceId,
     visitor: visitorDetails
   })
