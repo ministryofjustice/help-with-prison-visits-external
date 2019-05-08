@@ -82,6 +82,7 @@ module.exports.deleteAllExternal = function (reference) {
     .then(function () { return deleteByReference('ExtSchema.Claim', reference) })
     .then(function () { return deleteByReference('ExtSchema.Visitor', reference) })
     .then(function () { return deleteByReference('ExtSchema.Prisoner', reference) })
+    .then(function () { return deleteByReference('ExtSchema.Benefit', reference) })
     .then(function () { return deleteByReference('ExtSchema.EligibilityVisitorUpdateContactDetail', reference) })
     .then(function () { return deleteByReference('ExtSchema.Eligibility', reference) })
 }
@@ -102,5 +103,6 @@ module.exports.deleteAllInternal = function (reference) {
     .then(function () { return deleteByReference('IntSchema.Claim', reference) })
     .then(function () { return deleteByReference('IntSchema.Visitor', reference) })
     .then(function () { return deleteByReference('IntSchema.Prisoner', reference) })
+    .then(function () { return deleteByReference('IntSchema.Benefit', reference) })
     .then(function () { return deleteByReference('IntSchema.Eligibility', reference) })
 }
