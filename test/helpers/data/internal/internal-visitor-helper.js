@@ -21,7 +21,7 @@ module.exports.RELATIONSHIP = 'partner'
 module.exports.JOURNEY_ASSISTANCE = 'yes'
 module.exports.REQURE_BENEFIT_UPLOAD = false
 module.exports.BENEFIT = 'income-support'
-module.exports.BENEFITOWNER = 'yes'
+module.exports.BENEFIT_OWNER = 'yes'
 
 module.exports.insert = function (reference, eligibilityId) {
   return knex('IntSchema.Visitor').insert({
@@ -41,7 +41,7 @@ module.exports.insert = function (reference, eligibilityId) {
     DateOfBirth: this.DATE_OF_BIRTH.toDate(),
     Relationship: this.RELATIONSHIP,
     Benefit: this.BENEFIT,
-    BenefitOwner: this.BenefitOwner
+    BenefitOwner: this.BENEFIT_OWNER
   })
 }
 
