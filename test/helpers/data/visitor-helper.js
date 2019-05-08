@@ -18,6 +18,7 @@ module.exports.RELATIONSHIP = 'partner'
 module.exports.JOURNEY_ASSISTANCE = 'yes'
 module.exports.REQURE_BENEFIT_UPLOAD = false
 module.exports.BENEFIT = 'income-support'
+module.exports.BENEFITOWNER = 'yes'
 
 module.exports.build = function () {
   return new AboutYou(
@@ -33,7 +34,8 @@ module.exports.build = function () {
     this.POST_CODE,
     this.COUNTRY,
     this.EMAIL_ADDRESS,
-    this.PHONE_NUMBER)
+    this.PHONE_NUMBER,
+    this.BENEFITOWNER)
 }
 
 module.exports.insert = function (reference, eligibilityId) {
