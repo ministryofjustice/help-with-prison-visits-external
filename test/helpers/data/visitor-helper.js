@@ -25,6 +25,7 @@ module.exports.build = function () {
     this.DATE_OF_BIRTH,
     this.RELATIONSHIP,
     this.BENEFIT,
+    this.BENEFITOWNER,
     this.FIRST_NAME,
     this.LAST_NAME,
     this.NATIONAL_INSURANCE_NUMBER,
@@ -34,8 +35,7 @@ module.exports.build = function () {
     this.POST_CODE,
     this.COUNTRY,
     this.EMAIL_ADDRESS,
-    this.PHONE_NUMBER,
-    this.BENEFITOWNER)
+    this.PHONE_NUMBER)
 }
 
 module.exports.insert = function (reference, eligibilityId) {
