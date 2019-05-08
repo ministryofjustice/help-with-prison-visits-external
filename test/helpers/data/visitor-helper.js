@@ -18,14 +18,14 @@ module.exports.RELATIONSHIP = 'partner'
 module.exports.JOURNEY_ASSISTANCE = 'yes'
 module.exports.REQURE_BENEFIT_UPLOAD = false
 module.exports.BENEFIT = 'income-support'
-module.exports.BENEFITOWNER = 'yes'
+module.exports.BENEFIT_OWNER = 'yes'
 
 module.exports.build = function () {
   return new AboutYou(
     this.DATE_OF_BIRTH,
     this.RELATIONSHIP,
     this.BENEFIT,
-    this.BENEFITOWNER,
+    this.BENEFIT_OWNER,
     this.FIRST_NAME,
     this.LAST_NAME,
     this.NATIONAL_INSURANCE_NUMBER,
