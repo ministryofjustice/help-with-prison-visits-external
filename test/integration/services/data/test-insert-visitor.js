@@ -30,7 +30,7 @@ describe('services/data/insert-visitor', function () {
         expect(visitor.DateOfBirth).to.deep.equal(visitorInserted.dob.toDate())
         expect(visitor.PostCode).to.equal(visitorHelper.POST_CODE)
         expect(visitor.Benefit).to.equal(visitorHelper.BENEFIT)
-        expect(visitor.BenefitOwner.to.equal(visitorHelper.BENEFITOWNER))
+        expect(visitor.BenefitOwner).to.equal(visitorHelper.BENEFIT_OWNER)
       })
       .then(function () {
         return visitorHelper.delete(REFERENCE)
