@@ -35,60 +35,46 @@ module.exports = function (router) {
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
     var isAdvancedClaim = req.session.advanceOrPast === 'advance'
 
-      try {
-        console.dir('try')
+    try {
+      console.dir('try')
 
-        return getReleaseDate(referenceAndEligibilityId.id).then(function (results) {
-          log.info(results)
-          var releaseDateIsSet
-          var releaseDate
-          if (results.length > 0) {
-            releaseDateIsSet = results[0].ReleaseDateIsSet
-            releaseDate = results[0].ReleaseDate
-          }
-          var newClaim = new NewClaim(
-            req.session.referenceId,
-            req.body['date-of-journey-day'],
-            req.body['date-of-journey-month'],
-            req.body['date-of-journey-year'],
-            isAdvancedClaim,
-            releaseDateIsSet,
-            releaseDate
-          )
+      return getReleaseDate(referenceAndEligibilityId.id).then(function (results) {
+        var releaseDateIsSet
+        var releaseDate
+        if (results.length > 0) {
+          releaseDateIsSet = results[0].ReleaseDateIsSet
+          releaseDate = results[0].ReleaseDate
+        }
+        var newClaim = new NewClaim(
+          req.session.referenceId,
+          req.body['date-of-journey-day'],
+          req.body['date-of-journey-month'],
+          req.body['date-of-journey-year'],
+          isAdvancedClaim,
+          releaseDateIsSet,
+          releaseDate
+        )
 
-          if (!isRepeatDuplicateClaim(req.session.claimType)) {
-            insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimType, newClaim)
-              .then(function (claimId) {
-                req.session.claimId = claimId
-                return res.redirect(`/apply/eligibility/claim/has-escort`)
-              })
-              .catch(function (error) {
-                next(error)
-              })
-          } else {
-            insertRepeatDuplicateClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, newClaim)
-              .then(function (claimId) {
-                req.session.claimId = claimId
-                return res.redirect(`/apply/eligibility/claim/summary`)
-              })
-              .catch(function (error) {
-                next(error)
-              })
-          }
-        }).catch(function (error) {
-          if (error instanceof ValidationError) {
-            return res.status(400).render('apply/eligibility/new-claim/journey-information', {
-              errors: error.validationErrors,
-              claimType: req.session.claimType,
-              referenceId: req.session.referenceId,
-              advanceOrPast: req.session.advanceOrPast,
-              claim: req.body
+        if (!isRepeatDuplicateClaim(req.session.claimType)) {
+          insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimType, newClaim)
+            .then(function (claimId) {
+              req.session.claimId = claimId
+              return res.redirect(`/apply/eligibility/claim/has-escort`)
             })
-          } else {
-            throw error
-          }
-        }) 
-      } catch (error) {
+            .catch(function (error) {
+              next(error)
+            })
+        } else {
+          insertRepeatDuplicateClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, newClaim)
+            .then(function (claimId) {
+              req.session.claimId = claimId
+              return res.redirect(`/apply/eligibility/claim/summary`)
+            })
+            .catch(function (error) {
+              next(error)
+            })
+        }
+      }).catch(function (error) {
         if (error instanceof ValidationError) {
           return res.status(400).render('apply/eligibility/new-claim/journey-information', {
             errors: error.validationErrors,
@@ -100,6 +86,19 @@ module.exports = function (router) {
         } else {
           throw error
         }
+      })
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return res.status(400).render('apply/eligibility/new-claim/journey-information', {
+          errors: error.validationErrors,
+          claimType: req.session.claimType,
+          referenceId: req.session.referenceId,
+          advanceOrPast: req.session.advanceOrPast,
+          claim: req.body
+        })
+      } else {
+        throw error
+      }
     }
   })
 }
