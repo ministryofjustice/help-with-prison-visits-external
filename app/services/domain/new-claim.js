@@ -8,7 +8,7 @@ const MaxDaysAfterVisit = require('../../../config').MAX_DAYS_AFTER_RETROSPECTIV
 const MaxDaysBeforeVisit = require('../../../config').MAX_DAYS_BEFORE_ADVANCE_CLAIM
 
 class NewClaim {
-  constructor (reference, day, month, year, isAdvanceClaim) {
+  constructor (reference, day, month, year, isAdvanceClaim, releaseDateIsSet, releaseDate) {
     this.reference = reference
     this.fields = [
       day,
@@ -17,6 +17,8 @@ class NewClaim {
     ]
     this.dateOfJourney = dateFormatter.build(day, month, year)
     this.isAdvanceClaim = isAdvanceClaim
+    this.releaseDateIsSet = releaseDateIsSet
+    this.releaseDate = releaseDate
     this.IsValid()
   }
 
@@ -32,6 +34,7 @@ class NewClaim {
         .isValidDate(this.dateOfJourney)
         .isPastDate(this.dateOfJourney)
         .isDateWithinDays(this.dateOfJourney, parseInt(MaxDaysAfterVisit), this.isAdvanceClaim)
+        .isVisitDateBeforeReleaseDate(this.dateOfJourney, this.releaseDateIsSet, this.releaseDate)
     } else {
       FieldsetValidator(this.fields, 'DateOfJourney', errors)
         .isRequired(ERROR_MESSAGES.getEnterDateOfVisit)
@@ -39,6 +42,7 @@ class NewClaim {
         .isFutureDate(this.dateOfJourney)
         .isDateWithinDays(this.dateOfJourney, parseInt(MaxDaysBeforeVisit), this.isAdvanceClaim)
         .isNotDateWithinDays(this.dateOfJourney, 5)
+        .isVisitDateBeforeReleaseDate(this.dateOfJourney, this.releaseDateIsSet, this.releaseDate)
     }
 
     var validationErrors = errors.get()

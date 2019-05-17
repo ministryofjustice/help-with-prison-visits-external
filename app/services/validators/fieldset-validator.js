@@ -90,6 +90,15 @@ class FieldsetValidator {
     }
     return this
   }
+
+  isVisitDateBeforeReleaseDate (visitDate, releaseDateIsSet, releaseDate) {
+    if (releaseDateIsSet) {
+      if (!validator.isVisitDateBeforeReleaseDate(visitDate, releaseDate)) {
+        this.errors.add(this.fieldName, ERROR_MESSAGES.getVisitDateBeforeReleaseDateMessage)
+      }
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {
