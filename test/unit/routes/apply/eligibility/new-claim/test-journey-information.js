@@ -20,18 +20,28 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
   var newClaimStub
   var insertNewClaimStub
   var insertRepeatDuplicateClaimStub
+  var getReleaseDateStub
+
+  var releaseDate = [
+    {
+      ReleaseDateIsSet: false,
+      ReleaseDate: null
+    }
+  ]
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     newClaimStub = sinon.stub()
     insertNewClaimStub = sinon.stub()
     insertRepeatDuplicateClaimStub = sinon.stub()
+    getReleaseDateStub = sinon.stub()
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/journey-information', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/domain/new-claim': newClaimStub,
       '../../../../services/data/insert-new-claim': insertNewClaimStub,
-      '../../../../services/data/insert-repeat-duplicate-claim': insertRepeatDuplicateClaimStub
+      '../../../../services/data/insert-repeat-duplicate-claim': insertRepeatDuplicateClaimStub,
+      '../../../../services/data/get-release-date': getReleaseDateStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -59,6 +69,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     const REPEAT_DUPLICATE_CLAIM = {}
 
     it('should call the URL Path Validator', function () {
+      getReleaseDateStub.resolves(releaseDate)
       insertNewClaimStub.resolves()
       return supertest(app)
         .post(ROUTE)
@@ -69,6 +80,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should insert valid NewClaim domain object', function () {
+      getReleaseDateStub.resolves(releaseDate)
       newClaimStub.returns(FIRST_TIME_CLAIM)
       insertNewClaimStub.resolves(CLAIM_ID)
       return supertest(app)
@@ -82,6 +94,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should redirect to has-escort page if child-visitor is set to no', function () {
+      getReleaseDateStub.resolves(releaseDate)
       insertNewClaimStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
@@ -90,6 +103,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should redirect to claim summary page if claim is repeat duplicate', function () {
+      getReleaseDateStub.resolves(releaseDate)
       newClaimStub.returns(REPEAT_DUPLICATE_CLAIM)
       insertRepeatDuplicateClaimStub.resolves(CLAIM_ID)
       return supertest(app)
@@ -99,6 +113,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
+      getReleaseDateStub.resolves(releaseDate)
       insertNewClaimStub.resolves(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
@@ -116,6 +131,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
+      getReleaseDateStub.resolves(releaseDate)
       insertNewClaimStub.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
