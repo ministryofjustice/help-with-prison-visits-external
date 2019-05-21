@@ -10,7 +10,7 @@ const LAST_NAME_MASKED = 'B*****'
 
 const CLAIMID = [{ClaimId: 1, IsAdvanceClaim: false}]
 const CHILDREN = [{ClaimChildId: 1, LastName: LAST_NAME}]
-const EXPENSES = [{ClaimExpenseId: 2, ExpenseType: 'bus', Cost: '20'}, {ClaimExpenseId: 3, ExpenseType: 'taxi', Cost: '15' }, {ClaimExpenseId: 4, ExpenseType: 'train', Cost: '10'}, {ClaimExpenseId: 5, ExpenseType: 'train', Cost: '5' }]
+const EXPENSES = [{ClaimExpenseId: 2, ExpenseType: 'bus', Cost: '20'}, {ClaimExpenseId: 3, ExpenseType: 'taxi', Cost: '15'}, {ClaimExpenseId: 4, ExpenseType: 'train', Cost: '10'}, {ClaimExpenseId: 5, ExpenseType: 'train', Cost: '5'}]
 const ESCORT = [{ClaimEscortId: 3, LastName: LAST_NAME}]
 const CLAIMID2 = [{ClaimId: 2, IsAdvanceClaim: true}]
 
@@ -82,7 +82,7 @@ describe('services/data/get-last-claim-details', function () {
       .then(function (result) {
         var trainExpenses = result.expenses.filter(expense => expense.ExpenseType === 'train')
 
-        trainExpenses.forEach(function(expense) {
+        trainExpenses.forEach(function (expense) {
           expect(expense.Cost).to.be.equal('0')
         })
 
