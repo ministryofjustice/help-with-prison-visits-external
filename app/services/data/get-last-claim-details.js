@@ -28,6 +28,13 @@ module.exports = function (reference, eligibilityId, mask, thisClaimIsAdavnce) {
           if (thisClaimIsAdavnce !== lastClaimWasAdvance) {
             result.expenses = result.expenses.filter(expense => expense.ExpenseType !== 'train')
           }
+          if (thisClaimIsAdavnce) {
+            result.expenses.forEach(function (expense) {
+              if (expense.ExpenseType === 'train') {
+                expense.Cost = '0'
+              }
+            })
+          }
           return getClaimEscortByIdOrLastApproved(reference, eligibilityId, claimId)
         })
         .then(function (lastClaimEscort) {
