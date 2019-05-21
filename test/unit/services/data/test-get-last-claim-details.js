@@ -10,10 +10,11 @@ const LAST_NAME_MASKED = 'B*****'
 
 const CLAIMID = [{ClaimId: 1, IsAdvanceClaim: false}]
 const CHILDREN = [{ClaimChildId: 1, LastName: LAST_NAME}]
-const EXPENSES = [{ClaimExpenseId: 2, ExpenseType: 'bus'}, {ClaimExpenseId: 3, ExpenseType: 'taxi'}, {ClaimExpenseId: 4, ExpenseType: 'train'}, {ClaimExpenseId: 5, ExpenseType: 'train'}]
+const EXPENSES = [{ClaimExpenseId: 2, ExpenseType: 'bus', Cost: '20'}, {ClaimExpenseId: 3, ExpenseType: 'taxi', Cost: '15' }, {ClaimExpenseId: 4, ExpenseType: 'train', Cost: '10'}, {ClaimExpenseId: 5, ExpenseType: 'train', Cost: '5' }]
 const ESCORT = [{ClaimEscortId: 3, LastName: LAST_NAME}]
+const CLAIMID2 = [{ClaimId: 2, IsAdvanceClaim: true}]
 
-var getLastClaimForReferenceStub = sinon.stub().resolves(CLAIMID)
+var getLastClaimForReferenceStub = sinon.stub()
 var getClaimChildrenByIdOrLastApprovedStub = sinon.stub().resolves(CHILDREN)
 var getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves(EXPENSES)
 var getClaimEscortByIdOrLastApprovedStub = sinon.stub().resolves(ESCORT)
@@ -29,6 +30,7 @@ const getLastClaimDetails = proxyquire('../../../../app/services/data/get-last-c
 
 describe('services/data/get-last-claim-details', function () {
   it('should call to get last claim children and last claim expenses', function () {
+    getLastClaimForReferenceStub.resolves(CLAIMID)
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, false)
       .then(function (result) {
         sinon.assert.calledWith(getLastClaimForReferenceStub, REFERENCE, ELIGIBILITYID)
@@ -44,6 +46,7 @@ describe('services/data/get-last-claim-details', function () {
   })
 
   it('should mask child last name and escort last name if mask is true', function () {
+    getLastClaimForReferenceStub.resolves(CLAIMID)
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, true, false)
       .then(function (result) {
         sinon.assert.calledWith(getLastClaimForReferenceStub, REFERENCE, ELIGIBILITYID)
@@ -56,6 +59,7 @@ describe('services/data/get-last-claim-details', function () {
   })
 
   it('should get last claim and remove train expenses if last claim type is not the same as this claim type', function () {
+    getLastClaimForReferenceStub.resolves(CLAIMID)
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, true)
       .then(function (result) {
         expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).to.be.equal(0)
@@ -64,8 +68,24 @@ describe('services/data/get-last-claim-details', function () {
   })
 
   it('should get last claim and keep train expenses if last claim type is the same as this claim type', function () {
+    getLastClaimForReferenceStub.resolves(CLAIMID)
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, false)
       .then(function (result) {
+        expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).to.be.equal(2)
+        expect(result.expenses.length).to.be.equal(4)
+      })
+  })
+
+  it('should get last claim and reset train expenses to zero if last claim type is the same as this claim type', function () {
+    getLastClaimForReferenceStub.resolves(CLAIMID2)
+    return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, true)
+      .then(function (result) {
+        var trainExpenses = result.expenses.filter(expense => expense.ExpenseType === 'train')
+
+        trainExpenses.forEach (function (expense) {
+          expect(expense.Cost).to.be.equal('0')
+        })
+
         expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).to.be.equal(2)
         expect(result.expenses.length).to.be.equal(4)
       })

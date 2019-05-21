@@ -4,7 +4,7 @@ const getClaimExpenseByIdOrLastApproved = require('./get-claim-expense-by-id-or-
 const getClaimEscortByIdOrLastApproved = require('./get-claim-escort-by-id-or-last-approved')
 const maskArrayOfNames = require('../helpers/mask-array-of-names')
 
-module.exports = function (reference, eligibilityId, mask, thisClaimIsAdavnce) {
+module.exports = function (reference, eligibilityId, mask, thisClaimIsAdvance) {
   var result = {}
   var claimId = null
   var lastClaimWasAdvance = false
@@ -25,10 +25,10 @@ module.exports = function (reference, eligibilityId, mask, thisClaimIsAdavnce) {
         })
         .then(function (lastClaimExpenses) {
           result.expenses = lastClaimExpenses
-          if (thisClaimIsAdavnce !== lastClaimWasAdvance) {
+          if (thisClaimIsAdvance !== lastClaimWasAdvance) {
             result.expenses = result.expenses.filter(expense => expense.ExpenseType !== 'train')
           }
-          if (thisClaimIsAdavnce) {
+          if (thisClaimIsAdvance) {
             result.expenses.forEach(function (expense) {
               if (expense.ExpenseType === 'train') {
                 expense.Cost = '0'
