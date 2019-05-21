@@ -82,7 +82,7 @@ describe('services/data/get-last-claim-details', function () {
       .then(function (result) {
         var trainExpenses = result.expenses.filter(expense => expense.ExpenseType === 'train')
 
-        trainExpenses.forEach (function (expense) {
+        trainExpenses.forEach(function(expense) {
           expect(expense.Cost).to.be.equal('0')
         })
 
