@@ -8,9 +8,9 @@ const ELIGIBILITYID = '1234'
 const LAST_NAME = 'Bloggs'
 const LAST_NAME_MASKED = 'B*****'
 
-const CLAIMID = [{ClaimId: 1}]
+const CLAIMID = [{ClaimId: 1, IsAdvanceClaim: false}]
 const CHILDREN = [{ClaimChildId: 1, LastName: LAST_NAME}]
-const EXPENSES = [{ClaimExpenseId: 2}]
+const EXPENSES = [{ClaimExpenseId: 2, ExpenseType: 'bus'}, {ClaimExpenseId: 3, ExpenseType: 'taxi'}, {ClaimExpenseId: 4, ExpenseType: 'train'}, {ClaimExpenseId: 5, ExpenseType: 'train'}]
 const ESCORT = [{ClaimEscortId: 3, LastName: LAST_NAME}]
 
 var getLastClaimForReferenceStub = sinon.stub().resolves(CLAIMID)
@@ -29,7 +29,7 @@ const getLastClaimDetails = proxyquire('../../../../app/services/data/get-last-c
 
 describe('services/data/get-last-claim-details', function () {
   it('should call to get last claim children and last claim expenses', function () {
-    return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false)
+    return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, false)
       .then(function (result) {
         sinon.assert.calledWith(getLastClaimForReferenceStub, REFERENCE, ELIGIBILITYID)
         sinon.assert.calledWith(getClaimChildrenByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
@@ -44,7 +44,7 @@ describe('services/data/get-last-claim-details', function () {
   })
 
   it('should mask child last name and escort last name if mask is true', function () {
-    return getLastClaimDetails(REFERENCE, ELIGIBILITYID, true)
+    return getLastClaimDetails(REFERENCE, ELIGIBILITYID, true, false)
       .then(function (result) {
         sinon.assert.calledWith(getLastClaimForReferenceStub, REFERENCE, ELIGIBILITYID)
         sinon.assert.calledWith(getClaimChildrenByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
@@ -52,6 +52,22 @@ describe('services/data/get-last-claim-details', function () {
         sinon.assert.calledWith(getClaimEscortByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
         sinon.assert.calledWith(maskArrayOfNamesStub, CHILDREN)
         sinon.assert.calledWith(maskArrayOfNamesStub, ESCORT)
+      })
+  })
+
+  it('should get last claim and remove train expenses if last claim type is not the same as this claim type', function () {
+    return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, true)
+      .then(function (result) {
+        expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).to.be.equal(0)
+        expect(result.expenses.length).to.be.equal(2)
+      })
+  })
+
+  it('should get last claim and keep train expenses if last claim type is the same as this claim type', function () {
+    return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, false)
+      .then(function (result) {
+        expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).to.be.equal(2)
+        expect(result.expenses.length).to.be.equal(4)
       })
   })
 })
