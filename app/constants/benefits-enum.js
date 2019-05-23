@@ -29,7 +29,7 @@ module.exports = {
     value: 'universal-credit',
     requireBenefitUpload: true,
     displayName: 'Universal Credit',
-    multipage: false,
+    multipage: true,
     urlValue: 'b4'
   },
 
