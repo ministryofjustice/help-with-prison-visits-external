@@ -53,7 +53,7 @@ module.exports = {
     value: 'hc2',
     requireBenefitUpload: true,
     displayName: 'Health Certificate (HC2)',
-    multipage: false,
+    multipage: true,
     urlValue: 'b7'
   },
 
@@ -61,7 +61,7 @@ module.exports = {
     value: 'hc3',
     requireBenefitUpload: true,
     displayName: 'Health Certificate (HC3)',
-    multipage: false,
+    multipage: true,
     urlValue: 'b8'
   },
 
@@ -69,7 +69,7 @@ module.exports = {
     value: 'nhs-tax-credit',
     requireBenefitUpload: true,
     displayName: 'NHS Tax Credit Exemption Certificate',
-    multipage: false,
+    multipage: true,
     urlValue: 'b9'
   },
 
