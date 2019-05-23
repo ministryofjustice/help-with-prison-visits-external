@@ -36,6 +36,11 @@ module.exports.getExpenseDisplayName = function (value) {
 
 module.exports.getExpenseReceiptRequired = function (value) {
   var element = enumHelper.getKeyByAttribute(expenseTypeEnum, value)
+  return element.receiptRequired && element.receiptMandatory
+}
+
+module.exports.getExpenseReceiptUploadEnabled = function (value) {
+  var element = enumHelper.getKeyByAttribute(expenseTypeEnum, value)
   return element.receiptRequired
 }
 

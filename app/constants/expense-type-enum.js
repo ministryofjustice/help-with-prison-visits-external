@@ -2,14 +2,16 @@ module.exports = {
   CAR: {
     value: 'car',
     displayName: 'Car',
-    receiptRequired: false,
+    receiptRequired: true,
+    receiptMandatory: false,
     ticketed: false
   },
 
   CAR_ONLY: {
     value: 'car-only',
     displayName: 'Car',
-    receiptRequired: false,
+    receiptRequired: true,
+    receiptMandatory: false,
     ticketed: false
   },
 
@@ -17,13 +19,15 @@ module.exports = {
     value: 'toll',
     displayName: 'Toll',
     receiptRequired: false,
+    receiptMandatory: false,
     ticketed: false
   },
 
   CAR_PARKING_CHARGE: {
     value: 'parking',
     displayName: 'Parking charge',
-    receiptRequired: false,
+    receiptRequired: true,
+    receiptMandatory: true,
     ticketed: false
   },
 
@@ -31,6 +35,7 @@ module.exports = {
     value: 'hire',
     displayName: 'Car hire',
     receiptRequired: true,
+    receiptMandatory: true,
     ticketed: false
   },
 
@@ -38,6 +43,7 @@ module.exports = {
     value: 'bus',
     displayName: 'Bus',
     receiptRequired: true,
+    receiptMandatory: true,
     ticketed: true
   },
 
@@ -45,6 +51,7 @@ module.exports = {
     value: 'train',
     displayName: 'Train',
     receiptRequired: true,
+    receiptMandatory: true,
     ticketed: true
   },
 
@@ -52,6 +59,7 @@ module.exports = {
     value: 'taxi',
     displayName: 'Taxi',
     receiptRequired: true,
+    receiptMandatory: true,
     ticketed: true
   },
 
@@ -59,6 +67,7 @@ module.exports = {
     value: 'plane',
     displayName: 'Plane',
     receiptRequired: true,
+    receiptMandatory: true,
     ticketed: true
   },
 
@@ -66,6 +75,7 @@ module.exports = {
     value: 'ferry',
     displayName: 'Ferry',
     receiptRequired: true,
+    receiptMandatory: true,
     ticketType: {
       'foot-passenger': 'a foot passenger',
       'car-passenger': 'a car passenger'
@@ -77,6 +87,7 @@ module.exports = {
     value: 'refreshment',
     displayName: 'Light refreshment',
     receiptRequired: false,
+    receiptMandatory: false,
     ticketed: false
   },
 
@@ -84,6 +95,7 @@ module.exports = {
     value: 'accommodation',
     displayName: 'Accommodation',
     receiptRequired: true,
+    receiptMandatory: true,
     ticketed: false
   }
 }
