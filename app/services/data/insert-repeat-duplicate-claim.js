@@ -11,7 +11,7 @@ module.exports = function (reference, eligibilityId, claim) {
 
   return insertNewClaim(reference, eligibilityId, claimTypeEnum.REPEAT_DUPLICATE, claim)
     .then(function (newClaimId) { claimId = newClaimId })
-    .then(function () { return getLastClaimDetails(reference, eligibilityId, false) })
+    .then(function () { return getLastClaimDetails(reference, eligibilityId, false, claim.isAdvanceClaim) })
     .then(function (claimDetails) {
       lastClaimDetails = claimDetails
     })
