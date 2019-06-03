@@ -3,13 +3,13 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 require('sinon-bluebird')
 const tasksEnum = require('../../../../app/constants/tasks-enum')
-const PaymentDetails = require('../../../../app/services/domain/payment-details')
+const BankAccountDetails = require('../../../../app/services/domain/bank-account-details')
 
 const REFERENCE = 'V123456'
 const ELIGIBILITYID = 1
 const CLAIMID = 1
 const BANK_DETAILS = { sortCode: '112233', accountNumber: '33445566', required: true }
-const TEST_BANK_ACCOUNT_DETAILS = new PaymentDetails(BANK_DETAILS.accountNumber, BANK_DETAILS.sortCode, 'yes')
+const TEST_BANK_ACCOUNT_DETAILS = new BankAccountDetails(BANK_DETAILS.accountNumber, BANK_DETAILS.sortCode, 'yes')
 const NO_BANK_DETAILS = { required: false }
 
 describe('services/data/submit-update', function () {

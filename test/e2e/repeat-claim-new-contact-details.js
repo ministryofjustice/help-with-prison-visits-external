@@ -112,14 +112,16 @@ describe('Repeat claim with new contact details', function () {
       .waitForExist('#claim-summary-submit')
       .click('#claim-summary-submit')
 
-      // Bank account details
+      // Choose Payment Method
       .waitForExist('#payment-submit')
-
-      // Uncomment when private beta toggle is turned off
-      // .click('[for="bank"]')
-      // .setValue('#account-number-input', '00123456')
-      // .setValue('#sort-code-input', '001122')
+      .click('[for="bank"]')
       .click('#payment-submit')
+
+      // Enter Bank Account Details
+      .waitForExist('#bank-payment-submit')
+      .setValue('#account-number-input', '00123456')
+      .setValue('#sort-code-input', '001122')
+      .click('#bank-payment-submit')
 
       // Declaration page
       .waitForExist('#claim-submit')
