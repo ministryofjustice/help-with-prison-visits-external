@@ -3,7 +3,6 @@ const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 require('sinon-bluebird')
-const paymentMethods = require('../../../../../../app/constants/payment-method-enum')
 
 var ValidationError = require('../../../../../../app/services/errors/validation-error')
 

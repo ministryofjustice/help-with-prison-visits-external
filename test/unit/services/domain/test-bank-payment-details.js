@@ -11,7 +11,6 @@ const PROCESSED_ACCOUNT_NUMBER = '12345678'
 const PROCESSED_SORT_CODE = '876543'
 
 describe('services/domain/payment-details', function () {
-
   it('should construct a domain object given valid input', function () {
     bankAccountDetails = new BankAccountDetails(VALID_ACCOUNT_NUMBER, VALID_SORT_CODE)
     expect(bankAccountDetails.sortCode).to.equal(PROCESSED_SORT_CODE)

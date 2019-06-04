@@ -20,7 +20,7 @@ module.exports = function (router) {
       referenceId: req.session.referenceId,
       claimId: req.session.claimId,
       isAdvance: req.query.isAdvance,
-      privateBeta: config.PRIVATE_BETA_TOGGLE,
+      privateBeta: config.PRIVATE_BETA_TOGGLE
     })
   })
 
@@ -53,7 +53,7 @@ module.exports = function (router) {
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
           isAdvance: req.query.isAdvance,
-          privateBeta: config.PRIVATE_BETA_TOGGLE,
+          privateBeta: config.PRIVATE_BETA_TOGGLE
         })
       } else {
         throw error
