@@ -35,6 +35,7 @@ describe('First Time Advance Claim Flow', () => {
       // Benefit
       .waitForExist('#benefit-submit')
       .click('[for="income-support"]')
+      .click('[for="yes"]')
       .click('#benefit-submit')
 
       // About the Prisoner
