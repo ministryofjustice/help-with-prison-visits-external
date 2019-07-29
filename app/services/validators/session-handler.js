@@ -221,7 +221,7 @@ module.exports = {
     validateData(session)
     return checkDependencies(session, url)
   },
-  getErrorPath: function (session, url) {
+  getErrorPath: function (session, url, referenceDisabled = false) {
     var splitUrl = url.split('/')
     var claimType = splitUrl[2]
 
@@ -237,6 +237,9 @@ module.exports = {
     var path = '/start-already-registered?error=expired'
     if (claimType === claimTypeEnum.FIRST_TIME) {
       path = `/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth?error=expired`
+    }
+    if (referenceDisabled === true) {
+      path = '/start-already-registered?error=disabled'
     }
 
     return path
