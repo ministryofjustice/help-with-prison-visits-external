@@ -91,5 +91,6 @@ module.exports = {
   getValueIsTooLarge: function (displayName) { return `${displayName} value is too large for this field` },
   getExpenseDisabled: function () { return 'You cannot upload a document for this expense as it has already been deleted' },
   getIsPhoneNumberLessThanLengthMessage: function (displayName, options) { return `${displayName} must be ${options.length} characters or less` },
-  getCostIsTooLarge: function (displayName, options) { return `${displayName} must be £${options.cost} or less` }
+  getCostIsTooLarge: function (displayName, options) { return `${displayName} must be £${options.cost} or less` },
+  getIsAlreadyVisited: function (displayName) { return 'A claim has been submitted for this prisoner on the same date' }
 }

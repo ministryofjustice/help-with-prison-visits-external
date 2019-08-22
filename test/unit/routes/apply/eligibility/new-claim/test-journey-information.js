@@ -17,9 +17,9 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
   var app
 
   var urlPathValidatorStub
+  var visitorPrisonerCheckStub
   var newClaimStub
   var insertNewClaimStub
-  var visitorPrisonerCheckStub
   var insertRepeatDuplicateClaimStub
 
   beforeEach(function () {
@@ -31,9 +31,9 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
 
     var route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/journey-information', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
+      '../../../../services/data/visitor-prisoner-check': visitorPrisonerCheckStub,
       '../../../../services/domain/new-claim': newClaimStub,
       '../../../../services/data/insert-new-claim': insertNewClaimStub,
-      '../../../../services/data/visitor-prisoner-check': visitorPrisonerCheckStub,
       '../../../../services/data/insert-repeat-duplicate-claim': insertRepeatDuplicateClaimStub
     })
     app = routeHelper.buildApp(route)
@@ -117,7 +117,6 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
 
     it('should respond with a 500 if promise rejects.', function () {
       insertRepeatDuplicateClaimStub.rejects()
-      visitorPrisonerCheckStub.resolves()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -140,7 +139,6 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
       insertNewClaimStub.throws(new Error())
-      visitorPrisonerCheckStub.resolves()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -149,7 +147,6 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
 
     it('should respond with a 500 if promise rejects.', function () {
       insertNewClaimStub.rejects()
-      visitorPrisonerCheckStub.resolves()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
