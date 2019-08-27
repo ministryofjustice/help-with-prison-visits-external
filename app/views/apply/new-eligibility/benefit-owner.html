@@ -45,7 +45,7 @@ Enter information about the benefit owner - {{ serviceName }}
           {% endif %}
           <input id="benefit-first-name"
                  name="FirstName"
-                 value="{{ benefit['FirstName'] }}"
+                 value="{{ benefitOwner['FirstName'] }}"
                  type="text"
                  autocomplete="off"
                  class="form-control">
@@ -58,7 +58,7 @@ Enter information about the benefit owner - {{ serviceName }}
           {% endif %}
           <input id="benefit-last-name"
                  name="LastName"
-                 value="{{ benefit['LastName'] }}"
+                 value="{{ benefitOwner['LastName'] }}"
                  type="text"
                  autocomplete="off"
                  class="form-control">
@@ -80,7 +80,7 @@ Enter information about the benefit owner - {{ serviceName }}
                 <label for="dob-day">Day</label>
                 <input id="dob-day"
                        name="dob-day"
-                       value="{{ benefit['dob-day'] }}"
+                       value="{{ benefitOwner['dob-day'] }}"
                        type="number"
                        autocomplete="off"
                        class="form-control">
@@ -90,7 +90,7 @@ Enter information about the benefit owner - {{ serviceName }}
                 <label for="dob-month">Month</label>
                 <input id="dob-month"
                        name="dob-month"
-                       value="{{ benefit['dob-month'] }}"
+                       value="{{ benefitOwner['dob-month'] }}"
                        type="number"
                        autocomplete="off"
                        class="form-control">
@@ -100,7 +100,7 @@ Enter information about the benefit owner - {{ serviceName }}
                 <label for="dob-year">Year</label>
                 <input id="dob-year"
                        name="dob-year"
-                       value="{{ benefit['dob-year'] }}"
+                       value="{{ benefitOwner['dob-year'] }}"
                        type="number"
                        autocomplete="off"
                        class="form-control">
@@ -122,7 +122,7 @@ Enter information about the benefit owner - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ benefit['NationalInsuranceNumber'] }}">
+                 value="{{ benefitOwner['NationalInsuranceNumber'] }}">
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}

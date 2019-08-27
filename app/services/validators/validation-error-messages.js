@@ -91,5 +91,10 @@ module.exports = {
   getValueIsTooLarge: function (displayName) { return `${displayName} value is too large for this field` },
   getExpenseDisabled: function () { return 'You cannot upload a document for this expense as it has already been deleted' },
   getIsPhoneNumberLessThanLengthMessage: function (displayName, options) { return `${displayName} must be ${options.length} characters or less` },
-  getCostIsTooLarge: function (displayName, options) { return `${displayName} must be £${options.cost} or less` }
+  getCostIsTooLarge: function (displayName, options) { return `${displayName} must be £${options.cost} or less` },
+  getEnterBenefitOwnerFirstName: function () { return 'Enter the benefit owner\'s first name' },
+  getEnterBenefitOwnerLastName: function () { return 'Enter the benefit owner\'s last name' },
+  getEnterBenefitOwnerDateOfBirth: function () { return 'Enter the benefit owner\'s date of birth' },
+  getBenefitOwnerNameLessThanLengthMessage: function (displayName, options) { return `Benefit owner's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
+  getEnterBenefitOwnerNINNumber: function () { return `Enter the benefit owner's National Insurance number` }
 }
