@@ -19,6 +19,10 @@
         Date of prison visit
       </h1>
 
+      {% if isSamePrisoner %}
+        <p>A claim has been submitted for this prisoner on the same date.</p>
+      {% endif %}
+
       {% if advanceOrPast == 'past' %}
         <p>The visit must have been in the last 60 days.</p>
       {% else %}

@@ -6,6 +6,7 @@ const NewClaim = require('../../../../services/domain/new-claim')
 const insertNewClaim = require('../../../../services/data/insert-new-claim')
 const insertRepeatDuplicateClaim = require('../../../../services/data/insert-repeat-duplicate-claim')
 const SessionHandler = require('../../../../services/validators/session-handler')
+const visitorPrisonerCheck = require('../../../../services/data/visitor-prisoner-check')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/new-claim/journey-information', function (req, res) {
@@ -34,49 +35,52 @@ module.exports = function (router) {
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
     var isAdvancedClaim = req.session.advanceOrPast === 'advance'
 
-    try {
-      console.dir('try')
+    visitorPrisonerCheck(req.body['date-of-journey-day'], req.body['date-of-journey-month'], req.body['date-of-journey-year'], referenceAndEligibilityId.id)
+      .then(function (isAlreadyVisited) {
+        try {
+          var newClaim = new NewClaim(
+            req.session.referenceId,
+            req.body['date-of-journey-day'],
+            req.body['date-of-journey-month'],
+            req.body['date-of-journey-year'],
+            isAdvancedClaim,
+            isAlreadyVisited
+          )
 
-      var newClaim = new NewClaim(
-        req.session.referenceId,
-        req.body['date-of-journey-day'],
-        req.body['date-of-journey-month'],
-        req.body['date-of-journey-year'],
-        isAdvancedClaim
-      )
-
-      if (!isRepeatDuplicateClaim(req.session.claimType)) {
-        insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimType, newClaim)
-          .then(function (claimId) {
-            req.session.claimId = claimId
-            return res.redirect(`/apply/eligibility/claim/has-escort`)
-          })
-          .catch(function (error) {
-            next(error)
-          })
-      } else {
-        insertRepeatDuplicateClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, newClaim)
-          .then(function (claimId) {
-            req.session.claimId = claimId
-            return res.redirect(`/apply/eligibility/claim/summary`)
-          })
-          .catch(function (error) {
-            next(error)
-          })
-      }
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        return res.status(400).render('apply/eligibility/new-claim/journey-information', {
-          errors: error.validationErrors,
-          claimType: req.session.claimType,
-          referenceId: req.session.referenceId,
-          advanceOrPast: req.session.advanceOrPast,
-          claim: req.body
-        })
-      } else {
-        throw error
-      }
-    }
+          if (!isRepeatDuplicateClaim(req.session.claimType)) {
+            insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimType, newClaim)
+              .then(function (claimId) {
+                req.session.claimId = claimId
+                return res.redirect(`/apply/eligibility/claim/has-escort`)
+              })
+              .catch(function (error) {
+                next(error)
+              })
+          } else {
+            insertRepeatDuplicateClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, newClaim)
+              .then(function (claimId) {
+                req.session.claimId = claimId
+                return res.redirect(`/apply/eligibility/claim/summary`)
+              })
+              .catch(function (error) {
+                next(error)
+              })
+          }
+        } catch (error) {
+          if (error instanceof ValidationError) {
+            return res.status(400).render('apply/eligibility/new-claim/journey-information', {
+              errors: error.validationErrors,
+              claimType: req.session.claimType,
+              referenceId: req.session.referenceId,
+              advanceOrPast: req.session.advanceOrPast,
+              claim: req.body,
+              isAlreadyVisited: isAlreadyVisited
+            })
+          } else {
+            throw error
+          }
+        }
+      })
   })
 }
 

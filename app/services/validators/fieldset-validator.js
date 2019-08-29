@@ -90,6 +90,13 @@ class FieldsetValidator {
     }
     return this
   }
+
+  isAlreadyVisited (isAlreadyVisited) {
+    if (isAlreadyVisited === true) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsAlreadyVisited)
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {
