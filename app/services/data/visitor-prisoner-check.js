@@ -31,7 +31,11 @@ module.exports = function (day, month, year, eligibilityId) {
 function getPrisonNumber (eligibilityId) {
   return knex('Prisoner').where('EligibilityId', eligibilityId).first('PrisonNumber')
     .then(function (result) {
-      return result.PrisonNumber
+      try {
+        return result.PrisonNumber
+      } catch (e) {
+        return result
+      }
     })
 }
 
