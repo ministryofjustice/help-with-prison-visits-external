@@ -2,6 +2,7 @@ const config = require('../../../knexfile').extweb
 var Promise = require('bluebird').Promise
 const knex = require('knex')(config)
 const dateFormatter = require('../date-formatter')
+const log = require('../log')
 
 module.exports = function (day, month, year, eligibilityId) {
   var matched
@@ -31,7 +32,8 @@ module.exports = function (day, month, year, eligibilityId) {
 function getPrisonNumber (eligibilityId) {
   return knex('Prisoner').where('EligibilityId', eligibilityId).first('PrisonNumber')
     .then(function (result) {
-      return result.PrisonNumber
+      try { return result.PrisonNumber }
+      catch(e) { return result }
     })
 }
 
