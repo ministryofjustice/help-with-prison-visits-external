@@ -22,12 +22,12 @@ class BenefitsAbout {
     var errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
-      .isRequired(ERROR_MESSAGES.getEnterPrisonerFirstName)
-      .isLessThanLength(100, ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage)
+      .isRequired(ERROR_MESSAGES.getEnterBenefitOwnerFirstName)
+      .isLessThanLength(100, ERROR_MESSAGES.getBenefitOwnerNameLessThanLengthMessage)
 
     FieldValidator(this.lastName, 'LastName', errors)
-      .isRequired(ERROR_MESSAGES.getEnterPrisonerLastName)
-      .isLessThanLength(100, ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage)
+      .isRequired(ERROR_MESSAGES.getEnterBenefitOwnerLastName)
+      .isLessThanLength(100, ERROR_MESSAGES.getBenefitOwnerNameLessThanLengthMessage)
 
     var dobFields = [
       this.dobDay,
@@ -38,12 +38,12 @@ class BenefitsAbout {
     var dob = dateFormatter.build(this.dobDay, this.dobMonth, this.dobYear)
 
     FieldsetValidator(dobFields, 'dob', errors)
-      .isRequired(ERROR_MESSAGES.getEnterPrisonerDateOfBirth)
+      .isRequired(ERROR_MESSAGES.getEnterBenefitOwnerDateOfBirth)
       .isValidDate(dob)
       .isPastDate(dob)
 
     FieldValidator(this.nationalInsuranceNumber, 'NationalInsuranceNumber', errors)
-      .isRequired(ERROR_MESSAGES.getEnterYourNINNumber)
+      .isRequired(ERROR_MESSAGES.getEnterBenefitOwnerNINNumber)
       .isLength(9)
       .isNationalInsuranceNumber()
 

@@ -92,5 +92,10 @@ module.exports = {
   getExpenseDisabled: function () { return 'You cannot upload a document for this expense as it has already been deleted' },
   getIsPhoneNumberLessThanLengthMessage: function (displayName, options) { return `${displayName} must be ${options.length} characters or less` },
   getCostIsTooLarge: function (displayName, options) { return `${displayName} must be £${options.cost} or less` },
+  getEnterBenefitOwnerFirstName: function () { return 'Enter the benefit owner\'s first name' },
+  getEnterBenefitOwnerLastName: function () { return 'Enter the benefit owner\'s last name' },
+  getEnterBenefitOwnerDateOfBirth: function () { return 'Enter the benefit owner\'s date of birth' },
+  getBenefitOwnerNameLessThanLengthMessage: function (displayName, options) { return `Benefit owner's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
+  getEnterBenefitOwnerNINNumber: function () { return `Enter the benefit owner's National Insurance number` },
   getIsAlreadyVisited: function (displayName) { return 'A claim has been submitted for this prisoner on the same date' }
 }
