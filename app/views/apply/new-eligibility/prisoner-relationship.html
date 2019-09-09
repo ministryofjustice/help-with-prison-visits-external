@@ -25,16 +25,26 @@ How are you related to the prisoner - {{ serviceName }}
 
       <form action="{{ URL }}" method="post">
         <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
-          <p>They are:</p>
+          <p>They are my:</p>
           <fieldset>
             <legend class="visually-hidden">Relationship to prisoner</legend>
-            <label for="husband-wife-civil" class="block-label" data-target="husband-wife-civil-question">
-              <input id="husband-wife-civil"
+            <label for="husband" class="block-label" data-target="husband-question">
+              <input id="husband"
                      type="radio"
                      name="relationship"
                      value="r1">
 
-              <span class="heading-small">My husband, wife or civil partner</span>
+              <span class="heading-small">Husband</span>
+              <br>
+            </label>
+
+            <label for="wife" class="block-label" data-target="wife">
+              <input id="wife"
+                     type="radio"
+                     name="relationship"
+                     value="r2">
+
+              <span class="heading-small">Wife</span>
               <br>
             </label>
 
@@ -42,66 +52,115 @@ How are you related to the prisoner - {{ serviceName }}
               <input id="partner"
                      type="radio"
                      name="relationship"
-                     value="r2">
-              <span class="heading-small">My partner</span>
-              <br>
-              You were living together as a couple before they went to prison or remand
-            </label>
-
-            <label for="parent-grandparent" class="block-label" data-target="parent-grandparent-question">
-              <input id="parent-grandparent"
-                     type="radio"
-                     name="relationship"
                      value="r3">
-              <span class="heading-small">My parent</span>
+
+              <span class="heading-small">Partner</span>
               <br>
-              Includes step-parent or adoptive parent
+              You must have been living with the prisoner before the period of imprisonment
             </label>
 
-            <label for="sibling" class="block-label" data-target="sibling-question">
-              <input id="sibling"
+            <label for="mother" class="block-label" data-target="mother-question">
+              <input id="mother"
                      type="radio"
                      name="relationship"
                      value="r4">
-              <span class="heading-small">My brother or sister</span>
+              <span class="heading-small">Mother</span>
               <br>
-              Includes half-sibling, or step-sibling
+              Including step mother or adoptive mother
             </label>
 
-            <label for="child" class="block-label" data-target="child-question">
-              <input id="child"
+            <label for="father" class="block-label" data-target="father-question">
+              <input id="father"
                      type="radio"
                      name="relationship"
                      value="r5">
-              <span class="heading-small">My son, daughter or grandchild</span>
+              <span class="heading-small">Father</span>
               <br>
-              Includes step- or adopted son or daughter
+              Including step father or adoptive father
+            </label>
+
+            <label for="grandmother" class="block-label" data-target="grandmother-question">
+              <input id="grandmother"
+                     type="radio"
+                     name="relationship"
+                     value="r6">
+              <span class="heading-small">Grandmother</span>
+              <br>
+            </label>
+
+            <label for="grandfather" class="block-label" data-target="grandfather-question">
+              <input id="grandfather"
+                     type="radio"
+                     name="relationship"
+                     value="r7">
+              <span class="heading-small">Grandfather</span>
+              <br>
+            </label>
+
+            <label for="brother" class="block-label" data-target="brother-question">
+              <input id="brother"
+                     type="radio"
+                     name="relationship"
+                     value="r8">
+              <span class="heading-small">Brother</span>
+              <br>
+              Including step brother or half brother
+            </label>
+
+            <label for="sister" class="block-label" data-target="sister-question">
+              <input id="sister"
+                     type="radio"
+                     name="relationship"
+                     value="r9">
+              <span class="heading-small">Sister</span>
+              <br>
+              Including step sister or adoptive sister
+            </label>
+
+            <label for="son" class="block-label" data-target="son-question">
+              <input id="son"
+                     type="radio"
+                     name="relationship"
+                     value="r10">
+              <span class="heading-small">Son</span>
+              <br>
+              Including step son or adoptive son
+            </label>
+
+            <label for="daughter" class="block-label" data-target="daughter-question">
+              <input id="daughter"
+                     type="radio"
+                     name="relationship"
+                     value="r11">
+              <span class="heading-small">Daughter</span>
+              <br>
+              Including step daughter or adoptive daughter
             </label>
 
             <label for="next-of-kin" class="block-label" data-target="next-of-kin-question">
               <input id="next-of-kin"
                      type="radio"
                      name="relationship"
-                     value="r8">
+                     value="r12">
               <span class="heading-small">Next of kin</span>
               <br>
-              As noted by prisoner in prison records
             </label>
 
             <label for="sole-visitor" class="block-label">
               <input id="sole-visitor"
                      type="radio"
                      name="relationship"
-                     value="r6">
-              <span class="heading-small">None of the above, but I was their only visitor in the previous 4 weeks (sole visitor)</span>
+                     value="r13">
+              <span class="heading-small">Sole visitor</span>
               <br>
+              The only adult visitor within the 4 week period before your visit took place
             </label>
 
             <label for="other" class="block-label" data-target="other-question">
               <input id="other"
                      type="radio"
                      name="relationship"
-                     value="r7">
+                     value="r14">
               <span class="heading-small">None of the above</span>
               <br>
             </label>
