@@ -89,6 +89,15 @@ module.exports = {
         }
       }
 
+      if (page === 'child-escort') {
+        if (!session['dobEncoded'] ||
+            !session['relationship']) {
+          return false
+        } else {
+          return true
+        }
+      }
+
       if (page === 'benefits') {
         if (!session['dobEncoded'] ||
             !session['relationship']) {
