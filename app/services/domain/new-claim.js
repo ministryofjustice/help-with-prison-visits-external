@@ -8,7 +8,7 @@ const MaxDaysAfterVisit = require('../../../config').MAX_DAYS_AFTER_RETROSPECTIV
 const MaxDaysBeforeVisit = require('../../../config').MAX_DAYS_BEFORE_ADVANCE_CLAIM
 
 class NewClaim {
-  constructor (reference, day, month, year, isAdvanceClaim, isAlreadyVisited) {
+  constructor (reference, day, month, year, isAdvanceClaim) {
     this.reference = reference
     this.fields = [
       day,
@@ -17,7 +17,6 @@ class NewClaim {
     ]
     this.dateOfJourney = dateFormatter.build(day, month, year)
     this.isAdvanceClaim = isAdvanceClaim
-    this.isAlreadyVisited = isAlreadyVisited
     this.IsValid()
   }
 
@@ -41,9 +40,6 @@ class NewClaim {
         .isDateWithinDays(this.dateOfJourney, parseInt(MaxDaysBeforeVisit), this.isAdvanceClaim)
         .isNotDateWithinDays(this.dateOfJourney, 5)
     }
-
-    FieldsetValidator(this.isAlreadyVisited, 'AlreadyVisited', errors)
-      .isAlreadyVisited(this.isAlreadyVisited)
 
     var validationErrors = errors.get()
     if (validationErrors) {

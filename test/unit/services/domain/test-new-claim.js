@@ -15,8 +15,6 @@ describe('services/domain/new-claim', function () {
   const VALID_CHILD_VISITOR = booleanSelectEnum.YES
   const IS_PAST_CLAIM = false
   const IS_ADVANCE_CLAIM = true
-  const IS_ALREADY_VISISTED = true
-  const IS_NOT_ALREADY_VISISTED = false
 
   var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
 
@@ -26,8 +24,7 @@ describe('services/domain/new-claim', function () {
       VALID_DAY,
       VALID_MONTH,
       VALID_YEAR,
-      IS_PAST_CLAIM,
-      IS_NOT_ALREADY_VISISTED
+      IS_PAST_CLAIM
     )
     expect(claim.reference).to.equal(VALID_REFERENCE)
     expect(claim.dateOfJourney).to.be.within(
@@ -39,32 +36,15 @@ describe('services/domain/new-claim', function () {
 
   it('should throw ValidationError if given invalid input', function () {
     expect(function () {
-      new NewClaim(
-        '',
-        '',
-        '',
-        '',
-        false,
-        IS_PAST_CLAIM,
-        IS_NOT_ALREADY_VISISTED
-      )
+      new NewClaim('', '', '', '', false, IS_PAST_CLAIM)
     }).to.throw(ValidationError)
   })
 
-//  it('should not throw a ValidationError if is repeat duplicate claim', function () {
-//    expect(function () {
-//      claim = new NewClaim(
-//        VALID_REFERENCE,
-//        VALID_DAY,
-//        VALID_MONTH,
-//        VALID_YEAR,
-//        '',
-//        true,
-//        IS_PAST_CLAIM,
-//        IS_NOT_ALREADY_VISISTED
-//      )
-//    }).to.not.throw(ValidationError)
-//  })
+  it('should not throw a ValidationError if is repeat duplicate claim', function () {
+    expect(function () {
+      claim = new NewClaim(VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, '', true, IS_PAST_CLAIM)
+    }).to.not.throw(ValidationError)
+  })
 
   it('should throw a ValidationError if given a date in the future for past claims', function () {
     var futureDate = dateFormatter.now().add(1, 'days')
@@ -74,8 +54,7 @@ describe('services/domain/new-claim', function () {
         futureDate.date(),
         futureDate.month() + 1,
         futureDate.year(),
-        IS_PAST_CLAIM,
-        IS_NOT_ALREADY_VISISTED
+        IS_PAST_CLAIM
       )
     }).to.throw(ValidationError)
   })
@@ -88,8 +67,7 @@ describe('services/domain/new-claim', function () {
         dateFurtherThan60Days.date(),
         dateFurtherThan60Days.month() + 1,
         dateFurtherThan60Days.year(),
-        IS_PAST_CLAIM,
-        IS_NOT_ALREADY_VISISTED
+        IS_PAST_CLAIM
       )
     }).to.throw(ValidationError)
   })
@@ -102,8 +80,7 @@ describe('services/domain/new-claim', function () {
         dateFurtherThan60Days.date(),
         dateFurtherThan60Days.month() + 1,
         dateFurtherThan60Days.year(),
-        IS_ADVANCE_CLAIM,
-        IS_NOT_ALREADY_VISISTED
+        IS_ADVANCE_CLAIM
       )
     }).to.throw(ValidationError)
   })
@@ -118,8 +95,7 @@ describe('services/domain/new-claim', function () {
         pastDate.year(),
         VALID_CHILD_VISITOR,
         false,
-        IS_ADVANCE_CLAIM,
-        IS_NOT_ALREADY_VISISTED
+        IS_ADVANCE_CLAIM
       )
     }).to.throw(ValidationError)
   })
@@ -134,21 +110,7 @@ describe('services/domain/new-claim', function () {
         futureDate.year(),
         VALID_CHILD_VISITOR,
         false,
-        IS_ADVANCE_CLAIM,
-        IS_NOT_ALREADY_VISISTED
-      )
-    }).to.throw(ValidationError)
-  })
-
-  it('should throw a ValidationError if already visited is true', function () {
-    expect(function () {
-      new NewClaim(
-        VALID_REFERENCE,
-        VALID_DAY,
-        VALID_MONTH,
-        VALID_YEAR,
-        IS_PAST_CLAIM,
-        IS_ALREADY_VISISTED
+        IS_ADVANCE_CLAIM
       )
     }).to.throw(ValidationError)
   })
