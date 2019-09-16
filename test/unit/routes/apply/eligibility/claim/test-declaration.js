@@ -22,6 +22,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
   var stubUrlPathValidator
   var stubGetIsAdvanceClaim
   var stubCheckStatusForFinishingClaim
+  var stubCheckIfReferenceIsDisabled
 
   beforeEach(function () {
     stubDeclaration = sinon.stub()
@@ -29,6 +30,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     stubUrlPathValidator = sinon.stub()
     stubGetIsAdvanceClaim = sinon.stub()
     stubCheckStatusForFinishingClaim = sinon.stub()
+    stubCheckIfReferenceIsDisabled = sinon.stub()
 
     var route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/declaration', {
@@ -36,7 +38,8 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         '../../../../services/data/submit-claim': stubSubmitClaim,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator,
         '../../../../services/data/get-is-advance-claim': stubGetIsAdvanceClaim,
-        '../../../../services/data/check-status-for-finishing-claim': stubCheckStatusForFinishingClaim
+        '../../../../services/data/check-status-for-finishing-claim': stubCheckStatusForFinishingClaim,
+        '../../../../services/data/check-if-reference-is-disabled': stubCheckIfReferenceIsDisabled
       })
     app = routeHelper.buildApp(route)
   })
@@ -74,6 +77,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
       stubSubmitClaim.resolves()
       stubGetIsAdvanceClaim.resolves(false)
       stubCheckStatusForFinishingClaim.resolves(true)
+      stubCheckIfReferenceIsDisabled.resolves(false)
 
       return supertest(app)
         .post(`${ROUTE}?paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
@@ -99,6 +103,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
       stubSubmitClaim.resolves()
       stubGetIsAdvanceClaim.resolves(true)
       stubCheckStatusForFinishingClaim.resolves(true)
+      stubCheckIfReferenceIsDisabled.resolves(false)
 
       return supertest(app)
         .post(`${ROUTE}?paymentMethod=${paymentMethods.PAYOUT.value}`)
@@ -117,6 +122,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
       stubSubmitClaim.resolves()
       stubGetIsAdvanceClaim.resolves()
       stubCheckStatusForFinishingClaim.resolves(true)
+      stubCheckIfReferenceIsDisabled.resolves(false)
 
       return supertest(app)
         .post(`${ROUTE}?paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
@@ -130,6 +136,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
       stubDeclaration.returns()
       stubGetIsAdvanceClaim.resolves()
       stubCheckStatusForFinishingClaim.resolves(false)
+      stubCheckIfReferenceIsDisabled.resolves(false)
 
       return supertest(app)
         .post(ROUTE)

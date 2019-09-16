@@ -54,6 +54,7 @@ describe('Repeat claim with new eligibility details', function () {
       // Benefit
       .waitForExist('#benefit-submit')
       .click('[for="income-support"]')
+      .click('[for="yes"]')
       .click('#benefit-submit')
 
       // About the Prisoner
