@@ -85,7 +85,7 @@
     "on-finished": "^2.3.0",
     "path": "^0.12.7",
     "serve-favicon": "~2.3.0",
-    "sqlite3": "^3.1.8",
+    "sqlite3": "^4.1.0",
     "underscore": "^1.8.3",
     "validator": "^6.0.0"
   },
@@ -99,14 +99,13 @@
     "gulp-webdriver": "^2.0.2",
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
-    "nodemon": "^1.10.2",
+    "nodemon": "^1.19.2",
     "proxyquire": "^1.7.10",
     "selenium-standalone": "^5.7.2",
     "sinon": "^1.17.5",
     "sinon-bluebird": "^3.1.0",
     "standard": "^8.0.0",
     "supertest": "^2.0.0",
-    "wdio-mocha-framework": "^0.4.3",
     "wdio-sauce-service": "^0.2.5",
     "webdriverio": "^4.2.16"
   }
