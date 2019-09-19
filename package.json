@@ -7,7 +7,7 @@
     "url": "https://github.com/ministryofjustice/apvs-external-web.git"
   },
   "engines": {
-    "node": "10.x.x"
+    "node": "12.x.x"
   },
   "scripts": {
     "start": "gulp",
@@ -90,23 +90,24 @@
     "validator": "^6.0.0"
   },
   "devDependencies": {
+    "@wdio/mocha-framework": "^5.0.0",
     "artillery": "^1.5.0-20",
     "assert": "^1.4.1",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "gulp": "^4.0.2",
-    "gulp-nodemon": "^2.2.1",
-    "gulp-webdriver": "^2.0.2",
+    "gulp-nodemon": "^2.4.2",
+    "gulp-webdriver": "^2.0.3",
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
     "nodemon": "^1.19.2",
     "proxyquire": "^1.7.10",
-    "selenium-standalone": "^5.7.2",
+    "selenium-standalone": "^6.16.0",
     "sinon": "^1.17.5",
     "sinon-bluebird": "^3.1.0",
     "standard": "^8.0.0",
     "supertest": "^2.0.0",
     "wdio-sauce-service": "^0.2.5",
-    "webdriverio": "^4.2.16"
+    "webdriverio": "^5.0.0"
   }
 }
