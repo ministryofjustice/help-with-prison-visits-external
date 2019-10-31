@@ -13,6 +13,8 @@ module.exports = function (router) {
       errors = { invalidReferenceNumberAndDob: [ ERROR_MESSAGES.getInvalidReferenceNumberAndDob ] }
     } else if ((req.query.error === 'expired')) {
       errors = { expired: [ ERROR_MESSAGES.getExpiredSession ] }
+    } else if ((req.query.error === 'disabled')) {
+      errors = { expired: [ ERROR_MESSAGES.getReferenceDisabled ] }
     }
     return res.render('start-already-registered', { errors: errors, recovery: req.query.recovery })
   })

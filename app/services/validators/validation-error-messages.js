@@ -23,6 +23,7 @@ module.exports = {
   getInvalidReferenceNumberAndDob: 'Could not find any claims for these details',
   getExpiredSession: 'Your session has expired, please enter your reference number and date of birth again',
   getExpiredSessionDOB: 'Your session has expired, please enter your date of birth again',
+  getReferenceDisabled: 'This Reference Number has been disbaled and cannot be used to submit a claim',
   getMadeClaimForPrisonerBeforeIsRequired: 'You must confirm if you have made a claim before',
   getNoUpdatesMade: 'No updates were made, please ensure all documents are uploaded for your application to be processed or send a message to your caseworker. Otherwise press cancel to return to your claims',
   getInvalidReference: 'Reference is invalid',
@@ -90,5 +91,11 @@ module.exports = {
   getValueIsTooLarge: function (displayName) { return `${displayName} value is too large for this field` },
   getExpenseDisabled: function () { return 'You cannot upload a document for this expense as it has already been deleted' },
   getIsPhoneNumberLessThanLengthMessage: function (displayName, options) { return `${displayName} must be ${options.length} characters or less` },
-  getCostIsTooLarge: function (displayName, options) { return `${displayName} must be £${options.cost} or less` }
+  getCostIsTooLarge: function (displayName, options) { return `${displayName} must be £${options.cost} or less` },
+  getEnterBenefitOwnerFirstName: function () { return 'Enter the benefit owner\'s first name' },
+  getEnterBenefitOwnerLastName: function () { return 'Enter the benefit owner\'s last name' },
+  getEnterBenefitOwnerDateOfBirth: function () { return 'Enter the benefit owner\'s date of birth' },
+  getBenefitOwnerNameLessThanLengthMessage: function (displayName, options) { return `Benefit owner's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
+  getEnterBenefitOwnerNINNumber: function () { return `Enter the benefit owner's National Insurance number` },
+  getIsAlreadyVisited: function (displayName) { return 'A claim has been submitted for this prisoner on the same date' }
 }
