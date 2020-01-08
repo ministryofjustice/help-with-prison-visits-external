@@ -101,7 +101,21 @@ module.exports = {
       if (page === 'about-the-prisoner') {
         if (!session['dobEncoded'] ||
             !session['relationship'] ||
-            !session['benefit']) {
+            !session['benefit'] ||
+            !session['benefitOwner']) {
+          return false
+        } else {
+          return true
+        }
+      }
+
+      if (page === 'benefit-owner') {
+        if (!session['dobEncoded'] ||
+            !session['relationship'] ||
+            !session['benefit'] ||
+            !session['referenceId'] ||
+            !session['decryptedRef'] ||
+            !session['benefitOwner']) {
           return false
         } else {
           return true
@@ -113,7 +127,8 @@ module.exports = {
             !session['relationship'] ||
             !session['benefit'] ||
             !session['referenceId'] ||
-            !session['decryptedRef']) {
+            !session['decryptedRef'] ||
+            !session['benefitOwner']) {
           return false
         } else {
           return true
@@ -206,7 +221,7 @@ module.exports = {
     validateData(session)
     return checkDependencies(session, url)
   },
-  getErrorPath: function (session, url) {
+  getErrorPath: function (session, url, referenceDisabled = false) {
     var splitUrl = url.split('/')
     var claimType = splitUrl[2]
 
@@ -222,6 +237,9 @@ module.exports = {
     var path = '/start-already-registered?error=expired'
     if (claimType === claimTypeEnum.FIRST_TIME) {
       path = `/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth?error=expired`
+    }
+    if (referenceDisabled === true) {
+      path = '/start-already-registered?error=disabled'
     }
 
     return path

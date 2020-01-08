@@ -4,13 +4,15 @@ const getClaimExpenseByIdOrLastApproved = require('./get-claim-expense-by-id-or-
 const getClaimEscortByIdOrLastApproved = require('./get-claim-escort-by-id-or-last-approved')
 const maskArrayOfNames = require('../helpers/mask-array-of-names')
 
-module.exports = function (reference, eligibilityId, mask) {
+module.exports = function (reference, eligibilityId, mask, thisClaimIsAdvance) {
   var result = {}
   var claimId = null
+  var lastClaimWasAdvance = false
   return getLastClaimForReference(reference, eligibilityId)
     .then(function (claimIdReturned) {
       if (claimIdReturned.length > 0) {
         claimId = parseInt(claimIdReturned[0].ClaimId)
+        lastClaimWasAdvance = claimIdReturned[0].IsAdvanceClaim
       }
       return getClaimChildrenByIdOrLastApproved(reference, eligibilityId, claimId)
         .then(function (lastClaimChildren) {
@@ -23,6 +25,16 @@ module.exports = function (reference, eligibilityId, mask) {
         })
         .then(function (lastClaimExpenses) {
           result.expenses = lastClaimExpenses
+          if (thisClaimIsAdvance !== lastClaimWasAdvance) {
+            result.expenses = result.expenses.filter(expense => expense.ExpenseType !== 'train')
+          }
+          if (thisClaimIsAdvance) {
+            result.expenses.forEach(function (expense) {
+              if (expense.ExpenseType === 'train') {
+                expense.Cost = '0'
+              }
+            })
+          }
           return getClaimEscortByIdOrLastApproved(reference, eligibilityId, claimId)
         })
         .then(function (lastClaimEscort) {

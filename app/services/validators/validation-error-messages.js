@@ -23,6 +23,7 @@ module.exports = {
   getInvalidReferenceNumberAndDob: 'Could not find any claims for these details',
   getExpiredSession: 'Your session has expired, please enter your reference number and date of birth again',
   getExpiredSessionDOB: 'Your session has expired, please enter your date of birth again',
+  getReferenceDisabled: 'This Reference Number has been disbaled and cannot be used to submit a claim',
   getMadeClaimForPrisonerBeforeIsRequired: 'You must confirm if you have made a claim before',
   getNoUpdatesMade: 'No updates were made, please ensure all documents are uploaded for your application to be processed or send a message to your caseworker. Otherwise press cancel to return to your claims',
   getInvalidReference: 'Reference is invalid',
@@ -30,6 +31,7 @@ module.exports = {
   getNoExpensesClaimedFor: function () { return 'All expenses were removed, add an expense to continue' },
   getEnterYourDateOfBirth: function () { return 'Enter your date of birth' },
   getBenefitRequired: function () { return 'Choose a benefit from the list' },
+  getBenefitOwnerRequired: function () { return 'You must confirm if you are the benefit owner' },
   getEnterPrisonerFirstName: function () { return 'Enter the prisoner\'s first name' },
   getEnterPrisonerLastName: function () { return 'Enter the prisoner\'s last name' },
   getEnterPrisonerDateOfBirth: function () { return 'Enter the prisoner\'s date of birth' },
@@ -90,5 +92,11 @@ module.exports = {
   getExpenseDisabled: function () { return 'You cannot upload a document for this expense as it has already been deleted' },
   getIsPhoneNumberLessThanLengthMessage: function (displayName, options) { return `${displayName} must be ${options.length} characters or less` },
   getCostIsTooLarge: function (displayName, options) { return `${displayName} must be £${options.cost} or less` },
-  getVisitDateBeforeReleaseDateMessage: function (displayName) { return `${displayName} must be before the prisoner's release date` }
+  getVisitDateBeforeReleaseDateMessage: function (displayName) { return `${displayName} must be before the prisoner's release date` },
+  getEnterBenefitOwnerFirstName: function () { return 'Enter the benefit owner\'s first name' },
+  getEnterBenefitOwnerLastName: function () { return 'Enter the benefit owner\'s last name' },
+  getEnterBenefitOwnerDateOfBirth: function () { return 'Enter the benefit owner\'s date of birth' },
+  getBenefitOwnerNameLessThanLengthMessage: function (displayName, options) { return `Benefit owner's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
+  getEnterBenefitOwnerNINNumber: function () { return `Enter the benefit owner's National Insurance number` },
+  getIsAlreadyVisited: function (displayName) { return 'A claim has been submitted for this prisoner on the same date' }
 }
