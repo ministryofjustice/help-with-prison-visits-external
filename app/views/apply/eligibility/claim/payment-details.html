@@ -24,13 +24,13 @@ Payment details and declaration - {{ serviceName }}
     <div class="grid-row">
       <div class="column-two-thirds">
 
-      <h2 {% if privateBeta == 'true' %} class="heading-small bank-payments-hidden" {% else %} class="heading-small" {% endif%}>How do you want to receive your payment? </h2>
+      <h2 class="heading-small">How do you want to receive your payment? </h2>
         {% if errors['PaymentMethod'][0] %}
         <span class="error-message" id="error-message-payment-method">{{ errors['PaymentMethod'][0] }}</span>
         {% endif %}
 
         <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
-          <fieldset {% if privateBeta == 'true' %} class="bank-payments-hidden" {% endif %}>
+          <fieldset>
             <legend class="visually-hidden">How do you want to receive your payment</legend>
               <label for="bank" class="block-label" data-target="bank-details">
                 <input id="bank"
@@ -48,8 +48,7 @@ Payment details and declaration - {{ serviceName }}
                        type="radio"
                        name="PaymentMethod"
                        value="payout"
-                       {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}
-                       {% if privateBeta == 'true' %} checked {% endif %}>
+                       {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}>
 
                 <span>Cash voucher sent by post</span>
                 <br>
