@@ -215,3 +215,9 @@ exports.isValidAdvanceOrPast = function (value) {
   })
   return result
 }
+
+exports.isVisitDateBeforeReleaseDate = function (visitDate, releaseDate) {
+  var visitDateMoment = moment(visitDate)
+  var releaseDateMoment = moment(releaseDate)
+  return visitDateMoment.isBefore(releaseDateMoment)
+}
