@@ -34,8 +34,6 @@ module.exports = function (router) {
 
       if (relationship === prisonerRelationshipEnum.NONE.urlValue) {
         return res.redirect('/eligibility-fail')
-      } else if (relationship === prisonerRelationshipEnum.CHILD_ESCORT.urlValue) {
-        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/child-escort`)
       } else {
         return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefits`)
       }

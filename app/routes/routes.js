@@ -17,9 +17,9 @@ var routes = [
   // First Time Flow.
   require('./apply/new-eligibility/date-of-birth'),
   require('./apply/new-eligibility/prisoner-relationship'),
-  require('./apply/new-eligibility/child-escort'),
   require('./apply/new-eligibility/benefits'),
   require('./apply/new-eligibility/about-the-prisoner'),
+  require('./apply/new-eligibility/eligible-child'),
   require('./apply/new-eligibility/benefit-owner'),
   require('./apply/new-eligibility/about-you'),
   require('./apply/eligibility/new-claim/future-or-past-visit'),

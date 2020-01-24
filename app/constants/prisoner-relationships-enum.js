@@ -77,9 +77,9 @@ module.exports = {
     urlValue: 'r13'
   },
 
-  CHILD_ESCORT: {
-    value: 'child-escort',
-    displayName: 'Child escort',
+  ELIGIBLE_CHILD: {
+    value: 'eligible-child',
+    displayName: 'Eligible child',
     urlValue: 'r14'
   },
 

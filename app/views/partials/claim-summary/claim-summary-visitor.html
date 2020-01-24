@@ -4,6 +4,39 @@
     <td>{{ claimDetails.claim['FirstName'] }} {{ claimDetails.claim['LastName'] }}</td>
   </tr>
 
+  {% if claimDetails.claim['EligibleChildFirstName'] %}
+  <tr>
+    <td>Eligible child</td>
+    <td>{{ claimDetails.claim['EligibleChildFirstName'] }} {{ claimDetails.claim['EligibleChildLastName'] }}</td>
+  </tr>
+
+  <tr>
+    <td>Child's date of birth</td>
+    <td>{{ dateHelper(claimDetails.claim['EligibleChildDateOfBirth']) }}</td>
+  </tr>
+
+  <tr>
+    <td>Child's relationship to prisoner</td>
+    <td>{{ claimDetails.claim['EligibleChildChildRelationship'] }}</td>
+  </tr>
+
+  <tr>
+    <td>Child's parent</td>
+    <td>{{ claimDetails.claim['EligibleChildParentFirstName'] }} {{ claimDetails.claim['EligibleChildParentLastName'] }}</td>
+  </tr>
+
+  <tr>
+    <td>Child's address</td>
+    <td>
+      {{ claimDetails.claim['EligibleChildHouseNumberAndStreet'] }}</br> 
+      {{ claimDetails.claim['EligibleChildTown'] }}</br> 
+      {{ claimDetails.claim['EligibleChildCounty'] }}</br> 
+      {{ claimDetails.claim['EligibleChildPostCode'] }}</br> 
+      {{ claimDetails.claim['EligibleChildCountry'] }}</br>
+    </td>
+  </tr>
+  {% endif %}
+
   {% if claimDetails.claimEscort %}
   <tr>
     <td>Escort</td>
@@ -17,28 +50,6 @@
     <td>{{ child['FirstName'] }} {{ child['LastName'] }}</td>
   </tr>
   {% endfor %}
-
-  <tr>
-    <td>Qualifying child</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Child's date of birth</td>
-    <td>td>
-  </tr>
-  <tr>
-    <td>Prisoner's relationship to <br>child</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Child's parent</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Child's address</td>
-    <td></td>
-  </tr>
-
 
   <tr id='benefit-information' {% if errors['benefit-information'][0] %} class="warning" {% endif %}{% if forEdit %}{% if claimDetails.claim['benefitDocument'][0].fromInternalWeb %} {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or  claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% endif %}{% endif %}>
     <td>Benefit information</td>

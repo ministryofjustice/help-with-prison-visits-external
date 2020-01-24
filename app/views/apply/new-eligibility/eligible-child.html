@@ -1,7 +1,7 @@
 {% extends "includes/layout.html" %}
 
 {% block page_title %}
-Enter information about the Child you are escorting - {{ serviceName }}
+Enter information about the Eligible Child you are escorting - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -33,7 +33,7 @@ Enter information about the Child you are escorting - {{ serviceName }}
       {% endif %}
 
       <h1 class="heading-large">
-        About the Child you are escorting
+        About the Eligible Child
       </h1>
 
       <form action="{{ URL }}"
@@ -49,7 +49,7 @@ Enter information about the Child you are escorting - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ childEscort['FirstName'] }}">
+                 value="{{ eligibleChild['FirstName'] }}">
         </div>
 
         <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
@@ -62,20 +62,32 @@ Enter information about the Child you are escorting - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ childEscort['LastName'] }}">
+                 value="{{ eligibleChild['LastName'] }}">
         </div>
 
-        <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-          <label id="childRelationship" class="form-label-bold" for="child-relationship-input">Child's relationship to the prisoner</label>
-          {% if errors['LastName'][0] %}
-          <span class="error-message" id="error-message-last-name">{{ errors['LastName'][0] }}</span>
+        <div class="form-group {% if errors['ChildRelationship'][0] %} error {% endif %}">
+          <label id="ChildRelationship" class="form-label-bold" for="child-relationship-input">Child's relationship to the prisoner</label>
+          {% if errors['ChildRelationship'][0] %}
+          <span class="error-message" id="error-message-child-relationship">{{ errors['ChildRelationship'][0] }}</span>
           {% endif %}
           <p>The prisoner is the child's:</p>
-          <select class="form-control" id="child-relationship" name="childRelationship">
-            <option disabled selected value="">Select</option>
-            {% for relationship in relationships %}
-              <option value="{{ relationship.value }}" >{{ relationship.displayName }}</option>
-            {% endfor %}
+          <select id="child-relationship-input" class="form-control" name="ChildRelationship">
+            <option>select</option>
+            
+            <option {% if eligibleChild['ChildRelationship'] == 'Mother' %} selected {% endif %} value="Mother" id="child-relationship-mother-">Mother</option>
+            
+            <option {% if eligibleChild['ChildRelationship'] == 'Father' %} selected {% endif %} value="Father" id="child-relationship-father">Father</option>
+            
+            <option {% if eligibleChild['ChildRelationship'] == 'Grandmother' %} selected {% endif %} value="Grandmother" id="child-relationship-grandmother">Grandmother</option>
+            
+            <option {% if eligibleChild['ChildRelationship'] == 'Grandfather' %} selected {% endif %} value="Grandfather" id="child-relationship-grandfather">Grandfather</option>
+
+            <option {% if eligibleChild['ChildRelationship'] == 'Brother' %} selected {% endif %} value="Brother" id="child-relationship-brother">Brother</option>
+
+            <option {% if eligibleChild['ChildRelationship'] == 'Sister' %} selected {% endif %} value="Sister" id="child-relationship-sister">Sister</option>
+
+            <option {% if eligibleChild['ChildRelationship'] == 'Next of kin' %} selected {% endif %} value="Next of kin" id="child-relationship-next-of-kin">Next of kin</option>
+          
           </select>
         </div>
 
@@ -95,7 +107,7 @@ Enter information about the Child you are escorting - {{ serviceName }}
                 <label for="dob-day">Day</label>
                 <input id="dob-day"
                        name="dob-day"
-                       value="{{ childEscort['dob-day'] }}"
+                       value="{{ eligibleChild['dob-day'] }}"
                        type="number"
                        autocomplete="off"
                        class="form-control">
@@ -105,7 +117,7 @@ Enter information about the Child you are escorting - {{ serviceName }}
                 <label for="dob-month">Month</label>
                 <input id="dob-month"
                        name="dob-month"
-                       value="{{ childEscort['dob-month'] }}"
+                       value="{{ eligibleChild['dob-month'] }}"
                        type="number"
                        autocomplete="off"
                        class="form-control">
@@ -115,7 +127,7 @@ Enter information about the Child you are escorting - {{ serviceName }}
                 <label for="dob-year">Year</label>
                 <input id="dob-year"
                        name="dob-year"
-                       value="{{ childEscort['dob-year'] }}"
+                       value="{{ eligibleChild['dob-year'] }}"
                        type="number"
                        autocomplete="off"
                        class="form-control">
@@ -125,30 +137,30 @@ Enter information about the Child you are escorting - {{ serviceName }}
           </fieldset>
         </div>
 
-        <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
-          <label id="FirstName" class="form-label-bold" for="first-name-input">Parent/Guardian First name</label>
-          {% if errors['FirstName'][0] %}
-          <span class="error-message" id="error-message-first-name">{{ errors['ParentFirstName'][0] }}</span>
+        <div class="form-group {% if errors['ParentFirstName'][0] %} error {% endif %}">
+          <label id="ParentFirstName" class="form-label-bold" for="parent-first-name-input">Parent/Guardian First name</label>
+          {% if errors['ParentFirstName'][0] %}
+          <span class="error-message" id="error-message-parent-first-name">{{ errors['ParentFirstName'][0] }}</span>
           {% endif %}
           <input id="first-name-input"
-                 name="FirstName"
+                 name="ParentFirstName"
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ childEscort['ParentFirstName'] }}">
+                 value="{{ eligibleChild['ParentFirstName'] }}">
         </div>
 
-        <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-          <label id="LastName" class="form-label-bold" for="last-name-input">Parent/Guardian Last name</label>
-          {% if errors['LastName'][0] %}
-          <span class="error-message" id="error-message-last-name">{{ errors['ParentLastName'][0] }}</span>
+        <div class="form-group {% if errors['ParentLastName'][0] %} error {% endif %}">
+          <label id="ParentLastName" class="form-label-bold" for="parent-last-name-input">Parent/Guardian Last name</label>
+          {% if errors['ParentLastName'][0] %}
+          <span class="error-message" id="error-message-parent-last-name">{{ errors['ParentLastName'][0] }}</span>
           {% endif %}
           <input id="last-name-input"
-                 name="LastName"
+                 name="ParentLastName"
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ childEscort['ParentLastName'] }}">
+                 value="{{ eligibleChild['ParentLastName'] }}">
         </div>
 
         <div class="heading-medium-prevent-margin-collapse">
@@ -167,7 +179,7 @@ Enter information about the Child you are escorting - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ childEscort['HouseNumberAndStreet'] }}">
+                 value="{{ eligibleChild['HouseNumberAndStreet'] }}">
         </div>
 
         <div class="form-group {% if errors['Town'][0] %} error {% endif %}">
@@ -180,7 +192,7 @@ Enter information about the Child you are escorting - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ childEscort['Town'] }}">
+                 value="{{ eligibleChild['Town'] }}">
         </div>
 
         <div class="form-group {% if errors['County'][0] %} error {% endif %}">
@@ -193,7 +205,7 @@ Enter information about the Child you are escorting - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ childEscort['County'] }}">
+                 value="{{ eligibleChild['County'] }}">
         </div>
 
         <div class="form-group {% if errors['PostCode'][0] %} error {% endif %}">
@@ -206,7 +218,7 @@ Enter information about the Child you are escorting - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ childEscort['PostCode'] }}">
+                 value="{{ eligibleChild['PostCode'] }}">
         </div>
 
         <div class="form-group {% if errors['Country'][0] %} error {% endif %}">
@@ -216,14 +228,12 @@ Enter information about the Child you are escorting - {{ serviceName }}
           {% endif %}
           <select id="country-input" class="form-control" name="Country">
             <option>select</option>
-            <option {% if childEscort['Country'] == 'England' %} selected {% endif %} value="England" id="country-england">England</option>
-            <option {% if childEscort['Country'] == 'Wales' %} selected {% endif %} value="Wales" id="country-wales">Wales</option>
-            <option {% if childEscort['Country'] == 'Scotland' %} selected {% endif %} value="Scotland" id="country-scotland">Scotland</option>
-            <option {% if childEscort['Country'] == 'Northern Ireland' %} selected {% endif %} value="Northern Ireland" id="country-ni">Northern Ireland</option>
+            <option {% if eligibleChild['Country'] == 'England' %} selected {% endif %} value="England" id="country-england">England</option>
+            <option {% if eligibleChild['Country'] == 'Wales' %} selected {% endif %} value="Wales" id="country-wales">Wales</option>
+            <option {% if eligibleChild['Country'] == 'Scotland' %} selected {% endif %} value="Scotland" id="country-scotland">Scotland</option>
+            <option {% if eligibleChild['Country'] == 'Northern Ireland' %} selected {% endif %} value="Northern Ireland" id="country-ni">Northern Ireland</option>
           </select>
         </div>
-
-
 
         {% include "partials/csrf-hidden-input.html" %}
 

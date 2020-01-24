@@ -1,29 +1,28 @@
 const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
-const ErrorHandler = require('../validators/error-handler')
+const FieldsetValidator = require('../validators/fieldset-validator')
 const dateFormatter = require('../date-formatter')
+const ErrorHandler = require('../validators/error-handler')
 const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
-class ChildEscort {
-  constructor (dob, relationship, benefit, benefitOwner, firstName, lastName,
-    nationalInsuranceNumber, houseNumberAndStreet, town, county, postCode,
-    country, emailAddress, phoneNumber) {
-    this.dob = dateFormatter.buildFromDateString(dob)
+class EligibleChild {
+
+  constructor (firstName, lastName, relationship, dobDay, dobMonth, dobYear, parentFirstName, parentLastName, houseNumberAndStreet, town, county, postCode, country) {
     this.relationship = relationship
-    this.benefit = benefit
-    this.benefitOwner = benefitOwner
+    this.dobDay = dobDay
+    this.dobMonth = dobMonth
+    this.dobYear = dobYear
 
     this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
     this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''
-    this.nationalInsuranceNumber = nationalInsuranceNumber ? nationalInsuranceNumber.replace(/ /g, '').toUpperCase() : ''
+    this.parentFirstName = parentFirstName ? parentFirstName.replace(unsafeInputPattern, '').trim() : ''
+    this.parentLastName = parentLastName ? parentLastName.replace(unsafeInputPattern, '').trim() : ''
     this.houseNumberAndStreet = houseNumberAndStreet ? houseNumberAndStreet.replace(unsafeInputPattern, '').trim() : ''
     this.town = town ? town.replace(unsafeInputPattern, '').trim() : ''
     this.county = county ? county.replace(unsafeInputPattern, '').trim() : ''
     this.postCode = postCode ? postCode.replace(/ /g, '').toUpperCase() : ''
     this.country = country ? country.replace(unsafeInputPattern, '').trim() : ''
-    this.emailAddress = emailAddress ? emailAddress.trim() : ''
-    this.phoneNumber = phoneNumber ? phoneNumber.replace(unsafeInputPattern, '').trim() : ''
 
     this.IsValid()
   }
@@ -39,10 +38,26 @@ class ChildEscort {
       .isRequired(ERROR_MESSAGES.getEnterYourLastName)
       .isLessThanLength(100, ERROR_MESSAGES.getClaimantNameLessThanLengthMessage)
 
-    FieldValidator(this.nationalInsuranceNumber, 'NationalInsuranceNumber', errors)
-      .isRequired(ERROR_MESSAGES.getEnterYourNINNumber)
-      .isLength(9)
-      .isNationalInsuranceNumber()
+    var dobFields = [
+      this.dobDay,
+      this.dobMonth,
+      this.dobYear
+    ]
+
+    var dob = dateFormatter.build(this.dobDay, this.dobMonth, this.dobYear)
+
+    FieldsetValidator(dobFields, 'dob', errors)
+      .isRequired(ERROR_MESSAGES.getEnterPrisonerDateOfBirth)
+      .isValidDate(dob)
+      .isPastDate(dob)
+
+    FieldValidator(this.parentFirstName, 'ParentFirstName', errors)
+      .isRequired(ERROR_MESSAGES.getEnterYourFirstName)
+      .isLessThanLength(100, ERROR_MESSAGES.getClaimantNameLessThanLengthMessage)
+
+    FieldValidator(this.parentLastName, 'ParentLastName', errors)
+      .isRequired(ERROR_MESSAGES.getEnterYourLastName)
+      .isLessThanLength(100, ERROR_MESSAGES.getClaimantNameLessThanLengthMessage)
 
     FieldValidator(this.houseNumberAndStreet, 'HouseNumberAndStreet', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourHouseNumber)
@@ -63,20 +78,14 @@ class ChildEscort {
     FieldValidator(this.country, 'Country', errors)
       .isRequired(ERROR_MESSAGES.getSelectACountry)
 
-    FieldValidator(this.emailAddress, 'EmailAddress', errors)
-      .isRequired(ERROR_MESSAGES.getEnterYourEmailAddress)
-      .isLessThanLength(100)
-      .isEmail()
-
-    FieldValidator(this.phoneNumber, 'PhoneNumber', errors)
-      .isLessThanLength(20)
-
     var validationErrors = errors.get()
 
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }
+
+    this.dob = dob.toDate()
   }
 }
 
-module.exports = ChildEscort
+module.exports = EligibleChild

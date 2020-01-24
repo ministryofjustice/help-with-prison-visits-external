@@ -46,11 +46,16 @@ module.exports = function (router) {
           req.session.referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
           req.session.decryptedRef = result.reference
           var benefitOwner = req.session.benefitOwner
+          var relationship = req.session.relationship
 
-          if (benefitOwner === 'no') {
-            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+          if (relationship === 'r14') {
+            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/eligible-child`)
           } else {
-            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+            if (benefitOwner === 'no') {
+              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+            } else {
+              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+            }
           }
         })
         .catch(function (error) {
