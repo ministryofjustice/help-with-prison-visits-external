@@ -12,7 +12,7 @@ module.exports = function (child, reference, eligibilityId) {
     Reference: reference,
     FirstName: child.firstName,
     LastName: child.lastName,
-    ChildRelationship: child.relationship,
+    ChildRelationship: child.childRelationship,
     DateOfBirth: child.dob,
     ParentFirstName: child.parentFirstName,
     ParentLastName: child.parentLastName,

@@ -8,8 +8,8 @@ const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class EligibleChild {
 
-  constructor (firstName, lastName, relationship, dobDay, dobMonth, dobYear, parentFirstName, parentLastName, houseNumberAndStreet, town, county, postCode, country) {
-    this.relationship = relationship
+  constructor (firstName, lastName, childRelationship, dobDay, dobMonth, dobYear, parentFirstName, parentLastName, houseNumberAndStreet, town, county, postCode, country) {
+    this.childRelationship = childRelationship
     this.dobDay = dobDay
     this.dobMonth = dobMonth
     this.dobYear = dobYear
