@@ -89,6 +89,15 @@ module.exports = {
         }
       }
 
+      if (page === 'child-escort') {
+        if (!session['dobEncoded'] ||
+            !session['relationship']) {
+          return false
+        } else {
+          return true
+        }
+      }
+
       if (page === 'benefits') {
         if (!session['dobEncoded'] ||
             !session['relationship']) {
@@ -102,6 +111,19 @@ module.exports = {
         if (!session['dobEncoded'] ||
             !session['relationship'] ||
             !session['benefit'] ||
+            !session['benefitOwner']) {
+          return false
+        } else {
+          return true
+        }
+      }
+
+      if (page === 'eligible-child') {
+        if (!session['dobEncoded'] ||
+            !session['relationship'] ||
+            !session['benefit'] ||
+            !session['referenceId'] ||
+            !session['decryptedRef'] ||
             !session['benefitOwner']) {
           return false
         } else {

@@ -11,6 +11,7 @@ module.exports = function (claimId, claimType) {
     .leftJoin('Eligibility', 'Claim.EligibilityId', '=', 'Eligibility.EligibilityId')
     .leftJoin('Visitor', 'Eligibility.EligibilityId', '=', 'Visitor.EligibilityId')
     .leftJoin('Prisoner', 'Eligibility.EligibilityId', '=', 'Prisoner.EligibilityId')
+    .leftJoin('EligibleChild', 'Eligibility.EligibilityId', '=', 'EligibleChild.EligibilityId')
     .where('Claim.ClaimId', claimId)
     .first(
       'Claim.EligibilityId',
@@ -22,11 +23,23 @@ module.exports = function (claimId, claimType) {
       'Visitor.LastName',
       'Visitor.Benefit',
       'Visitor.Country',
+      'Visitor.Relationship',
       'Prisoner.FirstName AS PrisonerFirstName',
       'Prisoner.LastName AS PrisonerLastName',
       'Prisoner.DateOfBirth AS PrisonerDateOfBirth',
       'Prisoner.PrisonNumber',
       'Prisoner.NameOfPrison',
+      'EligibleChild.FirstName AS EligibleChildFirstName',
+      'EligibleChild.LastName AS EligibleChildLastName',
+      'EligibleChild.ChildRelationship AS EligibleChildChildRelationship',
+      'EligibleChild.DateOfBirth AS EligibleChildDateOfBirth',
+      'EligibleChild.ParentFirstName AS EligibleChildParentFirstName',
+      'EligibleChild.ParentLastName AS EligibleChildParentLastName',
+      'EligibleChild.HouseNumberAndStreet AS EligibleChildHouseNumberAndStreet',
+      'EligibleChild.Town AS EligibleChildTown',
+      'EligibleChild.County AS EligibleChildCounty',
+      'EligibleChild.PostCode AS EligibleChildPostCode',
+      'EligibleChild.Country AS EligibleChildCountry',
       'Eligibility.Status AS EligibilityStatus'
     )
     .then(function (claim) {
