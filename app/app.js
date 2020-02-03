@@ -17,6 +17,10 @@ const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
 const auth = require('basic-auth')
 const RateLimit = require('express-rate-limit')
 const cookieSession = require('cookie-session')
+const appInsights = require('applicationinsights')
+
+appInsights.setup(config.APP_INSIGHTS_INSTRUMENTATION_KEY)
+appInsights.start()
 
 var app = express()
 
