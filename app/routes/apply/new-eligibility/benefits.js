@@ -59,7 +59,7 @@ module.exports = function (router) {
         return res.status(400).render('apply/new-eligibility/benefits', {
           errors: error.validationErrors,
           URL: req.url,
-          relationship: relationship 
+          relationship: relationship
         })
       } else {
         throw error
