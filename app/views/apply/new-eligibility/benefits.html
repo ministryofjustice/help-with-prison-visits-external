@@ -15,9 +15,15 @@
 
       {% include "includes/validation-error-messages.html" %}
 
-      <h1 id="benefit" class="heading-large">
-        Do you claim or receive any of the following?
-      </h1>
+      {% if relationship === 'eligible-child' %}
+        <h1 id="benefit" class="heading-large">
+          Does the eligible child claim or receive any of the following?
+        </h1>
+      {% else %}
+        <h1 id="benefit" class="heading-large">
+          Do you claim or receive any of the following?
+        </h1>
+      {% endif %}
 
       {% if errors['benefit'][0] %}
         <span class="error-message">{{ errors['benefit'][0] }}</span>
@@ -117,9 +123,16 @@
           </div>
         </fieldset>
 
-        <h1 id="benefitOwner" class="heading-large">
-          Are you the benefit owner?
-        </h1>
+
+        {% if relationship === 'eligible-child' %}
+          <h1 id="benefitOwner" class="heading-large">
+            Is the eligible child the benefit owner?
+          </h1>
+        {% else %}
+          <h1 id="benefitOwner" class="heading-large">
+            Are you the benefit owner?
+          </h1>
+        {% endif %}
 
 
         <fieldset class="{% if errors['benefitOwner'][0] %} error {% endif %}">
