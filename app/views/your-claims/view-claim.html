@@ -47,6 +47,20 @@
       {% if forEdit %}
 
         {% if isRequestInfoPayment %}
+
+          <div class="form-group {% if errors['NameOnAccount'][0] %} error {% endif %}">
+            <label id="NameOnAccount" class="form-label-bold" for="name-on-account">Name on the account</label>
+            {% if errors['NameOnAccount'][0] %}
+            <span class="error-message" id="error-message-name-on-account">{{ errors['NameOnAccount'][0] }}</span>
+            {% endif %}
+            <input id="name-on-account-input"
+                  name="NameOnAccount"
+                  type="text"
+                  autocomplete="off"
+                  class="form-control"
+                  value="{{ bankDetails['NameOnAccount'] }}">
+          </div>
+
           <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
             <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account Number</label>
             {% if errors['AccountNumber'][0] %}

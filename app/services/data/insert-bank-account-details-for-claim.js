@@ -11,6 +11,7 @@ module.exports = function (reference, eligibilityId, claimId, bankAccountDetails
     Reference: reference,
     ClaimId: claimId,
     AccountNumber: bankAccountDetails.accountNumber,
-    SortCode: bankAccountDetails.sortCode
+    SortCode: bankAccountDetails.sortCode,
+    NameOnAccount: bankAccountDetails.nameOnAccount
   })
 }

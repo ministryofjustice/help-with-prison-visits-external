@@ -97,5 +97,7 @@ module.exports = {
   getEnterBenefitOwnerDateOfBirth: function () { return 'Enter the benefit owner\'s date of birth' },
   getBenefitOwnerNameLessThanLengthMessage: function (displayName, options) { return `Benefit owner's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
   getEnterBenefitOwnerNINNumber: function () { return `Enter the benefit owner's National Insurance number` },
-  getIsAlreadyVisited: function (displayName) { return 'A claim has been submitted for this prisoner on the same date' }
+  getIsAlreadyVisited: function (displayName) { return 'A claim has been submitted for this prisoner on the same date' },
+  getNameOnAccount: function () { return 'Enter the name on the account' },
+  getNameOnAccountLessThanLengthMessage: function (displayName, options) { return `The ${displayName.toLowerCase()} must be shorter than ${options.length} characters` }
 }

@@ -28,7 +28,21 @@ Payment details and declaration - {{ serviceName }}
         <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
           <fieldset>
 
-              <div id="bank-details" class="panel panel-border-narrow">
+              <div id="bank-details">
+
+                <div class="form-group {% if errors['NameOnAccount'][0] %} error {% endif %}">
+                  <label id="NameOnAccount" class="form-label-bold" for="name-on-account">Name on the account</label>
+                  {% if errors['NameOnAccount'][0] %}
+                  <span class="error-message" id="error-message-name-on-account">{{ errors['NameOnAccount'][0] }}</span>
+                  {% endif %}
+                  <input id="name-on-account-input"
+                         name="NameOnAccount"
+                         type="text"
+                         autocomplete="off"
+                         class="form-control"
+                         value="{{ paymentDetails['NameOnAccount'] }}">
+                </div>
+
                 <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
                   <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account number</label>
                   <p class="form-hint">For example, 12345678</p>

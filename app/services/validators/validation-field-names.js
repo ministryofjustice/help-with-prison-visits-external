@@ -15,6 +15,7 @@ module.exports = {
   'DateOfBirth': 'Date of birth',
   'PrisonerNumber': 'Prisoner number',
   'NameOfPrison': 'Name of prison',
+  'NameOnAccount': 'Name on the account',
   'AccountNumber': 'Account number',
   'SortCode': 'Sort code',
   'Reference': 'Reference',
