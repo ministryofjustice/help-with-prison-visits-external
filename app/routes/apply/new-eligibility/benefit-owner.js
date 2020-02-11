@@ -1,7 +1,6 @@
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../helpers/reference-id-helper')
 const BenefitOwner = require('../../../services/domain/benefit-owner')
-const duplicateClaimCheck = require('../../../services/data/duplicate-claim-check')
 const ValidationError = require('../../../services/errors/validation-error')
 const insertBenefitOwner = require('../../../services/data/insert-benefit-owner')
 const SessionHandler = require('../../../services/validators/session-handler')
