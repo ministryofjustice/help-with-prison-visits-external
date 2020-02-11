@@ -45,20 +45,13 @@ module.exports = function (router) {
 
       var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
-      duplicateClaimCheck(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, benefitOwner.nationalInsuranceNumber)
-      .then(function (isDuplicate) {
-        if (isDuplicate) {
-          return renderValidationError(req, res, benefitOwner, null, true)
-        }
-
-        insertBenefitOwner(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, benefitOwner)
-          .then(function () {
-            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
-          })
-      })
-      .catch(function (error) {
-        next(error)
-      })
+      return insertBenefitOwner(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, benefitOwner)
+        .then(function () {
+          return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+        })
+        .catch(function (error) {
+          next(error)
+        })
     } catch (error) {
       if (error instanceof ValidationError) {
         return renderValidationError(req, res, benefitOwnerBody, error.validationErrors, false)
