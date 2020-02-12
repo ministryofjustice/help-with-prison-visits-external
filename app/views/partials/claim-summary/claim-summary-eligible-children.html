@@ -1,0 +1,34 @@
+<table class="col-2">
+  {% for eligibleChild in claimDetails.eligibleChildren %}
+  <tr>
+    <td>Eligible child</td>
+    <td>{{ eligibleChild['EligibleChildFirstName'] }} {{ eligibleChild['EligibleChildLastName'] }}</td>
+  </tr>
+
+  <tr>
+    <td>Child's date of birth</td>
+    <td>{{ dateHelper(eligibleChild['EligibleChildDateOfBirth']) }}</td>
+  </tr>
+
+  <tr>
+    <td>Child's relationship to prisoner</td>
+    <td>{{ eligibleChild['EligibleChildChildRelationship'] }}</td>
+  </tr>
+
+  <tr>
+    <td>Child's parent</td>
+    <td>{{ eligibleChild['EligibleChildParentFirstName'] }} {{ eligibleChild['EligibleChildParentLastName'] }}</td>
+  </tr>
+
+  <tr>
+    <td>Child's address</td>
+    <td>
+      {{ celigibleChild['EligibleChildHouseNumberAndStreet'] }}</br> 
+      {{ eligibleChild['EligibleChildTown'] }}</br> 
+      {{ eligibleChild['EligibleChildCounty'] }}</br> 
+      {{ eligibleChild['EligibleChildPostCode'] }}</br> 
+      {{ eligibleChild['EligibleChildCountry'] }}</br>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
