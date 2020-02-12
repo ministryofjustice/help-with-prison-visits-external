@@ -1,4 +1,4 @@
-{% if expenseOwners.child or expenseOwners.escort %}
+{% if expenseOwners.child or expenseOwners.escort or expenseOwners.eligibleChildren %}
   <div class='form-group {% if errors['ticket-owner'][0] %} error {% endif %}' id='ticket-owner'>
     <h2 class='form-label-bold'>Who is this ticket for?</h2>
 
@@ -24,6 +24,16 @@
                   name="ticket-owner"
                   value="child">
           Child
+        </label>
+      {% endif %}
+
+      {% if expenseOwners.eligibleChildren %}
+        <label for="is-eligible-child-ticket" class="block-label inline">
+          <input id="is-eligible-child-ticket"
+                  type="radio"
+                  name="ticket-owner"
+                  value="eligible-child">
+          Eligible Child
         </label>
       {% endif %}
 
