@@ -4,39 +4,6 @@
     <td>{{ claimDetails.claim['FirstName'] }} {{ claimDetails.claim['LastName'] }}</td>
   </tr>
 
-  {% if claimDetails.claim['EligibleChildFirstName'] %}
-  <tr>
-    <td>Eligible child</td>
-    <td>{{ claimDetails.claim['EligibleChildFirstName'] }} {{ claimDetails.claim['EligibleChildLastName'] }}</td>
-  </tr>
-
-  <tr>
-    <td>Child's date of birth</td>
-    <td>{{ dateHelper(claimDetails.claim['EligibleChildDateOfBirth']) }}</td>
-  </tr>
-
-  <tr>
-    <td>Child's relationship to prisoner</td>
-    <td>{{ claimDetails.claim['EligibleChildChildRelationship'] }}</td>
-  </tr>
-
-  <tr>
-    <td>Child's parent</td>
-    <td>{{ claimDetails.claim['EligibleChildParentFirstName'] }} {{ claimDetails.claim['EligibleChildParentLastName'] }}</td>
-  </tr>
-
-  <tr>
-    <td>Child's address</td>
-    <td>
-      {{ claimDetails.claim['EligibleChildHouseNumberAndStreet'] }}</br> 
-      {{ claimDetails.claim['EligibleChildTown'] }}</br> 
-      {{ claimDetails.claim['EligibleChildCounty'] }}</br> 
-      {{ claimDetails.claim['EligibleChildPostCode'] }}</br> 
-      {{ claimDetails.claim['EligibleChildCountry'] }}</br>
-    </td>
-  </tr>
-  {% endif %}
-
   {% if claimDetails.claimEscort %}
   <tr>
     <td>Escort</td>

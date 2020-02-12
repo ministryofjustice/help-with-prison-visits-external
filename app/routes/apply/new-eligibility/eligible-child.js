@@ -57,10 +57,14 @@ module.exports = function (router) {
         .then(function (result) {
           var benefitOwner = req.session.benefitOwner
 
-          if (benefitOwner === 'no') {
-            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+          if (req.body['add-another-child']) {
+            return res.redirect(req.originalUrl)
           } else {
-            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+            if (benefitOwner === 'no') {
+              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+            } else {
+              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+            }
           }
         })
         .catch(function (error) {

@@ -24,18 +24,5 @@ module.exports = function (child, reference, eligibilityId) {
   }
 
   return knex('EligibleChild')
-  .where('Reference', reference)
-  .count('Reference as ReferenceCount')
-  .then(function (countResult) {
-    var count = countResult[ 0 ].ReferenceCount
-
-    if (count === 0) {
-      return knex('EligibleChild')
-      .insert(eligibleChild)
-    } else {
-      return knex('EligibleChild')
-      .where('Reference', reference)
-      .update(eligibleChild)
-    }
-  })
+    .insert(eligibleChild)
 }

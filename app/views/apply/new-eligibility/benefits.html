@@ -123,17 +123,9 @@
           </div>
         </fieldset>
 
-
-        {% if relationship === 'eligible-child' %}
-          <h1 id="benefitOwner" class="heading-large">
-            Is the eligible child the benefit owner?
-          </h1>
-        {% else %}
-          <h1 id="benefitOwner" class="heading-large">
-            Are you the benefit owner?
-          </h1>
-        {% endif %}
-
+        <h1 id="benefitOwner" class="heading-large">
+          Are you the benefit owner?
+        </h1>
 
         <fieldset class="{% if errors['benefitOwner'][0] %} error {% endif %}">
           <legend class="visually-hidden">BenefitOwner</legend>

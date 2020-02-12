@@ -10,7 +10,11 @@ module.exports = function (claimId, eligibilityId, reference) {
     })
     .then(function (escort) {
       result.escort = escort.length !== 0
-      return result
+      return getAnyEligibleChildren(eligibilityId, reference)
+        .then(function (eligibleChildren) {
+          result.eligibleChildren = eligibleChildren.length !== 0
+          return result
+        })
     })
 }
 
@@ -34,4 +38,8 @@ function getAnyClaimEscorts (claimId, eligibilityId, reference) {
       'IsEnabled': true
     })
     .select('ClaimEscortId')
+}
+
+function getAnyEligibleChildren (eligibilityId, reference) {
+  return knex.raw(`SELECT * FROM [IntSchema].[getEligibleChildren] (?, ?)`, [ reference, eligibilityId ])
 }
