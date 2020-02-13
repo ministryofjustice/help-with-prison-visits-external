@@ -1,7 +1,6 @@
 const UrlPathValidator = require('../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../helpers/reference-id-helper')
 const BenefitOwner = require('../../../services/domain/benefit-owner')
-const duplicateClaimCheck = require('../../../services/data/duplicate-claim-check')
 const ValidationError = require('../../../services/errors/validation-error')
 const insertBenefitOwner = require('../../../services/data/insert-benefit-owner')
 const SessionHandler = require('../../../services/validators/session-handler')
@@ -45,20 +44,13 @@ module.exports = function (router) {
 
       var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
-      duplicateClaimCheck(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, benefitOwner.nationalInsuranceNumber)
-      .then(function (isDuplicate) {
-        if (isDuplicate) {
-          return renderValidationError(req, res, benefitOwner, null, true)
-        }
-
-        insertBenefitOwner(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, benefitOwner)
-          .then(function () {
-            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
-          })
-      })
-      .catch(function (error) {
-        next(error)
-      })
+      return insertBenefitOwner(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, benefitOwner)
+        .then(function () {
+          return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+        })
+        .catch(function (error) {
+          next(error)
+        })
     } catch (error) {
       if (error instanceof ValidationError) {
         return renderValidationError(req, res, benefitOwnerBody, error.validationErrors, false)

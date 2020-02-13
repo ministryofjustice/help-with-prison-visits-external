@@ -6,7 +6,6 @@ require('sinon-bluebird')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
 var urlPathValidatorStub
-var stubDuplicateClaimCheck
 var stubBenefitOwner
 var stubInsertBenefitOwner
 var app
@@ -18,13 +17,11 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
-    stubDuplicateClaimCheck = sinon.stub()
     stubBenefitOwner = sinon.stub()
     stubInsertBenefitOwner = sinon.stub()
 
     var route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefit-owner', {
       '../../../services/data/insert-benefit-owner': stubInsertBenefitOwner,
-      '../../../services/data/duplicate-claim-check': stubDuplicateClaimCheck,
       '../../../services/domain/benefit-owner': stubBenefitOwner,
       '../../../services/validators/url-path-validator': urlPathValidatorStub
     })
@@ -46,7 +43,6 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to first-time/about-you for valid data', function () {
       var newBenefitOwner = {}
-      stubDuplicateClaimCheck.resolves(false)
       stubInsertBenefitOwner.resolves({reference: 'NEWREF1', eligibilityId: 1234})
       stubBenefitOwner.returns(newBenefitOwner)
 
