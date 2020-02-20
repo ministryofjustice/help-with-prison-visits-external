@@ -18,6 +18,7 @@ module.exports = {
   'NameOnAccount': 'Name on the account',
   'AccountNumber': 'Account number',
   'SortCode': 'Sort code',
+  'RollNumber': 'Building society roll number',
   'Reference': 'Reference',
   'DateOfJourney': 'Date of prison visit',
   'DateCreated': 'Date created',
