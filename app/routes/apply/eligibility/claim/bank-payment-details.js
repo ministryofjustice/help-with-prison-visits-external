@@ -35,7 +35,7 @@ module.exports = function (router) {
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
-      var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body.NameOnAccount)
+      var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body.NameOnAccount, req.body.RollNumber)
       var redirectURL = `/apply/eligibility/claim/declaration?isAdvance=${req.query.isAdvance}`
       insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, bankAccountDetails)
         .then(function () {

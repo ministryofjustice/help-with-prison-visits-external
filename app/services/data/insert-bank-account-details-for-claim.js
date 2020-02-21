@@ -13,5 +13,6 @@ module.exports = function (reference, eligibilityId, claimId, bankAccountDetails
     AccountNumber: bankAccountDetails.accountNumber,
     SortCode: bankAccountDetails.sortCode,
     NameOnAccount: bankAccountDetails.nameOnAccount
+    // ,RollNumber: bankAccountDetails.rollNumber
   })
 }

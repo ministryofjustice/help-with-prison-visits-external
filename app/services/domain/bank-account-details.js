@@ -5,10 +5,11 @@ const ERROR_MESSAGES = require('../validators/validation-error-messages')
 const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 
 class BankAccountDetails {
-  constructor (accountNumber, sortCode, nameOnAccount) {
+  constructor (accountNumber, sortCode, nameOnAccount, rollNumber) {
     this.accountNumber = accountNumber.replace(/ /g, '')
     this.sortCode = sortCode.replace(/ |-/g, '')
     this.nameOnAccount = nameOnAccount ? nameOnAccount.replace(unsafeInputPattern, '').trim() : ''
+    this.rollNumber = rollNumber
     this.IsValid()
   }
 

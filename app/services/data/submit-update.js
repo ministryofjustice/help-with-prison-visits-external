@@ -15,7 +15,7 @@ module.exports = function (reference, eligibilityId, claimId, message, bankDetai
 function insertBankDetailsIfRequired (reference, eligibilityId, claimId, bankDetails) {
   if (bankDetails.required) {
     var termsAcceptedForUpdate = 'yes'
-    var bankAccountDetails = new BankAccountDetails(bankDetails.accountNumber, bankDetails.sortCode, bankDetails.nameOnAccount, termsAcceptedForUpdate)
+    var bankAccountDetails = new BankAccountDetails(bankDetails.accountNumber, bankDetails.sortCode, bankDetails.nameOnAccount, bankDetails.rollNumber, termsAcceptedForUpdate)
     return insertBankDetails(reference, eligibilityId, claimId, bankAccountDetails)
   } else {
     return Promise.resolve()
