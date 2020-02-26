@@ -9,7 +9,7 @@ class BankAccountDetails {
     this.accountNumber = accountNumber.replace(/ /g, '')
     this.sortCode = sortCode.replace(/ |-/g, '')
     this.nameOnAccount = nameOnAccount ? nameOnAccount.replace(unsafeInputPattern, '').trim() : ''
-    this.rollNumber = rollNumber
+    this.rollNumber = rollNumber ? rollNumber.replace(unsafeInputPattern, '') : ''
     this.IsValid()
   }
 
@@ -29,6 +29,14 @@ class BankAccountDetails {
     FieldValidator(this.nameOnAccount, 'NameOnAccount', errors)
       .isRequired(ERROR_MESSAGES.getNameOnAccount)
       .isLessThanLength(100, ERROR_MESSAGES.getNameOnAccountLessThanLengthMessage)
+
+    if (this.rollNumber) {
+      if (this.rollNumber !== '') {
+        FieldValidator(this.rollNumber, 'RollNumber', errors)
+          .isRange(1, 18)
+          .isValidRollNumber()
+      }
+    }
 
     var validationErrors = errors.get()
 
