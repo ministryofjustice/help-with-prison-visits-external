@@ -12,7 +12,7 @@ module.exports = function (reference, eligibilityId, claimId, bankAccountDetails
     ClaimId: claimId,
     AccountNumber: bankAccountDetails.accountNumber,
     SortCode: bankAccountDetails.sortCode,
-    NameOnAccount: bankAccountDetails.nameOnAccount
-    // ,RollNumber: bankAccountDetails.rollNumber
+    NameOnAccount: bankAccountDetails.nameOnAccount,
+    RollNumber: bankAccountDetails.rollNumber
   })
 }
