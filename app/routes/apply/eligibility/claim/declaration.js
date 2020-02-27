@@ -22,7 +22,7 @@ module.exports = function (router) {
       referenceId: req.session.referenceId,
       claimId: req.session.claimId,
       isAdvance: req.query.isAdvance,
-      paymentMethod: req.query.paymentMethod
+      paymentMethod: req.session.paymentMethod
     })
   })
 

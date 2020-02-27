@@ -72,7 +72,7 @@ module.exports = {
   getDocumentOnSummary: function (displayName) { return `Add your ${displayName.toLowerCase()} now or choose to send it later` },
   getDocumentNeeded: function (displayName) { return `${displayName} needed` },
   getEnterAccountNumber: function () { return 'Enter your account number' },
-  getEnterSortCode: function () { return 'Enter your sortcode' },
+  getEnterSortCode: function () { return 'Enter your sort code' },
   getDisclaimer: function () { return 'You must agree to the declaration to finish your application' },
   getEnterReference: function () { return 'Enter your reference number' },
   getPrisonerNameLessThanLengthMessage: function (displayName, options) { return `Prisoner's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
@@ -98,5 +98,8 @@ module.exports = {
   getEnterBenefitOwnerDateOfBirth: function () { return 'Enter the benefit owner\'s date of birth' },
   getBenefitOwnerNameLessThanLengthMessage: function (displayName, options) { return `Benefit owner's ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
   getEnterBenefitOwnerNINNumber: function () { return `Enter the benefit owner's National Insurance number` },
-  getIsAlreadyVisited: function (displayName) { return 'A claim has been submitted for this prisoner on the same date' }
+  getIsAlreadyVisited: function (displayName) { return 'A claim has been submitted for this prisoner on the same date' },
+  getNameOnAccount: function () { return 'Enter the name on the account' },
+  getNameOnAccountLessThanLengthMessage: function (displayName, options) { return `The ${displayName.toLowerCase()} must be shorter than ${options.length} characters` },
+  getRollNumberValidFormatMessage: function () { return 'Building society roll number must only include letters a to z, numbers, hyphens, spaces and full stops' }
 }
