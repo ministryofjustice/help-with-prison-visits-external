@@ -57,12 +57,26 @@
                   name="NameOnAccount"
                   type="text"
                   autocomplete="off"
-                  class="form-control"
+                  class="form-control full"
                   value="{{ bankDetails['NameOnAccount'] }}">
+          </div>
+
+          <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
+            <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort Code</label>
+            <p class="form-hint">Must be 6 digits long</p>
+            {% if errors['SortCode'][0] %}
+            <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
+            {% endif %}
+            <input id="sort-code-input"
+                    name="SortCode"
+                    type="text"
+                    class="form-control form-control-1-4"
+                    value="{{ bankDetails['SortCode'] }}">
           </div>
 
           <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
             <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account Number</label>
+            <p class="form-hint">Must be 8 digits long</p>
             {% if errors['AccountNumber'][0] %}
             <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
             {% endif %}
@@ -73,16 +87,18 @@
                     value="{{ bankDetails['AccountNumber'] }}">
           </div>
 
-          <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
-            <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort Code</label>
-            {% if errors['SortCode'][0] %}
-            <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
+          <div class="form-group {% if errors['RollNumber'][0] %} error {% endif %}">
+            <label id="RollNumber" class="form-label-bold" for="roll-number-input">Building society roll number (if you have one)</label>
+            <p class="form-hint">You can find it on your card, statement or passbook</p>
+            {% if errors['RollNumber'][0] %}
+            <span class="error-message" id="error-message-roll-number">{{ errors['RollNumber'][0] }}</span>
             {% endif %}
-            <input id="sort-code-input"
-                    name="SortCode"
-                    type="text"
-                    class="form-control"
-                    value="{{ bankDetails['SortCode'] }}">
+            <input id="roll-number-input"
+                   name="RollNumber"
+                   type="text"
+                   autocomplete="off"
+                   class="form-control"
+                   value="{{ bankDetails['RollNumber'] }}">
           </div>
         {% endif %}
 

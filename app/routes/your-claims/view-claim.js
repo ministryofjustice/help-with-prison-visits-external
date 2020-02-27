@@ -77,6 +77,7 @@ module.exports = function (router) {
     var SortCode = req.body['SortCode']
     var AccountNumber = req.body['AccountNumber']
     var NameOnAccount = req.body['NameOnAccount']
+    var RollNumber = req.body['RollNumber']
     var message = req.body['message-to-caseworker']
     var assistedDigitalCookie = req.cookies['apvs-assisted-digital']
 
@@ -93,8 +94,8 @@ module.exports = function (router) {
             benefit.push({fromInternalWeb: true})
           }
 
-          var bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT', nameOnAccount: NameOnAccount }
-          var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message, bankDetails) // eslint-disable-line no-unused-vars
+          var bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT', nameOnAccount: NameOnAccount, rollNumber: RollNumber }
+          var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message) // eslint-disable-line no-unused-vars
           submitUpdate(req.session.decryptedRef, claimDetails.claim.EligibilityId, req.session.claimId, message, bankDetails, assistedDigitalCookie)
             .then(function () {
               return res.redirect(`/your-claims/${req.session.claimId}?updated=true`)
@@ -124,7 +125,7 @@ module.exports = function (router) {
               forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney),
               viewClaim: true,
               claimEventHelper: claimEventHelper,
-              bankDetails: { AccountNumber, SortCode, NameOnAccount },
+              bankDetails: { AccountNumber, SortCode, NameOnAccount, RollNumber },
               isRequestInfoPayment: isRequestInfoPayment,
               addInformation: addInformation,
               claimStatusHelper: claimStatusHelper
