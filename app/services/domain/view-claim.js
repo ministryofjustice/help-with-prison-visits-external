@@ -23,7 +23,7 @@ class ViewClaim {
       }
     })
 
-    if (!this.updated && this.visitConfirmationDocumentNotUpdated && this.benefitDocumentNotUpdated && !this.message && !this.bankDetails.required) {
+    if (!this.updated && this.visitConfirmationDocumentNotUpdated && this.benefitDocumentNotUpdated && !this.message) {
       throw new ValidationError({updates: [ERROR_MESSAGES.getNoUpdatesMade]})
     }
 
