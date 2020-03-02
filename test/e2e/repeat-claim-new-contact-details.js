@@ -119,8 +119,9 @@ describe('Repeat claim with new contact details', function () {
 
       // Enter Bank Account Details
       .waitForExist('#bank-payment-submit')
-      .setValue('#account-number-input', '00123456')
+      .setValue('#name-on-account-input', 'Joe Bloggs')
       .setValue('#sort-code-input', '001122')
+      .setValue('#account-number-input', '00123456')
       .click('#bank-payment-submit')
 
       // Declaration page
