@@ -45,8 +45,9 @@ describe('Claim payment information requested', function () {
       // Add message to claim and submit
       .waitForExist('#claim-view-submit')
       .setValue('#message-to-caseworker', 'Sorry about that, my bank account information has been corrected.')
-      .setValue('#account-number-input', '11223344')
+      .setValue('#name-on-account-input', 'Joe Bloggs')
       .setValue('#sort-code-input', '223344')
+      .setValue('#account-number-input', '11223344')
       .click('#claim-view-submit')
 
       // Updated view claims page
