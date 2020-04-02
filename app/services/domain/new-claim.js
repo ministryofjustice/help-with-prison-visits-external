@@ -34,7 +34,7 @@ class NewClaim {
         .isValidDate(this.dateOfJourney)
         .isPastDate(this.dateOfJourney)
         .isDateWithinDays(this.dateOfJourney, parseInt(MaxDaysAfterVisit), this.isAdvanceClaim)
-        .isVisitDateBeforeReleaseDate(this.dateOfJourney, this.releaseDateIsSet, this.releaseDate)
+        // .isVisitDateBeforeReleaseDate(this.dateOfJourney, this.releaseDateIsSet, this.releaseDate)
     } else {
       FieldsetValidator(this.fields, 'DateOfJourney', errors)
         .isRequired(ERROR_MESSAGES.getEnterDateOfVisit)
@@ -42,7 +42,7 @@ class NewClaim {
         .isFutureDate(this.dateOfJourney)
         .isDateWithinDays(this.dateOfJourney, parseInt(MaxDaysBeforeVisit), this.isAdvanceClaim)
         .isNotDateWithinDays(this.dateOfJourney, 5)
-        .isVisitDateBeforeReleaseDate(this.dateOfJourney, this.releaseDateIsSet, this.releaseDate)
+        // .isVisitDateBeforeReleaseDate(this.dateOfJourney, this.releaseDateIsSet, this.releaseDate)
     }
 
     var validationErrors = errors.get()
