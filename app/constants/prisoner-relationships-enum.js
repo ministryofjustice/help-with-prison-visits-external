@@ -1,49 +1,85 @@
 module.exports = {
-  HUSBAND_WIFE_CIVIL: {
-    value: 'husband-wife-civil',
-    displayName: 'Husband, wife or civil partner',
+  HUSBAND: {
+    value: 'husband',
+    displayName: 'Husband',
     urlValue: 'r1'
+  },
+
+  WIFE: {
+    value: 'wife',
+    displayName: 'Wife',
+    urlValue: 'r2'
   },
 
   PARTNER: {
     value: 'partner',
     displayName: 'Partner',
-    urlValue: 'r2'
-  },
-
-  PARENT_GRANDPARENT: {
-    value: 'parent-grandparent',
-    displayName: 'Parent or grand-parent',
     urlValue: 'r3'
   },
 
-  SIBLING: {
-    value: 'sibling',
-    displayName: 'Brother or sister',
+  MOTHER: {
+    value: 'mother',
+    displayName: 'Mother',
     urlValue: 'r4'
   },
 
-  CHILD: {
-    value: 'child',
-    displayName: 'Son or daughter',
+  FATHER: {
+    value: 'father',
+    displayName: 'Father',
     urlValue: 'r5'
   },
 
-  SOLE_VISITOR: {
-    value: 'sole-visitor',
-    displayName: 'Sole visitor',
+  GRANDCHILD: {
+    value: 'grandchild',
+    displayName: 'Grandchild',
     urlValue: 'r6'
   },
 
-  NONE: {
-    value: 'none',
-    displayName: '',
+  BROTHER: {
+    value: 'brother',
+    displayName: 'Brother',
     urlValue: 'r7'
+  },
+
+  SISTER: {
+    value: 'sister',
+    displayName: 'Sister',
+    urlValue: 'r8'
+  },
+
+  SON: {
+    value: 'son',
+    displayName: 'Son',
+    urlValue: 'r9'
+  },
+
+  DAUGHTER: {
+    value: 'daughter',
+    displayName: 'Daughter',
+    urlValue: 'r10'
   },
 
   NEXT_OF_KIN: {
     value: 'next-of-kin',
     displayName: 'Next of kin',
-    urlValue: 'r8'
+    urlValue: 'r11'
+  },
+
+  SOLE_VISITOR: {
+    value: 'sole-visitor',
+    displayName: 'Sole visitor',
+    urlValue: 'r12'
+  },
+
+  ELIGIBLE_CHILD: {
+    value: 'eligible-child',
+    displayName: 'Eligible child',
+    urlValue: 'r13'
+  },
+
+  NONE: {
+    value: 'none',
+    displayName: '',
+    urlValue: 'r14'
   }
 }

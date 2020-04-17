@@ -15,6 +15,8 @@ describe('services/domain/new-claim', function () {
   const VALID_CHILD_VISITOR = booleanSelectEnum.YES
   const IS_PAST_CLAIM = false
   const IS_ADVANCE_CLAIM = true
+  const RELEASE_DATE_IS_SET = false
+  const RELEASE_DATE = null
 
   var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
 
@@ -24,7 +26,9 @@ describe('services/domain/new-claim', function () {
       VALID_DAY,
       VALID_MONTH,
       VALID_YEAR,
-      IS_PAST_CLAIM
+      IS_PAST_CLAIM,
+      RELEASE_DATE_IS_SET,
+      RELEASE_DATE
     )
     expect(claim.reference).to.equal(VALID_REFERENCE)
     expect(claim.dateOfJourney).to.be.within(
@@ -42,7 +46,7 @@ describe('services/domain/new-claim', function () {
 
   it('should not throw a ValidationError if is repeat duplicate claim', function () {
     expect(function () {
-      claim = new NewClaim(VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, '', true, IS_PAST_CLAIM)
+      claim = new NewClaim(VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, '', RELEASE_DATE_IS_SET, RELEASE_DATE)
     }).to.not.throw(ValidationError)
   })
 
@@ -54,7 +58,9 @@ describe('services/domain/new-claim', function () {
         futureDate.date(),
         futureDate.month() + 1,
         futureDate.year(),
-        IS_PAST_CLAIM
+        IS_PAST_CLAIM,
+        RELEASE_DATE_IS_SET,
+        RELEASE_DATE
       )
     }).to.throw(ValidationError)
   })
@@ -67,7 +73,9 @@ describe('services/domain/new-claim', function () {
         dateFurtherThan60Days.date(),
         dateFurtherThan60Days.month() + 1,
         dateFurtherThan60Days.year(),
-        IS_PAST_CLAIM
+        IS_PAST_CLAIM,
+        RELEASE_DATE_IS_SET,
+        RELEASE_DATE
       )
     }).to.throw(ValidationError)
   })
@@ -80,7 +88,9 @@ describe('services/domain/new-claim', function () {
         dateFurtherThan60Days.date(),
         dateFurtherThan60Days.month() + 1,
         dateFurtherThan60Days.year(),
-        IS_ADVANCE_CLAIM
+        IS_ADVANCE_CLAIM,
+        RELEASE_DATE_IS_SET,
+        RELEASE_DATE
       )
     }).to.throw(ValidationError)
   })
@@ -113,5 +123,26 @@ describe('services/domain/new-claim', function () {
         IS_ADVANCE_CLAIM
       )
     }).to.throw(ValidationError)
+  })
+
+  it('should throw a ValidationError if given a date after release date', function () {
+    var pastDate = dateFormatter.now().subtract(4, 'days')
+    expect(function () {
+      new NewClaim(
+        VALID_REFERENCE,
+        pastDate.date(),
+        pastDate.month(),
+        pastDate.year(),
+        IS_ADVANCE_CLAIM,
+        true,
+        '2019-04-22T00:00:00.000Z'
+      )
+    }).to.throw(ValidationError)
+  })
+
+  it('should not throw a ValidationError if visit date is before release date', function () {
+    expect(function () {
+      claim = new NewClaim(VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, '', true, '2030-04-22T00:00:00.000Z')
+    }).to.not.throw(ValidationError)
   })
 })

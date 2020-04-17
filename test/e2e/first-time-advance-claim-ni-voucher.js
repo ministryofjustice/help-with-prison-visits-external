@@ -1,14 +1,14 @@
 const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
-const dateFormatter = require('../../app/services/date-formatter')
 const claimHelper = require('../helpers/data/claim-helper')
+const dateFormatter = require('../../app/services/date-formatter')
 
 var futureDate = dateFormatter.now().add(14, 'days')
-describe('First Time Advance Claim Flow', () => {
+describe('First Time Claim Flow', () => {
   // The reference will be generated as part of this flow. So capture it once it is generated.
   // var reference
   var caseworker = 'teste2e@test.com'
 
-  it('should display each page in the first time eligibility flow Advance', () => {
+  it('should display each page in the first time eligibility flow for NI rules only with advance claim option allowed', () => {
     return browser.url('/assisted-digital?caseworker=teste2e@test.com')
 
       // Index
@@ -40,12 +40,12 @@ describe('First Time Advance Claim Flow', () => {
 
       // About the Prisoner
       .waitForExist('#about-the-prisoner-submit')
-      .setValue('#prisoner-first-name', 'Joe')
-      .setValue('#prisoner-last-name', 'Bloggs')
+      .setValue('#prisoner-first-name', 'Martin')
+      .setValue('#prisoner-last-name', 'O\'Hara')
       .setValue('#dob-day', '01')
       .setValue('#dob-month', '05')
       .setValue('#dob-year', '1955')
-      .setValue('#prisoner-number', 'Z6543TS')
+      .setValue('#prisoner-number', 'Z6542TS')
       .setValue('#prison-name-text-input', 'Hewell')
       .click('#NameOfPrison') // click label to remove input focus
       .click('#about-the-prisoner-submit')
@@ -53,19 +53,19 @@ describe('First Time Advance Claim Flow', () => {
       // About you
       .waitForExist('#about-you-submit')
 
-      .setValue('#first-name-input', 'Joe')
-      .setValue('#last-name-input', 'Bloggs')
-      .setValue('#national-insurance-number-input', 'TS876543T')
+      .setValue('#first-name-input', 'Mary')
+      .setValue('#last-name-input', 'O\'Hara')
+      .setValue('#national-insurance-number-input', 'TS876542T')
       .setValue('#house-number-and-street-input', '1')
       .setValue('#town-input', 'Town')
       .setValue('#county-input', 'County')
       .setValue('#post-code-input', 'AA123AA')
-      .selectByVisibleText('#country-input', 'England')
+      .selectByVisibleText('#country-input', 'Northern Ireland')
       .setValue('#email-address-input', 'donotsend@apvs.com')
       .setValue('#phone-number-input', '0123456789')
       .click('#about-you-submit')
 
-      // Future or past visit
+      // Future or past visit - NI advance claims are allowed if visiting prison outside NI
       .waitForExist('#future-or-past-submit')
       .click('[for="advance"]')
       .click('#future-or-past-submit')
@@ -89,33 +89,25 @@ describe('First Time Advance Claim Flow', () => {
 
       // Expense
       .waitForExist('#expenses-submit')
-      .click('[for="train"]')
+      .click('[for="car-only"]')
       .click('#expenses-submit')
 
-      // Train - With departure time rather than cost field.
-      .waitForExist('#train-details-submit')
-      .setValue('#from-input', 'Euston')
-      .setValue('#to-input', 'Birmingham New Street')
-      .click('[for="return-yes"]')
-      .setValue('#departure-time-input', '10am')
-      .setValue('#return-time-input', '4pm')
-      .click('#train-details-submit')
+      // Car
+      .waitForExist('#car-details-submit')
+      .click('#car-details-submit')
 
-      // Claim summary (advance claims do not need visit confirmation/expense upload)
+      // Claim summary
       .waitForExist('#claim-summary-submit')
       .click('#claim-summary-submit')
 
       // Choose Payment Method
       .waitForExist('#payment-submit')
-      .click('[for="bank"]')
+      .click('[for="payout"]')
       .click('#payment-submit')
 
-      // Enter Bank Account Details
-      .waitForExist('#bank-payment-submit')
-      .setValue('#name-on-account-input', 'Joe Bloggs')
-      .setValue('#sort-code-input', '001122')
-      .setValue('#account-number-input', '00123456')
-      .click('#bank-payment-submit')
+      // Voucher Confirmation
+      .waitForExist('#payout-payment-submit')
+      .click('#payout-payment-submit')
 
       // Declaration page
       .waitForExist('#claim-submit')

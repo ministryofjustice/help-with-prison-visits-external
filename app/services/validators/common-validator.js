@@ -16,6 +16,7 @@ const dateFormatter = require('../date-formatter')
 const NUM_YEARS_LIMIT = 120
 const SQL_MAX_INT = 2147483647
 const config = require('../../../config')
+const VALID_ROLL_NUMBER_REGEX = new RegExp(`^[-0-9.A-Za-z ]+$`)
 
 exports.isNullOrUndefined = function (value) {
   return !value
@@ -143,6 +144,13 @@ exports.isValidReference = function (reference) {
     this.isLength(reference, referenceNumber.VALID_LENGTH)
 }
 
+exports.isValidRollNumber = function (rollNumber) {
+  if (this.isNullOrUndefined(rollNumber)) {
+    return false
+  }
+  return rollNumber.match(VALID_ROLL_NUMBER_REGEX) !== null
+}
+
 exports.isValidReferenceId = function (referenceId) {
   if (this.isNullOrUndefined(referenceId)) {
     return false
@@ -214,4 +222,10 @@ exports.isValidAdvanceOrPast = function (value) {
     }
   })
   return result
+}
+
+exports.isVisitDateBeforeReleaseDate = function (visitDate, releaseDate) {
+  var visitDateMoment = moment(visitDate)
+  var releaseDateMoment = moment(releaseDate)
+  return visitDateMoment.isBefore(releaseDateMoment)
 }

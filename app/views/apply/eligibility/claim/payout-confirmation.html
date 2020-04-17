@@ -1,0 +1,51 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+Payment details and declaration - {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  {% include "includes/validation-error-messages.html" %}
+
+  <h1 class="heading-large">
+    Voucher Confirmation
+  </h1>
+
+  <form action="/apply/eligibility/claim/payout-confirmation?isAdvance={{ isAdvance }}" method="post">
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+          <h2 class="heading-small">Payment by voucher</h2>
+
+          <div id="payout-details">
+            <span>You can exchange the voucher for cash at any post office.</span>
+            <br>
+            <br>
+
+            <p>Your voucher will be sent to:</p>
+            <p>{{ address.HouseNumberAndStreet }}
+            <br>{{ address.Town }}
+            <br>{{ address.PostCode }}</p>
+            <a href="{{ changeAddressLink }}" class="link">Change address</a><br><br>
+            <span>(This will take you back to the start of your application)</span>
+          </div>
+        </div>
+    </div>
+
+    {% include "partials/csrf-hidden-input.html" %}
+    <br/>
+    <input id="payout-payment-submit"
+           type="submit"
+           class="button"
+           value="Continue">
+  </form>
+
+</main>
+
+{% endblock %}

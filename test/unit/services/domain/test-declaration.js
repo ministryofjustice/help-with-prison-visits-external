@@ -5,7 +5,7 @@ const expect = require('chai').expect
 
 var declaration
 
-describe('services/domain/payment-details', function () {
+describe('services/domain/declaration', function () {
   const VALID_TERMS_AND_CONDITIONS = 'yes'
 
   it('should construct a domain object given valid input', function () {

@@ -6,23 +6,23 @@ require('sinon-bluebird')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
 var urlPathValidatorStub
-var stubBenefitOwner
-var stubInsertBenefitOwner
+var stubEligibleChild
+var stubInsertEligibleChild
 var app
 
-describe('routes/apply/new-eligibility/benefit-owner', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MTE0Ljg5MDAxNjY2OCwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InIxIiwiYmVuZWZpdCI6ImIxIiwiYmVuZWZpdE93bmVyIjoibm8iLCJyZWZlcmVuY2VJZCI6IjMzM2UxMzBjY2JiYjQ4YTcwYWFiOGFiNCIsImRlY3J5cHRlZFJlZiI6IjlIVEI3TUEifQ==' ]
+describe('routes/apply/new-eligibility/eligible-child', function () {
+  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI2MzM1MjEwLjU5NDQ2NjY2OCwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InIxNCIsImJlbmVmaXQiOiJiMSIsImJlbmVmaXRPd25lciI6InllcyIsInJlZmVyZW5jZUlkIjoiNDI0MzcwMWVhYWM3NGRhNzBiYTg4ZmIyIiwiZGVjcnlwdGVkUmVmIjoiSDU3UFYxRCJ9' ]
   const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
-  const ROUTE = '/apply/first-time/new-eligibility/benefit-owner'
+  const ROUTE = '/apply/first-time/new-eligibility/eligible-child'
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
-    stubBenefitOwner = sinon.stub()
-    stubInsertBenefitOwner = sinon.stub()
+    stubEligibleChild = sinon.stub()
+    stubInsertEligibleChild = sinon.stub()
 
-    var route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefit-owner', {
-      '../../../services/data/insert-benefit-owner': stubInsertBenefitOwner,
-      '../../../services/domain/benefit-owner': stubBenefitOwner,
+    var route = proxyquire('../../../../../app/routes/apply/new-eligibility/eligible-child', {
+      '../../../services/data/insert-eligible-child': stubInsertEligibleChild,
+      '../../../services/domain/eligible-child': stubEligibleChild,
       '../../../services/validators/url-path-validator': urlPathValidatorStub
     })
 
@@ -42,9 +42,9 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
 
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to first-time/about-you for valid data', function () {
-      var newBenefitOwner = {}
-      stubInsertBenefitOwner.resolves({reference: 'NEWREF1', eligibilityId: 1234})
-      stubBenefitOwner.returns(newBenefitOwner)
+      var newEligibleChild = {}
+      stubEligibleChild.returns(newEligibleChild)
+      stubInsertEligibleChild.resolves({reference: 'NEWREF1', eligibilityId: 1234})
 
       return supertest(app)
         .post(ROUTE)
@@ -52,18 +52,18 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
         .expect(302)
         .expect(function () {
           sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubBenefitOwner)
-          sinon.assert.calledOnce(stubInsertBenefitOwner)
+          sinon.assert.calledOnce(stubEligibleChild)
+          sinon.assert.calledOnce(stubInsertEligibleChild)
         })
         .expect('location', `/apply/first-time/new-eligibility/about-you`)
     })
 
-    it('should persist data and redirect to /apply/first-time/benefit-owner?error=expired', function () {
+    it('should persist data and redirect to /apply/first-time/new-eligibility/date-of-birth?error=expired', function () {
       var newReference = 'NEWREF1'
       var newEligibilityId = 1234
-      var newBenefitOwner = {}
-      stubBenefitOwner.returns(newBenefitOwner)
-      stubInsertBenefitOwner.resolves({reference: newReference, eligibilityId: newEligibilityId})
+      var newEligibleChild = {}
+      stubEligibleChild.returns(newEligibleChild)
+      stubInsertEligibleChild.resolves({reference: newReference, eligibilityId: newEligibilityId})
 
       return supertest(app)
         .post(ROUTE)
@@ -73,7 +73,7 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
     })
 
     it('should respond with a 400 for invalid data', function () {
-      stubBenefitOwner.throws(new ValidationError())
+      stubEligibleChild.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -81,7 +81,7 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      stubBenefitOwner.throws(new Error())
+      stubEligibleChild.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -89,7 +89,7 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      stubInsertBenefitOwner.rejects()
+      stubInsertEligibleChild.rejects()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

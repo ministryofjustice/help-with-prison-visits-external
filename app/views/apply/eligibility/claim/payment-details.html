@@ -16,7 +16,7 @@ Payment details and declaration - {{ serviceName }}
     Your payment
   </h1>
 
-  <p>If your application is successful you will be given a payment for your travel and expenses.</p>
+  <p>If your application is successful, you will receive a payment for your travel and expenses.</p>
 
   <form action="/apply/eligibility/claim/payment-details?isAdvance={{ isAdvance }}"
         method="post">
@@ -24,13 +24,13 @@ Payment details and declaration - {{ serviceName }}
     <div class="grid-row">
       <div class="column-two-thirds">
 
-      <h2 {% if privateBeta == 'true' %} class="heading-small bank-payments-hidden" {% else %} class="heading-small" {% endif%}>How do you want to receive your payment? </h2>
+      <h2 class="heading-small">How do you want to receive your payment? </h2>
         {% if errors['PaymentMethod'][0] %}
         <span class="error-message" id="error-message-payment-method">{{ errors['PaymentMethod'][0] }}</span>
         {% endif %}
 
         <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
-          <fieldset {% if privateBeta == 'true' %} class="bank-payments-hidden" {% endif %}>
+          <fieldset>
             <legend class="visually-hidden">How do you want to receive your payment</legend>
               <label for="bank" class="block-label" data-target="bank-details">
                 <input id="bank"
@@ -39,70 +39,22 @@ Payment details and declaration - {{ serviceName }}
                        value="bank"
                        {% if paymentDetails['PaymentMethod'] == 'bank' %} checked {% endif %}>
 
-                <span>Bank transfer</span>
+                <span>Money paid into your bank account</span>
                 <br>
               </label>
-
-              <div id="bank-details" class="panel panel-border-narrow js-hidden">
-                <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
-                  <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account number</label>
-                  {% if errors['AccountNumber'][0] %}
-                  <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
-                  {% endif %}
-                  <input id="account-number-input"
-                         name="AccountNumber"
-                         type="text"
-                         autocomplete="off"
-                         class="form-control"
-                         value="{{ paymentDetails['AccountNumber'] }}">
-                </div>
-
-                <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
-                  <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort code</label>
-                  {% if errors['SortCode'][0] %}
-                  <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
-                  {% endif %}
-                  <input id="sort-code-input"
-                         name="SortCode"
-                         type="text"
-                         autocomplete="off"
-                         class="form-control"
-                         value="{{ paymentDetails['SortCode'] }}">
-                </div>
-              </div>
 
               <label for="payout" class="block-label" data-target="payout-details">
                 <input id="payout"
                        type="radio"
                        name="PaymentMethod"
                        value="payout"
-                       {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}
-                       {% if privateBeta == 'true' %} checked {% endif %}>
+                       {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}>
 
-                <span>Voucher</span>
+                <span>Cash voucher sent by post</span>
                 <br>
                 <br>
               </label>
           </fieldset>
-
-          {% if privateBeta == 'true' %}
-          <h2 class="heading-small">Payment by voucher</h2>
-          {% endif %}
-
-          <div id="payout-details" class="{% if privateBeta != 'true' %} panel panel-border-narrow {% endif %} js-hidden">
-            <span class="text-secondary">You can exchange this for cash at any Post Office.</span>
-            <br>
-            <br>
-
-            <p>Your voucher will be posted to:</p>
-            <p>{{ address.HouseNumberAndStreet }}
-            <br>{{ address.Town }}
-            <br>{{ address.PostCode }}</p>
-
-            <a href="{{ changeAddressLink }}" class="link">Change address</a><br><br>
-            <span class="text-secondary">(this will take you back to near the start of your application)</span>
-
-          </div>
         </div>
       </div>
     </div>
