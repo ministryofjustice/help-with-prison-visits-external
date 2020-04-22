@@ -14,8 +14,8 @@ gulp.task('selenium', (done) => {
   })
 })
 
-gulp.task('e2e', gulp.series('selenium', () => {
-  return gulp.src('test/wdio.conf.js')
+gulp.task('e2e', gulp.series('selenium', (done) => {
+  gulp.src('test/wdio.conf.js')
     .pipe(webdriver()).on('error', () => {
       seleniumServer.kill()
       process.exit(1)
@@ -28,10 +28,11 @@ gulp.task('e2e', gulp.series('selenium', () => {
       seleniumServer.kill()
       process.exit()
     })
+  done()
 }))
 
-gulp.task('e2e-smoke', gulp.series('selenium', () => {
-  return gulp.src('test/wdio.conf.smoke.js')
+gulp.task('e2e-smoke', gulp.series('selenium', (done) => {
+  gulp.src('test/wdio.conf.smoke.js')
     .pipe(webdriver()).on('error', () => {
       seleniumServer.kill()
       process.exit(1)
@@ -44,6 +45,7 @@ gulp.task('e2e-smoke', gulp.series('selenium', () => {
       seleniumServer.kill()
       process.exit()
     })
+  done()
 }))
 
 gulp.task('default', gulp.series('e2e'))
