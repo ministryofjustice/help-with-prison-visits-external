@@ -3,7 +3,6 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 const routeHelper = require('../../../../../helpers/routes/route-helper')
-require('sinon-bluebird')
 
 const CLAIM_EXPENSE_ID = '1234'
 const CLAIM_DOCUMENT_ID = '123'

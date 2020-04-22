@@ -1,7 +1,6 @@
 const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const REFERENCE = 'LASTCD1'
 const ELIGIBILITYID = '1234'

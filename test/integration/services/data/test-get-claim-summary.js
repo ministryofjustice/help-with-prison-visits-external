@@ -8,7 +8,6 @@ const claimEscortHelper = require('../../../helpers/data/claim-escort-helper')
 const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 const moment = require('moment')
 
 const MASKED_ELIGIBILITY = { LastName: 'MASKED_LAST_NAME' }

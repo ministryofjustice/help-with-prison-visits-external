@@ -2,7 +2,6 @@ const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 describe('routes/application-submitted', function () {
   const ROUTE = '/application-submitted'

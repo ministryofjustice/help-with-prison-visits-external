@@ -3,7 +3,6 @@ const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const expenseHelper = require('../../../helpers/data/expense-helper')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 describe('services/data/insert-expense', function () {
   var insertExpense

@@ -6,7 +6,6 @@ const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const ticketOwnerEnum = require('../../../../app/constants/ticket-owner-enum')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const insertNewClaimStub = sinon.stub()
 const getLastClaimDetailsStub = sinon.stub()

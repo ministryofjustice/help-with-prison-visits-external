@@ -1,7 +1,6 @@
 var expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const REFERENCE = 'V123456'
 const CLAIMID = 1234

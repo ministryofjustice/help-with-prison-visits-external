@@ -1,7 +1,6 @@
 var expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 const tasksEnum = require('../../../../app/constants/tasks-enum')
 const BankAccountDetails = require('../../../../app/services/domain/bank-account-details')
 

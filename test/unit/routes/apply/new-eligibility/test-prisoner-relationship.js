@@ -2,7 +2,6 @@ const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 const prisonerRelationshipEnum = require('../../../../../app/constants/prisoner-relationships-enum')

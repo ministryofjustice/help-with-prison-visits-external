@@ -6,7 +6,6 @@ const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const moment = require('moment')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const MASKED_ADDRESS = { PostCode: '****3BT' }
 var getRepeatEligibilityStub

@@ -1,6 +1,5 @@
 const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
-require('sinon-bluebird')
 
 const claimTypeEnum = require('../../../app/constants/claim-type-enum')
 

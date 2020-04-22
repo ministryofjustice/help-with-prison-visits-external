@@ -1,7 +1,6 @@
 var expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const MASKED_ELIGIBILITY = { EligibilityId: '1', FirstName: 'Bo*', EmailAddress: 'test@test.com', PhoneNumber: '87654321' }
 const UPDATE_CONTACT_DETAILS = { EmailAddress: 'forTesting@test.com', PhoneNumber: '12345678' }
