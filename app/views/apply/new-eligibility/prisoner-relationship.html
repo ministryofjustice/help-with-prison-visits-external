@@ -1,6 +1,6 @@
 {% extends "includes/layout.html" %}
 
-{% block page_title %}
+{% block pageTitle %}
 How are you related to the prisoner - {{ serviceName }}
 {% endblock %}
 
@@ -28,142 +28,125 @@ How are you related to the prisoner - {{ serviceName }}
           <p>They are my:</p>
           <fieldset>
             <legend class="visually-hidden">Relationship to prisoner</legend>
-            <label for="husband" class="block-label" data-target="husband-question">
-              <input id="husband"
-                     type="radio"
-                     name="relationship"
-                     value="r1">
+            <div class="multiple-choice">
+              <input id="husband" type="radio" name="relationship" value="r1">
+              <label for="husband" class="block-label" data-target="husband-question">
+                <strong class="bold-small">Husband</strong>
+                <br>
+              </label>
+            </div>
 
-              <span class="heading-small">Husband</span>
-              <br>
-            </label>
+            <div class="multiple-choice">
+              <input id="wife" type="radio" name="relationship" value="r2">
+              <label for="wife" class="block-label" data-target="wife">
+                <strong class="bold-small">Wife</strong>
+                <br>
+              </label>
+            </div>
+ 
+            <div class="multiple-choice">
+              <input id="partner" type="radio" name="relationship" value="r3">
+              <label for="partner" class="block-label" data-target="partner-question">
+                <strong class="bold-small">Partner</strong>
+                <br>
+                You must have been living with the prisoner before the period of imprisonment
+              </label>
+            </div>
 
-            <label for="wife" class="block-label" data-target="wife">
-              <input id="wife"
-                     type="radio"
-                     name="relationship"
-                     value="r2">
+            <div class="multiple-choice">
+              <input id="mother" type="radio" name="relationship" value="r4">
+              <label for="mother" class="block-label" data-target="mother-question">
+                <strong class="bold-small">Mother</strong>
+                <br>
+                Including step mother or adoptive mother
+              </label>
+            </div>
 
-              <span class="heading-small">Wife</span>
-              <br>
-            </label>
-
-            <label for="partner" class="block-label" data-target="partner-question">
-              <input id="partner"
-                     type="radio"
-                     name="relationship"
-                     value="r3">
-
-              <span class="heading-small">Partner</span>
-              <br>
-              You must have been living with the prisoner before the period of imprisonment
-            </label>
-
-            <label for="mother" class="block-label" data-target="mother-question">
-              <input id="mother"
-                     type="radio"
-                     name="relationship"
-                     value="r4">
-              <span class="heading-small">Mother</span>
-              <br>
-              Including step mother or adoptive mother
-            </label>
-
+            <div class="multiple-choice">
+            <input id="father" type="radio" name="relationship" value="r5">
             <label for="father" class="block-label" data-target="father-question">
-              <input id="father"
-                     type="radio"
-                     name="relationship"
-                     value="r5">
-              <span class="heading-small">Father</span>
+              <strong class="bold-small">Father</strong>
               <br>
               Including step father or adoptive father
             </label>
+            </div>
 
+            <div class="multiple-choice">
+            <input id="grandchild" type="radio" name="relationship" value="r6">
             <label for="grandchild" class="block-label" data-target="grandchild-question">
-              <input id="grandchild"
-                     type="radio"
-                     name="relationship"
-                     value="r6">
-              <span class="heading-small">Grandchild</span>
+              <strong class="bold-small">Grandchild</strong>
               <br>
             </label>
+            </div>
 
+            <div class="multiple-choice">
+            <input id="brother" type="radio" name="relationship" value="r7">
             <label for="brother" class="block-label" data-target="brother-question">
-              <input id="brother"
-                     type="radio"
-                     name="relationship"
-                     value="r7">
-              <span class="heading-small">Brother</span>
+              <strong class="bold-small">Brother</strong>
               <br>
               Including step brother or half brother
             </label>
+            </div>
 
+            <div class="multiple-choice">
+            <input id="sister" type="radio" name="relationship" value="r8">
             <label for="sister" class="block-label" data-target="sister-question">
-              <input id="sister"
-                     type="radio"
-                     name="relationship"
-                     value="r8">
-              <span class="heading-small">Sister</span>
+              <strong class="bold-small">Sister</strong>
               <br>
               Including step sister or adoptive sister
             </label>
+            </div>
 
+            <div class="multiple-choice">
+            <input id="son" type="radio" name="relationship" value="r9">
             <label for="son" class="block-label" data-target="son-question">
-              <input id="son"
-                     type="radio"
-                     name="relationship"
-                     value="r9">
-              <span class="heading-small">Son</span>
+              <strong class="bold-small">Son</strong>
               <br>
               Including step son or adoptive son
             </label>
+            </div>
 
+            <div class="multiple-choice">
+            <input id="daughter" type="radio" name="relationship" value="r10">
             <label for="daughter" class="block-label" data-target="daughter-question">
-              <input id="daughter"
-                     type="radio"
-                     name="relationship"
-                     value="r10">
-              <span class="heading-small">Daughter</span>
+              <strong class="bold-small">Daughter</strong>
               <br>
               Including step daughter or adoptive daughter
             </label>
+            </div>
 
+            <div class="multiple-choice">
+            <input id="next-of-kin" type="radio" name="relationship" value="r11">
             <label for="next-of-kin" class="block-label" data-target="next-of-kin-question">
-              <input id="next-of-kin"
-                     type="radio"
-                     name="relationship"
-                     value="r11">
-              <span class="heading-small">Next of kin</span>
+              <strong class="bold-small">Next of kin</strong>
               <br>
             </label>
-
+            </div>
+            
+            <div class="multiple-choice">
+            <input id="sole-visitor" type="radio" name="relationship" value="r12">
             <label for="sole-visitor" class="block-label">
-              <input id="sole-visitor"
-                     type="radio"
-                     name="relationship"
-                     value="r12">
-              <span class="heading-small">Sole visitor</span>
+              <strong class="bold-small">Sole visitor</strong>
               <br>
               The only adult visitor within the 4 week period before your visit took place
             </label>
+            </div>
 
+            <div class="multiple-choice">
+            <input id="eligible-child" type="radio" name="relationship" value="r13">
             <label for="eligible-child" class="block-label">
-              <input id="eligible-child"
-                     type="radio"
-                     name="relationship"
-                     value="r13">
-              <span class="heading-small">None of the above, but I am escorting an eligible child</span>
+              <strong class="bold-small">None of the above, but I am escorting an eligible child</strong>
               <br>
             </label>
+            </div>  
 
+            <div class="multiple-choice">
+            <input id="other" type="radio" name="relationship" value="r14">
             <label for="other" class="block-label" data-target="other-question">
-              <input id="other"
-                     type="radio"
-                     name="relationship"
-                     value="r14">
-              <span class="heading-small">None of the above</span>
+              <strong class="bold-small">None of the above</strong>
               <br>
             </label>
+            </div>
 
           </fieldset>
         </div>
