@@ -20,7 +20,7 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         return res.status(400).render('reference-recovery', {
           errors: error.validationErrors,
-          recovery: {EmailAddress: req.body.EmailAddress, PrisonerNumber: req.body.PrisonerNumber}
+          recovery: { EmailAddress: req.body.EmailAddress, PrisonerNumber: req.body.PrisonerNumber }
         })
       } else {
         next(error)

@@ -33,8 +33,8 @@ module.exports = function (router) {
 
     try {
       var escort = new AboutEscort(
-        req.body['FirstName'],
-        req.body['LastName'],
+        req.body.FirstName,
+        req.body.LastName,
         req.body['dob-day'],
         req.body['dob-month'],
         req.body['dob-year']
@@ -42,7 +42,7 @@ module.exports = function (router) {
 
       insertEscort(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, escort)
         .then(function () {
-          return res.redirect(`/apply/eligibility/claim/has-child`)
+          return res.redirect('/apply/eligibility/claim/has-child')
         })
         .catch(function (error) {
           next(error)

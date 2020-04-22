@@ -34,13 +34,13 @@ module.exports = function (router) {
     var prisoner = req.body
 
     try {
-      var aboutThePrisoner = new AboutThePrisoner(req.body['FirstName'],
-        req.body['LastName'],
+      var aboutThePrisoner = new AboutThePrisoner(req.body.FirstName,
+        req.body.LastName,
         req.body['dob-day'],
         req.body['dob-month'],
         req.body['dob-year'],
-        req.body['PrisonerNumber'],
-        req.body['NameOfPrison'])
+        req.body.PrisonerNumber,
+        req.body.NameOfPrison)
 
       insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.session.decryptedRef)
         .then(function (result) {

@@ -23,14 +23,15 @@ module.exports = function (router) {
 
     getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
       .then(function (eligibility) {
-        req.session.prisonerNumber = eligibility['PrisonNumber']
-        req.session.eligibilityId = eligibility['EligibilityId']
+        req.session.prisonerNumber = eligibility.PrisonNumber
+        req.session.eligibilityId = eligibility.EligibilityId
 
         return res.render('your-claims/check-your-information', {
           dob: dobDecoded,
           reference: req.session.decryptedRef,
           eligibility: eligibility,
-          displayHelper: displayHelper})
+          displayHelper: displayHelper
+        })
       })
       .catch(function (error) {
         next(error)
@@ -59,7 +60,7 @@ module.exports = function (router) {
           var isNorthernIrelandClaim = eligibility.Country === NORTHERN_IRELAND
           var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
-          req.session.prisonerNumber = eligibility['PrisonNumber']
+          req.session.prisonerNumber = eligibility.PrisonNumber
           req.session.claimType = 'repeat'
 
           // Northern Ireland claims cannot be advance claims so skip future-or-past

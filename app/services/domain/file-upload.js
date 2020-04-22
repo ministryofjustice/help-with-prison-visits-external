@@ -36,7 +36,7 @@ class FileUpload {
 
     if (this.error) {
       if (this.error instanceof UploadError) {
-        throw new ValidationError({upload: [ERROR_MESSAGES.getUploadIncorrectType]})
+        throw new ValidationError({ upload: [ERROR_MESSAGES.getUploadIncorrectType] })
       } else {
         throw this.error
       }
@@ -49,7 +49,7 @@ class FileUpload {
 
     if (this.file && this.alternative) {
       fs.unlinkSync(this.file.path)
-      throw new ValidationError({upload: [ERROR_MESSAGES.getUploadFileAndAlternativeSelected]})
+      throw new ValidationError({ upload: [ERROR_MESSAGES.getUploadFileAndAlternativeSelected] })
     }
 
     var validationErrors = errors.get()

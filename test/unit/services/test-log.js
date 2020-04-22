@@ -33,7 +33,7 @@ describe('services/log', function () {
   it('should add all of the streams if config.LOGSTASH_HOST and config.LOGSTASH_PORT are set', function () {
     proxyquire('../../../app/services/log', {
       '../../config': CONFIG,
-      'bunyan': bunyanStub,
+      bunyan: bunyanStub,
       './log-serializers': serializersStub,
       './log-streams': streamsStub
     })
@@ -45,7 +45,7 @@ describe('services/log', function () {
 
   it('should not add the buildLogstashStream if config.LOGSTASH_HOST and config.LOGSTASH_PORT are not set', function () {
     proxyquire('../../../app/services/log', {
-      'bunyan': bunyanStub,
+      bunyan: bunyanStub,
       './log-serializers': serializersStub,
       './log-streams': streamsStub
     })

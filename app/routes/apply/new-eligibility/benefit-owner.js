@@ -35,12 +35,12 @@ module.exports = function (router) {
 
     try {
       var benefitOwner = new BenefitOwner(
-        req.body['FirstName'],
-        req.body['LastName'],
+        req.body.FirstName,
+        req.body.LastName,
         req.body['dob-day'],
         req.body['dob-month'],
         req.body['dob-year'],
-        req.body['NationalInsuranceNumber'])
+        req.body.NationalInsuranceNumber)
 
       var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 

@@ -24,7 +24,7 @@ class ViewClaim {
     })
 
     if (!this.updated && this.visitConfirmationDocumentNotUpdated && this.benefitDocumentNotUpdated && !this.message) {
-      throw new ValidationError({updates: [ERROR_MESSAGES.getNoUpdatesMade]})
+      throw new ValidationError({ updates: [ERROR_MESSAGES.getNoUpdatesMade] })
     }
 
     FieldValidator(this.message, 'send-message-to-caseworker', errors)

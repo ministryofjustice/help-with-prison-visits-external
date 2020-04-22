@@ -41,10 +41,10 @@ module.exports.getExpenseReceiptRequired = function (value) {
 
 var prisonsByRegion = {
   'ENG/WAL': {},
-  'SCO': {},
-  'NI': {},
-  'JSY': {},
-  'GSY': {}
+  SCO: {},
+  NI: {},
+  JSY: {},
+  GSY: {}
 }
 
 for (var prisonKey in prisonsEnum) {

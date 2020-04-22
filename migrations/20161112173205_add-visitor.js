@@ -17,10 +17,10 @@ exports.up = function (knex, Promise) {
     table.string('Relationship', 100).notNullable()
     table.string('Benefit', 100)
   })
-  .catch(function (error) {
-    console.log(error)
-    throw error
-  })
+    .catch(function (error) {
+      console.log(error)
+      throw error
+    })
 }
 
 exports.down = function (knex, Promise) {

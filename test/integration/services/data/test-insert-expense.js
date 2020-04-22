@@ -59,7 +59,7 @@ describe('services/data/insert-expense', function () {
   it('should call to disable previous expenses for non-ticketed expense types', function () {
     return insertExpense(REFERENCE, eligibilityId, claimId, expenseHelper.build(claimId))
       .then(function () {
-        expect(disableNonTicketedExpensesForClaim.calledOnce).to.be.true
+        expect(disableNonTicketedExpensesForClaim.calledOnce).to.be.true  //eslint-disable-line
       })
   })
 

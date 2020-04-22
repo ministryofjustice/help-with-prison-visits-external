@@ -7,9 +7,9 @@ require('sinon-bluebird')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', function () {
-  const COOKIES_REPEAT = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MTY2LjEwMTQ4MzMzNCwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJyZWZlcmVuY2VJZCI6IjViM2UxNjBkYTRhMTUzYTcwZiIsImNsYWltVHlwZSI6InJlcGVhdCIsImFkdmFuY2VPclBhc3QiOiJwYXN0In0=' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
-  const ROUTE = `/apply/eligibility/new-claim/same-journey-as-last-claim`
+  const COOKIES_REPEAT = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MTY2LjEwMTQ4MzMzNCwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJyZWZlcmVuY2VJZCI6IjViM2UxNjBkYTRhMTUzYTcwZiIsImNsYWltVHlwZSI6InJlcGVhdCIsImFkdmFuY2VPclBhc3QiOiJwYXN0In0=']
+  const COOKIES_EXPIRED = ['apvs-start-application=']
+  const ROUTE = '/apply/eligibility/new-claim/same-journey-as-last-claim'
   const REFERENCE = 'SAMEJO'
 
   var app
@@ -42,7 +42,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 200', function () {
-      getLastClaimDetailsStub.resolves({expenses: [REFERENCE]})
+      getLastClaimDetailsStub.resolves({ expenses: [REFERENCE] })
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
@@ -50,7 +50,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 302 when no expenses and cannot duplicate claim', function () {
-      getLastClaimDetailsStub.resolves({expenses: []})
+      getLastClaimDetailsStub.resolves({ expenses: [] })
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
@@ -81,8 +81,8 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
-        .send({'same-journey-as-last-claim': 'no'})
-        .expect('location', `/apply/eligibility/new-claim/journey-information`)
+        .send({ 'same-journey-as-last-claim': 'no' })
+        .expect('location', '/apply/eligibility/new-claim/journey-information')
     })
 
     it('should redirect to /new-claim/past for a repeat-duplicate claim if yes', function () {
@@ -90,8 +90,8 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
-        .send({'same-journey-as-last-claim': 'yes'})
-        .expect('location', `/apply/eligibility/new-claim/journey-information`)
+        .send({ 'same-journey-as-last-claim': 'yes' })
+        .expect('location', '/apply/eligibility/new-claim/journey-information')
     })
 
     it('should redirect to start-already-registerederror error page if cookie is expired', function () {

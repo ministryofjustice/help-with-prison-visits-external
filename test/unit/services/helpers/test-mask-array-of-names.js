@@ -8,8 +8,8 @@ const LAST_NAME_2 = 'Aloggs'
 const LAST_NAME_MASKED_2 = 'A*****'
 
 const NAMES = [
-  {LastName: LAST_NAME_1},
-  {LastName: LAST_NAME_2}
+  { LastName: LAST_NAME_1 },
+  { LastName: LAST_NAME_2 }
 ]
 
 describe('services/helpers/mask-array-of-names', function () {

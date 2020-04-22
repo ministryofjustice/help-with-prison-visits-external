@@ -18,7 +18,7 @@ module.exports = function (reference, eligibilityId, claimType, claim) {
     DateSubmitted: null,
     Status: claimStatusEnum.IN_PROGRESS
   }).returning('ClaimId')
-  .then(function (insertedIds) {
-    return insertedIds[0]
-  })
+    .then(function (insertedIds) {
+      return insertedIds[0]
+    })
 }

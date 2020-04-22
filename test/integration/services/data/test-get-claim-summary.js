@@ -11,7 +11,7 @@ const sinon = require('sinon')
 require('sinon-bluebird')
 const moment = require('moment')
 
-const MASKED_ELIGIBILITY = {LastName: 'MASKED_LAST_NAME'}
+const MASKED_ELIGIBILITY = { LastName: 'MASKED_LAST_NAME' }
 const getRepeatEligibilityStub = sinon.stub().resolves(MASKED_ELIGIBILITY)
 
 const getClaimSummary = proxyquire('../../../../app/services/data/get-claim-summary', {
@@ -71,7 +71,7 @@ describe('services/data/get-claim-summary', function () {
     it('should call to get existing repeat eligibility details from Internal Schema for repeat claims', function () {
       return getClaimSummary(repeatClaimId, claimTypeEnum.REPEAT_CLAIM)
         .then(function (result) {
-          expect(getRepeatEligibilityStub.calledOnce).to.be.true
+          expect(getRepeatEligibilityStub.calledOnce).to.be.true  //eslint-disable-line
           expect(result.claim.LastName).to.equal(MASKED_ELIGIBILITY.LastName)
         })
     })
@@ -79,7 +79,7 @@ describe('services/data/get-claim-summary', function () {
     it('should call to get existing repeat eligibility details from Internal Schema for repeat-duplicate claims', function () {
       return getClaimSummary(repeatClaimId, claimTypeEnum.REPEAT_DUPLICATE)
         .then(function (result) {
-          expect(getRepeatEligibilityStub.calledOnce).to.be.true
+          expect(getRepeatEligibilityStub.calledOnce).to.be.true  //eslint-disable-line
           expect(result.claim.LastName).to.equal(MASKED_ELIGIBILITY.LastName)
         })
     })

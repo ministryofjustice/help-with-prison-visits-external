@@ -5,7 +5,7 @@ const sinon = require('sinon')
 require('sinon-bluebird')
 
 describe('routes/application-submitted', function () {
-  const ROUTE = `/application-submitted`
+  const ROUTE = '/application-submitted'
   var app
   var urlPathValidatorStub
 

@@ -8,10 +8,10 @@ describe('constants/helpers/prisons-helper', function () {
   const NOT_NI_PRISON = prisonsEnum.HEWELL.value
 
   it('should true if value is a Northern Ireland prison', function () {
-    expect(prisonsHelper.isNorthernIrelandPrison(NI_PRISON)).to.be.true
+    expect(prisonsHelper.isNorthernIrelandPrison(NI_PRISON)).to.be.true  //eslint-disable-line
   })
 
   it('should false if value is not a Northern Ireland prison', function () {
-    expect(prisonsHelper.isNorthernIrelandPrison(NOT_NI_PRISON)).to.be.false
+    expect(prisonsHelper.isNorthernIrelandPrison(NOT_NI_PRISON)).to.be.false  //eslint-disable-line
   })
 })

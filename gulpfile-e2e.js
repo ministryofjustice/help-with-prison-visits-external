@@ -5,7 +5,7 @@ var webdriver = require('gulp-webdriver')
 let seleniumServer
 
 gulp.task('selenium', (done) => {
-  selenium.install({logger: console.log}, () => {
+  selenium.install({ logger: console.log }, () => {
     selenium.start((err, child) => {
       if (err) { return done(err) }
       seleniumServer = child

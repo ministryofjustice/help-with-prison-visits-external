@@ -10,11 +10,11 @@ module.exports = function (router) {
     req.session = SessionHandler.clearSession(req.session, req.url)
 
     if (req.query.error === 'yes') {
-      errors = { invalidReferenceNumberAndDob: [ ERROR_MESSAGES.getInvalidReferenceNumberAndDob ] }
+      errors = { invalidReferenceNumberAndDob: [ERROR_MESSAGES.getInvalidReferenceNumberAndDob] }
     } else if ((req.query.error === 'expired')) {
-      errors = { expired: [ ERROR_MESSAGES.getExpiredSession ] }
+      errors = { expired: [ERROR_MESSAGES.getExpiredSession] }
     } else if ((req.query.error === 'disabled')) {
-      errors = { expired: [ ERROR_MESSAGES.getReferenceDisabled ] }
+      errors = { expired: [ERROR_MESSAGES.getReferenceDisabled] }
     }
     return res.render('start-already-registered', { errors: errors, recovery: req.query.recovery })
   })
@@ -30,7 +30,7 @@ module.exports = function (router) {
       req.session.decryptedRef = reference
       req.session.dobEncoded = alreadyRegistered.dobEncoded
 
-      return res.redirect(`/your-claims`)
+      return res.redirect('/your-claims')
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('start-already-registered', {

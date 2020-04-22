@@ -8,23 +8,23 @@ module.exports = function (day, month, year, eligibilityId) {
 
   return new Promise(function (resolve, reject) {
     getPrisonNumber(eligibilityId)
-    .then(function (prisonNumber) {
-      getEligibilityIds(day, month, year)
-      .then(function (eligibilityIds) {
-        getPrisonNumberFromEligibilityId(eligibilityIds)
-        .then(function (prisonNumbers) {
-          prisonNumbers.forEach(function (number) {
-            if (number === prisonNumber) {
-              matched = true
-              return resolve(matched)
-            } else {
-              matched = false
-            }
+      .then(function (prisonNumber) {
+        getEligibilityIds(day, month, year)
+          .then(function (eligibilityIds) {
+            getPrisonNumberFromEligibilityId(eligibilityIds)
+              .then(function (prisonNumbers) {
+                prisonNumbers.forEach(function (number) {
+                  if (number === prisonNumber) {
+                    matched = true
+                    return resolve(matched)
+                  } else {
+                    matched = false
+                  }
+                })
+                return resolve(matched)
+              })
           })
-          return resolve(matched)
-        })
       })
-    })
   })
 }
 
@@ -42,7 +42,7 @@ function getPrisonNumber (eligibilityId) {
 function getEligibilityIds (day, month, year) {
   var dateOfJourney = dateFormatter.buildFormatted(day, month, year)
 
-  return knex.raw(`SELECT * FROM [IntSchema].[getIdsForVisitorPrisonerCheck] (?)`, [ dateOfJourney ])
+  return knex.raw('SELECT * FROM [IntSchema].[getIdsForVisitorPrisonerCheck] (?)', [dateOfJourney])
     .then(function (results) {
       var eligibilityIds = []
 

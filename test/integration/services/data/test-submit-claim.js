@@ -51,7 +51,7 @@ describe('services/data/submit-claim', function () {
                 expect(claim.DateSubmitted).to.be.within(twoMinutesAgo, twoMinutesAhead)
                 expect(claim.PaymentMethod).to.equal(paymentMethod)
 
-                expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true
+                expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true  //eslint-disable-line
               })
           })
       })

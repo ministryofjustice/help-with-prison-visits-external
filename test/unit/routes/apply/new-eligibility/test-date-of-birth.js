@@ -11,7 +11,7 @@ var app
 
 describe('routes/apply/new-eligibility/date-of-birth', function () {
   const DOB = '113725122'
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAwMjE5LjI3OTk4MzMzNCwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSJ9' ]
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAwMjE5LjI3OTk4MzMzNCwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSJ9']
   const ROUTE = '/apply/first-time/new-eligibility/date-of-birth'
 
   beforeEach(function () {
@@ -57,7 +57,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
       })
 
       it('should respond with a 302 and redirect to /apply/first-time/new-eligibility/prisoner-relationship', function () {
-        stubDateOfBirth.returns({encodedDate: DOB, sixteenOrUnder: false})
+        stubDateOfBirth.returns({ encodedDate: DOB, sixteenOrUnder: false })
         return supertest(app)
           .post(ROUTE)
           .set('Cookie', COOKIES)
@@ -65,7 +65,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
           .expect(function () {
             sinon.assert.calledOnce(stubDateOfBirth)
           })
-          .expect('location', `/apply/first-time/new-eligibility/prisoner-relationship`)
+          .expect('location', '/apply/first-time/new-eligibility/prisoner-relationship')
           .expect(hasSetCookie)
       })
 

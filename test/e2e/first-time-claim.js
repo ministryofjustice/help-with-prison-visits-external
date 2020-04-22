@@ -190,7 +190,7 @@ describe('First Time Claim Flow', () => {
       .getValue('#document')
       .click('#file-upload-submit')
 
-      // Car journey and light refreshment do not require receipts
+    // Car journey and light refreshment do not require receipts
 
       // Claim summary
       .waitForExist('#claim-summary-submit')
@@ -219,8 +219,8 @@ describe('First Time Claim Flow', () => {
 
   after(function () {
     return claimHelper.getRef(caseworker)
-    .then(function (reference) {
-      return internalEligibilityHelper.deleteAll(reference)
-    })
+      .then(function (reference) {
+        return internalEligibilityHelper.deleteAll(reference)
+      })
   })
 })

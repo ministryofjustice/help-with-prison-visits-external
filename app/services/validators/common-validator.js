@@ -16,7 +16,7 @@ const dateFormatter = require('../date-formatter')
 const NUM_YEARS_LIMIT = 120
 const SQL_MAX_INT = 2147483647
 const config = require('../../../config')
-const VALID_ROLL_NUMBER_REGEX = new RegExp(`^[-0-9.A-Za-z ]+$`)
+const VALID_ROLL_NUMBER_REGEX = new RegExp('^[-0-9.A-Za-z ]+$')
 
 exports.isNullOrUndefined = function (value) {
   return !value
@@ -71,7 +71,7 @@ exports.isOlderThanInYears = function (dob, years) {
 }
 
 exports.isRange = function (value, min, max) {
-  return validator.isLength(value, {min: min, max: max})
+  return validator.isLength(value, { min: min, max: max })
 }
 
 exports.isNationalInsuranceNumber = function (value) {

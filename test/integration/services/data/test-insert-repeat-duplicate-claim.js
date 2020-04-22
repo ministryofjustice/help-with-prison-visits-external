@@ -63,8 +63,8 @@ describe('services/data/insert-repeat-duplicate-claim', function () {
 
     return insertRepeatDuplicateClaim(REFERENCE, eligibilityId, NEW_CLAIM)
       .then(function () {
-        expect(insertNewClaimStub.calledWith(REFERENCE, eligibilityId, claimTypeEnum.REPEAT_DUPLICATE, NEW_CLAIM)).to.be.true
-        expect(getLastClaimDetailsStub.calledWith(REFERENCE, eligibilityId, false)).to.be.true
+        expect(insertNewClaimStub.calledWith(REFERENCE, eligibilityId, claimTypeEnum.REPEAT_DUPLICATE, NEW_CLAIM)).to.be.true  //eslint-disable-line
+        expect(getLastClaimDetailsStub.calledWith(REFERENCE, eligibilityId, false)).to.be.true  //eslint-disable-line
       })
       .then(function () {
         return knex.select().from('ExtSchema.ClaimChild').where('ClaimId', claimId)

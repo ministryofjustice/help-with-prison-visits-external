@@ -8,7 +8,7 @@ const UploadError = require('../../../../app/services/errors/upload-error')
 describe('services/domain/file-upload', function () {
   const VALID_ID = '1'
   const VALID_DOCUMENT_TYPE = 'VISIT_CONFIRMATION'
-  const VALID_FILE = {path: 'path'}
+  const VALID_FILE = { path: 'path' }
   const VALID_DOCUMENT_STATUS = 'uploaded'
   const ERROR = new Error('some error message')
   const UPLOAD_ERROR = new UploadError('File type error')
@@ -22,7 +22,7 @@ describe('services/domain/file-upload', function () {
 
     FileUpload = proxyquire(
       '../../../../app/services/domain/file-upload', {
-        'fs': fsStub
+        fs: fsStub
       })
   })
 

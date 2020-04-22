@@ -6,9 +6,9 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 require('sinon-bluebird')
 
 describe('routes/apply/eligibility/claim/file-upload', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
-  const ROUTE = `/apply/eligibility/claim/summary/file-upload?document=`
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
+  const COOKIES_EXPIRED = ['apvs-start-application=']
+  const ROUTE = '/apply/eligibility/claim/summary/file-upload?document='
 
   var app
   var urlPathValidatorStub
@@ -48,7 +48,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
       '../../../../services/data/insert-task': insertTaskStub,
       '../../../../services/data/disable-old-claim-documents': disableOldClaimDocumentsStub,
       '../../../../services/data/check-expense-is-enabled': checkExpenseIsEnabledStub,
-      'csurf': function () { return function () { } }
+      csurf: function () { return function () { } }
     })
     app = routeHelper.buildApp(route)
   })

@@ -7,7 +7,6 @@ const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class EligibleChild {
-
   constructor (firstName, lastName, childRelationship, dobDay, dobMonth, dobYear, parentFirstName, parentLastName, houseNumberAndStreet, town, county, postCode, country) {
     this.childRelationship = childRelationship
     this.dobDay = dobDay

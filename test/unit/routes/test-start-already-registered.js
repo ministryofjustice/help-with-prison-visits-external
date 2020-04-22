@@ -68,7 +68,7 @@ describe('routes/start-already-registered', function () {
         .send({
           reference: REFERENCE
         })
-        .expect('location', `/your-claims`)
+        .expect('location', '/your-claims')
         .expect(hasSetCookie)
     })
 

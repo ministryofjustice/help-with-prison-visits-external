@@ -5,12 +5,12 @@ const ValidationError = require('../../../../app/services/errors/validation-erro
 const routeHelper = require('../../../helpers/routes/route-helper')
 require('sinon-bluebird')
 
-const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjQ5LjM2NTU1LCJkZWNyeXB0ZWRSZWYiOiJRSFFDWFdaIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyJ9' ]
+const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjQ5LjM2NTU1LCJkZWNyeXB0ZWRSZWYiOiJRSFFDWFdaIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyJ9']
 const ELIGIBILITY_ID = '1234'
 const CLAIMID = '1'
 const CLAIM_DOCUMENT_ID = '123'
 const CLAIM_EXPENSE_ID = '12345'
-const VALID_FILEPATH_RESULT = { 'Filepath': 'test/resources/testfile.txt' }
+const VALID_FILEPATH_RESULT = { Filepath: 'test/resources/testfile.txt' }
 const INVALID_FILEPATH_RESULT = 'invalid filepath'
 const CLAIM = {
   claim: {

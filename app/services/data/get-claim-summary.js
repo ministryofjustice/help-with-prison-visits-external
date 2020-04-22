@@ -52,13 +52,14 @@ module.exports = function (claimId, claimType) {
     })
     .then(function (claim) {
       return knex('ClaimDocument')
-        .where({'ClaimDocument.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null})
+        .where({ 'ClaimDocument.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null })
         .orWhere({
           'ClaimDocument.ClaimId': null,
           'ClaimDocument.Reference': claim.Reference,
           'ClaimDocument.EligibilityId': claim.EligibilityId,
           'ClaimDocument.IsEnabled': true,
-          'ClaimDocument.ClaimExpenseId': null})
+          'ClaimDocument.ClaimExpenseId': null
+        })
         .select('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
         .orderBy('ClaimDocument.DateSubmitted', 'desc')
         .then(function (claimDocuments) {
@@ -75,7 +76,7 @@ module.exports = function (claimId, claimType) {
             .then(function (claimExpenses) {
               claim.benefitDocument = []
               claimDocuments.forEach(function (document) {
-                if (document.DocumentType === documentTypeEnum['VISIT_CONFIRMATION'].documentType) {
+                if (document.DocumentType === documentTypeEnum.VISIT_CONFIRMATION.documentType) {
                   claim.visitConfirmation = document
                 } else {
                   claim.benefitDocument.push(document)

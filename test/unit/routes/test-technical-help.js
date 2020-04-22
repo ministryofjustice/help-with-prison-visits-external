@@ -8,7 +8,7 @@ require('sinon-bluebird')
 const ValidationError = require('../../../app/services/errors/validation-error')
 
 describe('routes/help', function () {
-  const ROUTE = `/help`
+  const ROUTE = '/help'
   const VALID_DATA = {
     name: 'Joe Bloggs',
     emailAddress: 'test@test.com',
