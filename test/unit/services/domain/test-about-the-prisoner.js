@@ -46,7 +46,7 @@ describe('services/domain/about-the-prisoner', function () {
   it('should throw a ValidationError if invalid input', function () {
     expect(function () {
       new AboutThePrisoner('', '', '', '', '', '', '')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should return errors for all required fields', function () {
@@ -69,7 +69,7 @@ describe('services/domain/about-the-prisoner', function () {
         VALID_PRISONER_NUMBER,
         VALID_NAME_OF_PRISON
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should strip illegal characters from otherwise valid data', function () {

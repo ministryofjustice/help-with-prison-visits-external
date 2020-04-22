@@ -1,5 +1,4 @@
 const HasEscort = require('../../../../app/services/domain/has-escort')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/has-escort', function () {
@@ -18,6 +17,6 @@ describe('services/domain/has-escort', function () {
       new HasEscort(
         INVALID_INPUT
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

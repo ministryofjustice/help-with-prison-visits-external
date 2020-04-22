@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const Declaration = require('../../../../app/services/domain/declaration')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 var declaration
@@ -16,6 +15,6 @@ describe('services/domain/declaration', function () {
   it('should throw a ValidationError if given empty strings', function () {
     expect(function () {
       new Declaration('')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

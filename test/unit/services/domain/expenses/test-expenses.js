@@ -1,5 +1,4 @@
 const Expenses = require('../../../../../app/services/domain/expenses/expenses')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expenseTypeEnum = require('../../../../../app/constants/expense-type-enum')
 const expect = require('chai').expect
 
@@ -19,6 +18,6 @@ describe('services/domain/expenses/expenses', function () {
       new Expenses(
         INVALID_EXPENSES
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

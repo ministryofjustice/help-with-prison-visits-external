@@ -1,5 +1,4 @@
 const SameJourneyAsLastClaim = require('../../../../app/services/domain/same-journey-as-last-claim')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/same-journey-as-last-claim', function () {
@@ -11,6 +10,6 @@ describe('services/domain/same-journey-as-last-claim', function () {
   it('should throw an error if passed invalid data', function () {
     expect(function () {
       new SameJourneyAsLastClaim(null).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

@@ -1,5 +1,4 @@
 /* eslint-disable no-new */
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
@@ -67,7 +66,7 @@ describe('services/domain/file-upload', function () {
         undefined,
         undefined
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if passed an instance of UploadError', function () {
@@ -80,7 +79,7 @@ describe('services/domain/file-upload', function () {
         UPLOAD_ERROR,
         undefined
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw the given error if passed any type of error other than ValidationError', function () {
@@ -107,6 +106,6 @@ describe('services/domain/file-upload', function () {
         undefined,
         VALID_ALTERNATIVE
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

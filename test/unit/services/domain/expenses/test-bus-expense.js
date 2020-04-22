@@ -1,5 +1,4 @@
 const BusExpense = require('../../../../../app/services/domain/expenses/bus-expense')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/bus-expense', function () {
@@ -34,6 +33,6 @@ describe('services/domain/expenses/bus-expense', function () {
         VALID_IS_RETURN,
         VALID_TICKET_OWNER
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

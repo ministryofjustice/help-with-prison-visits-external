@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const BankAccountDetails = require('../../../../app/services/domain/bank-account-details')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 var bankAccountDetails
@@ -38,36 +37,36 @@ describe('services/domain/payment-details', function () {
   it('should throw a ValidationError if given empty strings', function () {
     expect(function () {
       new BankAccountDetails('', '', '')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if given letters', function () {
     expect(function () {
       new BankAccountDetails('asdf', 'asdf', VALID_NAME_ON_ACCOUNT, VALID_ROLL_NUMBER)
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if given invalid length inputs', function () {
     expect(function () {
       new BankAccountDetails('123456789', '123', VALID_NAME_ON_ACCOUNT, VALID_ROLL_NUMBER)
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if given invalid name on account length', function () {
     expect(function () {
       new BankAccountDetails('12345678', '123456', 'ztEHgAjGtoMIWQUmeFQRlDmrklPGpSPiLUYpenFuyeVoaAbxENBeWXdhkEmujscmMSWJreKJrzawFgEpUWxrHeQRnMVdbOVejsOcw', '123456789012345678')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if given invalid roll number length', function () {
     expect(function () {
       new BankAccountDetails('12345678', '123456', VALID_NAME_ON_ACCOUNT, '1234567890123456789')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if roll number contains invalid characters', function () {
     expect(function () {
       new BankAccountDetails('12345678', '123456', VALID_NAME_ON_ACCOUNT, 'ABEY%HT26a')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

@@ -1,6 +1,5 @@
 const expect = require('chai').expect
 const ViewClaim = require('../../../../app/services/domain/view-claim')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 var viewClaim
 
 describe('services/domain/claim-summary', function () {
@@ -34,6 +33,6 @@ describe('services/domain/claim-summary', function () {
   it('Throw a validation error if nothing has been updated and there is no message', function () {
     expect(function () {
       viewClaim = new ViewClaim(true, true, NOT_UPDATED_EXPENSES, '').isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })
