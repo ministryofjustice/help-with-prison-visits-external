@@ -33,6 +33,6 @@ describe('services/move-file on file upload', function () {
   })
 
   after(function () {
-    return fs.unlink(path.join(TARGET_PATH, TARGET_FILE))
+    return fs.unlinkSync(path.join(TARGET_PATH, TARGET_FILE))
   })
 })

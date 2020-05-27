@@ -84,7 +84,7 @@ describe('services/data/get-claim-summary', function () {
     })
 
     afterEach(function () {
-      getRepeatEligibilityStub.reset()
+      getRepeatEligibilityStub.resetHistory()
       return eligiblityHelper.deleteAll(REPEAT_REFERENCE)
     })
   })
