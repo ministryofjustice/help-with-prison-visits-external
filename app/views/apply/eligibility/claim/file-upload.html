@@ -61,18 +61,21 @@
 
           <fieldset>
             <legend class="visually-hidden">Choose alternative option to upload</legend>
-
-            <label for="Post" class="block-label">
+            <div class="multiple-choice">
               <input type="radio" name="alternative" value="post-later" id="Post">
-              <span class="heading-small">Send by post</span>
-              <br>It will take 10 or more days longer to process your claim
-            </label>
+              <label for="Post" class="block-label">
+                <strong class="bold-small">Send by post</strong>
+                <br>It will take 10 or more days longer to process your claim
+              </label>
+            </div>
 
-            <label for="UploadLater" class="block-label">
+            <div class="multiple-choice">
               <input type="radio" name="alternative" value="upload-later" id="UploadLater">
-              <span class="heading-small">Upload later</span>
-              <br> You will get a reference number allowing you to return and complete your application
-            </label>
+              <label for="UploadLater" class="block-label">
+                <strong class="bold-small">Upload later</strong>
+                <br> You will get a reference number allowing you to return and complete your application
+              </label>
+            </div>
 
           </fieldset>
         </div>

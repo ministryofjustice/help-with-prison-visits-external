@@ -32,28 +32,23 @@ Payment details and declaration - {{ serviceName }}
         <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
           <fieldset>
             <legend class="visually-hidden">How do you want to receive your payment</legend>
+            
+            <div class="multiple-choice">
+              <input id="bank" type="radio" name="PaymentMethod" value="bank" {% if paymentDetails['PaymentMethod'] == 'bank' %} checked {% endif %}>
               <label for="bank" class="block-label" data-target="bank-details">
-                <input id="bank"
-                       type="radio"
-                       name="PaymentMethod"
-                       value="bank"
-                       {% if paymentDetails['PaymentMethod'] == 'bank' %} checked {% endif %}>
-
                 <span>Money paid into your bank account</span>
                 <br>
               </label>
+            </div>
 
+            <div class="multiple-choice">
+              <input id="payout" type="radio" name="PaymentMethod" value="payout" {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}>
               <label for="payout" class="block-label" data-target="payout-details">
-                <input id="payout"
-                       type="radio"
-                       name="PaymentMethod"
-                       value="payout"
-                       {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}>
-
                 <span>Cash voucher sent by post</span>
                 <br>
                 <br>
               </label>
+            </div>
           </fieldset>
         </div>
       </div>

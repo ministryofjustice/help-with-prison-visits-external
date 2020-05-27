@@ -3,7 +3,6 @@ const chai = require('chai').use(chaiAsPromised)
 const expect = chai.expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const CLAIM_TYPE = 'first-time'
 const REFERENCE = '12345'

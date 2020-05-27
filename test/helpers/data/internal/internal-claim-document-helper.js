@@ -30,20 +30,20 @@ module.exports.insert = function (reference, eligibilityId, claimId, data, claim
     DocumentStatus: claimDocument.DocumentStatus,
     IsEnabled: true
   })
-  .then(function () {
-    if (claimExpenseId) {
-      return knex('IntSchema.ClaimDocument').insert({
-        ClaimDocumentId: claimDocument2.ClaimDocumentId,
-        ClaimId: claimId,
-        EligibilityId: eligibilityId,
-        Reference: reference,
-        ClaimExpenseId: claimExpenseId,
-        DocumentType: claimDocument2.DocumentType,
-        DocumentStatus: claimDocument2.DocumentStatus,
-        IsEnabled: true
-      })
-    }
-  })
+    .then(function () {
+      if (claimExpenseId) {
+        return knex('IntSchema.ClaimDocument').insert({
+          ClaimDocumentId: claimDocument2.ClaimDocumentId,
+          ClaimId: claimId,
+          EligibilityId: eligibilityId,
+          Reference: reference,
+          ClaimExpenseId: claimExpenseId,
+          DocumentType: claimDocument2.DocumentType,
+          DocumentStatus: claimDocument2.DocumentStatus,
+          IsEnabled: true
+        })
+      }
+    })
 }
 
 module.exports.get = function (claimId) {

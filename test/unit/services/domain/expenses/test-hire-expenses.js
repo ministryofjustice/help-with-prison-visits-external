@@ -1,5 +1,4 @@
 const HireExpense = require('../../../../../app/services/domain/expenses/hire-expense')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/hire-expense', function () {
@@ -30,6 +29,6 @@ describe('services/domain/expenses/hire-expense', function () {
         VALID_TO,
         VALID_DURATION_OF_TRAVEL
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

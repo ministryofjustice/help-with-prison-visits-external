@@ -9,7 +9,7 @@ const MINIMUM_AGE_IN_YEARS = 16
 class AlreadyRegistered {
   constructor (reference, day, month, year) {
     this.reference = reference
-    this.fields = [ day, month, year ]
+    this.fields = [day, month, year]
     this.dob = dateFormatter.build(day, month, year)
     this.dobEncoded = dateFormatter.encodeDate(this.dob)
     this.isValid()

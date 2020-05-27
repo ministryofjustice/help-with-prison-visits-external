@@ -237,14 +237,12 @@ Enter information about the Eligible Child you are escorting - {{ serviceName }}
 
         <div class="form-group">
 
-          <label for="add-another-child" class="block-label">
-            <input id="add-another-child"
-                   type="checkbox"
-                   name="add-another-child"
-                   {% if eligibleChild['add-another-child'] == 'on' %} checked {% endif %}>
-            Add another child
-          </label>
-
+          <div class="multiple-choice">
+            <input id="add-another-child" type="checkbox" name="add-another-child" {% if eligibleChild['add-another-child'] == 'on' %} checked {% endif %}>
+            <label for="add-another-child" class="block-label">
+              Add another child
+            </label>
+          </div>
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}

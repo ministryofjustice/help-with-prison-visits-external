@@ -38,19 +38,19 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
     Note: claimEvent.Note,
     IsInternal: claimEvent.IsInternal
   })
-  .then(function () {
-    return knex('IntSchema.ClaimEvent').insert({
-      ClaimId: claimId,
-      EligibilityId: eligibilityId,
-      Reference: reference,
-      DateAdded: claimEvent2.DateAdded,
-      Caseworker: claimEvent2.Caseworker,
-      Event: claimEvent2.Event,
-      AdditionalData: claimEvent2.AdditionalData,
-      Note: claimEvent2.Note,
-      IsInternal: claimEvent2.IsInternal
+    .then(function () {
+      return knex('IntSchema.ClaimEvent').insert({
+        ClaimId: claimId,
+        EligibilityId: eligibilityId,
+        Reference: reference,
+        DateAdded: claimEvent2.DateAdded,
+        Caseworker: claimEvent2.Caseworker,
+        Event: claimEvent2.Event,
+        AdditionalData: claimEvent2.AdditionalData,
+        Note: claimEvent2.Note,
+        IsInternal: claimEvent2.IsInternal
+      })
     })
-  })
 }
 
 module.exports.get = function (claimId) {

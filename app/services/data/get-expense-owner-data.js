@@ -21,10 +21,10 @@ module.exports = function (claimId, eligibilityId, reference) {
 function getAnyClaimChildren (claimId, eligibilityId, reference) {
   return knex('ClaimChild')
     .where({
-      'ClaimId': claimId,
-      'EligibilityId': eligibilityId,
-      'Reference': reference,
-      'IsEnabled': true
+      ClaimId: claimId,
+      EligibilityId: eligibilityId,
+      Reference: reference,
+      IsEnabled: true
     })
     .select('ClaimChildId')
 }
@@ -32,14 +32,14 @@ function getAnyClaimChildren (claimId, eligibilityId, reference) {
 function getAnyClaimEscorts (claimId, eligibilityId, reference) {
   return knex('ClaimEscort')
     .where({
-      'ClaimId': claimId,
-      'EligibilityId': eligibilityId,
-      'Reference': reference,
-      'IsEnabled': true
+      ClaimId: claimId,
+      EligibilityId: eligibilityId,
+      Reference: reference,
+      IsEnabled: true
     })
     .select('ClaimEscortId')
 }
 
 function getAnyEligibleChildren (eligibilityId, reference) {
-  return knex.raw(`SELECT * FROM [IntSchema].[getEligibleChildren] (?, ?)`, [ reference, eligibilityId ])
+  return knex.raw('SELECT * FROM [IntSchema].[getEligibleChildren] (?, ?)', [reference, eligibilityId])
 }

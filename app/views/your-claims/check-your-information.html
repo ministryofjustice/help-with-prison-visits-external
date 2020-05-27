@@ -46,10 +46,12 @@
 
   <form action="/your-claims/check-your-information" method="post">
     <div class="form-group">
-      <label for="confirm-correct" class="block-label">
+      <div class="multiple-choice">
         <input id="confirm-correct" type="checkbox" name="confirm-correct" value="true" >
-        Confirm these details are correct
-      </label>
+        <label for="confirm-correct" class="block-label">  
+          Confirm these details are correct
+        </label>
+      </div>
     </div>
 
     <input type="hidden" name="EligibilityId" value="{{ eligibility['EligibilityId'] }}">

@@ -2,16 +2,15 @@ const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 const prisonerRelationshipEnum = require('../../../../../app/constants/prisoner-relationships-enum')
 
 describe('routes/apply/new-eligibility/prisoner-relationship', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAwMjc0Ljc0NjYzMzMzMiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImRvYkVuY29kZWQiOiIxMTM3MjUxMjIifQ==' ]
-  const COOKIES_REPEAT = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MTM3LjcxOTk2NjY2NSwiZGVjcnlwdGVkUmVmIjoiVEtZQ0NSQSIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QlEifQ==' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
-  const ROUTE = `/apply/first-time/new-eligibility/prisoner-relationship`
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAwMjc0Ljc0NjYzMzMzMiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImRvYkVuY29kZWQiOiIxMTM3MjUxMjIifQ==']
+  const COOKIES_REPEAT = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MTM3LjcxOTk2NjY2NSwiZGVjcnlwdGVkUmVmIjoiVEtZQ0NSQSIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QlEifQ==']
+  const COOKIES_EXPIRED = ['apvs-start-application=']
+  const ROUTE = '/apply/first-time/new-eligibility/prisoner-relationship'
 
   var app
 
@@ -72,7 +71,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
-        .expect('location', `/apply/first-time/new-eligibility/benefits`)
+        .expect('location', '/apply/first-time/new-eligibility/benefits')
     })
 
     it('should respond with a 302 and redirect to /apply/first-time/new-eligibility?error=expired', function () {
@@ -81,11 +80,11 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
+        .expect('location', '/apply/first-time/new-eligibility/date-of-birth?error=expired')
     })
 
     it('should respond with a 302 and redirect to benefits page with reference/prisoner-number query params if repeat-new-eligibility', function () {
-      const REPEAT_NEW_ELIGIBILITY_ROUTE = `/apply/repeat-new-eligibility/new-eligibility/prisoner-relationship`
+      const REPEAT_NEW_ELIGIBILITY_ROUTE = '/apply/repeat-new-eligibility/new-eligibility/prisoner-relationship'
 
       prisonerRelationshipStub.returns(VALID_PRISONER_RELATIONSHIP)
 
@@ -93,7 +92,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
         .post(REPEAT_NEW_ELIGIBILITY_ROUTE)
         .set('Cookie', COOKIES_REPEAT)
         .expect(302)
-        .expect('location', `/apply/repeat-new-eligibility/new-eligibility/benefits`)
+        .expect('location', '/apply/repeat-new-eligibility/new-eligibility/benefits')
     })
 
     it('should respond with a 302 and redirect to /eligibility-fail if the relationship is set to none', function () {

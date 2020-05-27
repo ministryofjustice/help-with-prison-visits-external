@@ -6,7 +6,7 @@ class ErrorHandler {
   }
 
   add (fieldName, message, options) {
-    if (!this.errors.hasOwnProperty(fieldName)) {
+    if (!(Object.prototype.hasOwnProperty.call(this.errors, fieldName))) {
       this.errors[fieldName] = []
     }
     this.errors[fieldName].push(message(FIELD_NAMES[fieldName], options))
@@ -15,7 +15,7 @@ class ErrorHandler {
   get () {
     var errors = this.errors
     for (var field in errors) {
-      if (errors[ field ].length > 0) {
+      if (errors[field].length > 0) {
         return errors
       }
     }

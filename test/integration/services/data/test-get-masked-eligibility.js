@@ -48,10 +48,10 @@ describe('services/data/get-masked-eligibility', function () {
   it('should throw an exception given an invalid reference and dob', function () {
     return getMaskedEligibility(INVALID_REFERENCE, internalVisitorHelper.DATE_OF_BIRTH.toDate())
       .then(function () {
-        expect(false, 'should have throw error').to.be.true
+        expect(false, 'should have throw error').to.be.true  //eslint-disable-line
       })
       .catch(function (error) {
-        expect(error).not.to.be.null
+        expect(error).not.to.be.null //eslint-disable-line
       })
   })
 })

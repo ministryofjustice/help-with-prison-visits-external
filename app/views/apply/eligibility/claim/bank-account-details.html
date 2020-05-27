@@ -120,16 +120,12 @@ Bank account details and declaration - {{ serviceName }}
       {% if errors['terms-and-conditions'][0] %}
       <span class="error-message" id="error-message-terms-an-conditions">{{ errors['terms-and-conditions'][0] }}</span>
       {% endif %}
-      <label for="terms-and-conditions-input" class="block-label">
-        <input id="terms-and-conditions-input"
-               type="checkbox"
-               name="terms-and-conditions-input"
-               {% if bankDetails['tAndC'] %}
-                checked
-               {% endif %}
-               value="yes">
-        <span class="heading-small"> I agree to the declaration</span>
-      </label>
+      <div class="multiple-choice">
+        <input id="terms-and-conditions-input" type="checkbox" name="terms-and-conditions-input" {% if bankDetails['tAndC'] %} checked {% endif %} value="yes">
+        <label for="terms-and-conditions-input" class="block-label">
+          <strong class="bold-small">I agree to the declaration</strong>
+        </label>
+      </div>
     </div>
 
     {% include "partials/csrf-hidden-input.html" %}

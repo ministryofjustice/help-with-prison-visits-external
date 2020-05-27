@@ -1,5 +1,4 @@
 const FerryExpense = require('../../../../../app/services/domain/expenses/ferry-expense')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/ferry-expense', function () {
@@ -38,6 +37,6 @@ describe('services/domain/expenses/ferry-expense', function () {
         VALID_TICKET_TYPE,
         VALID_TICKET_OWNER
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

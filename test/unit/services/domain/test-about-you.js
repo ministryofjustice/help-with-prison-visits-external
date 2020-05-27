@@ -72,7 +72,7 @@ describe('services/domain/about-you', function () {
   it('should throw a ValidationError if given invalid input', function () {
     expect(function () {
       new AboutYou('', '', '', '', '', '', '', '', '', '', '', '', '')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should return errors for all required fields', function () {
@@ -102,7 +102,7 @@ describe('services/domain/about-you', function () {
         VALID_EMAIL_ADDRESS,
         VALID_PHONE_NUMBER
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if an invalid PostCode is provided as input', function () {
@@ -123,7 +123,7 @@ describe('services/domain/about-you', function () {
         VALID_EMAIL_ADDRESS,
         VALID_PHONE_NUMBER
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if an invalid email address is provided as input', function () {
@@ -144,7 +144,7 @@ describe('services/domain/about-you', function () {
         INVALID_EMAIL_ADDRESS,
         VALID_PHONE_NUMBER
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should strip illegal characters from fields which accept free text inputs', function () {

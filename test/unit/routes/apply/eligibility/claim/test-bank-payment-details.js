@@ -2,17 +2,16 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 var ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/claim/bank-payment-details', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
-  const ROUTE = `/apply/eligibility/claim/bank-payment-details?isAdvance=false`
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
+  const COOKIES_EXPIRED = ['apvs-start-application=']
+  const ROUTE = '/apply/eligibility/claim/bank-payment-details?isAdvance=false'
   const VALID_DATA = {
-    'AccountNumber': '12345678',
-    'SortCode': '123456'
+    AccountNumber: '12345678',
+    SortCode: '123456'
   }
 
   var app
@@ -64,7 +63,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
     })
 
     it('should respond with a 302 and insert bank details', function () {
-      var newPaymentDetails = {paymentMethod: 'bank'}
+      var newPaymentDetails = { paymentMethod: 'bank' }
       stubBankAccountDetails.returns(newPaymentDetails)
       stubInsertBankAccountDetailsForClaim.resolves()
 
@@ -76,7 +75,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
         .expect(function () {
           sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
         })
-        .expect('location', `/apply/eligibility/claim/declaration?isAdvance=false`)
+        .expect('location', '/apply/eligibility/claim/declaration?isAdvance=false')
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
@@ -88,7 +87,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      stubBankAccountDetails.throws(new ValidationError({ 'firstName': {} }))
+      stubBankAccountDetails.throws(new ValidationError({ firstName: {} }))
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

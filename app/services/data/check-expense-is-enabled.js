@@ -4,5 +4,5 @@ const knex = require('knex')(config)
 module.exports = function (claimExpenseId) {
   return knex('ClaimExpense')
     .select('IsEnabled')
-    .where({'ClaimExpenseId': claimExpenseId})
+    .where({ ClaimExpenseId: claimExpenseId })
 }

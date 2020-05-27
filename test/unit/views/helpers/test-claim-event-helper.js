@@ -19,7 +19,7 @@ describe('views/helpers/claim-event-helper', function () {
     expect(claimEventHelper(REJECTED)).to.equal('Claim rejected')
   })
 
-  it(`should return the original input if passed a non-matching value`, function () {
+  it('should return the original input if passed a non-matching value', function () {
     expect(claimEventHelper(NON_MATCHING)).to.equal(NON_MATCHING)
   })
 })

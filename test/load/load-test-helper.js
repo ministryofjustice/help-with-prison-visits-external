@@ -19,8 +19,8 @@ function setVisitDate (requestParams, context, ee, next) {
 
 // Load the dummy visit confirmation or receipt image from disk and add to form data
 function attachImageFile (requestParams, context, ee, next) {
-  requestParams.formData['_csrf'] = context.vars.token.value
+  requestParams.formData._csrf = context.vars.token.value
   const imageContents = fs.createReadStream('./data/visit-confirmation.jpg')
-  requestParams.formData['document'] = imageContents
+  requestParams.formData.document = imageContents
   return next()
 }

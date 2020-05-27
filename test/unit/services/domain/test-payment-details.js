@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const PaymentDetails = require('../../../../app/services/domain/payment-details')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 var paymentDetails
@@ -22,6 +21,6 @@ describe('services/domain/payment-details', function () {
   it('should throw a ValidationError if given empty strings', function () {
     expect(function () {
       new PaymentDetails('')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

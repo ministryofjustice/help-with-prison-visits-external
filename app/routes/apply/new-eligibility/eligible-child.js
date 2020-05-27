@@ -37,19 +37,19 @@ module.exports = function (router) {
 
     try {
       var eligibleChild = new EligibleChild(
-        req.body['FirstName'],
-        req.body['LastName'],
-        req.body['ChildRelationship'],
+        req.body.FirstName,
+        req.body.LastName,
+        req.body.ChildRelationship,
         req.body['dob-day'],
         req.body['dob-month'],
         req.body['dob-year'],
-        req.body['ParentFirstName'],
-        req.body['ParentLastName'],
-        req.body['HouseNumberAndStreet'],
-        req.body['Town'],
-        req.body['County'],
-        req.body['PostCode'],
-        req.body['Country'])
+        req.body.ParentFirstName,
+        req.body.ParentLastName,
+        req.body.HouseNumberAndStreet,
+        req.body.Town,
+        req.body.County,
+        req.body.PostCode,
+        req.body.Country)
 
       var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 

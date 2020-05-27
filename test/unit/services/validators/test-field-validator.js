@@ -209,7 +209,7 @@ describe('services/validators/field-validator', function () {
         .isLength(ACCEPTED_LENGTH, ERROR_MESSAGES.getIsLengthDigitsMessage)
       var errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
-      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getIsLengthDigitsMessage(DISPLAY_NAME, {length: ACCEPTED_LENGTH}))
+      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getIsLengthDigitsMessage(DISPLAY_NAME, { length: ACCEPTED_LENGTH }))
     })
   })
 
@@ -422,7 +422,7 @@ describe('services/validators/field-validator', function () {
         .isLessThanLength(ACCEPTED_LENGTH, ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage)
       var errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
-      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage(DISPLAY_NAME, {length: ACCEPTED_LENGTH}))
+      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage(DISPLAY_NAME, { length: ACCEPTED_LENGTH }))
     })
   })
 
@@ -758,8 +758,8 @@ describe('services/validators/field-validator', function () {
   })
 
   describe('isValidExpenseArray', function () {
-    const VALID_INPUT = [ expensesEnum.BUS.value, expensesEnum.PLANE.value ]
-    const INVALID_INPUT = [ 'some invalid input', expensesEnum.PLANE.value ]
+    const VALID_INPUT = [expensesEnum.BUS.value, expensesEnum.PLANE.value]
+    const INVALID_INPUT = ['some invalid input', expensesEnum.PLANE.value]
 
     it('should return an error object if passed null', function () {
       var errorHandler = ErrorHandler()

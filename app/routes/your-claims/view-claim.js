@@ -74,10 +74,10 @@ module.exports = function (router) {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
-    var SortCode = req.body['SortCode']
-    var AccountNumber = req.body['AccountNumber']
-    var NameOnAccount = req.body['NameOnAccount']
-    var RollNumber = req.body['RollNumber']
+    var SortCode = req.body.SortCode
+    var AccountNumber = req.body.AccountNumber
+    var NameOnAccount = req.body.NameOnAccount
+    var RollNumber = req.body.RollNumber
     var message = req.body['message-to-caseworker']
     var assistedDigitalCookie = req.cookies['apvs-assisted-digital']
 
@@ -91,7 +91,7 @@ module.exports = function (router) {
         try {
           var benefit = claimDetails.claim.benefitDocument
           if (benefit.length <= 0) {
-            benefit.push({fromInternalWeb: true})
+            benefit.push({ fromInternalWeb: true })
           }
 
           var bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT', nameOnAccount: NameOnAccount, rollNumber: RollNumber }

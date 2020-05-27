@@ -59,7 +59,7 @@ module.exports = function (router) {
           insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimType, newClaim)
             .then(function (claimId) {
               req.session.claimId = claimId
-              return res.redirect(`/apply/eligibility/claim/has-escort`)
+              return res.redirect('/apply/eligibility/claim/has-escort')
             })
             .catch(function (error) {
               next(error)
@@ -68,7 +68,7 @@ module.exports = function (router) {
           insertRepeatDuplicateClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, newClaim)
             .then(function (claimId) {
               req.session.claimId = claimId
-              return res.redirect(`/apply/eligibility/claim/summary`)
+              return res.redirect('/apply/eligibility/claim/summary')
             })
             .catch(function (error) {
               next(error)
