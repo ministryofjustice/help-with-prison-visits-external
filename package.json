@@ -92,10 +92,10 @@
     "validator": "^13.0.0"
   },
   "devDependencies": {
-    "@wdio/cli": "^6.1.15",
-    "@wdio/local-runner": "^6.1.14",
-    "@wdio/mocha-framework": "^6.1.14",
-    "@wdio/sauce-service": "^6.1.14",
+    "@wdio/cli": "^5.22.5",
+    "@wdio/local-runner": "^5.22.5",
+    "@wdio/mocha-framework": "^5.22.5",
+    "@wdio/sauce-service": "^5.22.5",
     "artillery": "^1.6.0",
     "assert": "^2.0.0",
     "chai": "^4.2.0",
@@ -111,6 +111,6 @@
     "sinon": "^9.0.2",
     "standard": "^14.3.3",
     "supertest": "^4.0.2",
-    "webdriverio": "^6.1.14"
+    "webdriverio": "^5.22.5"
   }
 }
