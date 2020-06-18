@@ -20,13 +20,13 @@
       </h1>
 
       {% if advanceOrPast == 'past' %}
-        <p>The visit must have been in the last 60 days.</p>
+        <p>The visit must have been in the last 28 days.</p>
       {% else %}
-        <p>The visit must be in the next 60 days.</p>
+        <p>The visit must be in the next 28 days.</p>
       {% endif %}
       <form action="/apply/eligibility/new-claim/journey-information" method="post">
 
-        <div class="form-group {% if errors['DateOfJourney'][0] %} error {% endif %}">
+        <div class="form-group {% if errors['DateOfJourney'][0] %} form-group-error {% endif %}">
           <fieldset>
 
             {% if errors['DateOfJourney'][0] %}

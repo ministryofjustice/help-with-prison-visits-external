@@ -6,9 +6,8 @@ const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const moment = require('moment')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
-const MASKED_ADDRESS = {PostCode: '****3BT'}
+const MASKED_ADDRESS = { PostCode: '****3BT' }
 var getRepeatEligibilityStub
 
 var getAddressAndLinkDetails
@@ -48,7 +47,7 @@ describe('services/data/get-address-and-link-details', function () {
   it('should call getRepeatEligibility and return masked data', function () {
     return getAddressAndLinkDetails(REFERENCE, claimId, claimTypeEnum.REPEAT_CLAIM)
       .then(function (maskedAddress) {
-        expect(getRepeatEligibilityStub.calledOnce).to.be.true
+        expect(getRepeatEligibilityStub.calledOnce).to.be.true  //eslint-disable-line
         expect(maskedAddress.PostCode).to.equal(MASKED_ADDRESS.PostCode)
       })
   })

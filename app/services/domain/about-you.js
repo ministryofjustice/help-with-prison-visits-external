@@ -6,12 +6,13 @@ const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutYou {
-  constructor (dob, relationship, benefit, firstName, lastName,
+  constructor (dob, relationship, benefit, benefitOwner, firstName, lastName,
     nationalInsuranceNumber, houseNumberAndStreet, town, county, postCode,
     country, emailAddress, phoneNumber) {
     this.dob = dateFormatter.buildFromDateString(dob)
     this.relationship = relationship
     this.benefit = benefit
+    this.benefitOwner = benefitOwner
 
     this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
     this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''

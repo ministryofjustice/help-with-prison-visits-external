@@ -63,13 +63,21 @@
         </div>
 
         <div class="form-group">
-          <label for="new-origin" class="block-label selection-button-checkbox" data-target="new-origin-details">Change the Starting Point of your Journey
-          <input id="new-origin" type="checkbox" name="new-origin" {% if expense['new-origin'] %}checked{% endif %}></label>
+          <div class="multiple-choice" data-target="new-origin-details">
+            <input id="new-origin" type="checkbox" name="new-origin" {% if expense['new-origin'] %}checked{% endif %}>
+            <label for="new-origin" class="block-label selection-button-checkbox">
+              Change the Starting Point of your Journey
+            </label>
+          </div>
         </div>
 
         <div class="form-group">
-          <label for="new-destination" class="block-label selection-button-checkbox" data-target="new-destination-details">Change the Destination of your Journey
-          <input id="new-destination" type="checkbox" name="new-destination" {% if expense['new-destination'] %}checked{% endif %}></label>
+          <div class="multiple-choice" data-target="new-destination-details">
+            <input id="new-destination" type="checkbox" name="new-destination" {% if expense['new-destination'] %}checked{% endif %}>
+            <label for="new-destination" class="block-label selection-button-checkbox">
+              Change the Destination of your Journey
+            </label>
+          </div>
         </div>
 
         <div id="new-origin-details" class="panel panel-border-narrow js-hidden">
@@ -146,14 +154,12 @@
         {% if not carOnly %}
         <fieldset>
           <legend class="hidden">Parking and Toll charges</legend>
-          <label for="toll" data-target="toll-question" class="block-label">
-            <input id="toll"
-                   type="checkbox"
-                   name="toll"
-                   value="yes"
-                   {% if expense['toll'] == 'yes' %} checked {% endif %}>
-            Add toll charge (bridges or tunnels only)
-          </label>
+          <div class="multiple-choice" data-target="toll-question">
+            <input id="toll" type="checkbox" name="toll" value="yes" {% if expense['toll'] == 'yes' %} checked {% endif %}>
+            <label for="toll" class="block-label">
+              Add toll charge (bridges or tunnels only)
+            </label>
+          </div>
 
           <div id="toll-question" class="panel panel-border-narrow {% if errors['toll-cost'][0] %} error {% else %} js-hidden {% endif %}">
             <label id="toll-cost" for="toll-cost-input" class="form-label">{% if isAdvanceClaim %}Estimated cost{% else %}Cost{% endif %}</label>
@@ -172,14 +178,12 @@
             </div>
           </div>
 
-          <label for="parking-charge" data-target="parking-charge-question" class="block-label">
-            <input id="parking-charge"
-                   type="checkbox"
-                   name="parking-charge"
-                   value="yes"
-                   {% if expense['parking-charge'] == 'yes' %} checked {% endif %}>
-            Add parking charge
-          </label>
+          <div class="multiple-choice" data-target="parking-charge-question">
+            <input id="parking-charge" type="checkbox" name="parking-charge"value="yes" {% if expense['parking-charge'] == 'yes' %} checked {% endif %}>
+            <label for="parking-charge" class="block-label"> 
+              Add parking charge
+            </label>
+          </div>
 
           <div id="parking-charge-question"
                class="panel panel-border-narrow {% if errors['parking-charge-cost'][0] %} error {% else %} js-hidden {% endif %}">

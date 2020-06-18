@@ -106,37 +106,31 @@
             {% if errors['child-relationship'][0] %}
               <span class="error-message">{{ errors['child-relationship'][0] }}</span>
             {% endif %}
+            
+            <div class="multiple-choice">
+              <input id="my-child" type="radio" name="child-relationship" value="claimants-child" {% if claimant['child-relationship'] == 'claimants-child' %} checked {% endif %}>
+              <label for="my-child" class="block-label">
+                My child
+              </label>
+            </div>
 
-            <label for="my-child" class="block-label">
-              <input id="my-child"
-                     type="radio"
-                     name="child-relationship"
-                     value="claimants-child"
-                     {% if claimant['child-relationship'] == 'claimants-child' %} checked {% endif %}>
-              My child
-            </label>
-            <label for="prisoners-child" class="block-label">
-              <input id="prisoners-child"
-                     type="radio"
-                     name="child-relationship"
-                     value="prisoners-child"
-                     {% if claimant['child-relationship'] == 'prisoners-child' %} checked {% endif %}>
-              Prisoner's child
-            </label>
-
+            <div class="multiple-choice">
+              <input id="prisoners-child" type="radio" name="child-relationship" value="prisoners-child" {% if claimant['child-relationship'] == 'prisoners-child' %} checked {% endif %}>
+              <label for="prisoners-child" class="block-label">
+                Prisoner's child
+              </label>
+            </div>
           </div>
         </div>
 
         <div class="form-group">
-
-          <label for="add-another-child" class="block-label">
-            <input id="add-another-child"
-                   type="checkbox"
-                   name="add-another-child"
-                   {% if expense['add-another-child'] == 'on' %} checked {% endif %}>
-            Add another child
-          </label>
-
+            
+          <div class="multiple-choice">
+            <input id="add-another-child" type="checkbox" name="add-another-child" {% if expense['add-another-child'] == 'on' %} checked {% endif %}>
+            <label for="add-another-child" class="block-label">
+              Add another child
+            </label>
+          </div>
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}

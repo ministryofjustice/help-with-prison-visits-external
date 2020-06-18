@@ -8,7 +8,6 @@ const tasksEnum = require('../../../../app/constants/tasks-enum')
 const eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
 const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
 const dateFormatter = require('../../../../app/services/date-formatter')
-require('sinon-bluebird')
 
 const REFERENCE = 'SUBMITF'
 const CLAIM_TYPE = 'first-time'
@@ -51,7 +50,7 @@ describe('services/data/submit-claim', function () {
                 expect(claim.DateSubmitted).to.be.within(twoMinutesAgo, twoMinutesAhead)
                 expect(claim.PaymentMethod).to.equal(paymentMethod)
 
-                expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true
+                expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true  //eslint-disable-line
               })
           })
       })

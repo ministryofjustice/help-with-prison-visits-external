@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const TrainExpense = require('../../../../../app/services/domain/expenses/train-expense')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/train-expense', function () {
@@ -90,7 +89,7 @@ describe('services/domain/expenses/train-expense', function () {
         EMPTY_RETURN_TIME,
         IS_PAST_CLAIM
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid advance claim data - no return', function () {
@@ -105,6 +104,6 @@ describe('services/domain/expenses/train-expense', function () {
         EMPTY_RETURN_TIME,
         IS_ADVANCE_CLAIM
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

@@ -7,7 +7,7 @@ Beta implementation of the Assisted Prison Visits Scheme external web applicatio
 ## Requirements
 
 * Docker (Including Docker Compose)
-* Node 6 (Including NPM) - If running locally
+* Node 12 (Including NPM) - If running locally
 
 ## Run
 

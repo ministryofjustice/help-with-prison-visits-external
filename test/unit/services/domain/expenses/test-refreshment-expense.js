@@ -1,5 +1,4 @@
 const RefreshmentExpense = require('../../../../../app/services/domain/expenses/refreshment-expense')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/refreshment-expense', function () {
@@ -18,6 +17,6 @@ describe('services/domain/expenses/refreshment-expense', function () {
       new RefreshmentExpense(
         INVALID_COST
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

@@ -3,14 +3,14 @@ const addInformationHelper = require('../../../../app/routes/helpers/get-require
 
 const REQUIRED_STATUS = 'REQUEST-INFORMATION'
 const FROM_INTERNAL_WEB = true
-const REQUIRED_DOCUMENT_STATUS = {DocumentStatus: 'upload-later', fromInternalWeb: FROM_INTERNAL_WEB}
-const EXPENSES_TO_BE_ADDED = [{Status: REQUIRED_STATUS, fromInternalWeb: FROM_INTERNAL_WEB}, {Status: REQUIRED_STATUS, fromInternalWeb: true}]
+const REQUIRED_DOCUMENT_STATUS = { DocumentStatus: 'upload-later', fromInternalWeb: FROM_INTERNAL_WEB }
+const EXPENSES_TO_BE_ADDED = [{ Status: REQUIRED_STATUS, fromInternalWeb: FROM_INTERNAL_WEB }, { Status: REQUIRED_STATUS, fromInternalWeb: true }]
 const BANK_DETAILS_TO_BE_ADDED = true
 
 const NOT_FROM_INTERNAL = false
 const OTHER_STATUS = 'APPROVED'
-const OTHER_DOCUMENT_STATUS = {DocumentStatus: 'uploaded', fromInternalWeb: FROM_INTERNAL_WEB}
-const EXPENSES_NOT_ADDED = [{Status: OTHER_STATUS, fromInternalWeb: NOT_FROM_INTERNAL}]
+const OTHER_DOCUMENT_STATUS = { DocumentStatus: 'uploaded', fromInternalWeb: FROM_INTERNAL_WEB }
+const EXPENSES_NOT_ADDED = [{ Status: OTHER_STATUS, fromInternalWeb: NOT_FROM_INTERNAL }]
 const NO_BANK_DETAILS = false
 
 describe('routes/helpers/get-required-information-warnings', function () {

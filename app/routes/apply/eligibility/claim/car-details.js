@@ -62,7 +62,7 @@ function get (carOnly, req, res, next) {
       } else {
         getMaskedEligibility(referenceAndEligibilityId.reference, null, referenceAndEligibilityId.id)
           .then(function (result) {
-            var fromAndTo = {from: result.Town, to: result.NameOfPrison}
+            var fromAndTo = { from: result.Town, to: result.NameOfPrison }
             return res.render('apply/eligibility/claim/car-details', {
               claimType: req.session.claimType,
               referenceId: req.session.referenceId,
@@ -97,9 +97,9 @@ function post (carOnly, req, res, next) {
       req.body.from,
       req.body.to,
       req.body.toll,
-      req.body[ 'toll-cost' ],
-      req.body[ 'parking-charge' ],
-      req.body[ 'parking-charge-cost' ],
+      req.body['toll-cost'],
+      req.body['parking-charge'],
+      req.body['parking-charge-cost'],
       req.body['new-destination'],
       req.body.destination,
       req.body.PostCode,

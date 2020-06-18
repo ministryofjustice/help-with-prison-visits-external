@@ -4,8 +4,9 @@ const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class Benefits {
-  constructor (benefit) {
+  constructor (benefit, benefitOwner) {
     this.benefit = benefit ? benefit.trim() : ''
+    this.benefitOwner = benefitOwner ? benefitOwner.trim() : ''
     this.isValid()
   }
 
@@ -14,6 +15,10 @@ class Benefits {
 
     FieldValidator(this.benefit, 'benefit', errors)
       .isRequired(ERROR_MESSAGES.getBenefitRequired)
+      .isValidBenefit(true)
+
+    FieldValidator(this.benefitOwner, 'benefitOwner', errors)
+      .isRequired(ERROR_MESSAGES.getBenefitOwnerRequired)
       .isValidBenefit(true)
 
     var validationErrors = errors.get()

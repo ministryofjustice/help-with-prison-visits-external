@@ -7,6 +7,7 @@ const benefitsEnum = require('../../../../app/constants/benefits-enum')
 const VALID_ENCODED_DOB = '113725122'
 const VALID_RELATIONSHIP = prisonerRelationshipEnum.PARTNER.urlValue
 const VALID_BENEFIT = benefitsEnum.INCOME_SUPPORT.urlValue
+const VALID_BENEFIT_OWNER = 'yes'
 const VALID_REFERENCE_ID = '49CCADM-4321'
 const VALID_REFERENCE = '49CCADM'
 const VALID_CLAIM_TYPE = claimTypeEnum.FIRST_TIME
@@ -16,6 +17,7 @@ const VALID_CLAIMID = '123'
 const NULL_ENCODED_DOB = null
 const NULL_RELATIONSHIP = null
 const NULL_BENEFIT = null
+const NULL_BENEFIT_OWNER = null
 const NULL_REFERENCE_ID = null
 const NULL_REFERENCE = null
 const NULL_CLAIM_TYPE = null
@@ -91,17 +93,20 @@ describe('services/validators/session-handler validateSession', function () {
     const VALID_BENEFIT_SESSION = {
       dobEncoded: VALID_ENCODED_DOB,
       relationship: VALID_RELATIONSHIP,
-      benefit: VALID_BENEFIT
+      benefit: VALID_BENEFIT,
+      benefitOwner: VALID_BENEFIT_OWNER
     }
     const NULL_BENEFIT_SESSION = {
       dobEncoded: VALID_ENCODED_DOB,
       relationship: VALID_RELATIONSHIP,
-      benefit: NULL_BENEFIT
+      benefit: NULL_BENEFIT,
+      benefitOwner: NULL_BENEFIT_OWNER
     }
     const INVALID_BENEFIT_SESSION = {
       dobEncoded: VALID_ENCODED_DOB,
       relationship: VALID_RELATIONSHIP,
-      benefit: INVALID_BENEFIT
+      benefit: INVALID_BENEFIT,
+      benefitOwner: VALID_BENEFIT_OWNER
     }
     const VALID_BENEFIT_SESSION_URL = '/apply/first-time/new-eligibility/about-the-prisoner'
 
@@ -127,6 +132,7 @@ describe('services/validators/session-handler validateSession', function () {
       dobEncoded: VALID_ENCODED_DOB,
       relationship: VALID_RELATIONSHIP,
       benefit: VALID_BENEFIT,
+      benefitOwner: VALID_BENEFIT_OWNER,
       referenceId: VALID_REFERENCE_ID,
       decryptedRef: VALID_REFERENCE
     }
@@ -134,6 +140,7 @@ describe('services/validators/session-handler validateSession', function () {
       dobEncoded: VALID_ENCODED_DOB,
       relationship: VALID_RELATIONSHIP,
       benefit: VALID_BENEFIT,
+      benefitOwner: NULL_BENEFIT_OWNER,
       referenceId: NULL_REFERENCE_ID,
       decryptedRef: NULL_REFERENCE
     }
@@ -141,6 +148,7 @@ describe('services/validators/session-handler validateSession', function () {
       dobEncoded: VALID_ENCODED_DOB,
       relationship: VALID_RELATIONSHIP,
       benefit: VALID_BENEFIT,
+      benefitOwner: VALID_BENEFIT_OWNER,
       referenceId: INVALID_REFERENCE_ID,
       decryptedRef: INVALID_REFERENCE
     }

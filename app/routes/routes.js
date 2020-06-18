@@ -19,6 +19,8 @@ var routes = [
   require('./apply/new-eligibility/prisoner-relationship'),
   require('./apply/new-eligibility/benefits'),
   require('./apply/new-eligibility/about-the-prisoner'),
+  require('./apply/new-eligibility/eligible-child'),
+  require('./apply/new-eligibility/benefit-owner'),
   require('./apply/new-eligibility/about-you'),
   require('./apply/eligibility/new-claim/future-or-past-visit'),
   require('./apply/eligibility/new-claim/same-journey-as-last-claim'),
@@ -44,6 +46,8 @@ var routes = [
   require('./apply/eligibility/claim/claim-summary'),
   require('./apply/eligibility/claim/file-upload'),
   require('./apply/eligibility/claim/payment-details'),
+  require('./apply/eligibility/claim/bank-payment-details'),
+  require('./apply/eligibility/claim/payout-confirmation'),
   require('./apply/eligibility/claim/declaration'),
 
   // Your Claims Flow

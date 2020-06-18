@@ -1,5 +1,4 @@
 const CarExpense = require('../../../../../app/services/domain/expenses/car-expense')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/car-expense', function () {
@@ -87,7 +86,7 @@ describe('services/domain/expenses/car-expense', function () {
         '',
         VALID_POSTCODE
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid postcode', function () {
@@ -103,7 +102,7 @@ describe('services/domain/expenses/car-expense', function () {
         VALID_DESTINATION,
         INVALID_POSTCODE
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid toll cost', function () {
@@ -116,7 +115,7 @@ describe('services/domain/expenses/car-expense', function () {
         VALID_PARKING,
         VALID_PARKING_COST
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid parking cost', function () {
@@ -129,6 +128,6 @@ describe('services/domain/expenses/car-expense', function () {
         VALID_PARKING,
         INVALID_PARKING_COST
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

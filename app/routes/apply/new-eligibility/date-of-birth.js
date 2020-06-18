@@ -14,7 +14,7 @@ module.exports = function (router) {
     }
 
     if ((req.query.error === 'expired')) {
-      errors = { expired: [ ERROR_MESSAGES.getExpiredSessionDOB ] }
+      errors = { expired: [ERROR_MESSAGES.getExpiredSessionDOB] }
     }
 
     return res.render('apply/new-eligibility/date-of-birth', {

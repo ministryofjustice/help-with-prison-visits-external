@@ -1,0 +1,104 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+Payment details and declaration - {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  {% include "includes/validation-error-messages.html" %}
+
+  <h1 class="heading-large">
+    Bank Account Details
+  </h1>
+
+  <form action="/apply/eligibility/claim/bank-payment-details?isAdvance={{ isAdvance }}" method="post">
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        {% if errors['PaymentMethod'][0] %}
+        <span class="error-message" id="error-message-payment-method">{{ errors['PaymentMethod'][0] }}</span>
+        {% endif %}
+
+        <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
+          <fieldset>
+
+              <div id="bank-details">
+
+                <div class="form-group {% if errors['NameOnAccount'][0] %} error {% endif %}">
+                  <label id="NameOnAccount" class="form-label-bold" for="name-on-account">Name on the account</label>
+                  {% if errors['NameOnAccount'][0] %}
+                  <span class="error-message" id="error-message-name-on-account">{{ errors['NameOnAccount'][0] }}</span>
+                  {% endif %}
+                  <input id="name-on-account-input"
+                         name="NameOnAccount"
+                         type="text"
+                         autocomplete="off"
+                         class="form-control full"
+                         value="{{ paymentDetails['NameOnAccount'] }}">
+                </div>
+
+                <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
+                  <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort code</label>
+                  <p class="form-hint">Must be 6 digits long</p>
+                  {% if errors['SortCode'][0] %}
+                  <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
+                  {% endif %}
+                  <input id="sort-code-input"
+                         name="SortCode"
+                         type="text"
+                         autocomplete="off"
+                         class="form-control form-control-1-4"
+                         value="{{ paymentDetails['SortCode'] }}">
+                </div>
+
+                <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
+                  <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account number</label>
+                  <p class="form-hint">Must be 8 digits long</p>
+                  {% if errors['AccountNumber'][0] %}
+                  <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
+                  {% endif %}
+                  <input id="account-number-input"
+                         name="AccountNumber"
+                         type="text"
+                         autocomplete="off"
+                         class="form-control"
+                         value="{{ paymentDetails['AccountNumber'] }}">
+                </div>
+
+                <div class="form-group {% if errors['RollNumber'][0] %} error {% endif %}">
+                  <label id="RollNumber" class="form-label-bold" for="roll-number-input">Building society roll number (if you have one)</label>
+                  <p class="form-hint">You can find it on your card, statement or passbook</p>
+                  {% if errors['RollNumber'][0] %}
+                  <span class="error-message" id="error-message-roll-number">{{ errors['RollNumber'][0] }}</span>
+                  {% endif %}
+                  <input id="roll-number-input"
+                         name="RollNumber"
+                         type="text"
+                         autocomplete="off"
+                         class="form-control"
+                         value="{{ paymentDetails['RollNumber'] }}">
+                </div>
+              </div>
+
+          </fieldset>
+        </div>
+      </div>
+    </div>
+
+    {% include "partials/csrf-hidden-input.html" %}
+
+    <input id="bank-payment-submit"
+           type="submit"
+           class="button"
+           value="Continue">
+  </form>
+
+</main>
+
+{% endblock %}

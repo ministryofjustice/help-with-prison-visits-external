@@ -6,7 +6,7 @@ const prisonerRelationshipsEnum = require('../../../../app/constants/prisoner-re
 const expenseTypeEnum = require('../../../../app/constants/expense-type-enum')
 
 describe('views/helpers/display-helper', function () {
-  const VALID_PRISONER_RELATIONSHIP_VALUE = prisonerRelationshipsEnum.HUSBAND_WIFE_CIVIL.value
+  const VALID_PRISONER_RELATIONSHIP_VALUE = prisonerRelationshipsEnum.WIFE.value
   const VALID_BENEFIT_VALUE = benefitsEnum.INCOME_SUPPORT.value
   const VALID_PRISON_VALUE = prisonsEnum.ALTCOURSE.value
   const INVALID_PRISON_VALUE = 'testing'
@@ -27,7 +27,7 @@ describe('views/helpers/display-helper', function () {
 
   it('should return the correct prisoner relationship display name given a valid value', function () {
     var result = displayHelper.getPrisonerRelationshipDisplayName(VALID_PRISONER_RELATIONSHIP_VALUE)
-    expect(result).to.equal(prisonerRelationshipsEnum.HUSBAND_WIFE_CIVIL.displayName)
+    expect(result).to.equal(prisonerRelationshipsEnum.WIFE.displayName)
   })
 
   it('should return the correct benefit display name given a valid value', function () {
@@ -102,15 +102,15 @@ describe('views/helpers/display-helper', function () {
     const COST = 2.5
 
     it('should give false when no warnings are needed', function () {
-      expect(displayHelper.zeroCostWarning(expenseTypeEnum.CAR.value, ZERO_COST, RETRO)).to.be.false
-      expect(displayHelper.zeroCostWarning(expenseTypeEnum.CAR.value, ZERO_COST, ADVANCE)).to.be.false
-      expect(displayHelper.zeroCostWarning(expenseTypeEnum.TRAIN.value, ZERO_COST, ADVANCE)).to.be.false
-      expect(displayHelper.zeroCostWarning(expenseTypeEnum.BUS.value, COST, RETRO)).to.be.false
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.CAR.value, ZERO_COST, RETRO)).to.be.false  //eslint-disable-line
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.CAR.value, ZERO_COST, ADVANCE)).to.be.false  //eslint-disable-line
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.TRAIN.value, ZERO_COST, ADVANCE)).to.be.false  //eslint-disable-line
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.BUS.value, COST, RETRO)).to.be.false  //eslint-disable-line
     })
 
     it('should return true if the cost is zero or less and not one of the expections', function () {
-      expect(displayHelper.zeroCostWarning(expenseTypeEnum.BUS.value, ZERO_COST, RETRO)).to.be.true
-      expect(displayHelper.zeroCostWarning(expenseTypeEnum.TRAIN.value, ZERO_COST, RETRO)).to.be.true
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.BUS.value, ZERO_COST, RETRO)).to.be.true  //eslint-disable-line
+      expect(displayHelper.zeroCostWarning(expenseTypeEnum.TRAIN.value, ZERO_COST, RETRO)).to.be.true  //eslint-disable-line
     })
   })
 })

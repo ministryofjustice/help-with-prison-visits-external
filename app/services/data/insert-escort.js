@@ -12,16 +12,16 @@ module.exports = function (reference, eligibilityId, claimId, aboutEscort) {
     Reference: reference,
     ClaimId: claimId
   })
-  .update({'IsEnabled': false})
-  .then(function () {
-    return knex('ClaimEscort').insert({
-      EligibilityId: eligibilityId,
-      Reference: reference,
-      ClaimId: claimId,
-      FirstName: aboutEscort.firstName,
-      LastName: aboutEscort.lastName,
-      DateOfBirth: aboutEscort.dob.toDate(),
-      IsEnabled: true
+    .update({ IsEnabled: false })
+    .then(function () {
+      return knex('ClaimEscort').insert({
+        EligibilityId: eligibilityId,
+        Reference: reference,
+        ClaimId: claimId,
+        FirstName: aboutEscort.firstName,
+        LastName: aboutEscort.lastName,
+        DateOfBirth: aboutEscort.dob.toDate(),
+        IsEnabled: true
+      })
     })
-  })
 }

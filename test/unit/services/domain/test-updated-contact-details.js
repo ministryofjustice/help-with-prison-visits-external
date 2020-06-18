@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const UpdatedContactDetails = require('../../../../app/services/domain/updated-contact-details')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/update-contact-details', function () {
@@ -16,6 +15,6 @@ describe('services/domain/update-contact-details', function () {
   it('should throw a validation error if any inputs were not set and the default domain object values where used', function () {
     expect(function () {
       new UpdatedContactDetails()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

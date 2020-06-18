@@ -35,9 +35,9 @@ module.exports = function (router) {
     try {
       var hasEscort = new HasEscort(req.body['has-escort'])
       if (hasEscort.hasEscort === 'yes') {
-        return res.redirect(`/apply/eligibility/claim/about-escort`)
+        return res.redirect('/apply/eligibility/claim/about-escort')
       } else {
-        return res.redirect(`/apply/eligibility/claim/has-child`)
+        return res.redirect('/apply/eligibility/claim/has-child')
       }
     } catch (error) {
       if (error instanceof ValidationError) {

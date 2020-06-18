@@ -10,6 +10,7 @@ describe('services/domain/about-you', function () {
   const VALID_DOB = '1980-01-01'
   const VALID_RELATIONSHIP = 'partner'
   const VALID_BENEFIT = 'income-support'
+  const VALID_BENEFIT_OWNER = 'yes'
   const VALID_FIRST_NAME = 'Tester'
   const VALID_LAST_NAME = 'Test'
   const VALID_NATIONAL_INSURANCE_NUMBER = 'aA 123456B'
@@ -39,6 +40,7 @@ describe('services/domain/about-you', function () {
       VALID_DOB,
       VALID_RELATIONSHIP,
       VALID_BENEFIT,
+      VALID_BENEFIT_OWNER,
       VALID_FIRST_NAME,
       VALID_LAST_NAME,
       VALID_NATIONAL_INSURANCE_NUMBER,
@@ -54,6 +56,7 @@ describe('services/domain/about-you', function () {
     expect(aboutYou.dob).to.deep.equal(dateFormatter.buildFromDateString(VALID_DOB))
     expect(aboutYou.relationship).to.equal(VALID_RELATIONSHIP)
     expect(aboutYou.benefit).to.equal(VALID_BENEFIT)
+    expect(aboutYou.benefitOwner).to.equal(VALID_BENEFIT_OWNER)
     expect(aboutYou.firstName).to.equal(VALID_FIRST_NAME)
     expect(aboutYou.lastName).to.equal(VALID_LAST_NAME)
     expect(aboutYou.nationalInsuranceNumber, 'should uppercase and remove whitespace').to.equal(VALID_NATIONAL_INSURANCE_NUMBER.replace(/ /g, '').toUpperCase())
@@ -69,7 +72,7 @@ describe('services/domain/about-you', function () {
   it('should throw a ValidationError if given invalid input', function () {
     expect(function () {
       new AboutYou('', '', '', '', '', '', '', '', '', '', '', '', '')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should return errors for all required fields', function () {
@@ -87,6 +90,7 @@ describe('services/domain/about-you', function () {
         VALID_DOB,
         VALID_RELATIONSHIP,
         VALID_BENEFIT,
+        VALID_BENEFIT_OWNER,
         VALID_FIRST_NAME,
         VALID_LAST_NAME,
         INVALID_NATIONAL_INSURANCE_NUMBER,
@@ -98,7 +102,7 @@ describe('services/domain/about-you', function () {
         VALID_EMAIL_ADDRESS,
         VALID_PHONE_NUMBER
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if an invalid PostCode is provided as input', function () {
@@ -107,6 +111,7 @@ describe('services/domain/about-you', function () {
         VALID_DOB,
         VALID_RELATIONSHIP,
         VALID_BENEFIT,
+        VALID_BENEFIT_OWNER,
         VALID_FIRST_NAME,
         VALID_LAST_NAME,
         VALID_NATIONAL_INSURANCE_NUMBER,
@@ -118,7 +123,7 @@ describe('services/domain/about-you', function () {
         VALID_EMAIL_ADDRESS,
         VALID_PHONE_NUMBER
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if an invalid email address is provided as input', function () {
@@ -127,6 +132,7 @@ describe('services/domain/about-you', function () {
         VALID_DOB,
         VALID_RELATIONSHIP,
         VALID_BENEFIT,
+        VALID_BENEFIT_OWNER,
         VALID_FIRST_NAME,
         VALID_LAST_NAME,
         VALID_NATIONAL_INSURANCE_NUMBER,
@@ -138,7 +144,7 @@ describe('services/domain/about-you', function () {
         INVALID_EMAIL_ADDRESS,
         VALID_PHONE_NUMBER
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should strip illegal characters from fields which accept free text inputs', function () {
@@ -147,6 +153,7 @@ describe('services/domain/about-you', function () {
       VALID_DOB,
       VALID_RELATIONSHIP,
       VALID_BENEFIT,
+      VALID_BENEFIT_OWNER,
       INVALID_CHARS_FIRST_NAME,
       INVALID_CHARS_LAST_NAME,
       VALID_NATIONAL_INSURANCE_NUMBER,
@@ -162,6 +169,7 @@ describe('services/domain/about-you', function () {
     expect(aboutYou.dob).to.deep.equal(dateFormatter.buildFromDateString(VALID_DOB))
     expect(aboutYou.relationship).to.equal(VALID_RELATIONSHIP)
     expect(aboutYou.benefit).to.equal(VALID_BENEFIT)
+    expect(aboutYou.benefitOwner).to.equal(VALID_BENEFIT_OWNER)
     expect(aboutYou.firstName).to.equal(INVALID_CHARS_FIRST_NAME.replace(unsafeInputPattern, ''))
     expect(aboutYou.lastName).to.equal(INVALID_CHARS_LAST_NAME.replace(unsafeInputPattern, ''))
     expect(aboutYou.nationalInsuranceNumber, 'should uppercase and remove whitespace').to.equal(VALID_NATIONAL_INSURANCE_NUMBER.replace(/ /g, '').toUpperCase())

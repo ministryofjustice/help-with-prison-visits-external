@@ -1,5 +1,4 @@
 const ReferenceRecovery = require('../../../../app/services/domain/reference-recovery')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/reference-recovery', function () {
@@ -17,12 +16,12 @@ describe('services/domain/reference-recovery', function () {
   it('should throw an error if passed invalid email address', function () {
     expect(function () {
       new ReferenceRecovery(INVALID_EMAIL, VALID_PRISONER_NUMBER).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid prisoner number', function () {
     expect(function () {
       new ReferenceRecovery(VALID_EMAIL, INVALID_PRISONER_NUMBER).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

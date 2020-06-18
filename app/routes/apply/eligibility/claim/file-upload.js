@@ -25,7 +25,7 @@ var csrfToken
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/summary/file-upload', function (req, res) {
-    req.yourClaimUrl = `/apply/eligibility/claim/summary`
+    req.yourClaimUrl = '/apply/eligibility/claim/summary'
     get(req, res)
   })
 
@@ -36,11 +36,11 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/summary/file-upload',
     function (req, res, next) {
-      req.yourClaimUrl = `/apply/eligibility/claim/summary`
+      req.yourClaimUrl = '/apply/eligibility/claim/summary'
       post(req, res, next)
     },
     function (req, res, next) {
-      checkForMalware(req, res, next, `/apply/eligibility/claim/summary`)
+      checkForMalware(req, res, next, '/apply/eligibility/claim/summary')
     })
 
   router.post('/your-claims/:claimId/file-upload',
@@ -83,7 +83,7 @@ function get (req, res) {
 }
 
 function renderFileUploadPage (req, res) {
-  if (DocumentTypeEnum.hasOwnProperty(req.query.document)) {
+  if (Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query.document)) {
     var decryptedRef = decrypt(req.session.referenceId)
 
     var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
@@ -121,9 +121,9 @@ function post (req, res, next, redirectURL) {
       }
 
       if (error) {
-        throw new ValidationError({upload: [ERROR_MESSAGES.getUploadTooLarge]})
+        throw new ValidationError({ upload: [ERROR_MESSAGES.getUploadTooLarge] })
       } else {
-        if (!DocumentTypeEnum.hasOwnProperty(req.query.document)) {
+        if (!(Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query.document))) {
           throw new Error('Not a valid document type')
         }
       }
@@ -210,7 +210,7 @@ function insertMalwareAlertTask (ids, claimId, path) {
       logger.warn(`Malware detected in file ${path}`)
     })
 
-  throw new ValidationError({upload: [ERROR_MESSAGES.getMalwareDetected]})
+  throw new ValidationError({ upload: [ERROR_MESSAGES.getMalwareDetected] })
 }
 
 function updateClaimDocumentMetadata (ids, claimId, req) {

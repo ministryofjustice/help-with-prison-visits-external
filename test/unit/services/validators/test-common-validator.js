@@ -847,10 +847,10 @@ describe('services/validators/common-validator', function () {
   })
 
   describe('isValidExpenseArray', function () {
-    const VALID_ARRAY_INPUT = [ expenseTypeEnum.PLANE.value, expenseTypeEnum.LIGHT_REFRESHMENT.value ]
+    const VALID_ARRAY_INPUT = [expenseTypeEnum.PLANE.value, expenseTypeEnum.LIGHT_REFRESHMENT.value]
     const VALID_STRING_INPUT = expenseTypeEnum.PLANE.value
 
-    const INVALID_ARRAY_INPUT = [ 'some invalid input', expenseTypeEnum.ACCOMMODATION.value ]
+    const INVALID_ARRAY_INPUT = ['some invalid input', expenseTypeEnum.ACCOMMODATION.value]
     const INVALID_STRING_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {

@@ -10,6 +10,6 @@ exports.config = wdioConfHelper({
     maxInstances: 1,
     browserName: 'firefox',
     platform: 'Windows 10',
-    version: '49.0'
+    version: '76.0'
   }]
 })

@@ -15,10 +15,10 @@ exports.up = function (knex, Promise) {
     table.string('TicketOwner', 10)
     table.boolean('IsEnabled')
   })
-  .catch(function (error) {
-    console.log(error)
-    throw error
-  })
+    .catch(function (error) {
+      console.log(error)
+      throw error
+    })
 }
 
 exports.down = function (knex, Promise) {

@@ -16,7 +16,7 @@ class BusExpense extends BaseExpense {
 
     FieldValidator(this.from, 'from', errors)
       .isRequired(ERROR_MESSAGES.getEnterFrom)
-       .isLessThanLength(100)
+      .isLessThanLength(100)
 
     FieldValidator(this.to, 'to', errors)
       .isRequired(ERROR_MESSAGES.getEnterTo)
