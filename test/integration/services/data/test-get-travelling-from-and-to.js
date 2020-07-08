@@ -20,7 +20,7 @@ describe('services/data/get-travelling-from-and-to', function () {
   })
 
   it('should retrieve to and from information for the given reference and id', function () {
-    getTravellingFromAndTo(REFERENCE, eligibilityId)
+    return getTravellingFromAndTo(REFERENCE, eligibilityId)
       .then(function (result) {
         expect(result).to.deep.equal(EXPECTED_RESULT)
       })

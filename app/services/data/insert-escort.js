@@ -20,7 +20,7 @@ module.exports = function (reference, eligibilityId, claimId, aboutEscort) {
         ClaimId: claimId,
         FirstName: aboutEscort.firstName,
         LastName: aboutEscort.lastName,
-        DateOfBirth: aboutEscort.dob.toDate(),
+        DateOfBirth: aboutEscort.dob.format('YYYY-MM-DD'),
         IsEnabled: true
       })
     })

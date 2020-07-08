@@ -53,7 +53,7 @@ class BenefitsAbout {
       throw new ValidationError(validationErrors)
     }
 
-    this.dob = dob.toDate()
+    this.dob = dob.format('YYYY-MM-DD')
   }
 }
 

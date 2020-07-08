@@ -22,7 +22,7 @@ module.exports = function (router) {
 
     var decodedDOB = dateFormatter.decodeDate(req.session.dobEncoded)
 
-    getHistoricClaims(req.session.decryptedRef, decodedDOB)
+    getHistoricClaims(req.session.decryptedRef, dateFormatter.buildFromDateString(decodedDOB).format('YYYY-MM-DD'))
       .then(function (claims) {
         if (claims.length === 0) {
           return res.redirect(`/start-already-registered${REFERENCE_DOB_INCORRECT_ERROR}`)
