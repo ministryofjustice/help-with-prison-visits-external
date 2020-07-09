@@ -13,7 +13,7 @@ module.exports = function (reference, eligibilityId, claimId, child) {
     ClaimId: claimId,
     FirstName: child.firstName,
     LastName: child.lastName,
-    DateOfBirth: child.dob.toDate(),
+    DateOfBirth: child.dob.format('YYYY-MM-DD'),
     Relationship: child.childRelationship,
     IsEnabled: true
   })

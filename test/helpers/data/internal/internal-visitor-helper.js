@@ -38,7 +38,7 @@ module.exports.insert = function (reference, eligibilityId) {
     Country: this.COUNTRY,
     EmailAddress: this.EMAIL_ADDRESS,
     PhoneNumber: this.PHONE_NUMBER,
-    DateOfBirth: this.DATE_OF_BIRTH.toDate(),
+    DateOfBirth: this.DATE_OF_BIRTH.format('YYYY-MM-DD'),
     Relationship: this.RELATIONSHIP,
     Benefit: this.BENEFIT,
     BenefitOwner: this.BENEFIT_OWNER
