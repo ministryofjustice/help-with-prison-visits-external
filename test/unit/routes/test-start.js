@@ -1,6 +1,5 @@
 const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
-require('sinon-bluebird')
 
 const claimTypeEnum = require('../../../app/constants/claim-type-enum')
 
@@ -44,7 +43,7 @@ describe('routes/start', function () {
     it('should redirect to already registered if made Claim for prisoner before', function () {
       return supertest(app)
         .post(ROUTE)
-        .send({madeClaimForPrisonerBefore: 'yes'})
+        .send({ madeClaimForPrisonerBefore: 'yes' })
         .expect(302)
         .expect('location', '/start-already-registered')
     })

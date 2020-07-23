@@ -30,9 +30,9 @@ module.exports = function (router) {
     try {
       var hasChild = new HasChild(req.body['has-child'])
       if (hasChild.hasChild === 'yes') {
-        return res.redirect(`/apply/eligibility/claim/about-child`)
+        return res.redirect('/apply/eligibility/claim/about-child')
       } else {
-        return res.redirect(`/apply/eligibility/claim/expenses`)
+        return res.redirect('/apply/eligibility/claim/expenses')
       }
     } catch (error) {
       if (error instanceof ValidationError) {

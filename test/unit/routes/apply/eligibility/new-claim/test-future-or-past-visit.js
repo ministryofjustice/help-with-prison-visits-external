@@ -5,12 +5,12 @@ const sinon = require('sinon')
 const expect = require('chai').expect
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjU1Ljc4NzksImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJyZWxhdGlvbnNoaXAiOiJyNCIsImJlbmVmaXQiOiJiMSIsInJlZmVyZW5jZUlkIjoiNWMyZTc3MWViNmNmMzlhNzA5IiwiZGVjcnlwdGVkUmVmIjoiVlgwUEo5MCIsImNsYWltVHlwZSI6ImZpcnN0LXRpbWUifQ==' ]
-const COOKIES_REPEAT = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjgyLjA3ODMzMzMzMywiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJyZWZlcmVuY2VJZCI6IjViM2UxNjBkYTRhMTUzYTcwZiIsImNsYWltVHlwZSI6InJlcGVhdCJ9' ]
-const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
+const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjU1Ljc4NzksImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJyZWxhdGlvbnNoaXAiOiJyNCIsImJlbmVmaXQiOiJiMSIsInJlZmVyZW5jZUlkIjoiNWMyZTc3MWViNmNmMzlhNzA5IiwiZGVjcnlwdGVkUmVmIjoiVlgwUEo5MCIsImNsYWltVHlwZSI6ImZpcnN0LXRpbWUifQ==']
+const COOKIES_REPEAT = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjgyLjA3ODMzMzMzMywiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJyZWZlcmVuY2VJZCI6IjViM2UxNjBkYTRhMTUzYTcwZiIsImNsYWltVHlwZSI6InJlcGVhdCJ9']
+const COOKIES_EXPIRED = ['apvs-start-application=']
 
 describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () {
-  const ROUTE = `/apply/eligibility/new-claim/future-or-past-visit`
+  const ROUTE = '/apply/eligibility/new-claim/future-or-past-visit'
 
   var app
   var urlValidatorCalled = false
@@ -34,7 +34,7 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          expect(urlValidatorCalled).to.be.true
+          expect(urlValidatorCalled).to.be.true  //eslint-disable-line
         })
     })
   })
@@ -45,9 +45,9 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
-        .send({'advance-past': 'past'})
+        .send({ 'advance-past': 'past' })
         .expect(302)
-        .expect('location', `/apply/eligibility/new-claim/journey-information`)
+        .expect('location', '/apply/eligibility/new-claim/journey-information')
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
@@ -55,7 +55,7 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', `/start-already-registered?error=expired`)
+        .expect('location', '/start-already-registered?error=expired')
     })
 
     it('should redirect to /apply/eligibility/new-claim/journey-information for repeat claim', function () {
@@ -63,9 +63,9 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
-        .send({'advance-past': 'advance'})
+        .send({ 'advance-past': 'advance' })
         .expect(302)
-        .expect('location', `/apply/eligibility/new-claim/same-journey-as-last-claim`)
+        .expect('location', '/apply/eligibility/new-claim/same-journey-as-last-claim')
     })
 
     it('should respond with a 400 if domain object validation fails', function () {

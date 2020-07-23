@@ -5,6 +5,7 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const checkStatusForFinishingClaim = require('../../../../services/data/check-status-for-finishing-claim')
+const checkIfReferenceIsDisabled = require('../../../../services/data/check-if-reference-is-disabled')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = function (router) {
@@ -21,7 +22,7 @@ module.exports = function (router) {
       referenceId: req.session.referenceId,
       claimId: req.session.claimId,
       isAdvance: req.query.isAdvance,
-      paymentMethod: req.query.paymentMethod
+      paymentMethod: req.session.paymentMethod
     })
   })
 
@@ -37,17 +38,24 @@ module.exports = function (router) {
     var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
 
     try {
-      new Declaration(req.body['terms-and-conditions-input'])  // eslint-disable-line no-new
-      return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId)
-        .then(function (claimInProgress) {
-          if (claimInProgress) {
-            return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, req.session.claimType, assistedDigitalCaseWorker, req.query.paymentMethod)
-              .catch(function (error) {
-                next(error)
-              })
-          } else {
-            redirectApplicationSubmitted(res, referenceAndEligibilityId.reference, req.session.claimId)
-          }
+      new Declaration(req.body['terms-and-conditions-input']) // eslint-disable-line no-new
+      return checkIfReferenceIsDisabled(referenceAndEligibilityId.reference)
+        .then(function (isDisabled) {
+          return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId)
+            .then(function (claimInProgress) {
+              if (isDisabled === true) {
+                return res.redirect(SessionHandler.getErrorPath(req.session, req.url, true))
+              } else {
+                if (claimInProgress) {
+                  return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, req.session.claimType, assistedDigitalCaseWorker, req.query.paymentMethod)
+                    .catch(function (error) {
+                      next(error)
+                    })
+                } else {
+                  redirectApplicationSubmitted(res, referenceAndEligibilityId.reference, req.session.claimId)
+                }
+              }
+            })
         })
     } catch (error) {
       if (error instanceof ValidationError) {
@@ -77,6 +85,6 @@ function finishClaim (res, reference, eligibilityId, claimId, claimType, assiste
 function redirectApplicationSubmitted (res, reference, claimId) {
   getIsAdvanceClaim(claimId)
     .then(function (isAdvanceClaim) {
-      return res.redirect(`/application-submitted`)
+      return res.redirect('/application-submitted')
     })
 }

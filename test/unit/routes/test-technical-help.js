@@ -3,12 +3,11 @@ const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const TaskEnums = require('../../../app/constants/tasks-enum')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
 
 describe('routes/help', function () {
-  const ROUTE = `/help`
+  const ROUTE = '/help'
   const VALID_DATA = {
     name: 'Joe Bloggs',
     emailAddress: 'test@test.com',

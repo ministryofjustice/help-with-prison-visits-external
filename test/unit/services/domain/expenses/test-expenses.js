@@ -1,11 +1,10 @@
 const Expenses = require('../../../../../app/services/domain/expenses/expenses')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expenseTypeEnum = require('../../../../../app/constants/expense-type-enum')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/expenses', function () {
-  const VALID_EXPENSES_ARRAY = [ expenseTypeEnum.BUS.value, expenseTypeEnum.FERRY.value ]
-  const INVALID_EXPENSES = [ expenseTypeEnum.FERRY.value, 'some invalid value' ]
+  const VALID_EXPENSES_ARRAY = [expenseTypeEnum.BUS.value, expenseTypeEnum.FERRY.value]
+  const INVALID_EXPENSES = [expenseTypeEnum.FERRY.value, 'some invalid value']
 
   it('should construct a domain object given valid input', function () {
     var expense = new Expenses(
@@ -19,6 +18,6 @@ describe('services/domain/expenses/expenses', function () {
       new Expenses(
         INVALID_EXPENSES
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

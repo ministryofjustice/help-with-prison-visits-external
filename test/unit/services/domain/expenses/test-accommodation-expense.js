@@ -1,5 +1,4 @@
 const AccommodationExpense = require('../../../../../app/services/domain/expenses/accommodation-expense')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/accommodation-expense', function () {
@@ -22,6 +21,6 @@ describe('services/domain/expenses/accommodation-expense', function () {
         INVALID_COST,
         VALID_DURATION_OF_TRAVEL
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

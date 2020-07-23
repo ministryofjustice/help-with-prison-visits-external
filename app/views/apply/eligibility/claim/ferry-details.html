@@ -41,24 +41,20 @@
           {% if errors['ticket-type'][0] %}
             <span class="error-message">{{ errors['ticket-type'][0] }}</span>
           {% endif %}
+            
+          <div class="multiple-choice">
+            <input id="ticket-type-yes" type="radio" name="ticket-type" value="foot-passenger" {% if expense['ticket-type'] == 'foot-passenger' %} checked {% endif %}>
+            <label for="ticket-type-yes" class="block-label">
+              Foot passenger
+            </label>
+          </div>
 
-          <label for="ticket-type-yes" class="block-label">
-            <input id="ticket-type-yes"
-                   type="radio"
-                   name="ticket-type"
-                   value="foot-passenger"
-                   {% if expense['ticket-type'] == 'foot-passenger' %} checked {% endif %}>
-            Foot passenger
-          </label>
-          <label for="ticket-type-no" class="block-label">
-            <input id="ticket-type-no"
-                   type="radio"
-                   name="ticket-type"
-                   value="car-passenger"
-                   {% if expense['ticket-type'] == 'car-passenger' %} checked {% endif %}>
-            Car
-          </label>
-
+          <div class="multiple-choice">
+            <input id="ticket-type-no" type="radio" name="ticket-type" value="car-passenger" {% if expense['ticket-type'] == 'car-passenger' %} checked {% endif %}>
+            <label for="ticket-type-no" class="block-label">
+              Car
+            </label>
+          </div>
         </div>
 
         {% set costExample = 100 %}

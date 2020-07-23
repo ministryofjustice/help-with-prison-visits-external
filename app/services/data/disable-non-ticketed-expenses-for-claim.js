@@ -10,7 +10,7 @@ module.exports = function (reference, eligibilityId, claimId, expenseType) {
   if (expense && !expense.ticketed) {
     return knex('ClaimExpense')
       .update('IsEnabled', false)
-      .where({'ClaimId': claimId, 'ExpenseType': expenseType}).returning('ClaimExpenseId')
+      .where({ ClaimId: claimId, ExpenseType: expenseType }).returning('ClaimExpenseId')
       .then(function (expenseIds) {
         if (expenseIds.length > 0) {
           return knex('ClaimDocument')

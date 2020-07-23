@@ -40,12 +40,12 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
         var newEligibilityId = result.eligibilityId
 
         expect(newReference).to.equal(UNIQUE_REFERENCE1)
-        expect(newEligibilityId).to.exist
+        expect(newEligibilityId).to.exist //eslint-disable-line
 
         return knex('ExtSchema.Eligibility').where('Reference', UNIQUE_REFERENCE1).first().then(function (newEligibilityRow) {
           expect(newEligibilityRow.Status).to.equal(eligibilityStatusEnum.IN_PROGRESS)
           return knex('ExtSchema.Prisoner').where('Reference', UNIQUE_REFERENCE1).first().then(function (newPrisonerRow) {
-            expect(stubReferenceGeneratorGenerate.calledOnce).to.be.true
+            expect(stubReferenceGeneratorGenerate.calledOnce).to.be.true  //eslint-disable-line
             expect(newPrisonerRow.FirstName).to.equal(aboutThePrisoner.firstName)
             expect(newPrisonerRow.LastName).to.equal(aboutThePrisoner.lastName)
             expect(newPrisonerRow.PrisonNumber).to.equal(aboutThePrisoner.prisonerNumber)
@@ -60,7 +60,7 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
     const stubReferenceGeneratorGenerate = sinon.stub(stubReferenceGenerator, 'generate')
     stubReferenceGeneratorGenerate.onCall(0).returns(NON_UNIQUE_REFERENCE) // Already used ref
     stubReferenceGeneratorGenerate.onCall(1).returns(NON_UNIQUE_REFERENCE) // Somehow duplicate ref generated
-    stubReferenceGeneratorGenerate.onCall(2).returns(UNIQUE_REFERENCE2)   // New unique ref generated
+    stubReferenceGeneratorGenerate.onCall(2).returns(UNIQUE_REFERENCE2) // New unique ref generated
 
     // First call uses NON_UNIQUE_REFERENCE
     return insertNewEligibilityAndPrisoner(aboutThePrisoner, claimTypeEnum.FIRST_TIME, undefined)

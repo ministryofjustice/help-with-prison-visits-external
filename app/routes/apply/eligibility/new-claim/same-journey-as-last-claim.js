@@ -16,9 +16,11 @@ module.exports = function (router) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
+    var isAdvancedClaim = req.session.advanceOrPast === 'advance'
+
     var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
-    getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true)
+    getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true, isAdvancedClaim)
       .then(function (lastClaimDetails) {
         if (lastClaimDetails.expenses[0]) {
           return res.render('apply/eligibility/new-claim/same-journey-as-last-claim', {
@@ -29,7 +31,7 @@ module.exports = function (router) {
             displayHelper: displayHelper
           })
         } else {
-          return res.redirect(`/apply/eligibility/new-claim/journey-information`)
+          return res.redirect('/apply/eligibility/new-claim/journey-information')
         }
       })
       .catch(function (error) {
@@ -55,7 +57,7 @@ module.exports = function (router) {
         req.session.claimType = 'repeat-duplicate'
       }
 
-      return res.redirect(`/apply/eligibility/new-claim/journey-information`)
+      return res.redirect('/apply/eligibility/new-claim/journey-information')
     } catch (error) {
       if (error instanceof ValidationError) {
         getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true)

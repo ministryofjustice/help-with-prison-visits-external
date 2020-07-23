@@ -174,6 +174,13 @@ class FieldValidator {
     }
     return this
   }
+
+  isValidRollNumber () {
+    if (!validator.isValidRollNumber(this.data)) {
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getRollNumberValidFormatMessage)
+    }
+    return this
+  }
 }
 
 module.exports = function (data, fieldName, errors) {

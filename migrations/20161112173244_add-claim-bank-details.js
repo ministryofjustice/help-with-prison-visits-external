@@ -7,10 +7,10 @@ exports.up = function (knex, Promise) {
     table.string('AccountNumber', 8)
     table.string('SortCode', 6)
   })
-  .catch(function (error) {
-    console.log(error)
-    throw error
-  })
+    .catch(function (error) {
+      console.log(error)
+      throw error
+    })
 }
 
 exports.down = function (knex, Promise) {

@@ -9,6 +9,6 @@ exports.config = wdioConfHelper({
     maxInstances: 1,
     browserName: 'chrome',
     platform: 'Windows 10',
-    version: '54.0'
+    version: '83.0'
   }]
 })

@@ -45,7 +45,7 @@ describe('services/data/insert-escort', function () {
         return insertEscort(REFERENCE, eligibilityId, claimId, newEscort)
       })
       .then(function () {
-        return knex('ExtSchema.ClaimEscort').first().where({'ClaimId': claimId, IsEnabled: false})
+        return knex('ExtSchema.ClaimEscort').first().where({ ClaimId: claimId, IsEnabled: false })
       })
       .then(function (oldDisabledEscort) {
         expect(oldDisabledEscort.FirstName).to.equal(claimEscortHelper.FIRST_NAME)

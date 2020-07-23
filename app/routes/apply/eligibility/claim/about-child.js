@@ -33,8 +33,8 @@ module.exports = function (router) {
 
     try {
       var child = new AboutChild(
-        req.body['FirstName'],
-        req.body['LastName'],
+        req.body.FirstName,
+        req.body.LastName,
         req.body['dob-day'],
         req.body['dob-month'],
         req.body['dob-year'],
@@ -46,7 +46,7 @@ module.exports = function (router) {
           if (req.body['add-another-child']) {
             return res.redirect(req.originalUrl)
           } else {
-            return res.redirect(`/apply/eligibility/claim/expenses`)
+            return res.redirect('/apply/eligibility/claim/expenses')
           }
         })
         .catch(function (error) {

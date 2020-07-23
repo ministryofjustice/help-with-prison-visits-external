@@ -1,4 +1,4 @@
-{% if expenseOwners.child or expenseOwners.escort %}
+{% if expenseOwners.child or expenseOwners.escort or expenseOwners.eligibleChildren %}
   <div class='form-group {% if errors['ticket-owner'][0] %} error {% endif %}' id='ticket-owner'>
     <h2 class='form-label-bold'>Who is this ticket for?</h2>
 
@@ -6,35 +6,41 @@
       <span class="error-message">{{ errors['ticket-owner'][0] }}</span>
     {% endif %}
 
-    <fieldset>
+    <fieldset class="inline">
       <legend class="visually-hidden">Who is this ticket for</legend>
 
-      <label for="is-your-ticket" class="block-label inline">
-          <input id="is-your-ticket"
-                type="radio"
-                name="ticket-owner"
-                value="you">
-          Yourself
-      </label>
+      <div class="multiple-choice">
+        <input id="is-your-ticket" type="radio" name="ticket-owner" value="you">
+        <label for="is-your-ticket" class="block-label inline">
+            Yourself
+        </label>
+      </div>
 
       {% if expenseOwners.child %}
-        <label for="is-child-ticket" class="block-label inline">
-          <input id="is-child-ticket"
-                  type="radio"
-                  name="ticket-owner"
-                  value="child">
-          Child
-        </label>
+        <div class="multiple-choice">
+          <input id="is-child-ticket" type="radio" name="ticket-owner" value="child">
+          <label for="is-child-ticket" class="block-label inline">
+            Child
+          </label>
+        </div>
+      {% endif %}
+
+      {% if expenseOwners.eligibleChildren %}
+        <div class="multiple-choice">
+          <input id="is-eligible-child-ticket" type="radio" name="ticket-owner" value="eligible-child">
+          <label for="is-eligible-child-ticket" class="block-label inline">
+            Eligible Child
+          </label>
+        </div>
       {% endif %}
 
       {% if expenseOwners.escort %}
-        <label for="is-escort-ticket" class="block-label inline">
-          <input id="is-escort-ticket"
-                  type="radio"
-                  name="ticket-owner"
-                  value="escort">
-          Escort
-        </label>
+        <div class="multiple-choice">
+          <input id="is-escort-ticket" type="radio" name="ticket-owner" value="escort">
+          <label for="is-escort-ticket" class="block-label inline">
+            Escort
+          </label>
+        </div>
       {% endif %}
 
     </fieldset>
@@ -42,13 +48,11 @@
   </div>
 {% else %}
   <div class='form-group {% if errors['ticket-owner'][0] %} error {% endif %}' id='ticket-owner'>
-    <label for="is-your-ticket" class="block-label inline js-hidden">
-        <input id="is-your-ticket"
-              type="radio"
-              name="ticket-owner"
-              value="you"
-              checked>
-        Yourself
-    </label>
+    <div class="multiple-choice">
+      <input id="is-your-ticket" type="radio" name="ticket-owner" value="you" checked>
+      <label for="is-your-ticket" class="block-label inline js-hidden">
+          Yourself
+      </label>
+    </div>
   </div>
 {% endif %}

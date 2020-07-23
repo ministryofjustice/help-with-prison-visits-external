@@ -6,7 +6,6 @@ const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const ticketOwnerEnum = require('../../../../app/constants/ticket-owner-enum')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const insertNewClaimStub = sinon.stub()
 const getLastClaimDetailsStub = sinon.stub()
@@ -63,8 +62,8 @@ describe('services/data/insert-repeat-duplicate-claim', function () {
 
     return insertRepeatDuplicateClaim(REFERENCE, eligibilityId, NEW_CLAIM)
       .then(function () {
-        expect(insertNewClaimStub.calledWith(REFERENCE, eligibilityId, claimTypeEnum.REPEAT_DUPLICATE, NEW_CLAIM)).to.be.true
-        expect(getLastClaimDetailsStub.calledWith(REFERENCE, eligibilityId, false)).to.be.true
+        expect(insertNewClaimStub.calledWith(REFERENCE, eligibilityId, claimTypeEnum.REPEAT_DUPLICATE, NEW_CLAIM)).to.be.true  //eslint-disable-line
+        expect(getLastClaimDetailsStub.calledWith(REFERENCE, eligibilityId, false)).to.be.true  //eslint-disable-line
       })
       .then(function () {
         return knex.select().from('ExtSchema.ClaimChild').where('ClaimId', claimId)

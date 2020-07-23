@@ -31,7 +31,7 @@ describe('services/directory-check', function () {
       sync: sinon.stub()
     }
     var directoryCheck = proxyquire('../../../app/services/directory-check', {
-      'mkdirp': mkdirpStub
+      mkdirp: mkdirpStub
     })
 
     directoryCheck('', '', '', '')

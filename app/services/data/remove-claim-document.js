@@ -7,7 +7,7 @@ module.exports = function (claimDocumentId) {
     .returning('Filepath')
     .where('ClaimDocumentId', claimDocumentId)
     .update({
-      'IsEnabled': false
+      IsEnabled: false
     })
     .then(function (filepath) {
       if (filepath[0] && fs.existsSync(filepath[0])) {

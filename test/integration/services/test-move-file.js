@@ -27,12 +27,12 @@ describe('services/move-file on file upload', function () {
 
   it('should raise an I/O error if the file cannot be written', function () {
     return moveFile(TMP_FILE_PATH, INVALID_TARGET_PATH, TARGET_FILE).catch(function (error) {
-      var expectedMessage = `ENOENT: no such file or directory`
-      expect(error.message.includes(expectedMessage), 'Error message should indicate no such file or directory').to.be.true
+      var expectedMessage = 'ENOENT: no such file or directory'
+      expect(error.message.includes(expectedMessage), 'Error message should indicate no such file or directory').to.be.true  //eslint-disable-line
     })
   })
 
   after(function () {
-    return fs.unlink(path.join(TARGET_PATH, TARGET_FILE))
+    return fs.unlinkSync(path.join(TARGET_PATH, TARGET_FILE))
   })
 })

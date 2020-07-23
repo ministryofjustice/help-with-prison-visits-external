@@ -48,7 +48,7 @@ describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
           .then(function (expenses) {
             expenses.forEach(function (expense) {
               if (expense.ExpenseType === NON_TICKETED_EXPENSE_TYPE) {
-                expect(expense.IsEnabled).to.be.false
+                expect(expense.IsEnabled).to.be.false  //eslint-disable-line
               }
             })
           })
@@ -65,7 +65,7 @@ describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
                 return documentHelper.getAllForExpense(expense.ClaimExpenseId)
                   .then(function (documents) {
                     documents.forEach(function (document) {
-                      expect(document.IsEnabled).to.be.false
+                      expect(document.IsEnabled).to.be.false  //eslint-disable-line
                     })
                   })
               }
@@ -76,18 +76,18 @@ describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
 
   it('should not disable documents if expenses are not disabled', function () {
     return expenseHelper.getAll(claimId)
-    .then(function (expenses) {
-      expenses.forEach(function (expense) {
-        if (expense.ExpenseType === NON_TICKETED_EXPENSE_TYPE) {
-          return documentHelper.getAllForExpense(expense.ClaimExpenseId)
-            .then(function (documents) {
-              documents.forEach(function (document) {
-                expect(document.IsEnabled).to.be.true
+      .then(function (expenses) {
+        expenses.forEach(function (expense) {
+          if (expense.ExpenseType === NON_TICKETED_EXPENSE_TYPE) {
+            return documentHelper.getAllForExpense(expense.ClaimExpenseId)
+              .then(function (documents) {
+                documents.forEach(function (document) {
+                  expect(document.IsEnabled).to.be.true  //eslint-disable-line
+                })
               })
-            })
-        }
+          }
+        })
       })
-    })
   })
 
   it('should not disable previous expenses for ticketed expense types', function () {
@@ -97,7 +97,7 @@ describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
           .then(function (expenses) {
             expenses.forEach(function (expense) {
               if (expense.ExpenseType === TICKETED_EXPENSE_TYPE) {
-                expect(expense.IsEnabled).to.be.true
+                expect(expense.IsEnabled).to.be.true  //eslint-disable-line
               }
             })
           })
@@ -112,11 +112,11 @@ describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
             expenses.forEach(function (expense) {
               if (expense.ExpenseType === TICKETED_EXPENSE_TYPE) {
                 return documentHelper.getAllForExpense(expense.ClaimExpenseId)
-                .then(function (documents) {
-                  documents.forEach(function (document) {
-                    expect(document.IsEnabled).to.be.true
+                  .then(function (documents) {
+                    documents.forEach(function (document) {
+                      expect(document.IsEnabled).to.be.true  //eslint-disable-line
+                    })
                   })
-                })
               }
             })
           })

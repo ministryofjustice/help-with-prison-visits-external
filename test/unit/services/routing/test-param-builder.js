@@ -38,17 +38,17 @@ describe('services/routing/param-builder', function () {
   describe('build', function () {
     it('should return an empty array if passed null', function () {
       var result = paramBuilder.build(null)
-      expect(result).to.be.empty
+      expect(result).to.be.empty  //eslint-disable-line
     })
 
     it('should return an empty array if passed undefined', function () {
       var result = paramBuilder.build(undefined)
-      expect(result).to.be.empty
+      expect(result).to.be.empty //eslint-disable-line
     })
 
     it('should return an empty array if passed an empty array', function () {
       var result = paramBuilder.build([])
-      expect(result).to.be.empty
+      expect(result).to.be.empty //eslint-disable-line
     })
 
     it('should return an array of all valid paramaters if passed an array containing valid paramaters only', function () {
@@ -70,17 +70,17 @@ describe('services/routing/param-builder', function () {
   describe('buildFormatted', function () {
     it('should return an empty array if passed null', function () {
       var result = paramBuilder.buildFormatted(null)
-      expect(result).to.be.empty
+      expect(result).to.be.empty //eslint-disable-line
     })
 
     it('should return an empty array if passed undefined', function () {
       var result = paramBuilder.buildFormatted(undefined)
-      expect(result).to.be.empty
+      expect(result).to.be.empty //eslint-disable-line
     })
 
     it('should return an empty array if passed an empty array', function () {
       var result = paramBuilder.buildFormatted([])
-      expect(result).to.be.empty
+      expect(result).to.be.empty //eslint-disable-line
     })
 
     it('should return valid query paramater containing each valid paramater in the input array', function () {

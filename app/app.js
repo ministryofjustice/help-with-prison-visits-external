@@ -37,7 +37,7 @@ app.use(helmet.contentSecurityPolicy({
       "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='",
       "'sha256-G29/qSW/JHHANtFhlrZVDZW1HOkCDRc78ggbqwwIJ2g='"],
     styleSrc: ["'self'"],
-    fontSrc: ['data:'],
+    fontSrc: ["'self'", 'data:'],
     imgSrc: ["'self'", 'www.google-analytics.com']
   }
 }))
@@ -164,7 +164,7 @@ app.use(function (req, res, next) {
 
 // Generate CSRF tokens to be sent in POST requests
 app.use(function (req, res, next) {
-  if (req.hasOwnProperty('csrfToken')) {
+  if (Object.prototype.hasOwnProperty.call(req, 'csrfToken')) {
     res.locals.csrfToken = req.csrfToken()
   }
   next()
@@ -196,7 +196,7 @@ app.use(function (req, res, next) {
 // catch CSRF token errors
 app.use(function (err, req, res, next) {
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
-  log.error({error: err})
+  log.error({ error: err })
   res.status(403)
   res.render('includes/error', {
     error: 'Invalid CSRF token'
@@ -205,7 +205,7 @@ app.use(function (err, req, res, next) {
 
 // Development error handler.
 app.use(function (err, req, res, next) {
-  log.error({error: err})
+  log.error({ error: err })
   res.status(err.status || 500)
   if (err.status === 404) {
     res.render('includes/error-404')

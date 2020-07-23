@@ -15,9 +15,15 @@
 
       {% include "includes/validation-error-messages.html" %}
 
-      <h1 id="benefit" class="heading-large">
-        Do you claim or receive any of the following?
-      </h1>
+      {% if relationship === 'eligible-child' %}
+        <h1 id="benefit" class="heading-large">
+          Is the eligible child covered by any of the following?
+        </h1>
+      {% else %}
+        <h1 id="benefit" class="heading-large">
+          Do you claim or receive any of the following?
+        </h1>
+      {% endif %}
 
       {% if errors['benefit'][0] %}
         <span class="error-message">{{ errors['benefit'][0] }}</span>
@@ -27,93 +33,107 @@
         <fieldset class="{% if errors['benefit'][0] %} error {% endif %}">
           <legend class="visually-hidden">Benefit</legend>
           <div class="form-group">
-            <label for="income-support" class="block-label">
-              <input id="income-support"
-                     type="radio"
-                     name="benefit"
-                     value="b1">
-              <span class="heading-small">Income Support</span>
-            </label>
+            
+            <div class="multiple-choice">
+              <input id="income-support" type="radio" name="benefit" value="b1">
+              <label for="income-support" class="block-label">
+                <strong class="bold-small">Income Support</strong>
+              </label>
+            </div>
+            
+            <div class="multiple-choice">
+              <input id="jobseekers-allowance" type="radio" name="benefit" value="b2">
+              <label for="jobseekers-allowance" class="block-label">
+                <strong class="bold-small">Jobseeker’s Allowance (JSA)</strong>
+                <br>
+                Income-based
+              </label>
+            </div>
 
-            <label for="jobseekers-allowance" class="block-label">
-              <input id="jobseekers-allowance"
-                     type="radio"
-                     name="benefit"
-                     value="b2">
-              <span class="heading-small">Jobseeker’s Allowance (JSA)</span>
-              <br>
-              Income-based
-            </label>
+            <div class="multiple-choice">
+              <input id="employment-and-support-allowance" type="radio" name="benefit" value="b3">
+              <label for="employment-and-support-allowance" class="block-label">
+                <strong class="bold-small">Employment and Support Allowance (ESA)</strong>
+                <br>
+                Income-related
+              </label>
+            </div>
 
-            <label for="employment-and-support-allowance" class="block-label">
-              <input id="employment-and-support-allowance"
-                     type="radio"
-                     name="benefit"
-                     value="b3">
-              <span class="heading-small">Employment and Support Allowance (ESA)</span>
-              <br>
-              Income-related
-            </label>
+            <div class="multiple-choice">
+              <input id="universal-credit" type="radio" name="benefit" value="b4">
+              <label for="universal-credit" class="block-label">
+                <strong class="bold-small">Universal Credit</strong>
+                <br>
+                While your monthly household income before tax is less than £1,250 a month
+              </label>
+            </div>
 
-            <label for="universal-credit" class="block-label">
-              <input id="universal-credit"
-                     type="radio"
-                     name="benefit"
-                     value="b4">
-              <span class="heading-small">Universal Credit</span>
-              <br>
-              While your monthly household income before tax is less than £1,250 a month
-            </label>
+            <div class="multiple-choice">
+              <input id="working-or-child-tax-credits" type="radio" name="benefit" value="b5">
+              <label for="working-or-child-tax-credits" class="block-label">
+                <strong class="bold-small">Working Tax credits (with disability or child tax) or Child Tax Credit</strong>
+                <br>
+                While earning less than £17,474 a year
+              </label>
+            </div>
 
-            <label for="working-or-child-tax-credits" class="block-label">
-              <input id="working-or-child-tax-credits"
-                     type="radio"
-                     name="benefit"
-                     value="b5">
-              <span class="heading-small">Working Tax credits (with disability or child tax) or Child Tax Credit</span>
-              <br>
-              While earning less than £17,474 a year
-            </label>
+            <div class="multiple-choice">
+              <input id="pension-credit" type="radio" name="benefit" value="b6">
+              <label for="pension-credit" class="block-label">
+                <strong class="bold-small">Pension Credit</strong>
+              </label>
+            </div>
 
-            <label for="pension-credit" class="block-label">
-              <input id="pension-credit"
-                     type="radio"
-                     name="benefit"
-                     value="b6">
-              <span class="heading-small">Pension Credit</span>
-            </label>
+            <div class="multiple-choice">
+              <input id="health-certificate2" type="radio" name="benefit" value="b7">
+              <label for="health-certificate2" class="block-label">
+                <strong class="bold-small">Health Certificate (HC2)</strong>
+              </label>
+            </div>
 
-            <label for="health-certificate2" class="block-label">
-              <input id="health-certificate2"
-                     type="radio"
-                     name="benefit"
-                     value="b7">
-              <span class="heading-small">Health Certificate (HC2)</span>
-            </label>
+            <div class="multiple-choice">
+              <input id="health-certificate3" type="radio" name="benefit" value="b8">
+              <label for="health-certificate3" class="block-label">
+                <strong class="bold-small">Health Certificate (HC3)</strong>
+              </label>
+            </div>
 
-            <label for="health-certificate3" class="block-label">
-              <input id="health-certificate3"
-                     type="radio"
-                     name="benefit"
-                     value="b8">
-              <span class="heading-small">Health Certificate (HC3)</span>
-            </label>
+            <div class="multiple-choice">
+              <input id="nhs-tax-credit" type="radio" name="benefit" value="b9">
+              <label for="nhs-tax-credit" class="block-label">
+                <strong class="bold-small">NHS Tax Credit Exemption Certificate</strong>
+              </label>
+            </div>
 
-            <label for="nhs-tax-credit" class="block-label">
-              <input id="nhs-tax-credit"
-                     type="radio"
-                     name="benefit"
-                     value="b9">
-              <span class="heading-small">NHS Tax Credit Exemption Certificate</span>
-            </label>
+            <div class="multiple-choice">
+              <input id="none-of-the-above" type="radio" name="benefit" value="none">
+              <label for="none-of-the-above" class="block-label">
+              <strong class="bold-small">None of the above</strong>
+              </label>
+            </div>
+          </div>
+        </fieldset>
 
-            <label for="none-of-the-above" class="block-label">
-              <input id="none-of-the-above"
-                     type="radio"
-                     name="benefit"
-                     value="none">
-             <span class="heading-small">None of the above</span>
-            </label>
+        <h1 id="benefitOwner" class="heading-large">
+          Are you the benefit owner?
+        </h1>
+
+        <fieldset class="{% if errors['benefitOwner'][0] %} error {% endif %}">
+          <legend class="visually-hidden">BenefitOwner</legend>
+          <div class="form-group">
+            <div class="multiple-choice">
+              <input id="yes" type="radio" name="benefitOwner" value="yes">
+              <label for="yes" class="block-label">
+                <strong class="bold-small">Yes</strong>
+              </label>
+            </div>
+
+            <div class="multiple-choice">
+              <input id="no" type="radio" name="benefitOwner" value="no">
+              <label for="no" class="block-label">
+                <strong class="bold">No</strong>
+              </label>
+            </div>
           </div>
 
         </fieldset>
