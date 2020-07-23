@@ -17,7 +17,7 @@ module.exports.insert = function (reference, eligibilityId) {
       Reference: reference,
       FirstName: this.FIRST_NAME,
       LastName: this.LAST_NAME,
-      DateOfBirth: this.DATE_OF_BIRTH.toDate(),
+      DateOfBirth: this.DATE_OF_BIRTH.format('YYYY-MM-DD'),
       PrisonNumber: this.PRISON_NUMBER,
       NameOfPrison: this.NAME_OF_PRISON
     })

@@ -7,7 +7,7 @@ module.exports = function (reference, eligibilityId, aboutYou) {
     throw new Error('Provided aboutYou object is not an instance of the expected class')
   }
 
-  var dateOfBirth = aboutYou.dob.toDate()
+  var dateOfBirth = aboutYou.dob.format('YYYY-MM-DD')
 
   var visitorInformation = {
     EligibilityId: eligibilityId,

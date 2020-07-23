@@ -36,9 +36,9 @@ describe('services/data/submit-claim', function () {
     var assistedDigitalCaseworker = 'a@b.com'
     var paymentMethod = 'bank'
 
-    submitClaim(REFERENCE, eligibilityId, claimId, CLAIM_TYPE, assistedDigitalCaseworker, paymentMethod)
+    return submitClaim(REFERENCE, eligibilityId, claimId, CLAIM_TYPE, assistedDigitalCaseworker, paymentMethod)
       .then(function () {
-        knex.first().from('ExtSchema.Eligibility').where('Reference', REFERENCE)
+        return knex.first().from('ExtSchema.Eligibility').where('Reference', REFERENCE)
           .then(function (eligibility) {
             return knex.first().from('ExtSchema.Claim').where('Reference', REFERENCE)
               .then(function (claim) {
@@ -47,7 +47,7 @@ describe('services/data/submit-claim', function () {
 
                 expect(claim.Status).to.equal(claimStatusEnum.SUBMITTED)
                 expect(claim.AssistedDigitalCaseworker).to.equal(assistedDigitalCaseworker)
-                expect(claim.DateSubmitted).to.be.within(twoMinutesAgo, twoMinutesAhead)
+                expect(claim.DateSubmitted).to.be.within(twoMinutesAgo.toDate(), twoMinutesAhead.toDate())
                 expect(claim.PaymentMethod).to.equal(paymentMethod)
 
                 expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true  //eslint-disable-line
