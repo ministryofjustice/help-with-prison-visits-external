@@ -41,7 +41,7 @@
     {% endif %}
 
     <td>
-    {% if displayHelper.getExpenseReceiptUploadEnabled(claimExpense.ExpenseType) %}
+    {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %}
       {% if claimDetails.claim.IsAdvanceClaim and not forEdit and not claimExpense['DocumentStatus'] %}
         <span class="text-pending">Receipt must be supplied after visit</span>
 
@@ -106,12 +106,8 @@
           <span class="text-pending">Sending receipt by post</span>
           <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">change</button>
 
-        {% elif claimExpense.ExpenseType !== 'car' %}
-          <span class="text-warning">Receipt needed</span>
-          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt ">Add</a>
-
         {% else %}
-          <span class="text-warning">Receipt optional</span>
+          <span class="text-warning">Receipt needed</span>
           <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt ">Add</a>
 
         {% endif %}
