@@ -102,7 +102,10 @@ function post (carOnly, req, res, next) {
       req.body['parking-charge-cost'],
       req.body['new-destination'],
       req.body.destination,
-      req.body.PostCode
+      req.body.PostCode,
+      req.body['new-origin'],
+      req.body.origin,
+      req.body.FromPostCode
     )
 
     insertCarExpenses(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
