@@ -30,7 +30,7 @@ module.exports = function (router) {
       var updatedContactDetails = new UpdatedContactDetails(req.body['email-address'], req.body['phone-number'])
       insertEligibilityVisitorUpdatedContactDetail(req.session.decryptedRef, req.session.eligibilityId, updatedContactDetails)
         .then(function () {
-          res.redirect(`/your-claims/check-your-information`)
+          res.redirect('/your-claims/check-your-information')
         })
         .catch(function (error) {
           next(error)

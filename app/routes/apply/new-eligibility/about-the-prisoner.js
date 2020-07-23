@@ -5,6 +5,7 @@ const ValidationError = require('../../../services/errors/validation-error')
 const insertNewEligibilityAndPrisoner = require('../../../services/data/insert-new-eligibility-and-prisoner')
 const displayHelper = require('../../../views/helpers/display-helper')
 const SessionHandler = require('../../../services/validators/session-handler')
+const prisonerRelationshipEnum = require('../../../constants/prisoner-relationships-enum')
 
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res) {
@@ -33,24 +34,34 @@ module.exports = function (router) {
     var prisoner = req.body
 
     try {
-      var aboutThePrisoner = new AboutThePrisoner(req.body['FirstName'],
-        req.body['LastName'],
+      var aboutThePrisoner = new AboutThePrisoner(req.body.FirstName,
+        req.body.LastName,
         req.body['dob-day'],
         req.body['dob-month'],
         req.body['dob-year'],
-        req.body['PrisonerNumber'],
-        req.body['NameOfPrison'])
+        req.body.PrisonerNumber,
+        req.body.NameOfPrison)
 
       insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.session.decryptedRef)
         .then(function (result) {
           req.session.referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
           req.session.decryptedRef = result.reference
           var benefitOwner = req.session.benefitOwner
-
-          if (benefitOwner === 'no') {
-            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+          var relationships = Object.keys(prisonerRelationshipEnum)
+          var relationship
+          for (var r of relationships) {
+            if (prisonerRelationshipEnum[r].urlValue === req.session.relationship) {
+              relationship = prisonerRelationshipEnum[r].value
+            }
+          }
+          if (relationship === 'eligible-child') {
+            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/eligible-child`)
           } else {
-            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+            if (benefitOwner === 'no') {
+              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+            } else {
+              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+            }
           }
         })
         .catch(function (error) {

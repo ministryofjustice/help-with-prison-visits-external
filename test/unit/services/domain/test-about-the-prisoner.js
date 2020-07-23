@@ -38,15 +38,13 @@ describe('services/domain/about-the-prisoner', function () {
     expect(aboutThePrisoner.dobYear).to.equal(VALID_DOB_YEAR)
     expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONER_NUMBER.replace(/ /g, '').toUpperCase())
     expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAME_OF_PRISON.trim())
-    expect(aboutThePrisoner.dob).to.be.within(
-      dateFormatter.buildFromDateString('1995-01-01').subtract(1, 'seconds').toDate(),
-      dateFormatter.buildFromDateString('1995-01-01').add(1, 'seconds').toDate())
+    expect(aboutThePrisoner.dob).to.be.equal(dateFormatter.buildFromDateString('1995-01-01').format('YYYY-MM-DD'))
   })
 
   it('should throw a ValidationError if invalid input', function () {
     expect(function () {
       new AboutThePrisoner('', '', '', '', '', '', '')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should return errors for all required fields', function () {
@@ -69,7 +67,7 @@ describe('services/domain/about-the-prisoner', function () {
         VALID_PRISONER_NUMBER,
         VALID_NAME_OF_PRISON
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should strip illegal characters from otherwise valid data', function () {
@@ -90,8 +88,6 @@ describe('services/domain/about-the-prisoner', function () {
     expect(aboutThePrisoner.dobYear).to.equal(VALID_DOB_YEAR)
     expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONER_NUMBER.replace(/ /g, '').toUpperCase())
     expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAME_OF_PRISON.trim())
-    expect(aboutThePrisoner.dob).to.be.within(
-      dateFormatter.buildFromDateString('1995-01-01').subtract(1, 'seconds').toDate(),
-      dateFormatter.buildFromDateString('1995-01-01').add(1, 'seconds').toDate())
+    expect(aboutThePrisoner.dob).to.be.equal(dateFormatter.buildFromDateString('1995-01-01').format('YYYY-MM-DD'))
   })
 })

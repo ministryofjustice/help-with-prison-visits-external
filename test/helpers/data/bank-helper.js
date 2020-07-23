@@ -1,16 +1,19 @@
 const config = require('../../../knexfile').migrations
 const knex = require('knex')(config)
 const insertBankAccountDetailsForClaim = require('../../../app/services/data/insert-bank-account-details-for-claim')
-const BankAccountDetails = require('../../../app/services/domain/payment-details')
+const BankAccountDetails = require('../../../app/services/domain/bank-account-details')
 
 module.exports.ACCOUNT_NUMBER = '07526415'
 module.exports.SORT_CODE = '010203'
+module.exports.NAME_ON_ACCOUNT = 'MR JOSEPH BLOGGS'
+module.exports.ROLL_NUMBER = 'ADGV-36453.89B'
 
 module.exports.build = function () {
   return new BankAccountDetails(
-    'bank',
     this.ACCOUNT_NUMBER,
-    this.SORT_CODE
+    this.SORT_CODE,
+    this.NAME_ON_ACCOUNT,
+    this.ROLL_NUMBER
   )
 }
 

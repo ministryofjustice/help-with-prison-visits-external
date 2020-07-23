@@ -1,5 +1,4 @@
 const CheckYourInformation = require('../../../../app/services/domain/check-your-information')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/check-your-information', function () {
@@ -11,6 +10,6 @@ describe('services/domain/check-your-information', function () {
   it('should throw an error if passed invalid data', function () {
     expect(function () {
       new CheckYourInformation(null).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

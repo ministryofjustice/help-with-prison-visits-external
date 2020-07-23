@@ -69,6 +69,7 @@ function deleteByReference (schemaTable, reference) {
 
 module.exports.deleteAll = function (reference) {
   return deleteByReference('ExtSchema.Task', reference)
+    .then(function () { return deleteByReference('ExtSchema.EligibleChild', reference) })
     .then(function () { return deleteByReference('ExtSchema.ClaimBankDetail', reference) })
     .then(function () { return deleteByReference('ExtSchema.ClaimDocument', reference) })
     .then(function () { return deleteByReference('ExtSchema.ClaimExpense', reference) })

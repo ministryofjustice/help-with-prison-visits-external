@@ -21,16 +21,17 @@ module.exports = function (router) {
 
     var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
-    getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
+    getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'), null)
       .then(function (eligibility) {
-        req.session.prisonerNumber = eligibility['PrisonNumber']
-        req.session.eligibilityId = eligibility['EligibilityId']
+        req.session.prisonerNumber = eligibility.PrisonNumber
+        req.session.eligibilityId = eligibility.EligibilityId
 
         return res.render('your-claims/check-your-information', {
           dob: dobDecoded,
           reference: req.session.decryptedRef,
           eligibility: eligibility,
-          displayHelper: displayHelper})
+          displayHelper: displayHelper
+        })
       })
       .catch(function (error) {
         next(error)
@@ -53,13 +54,13 @@ module.exports = function (router) {
 
       new CheckYourInformation(req.body['confirm-correct']) // eslint-disable-line no-new
 
-      getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
+      getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'), null)
         .then(function (eligibility) {
           var nameOfPrison = eligibility.NameOfPrison
           var isNorthernIrelandClaim = eligibility.Country === NORTHERN_IRELAND
           var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
-          req.session.prisonerNumber = eligibility['PrisonNumber']
+          req.session.prisonerNumber = eligibility.PrisonNumber
           req.session.claimType = 'repeat'
 
           // Northern Ireland claims cannot be advance claims so skip future-or-past
@@ -76,7 +77,7 @@ module.exports = function (router) {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).toDate(), null)
+        getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'), null)
           .then(function (eligibility) {
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,

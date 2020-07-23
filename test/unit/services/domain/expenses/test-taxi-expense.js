@@ -1,5 +1,4 @@
 const TaxiExpense = require('../../../../../app/services/domain/expenses/taxi-expense')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/taxi-expense', function () {
@@ -26,6 +25,6 @@ describe('services/domain/expenses/taxi-expense', function () {
         VALID_FROM,
         VALID_TO
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

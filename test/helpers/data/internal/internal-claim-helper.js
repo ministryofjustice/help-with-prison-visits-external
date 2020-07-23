@@ -51,9 +51,9 @@ module.exports.insert = function (reference, eligibilityId, data, status) {
     Reason: claim.Reason,
     Note: claim.Note
   }).returning('ClaimId')
-  .then(function (insertedIds) {
-    return insertedIds[0]
-  })
+    .then(function (insertedIds) {
+      return insertedIds[0]
+    })
 }
 
 module.exports.get = function (claimId) {

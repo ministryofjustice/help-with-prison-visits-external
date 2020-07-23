@@ -15,7 +15,7 @@ describe('services/clam-av', function () {
     })
 
     clamAv = proxyquire('../../../app/services/clam-av', {
-      'clamscan': clamStub,
+      clamscan: clamStub,
       '../../config': configStub
     })
   })

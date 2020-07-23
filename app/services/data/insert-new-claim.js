@@ -13,12 +13,12 @@ module.exports = function (reference, eligibilityId, claimType, claim) {
     Reference: reference,
     ClaimType: claimType,
     IsAdvanceClaim: claim.isAdvanceClaim,
-    DateOfJourney: claim.dateOfJourney.toDate(),
+    DateOfJourney: claim.dateOfJourney.format('YYYY-MM-DD'),
     DateCreated: dateFormatter.now().toDate(),
     DateSubmitted: null,
     Status: claimStatusEnum.IN_PROGRESS
   }).returning('ClaimId')
-  .then(function (insertedIds) {
-    return insertedIds[0]
-  })
+    .then(function (insertedIds) {
+      return insertedIds[0]
+    })
 }

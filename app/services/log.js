@@ -11,9 +11,9 @@ var log = bunyan.createLogger({
   name: 'external-web',
   streams: [],
   serializers: {
-    'request': serializers.requestSerializer,
-    'response': serializers.responseSerializer,
-    'error': serializers.errorSerializer
+    request: serializers.requestSerializer,
+    response: serializers.responseSerializer,
+    error: serializers.errorSerializer
   }
 })
 

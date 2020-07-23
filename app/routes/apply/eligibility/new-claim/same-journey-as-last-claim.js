@@ -31,7 +31,7 @@ module.exports = function (router) {
             displayHelper: displayHelper
           })
         } else {
-          return res.redirect(`/apply/eligibility/new-claim/journey-information`)
+          return res.redirect('/apply/eligibility/new-claim/journey-information')
         }
       })
       .catch(function (error) {
@@ -57,7 +57,7 @@ module.exports = function (router) {
         req.session.claimType = 'repeat-duplicate'
       }
 
-      return res.redirect(`/apply/eligibility/new-claim/journey-information`)
+      return res.redirect('/apply/eligibility/new-claim/journey-information')
     } catch (error) {
       if (error instanceof ValidationError) {
         getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true)

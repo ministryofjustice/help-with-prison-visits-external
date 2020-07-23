@@ -10,10 +10,10 @@ exports.up = function (knex, Promise) {
     table.string('NationalInsuranceNumber', 10).notNullable()
     table.boolean('IsEnabled')
   })
-  .catch(function (error) {
-    console.log(error)
-    throw error
-  })
+    .catch(function (error) {
+      console.log(error)
+      throw error
+    })
 }
 
 exports.down = function (knex, Promise) {

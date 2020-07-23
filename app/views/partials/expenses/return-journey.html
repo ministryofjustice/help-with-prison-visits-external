@@ -6,25 +6,22 @@
     <span class="error-message">{{ errors['return-journey'][0] }}</span>
   {% endif %}
 
-  <fieldset>
+  <fieldset class="inline">
     <legend class="visually-hidden">Is this a return journey</legend>
-
-    <label for="return-yes" class="block-label inline" data-target="return-time">
-      <input id="return-yes"
-             type="radio"
-             name="return-journey"
-             value="yes"
-             {% if expense['return-journey'] == 'yes' %} checked {% endif %}>
-      Yes
-    </label>
-    <label for="return-no" class="block-label inline">
-      <input id="return-no"
-             type="radio"
-             name="return-journey"
-             value="no"
-             {% if expense['return-journey'] == 'no' %} checked {% endif %}>
-      No
-    </label>
+      
+    <div class="multiple-choice"  data-target="return-time">
+      <input id="return-yes" type="radio" name="return-journey" value="yes" {% if expense['return-journey'] == 'yes' %} checked {% endif %}>
+      <label for="return-yes" class="block-label inline">
+        Yes
+      </label>
+    </div>
+    
+    <div class="multiple-choice">
+      <input id="return-no" type="radio" name="return-journey" value="no" {% if expense['return-journey'] == 'no' %} checked {% endif %}>
+      <label for="return-no" class="block-label inline">
+        No
+      </label>
+    </div>
 
   </fieldset>
 

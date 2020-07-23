@@ -1,5 +1,4 @@
 const AlreadyRegisterd = require('../../../../app/services/domain/already-registered')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const dateFormatter = require('../../../../app/services/date-formatter')
 const expect = require('chai').expect
 
@@ -31,6 +30,6 @@ describe('services/domain/already-registered', function () {
         VALID_MONTH,
         VALID_YEAR
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

@@ -1,5 +1,4 @@
 const HasChild = require('../../../../app/services/domain/has-child')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/has-child', function () {
@@ -18,6 +17,6 @@ describe('services/domain/has-child', function () {
       new HasChild(
         INVALID_INPUT
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

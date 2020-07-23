@@ -14,10 +14,10 @@ module.exports = function (reference, claimId, fileUpload, multipageDoc) {
     return knex('ClaimDocument')
       .update('IsEnabled', false)
       .where({
-        'Reference': reference,
-        'ClaimId': claimId,
-        'ClaimExpenseId': fileUpload.claimExpenseId,
-        'DocumentType': fileUpload.documentType
+        Reference: reference,
+        ClaimId: claimId,
+        ClaimExpenseId: fileUpload.claimExpenseId,
+        DocumentType: fileUpload.documentType
       })
   }
 }

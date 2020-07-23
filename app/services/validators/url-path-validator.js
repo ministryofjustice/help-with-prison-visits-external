@@ -9,30 +9,30 @@ const dateFormatter = require('../../services/date-formatter')
  */
 class UrlPathValidator {
   static validate (path) {
-    if (path['referenceId']) {
-      var referenceId = decrypt(path['referenceId'])
+    if (path.referenceId) {
+      var referenceId = decrypt(path.referenceId)
 
       this.validateParam(referenceId.reference, 'isValidReference')
       this.validateParam(referenceId.id, 'isValidReferenceId')
     }
 
-    if (path['dob']) {
-      var dob = dateFormatter.decodeDate(path['dob'])
+    if (path.dob) {
+      var dob = dateFormatter.decodeDate(path.dob)
     }
 
-    if (path['reference']) {
-      var reference = decrypt(path['reference'])
+    if (path.reference) {
+      var reference = decrypt(path.reference)
 
       this.validateParam(reference, 'isValidReference')
     }
 
-    this.validateParam(path['claimType'], 'isValidClaimType')
+    this.validateParam(path.claimType, 'isValidClaimType')
     this.validateParam(dob, 'isValidDateOfBirth')
-    this.validateParam(path['relationship'], 'isValidPrisonerRelationship')
-    this.validateParam(path['benefit'], 'isValidBenefit')
-    this.validateParam(path['claimId'], 'isNumeric')
-    this.validateParam(path['claimDocumentId'], 'isNumeric')
-    this.validateParam(path['advanceOrPast'], 'isValidAdvanceOrPast')
+    this.validateParam(path.relationship, 'isValidPrisonerRelationship')
+    this.validateParam(path.benefit, 'isValidBenefit')
+    this.validateParam(path.claimId, 'isNumeric')
+    this.validateParam(path.claimDocumentId, 'isNumeric')
+    this.validateParam(path.advanceOrPast, 'isValidAdvanceOrPast')
   }
 
   static validateParam (param, validateFunction) {

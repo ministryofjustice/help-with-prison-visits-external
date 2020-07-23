@@ -3,12 +3,11 @@ const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const TaskEnums = require('../../../app/constants/tasks-enum')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
 
 describe('routes/feedback', function () {
-  const ROUTE = `/feedback`
+  const ROUTE = '/feedback'
   const VALID_DATA = {
     rating: 'satisfied',
     improvements: 'This is a test message',
@@ -53,7 +52,7 @@ describe('routes/feedback', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      feedbackStub.throws(new ValidationError({ 'rating': {} }))
+      feedbackStub.throws(new ValidationError({ rating: {} }))
       return supertest(app)
         .post(ROUTE)
         .expect(400)

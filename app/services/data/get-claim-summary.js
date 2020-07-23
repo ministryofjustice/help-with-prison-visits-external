@@ -22,6 +22,7 @@ module.exports = function (claimId, claimType) {
       'Visitor.LastName',
       'Visitor.Benefit',
       'Visitor.Country',
+      'Visitor.Relationship',
       'Prisoner.FirstName AS PrisonerFirstName',
       'Prisoner.LastName AS PrisonerLastName',
       'Prisoner.DateOfBirth AS PrisonerDateOfBirth',
@@ -51,13 +52,14 @@ module.exports = function (claimId, claimType) {
     })
     .then(function (claim) {
       return knex('ClaimDocument')
-        .where({'ClaimDocument.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null})
+        .where({ 'ClaimDocument.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null })
         .orWhere({
           'ClaimDocument.ClaimId': null,
           'ClaimDocument.Reference': claim.Reference,
           'ClaimDocument.EligibilityId': claim.EligibilityId,
           'ClaimDocument.IsEnabled': true,
-          'ClaimDocument.ClaimExpenseId': null})
+          'ClaimDocument.ClaimExpenseId': null
+        })
         .select('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
         .orderBy('ClaimDocument.DateSubmitted', 'desc')
         .then(function (claimDocuments) {
@@ -74,7 +76,7 @@ module.exports = function (claimId, claimType) {
             .then(function (claimExpenses) {
               claim.benefitDocument = []
               claimDocuments.forEach(function (document) {
-                if (document.DocumentType === documentTypeEnum['VISIT_CONFIRMATION'].documentType) {
+                if (document.DocumentType === documentTypeEnum.VISIT_CONFIRMATION.documentType) {
                   claim.visitConfirmation = document
                 } else {
                   claim.benefitDocument.push(document)
@@ -117,6 +119,36 @@ module.exports = function (claimId, claimType) {
                 claimExpenses: expensesAndChildren.claimExpenses,
                 claimChild: expensesAndChildren.claimChild,
                 claimEscort: claimEscort
+              }
+            })
+        })
+        .then(function (expensesChildrenAndEscort) {
+          return knex('EligibleChild')
+            .where('EligibleChild.EligibilityId', claim.EligibilityId)
+            .columns([
+              'EligibleChild.FirstName AS EligibleChildFirstName',
+              'EligibleChild.LastName AS LastName',
+              'EligibleChild.ChildRelationship AS EligibleChildChildRelationship',
+              'EligibleChild.DateOfBirth AS EligibleChildDateOfBirth',
+              'EligibleChild.ParentFirstName AS EligibleChildParentFirstName',
+              'EligibleChild.ParentLastName AS EligibleChildParentLastName',
+              'EligibleChild.HouseNumberAndStreet AS EligibleChildHouseNumberAndStreet',
+              'EligibleChild.Town AS EligibleChildTown',
+              'EligibleChild.County AS EligibleChildCounty',
+              'EligibleChild.PostCode AS EligibleChildPostCode',
+              'EligibleChild.Country AS EligibleChildCountry'
+            ])
+            .then(function (children) {
+              var eligibleChildren = children
+              if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
+                eligibleChildren = maskArrayOfNames(eligibleChildren)
+              }
+              return {
+                claim: expensesChildrenAndEscort.claim,
+                claimExpenses: expensesChildrenAndEscort.claimExpenses,
+                claimChild: expensesChildrenAndEscort.claimChild,
+                claimEscort: expensesChildrenAndEscort.claimEscort,
+                eligibleChildren: eligibleChildren
               }
             })
         })

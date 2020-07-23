@@ -3,7 +3,6 @@ const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const encrypt = require('../../../app/services/helpers/encrypt')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
 
@@ -68,7 +67,7 @@ describe('routes/start-already-registered', function () {
         .send({
           reference: REFERENCE
         })
-        .expect('location', `/your-claims`)
+        .expect('location', '/your-claims')
         .expect(hasSetCookie)
     })
 

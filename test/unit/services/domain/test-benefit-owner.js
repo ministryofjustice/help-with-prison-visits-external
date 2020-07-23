@@ -42,7 +42,7 @@ describe('services/domain/benefit-owner', function () {
   it('should throw a ValidationError if given invalid input', function () {
     expect(function () {
       new BenefitOwner('', '', '', '', '', '', '', '', '', '', '', '', '')
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should return errors for all required fields', function () {
@@ -64,7 +64,7 @@ describe('services/domain/benefit-owner', function () {
         VALID_DOB_YEAR,
         INVALID_NATIONAL_INSURANCE_NUMBER
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if an invalid DOB day is provided as input', function () {
@@ -77,7 +77,7 @@ describe('services/domain/benefit-owner', function () {
         VALID_DOB_YEAR,
         VALID_NATIONAL_INSURANCE_NUMBER
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a ValidationError if an invalid DOB month is provided as input', function () {
@@ -90,7 +90,7 @@ describe('services/domain/benefit-owner', function () {
         VALID_DOB_YEAR,
         VALID_NATIONAL_INSURANCE_NUMBER
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should strip illegal characters from fields which accept free text inputs', function () {

@@ -1,5 +1,4 @@
 const TechnicalHelp = require('../../../../app/services/domain/technical-help')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/technical-help', function () {
@@ -32,42 +31,42 @@ describe('services/domain/technical-help', function () {
   it('should throw an error if passed invalid name', function () {
     expect(function () {
       new TechnicalHelp(INVALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid email address', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, INVALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid reference', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, INVALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid day', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, INVALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid month', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, INVALID_MONTH, VALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid year', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, INVALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid issue', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, INVALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

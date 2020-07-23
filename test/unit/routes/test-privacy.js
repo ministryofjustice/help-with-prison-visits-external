@@ -2,7 +2,7 @@ const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
 
 describe('routes/privacy', function () {
-  const ROUTE = `/privacy`
+  const ROUTE = '/privacy'
   var app
 
   beforeEach(function () {

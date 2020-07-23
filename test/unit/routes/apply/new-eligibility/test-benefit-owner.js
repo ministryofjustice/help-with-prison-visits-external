@@ -2,29 +2,25 @@ const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
 var urlPathValidatorStub
-var stubDuplicateClaimCheck
 var stubBenefitOwner
 var stubInsertBenefitOwner
 var app
 
 describe('routes/apply/new-eligibility/benefit-owner', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MTE0Ljg5MDAxNjY2OCwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InIxIiwiYmVuZWZpdCI6ImIxIiwiYmVuZWZpdE93bmVyIjoibm8iLCJyZWZlcmVuY2VJZCI6IjMzM2UxMzBjY2JiYjQ4YTcwYWFiOGFiNCIsImRlY3J5cHRlZFJlZiI6IjlIVEI3TUEifQ==' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MTE0Ljg5MDAxNjY2OCwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InIxIiwiYmVuZWZpdCI6ImIxIiwiYmVuZWZpdE93bmVyIjoibm8iLCJyZWZlcmVuY2VJZCI6IjMzM2UxMzBjY2JiYjQ4YTcwYWFiOGFiNCIsImRlY3J5cHRlZFJlZiI6IjlIVEI3TUEifQ==']
+  const COOKIES_EXPIRED = ['apvs-start-application=']
   const ROUTE = '/apply/first-time/new-eligibility/benefit-owner'
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
-    stubDuplicateClaimCheck = sinon.stub()
     stubBenefitOwner = sinon.stub()
     stubInsertBenefitOwner = sinon.stub()
 
     var route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefit-owner', {
       '../../../services/data/insert-benefit-owner': stubInsertBenefitOwner,
-      '../../../services/data/duplicate-claim-check': stubDuplicateClaimCheck,
       '../../../services/domain/benefit-owner': stubBenefitOwner,
       '../../../services/validators/url-path-validator': urlPathValidatorStub
     })
@@ -46,8 +42,7 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to first-time/about-you for valid data', function () {
       var newBenefitOwner = {}
-      stubDuplicateClaimCheck.resolves(false)
-      stubInsertBenefitOwner.resolves({reference: 'NEWREF1', eligibilityId: 1234})
+      stubInsertBenefitOwner.resolves({ reference: 'NEWREF1', eligibilityId: 1234 })
       stubBenefitOwner.returns(newBenefitOwner)
 
       return supertest(app)
@@ -59,7 +54,7 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
           sinon.assert.calledOnce(stubBenefitOwner)
           sinon.assert.calledOnce(stubInsertBenefitOwner)
         })
-        .expect('location', `/apply/first-time/new-eligibility/about-you`)
+        .expect('location', '/apply/first-time/new-eligibility/about-you')
     })
 
     it('should persist data and redirect to /apply/first-time/benefit-owner?error=expired', function () {
@@ -67,13 +62,13 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
       var newEligibilityId = 1234
       var newBenefitOwner = {}
       stubBenefitOwner.returns(newBenefitOwner)
-      stubInsertBenefitOwner.resolves({reference: newReference, eligibilityId: newEligibilityId})
+      stubInsertBenefitOwner.resolves({ reference: newReference, eligibilityId: newEligibilityId })
 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
+        .expect('location', '/apply/first-time/new-eligibility/date-of-birth?error=expired')
     })
 
     it('should respond with a 400 for invalid data', function () {

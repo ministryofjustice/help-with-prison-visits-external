@@ -22,7 +22,7 @@ module.exports = function (router) {
       referenceId: req.session.referenceId,
       claimId: req.session.claimId,
       isAdvance: req.query.isAdvance,
-      paymentMethod: req.query.paymentMethod
+      paymentMethod: req.session.paymentMethod
     })
   })
 
@@ -38,7 +38,7 @@ module.exports = function (router) {
     var assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
 
     try {
-      new Declaration(req.body['terms-and-conditions-input'])  // eslint-disable-line no-new
+      new Declaration(req.body['terms-and-conditions-input']) // eslint-disable-line no-new
       return checkIfReferenceIsDisabled(referenceAndEligibilityId.reference)
         .then(function (isDisabled) {
           return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId)
@@ -85,6 +85,6 @@ function finishClaim (res, reference, eligibilityId, claimId, claimType, assiste
 function redirectApplicationSubmitted (res, reference, claimId) {
   getIsAdvanceClaim(claimId)
     .then(function (isAdvanceClaim) {
-      return res.redirect(`/application-submitted`)
+      return res.redirect('/application-submitted')
     })
 }

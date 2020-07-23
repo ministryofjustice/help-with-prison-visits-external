@@ -12,7 +12,7 @@ module.exports = function (reference, eligibilityId, claimId, claimType, assiste
   var setTaskStatus = assistedDigitalCaseworker === 'teste2e@test.com' ? 'TEST' : false // logic for e2e tests
 
   return knex('Claim')
-    .where({'Reference': reference, 'EligibilityId': eligibilityId, 'ClaimId': claimId, 'Status': claimStatusEnum.IN_PROGRESS})
+    .where({ Reference: reference, EligibilityId: eligibilityId, ClaimId: claimId, Status: claimStatusEnum.IN_PROGRESS })
     .first('ClaimId')
     .then(function (result) {
       if (!result) {
@@ -21,24 +21,24 @@ module.exports = function (reference, eligibilityId, claimId, claimType, assiste
 
       return Promise.all([updateEligibility(reference, eligibilityId, dateSubmitted),
         updateClaim(claimId, dateSubmitted, assistedDigitalCaseworker, paymentMethod)])
-          .then(function () {
-            return insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType, setTaskStatus)
-          })
+        .then(function () {
+          return insertTask(reference, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, claimType, setTaskStatus)
+        })
     })
 }
 
 function updateEligibility (reference, eligibilityId, dateSubmitted) {
-  return knex('Eligibility').where({'Reference': reference, 'EligibilityId': eligibilityId}).update({
-    'Status': eligibilityStatusEnum.SUBMITTED,
-    'DateSubmitted': dateSubmitted
+  return knex('Eligibility').where({ Reference: reference, EligibilityId: eligibilityId }).update({
+    Status: eligibilityStatusEnum.SUBMITTED,
+    DateSubmitted: dateSubmitted
   })
 }
 
 function updateClaim (claimId, dateSubmitted, assistedDigitalCaseworker, paymentMethod) {
   return knex('Claim').where('ClaimId', claimId).update({
-    'Status': claimStatusEnum.SUBMITTED,
-    'DateSubmitted': dateSubmitted,
-    'AssistedDigitalCaseworker': assistedDigitalCaseworker,
-    'PaymentMethod': paymentMethod
+    Status: claimStatusEnum.SUBMITTED,
+    DateSubmitted: dateSubmitted,
+    AssistedDigitalCaseworker: assistedDigitalCaseworker,
+    PaymentMethod: paymentMethod
   })
 }

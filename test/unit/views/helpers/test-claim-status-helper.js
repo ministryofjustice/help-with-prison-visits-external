@@ -3,11 +3,11 @@ const claimStatusHelper = require('../../../../app/views/helpers/claim-status-he
 const claimDecisionEnum = require('../../../../app/constants/claim-decision-enum')
 
 describe('views/helpers/claim-status-helper', function () {
-  const APPROVED = claimDecisionEnum['APPROVED']
+  const APPROVED = claimDecisionEnum.APPROVED
   const APPROVED_DIFF_AMOUNT = claimDecisionEnum['APPROVED-DIFF-AMOUNT']
   const REQUEST_INFORMATION = claimDecisionEnum['REQUEST-INFORMATION']
-  const REJECTED = claimDecisionEnum['REJECTED']
-  const NEW = claimDecisionEnum['NEW']
+  const REJECTED = claimDecisionEnum.REJECTED
+  const NEW = claimDecisionEnum.NEW
   const NON_MATCHING = ''
 
   it(`should return the expected value when passed ${APPROVED}`, function () {
@@ -30,7 +30,7 @@ describe('views/helpers/claim-status-helper', function () {
     expect(claimStatusHelper('NEW')).to.equal('In progress')
   })
 
-  it(`should return the original input if passed a non-matching value`, function () {
+  it('should return the original input if passed a non-matching value', function () {
     expect(claimStatusHelper(NON_MATCHING)).to.equal(NON_MATCHING)
   })
 })
