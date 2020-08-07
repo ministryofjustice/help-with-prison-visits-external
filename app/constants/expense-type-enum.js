@@ -23,7 +23,7 @@ module.exports = {
   CAR_PARKING_CHARGE: {
     value: 'parking',
     displayName: 'Parking charge',
-    receiptRequired: false,
+    receiptRequired: true,
     ticketed: false
   },
 
