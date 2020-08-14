@@ -6,11 +6,14 @@ const ErrorHandler = require('../../validators/error-handler')
 const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class CarExpense extends BaseExpense {
-  constructor (from, to, toll, tollCost, parking, parkingCost, newDestination, destination, postcode) {
+  constructor (from, to, toll, tollCost, parking, parkingCost, newDestination, destination, postcode, newOrigin, origin, originPostCode) {
     var journeyTo = newDestination ? destination : to
     var toPostCode = newDestination ? postcode.replace(/ /g, '').toUpperCase() : null
-    super(EXPENSE_TYPE.CAR.value, null, null, from, journeyTo, null, null, null, null, null, toPostCode)
+    var journeyFrom = newOrigin ? origin : from
+    var fromPostCode = newOrigin ? originPostCode.replace(/ /g, '').toUpperCase() : null
+    super(EXPENSE_TYPE.CAR.value, null, null, journeyFrom, journeyTo, null, null, null, null, null, toPostCode, fromPostCode)
     this.newDestination = newDestination
+    this.newOrigin = newOrigin
     this.toll = toll
     this.createField('tollCost', tollCost)
     this.parking = parking
@@ -56,6 +59,18 @@ class CarExpense extends BaseExpense {
         FieldValidator(this.toPostCode, 'PostCode', errors)
           .isPostcode()
       }
+    }
+
+    if (this.newOrigin) {
+      FieldValidator(this.from, 'origin', errors)
+        .isRequired(ERROR_MESSAGES.getNewCarOrigin)
+        .isLessThanLength(100)
+    }
+
+    if (this.newOrigin) {
+      FieldValidator(this.fromPostCode, 'FromPostCode', errors)
+        .isRequired(ERROR_MESSAGES.getNewCarOriginPostcode)
+        .isPostcode()
     }
 
     if (this.toll) {
