@@ -132,11 +132,9 @@ describe('First Time Claim Flow', () => {
     submitButton = await $('#claim-summary-submit')
     await submitButton.click()
 
-    // Choose Payment Method
-    submitButton = await $('#payment-submit')
-    var payout = await $('[for="payout"]')
+    // Choose Payout instead
+    var payout = await $('#switchToVoucher')
     await payout.click()
-    await submitButton.click()
 
     // Voucher Confirmation
     submitButton = await $('#payout-payment-submit')

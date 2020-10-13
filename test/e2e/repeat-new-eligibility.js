@@ -182,12 +182,6 @@ describe('Repeat claim with new eligibility details', function () {
     submitButton = await $('#claim-summary-submit')
     await submitButton.click()
 
-    // Choose Payment Method
-    submitButton = await $('#payment-submit')
-    var bank = await $('[for="bank"]')
-    await bank.click()
-    await submitButton.click()
-
     // Enter Bank Account Details
     submitButton = await $('#bank-payment-submit')
     var nameOnAccount = await $('#name-on-account-input')

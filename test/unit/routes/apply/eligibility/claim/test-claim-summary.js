@@ -93,7 +93,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
-        .expect('location', '/apply/eligibility/claim/payment-details?isAdvance=false')
+        .expect('location', '/apply/eligibility/claim/bank-payment-details?isAdvance=false')
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {

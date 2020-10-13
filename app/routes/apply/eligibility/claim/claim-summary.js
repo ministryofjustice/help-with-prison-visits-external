@@ -89,7 +89,7 @@ module.exports = function (router) {
         var benefitUpload = benefitUploadNotRequired(claimType)
 
         new ClaimSummary(visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUpload) // eslint-disable-line no-new
-        return res.redirect(`/apply/eligibility/claim/payment-details?isAdvance=${isAdvanceClaim}`)
+        return res.redirect(`/apply/eligibility/claim/bank-payment-details?isAdvance=${isAdvanceClaim}`)
       })
       .catch(function (error) {
         if (error instanceof ValidationError) {
