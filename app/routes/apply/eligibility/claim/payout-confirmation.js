@@ -5,6 +5,7 @@ const getAddressAndLinkDetails = require('../../../../services/data/get-address-
 const getChangeAddressLink = require('../../../helpers/get-change-address-link')
 const config = require('../../../../../config')
 const SessionHandler = require('../../../../services/validators/session-handler')
+const PaymentDetails = require('../../../../services/domain/payment-details')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/payout-confirmation', function (req, res) {
@@ -14,6 +15,9 @@ module.exports = function (router) {
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
+
+    var paymentDetails = new PaymentDetails('payout')
+    req.session.paymentMethod = paymentDetails.paymentMethod
 
     getAddressAndLinkDetails(referenceIdHelper.extractReferenceId(req.session.referenceId).reference, req.session.claimId, req.session.claimType)
       .then(function (addressAndLinkDetails) {

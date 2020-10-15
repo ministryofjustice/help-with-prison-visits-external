@@ -5,6 +5,7 @@ const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const config = require('../../../../../config')
 const BankAccountDetails = require('../../../../services/domain/bank-account-details')
 const SessionHandler = require('../../../../services/validators/session-handler')
+const PaymentDetails = require('../../../../services/domain/payment-details')
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/bank-payment-details', function (req, res) {
@@ -14,6 +15,8 @@ module.exports = function (router) {
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
+    var paymentDetails = new PaymentDetails('bank')
+    req.session.paymentMethod = paymentDetails.paymentMethod
 
     return res.render('apply/eligibility/claim/bank-payment-details', {
       claimType: req.session.claimType,
