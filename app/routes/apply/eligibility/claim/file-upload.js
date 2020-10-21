@@ -139,7 +139,7 @@ function checkForMalware (req, res, next, redirectURL) {
   var ids = setReferenceIds(req)
   var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
   if (req.file) {
-    return clam.scan(req.file.path).then((infected) => {
+    clam.scan(req.file.path).then((infected) => {
       if (infected) insertMalwareAlertTask(ids, claimId, req.file.path)
       return moveScannedFileToStorage(req, res, next).then(function () {
         return updateClaimDocumentMetadata(ids, claimId, req).then(function () {
@@ -154,7 +154,7 @@ function checkForMalware (req, res, next, redirectURL) {
   } else {
     // This handles the case were Post/Upload Later is selected, so no actual file is being provided,
     // however we still need to insert metadata indicating that the user selected on of these options
-    return updateClaimDocumentMetadata(ids, claimId, req).then(function () {
+    updateClaimDocumentMetadata(ids, claimId, req).then(function () {
       res.redirect(redirectURL)
     }).catch(function (error) {
       next(error)

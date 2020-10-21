@@ -25,7 +25,7 @@ module.exports.scan = function (filePath) {
     clam.then(clamscan => {
       clamscan.is_infected(filePath, (error, file, isInfected, viruses) => {
         if (error) throw error
-        return Promise.resolve(isInfected)
+        return isInfected
       })
     })
   } else {
