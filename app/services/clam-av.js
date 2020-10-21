@@ -25,8 +25,6 @@ module.exports.scan = async function (filePath) {
   if (config.ENABLE_MALWARE_SCANNING === 'true') {
     clam.then(async clamscan => {
       try {
-        const version = await clamscan.get_version();
-        log.info('ClamAV Version:', version)
         const {isInfected, file, viruses} = await clamscan.is_infected(filePath)
         log.info('ClamAV found Virus?:', isInfected)
         return isInfected
