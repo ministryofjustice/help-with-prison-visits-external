@@ -1,6 +1,7 @@
 const config = require('../../config')
 var Promise = require('bluebird').Promise
 const NodeClam = require('clamscan')
+const log = require('./log')
 
 var clam
 try {
@@ -20,13 +21,21 @@ try {
   }
 }
 
-module.exports.scan = function (filePath) {
+module.exports.scan = async function (filePath) {
   if (config.ENABLE_MALWARE_SCANNING === 'true') {
-    clam.then(clamscan => {
-      clamscan.is_infected(filePath, (error, file, isInfected, viruses) => {
-        if (error) throw error
+    clam.then(async clamscan => {
+      try {
+        const {isInfected, file, viruses} = await clamscan.is_infected(filePath)
         return isInfected
-      })
+      } catch (err) {
+        log.error('Error thrown during clamav scan')
+        log.error(err)
+        throw err
+      }
+    }).catch(err => {
+      log.error('Error thrown during clamav initialisation')
+      log.error(err)
+      throw err
     })
   } else {
     return Promise.resolve(false)
