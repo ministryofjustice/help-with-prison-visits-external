@@ -25,9 +25,9 @@ module.exports.scan = async function (filePath) {
   if (config.ENABLE_MALWARE_SCANNING === 'true') {
     clam.then(async clamscan => {
       try {
-        const {isInfected, file, viruses} = await clamscan.is_infected(filePath)
-        log.info('ClamAV found Virus?:', isInfected)
-        return isInfected
+        const {is_infected, file, viruses} = await clamscan.is_infected(filePath)
+        log.info('ClamAV found Virus?:', is_infected)
+        return is_infected
       } catch (err) {
         log.error('Error thrown during clamav scan')
         log.error(err)
