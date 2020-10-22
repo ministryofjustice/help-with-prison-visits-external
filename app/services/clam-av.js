@@ -16,7 +16,7 @@ try {
 } catch (error) {
   // Suppress clamscan error if disabled
   if (config.ENABLE_MALWARE_SCANNING !== 'true' &&
-      !error.message.includes('No valid & active virus scanning binaries are active and available!')) {
+      !error.message.includes('No valid & active virus scanning binaries are active and available and no host/socket option provided!')) {
     throw error
   }
 }
@@ -25,9 +25,8 @@ module.exports.scan = async function (filePath) {
   if (config.ENABLE_MALWARE_SCANNING === 'true') {
     clam.then(async clamscan => {
       try {
-        const {is_infected, file, viruses} = await clamscan.is_infected(filePath)
-        log.info('ClamAV found Virus?:', is_infected)
-        return is_infected
+        const {is_infected, file, viruses} = await clamscan.is_infected(filePath) //eslint-disable-line
+        return is_infected //eslint-disable-line
       } catch (err) {
         log.error('Error thrown during clamav scan')
         log.error(err)
