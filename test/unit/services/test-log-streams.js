@@ -8,15 +8,12 @@ describe('services/log-streams', function () {
 
   var logStreams
   var prettyStreamStub
-  var bunyanLogstashTcpStub
 
   beforeEach(function () {
     prettyStreamStub = sinon.stub()
-    bunyanLogstashTcpStub = sinon.stub()
 
     logStreams = proxyquire('../../../app/services/log-streams', {
       'bunyan-prettystream': prettyStreamStub,
-      'bunyan-logstash-tcp': bunyanLogstashTcpStub
     })
   })
 
