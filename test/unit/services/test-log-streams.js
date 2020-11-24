@@ -20,21 +20,6 @@ describe('services/log-streams', function () {
     })
   })
 
-  describe('buildLogstashStream', function () {
-    const EXPECTED_TYPE = 'raw'
-
-    it('should build and return the expected logstash stream', function () {
-      sinon.stub(bunyanLogstashTcpStub, 'createStream').returns({
-        on: function () {}
-      })
-
-      var stream = logStreams.buildLogstashStream()
-      expect(stream.type).to.equal(EXPECTED_TYPE)
-      expect(stream.level).to.equal(EXPECTED_LOG_LEVEL)
-      expect(stream.stream).to.not.equal(null)
-    })
-  })
-
   describe('buildConsoleStream', function () {
     const EXPECTED_LOG_LEVEL = 'DEBUG'
 
