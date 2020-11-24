@@ -12,16 +12,16 @@ describe('routes/apply/new-eligibility/benefits', function () {
   const COOKIES_EXPIRED = ['apvs-start-application=']
   const ROUTE = '/apply/first-time/new-eligibility/benefits'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var benefitsStub
+  let urlPathValidatorStub
+  let benefitsStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     benefitsStub = sinon.stub()
 
-    var route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefits', {
+    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefits', {
       '../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../services/domain/benefits': benefitsStub
     })

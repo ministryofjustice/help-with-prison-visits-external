@@ -27,10 +27,10 @@ describe('services/directory-check', function () {
   })
 
   it('should not call the mkdirp.sync function if the file path does not exist', function () {
-    var mkdirpStub = {
+    const mkdirpStub = {
       sync: sinon.stub()
     }
-    var directoryCheck = proxyquire('../../../app/services/directory-check', {
+    const directoryCheck = proxyquire('../../../app/services/directory-check', {
       mkdirp: mkdirpStub
     })
 

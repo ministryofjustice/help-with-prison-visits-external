@@ -5,7 +5,7 @@ const referenceGenerator = require('../../app/services/reference-generator')
 
 const expect = require('chai').expect
 
-var todaysDate = dateFormatter.now()
+const todaysDate = dateFormatter.now()
 describe('Repeat claim duplicate claim', function () {
   const REFERENCE = referenceGenerator.generate()
 
@@ -17,21 +17,21 @@ describe('Repeat claim duplicate claim', function () {
     await browser.url('/assisted-digital?caseworker=teste2e@test.com')
 
     // Index
-    var submitButton = await $('#start')
+    let submitButton = await $('#start')
     await submitButton.click()
 
     // Start
     submitButton = await $('#start-submit')
-    var yesRadioButton = await $('[for="yes"]')
+    let yesRadioButton = await $('[for="yes"]')
     await yesRadioButton.click()
     await submitButton.click()
 
     // Start already registered
     submitButton = await $('#already-registered-submit')
-    var referenceInput = await $('#reference-input')
-    var dobDayInput = await $('#dob-day-input')
-    var dobMonthInput = await $('#dob-month-input')
-    var dobYearInput = await $('#dob-year-input')
+    const referenceInput = await $('#reference-input')
+    const dobDayInput = await $('#dob-day-input')
+    const dobMonthInput = await $('#dob-month-input')
+    const dobYearInput = await $('#dob-year-input')
     await referenceInput.setValue(REFERENCE)
     await dobDayInput.setValue(internalVisitorHelper.DAY)
     await dobMonthInput.setValue(internalVisitorHelper.MONTH)
@@ -44,13 +44,13 @@ describe('Repeat claim duplicate claim', function () {
 
     // Check your information
     submitButton = await $('#continue')
-    var confirm = await $('[for="confirm-correct"]')
+    const confirm = await $('[for="confirm-correct"]')
     await confirm.click()
     await submitButton.click()
 
     // Future or past visit
     submitButton = await $('#future-or-past-submit')
-    var past = await $('[for="past"]')
+    const past = await $('[for="past"]')
     await past.click()
     await submitButton.click()
 
@@ -62,26 +62,26 @@ describe('Repeat claim duplicate claim', function () {
 
     // Journey information
     submitButton = await $('#journey-information-submit')
-    var dayInput = await $('#date-of-journey-day')
-    var monthInput = await $('#date-of-journey-month')
-    var yearInput = await $('#date-of-journey-year')
+    const dayInput = await $('#date-of-journey-day')
+    const monthInput = await $('#date-of-journey-month')
+    const yearInput = await $('#date-of-journey-year')
     await dayInput.setValue(todaysDate.date())
     await monthInput.setValue(todaysDate.month() + 1)
     await yearInput.setValue(todaysDate.year())
     await submitButton.click()
 
     // Claim summary
-    var addVisitConfirmation = await $('#add-visit-confirmation')
+    const addVisitConfirmation = await $('#add-visit-confirmation')
     await addVisitConfirmation.click()
 
     // Upload visit confirmation
     submitButton = await $('#file-upload-submit')
-    var post = await $('[for="Post"]')
+    let post = await $('[for="Post"]')
     await post.click()
     await submitButton.click()
 
     // Claim summary
-    var addExpenseReceipt = await $('.add-expense-receipt')
+    const addExpenseReceipt = await $('.add-expense-receipt')
     await addExpenseReceipt.click()
 
     // Upload Receipt Bus Adult
@@ -96,9 +96,9 @@ describe('Repeat claim duplicate claim', function () {
 
     // Enter Bank Account Details
     submitButton = await $('#bank-payment-submit')
-    var nameOnAccount = await $('#name-on-account-input')
-    var sortCode = await $('#sort-code-input')
-    var accountNumber = await $('#account-number-input')
+    const nameOnAccount = await $('#name-on-account-input')
+    const sortCode = await $('#sort-code-input')
+    const accountNumber = await $('#account-number-input')
     await nameOnAccount.setValue('Joe Bloggs')
     await sortCode.setValue('001122')
     await accountNumber.setValue('00123456')
@@ -106,12 +106,12 @@ describe('Repeat claim duplicate claim', function () {
 
     // Declaration page
     submitButton = await $('#claim-submit')
-    var tAndC = await $('[for="terms-and-conditions-input"]')
+    const tAndC = await $('[for="terms-and-conditions-input"]')
     await tAndC.click()
     await submitButton.click()
 
     // Application submitted
-    var title = await browser.getTitle()
+    const title = await browser.getTitle()
     expect(title).to.be.equal('Application submitted - Get help with the cost of prison visits')
   })
 

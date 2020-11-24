@@ -4,7 +4,7 @@ const dateFormatter = require('../../../../app/services/date-formatter')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const AboutThePrisoner = require('../../../../app/services/domain/about-the-prisoner')
 
-var aboutThePrisoner
+let aboutThePrisoner
 
 describe('services/domain/about-the-prisoner', function () {
   const VALID_FIRST_NAME = 'Joe '
@@ -71,7 +71,7 @@ describe('services/domain/about-the-prisoner', function () {
   })
 
   it('should strip illegal characters from otherwise valid data', function () {
-    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+    const unsafeInputPattern = />|<|&lt|&gt/g
     aboutThePrisoner = new AboutThePrisoner(INVALID_CHARS_FIRST_NAME,
       INVALID_CHARS_LAST_NAME,
       VALID_DOB_DAY,

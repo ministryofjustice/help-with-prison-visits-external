@@ -1,4 +1,4 @@
-var fs = require('fs')
+const fs = require('fs')
 
 module.exports = {
   setVisitDate: setVisitDate,
@@ -7,7 +7,7 @@ module.exports = {
 
 // Date of visit needs to be dynamically set to a recent day in the past
 function setVisitDate (requestParams, context, ee, next) {
-  var dateOfVisit = new Date()
+  const dateOfVisit = new Date()
   dateOfVisit.setDate(dateOfVisit.getDate() - 7)
 
   requestParams.json['date-of-journey-day'] = dateOfVisit.getDate()

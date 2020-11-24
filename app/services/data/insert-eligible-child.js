@@ -7,7 +7,7 @@ module.exports = function (child, reference, eligibilityId) {
     throw new Error('Provided eligibleChild object is not an instance of the expected class')
   }
 
-  var eligibleChild = {
+  const eligibleChild = {
     EligibilityId: eligibilityId,
     Reference: reference,
     FirstName: child.firstName,

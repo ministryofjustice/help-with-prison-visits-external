@@ -3,8 +3,8 @@ const eligibilityVisitorUpdateContactDetailHelper = require('../../../helpers/da
 const getEligibilityVisitorUpdateContactDetail = require('../../../../app/services/data/get-eligibility-visitor-updated-contact-detail')
 
 describe('services/data/insert-eligibility-visitor-updated-contact-detail', function () {
-  var REFERENCE = 'V123456'
-  var ELIGIBILITY_ID = '1'
+  const REFERENCE = 'V123456'
+  const ELIGIBILITY_ID = '1'
 
   before(function () {
     return eligibilityVisitorUpdateContactDetailHelper.insert(REFERENCE, ELIGIBILITY_ID)

@@ -10,13 +10,13 @@ describe('routes/apply/eligibility/claim/expenses', function () {
   const COOKIES_EXPIRED = ['apvs-start-application=']
   const ROUTE = '/apply/eligibility/claim/expenses'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var expenseUrlRouterStub
-  var expensesStub
-  var getClaimSummaryStub
-  var getIsAdvanceClaimStub
+  let urlPathValidatorStub
+  let expenseUrlRouterStub
+  let expensesStub
+  let getClaimSummaryStub
+  let getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -25,7 +25,7 @@ describe('routes/apply/eligibility/claim/expenses', function () {
     getClaimSummaryStub = sinon.stub().resolves({ claim: { Country: 'England' } })
     getIsAdvanceClaimStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/expenses', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/expenses', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/domain/expenses/expenses': expensesStub,
@@ -91,7 +91,7 @@ describe('routes/apply/eligibility/claim/expenses', function () {
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
-      var getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
+      const getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

@@ -5,7 +5,7 @@ const status = require('../../../../app/routes/health-check/status')
 describe('routes/health-check/status', function () {
   const ROUTE = '/status'
 
-  var app
+  let app
 
   beforeEach(function () {
     app = routeHelper.buildApp(status)

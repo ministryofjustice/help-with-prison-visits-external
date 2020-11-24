@@ -4,10 +4,10 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
-var urlPathValidatorStub
-var stubAboutThePrisoner
-var stubInsertNewEligibilityAndPrisoner
-var app
+let urlPathValidatorStub
+let stubAboutThePrisoner
+let stubInsertNewEligibilityAndPrisoner
+let app
 
 describe('routes/apply/new-eligibility/about-the-prisoner', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MDg2LjY0NDMsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJyZWxhdGlvbnNoaXAiOiJyNCIsImJlbmVmaXQiOiJiMSIsImJlbmVmaXRPd25lciI6InllcyJ9']
@@ -20,7 +20,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     stubAboutThePrisoner = sinon.stub()
     stubInsertNewEligibilityAndPrisoner = sinon.stub()
 
-    var route = proxyquire('../../../../../app/routes/apply/new-eligibility/about-the-prisoner', {
+    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/about-the-prisoner', {
       '../../../services/data/insert-new-eligibility-and-prisoner': stubInsertNewEligibilityAndPrisoner,
       '../../../services/domain/about-the-prisoner': stubAboutThePrisoner,
       '../../../services/validators/url-path-validator': urlPathValidatorStub
@@ -42,9 +42,9 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
 
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to first-time/about-you for valid data and benefit owner', function () {
-      var newReference = 'NEWREF1'
-      var newEligibilityId = 1234
-      var newAboutThePrisoner = {}
+      const newReference = 'NEWREF1'
+      const newEligibilityId = 1234
+      const newAboutThePrisoner = {}
       stubInsertNewEligibilityAndPrisoner.resolves({ reference: newReference, eligibilityId: newEligibilityId })
       stubAboutThePrisoner.returns(newAboutThePrisoner)
 
@@ -61,9 +61,9 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     })
 
     it('should persist data and redirect to first-time/benefit-owner for valid data and not benefit owner', function () {
-      var newReference = 'NEWREF1'
-      var newEligibilityId = 1234
-      var newAboutThePrisoner = {}
+      const newReference = 'NEWREF1'
+      const newEligibilityId = 1234
+      const newAboutThePrisoner = {}
       stubInsertNewEligibilityAndPrisoner.resolves({ reference: newReference, eligibilityId: newEligibilityId })
       stubAboutThePrisoner.returns(newAboutThePrisoner)
 
@@ -80,9 +80,9 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     })
 
     it('should persist data and redirect to /apply/first-time/new-eligibility?error=expired', function () {
-      var newReference = 'NEWREF1'
-      var newEligibilityId = 1234
-      var newAboutThePrisoner = {}
+      const newReference = 'NEWREF1'
+      const newEligibilityId = 1234
+      const newAboutThePrisoner = {}
       stubInsertNewEligibilityAndPrisoner.resolves({ reference: newReference, eligibilityId: newEligibilityId })
       stubAboutThePrisoner.returns(newAboutThePrisoner)
 

@@ -11,7 +11,7 @@ describe('services/domain/already-registered', function () {
   const INVALID_REFERNCE = 'some invalid reference'
 
   it('should construct a domain object given valid input', function () {
-    var alreadyRegistered = new AlreadyRegisterd(
+    const alreadyRegistered = new AlreadyRegisterd(
       VALID_REFERNCE,
       VALID_DAY,
       VALID_MONTH,

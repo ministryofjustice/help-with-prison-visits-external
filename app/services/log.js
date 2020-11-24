@@ -3,7 +3,7 @@ const serializers = require('./log-serializers')
 const streams = require('./log-streams')
 
 // Create a base logger for the application.
-var log = bunyan.createLogger({
+const log = bunyan.createLogger({
   name: 'external-web',
   streams: [],
   serializers: {

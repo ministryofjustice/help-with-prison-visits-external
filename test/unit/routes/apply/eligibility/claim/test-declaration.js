@@ -4,7 +4,7 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const paymentMethods = require('../../../../../../app/constants/payment-method-enum')
 
-var ValidationError = require('../../../../../../app/services/errors/validation-error')
+const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/claim/declaration', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
@@ -14,14 +14,14 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     'terms-and-conditions-input': 'yes'
   }
 
-  var app
+  let app
 
-  var stubDeclaration
-  var stubSubmitClaim
-  var stubUrlPathValidator
-  var stubGetIsAdvanceClaim
-  var stubCheckStatusForFinishingClaim
-  var stubCheckIfReferenceIsDisabled
+  let stubDeclaration
+  let stubSubmitClaim
+  let stubUrlPathValidator
+  let stubGetIsAdvanceClaim
+  let stubCheckStatusForFinishingClaim
+  let stubCheckIfReferenceIsDisabled
 
   beforeEach(function () {
     stubDeclaration = sinon.stub()
@@ -31,7 +31,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     stubCheckStatusForFinishingClaim = sinon.stub()
     stubCheckIfReferenceIsDisabled = sinon.stub()
 
-    var route = proxyquire(
+    const route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/declaration', {
         '../../../../services/domain/declaration': stubDeclaration,
         '../../../../services/data/submit-claim': stubSubmitClaim,
@@ -116,7 +116,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     })
 
     it('should use assisted digital cookie value', function () {
-      var assistedDigitalCaseWorker = 'a@b.com'
+      const assistedDigitalCaseWorker = 'a@b.com'
       stubDeclaration.returns()
       stubSubmitClaim.resolves()
       stubGetIsAdvanceClaim.resolves()

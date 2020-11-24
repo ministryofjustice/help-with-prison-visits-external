@@ -10,7 +10,7 @@ describe('services/domain/feedback', function () {
   const INVALID_EMAIL_ADDRESS = 'dsadasdasda'
 
   it('should construct a domain object given valid input', function () {
-    var feedback = new Feedback(VALID_RATING, VALID_IMPROVEMENTS, VALID_EMAIL_ADDRESS)
+    const feedback = new Feedback(VALID_RATING, VALID_IMPROVEMENTS, VALID_EMAIL_ADDRESS)
     expect(feedback.rating).to.equal(VALID_RATING)
     expect(feedback.improvements).to.equal(VALID_IMPROVEMENTS)
     expect(feedback.emailAddress).to.equal(VALID_EMAIL_ADDRESS)

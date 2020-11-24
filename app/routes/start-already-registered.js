@@ -5,7 +5,7 @@ const SessionHandler = require('../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/start-already-registered', function (req, res) {
-    var errors
+    let errors
 
     req.session = SessionHandler.clearSession(req.session, req.url)
 
@@ -20,13 +20,13 @@ module.exports = function (router) {
   })
 
   router.post('/start-already-registered', function (req, res) {
-    var reference = req.body.reference
-    var day = req.body['dob-day']
-    var month = req.body['dob-month']
-    var year = req.body['dob-year']
+    const reference = req.body.reference
+    const day = req.body['dob-day']
+    const month = req.body['dob-month']
+    const year = req.body['dob-year']
 
     try {
-      var alreadyRegistered = new AlreadyRegistered(reference, day, month, year)
+      const alreadyRegistered = new AlreadyRegistered(reference, day, month, year)
       req.session.decryptedRef = reference
       req.session.dobEncoded = alreadyRegistered.dobEncoded
 

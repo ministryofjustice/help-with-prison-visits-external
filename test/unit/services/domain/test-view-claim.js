@@ -1,6 +1,6 @@
 const expect = require('chai').expect
 const ViewClaim = require('../../../../app/services/domain/view-claim')
-var viewClaim
+let viewClaim
 
 describe('services/domain/claim-summary', function () {
   const UPDATED_EXPENSES = [{ fromInternalWeb: false }]

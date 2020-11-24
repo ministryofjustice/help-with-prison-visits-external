@@ -27,10 +27,10 @@ function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, ex
       expense.Cost = 0
     }
   })
-  var externalDocumentMap = {}
-  var multiPageDocuments = []
+  const externalDocumentMap = {}
+  const multiPageDocuments = []
   externalClaimDocuments.forEach(function (document) {
-    var key = `${document.DocumentType}${document.ClaimExpenseId}`
+    const key = `${document.DocumentType}${document.ClaimExpenseId}`
     if (key in externalDocumentMap) {
       multiPageDocuments.push(document)
     } else {
@@ -43,7 +43,7 @@ function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, ex
   }
 
   claimDocuments.forEach(function (document) {
-    var key = `${document.DocumentType}${document.ClaimExpenseId}`
+    const key = `${document.DocumentType}${document.ClaimExpenseId}`
     if (document.DocumentType === documentTypeEnum.VISIT_CONFIRMATION.documentType) {
       if (key in externalDocumentMap) {
         claim.visitConfirmation = externalDocumentMap[key]
@@ -87,7 +87,7 @@ function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, ex
 }
 
 function addPlaceholderDocumentsForAdanceClaims (claimDocuments, claimExpenses) {
-  var documents = []
+  const documents = []
   claimDocuments.forEach(function (document) {
     if (document.ClaimExpenseId) {
       documents.push(document.ClaimExpenseId)

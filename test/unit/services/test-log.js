@@ -2,9 +2,9 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 describe('services/log', function () {
-  var serializersStub
-  var streamsStub
-  var bunyanStub
+  let serializersStub
+  let streamsStub
+  let bunyanStub
 
   beforeEach(function () {
     serializersStub = sinon.stub()

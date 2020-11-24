@@ -12,7 +12,7 @@ class HireExpense extends BaseExpense {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.durationOfTravel, 'duration', errors)
       .isRequired(ERROR_MESSAGES.getEnterNumberOfDays)
@@ -35,7 +35,7 @@ class HireExpense extends BaseExpense {
       .isGreaterThanZero()
       .isMaxCostOrLess()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

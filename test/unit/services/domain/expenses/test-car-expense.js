@@ -16,7 +16,7 @@ describe('services/domain/expenses/car-expense', function () {
   const INVALID_POSTCODE = 'testing'
 
   it('should construct a domain object given valid input', function () {
-    var expense = new CarExpense(
+    const expense = new CarExpense(
       VALID_FROM,
       VALID_TO,
       VALID_TOLL,
@@ -35,7 +35,7 @@ describe('services/domain/expenses/car-expense', function () {
   })
 
   it('should construct a domain object given valid input of new destination and postcode', function () {
-    var expense = new CarExpense(
+    const expense = new CarExpense(
       VALID_FROM,
       VALID_TO,
       VALID_TOLL,
@@ -58,7 +58,7 @@ describe('services/domain/expenses/car-expense', function () {
   })
 
   it('should not return null for toll cost if toll was not set', function () {
-    var expense = new CarExpense(
+    const expense = new CarExpense(
       VALID_FROM,
       VALID_TO
     )
@@ -66,7 +66,7 @@ describe('services/domain/expenses/car-expense', function () {
   })
 
   it('should not return null for parking cost if parking was not set', function () {
-    var expense = new CarExpense(
+    const expense = new CarExpense(
       VALID_FROM,
       VALID_TO
     )

@@ -2,7 +2,7 @@
 const BankAccountDetails = require('../../../../app/services/domain/bank-account-details')
 const expect = require('chai').expect
 
-var bankAccountDetails
+let bankAccountDetails
 
 const VALID_SORT_CODE = '87 65 43'
 const VALID_ACCOUNT_NUMBER = '123 45678 '
@@ -19,16 +19,16 @@ describe('services/domain/payment-details', function () {
   })
 
   it('should construct a domain object given a sort code with hyphens', function () {
-    var sortCodeWithHyphens = '12-12-12'
-    var processedSortCodeWithHyphens = '121212'
+    const sortCodeWithHyphens = '12-12-12'
+    const processedSortCodeWithHyphens = '121212'
     bankAccountDetails = new BankAccountDetails(VALID_ACCOUNT_NUMBER, sortCodeWithHyphens, VALID_NAME_ON_ACCOUNT, VALID_ROLL_NUMBER)
     expect(bankAccountDetails.accountNumber).to.equal(PROCESSED_ACCOUNT_NUMBER)
     expect(bankAccountDetails.sortCode).to.equal(processedSortCodeWithHyphens)
   })
 
   it('should construct a domain object given a sort code with hyphens and spaces', function () {
-    var sortCodeWithHyphensAndSpaces = '12 - 12 - 12'
-    var processedSortCodeWithHyphensAndSpaces = '121212'
+    const sortCodeWithHyphensAndSpaces = '12 - 12 - 12'
+    const processedSortCodeWithHyphensAndSpaces = '121212'
     bankAccountDetails = new BankAccountDetails(VALID_ACCOUNT_NUMBER, sortCodeWithHyphensAndSpaces, VALID_NAME_ON_ACCOUNT, VALID_ROLL_NUMBER)
     expect(bankAccountDetails.accountNumber).to.equal(PROCESSED_ACCOUNT_NUMBER)
     expect(bankAccountDetails.sortCode).to.equal(processedSortCodeWithHyphensAndSpaces)

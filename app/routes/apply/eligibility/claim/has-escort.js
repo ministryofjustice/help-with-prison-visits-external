@@ -7,7 +7,7 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/has-escort', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -26,14 +26,14 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/has-escort', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {
-      var hasEscort = new HasEscort(req.body['has-escort'])
+      const hasEscort = new HasEscort(req.body['has-escort'])
       if (hasEscort.hasEscort === 'yes') {
         return res.redirect('/apply/eligibility/claim/about-escort')
       } else {

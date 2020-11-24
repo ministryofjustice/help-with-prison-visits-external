@@ -10,7 +10,7 @@ class UpdatedContactDetails {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.emailAddress, 'EmailAddress', errors)
       .isRequired()
@@ -20,7 +20,7 @@ class UpdatedContactDetails {
     FieldValidator(this.phoneNumber, 'PhoneNumber', errors)
       .isRange(0, 20)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

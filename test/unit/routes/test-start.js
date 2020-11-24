@@ -8,7 +8,7 @@ const route = require('../../../app/routes/start')
 describe('routes/start', function () {
   const ROUTE = '/start'
 
-  var app
+  let app
 
   beforeEach(function () {
     app = routeHelper.buildApp(route)

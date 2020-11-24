@@ -11,7 +11,7 @@ describe('services/domain/expenses/ferry-expense', function () {
   const INVALID_COST = '0'
 
   it('should construct a domain object given valid input', function () {
-    var expense = new FerryExpense(
+    const expense = new FerryExpense(
       VALID_COST,
       VALID_FROM,
       VALID_TO,

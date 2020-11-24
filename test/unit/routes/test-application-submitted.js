@@ -5,13 +5,13 @@ const sinon = require('sinon')
 
 describe('routes/application-submitted', function () {
   const ROUTE = '/application-submitted'
-  var app
-  var urlPathValidatorStub
+  let app
+  let urlPathValidatorStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
 
-    var route = proxyquire('../../../app/routes/application-submitted', {
+    const route = proxyquire('../../../app/routes/application-submitted', {
       '../services/validators/url-path-validator': urlPathValidatorStub
     })
     app = routeHelper.buildApp(route)

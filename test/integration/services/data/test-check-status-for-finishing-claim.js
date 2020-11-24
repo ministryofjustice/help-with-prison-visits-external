@@ -6,8 +6,8 @@ const knex = require('knex')(config)
 
 describe('services/data/check-status-for-finishing-claim', function () {
   const REFERENCE = 'FINSTAT'
-  var claimId
-  var eligibilityId
+  let claimId
+  let eligibilityId
 
   beforeEach(function () {
     return eligibilityHelper.insertEligibilityClaim(REFERENCE)

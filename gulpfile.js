@@ -1,6 +1,6 @@
-var gulp = require('gulp')
-var sass = require('gulp-sass')
-var spawn = require('child_process').spawn
+const gulp = require('gulp')
+const sass = require('gulp-sass')
+const spawn = require('child_process').spawn
 
 gulp.task('assets', function (done) {
   gulp.src('node_modules/govuk_frontend_toolkit/javascripts/**/*')

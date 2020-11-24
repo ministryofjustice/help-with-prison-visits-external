@@ -13,16 +13,16 @@ describe('routes/reference-recovery', function () {
     PrisonerNumber: 'B7328973'
   }
 
-  var app
+  let app
 
-  var referenceRecoveryStub
-  var insertTaskStub
+  let referenceRecoveryStub
+  let insertTaskStub
 
   beforeEach(function () {
     referenceRecoveryStub = sinon.stub()
     insertTaskStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../app/routes/reference-recovery', {
+    const route = proxyquire('../../../app/routes/reference-recovery', {
       '../services/domain/reference-recovery': referenceRecoveryStub,
       '../services/data/insert-task': insertTaskStub
     })

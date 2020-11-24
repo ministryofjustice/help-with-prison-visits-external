@@ -1,10 +1,10 @@
 const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-var Promise = require('bluebird').Promise
-var fs = Promise.promisifyAll(require('fs'))
+const Promise = require('bluebird').Promise
+const fs = Promise.promisifyAll(require('fs'))
 const path = require('path')
-var stubLogger = {
+const stubLogger = {
   info: sinon.spy(),
   error: sinon.spy()
 }
@@ -27,7 +27,7 @@ describe('services/move-file on file upload', function () {
 
   it('should raise an I/O error if the file cannot be written', function () {
     return moveFile(TMP_FILE_PATH, INVALID_TARGET_PATH, TARGET_FILE).catch(function (error) {
-      var expectedMessage = 'ENOENT: no such file or directory'
+      const expectedMessage = 'ENOENT: no such file or directory'
       expect(error.message.includes(expectedMessage), 'Error message should indicate no such file or directory').to.be.true  //eslint-disable-line
     })
   })

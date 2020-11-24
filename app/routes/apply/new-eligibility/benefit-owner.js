@@ -8,7 +8,7 @@ const SessionHandler = require('../../../services/validators/session-handler')
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/benefit-owner', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -25,16 +25,16 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/new-eligibility/benefit-owner', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var benefitOwnerBody = req.body
+    const benefitOwnerBody = req.body
 
     try {
-      var benefitOwner = new BenefitOwner(
+      const benefitOwner = new BenefitOwner(
         req.body.FirstName,
         req.body.LastName,
         req.body['dob-day'],
@@ -42,7 +42,7 @@ module.exports = function (router) {
         req.body['dob-year'],
         req.body.NationalInsuranceNumber)
 
-      var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+      const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
       return insertBenefitOwner(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, benefitOwner)
         .then(function () {

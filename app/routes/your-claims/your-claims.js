@@ -14,13 +14,13 @@ const REFERENCE_DOB_INCORRECT_ERROR = '?error=yes'
 module.exports = function (router) {
   router.get('/your-claims', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var decodedDOB = dateFormatter.decodeDate(req.session.dobEncoded)
+    const decodedDOB = dateFormatter.decodeDate(req.session.dobEncoded)
 
     getHistoricClaims(req.session.decryptedRef, dateFormatter.buildFromDateString(decodedDOB).format('YYYY-MM-DD'))
       .then(function (claims) {
@@ -30,7 +30,7 @@ module.exports = function (router) {
 
         getHistoricClaimsByReference(req.session.decryptedRef)
           .then(function (claims) {
-            var canStartNewClaim = noClaimsInProgress(claims)
+            const canStartNewClaim = noClaimsInProgress(claims)
 
             return res.render('your-claims/your-claims', {
               reference: req.session.decryptedRef,
@@ -49,7 +49,7 @@ module.exports = function (router) {
   })
 
   function noClaimsInProgress (claims) {
-    var result = true
+    let result = true
 
     claims.forEach(function (claim) {
       if (claim.Status !== claimStatusEnum.APPROVED &&

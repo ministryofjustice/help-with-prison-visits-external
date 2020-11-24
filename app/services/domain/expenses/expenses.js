@@ -10,13 +10,13 @@ class Expenses {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.expense, 'expenses', errors)
       .isRequired(ERROR_MESSAGES.getSelectAnExpense)
       .isValidExpenseArray()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

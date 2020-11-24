@@ -8,8 +8,8 @@ const claimStatusEnum = require('../../constants/claim-status-enum')
 const dateFormatter = require('../date-formatter')
 
 module.exports = function (reference, eligibilityId, claimId, claimType, assistedDigitalCaseworker, paymentMethod) {
-  var dateSubmitted = dateFormatter.now().toDate()
-  var setTaskStatus = assistedDigitalCaseworker === 'teste2e@test.com' ? 'TEST' : false // logic for e2e tests
+  const dateSubmitted = dateFormatter.now().toDate()
+  const setTaskStatus = assistedDigitalCaseworker === 'teste2e@test.com' ? 'TEST' : false // logic for e2e tests
 
   return knex('Claim')
     .where({ Reference: reference, EligibilityId: eligibilityId, ClaimId: claimId, Status: claimStatusEnum.IN_PROGRESS })

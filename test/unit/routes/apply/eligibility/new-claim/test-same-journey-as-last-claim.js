@@ -11,18 +11,18 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
   const ROUTE = '/apply/eligibility/new-claim/same-journey-as-last-claim'
   const REFERENCE = 'SAMEJO'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var sameJourneyAsLastClaimStub
-  var getLastClaimDetailsStub
+  let urlPathValidatorStub
+  let sameJourneyAsLastClaimStub
+  let getLastClaimDetailsStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     sameJourneyAsLastClaimStub = sinon.stub()
     getLastClaimDetailsStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/same-journey-as-last-claim', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/same-journey-as-last-claim', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/domain/same-journey-as-last-claim': sameJourneyAsLastClaimStub,
       '../../../../services/data/get-last-claim-details': getLastClaimDetailsStub

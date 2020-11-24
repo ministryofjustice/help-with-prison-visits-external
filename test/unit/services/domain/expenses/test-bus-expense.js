@@ -10,7 +10,7 @@ describe('services/domain/expenses/bus-expense', function () {
   const INVALID_COST = '0'
 
   it('should construct a domain object given valid input', function () {
-    var expense = new BusExpense(
+    const expense = new BusExpense(
       VALID_COST,
       VALID_FROM,
       VALID_TO,

@@ -1,4 +1,4 @@
-var expect = require('chai').expect
+const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const tasksEnum = require('../../../../app/constants/tasks-enum')
@@ -12,9 +12,9 @@ const TEST_BANK_ACCOUNT_DETAILS = new BankAccountDetails(BANK_DETAILS.accountNum
 const NO_BANK_DETAILS = { required: false }
 
 describe('services/data/submit-update', function () {
-  var submitUpdate
-  var insertTaskStub
-  var insertBankDetailsStub
+  let submitUpdate
+  let insertTaskStub
+  let insertBankDetailsStub
 
   before(function () {
     insertTaskStub = sinon.stub()

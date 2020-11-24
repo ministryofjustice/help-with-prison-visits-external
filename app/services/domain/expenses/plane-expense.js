@@ -12,7 +12,7 @@ class PlaneExpense extends BaseExpense {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.from, 'from', errors)
       .isRequired(ERROR_MESSAGES.getEnterFrom)
@@ -34,7 +34,7 @@ class PlaneExpense extends BaseExpense {
       .isGreaterThanZero()
       .isMaxCostOrLess()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

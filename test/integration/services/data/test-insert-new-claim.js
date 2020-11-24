@@ -7,8 +7,8 @@ const moment = require('moment')
 describe('services/data/insert-new-claim', function () {
   const REFERENCE = 'APVS137'
   const CLAIM_TYPE = 'repeat'
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   before(function () {
     return eligiblityHelper.insert(REFERENCE)

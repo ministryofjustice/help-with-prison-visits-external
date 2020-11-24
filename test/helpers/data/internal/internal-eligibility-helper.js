@@ -30,8 +30,8 @@ module.exports.insert = function (reference) {
 }
 
 module.exports.insertEligibilityAndClaim = function (reference, status) {
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   return this.insert(reference)
     .then(function (id) { eligibilityId = id })
@@ -64,7 +64,7 @@ function deleteByReference (schemaTable, reference) {
  * Deletes all records with the given reference across all schemas.
  */
 module.exports.deleteAll = function (reference) {
-  var self = this
+  const self = this
   return self.deleteAllExternal(reference)
     .then(function () { return self.deleteAllInternal(reference) })
 }

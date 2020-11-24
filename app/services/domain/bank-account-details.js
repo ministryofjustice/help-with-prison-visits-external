@@ -2,7 +2,7 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
-const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+const unsafeInputPattern = />|<|&lt|&gt/g
 
 class BankAccountDetails {
   constructor (accountNumber, sortCode, nameOnAccount, rollNumber) {
@@ -14,7 +14,7 @@ class BankAccountDetails {
   }
 
   IsValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.accountNumber, 'AccountNumber', errors)
       .isRequired(ERROR_MESSAGES.getEnterAccountNumber)
@@ -38,7 +38,7 @@ class BankAccountDetails {
       }
     }
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
 
     if (validationErrors) {
       throw new ValidationError(validationErrors)

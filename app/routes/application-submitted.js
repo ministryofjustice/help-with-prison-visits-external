@@ -5,8 +5,8 @@ const log = require('../services/log')
 module.exports = function (router) {
   router.get('/application-submitted', function (req, res) {
     UrlPathValidator(req.params)
-    var decryptedRef = req.session.decryptedRef
-    var advanceOrPast = req.session.advanceOrPast
+    const decryptedRef = req.session.decryptedRef
+    const advanceOrPast = req.session.advanceOrPast
     log.info('ClaimID ' + req.session.claimId + ' Submitted')
     req.session = SessionHandler.clearSession(req.session, req.url)
 

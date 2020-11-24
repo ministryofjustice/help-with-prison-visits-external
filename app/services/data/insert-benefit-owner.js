@@ -7,7 +7,7 @@ module.exports = function (reference, eligibilityId, benefitOwner) {
     throw new Error('Provided benefitOwner object is not an instance of the expected class')
   }
 
-  var benefitInformation = {
+  const benefitInformation = {
     EligibilityId: eligibilityId,
     Reference: reference,
     FirstName: benefitOwner.firstName,
@@ -20,7 +20,7 @@ module.exports = function (reference, eligibilityId, benefitOwner) {
     .where('Reference', reference)
     .count('Reference as ReferenceCount')
     .then(function (countResult) {
-      var count = countResult[0].ReferenceCount
+      const count = countResult[0].ReferenceCount
 
       if (count === 0) {
         return knex('Benefit')

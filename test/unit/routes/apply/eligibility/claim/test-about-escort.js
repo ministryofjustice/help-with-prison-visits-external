@@ -10,18 +10,18 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MzY2LjQ2MDk4MzMzMiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiIzYjI0NzE3YWI5YTI0N2E3MGIiLCJkZWNyeXB0ZWRSZWYiOiIxUjY0RVROIiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6OH0=']
   const COOKIES_EXPIRED = ['apvs-start-application=']
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var aboutEscortStub
-  var insertEscortStub
+  let urlPathValidatorStub
+  let aboutEscortStub
+  let insertEscortStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     aboutEscortStub = sinon.stub()
     insertEscortStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/about-escort', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/about-escort', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/domain/about-escort': aboutEscortStub,
       '../../../../services/data/insert-escort': insertEscortStub

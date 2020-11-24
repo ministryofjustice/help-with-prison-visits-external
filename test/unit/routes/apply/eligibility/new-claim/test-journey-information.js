@@ -13,15 +13,15 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
   const COOKIES_REPEAT_DUPLICATE = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjQwLjY4ODE2NjY2NywiZGVjcnlwdGVkUmVmIjoiVEtZQ0NSQSIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QlEiLCJyZWZlcmVuY2VJZCI6IjVlM2QxZTBkYmZhNDQ4YTcwYyIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1UeXBlIjoicmVwZWF0LWR1cGxpY2F0ZSJ9']
   const COOKIES_EXPIRED = ['apvs-start-application=']
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var newClaimStub
-  var insertNewClaimStub
-  var insertRepeatDuplicateClaimStub
-  var getReleaseDateStub
+  let urlPathValidatorStub
+  let newClaimStub
+  let insertNewClaimStub
+  let insertRepeatDuplicateClaimStub
+  let getReleaseDateStub
 
-  var releaseDate = [
+  const releaseDate = [
     {
       ReleaseDateIsSet: false,
       ReleaseDate: null
@@ -35,7 +35,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     insertRepeatDuplicateClaimStub = sinon.stub()
     getReleaseDateStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/journey-information', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/journey-information', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/domain/new-claim': newClaimStub,
       '../../../../services/data/insert-new-claim': insertNewClaimStub,

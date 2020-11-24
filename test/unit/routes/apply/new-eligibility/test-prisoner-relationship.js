@@ -12,16 +12,16 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
   const COOKIES_EXPIRED = ['apvs-start-application=']
   const ROUTE = '/apply/first-time/new-eligibility/prisoner-relationship'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var prisonerRelationshipStub
+  let urlPathValidatorStub
+  let prisonerRelationshipStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     prisonerRelationshipStub = sinon.stub()
 
-    var route = proxyquire('../../../../../app/routes/apply/new-eligibility/prisoner-relationship', {
+    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/prisoner-relationship', {
       '../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../services/domain/prisoner-relationship': prisonerRelationshipStub
     })

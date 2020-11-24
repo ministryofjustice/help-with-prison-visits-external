@@ -3,7 +3,7 @@ const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 const DateOfBirth = require('../../../../app/services/domain/date-of-birth')
 
-var dateOfBirth
+let dateOfBirth
 
 describe('services/domain/date-of-birth', function () {
   const VALID_DAY = '01'

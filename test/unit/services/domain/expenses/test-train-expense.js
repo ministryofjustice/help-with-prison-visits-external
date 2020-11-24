@@ -21,7 +21,7 @@ describe('services/domain/expenses/train-expense', function () {
   const INVALID_CHARS_TO = '&><>To somewhere<&gt<>'
 
   it('should construct a domain object given valid input', function () {
-    var expense = new TrainExpense(
+    const expense = new TrainExpense(
       VALID_COST,
       VALID_FROM,
       VALID_TO,
@@ -39,7 +39,7 @@ describe('services/domain/expenses/train-expense', function () {
   })
 
   it('should construct a domain object given valid input', function () {
-    var expense = new TrainExpense(
+    const expense = new TrainExpense(
       VALID_COST,
       VALID_FROM,
       VALID_TO,
@@ -58,8 +58,8 @@ describe('services/domain/expenses/train-expense', function () {
   })
 
   it('should strip illegal characters from otherwise valid input', function () {
-    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
-    var expense = new TrainExpense(
+    const unsafeInputPattern = />|<|&lt|&gt/g
+    const expense = new TrainExpense(
       VALID_COST,
       INVALID_CHARS_FROM,
       INVALID_CHARS_TO,

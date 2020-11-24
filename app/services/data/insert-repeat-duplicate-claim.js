@@ -6,8 +6,8 @@ const insertNewClaim = require('./insert-new-claim')
 const getLastClaimDetails = require('./get-last-claim-details')
 
 module.exports = function (reference, eligibilityId, claim) {
-  var claimId
-  var lastClaimDetails
+  let claimId
+  let lastClaimDetails
 
   return insertNewClaim(reference, eligibilityId, claimTypeEnum.REPEAT_DUPLICATE, claim)
     .then(function (newClaimId) { claimId = newClaimId })

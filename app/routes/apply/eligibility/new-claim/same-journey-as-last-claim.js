@@ -10,15 +10,15 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 module.exports = function (router) {
   router.get('/apply/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var isAdvancedClaim = req.session.advanceOrPast === 'advance'
+    const isAdvancedClaim = req.session.advanceOrPast === 'advance'
 
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true, isAdvancedClaim)
       .then(function (lastClaimDetails) {
@@ -41,13 +41,13 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
       new SameJourneyAsLastClaim(req.body['same-journey-as-last-claim']) // eslint-disable-line no-new

@@ -6,7 +6,7 @@ const expect = require('chai').expect
 describe('routes/index', function () {
   const ASSISTED_DIGITAL_ROUTE = '/assisted-digital'
 
-  var app
+  let app
 
   beforeEach(function () {
     app = routeHelper.buildApp(route)

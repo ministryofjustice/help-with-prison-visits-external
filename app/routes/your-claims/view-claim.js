@@ -29,13 +29,13 @@ module.exports = function (router) {
     }
 
     req.session.claimId = req.params.claimId
-    var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
+    const dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
     getViewClaim(req.session.claimId, req.session.decryptedRef, dobDecoded)
       .then(function (claimDetails) {
-        var referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, claimDetails.claim.EligibilityId)
-        var isRequestInfoPayment = claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
-        var addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
+        const referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, claimDetails.claim.EligibilityId)
+        const isRequestInfoPayment = claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
+        const addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
           claimDetails.claim.BenefitStatus,
           claimDetails.claim.benefitDocument[0],
           claimDetails.claim.VisitConfirmationCheck,
@@ -74,37 +74,38 @@ module.exports = function (router) {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
-    var SortCode = req.body.SortCode
-    var AccountNumber = req.body.AccountNumber
-    var NameOnAccount = req.body.NameOnAccount
-    var RollNumber = req.body.RollNumber
-    var message = req.body['message-to-caseworker']
-    var assistedDigitalCookie = req.cookies['apvs-assisted-digital']
+    const SortCode = req.body.SortCode
+    const AccountNumber = req.body.AccountNumber
+    const NameOnAccount = req.body.NameOnAccount
+    const RollNumber = req.body.RollNumber
+    const message = req.body['message-to-caseworker']
+    const assistedDigitalCookie = req.cookies['apvs-assisted-digital']
 
     req.session.claimId = req.params.claimId
 
-    var dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
-    var encryptedRef = encrypt(req.session.decryptedRef)
+    const dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
+    const encryptedRef = encrypt(req.session.decryptedRef)
+    let bankDetails
 
     getViewClaim(req.session.claimId, req.session.decryptedRef, dobDecoded)
       .then(function (claimDetails) {
         try {
-          var benefit = claimDetails.claim.benefitDocument
+          const benefit = claimDetails.claim.benefitDocument
           if (benefit.length <= 0) {
             benefit.push({ fromInternalWeb: true })
           }
 
-          var bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT', nameOnAccount: NameOnAccount, rollNumber: RollNumber }
-          var claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message) // eslint-disable-line no-unused-vars
+          bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT', nameOnAccount: NameOnAccount, rollNumber: RollNumber }
+          const claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message) // eslint-disable-line no-unused-vars
           submitUpdate(req.session.decryptedRef, claimDetails.claim.EligibilityId, req.session.claimId, message, bankDetails, assistedDigitalCookie)
             .then(function () {
               return res.redirect(`/your-claims/${req.session.claimId}?updated=true`)
             })
         } catch (error) {
           if (error instanceof ValidationError) {
-            var referenceId = referenceIdHelper.getReferenceId(encryptedRef, claimDetails.claim.EligibilityId)
-            var isRequestInfoPayment = bankDetails.required
-            var addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
+            const referenceId = referenceIdHelper.getReferenceId(encryptedRef, claimDetails.claim.EligibilityId)
+            const isRequestInfoPayment = bankDetails.required
+            const addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
               claimDetails.claim.BenefitStatus,
               claimDetails.claim.benefitDocument[0],
               claimDetails.claim.VisitConfirmationCheck,
@@ -148,9 +149,9 @@ module.exports = function (router) {
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
       .then(function (result) {
-        var path = result.Filepath
+        const path = result.Filepath
         if (path) {
-          var fileName = 'APVS-Upload.' + path.split('.').pop()
+          const fileName = 'APVS-Upload.' + path.split('.').pop()
           return res.download(path, fileName)
         } else {
           throw new Error('No path to file provided')

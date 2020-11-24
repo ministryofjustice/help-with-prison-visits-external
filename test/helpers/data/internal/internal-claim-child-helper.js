@@ -24,7 +24,7 @@ module.exports.build = function () {
 }
 
 module.exports.insert = function (reference, eligibilityId, claimId, data) {
-  var child = data || this.build()
+  const child = data || this.build()
 
   return knex('IntSchema.ClaimChild').insert({
     ClaimChildId: child.ClaimChildId,

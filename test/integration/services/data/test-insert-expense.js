@@ -5,12 +5,12 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 describe('services/data/insert-expense', function () {
-  var insertExpense
-  var disableNonTicketedExpensesForClaim
+  let insertExpense
+  let disableNonTicketedExpensesForClaim
 
   const REFERENCE = 'INSEXPS'
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   before(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)

@@ -7,10 +7,10 @@ const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class CarExpense extends BaseExpense {
   constructor (from, to, toll, tollCost, parking, parkingCost, newDestination, destination, postcode, newOrigin, origin, originPostCode) {
-    var journeyTo = newDestination ? destination : to
-    var toPostCode = newDestination ? postcode.replace(/ /g, '').toUpperCase() : null
-    var journeyFrom = newOrigin ? origin : from
-    var fromPostCode = newOrigin ? originPostCode.replace(/ /g, '').toUpperCase() : null
+    const journeyTo = newDestination ? destination : to
+    const toPostCode = newDestination ? postcode.replace(/ /g, '').toUpperCase() : null
+    const journeyFrom = newOrigin ? origin : from
+    const fromPostCode = newOrigin ? originPostCode.replace(/ /g, '').toUpperCase() : null
     super(EXPENSE_TYPE.CAR.value, null, null, journeyFrom, journeyTo, null, null, null, null, null, toPostCode, fromPostCode)
     this.newDestination = newDestination
     this.newOrigin = newOrigin
@@ -22,33 +22,15 @@ class CarExpense extends BaseExpense {
   }
 
   get tollExpense () {
-    return this.toll ? new BaseExpense(
-      EXPENSE_TYPE.CAR_TOLL.value,
-      this.tollCost,
-      null,
-      this.from,
-      this.to,
-      null,
-      null,
-      null
-    ) : null
+    return this.toll ? new BaseExpense(EXPENSE_TYPE.CAR_TOLL.value, this.tollCost, null, this.from, this.to, null, null, null) : null
   }
 
   get parkingExpense () {
-    return this.parking ? new BaseExpense(
-      EXPENSE_TYPE.CAR_PARKING_CHARGE.value,
-      this.parkingCost,
-      null,
-      this.from,
-      this.to,
-      null,
-      null,
-      null
-    ) : null
+    return this.parking ? new BaseExpense(EXPENSE_TYPE.CAR_PARKING_CHARGE.value, this.parkingCost, null, this.from, this.to, null, null, null) : null
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     if (this.newDestination) {
       FieldValidator(this.to, 'destination', errors)
@@ -89,7 +71,7 @@ class CarExpense extends BaseExpense {
         .isMaxCostOrLess()
     }
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

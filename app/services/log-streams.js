@@ -5,7 +5,7 @@ const LOG_LEVEL = config.LOGGING_LEVEL
 const LOG_PATH = config.LOGGING_PATH || 'logs/external-web.log'
 
 module.exports.buildConsoleStream = function () {
-  var prettyStream = new PrettyStream()
+  const prettyStream = new PrettyStream()
   prettyStream.pipe(process.stdout)
 
   return {

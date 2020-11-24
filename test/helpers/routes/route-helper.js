@@ -8,7 +8,7 @@ const cookieSession = require('cookie-session')
 const VIEWS_DIRECTORY = '../../../app/views'
 
 module.exports.buildApp = function (route) {
-  var app = express()
+  const app = express()
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(expressSanitized())

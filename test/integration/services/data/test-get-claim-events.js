@@ -6,7 +6,7 @@ const internalClaimEventHelper = require('../../../helpers/data/internal/interna
 describe('services/data/get-claim-events', function () {
   const REFERENCE = 'EVENT12'
   const INVALID_REFERENCE = 'INVALID'
-  var claimId
+  let claimId
 
   before(function () {
     return internalEligiblityHelper.insertEligibilityAndClaim(REFERENCE)

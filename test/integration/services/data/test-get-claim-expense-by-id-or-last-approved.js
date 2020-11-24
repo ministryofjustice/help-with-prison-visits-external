@@ -6,8 +6,8 @@ const internalClaimExpenseHelper = require('../../../helpers/data/internal/inter
 describe('services/data/get-claim-expense-by-id-or-last-approved', function () {
   const REFERENCE = 'MASK467'
   const INVALID_REFERENCE = 'INVALID'
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   before(function () {
     return internalEligiblityHelper.insertEligibilityAndClaim(REFERENCE)

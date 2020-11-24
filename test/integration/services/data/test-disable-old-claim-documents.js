@@ -5,9 +5,9 @@ const disableOldClaimDocuments = require('../../../../app/services/data/disable-
 
 describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
   const REFERENCE = 'DISDOCS'
-  var eligibilityId
-  var claimId
-  var fileUpload
+  let eligibilityId
+  let claimId
+  let fileUpload
 
   beforeEach(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)
@@ -21,7 +21,7 @@ describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
   })
 
   it('should disable previous documents if not a multipage document', function () {
-    var multipageDoc = false
+    const multipageDoc = false
     return disableOldClaimDocuments(REFERENCE, claimId, fileUpload, multipageDoc)
       .then(function () {
         return claimDocumentHelper.get(claimId)
@@ -35,7 +35,7 @@ describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
   })
 
   it('should not disable previous documents for multipage documents', function () {
-    var multipageDoc = true
+    const multipageDoc = true
     return disableOldClaimDocuments(REFERENCE, claimId, fileUpload, multipageDoc)
       .then(function () {
         return claimDocumentHelper.get(claimId)

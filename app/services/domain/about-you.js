@@ -2,7 +2,7 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
-const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+const unsafeInputPattern = />|<|&lt|&gt/g
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutYou {
@@ -29,7 +29,7 @@ class AboutYou {
   }
 
   IsValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourFirstName)
@@ -71,7 +71,7 @@ class AboutYou {
     FieldValidator(this.phoneNumber, 'PhoneNumber', errors)
       .isLessThanLength(20)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
 
     if (validationErrors) {
       throw new ValidationError(validationErrors)

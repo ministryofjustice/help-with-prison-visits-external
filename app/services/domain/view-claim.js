@@ -14,8 +14,8 @@ class ViewClaim {
   }
 
   isValid () {
-    var self = this
-    var errors = ErrorHandler()
+    const self = this
+    const errors = ErrorHandler()
 
     this.claimExpenses.forEach(function (expense) {
       if (!expense.fromInternalWeb) {
@@ -30,7 +30,7 @@ class ViewClaim {
     FieldValidator(this.message, 'send-message-to-caseworker', errors)
       .isLessThanLength(1000)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

@@ -10,13 +10,13 @@ class FutureOrPastVisit {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.advancePast, 'advance-past', errors)
       .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
       .isValidAdvanceOrPast()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

@@ -6,7 +6,7 @@ describe('services/domain/has-child', function () {
   const INVALID_INPUT = 'invalid input'
 
   it('should construct a domain object given valid input', function () {
-    var hasChild = new HasChild(
+    const hasChild = new HasChild(
       VALID_INPUT
     )
     expect(hasChild.hasChild).to.equal(VALID_INPUT)

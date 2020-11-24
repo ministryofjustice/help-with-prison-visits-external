@@ -3,7 +3,7 @@ const FieldsetValidator = require('../validators/fieldset-validator')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
-const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+const unsafeInputPattern = />|<|&lt|&gt/g
 const MINIMUM_AGE_IN_YEARS = 18
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
@@ -21,7 +21,7 @@ class AboutEscort {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
       .isRequired(ERROR_MESSAGES.getEnterEscortFirstName)
@@ -37,7 +37,7 @@ class AboutEscort {
       .isPastDate(this.dob)
       .isOlderThanInYears(this.dob, MINIMUM_AGE_IN_YEARS)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

@@ -8,12 +8,12 @@ describe('routes/apply/eligibility/claim/payout-confirmation', function () {
   const COOKIES_EXPIRED = ['apvs-start-application=']
   const ROUTE = '/apply/eligibility/claim/payout-confirmation?isAdvance=false'
 
-  var app
+  let app
 
-  var stubPaymentDetails
-  var stubUrlPathValidator
-  var stubGetAddressAndLinkDetails
-  var stubGetChangeAddressLink
+  let stubPaymentDetails
+  let stubUrlPathValidator
+  let stubGetAddressAndLinkDetails
+  let stubGetChangeAddressLink
 
   beforeEach(function () {
     stubPaymentDetails = sinon.stub()
@@ -21,7 +21,7 @@ describe('routes/apply/eligibility/claim/payout-confirmation', function () {
     stubGetAddressAndLinkDetails = sinon.stub().resolves({})
     stubGetChangeAddressLink = sinon.stub()
 
-    var route = proxyquire(
+    const route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/payout-confirmation', {
         '../../../../services/domain/payment-details': stubPaymentDetails,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator,

@@ -6,7 +6,7 @@ const expect = require('chai').expect
 
 describe('services/data/get-travelling-from-and-to', function () {
   const REFERENCE = 'V123467'
-  var eligibilityId
+  let eligibilityId
   const EXPECTED_RESULT = {
     from: visitorHelper.TOWN,
     to: prisonerHelper.NAME_OF_PRISON

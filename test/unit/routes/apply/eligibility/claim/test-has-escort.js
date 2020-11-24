@@ -10,18 +10,18 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
   const COOKIES_EXPIRED = ['apvs-start-application=']
   const ROUTE = '/apply/eligibility/claim/has-escort'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var hasEscortStub
-  var getIsAdvanceClaimStub
+  let urlPathValidatorStub
+  let hasEscortStub
+  let getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     hasEscortStub = sinon.stub()
     getIsAdvanceClaimStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/has-escort', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/has-escort', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/domain/has-escort': hasEscortStub,
       '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub

@@ -12,18 +12,18 @@ describe('/your-claims/your-claims', function () {
   const CLAIMS_CAN_START_NEW_CLAIM = [{ Status: 'APPROVED' }, { Status: 'AUTO-APPROVED' }, { Status: 'REJECTED' }]
   const CLAIMS_CANNOT_START_NEW_CLAIM = [{ Status: 'INPROGRESS' }]
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var getHistoricClaimsStub
-  var getHistoricClaimsByReferenceStub
+  let urlPathValidatorStub
+  let getHistoricClaimsStub
+  let getHistoricClaimsByReferenceStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     getHistoricClaimsStub = sinon.stub()
     getHistoricClaimsByReferenceStub = sinon.stub()
 
-    var route = proxyquire('../../../../app/routes/your-claims/your-claims', {
+    const route = proxyquire('../../../../app/routes/your-claims/your-claims', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../services/data/get-historic-claims': getHistoricClaimsStub,
       '../../services/data/get-historic-claims-by-reference': getHistoricClaimsByReferenceStub

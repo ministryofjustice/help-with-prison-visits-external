@@ -1,9 +1,9 @@
 const config = require('../../config')
-var Promise = require('bluebird').Promise
+const Promise = require('bluebird').Promise
 const NodeClam = require('clamscan')
 const log = require('./log')
 
-var clam
+let clam
 try {
   clam = new NodeClam().init({
     remove_infected: config.CLAM_REMOVE_INFECTED,

@@ -1,11 +1,11 @@
-var Promise = require('bluebird').Promise
-var fs = Promise.promisifyAll(require('fs'))
+const Promise = require('bluebird').Promise
+const fs = Promise.promisifyAll(require('fs'))
 const path = require('path')
 const logger = require('./log')
 
 module.exports = function (tempPath, targetDir, targetFile) {
   return new Promise(function (resolve, reject) {
-    var targetFilePath = path.join(targetDir, targetFile)
+    const targetFilePath = path.join(targetDir, targetFile)
     return fs.createReadStream(tempPath)
       .pipe(fs.createWriteStream(targetFilePath))
       .on('error', function (error) {

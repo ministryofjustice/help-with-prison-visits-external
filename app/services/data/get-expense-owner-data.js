@@ -2,7 +2,7 @@ const config = require('../../../knexfile').extweb
 const knex = require('knex')(config)
 
 module.exports = function (claimId, eligibilityId, reference) {
-  var result = {}
+  const result = {}
   return getAnyClaimChildren(claimId, eligibilityId, reference)
     .then(function (child) {
       result.child = child.length !== 0

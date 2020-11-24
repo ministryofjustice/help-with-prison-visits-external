@@ -9,7 +9,7 @@ describe('services/domain/expenses/hire-expense', function () {
   const INVALID_COST = '0'
 
   it('should construct a domain object given valid input', function () {
-    var expense = new HireExpense(
+    const expense = new HireExpense(
       VALID_COST,
       VALID_FROM,
       VALID_TO,

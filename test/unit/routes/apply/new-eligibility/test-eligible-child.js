@@ -4,10 +4,10 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
-var urlPathValidatorStub
-var stubEligibleChild
-var stubInsertEligibleChild
-var app
+let urlPathValidatorStub
+let stubEligibleChild
+let stubInsertEligibleChild
+let app
 
 describe('routes/apply/new-eligibility/eligible-child', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI2MzM1MjEwLjU5NDQ2NjY2OCwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InIxNCIsImJlbmVmaXQiOiJiMSIsImJlbmVmaXRPd25lciI6InllcyIsInJlZmVyZW5jZUlkIjoiNDI0MzcwMWVhYWM3NGRhNzBiYTg4ZmIyIiwiZGVjcnlwdGVkUmVmIjoiSDU3UFYxRCJ9']
@@ -19,7 +19,7 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
     stubEligibleChild = sinon.stub()
     stubInsertEligibleChild = sinon.stub()
 
-    var route = proxyquire('../../../../../app/routes/apply/new-eligibility/eligible-child', {
+    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/eligible-child', {
       '../../../services/data/insert-eligible-child': stubInsertEligibleChild,
       '../../../services/domain/eligible-child': stubEligibleChild,
       '../../../services/validators/url-path-validator': urlPathValidatorStub
@@ -41,7 +41,7 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
 
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to first-time/about-you for valid data', function () {
-      var newEligibleChild = {}
+      const newEligibleChild = {}
       stubEligibleChild.returns(newEligibleChild)
       stubInsertEligibleChild.resolves({ reference: 'NEWREF1', eligibilityId: 1234 })
 
@@ -58,9 +58,9 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
     })
 
     it('should persist data and redirect to /apply/first-time/new-eligibility/date-of-birth?error=expired', function () {
-      var newReference = 'NEWREF1'
-      var newEligibilityId = 1234
-      var newEligibleChild = {}
+      const newReference = 'NEWREF1'
+      const newEligibilityId = 1234
+      const newEligibleChild = {}
       stubEligibleChild.returns(newEligibleChild)
       stubInsertEligibleChild.resolves({ reference: newReference, eligibilityId: newEligibilityId })
 

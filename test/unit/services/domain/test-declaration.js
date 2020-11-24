@@ -2,7 +2,7 @@
 const Declaration = require('../../../../app/services/domain/declaration')
 const expect = require('chai').expect
 
-var declaration
+let declaration
 
 describe('services/domain/declaration', function () {
   const VALID_TERMS_AND_CONDITIONS = 'yes'

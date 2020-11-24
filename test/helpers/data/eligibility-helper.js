@@ -25,7 +25,7 @@ module.exports.insert = function (reference) {
 }
 
 module.exports.insertEligibilityVisitorAndPrisoner = function (reference) {
-  var eligibilityId
+  let eligibilityId
 
   return this.insert(reference)
     .then(function (newEligibilityId) {
@@ -41,7 +41,7 @@ module.exports.insertEligibilityVisitorAndPrisoner = function (reference) {
 }
 
 module.exports.insertEligibilityClaim = function (reference) {
-  var eligibilityId
+  let eligibilityId
 
   return this.insert(reference)
     .then(function (newEligibilityId) {

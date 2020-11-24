@@ -13,11 +13,11 @@ const EXPENSES = [{ ClaimExpenseId: 2, ExpenseType: 'bus', Cost: '20' }, { Claim
 const ESCORT = [{ ClaimEscortId: 3, LastName: LAST_NAME }]
 const CLAIMID2 = [{ ClaimId: 2, IsAdvanceClaim: true }]
 
-var getLastClaimForReferenceStub = sinon.stub()
-var getClaimChildrenByIdOrLastApprovedStub = sinon.stub().resolves(CHILDREN)
-var getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves(EXPENSES)
-var getClaimEscortByIdOrLastApprovedStub = sinon.stub().resolves(ESCORT)
-var maskArrayOfNamesStub = sinon.stub().returns(LAST_NAME_MASKED)
+const getLastClaimForReferenceStub = sinon.stub()
+const getClaimChildrenByIdOrLastApprovedStub = sinon.stub().resolves(CHILDREN)
+const getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves(EXPENSES)
+const getClaimEscortByIdOrLastApprovedStub = sinon.stub().resolves(ESCORT)
+const maskArrayOfNamesStub = sinon.stub().returns(LAST_NAME_MASKED)
 
 const getLastClaimDetails = proxyquire('../../../../app/services/data/get-last-claim-details', {
   './get-last-claim-for-reference': getLastClaimForReferenceStub,
@@ -79,7 +79,7 @@ describe('services/data/get-last-claim-details', function () {
     getLastClaimForReferenceStub.resolves(CLAIMID2)
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, true)
       .then(function (result) {
-        var trainExpenses = result.expenses.filter(expense => expense.ExpenseType === 'train')
+        const trainExpenses = result.expenses.filter(expense => expense.ExpenseType === 'train')
 
         trainExpenses.forEach(function (expense) {
           expect(expense.Cost).to.be.equal('0')

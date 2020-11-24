@@ -8,13 +8,13 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const MASKED_ADDRESS = { PostCode: '****3BT' }
-var getRepeatEligibilityStub
+let getRepeatEligibilityStub
 
-var getAddressAndLinkDetails
+let getAddressAndLinkDetails
 
 const REFERENCE = 'V123456'
-var eligibilityId
-var claimId
+let eligibilityId
+let claimId
 
 describe('services/data/get-address-and-link-details', function () {
   before(function () {

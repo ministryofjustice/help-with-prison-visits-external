@@ -10,7 +10,7 @@ const NORTHERN_IRELAND = 'Northern Ireland'
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/expenses', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -20,7 +20,7 @@ module.exports = function (router) {
       .then(function (claimDetails) {
         getIsAdvanceClaim(req.session.claimId)
           .then(function (isAdvanceClaim) {
-            var isNorthernIrelandClaim = claimDetails.claim.Country === NORTHERN_IRELAND
+            const isNorthernIrelandClaim = claimDetails.claim.Country === NORTHERN_IRELAND
 
             return res.render('apply/eligibility/claim/expenses', {
               claimType: req.session.claimType,
@@ -35,7 +35,7 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/expenses', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -50,7 +50,7 @@ module.exports = function (router) {
           .then(function (claimDetails) {
             getIsAdvanceClaim(req.session.claimId)
               .then(function (isAdvanceClaim) {
-                var isNorthernIrelandClaim = claimDetails.claim.Country === NORTHERN_IRELAND
+                const isNorthernIrelandClaim = claimDetails.claim.Country === NORTHERN_IRELAND
 
                 return res.status(400).render('apply/eligibility/claim/expenses', {
                   errors: error.validationErrors,

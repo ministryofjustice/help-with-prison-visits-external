@@ -1,4 +1,4 @@
-var expect = require('chai').expect
+const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
@@ -8,15 +8,15 @@ const DOB = '10-10-1990'
 const ELIGIBILITYID = 1234
 
 describe('services/data/get-view-claim', function () {
-  var getViewClaim
-  var getRepeatEligibilityStub
-  var getClaimExpenseByIdOrLastApprovedStub
-  var getClaimChildrenByIdOrLastApprovedStub
-  var getHistoricClaimByClaimIdStub
-  var getClaimDocumentsHistoricClaimStub
-  var getAllClaimDocumentsByClaimIdStub
-  var getClaimEventsStub
-  var sortViewClaimResultsHelperStub
+  let getViewClaim
+  let getRepeatEligibilityStub
+  let getClaimExpenseByIdOrLastApprovedStub
+  let getClaimChildrenByIdOrLastApprovedStub
+  let getHistoricClaimByClaimIdStub
+  let getClaimDocumentsHistoricClaimStub
+  let getAllClaimDocumentsByClaimIdStub
+  let getClaimEventsStub
+  let sortViewClaimResultsHelperStub
 
   before(function () {
     getRepeatEligibilityStub = sinon.stub().resolves([[]])

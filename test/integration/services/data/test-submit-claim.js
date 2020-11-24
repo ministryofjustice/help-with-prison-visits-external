@@ -11,10 +11,10 @@ const dateFormatter = require('../../../../app/services/date-formatter')
 
 const REFERENCE = 'SUBMITF'
 const CLAIM_TYPE = 'first-time'
-var eligibilityId
-var claimId
+let eligibilityId
+let claimId
 
-var stubInsertTask = sinon.stub().resolves()
+const stubInsertTask = sinon.stub().resolves()
 
 const submitClaim = proxyquire('../../../../app/services/data/submit-claim', {
   './insert-task': stubInsertTask
@@ -30,11 +30,11 @@ describe('services/data/submit-claim', function () {
   })
 
   it('should update Eligibility/Claim Status, DateSubmitted and insert tasks', function () {
-    var currentDate = dateFormatter.now()
-    var twoMinutesAgo = dateFormatter.now().minutes(currentDate.get('minutes') - 2)
-    var twoMinutesAhead = dateFormatter.now().minutes(currentDate.get('minutes') + 2)
-    var assistedDigitalCaseworker = 'a@b.com'
-    var paymentMethod = 'bank'
+    const currentDate = dateFormatter.now()
+    const twoMinutesAgo = dateFormatter.now().minutes(currentDate.get('minutes') - 2)
+    const twoMinutesAhead = dateFormatter.now().minutes(currentDate.get('minutes') + 2)
+    const assistedDigitalCaseworker = 'a@b.com'
+    const paymentMethod = 'bank'
 
     return submitClaim(REFERENCE, eligibilityId, claimId, CLAIM_TYPE, assistedDigitalCaseworker, paymentMethod)
       .then(function () {

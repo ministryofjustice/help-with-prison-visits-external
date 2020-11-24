@@ -5,7 +5,7 @@ const route = require('../../../app/routes/eligibility-fail')
 describe('routes/eligibility-fail', function () {
   const ROUTE = '/eligibility-fail'
 
-  var app
+  let app
 
   beforeEach(function () {
     app = routeHelper.buildApp(route)

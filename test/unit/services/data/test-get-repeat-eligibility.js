@@ -1,4 +1,4 @@
-var expect = require('chai').expect
+const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
@@ -9,9 +9,9 @@ const ELIGIBILITYID = null
 const DOB = '10-10-1990'
 
 describe('services/data/get-repeat-eligibility', function () {
-  var getRepeatEligibility
-  var getMaskedEligibilityStub
-  var getEligibilityVisitorUpdateContactDetailStub
+  let getRepeatEligibility
+  let getMaskedEligibilityStub
+  let getEligibilityVisitorUpdateContactDetailStub
 
   before(function () {
     getMaskedEligibilityStub = sinon.stub()

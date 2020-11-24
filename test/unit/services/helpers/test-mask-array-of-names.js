@@ -14,7 +14,7 @@ const NAMES = [
 
 describe('services/helpers/mask-array-of-names', function () {
   it('should return the masked array of input strings', function () {
-    var maskedArray = maskArrayOfNames(NAMES)
+    const maskedArray = maskArrayOfNames(NAMES)
     expect(maskedArray[0].LastName).to.equal(LAST_NAME_MASKED_1)
     expect(maskedArray[1].LastName).to.equal(LAST_NAME_MASKED_2)
   })

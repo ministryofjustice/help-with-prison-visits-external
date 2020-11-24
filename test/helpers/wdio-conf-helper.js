@@ -1,8 +1,8 @@
 const wdioConf = require('../wdio.conf')
 
 module.exports = function (config) {
-  var baseConfig = wdioConf.config
-  for (var attrname in config) {
+  const baseConfig = wdioConf.config
+  for (const attrname in config) {
     baseConfig[attrname] = config[attrname]
   }
 

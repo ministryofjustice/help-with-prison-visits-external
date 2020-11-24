@@ -3,7 +3,8 @@ const ticketOwnerEnum = require('../../constants/ticket-owner-enum')
 const displayHelper = require('./display-helper')
 
 module.exports = function (expense) {
-  var formattedDetail
+  let formattedDetail
+  const travelTime = expense.TravelTime ? ` (${expense.TravelTime})` : ''
 
   switch (expense.ExpenseType) {
     case 'hire':
@@ -12,7 +13,6 @@ module.exports = function (expense) {
     case 'bus':
     case 'plane':
     case 'train':
-      var travelTime = expense.TravelTime ? ` (${expense.TravelTime})` : ''
       formattedDetail = `${addTicketOwnerPrefix(expense)}${expense.From} to ${expense.To}${travelTime}${addReturnPostfix(expense)}`
       break
     case 'refreshment':
@@ -37,9 +37,9 @@ module.exports = function (expense) {
 }
 
 function addTicketOwnerPrefix (expense) {
-  var result = ''
+  let result = ''
 
-  for (var ticketOwner in ticketOwnerEnum) {
+  for (const ticketOwner in ticketOwnerEnum) {
     if (ticketOwnerEnum[ticketOwner].value === expense.TicketOwner) {
       result = ticketOwnerEnum[ticketOwner].displayValue + ' - '
     }

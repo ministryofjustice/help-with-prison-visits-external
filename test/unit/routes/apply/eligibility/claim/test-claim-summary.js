@@ -26,12 +26,12 @@ const CLAIM = {
 }
 
 describe('routes/apply/eligibility/claim/claim-summary', function () {
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var getClaimSummaryStub
-  var claimSummaryStub
-  var claimSummaryHelperStub
+  let urlPathValidatorStub
+  let getClaimSummaryStub
+  let claimSummaryStub
+  let claimSummaryHelperStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -39,7 +39,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     claimSummaryStub = sinon.stub()
     claimSummaryHelperStub = sinon.stub()
 
-    var route = proxyquire(
+    const route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': urlPathValidatorStub,
         '../../../../services/data/get-claim-summary': getClaimSummaryStub,
@@ -155,7 +155,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 302', function () {
-      var removeExpenseAndDocument = sinon.stub(claimSummaryHelperStub, 'removeExpenseAndDocument').resolves()
+      const removeExpenseAndDocument = sinon.stub(claimSummaryHelperStub, 'removeExpenseAndDocument').resolves()
       return supertest(app)
         .post(REMOVE_EXPENSE_ROUTE)
         .expect(302)
@@ -183,7 +183,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 302, call removeClaimDocument, and redirect to claim summary', function () {
-      var removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
+      const removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
         .expect(302)
@@ -195,7 +195,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 302, call removeClaimDocument, and redirect to file upload', function () {
-      var removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
+      const removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
       return supertest(app)
         .post(REMOVE_DOCUMENT_ROUTE)
         .expect(302)
@@ -207,8 +207,8 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 302, call removeClaimDocument, and redirect to file upload', function () {
-      var removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
-      var claimExpenseParam = '&claimExpenseId=1'
+      const removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
+      const claimExpenseParam = '&claimExpenseId=1'
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}${claimExpenseParam}`)
         .expect(302)
