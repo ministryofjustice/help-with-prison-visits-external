@@ -8,8 +8,8 @@ const documentHelper = require('../../../helpers/data/claim-document-helper')
 
 describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
   const REFERENCE = 'DISEXPS'
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   const TICKETED_EXPENSE_TYPE = 'bus'
   const NON_TICKETED_EXPENSE_TYPE = 'car'
@@ -20,20 +20,20 @@ describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
         eligibilityId = ids.eligibilityId
         claimId = ids.claimId
 
-        var ticketedExpense = expenseHelper.build(claimId)
+        const ticketedExpense = expenseHelper.build(claimId)
         ticketedExpense.expenseType = TICKETED_EXPENSE_TYPE
 
-        var nonticketedExpense = expenseHelper.build(claimId)
+        const nonticketedExpense = expenseHelper.build(claimId)
         nonticketedExpense.expenseType = NON_TICKETED_EXPENSE_TYPE
 
         return insertExpense(REFERENCE, eligibilityId, claimId, ticketedExpense)
           .then(function (expenseIds) {
-            var documentForTicketedExpense = documentHelper.buildExpenseDoc(claimId, expenseIds[0])
+            const documentForTicketedExpense = documentHelper.buildExpenseDoc(claimId, expenseIds[0])
             return insertClaimDocument(REFERENCE, eligibilityId, claimId, documentForTicketedExpense)
               .then(function () {
                 return insertExpense(REFERENCE, eligibilityId, claimId, nonticketedExpense)
                   .then(function (expenseIds) {
-                    var documentForNonTicketedExpense = documentHelper.buildExpenseDoc(claimId, expenseIds[0])
+                    const documentForNonTicketedExpense = documentHelper.buildExpenseDoc(claimId, expenseIds[0])
                     return insertClaimDocument(REFERENCE, eligibilityId, claimId, documentForNonTicketedExpense)
                   })
               })

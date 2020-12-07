@@ -25,14 +25,14 @@ const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIM_DOCUMENT_ID}`
 const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIM_DOCUMENT_ID}?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITY_ID}`
 
 describe('routes/apply/eligibility/claim/view-claim', function () {
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var getViewClaimStub
-  var getClaimDocumentFilePathStub
-  var viewClaimDomainObjectStub
-  var submitUpdateStub
-  var removeClaimDocumentStub
+  let urlPathValidatorStub
+  let getViewClaimStub
+  let getClaimDocumentFilePathStub
+  let viewClaimDomainObjectStub
+  let submitUpdateStub
+  let removeClaimDocumentStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -42,7 +42,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
     submitUpdateStub = sinon.stub()
     removeClaimDocumentStub = sinon.stub()
 
-    var route = proxyquire(
+    const route = proxyquire(
       '../../../../app/routes/your-claims/view-claim', {
         '../../services/validators/url-path-validator': urlPathValidatorStub,
         '../../services/data/get-view-claim': getViewClaimStub,

@@ -7,15 +7,15 @@ const prisonerRelationshipEnum = require('../../../constants/prisoner-relationsh
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/benefits', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var relationships = Object.keys(prisonerRelationshipEnum)
-    var relationship
-    for (var r of relationships) {
+    const relationships = Object.keys(prisonerRelationshipEnum)
+    let relationship
+    for (const r of relationships) {
       if (prisonerRelationshipEnum[r].urlValue === req.session.relationship) {
         relationship = prisonerRelationshipEnum[r].value
       }
@@ -28,24 +28,24 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/new-eligibility/benefits', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var relationships = Object.keys(prisonerRelationshipEnum)
-    var relationship
-    for (var r of relationships) {
+    const relationships = Object.keys(prisonerRelationshipEnum)
+    let relationship
+    for (const r of relationships) {
       if (prisonerRelationshipEnum[r].urlValue === req.session.relationship) {
         relationship = prisonerRelationshipEnum[r].value
       }
     }
 
     try {
-      var benefits = new Benefits(req.body.benefit, req.body.benefitOwner)
+      const benefits = new Benefits(req.body.benefit, req.body.benefitOwner)
 
-      var benefit = benefits.benefit
+      const benefit = benefits.benefit
       req.session.benefit = req.body.benefit
       req.session.benefitOwner = req.body.benefitOwner
 

@@ -5,7 +5,7 @@ const referenceGenerator = require('../../app/services/reference-generator')
 
 const expect = require('chai').expect
 
-var todaysDate = dateFormatter.now()
+const todaysDate = dateFormatter.now()
 describe('Repeat claim with new eligibility details', function () {
   const REFERENCE = referenceGenerator.generate()
 
@@ -17,21 +17,21 @@ describe('Repeat claim with new eligibility details', function () {
     await browser.url('/assisted-digital?caseworker=teste2e@test.com')
 
     // Index
-    var submitButton = await $('#start')
+    let submitButton = await $('#start')
     await submitButton.click()
 
     // Start
     submitButton = await $('#start-submit')
-    var yesRadioButton = await $('[for="yes"]')
+    const yesRadioButton = await $('[for="yes"]')
     await yesRadioButton.click()
     await submitButton.click()
 
     // Start already registered
     submitButton = await $('#already-registered-submit')
-    var referenceInput = await $('#reference-input')
-    var dobDayInput = await $('#dob-day-input')
-    var dobMonthInput = await $('#dob-month-input')
-    var dobYearInput = await $('#dob-year-input')
+    const referenceInput = await $('#reference-input')
+    let dobDayInput = await $('#dob-day-input')
+    let dobMonthInput = await $('#dob-month-input')
+    let dobYearInput = await $('#dob-year-input')
     await referenceInput.setValue(REFERENCE)
     await dobDayInput.setValue(internalVisitorHelper.DAY)
     await dobMonthInput.setValue(internalVisitorHelper.MONTH)
@@ -43,7 +43,7 @@ describe('Repeat claim with new eligibility details', function () {
     await submitButton.click()
 
     // Check your information
-    var changeYourDetails = await $('#change-your-details')
+    const changeYourDetails = await $('#change-your-details')
     await changeYourDetails.click()
 
     // Date of birth
@@ -58,27 +58,27 @@ describe('Repeat claim with new eligibility details', function () {
 
     // Prisoner relationship
     submitButton = await $('#prisoner-relationship-submit')
-    var partnerButton = await $('[for="partner"]')
+    const partnerButton = await $('[for="partner"]')
     await partnerButton.click()
     await submitButton.click()
 
     // Benefit
     submitButton = await $('#benefit-submit')
-    var incomeSupportButton = await $('[for="income-support"]')
-    var yesButton = await $('[for="yes"]')
+    const incomeSupportButton = await $('[for="income-support"]')
+    const yesButton = await $('[for="yes"]')
     await incomeSupportButton.click()
     await yesButton.click()
     await submitButton.click()
 
     // About the Prisoner
     submitButton = await $('#about-the-prisoner-submit')
-    var firstName = await $('#prisoner-first-name')
-    var lastName = await $('#prisoner-last-name')
+    let firstName = await $('#prisoner-first-name')
+    let lastName = await $('#prisoner-last-name')
     dobDayInput = await $('#dob-day')
     dobMonthInput = await $('#dob-month')
     dobYearInput = await $('#dob-year')
-    var prisonName = await $('#prison-name-text-input')
-    var nameOfPrisonLabel = await $('#NameOfPrison')
+    const prisonName = await $('#prison-name-text-input')
+    const nameOfPrisonLabel = await $('#NameOfPrison')
     await firstName.setValue('Joe')
     await lastName.setValue('Bloggs')
     await dobDayInput.setValue('01')
@@ -92,14 +92,14 @@ describe('Repeat claim with new eligibility details', function () {
     submitButton = await $('#about-you-submit')
     firstName = await $('#first-name-input')
     lastName = await $('#last-name-input')
-    var niNumber = await $('#national-insurance-number-input')
-    var houseNumber = await $('#house-number-and-street-input')
-    var town = await $('#town-input')
-    var county = await $('#county-input')
-    var postcode = await $('#post-code-input')
-    var country = await $('#country-input')
-    var email = await $('#email-address-input')
-    var phone = await $('#phone-number-input')
+    const niNumber = await $('#national-insurance-number-input')
+    const houseNumber = await $('#house-number-and-street-input')
+    const town = await $('#town-input')
+    const county = await $('#county-input')
+    const postcode = await $('#post-code-input')
+    const country = await $('#country-input')
+    const email = await $('#email-address-input')
+    const phone = await $('#phone-number-input')
     await firstName.setValue('Joe')
     await lastName.setValue('Bloggs')
     await niNumber.setValue('TS876545T')
@@ -114,15 +114,15 @@ describe('Repeat claim with new eligibility details', function () {
 
     // Future or past visit
     submitButton = await $('#future-or-past-submit')
-    var past = await $('[for="past"]')
+    const past = await $('[for="past"]')
     await past.click()
     await submitButton.click()
 
     // Journey information
     submitButton = await $('#journey-information-submit')
-    var dayInput = await $('#date-of-journey-day')
-    var monthInput = await $('#date-of-journey-month')
-    var yearInput = await $('#date-of-journey-year')
+    const dayInput = await $('#date-of-journey-day')
+    const monthInput = await $('#date-of-journey-month')
+    const yearInput = await $('#date-of-journey-year')
     await dayInput.setValue(todaysDate.date())
     await monthInput.setValue(todaysDate.month() + 1)
     await yearInput.setValue(todaysDate.year())
@@ -130,7 +130,7 @@ describe('Repeat claim with new eligibility details', function () {
 
     // Has Escort
     submitButton = await $('#has-escort-submit')
-    var no = await $('[for="escort-no"]')
+    let no = await $('[for="escort-no"]')
     await no.click()
     await submitButton.click()
 
@@ -142,16 +142,16 @@ describe('Repeat claim with new eligibility details', function () {
 
     // Expense
     submitButton = await $('#expenses-submit')
-    var bus = await $('[for="bus"]')
+    const bus = await $('[for="bus"]')
     await bus.click()
     await submitButton.click()
 
     // Bus #1 (adult expense)
     submitButton = await $('#bus-details-submit')
-    var from = await $('#from-input')
-    var to = await $('#to-input')
-    var returnNo = await $('[for="return-no"]')
-    var cost = await $('#cost-input')
+    const from = await $('#from-input')
+    const to = await $('#to-input')
+    const returnNo = await $('[for="return-no"]')
+    const cost = await $('#cost-input')
     await from.setValue('Euston')
     await to.setValue('Birmingham New Street')
     await returnNo.click()
@@ -159,17 +159,17 @@ describe('Repeat claim with new eligibility details', function () {
     await submitButton.click()
 
     // Claim summary
-    var addVisitConfirmation = await $('#add-visit-confirmation')
+    const addVisitConfirmation = await $('#add-visit-confirmation')
     await addVisitConfirmation.click()
 
     // Upload visit confirmation
     submitButton = await $('#file-upload-submit')
-    var post = await $('[for="Post"]')
+    let post = await $('[for="Post"]')
     await post.click()
     await submitButton.click()
 
     // Claim summary
-    var addExpenseReceipt = await $('.add-expense-receipt')
+    const addExpenseReceipt = await $('.add-expense-receipt')
     await addExpenseReceipt.click()
 
     // Upload Receipt Bus Adult
@@ -184,9 +184,9 @@ describe('Repeat claim with new eligibility details', function () {
 
     // Enter Bank Account Details
     submitButton = await $('#bank-payment-submit')
-    var nameOnAccount = await $('#name-on-account-input')
-    var sortCode = await $('#sort-code-input')
-    var accountNumber = await $('#account-number-input')
+    const nameOnAccount = await $('#name-on-account-input')
+    const sortCode = await $('#sort-code-input')
+    const accountNumber = await $('#account-number-input')
     await nameOnAccount.setValue('Joe Bloggs')
     await sortCode.setValue('001122')
     await accountNumber.setValue('00123456')
@@ -194,12 +194,12 @@ describe('Repeat claim with new eligibility details', function () {
 
     // Declaration page
     submitButton = await $('#claim-submit')
-    var tAndC = await $('[for="terms-and-conditions-input"]')
+    const tAndC = await $('[for="terms-and-conditions-input"]')
     await tAndC.click()
     await submitButton.click()
 
     // Application submitted
-    var title = await browser.getTitle()
+    const title = await browser.getTitle()
     expect(title).to.be.equal('Application submitted - Get help with the cost of prison visits')
   })
 

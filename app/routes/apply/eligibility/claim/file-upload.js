@@ -19,9 +19,9 @@ const insertTask = require('../../../../services/data/insert-task')
 const logger = require('../../../../services/log')
 const SessionHandler = require('../../../../services/validators/session-handler')
 const checkExpenseIsEnabled = require('../../../../services/data/check-expense-is-enabled')
-var Promise = require('bluebird').Promise
-var fs = Promise.promisifyAll(require('fs'))
-var csrfToken
+const Promise = require('bluebird').Promise
+const fs = Promise.promisifyAll(require('fs'))
+let csrfToken
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/summary/file-upload', function (req, res) {
@@ -56,7 +56,7 @@ module.exports = function (router) {
 function get (req, res) {
   csrfToken = generateCSRFToken(req)
   UrlPathValidator(req.params)
-  var isValidSession = SessionHandler.validateSession(req.session, req.url)
+  const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
   if (!isValidSession) {
     return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -84,9 +84,9 @@ function get (req, res) {
 
 function renderFileUploadPage (req, res) {
   if (Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query.document)) {
-    var decryptedRef = decrypt(req.session.referenceId)
+    const decryptedRef = decrypt(req.session.referenceId)
 
-    var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
+    const claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
     DirectoryCheck(decryptedRef, claimId, req.query.claimExpenseId, req.query.document)
 
     return res.render('apply/eligibility/claim/file-upload', {
@@ -103,7 +103,7 @@ function renderFileUploadPage (req, res) {
 
 function post (req, res, next, redirectURL) {
   UrlPathValidator(req.params)
-  var isValidSession = SessionHandler.validateSession(req.session, req.url)
+  const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
   if (!isValidSession) {
     return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -136,8 +136,8 @@ function post (req, res, next, redirectURL) {
 }
 
 function checkForMalware (req, res, next, redirectURL) {
-  var ids = setReferenceIds(req)
-  var claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
+  const ids = setReferenceIds(req)
+  const claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
   if (req.file) {
     clam.scan(req.file.path).then((infected) => {
       if (infected) insertMalwareAlertTask(ids, claimId, req.file.path)
@@ -179,10 +179,10 @@ function handleError (req, res, next, error) {
 }
 
 function setReferenceIds (req) {
-  var reference
-  var id
+  let reference
+  let id
   if (req.session.referenceId) {
-    var referenceAndEligibility = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const referenceAndEligibility = referenceIdHelper.extractReferenceId(req.session.referenceId)
     reference = referenceAndEligibility.reference
     id = referenceAndEligibility.id
   } else {
@@ -194,9 +194,9 @@ function setReferenceIds (req) {
 }
 
 function moveScannedFileToStorage (req, res, next) {
-  var tempPath = req.file.path
-  var targetDir = getTargetDir(req)
-  var filename = req.file.filename
+  const tempPath = req.file.path
+  const targetDir = getTargetDir(req)
+  const filename = req.file.filename
   return moveFile(tempPath, targetDir, filename)
     .then(function (result) {
       req.fileUpload.destination = result.dest
@@ -229,8 +229,8 @@ function unlinkFile (path) {
 }
 
 function getTargetDir (req) {
-  var decryptedReferenceId = decrypt(req.session.referenceId)
-  var targetDir
+  const decryptedReferenceId = decrypt(req.session.referenceId)
+  let targetDir
   if (req.query.document !== 'VISIT_CONFIRMATION' && req.query.document !== 'RECEIPT') {
     targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.query.document}`
   } else if (req.query.claimExpenseId) {

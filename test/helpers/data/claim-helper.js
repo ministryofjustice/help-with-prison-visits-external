@@ -30,7 +30,7 @@ module.exports.insert = function (reference, eligibilityId) {
 }
 
 module.exports.insertWithExpenseChildDocuments = function (reference, eligibilityId) {
-  var claimId
+  let claimId
   return this.insert(reference, eligibilityId)
     .then(function (newClaimId) {
       claimId = newClaimId

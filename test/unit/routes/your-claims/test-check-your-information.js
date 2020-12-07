@@ -9,12 +9,12 @@ describe('/your-claims/check-your-information', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MTgzLjA0MjMzMzMzNSwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMifQ==']
   const ROUTE = '/your-claims/check-your-information'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var decryptStub
-  var getRepeatEligibility
-  var CheckYourInformation
+  let urlPathValidatorStub
+  let decryptStub
+  let getRepeatEligibility
+  let CheckYourInformation
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -22,7 +22,7 @@ describe('/your-claims/check-your-information', function () {
     getRepeatEligibility = sinon.stub()
     CheckYourInformation = sinon.stub()
 
-    var route = proxyquire('../../../../app/routes/your-claims/check-your-information', {
+    const route = proxyquire('../../../../app/routes/your-claims/check-your-information', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../services/helpers/decrypt': decryptStub,
       '../../services/data/get-repeat-eligibility': getRepeatEligibility,

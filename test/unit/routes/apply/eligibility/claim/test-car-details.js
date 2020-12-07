@@ -14,15 +14,15 @@ describe('routes/apply/eligibility/claim/car-details', function () {
   const ROUTE_REPEAT = '/apply/eligibility/claim/car'
   const ROUTE_CAR_ONLY = '/apply/eligibility/claim/car-only'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var expenseUrlRouterStub
-  var insertCarExpensesStub
-  var getTravellingFromAndToStub
-  var carExpenseStub
-  var getMaskedEligibilityStub
-  var getIsAdvanceClaimStub
+  let urlPathValidatorStub
+  let expenseUrlRouterStub
+  let insertCarExpensesStub
+  let getTravellingFromAndToStub
+  let carExpenseStub
+  let getMaskedEligibilityStub
+  let getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -33,7 +33,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
     getMaskedEligibilityStub = sinon.stub()
     getIsAdvanceClaimStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/car-details', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/car-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-car-expenses': insertCarExpensesStub,
@@ -69,7 +69,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
 
     it('should call parseParams', function () {
       getTravellingFromAndToStub.resolves()
-      var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
+      const parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -119,7 +119,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
 
     it('REPEAT - should call parseParams', function () {
       getMaskedEligibilityStub.resolves({ from: '', to: '' })
-      var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
+      const parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
       return supertest(app)
         .get(ROUTE_REPEAT)
         .set('Cookie', COOKIES_REPEAT)
@@ -175,7 +175,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
-      var getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
+      const getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
       insertCarExpensesStub.resolves()
       return supertest(app)
         .post(ROUTE)

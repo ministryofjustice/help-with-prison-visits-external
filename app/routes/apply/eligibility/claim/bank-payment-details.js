@@ -10,12 +10,12 @@ const PaymentDetails = require('../../../../services/domain/payment-details')
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/bank-payment-details', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
-    var paymentDetails = new PaymentDetails('bank')
+    const paymentDetails = new PaymentDetails('bank')
     req.session.paymentMethod = paymentDetails.paymentMethod
 
     return res.render('apply/eligibility/claim/bank-payment-details', {
@@ -29,17 +29,17 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/bank-payment-details', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
-      var bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body.NameOnAccount, req.body.RollNumber)
-      var redirectURL = `/apply/eligibility/claim/declaration?isAdvance=${req.query.isAdvance}`
+      const bankAccountDetails = new BankAccountDetails(req.body.AccountNumber, req.body.SortCode, req.body.NameOnAccount, req.body.RollNumber)
+      const redirectURL = `/apply/eligibility/claim/declaration?isAdvance=${req.query.isAdvance}`
       insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, bankAccountDetails)
         .then(function () {
           return res.redirect(redirectURL)

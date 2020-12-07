@@ -9,18 +9,18 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
   const COOKIES_EXPIRED = ['apvs-start-application=']
   const ROUTE = '/apply/eligibility/claim/summary/file-upload?document='
 
-  var app
-  var urlPathValidatorStub
-  var directoryCheckStub
-  var uploadStub
-  var fileUploadStub
-  var claimDocumentInsertStub
-  var generateCSRFTokenStub
-  var clamAvStub
-  var configStub
-  var insertTaskStub
-  var disableOldClaimDocumentsStub
-  var checkExpenseIsEnabledStub
+  let app
+  let urlPathValidatorStub
+  let directoryCheckStub
+  let uploadStub
+  let fileUploadStub
+  let claimDocumentInsertStub
+  let generateCSRFTokenStub
+  let clamAvStub
+  let configStub
+  let insertTaskStub
+  let disableOldClaimDocumentsStub
+  let checkExpenseIsEnabledStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -35,7 +35,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     disableOldClaimDocumentsStub = sinon.stub().resolves()
     checkExpenseIsEnabledStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/file-upload', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/file-upload', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/directory-check': directoryCheckStub,
       '../../../../services/upload': uploadStub,

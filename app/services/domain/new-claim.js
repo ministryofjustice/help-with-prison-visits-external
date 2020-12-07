@@ -23,7 +23,7 @@ class NewClaim {
   }
 
   IsValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.reference, 'Reference', errors)
       .isRequired()
@@ -45,7 +45,7 @@ class NewClaim {
         // .isVisitDateBeforeReleaseDate(this.dateOfJourney, this.releaseDateIsSet, this.releaseDate)
     }
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

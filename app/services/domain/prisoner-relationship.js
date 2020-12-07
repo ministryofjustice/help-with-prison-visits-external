@@ -10,13 +10,13 @@ class PrisonerRelationship {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.relationship, 'relationship', errors)
       .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
       .isValidPrisonerRelationship()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

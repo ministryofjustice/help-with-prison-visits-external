@@ -7,9 +7,9 @@ const claimDocumentHelper = require('../../../helpers/data/claim-document-helper
 
 const getAllClaimDocumentsByClaimId = require('../../../../app/services/data/get-all-claim-documents-by-claim-id')
 
-var REFERENCE = 'V123456'
-var eligibilityId
-var claimId
+const REFERENCE = 'V123456'
+let eligibilityId
+let claimId
 
 describe('services/data/get-all-claim-documents-by-claim-id', function () {
   before(function () {

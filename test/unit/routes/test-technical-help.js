@@ -18,17 +18,17 @@ describe('routes/help', function () {
     issue: 'Testing problems are occuring'
   }
 
-  var dateOfClaim = ''
-  var app
+  const dateOfClaim = ''
+  let app
 
-  var technicalHelpStub
-  var insertTaskStub
+  let technicalHelpStub
+  let insertTaskStub
 
   beforeEach(function () {
     technicalHelpStub = sinon.stub()
     insertTaskStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../app/routes/technical-help', {
+    const route = proxyquire('../../../app/routes/technical-help', {
       '../services/domain/technical-help': technicalHelpStub,
       '../services/data/insert-task': insertTaskStub
     })

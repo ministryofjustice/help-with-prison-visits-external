@@ -10,13 +10,13 @@ describe('routes/apply/eligibility/claim/taxi-details', function () {
   const COOKIES_EXPIRED = ['apvs-start-application=']
   const ROUTE = '/apply/eligibility/claim/taxi'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var expenseUrlRouterStub
-  var insertExpenseStub
-  var taxiExpenseStub
-  var getIsAdvanceClaimStub
+  let urlPathValidatorStub
+  let expenseUrlRouterStub
+  let insertExpenseStub
+  let taxiExpenseStub
+  let getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -25,7 +25,7 @@ describe('routes/apply/eligibility/claim/taxi-details', function () {
     taxiExpenseStub = sinon.stub()
     getIsAdvanceClaimStub = sinon.stub().resolves({})
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/taxi-details', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/taxi-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-expense': insertExpenseStub,
@@ -56,7 +56,7 @@ describe('routes/apply/eligibility/claim/taxi-details', function () {
     })
 
     it('should call parseParams', function () {
-      var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
+      const parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -102,7 +102,7 @@ describe('routes/apply/eligibility/claim/taxi-details', function () {
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
-      var getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
+      const getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
       insertExpenseStub.resolves()
       return supertest(app)
         .post(ROUTE)

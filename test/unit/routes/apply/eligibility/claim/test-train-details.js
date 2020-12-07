@@ -10,14 +10,14 @@ describe('routes/apply/eligibility/claim/train-details', function () {
   const COOKIES_EXPIRED = ['apvs-start-application=']
   const ROUTE = '/apply/eligibility/claim/train'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var expenseUrlRouterStub
-  var insertExpenseStub
-  var trainExpenseStub
-  var getExpenseOwnerDataStub
-  var getIsAdvanceClaimStub
+  let urlPathValidatorStub
+  let expenseUrlRouterStub
+  let insertExpenseStub
+  let trainExpenseStub
+  let getExpenseOwnerDataStub
+  let getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -27,7 +27,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     getExpenseOwnerDataStub = sinon.stub()
     getIsAdvanceClaimStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/train-details', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/train-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-expense': insertExpenseStub,
@@ -82,7 +82,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     it('should call parseParams', function () {
       getIsAdvanceClaimStub.resolves()
       getExpenseOwnerDataStub.resolves()
-      var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
+      const parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -128,7 +128,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
-      var getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
+      const getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
       insertExpenseStub.resolves()
       return supertest(app)
         .post(ROUTE)

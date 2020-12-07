@@ -92,7 +92,7 @@ module.exports = function (claimId, claimType) {
             .select()
             .orderBy('ClaimChild.FirstName')
             .then(function (claimChild) {
-              var child = claimChild
+              let child = claimChild
               if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
                 child = maskArrayOfNames(claimChild)
               }
@@ -110,7 +110,7 @@ module.exports = function (claimId, claimType) {
             })
             .first()
             .then(function (claimEscort) {
-              var escort = claimEscort
+              const escort = claimEscort
               if (claimType === claimTypeEnum.REPEAT_DUPLICATE && claimEscort) {
                 escort.LastName = maskString(claimEscort.LastName, 1)
               }
@@ -139,7 +139,7 @@ module.exports = function (claimId, claimType) {
               'EligibleChild.Country AS EligibleChildCountry'
             ])
             .then(function (children) {
-              var eligibleChildren = children
+              let eligibleChildren = children
               if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
                 eligibleChildren = maskArrayOfNames(eligibleChildren)
               }

@@ -8,7 +8,7 @@ describe('services/domain/expenses/taxi-expense', function () {
   const INVALID_COST = '0'
 
   it('should construct a domain object given valid input', function () {
-    var expense = new TaxiExpense(
+    const expense = new TaxiExpense(
       VALID_COST,
       VALID_FROM,
       VALID_TO

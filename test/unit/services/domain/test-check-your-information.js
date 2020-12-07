@@ -3,7 +3,7 @@ const expect = require('chai').expect
 
 describe('services/domain/check-your-information', function () {
   it('should construct a domain object given valid input', function () {
-    var checkYourInformation = new CheckYourInformation('true')
+    const checkYourInformation = new CheckYourInformation('true')
     expect(checkYourInformation.confirmCorrect).to.equal('true')
   })
 

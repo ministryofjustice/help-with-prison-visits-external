@@ -3,10 +3,10 @@ const supertest = require('supertest')
 
 describe('routes/privacy', function () {
   const ROUTE = '/privacy'
-  var app
+  let app
 
   beforeEach(function () {
-    var route = require('../../../app/routes/privacy')
+    const route = require('../../../app/routes/privacy')
     app = routeHelper.buildApp(route)
   })
 

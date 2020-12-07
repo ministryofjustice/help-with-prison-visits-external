@@ -6,7 +6,7 @@ describe('services/domain/has-escort', function () {
   const INVALID_INPUT = 'invalid input'
 
   it('should construct a domain object given valid input', function () {
-    var hasEscort = new HasEscort(
+    const hasEscort = new HasEscort(
       VALID_INPUT
     )
     expect(hasEscort.hasEscort).to.equal(VALID_INPUT)

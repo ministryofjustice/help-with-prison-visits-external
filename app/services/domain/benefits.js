@@ -11,7 +11,7 @@ class Benefits {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.benefit, 'benefit', errors)
       .isRequired(ERROR_MESSAGES.getBenefitRequired)
@@ -21,7 +21,7 @@ class Benefits {
       .isRequired(ERROR_MESSAGES.getBenefitOwnerRequired)
       .isValidBenefit(true)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

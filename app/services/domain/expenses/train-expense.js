@@ -13,7 +13,7 @@ class TrainExpense extends BaseExpense {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.from, 'from', errors)
       .isRequired(ERROR_MESSAGES.getEnterFrom)
@@ -46,7 +46,7 @@ class TrainExpense extends BaseExpense {
         .isMaxCostOrLess()
     }
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

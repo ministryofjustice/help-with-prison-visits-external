@@ -4,7 +4,7 @@ const SessionHandler = require('../services/validators/session-handler')
 
 module.exports = function (router) {
   router.get('/start', function (req, res) {
-    var errors
+    let errors
 
     req.session = SessionHandler.clearSession(req.session, req.url)
 
@@ -17,7 +17,7 @@ module.exports = function (router) {
 
   router.post('/start', function (req, res) {
     if (!req.body.madeClaimForPrisonerBefore) {
-      var errors = { invalidReferenceNumberAndDob: [ERROR_MESSAGES.getMadeClaimForPrisonerBeforeIsRequired] }
+      const errors = { invalidReferenceNumberAndDob: [ERROR_MESSAGES.getMadeClaimForPrisonerBeforeIsRequired] }
       return res.status(400).render('start', { errors: errors })
     } else if (req.body.madeClaimForPrisonerBefore === 'yes') {
       return res.redirect('/start-already-registered')

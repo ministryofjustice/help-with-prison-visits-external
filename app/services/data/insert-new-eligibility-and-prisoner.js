@@ -6,7 +6,7 @@ const referenceGenerator = require('../reference-generator')
 const dateFormatter = require('../date-formatter')
 
 module.exports = function (aboutThePrisoner, claimType, existingReference) {
-  var reference
+  let reference
   if (claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY && existingReference) {
     reference = existingReference
   } else {
@@ -17,7 +17,7 @@ module.exports = function (aboutThePrisoner, claimType, existingReference) {
     .where('Reference', reference)
     .count('Reference as ReferenceCount')
     .then(function (countResult) {
-      var count = countResult[0].ReferenceCount
+      const count = countResult[0].ReferenceCount
       if (count > 0 && claimType !== claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
       // odds of two references in a row being non-unique 1x10e21
         reference = referenceGenerator.generate()
@@ -32,7 +32,7 @@ module.exports = function (aboutThePrisoner, claimType, existingReference) {
 }
 
 function insertNewEligibiltyAndPrisoner (aboutThePrisoner, uniqueReference) {
-  var newEligibilityId
+  let newEligibilityId
 
   return knex.insert({
     Reference: uniqueReference,
@@ -65,7 +65,7 @@ function insertNewEligibiltyAndPrisoner (aboutThePrisoner, uniqueReference) {
 }
 
 function updateExistingEligibilityAndPrisoner (aboutThePrisoner, uniqueReference) {
-  var newEligibilityId
+  let newEligibilityId
 
   return knex('Eligibility')
     .where('Reference', uniqueReference)

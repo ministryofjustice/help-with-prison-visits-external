@@ -4,9 +4,9 @@ const claimDocumentHelper = require('../../../helpers/data/claim-document-helper
 const insertClaimDocument = require('../../../../app/services/data/insert-file-upload-details-for-claim')
 
 describe('services/data/insert-file-upload-details-for-claim', function () {
-  var REFERENCE = 'V123456'
-  var eligibilityId
-  var claimId
+  const REFERENCE = 'V123456'
+  let eligibilityId
+  let claimId
 
   before(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)

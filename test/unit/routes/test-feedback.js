@@ -14,16 +14,16 @@ describe('routes/feedback', function () {
     emailAddress: 'test@test.com'
   }
 
-  var app
+  let app
 
-  var feedbackStub
-  var insertTaskStub
+  let feedbackStub
+  let insertTaskStub
 
   beforeEach(function () {
     feedbackStub = sinon.stub()
     insertTaskStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../app/routes/feedback', {
+    const route = proxyquire('../../../app/routes/feedback', {
       '../services/domain/feedback': feedbackStub,
       '../services/data/insert-task': insertTaskStub
     })

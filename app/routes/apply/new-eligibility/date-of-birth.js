@@ -7,7 +7,7 @@ const SessionHandler = require('../../../services/validators/session-handler')
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/date-of-birth', function (req, res) {
     UrlPathValidator(req.params)
-    var errors
+    let errors
 
     if (req.params.claimType === 'first-time') {
       req.session = SessionHandler.clearSession(req.session, req.url)
@@ -28,7 +28,7 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
 
     try {
-      var dateOfBirth = new DateOfBirth(
+      const dateOfBirth = new DateOfBirth(
         req.body['dob-day'],
         req.body['dob-month'],
         req.body['dob-year']

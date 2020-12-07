@@ -7,7 +7,7 @@ describe('services/domain/expenses/expenses', function () {
   const INVALID_EXPENSES = [expenseTypeEnum.FERRY.value, 'some invalid value']
 
   it('should construct a domain object given valid input', function () {
-    var expense = new Expenses(
+    const expense = new Expenses(
       VALID_EXPENSES_ARRAY
     )
     expect(expense.expense).to.equal(VALID_EXPENSES_ARRAY)

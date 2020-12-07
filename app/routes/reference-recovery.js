@@ -11,7 +11,7 @@ module.exports = function (router) {
 
   router.post('/reference-recovery', function (req, res, next) {
     try {
-      var referenceRecovery = new ReferenceRecovery(req.body.EmailAddress, req.body.PrisonerNumber)
+      const referenceRecovery = new ReferenceRecovery(req.body.EmailAddress, req.body.PrisonerNumber)
       insertTask(null, null, null, TaskEnums.REFERENCE_RECOVERY, `${referenceRecovery.EmailAddress}~~${referenceRecovery.PrisonerNumber}`)
         .then(function () {
           return res.redirect('/start-already-registered?recovery=true')

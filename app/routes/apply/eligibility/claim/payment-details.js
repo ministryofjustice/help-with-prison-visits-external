@@ -8,7 +8,7 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/payment-details', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -25,16 +25,16 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/payment-details', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {
-      var paymentDetails = new PaymentDetails(req.body.PaymentMethod)
+      const paymentDetails = new PaymentDetails(req.body.PaymentMethod)
       req.session.paymentMethod = paymentDetails.paymentMethod
-      var redirectURL
+      let redirectURL
       if (paymentDetails.paymentMethod === paymentMethods.PAYOUT.value) {
         redirectURL = `/apply/eligibility/claim/payout-confirmation?isAdvance=${req.query.isAdvance}`
       } else {

@@ -18,12 +18,12 @@ const getClaimSummary = proxyquire('../../../../app/services/data/get-claim-summ
 })
 
 const REFERENCE = 'V123456'
-var eligibilityId
-var claimId
+let eligibilityId
+let claimId
 
 const REPEAT_REFERENCE = 'REPEATC'
 const REPEAT_ELIGIBILITYID = '4321'
-var repeatClaimId
+let repeatClaimId
 
 describe('services/data/get-claim-summary', function () {
   describe('first time claim', function () {

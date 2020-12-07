@@ -2,7 +2,7 @@
 const PaymentDetails = require('../../../../app/services/domain/payment-details')
 const expect = require('chai').expect
 
-var paymentDetails
+let paymentDetails
 
 describe('services/domain/payment-details', function () {
   const VALID_PAYMENT_BANK = 'bank'

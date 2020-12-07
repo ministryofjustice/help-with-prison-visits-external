@@ -6,8 +6,8 @@ const internalClaimChildHelper = require('../../../helpers/data/internal/interna
 describe('services/data/get-last-claim-children', function () {
   const REFERENCE = 'MASK467'
   const INVALID_REFERENCE = 'INVALID'
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   before(function () {
     return internalEligiblityHelper.insertEligibilityAndClaim(REFERENCE)

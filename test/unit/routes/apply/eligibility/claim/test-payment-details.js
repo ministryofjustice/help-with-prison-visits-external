@@ -3,7 +3,7 @@ const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
-var ValidationError = require('../../../../../../app/services/errors/validation-error')
+const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/claim/payment-details', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
@@ -15,18 +15,18 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
     SortCode: '123456'
   }
 
-  var app
+  let app
 
-  var stubPaymentDetails
-  var stubUrlPathValidator
-  var stubGetChangeAddressLink
+  let stubPaymentDetails
+  let stubUrlPathValidator
+  let stubGetChangeAddressLink
 
   beforeEach(function () {
     stubPaymentDetails = sinon.stub()
     stubUrlPathValidator = sinon.stub()
     stubGetChangeAddressLink = sinon.stub()
 
-    var route = proxyquire(
+    const route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/payment-details', {
         '../../../../services/domain/payment-details': stubPaymentDetails,
         '../../../../services/validators/url-path-validator': stubUrlPathValidator,
@@ -64,7 +64,7 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
     })
 
     it('should respond with a 302 and insert bank details', function () {
-      var newPaymentDetails = { paymentMethod: 'bank' }
+      const newPaymentDetails = { paymentMethod: 'bank' }
       stubPaymentDetails.returns(newPaymentDetails)
 
       return supertest(app)
@@ -87,7 +87,7 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
     })
 
     it('should respond with a 302 not submit bank details', function () {
-      var newPaymentDetails = { paymentMethod: 'payout' }
+      const newPaymentDetails = { paymentMethod: 'payout' }
       stubPaymentDetails.returns(newPaymentDetails)
 
       return supertest(app)

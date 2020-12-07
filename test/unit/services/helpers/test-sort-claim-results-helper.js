@@ -1,10 +1,10 @@
-var expect = require('chai').expect
+const expect = require('chai').expect
 const sortViewClaimResultsHelper = require('../../../../app/services/helpers/sort-view-claim-results-helper')
 
-var claim
-var advanceClaim
-var claimExpenses = [{ ClaimExpenseId: 1, ExpenseType: 'car', Cost: 2.2, RequestedCost: 3, Status: 'APPROVED-DIFF-AMOUNT' }]
-var claimExpensesNoStatus = [{ ClaimExpenseId: 1, ExpenseType: 'car', RequestedCost: 3 }]
+let claim
+let advanceClaim
+const claimExpenses = [{ ClaimExpenseId: 1, ExpenseType: 'car', Cost: 2.2, RequestedCost: 3, Status: 'APPROVED-DIFF-AMOUNT' }]
+const claimExpensesNoStatus = [{ ClaimExpenseId: 1, ExpenseType: 'car', RequestedCost: 3 }]
 const ELIGIBILITY = { EligibilityId: 1, FirstName: 'tester' }
 const CLAIM_DOCUMENTS = [
   { ClaimDocumentId: 1, DocumentType: 'VISIT-CONFIRMATION' },

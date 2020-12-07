@@ -8,7 +8,7 @@ describe('services/domain/benefits', function () {
   const INVALID_BENEFIT = ''
 
   it('should construct a domain object given valid input', function () {
-    var benefits = new Benefits(VALID_BENEFIT, VALID_BENEFIT_OWNER)
+    const benefits = new Benefits(VALID_BENEFIT, VALID_BENEFIT_OWNER)
     expect(benefits.benefit).to.equal(VALID_BENEFIT)
     expect(benefits.benefitOwner).to.equal(VALID_BENEFIT_OWNER)
   })

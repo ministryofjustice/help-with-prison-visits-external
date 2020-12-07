@@ -24,12 +24,12 @@ describe('services/domain/claim-summary', function () {
   const RECEIPT_NOT_REQUIRED_CLAIM_EXPENSE_DOCUMENT = [{ ExpenseType: 'car', DocumentStatus: null }]
 
   it('should construct a domain object given valid input', function () {
-    var claimSummary = new ClaimSummary(VALID_VISIT_CONFIRMATION, VALID_BENEFIT_UPLOAD_NEEDED, VALID_BENEFIT_DOCUMENT, VALID_CLAIM_EXPENSE_DOCUMENT, IS_PAST_CLAIM, BENEFIT_UPLOAD_NOT_REQUIRED)
+    const claimSummary = new ClaimSummary(VALID_VISIT_CONFIRMATION, VALID_BENEFIT_UPLOAD_NEEDED, VALID_BENEFIT_DOCUMENT, VALID_CLAIM_EXPENSE_DOCUMENT, IS_PAST_CLAIM, BENEFIT_UPLOAD_NOT_REQUIRED)
     expect(claimSummary.visitConfirmationStatus).to.equal(VALID_VISIT_CONFIRMATION.DocumentStatus)
   })
 
   it('should construct a domain object given valid input for a benefit that does not need a document', function () {
-    var claimSummary = new ClaimSummary(VALID_VISIT_CONFIRMATION, VALID_BENEFIT_NO_UPLOAD, INVALID_BENEFIT_DOCUMENT, VALID_CLAIM_EXPENSE_DOCUMENT, IS_PAST_CLAIM, BENEFIT_UPLOAD_NOT_REQUIRED)
+    const claimSummary = new ClaimSummary(VALID_VISIT_CONFIRMATION, VALID_BENEFIT_NO_UPLOAD, INVALID_BENEFIT_DOCUMENT, VALID_CLAIM_EXPENSE_DOCUMENT, IS_PAST_CLAIM, BENEFIT_UPLOAD_NOT_REQUIRED)
     expect(claimSummary.visitConfirmationStatus).to.equal(VALID_VISIT_CONFIRMATION.DocumentStatus)
   })
 

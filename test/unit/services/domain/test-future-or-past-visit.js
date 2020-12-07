@@ -6,7 +6,7 @@ describe('services/domain/future-or-past-visit', function () {
   const INVALID_INPUT = 'invalid input'
 
   it('should construct a domain object given valid input', function () {
-    var futureOrPastVisit = new FutureOrPastVisit(
+    const futureOrPastVisit = new FutureOrPastVisit(
       VALID_INPUT
     )
     expect(futureOrPastVisit.advancePast).to.equal(VALID_INPUT)

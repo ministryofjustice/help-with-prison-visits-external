@@ -33,7 +33,7 @@ module.exports.build = function () {
 }
 
 module.exports.insert = function (reference, eligibilityId, data, status) {
-  var claim = data || this.build()
+  const claim = data || this.build()
   if (status) {
     claim.Status = status
   }

@@ -4,7 +4,7 @@ module.exports = function (router) {
   })
 
   router.get('/assisted-digital', function (req, res) {
-    var caseworker = req.query.caseworker
+    const caseworker = req.query.caseworker
 
     if (caseworker) {
       // Create assisted digital cookie for a day

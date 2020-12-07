@@ -4,7 +4,7 @@ const ValidationError = require('../../../../app/services/errors/validation-erro
 const dateFormatter = require('../../../../app/services/date-formatter')
 const AboutYou = require('../../../../app/services/domain/about-you')
 
-var aboutYou
+let aboutYou
 
 describe('services/domain/about-you', function () {
   const VALID_DOB = '1980-01-01'
@@ -148,7 +148,7 @@ describe('services/domain/about-you', function () {
   })
 
   it('should strip illegal characters from fields which accept free text inputs', function () {
-    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+    const unsafeInputPattern = />|<|&lt|&gt/g
     aboutYou = new AboutYou(
       VALID_DOB,
       VALID_RELATIONSHIP,

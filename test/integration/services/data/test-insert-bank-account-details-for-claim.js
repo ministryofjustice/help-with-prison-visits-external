@@ -5,8 +5,8 @@ const bankHelper = require('../../../helpers/data/bank-helper')
 
 describe('services/data/insert-bank-account-details-for-claim', function () {
   const REFERENCE = 'V123456'
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   before(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)

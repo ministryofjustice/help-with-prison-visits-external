@@ -6,8 +6,8 @@ const internalClaimDocumentHelper = require('../../../helpers/data/internal/inte
 describe('services/data/get-claim-documents-historic-claim', function () {
   const REFERENCE = 'HISTDOC'
   const INVALID_REFERENCE = 'INVALID'
-  var claimId
-  var eligibilityId
+  let claimId
+  let eligibilityId
 
   before(function () {
     return internalEligiblityHelper.insertEligibilityAndClaim(REFERENCE)

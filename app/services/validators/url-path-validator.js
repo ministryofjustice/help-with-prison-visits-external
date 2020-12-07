@@ -10,18 +10,19 @@ const dateFormatter = require('../../services/date-formatter')
 class UrlPathValidator {
   static validate (path) {
     if (path.referenceId) {
-      var referenceId = decrypt(path.referenceId)
+      const referenceId = decrypt(path.referenceId)
 
       this.validateParam(referenceId.reference, 'isValidReference')
       this.validateParam(referenceId.id, 'isValidReferenceId')
     }
 
+    let dob
     if (path.dob) {
-      var dob = dateFormatter.decodeDate(path.dob)
+      dob = dateFormatter.decodeDate(path.dob)
     }
 
     if (path.reference) {
-      var reference = decrypt(path.reference)
+      const reference = decrypt(path.reference)
 
       this.validateParam(reference, 'isValidReference')
     }

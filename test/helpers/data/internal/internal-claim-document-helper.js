@@ -18,8 +18,8 @@ module.exports.build = function (claimDocument, documentType, documentStatus) {
 }
 
 module.exports.insert = function (reference, eligibilityId, claimId, data, claimExpenseId) {
-  var claimDocument = data || this.build(this.CLAIM_DOCUMENT_ID, this.DOCUMENT_TYPE, this.DOCUMENT_STATUS)
-  var claimDocument2 = data || this.build(this.CLAIM_DOCUMENT_ID2, this.DOCUMENT_TYPE2, this.DOCUMENT_STATUS2)
+  const claimDocument = data || this.build(this.CLAIM_DOCUMENT_ID, this.DOCUMENT_TYPE, this.DOCUMENT_STATUS)
+  const claimDocument2 = data || this.build(this.CLAIM_DOCUMENT_ID2, this.DOCUMENT_TYPE2, this.DOCUMENT_STATUS2)
 
   return knex('IntSchema.ClaimDocument').insert({
     ClaimDocumentId: claimDocument.ClaimDocumentId,

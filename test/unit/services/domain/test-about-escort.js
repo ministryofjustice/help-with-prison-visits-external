@@ -13,7 +13,7 @@ describe('services/domain/about-escort', function () {
   const INVALID_CHARS_FIRST_NAME = 'child&lt>&gtname>'
 
   it('should construct a domain object given valid input', function () {
-    var escort = new AboutEscort(
+    const escort = new AboutEscort(
       VALID_FIRST_NAME,
       VALID_LAST_NAME,
       VALID_DAY,
@@ -42,8 +42,8 @@ describe('services/domain/about-escort', function () {
   })
 
   it('should strip illegal characters from otherwise valid input', function () {
-    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
-    var escort = new AboutEscort(
+    const unsafeInputPattern = />|<|&lt|&gt/g
+    const escort = new AboutEscort(
       INVALID_CHARS_FIRST_NAME,
       VALID_LAST_NAME,
       VALID_DAY,

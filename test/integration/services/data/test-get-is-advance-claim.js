@@ -5,7 +5,7 @@ const claimHelper = require('../../../helpers/data/claim-helper')
 
 describe('services/data/get-is-advance-claim', function () {
   const REFERENCE = 'ISADV12'
-  var claimId
+  let claimId
 
   before(function () {
     return eligibilityHelper.insertEligibilityClaim(REFERENCE)

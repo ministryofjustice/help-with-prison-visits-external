@@ -11,7 +11,7 @@ module.exports = function (router) {
 
   router.post('/feedback', function (req, res, next) {
     try {
-      var feedback = new Feedback(req.body.rating, req.body.improvements, req.body.emailAddress)
+      const feedback = new Feedback(req.body.rating, req.body.improvements, req.body.emailAddress)
       insertTask(null, null, null, TaskEnums.FEEDBACK_SUBMITTED, `${feedback.rating}~~${feedback.improvements}~~${feedback.emailAddress}`)
         .then(function () {
           return res.redirect('/')

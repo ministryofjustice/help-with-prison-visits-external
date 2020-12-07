@@ -12,14 +12,14 @@ const COOKIES_EXPIRED = ['apvs-start-application=']
 describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () {
   const ROUTE = '/apply/eligibility/new-claim/future-or-past-visit'
 
-  var app
-  var urlValidatorCalled = false
-  var futureOrPastVisitStub
+  let app
+  let urlValidatorCalled = false
+  let futureOrPastVisitStub
 
   beforeEach(function () {
     futureOrPastVisitStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/future-or-past-visit', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/future-or-past-visit', {
       '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
       '../../../../services/domain/future-or-past-visit': futureOrPastVisitStub
     })

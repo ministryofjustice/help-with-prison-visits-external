@@ -20,7 +20,7 @@ const aboutThePrisoner = new AboutThePrisoner(prisonerHelper.FIRST_NAME,
   prisonerHelper.PRISON_NUMBER,
   prisonerHelper.NAME_OF_PRISON)
 
-var stubReferenceGenerator = sinon.stub()
+const stubReferenceGenerator = sinon.stub()
 
 const insertNewEligibilityAndPrisoner = proxyquire('../../../../app/services/data/insert-new-eligibility-and-prisoner', {
   '../reference-generator': stubReferenceGenerator
@@ -36,8 +36,8 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
 
     return insertNewEligibilityAndPrisoner(aboutThePrisoner, claimTypeEnum.FIRST_TIME, undefined)
       .then(function (result) {
-        var newReference = result.reference
-        var newEligibilityId = result.eligibilityId
+        const newReference = result.reference
+        const newEligibilityId = result.eligibilityId
 
         expect(newReference).to.equal(UNIQUE_REFERENCE1)
         expect(newEligibilityId).to.exist //eslint-disable-line

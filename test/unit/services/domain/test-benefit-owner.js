@@ -3,7 +3,7 @@ const expect = require('chai').expect
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const BenefitOwner = require('../../../../app/services/domain/benefit-owner')
 
-var benefitOwner
+let benefitOwner
 
 describe('services/domain/benefit-owner', function () {
   const VALID_FIRST_NAME = 'Joe '
@@ -94,7 +94,7 @@ describe('services/domain/benefit-owner', function () {
   })
 
   it('should strip illegal characters from fields which accept free text inputs', function () {
-    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+    const unsafeInputPattern = />|<|&lt|&gt/g
     benefitOwner = new BenefitOwner(
       INVALID_CHARS_FIRST_NAME,
       INVALID_CHARS_LAST_NAME,

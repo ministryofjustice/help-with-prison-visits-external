@@ -4,12 +4,12 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
-var urlPathValidatorStub
-var stubInsertVisitor
-var stubDuplicateClaimCheck
-var stubGetTravellingFromAndTo
-var stubAboutYou
-var app
+let urlPathValidatorStub
+let stubInsertVisitor
+let stubDuplicateClaimCheck
+let stubGetTravellingFromAndTo
+let stubAboutYou
+let app
 
 describe('routes/apply/new-eligibility/about-you', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MDkwLjYyODkxNjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwiYmVuZWZpdE93bmVyIjoieWVzIiwicmVmZXJlbmNlSWQiOiI0ZTMzMDkxZmJkY2YzZmE3MGFhYjhhYjUiLCJkZWNyeXB0ZWRSZWYiOiJERU5RQTk2IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSJ9']
@@ -23,7 +23,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     stubGetTravellingFromAndTo = sinon.stub()
     stubAboutYou = sinon.stub()
 
-    var route = proxyquire('../../../../../app/routes/apply/new-eligibility/about-you', {
+    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/about-you', {
       '../../../services/data/insert-visitor': stubInsertVisitor,
       '../../../services/data/duplicate-claim-check': stubDuplicateClaimCheck,
       '../../../services/data/get-travelling-from-and-to': stubGetTravellingFromAndTo,

@@ -10,13 +10,13 @@ class HasChild {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.hasChild, 'has-child', errors)
       .isRequired(ERROR_MESSAGES.getClaimingForChild)
       .isValidBooleanSelect()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

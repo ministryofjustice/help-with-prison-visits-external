@@ -1,4 +1,4 @@
-const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+const unsafeInputPattern = />|<|&lt|&gt/g
 /**
  * This is a base class for all of the expense domain objects.
  */

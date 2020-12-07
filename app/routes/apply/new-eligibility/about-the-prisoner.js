@@ -10,7 +10,7 @@ const prisonerRelationshipEnum = require('../../../constants/prisoner-relationsh
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -25,16 +25,16 @@ module.exports = function (router) {
 
   router.post('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var prisoner = req.body
+    const prisoner = req.body
 
     try {
-      var aboutThePrisoner = new AboutThePrisoner(req.body.FirstName,
+      const aboutThePrisoner = new AboutThePrisoner(req.body.FirstName,
         req.body.LastName,
         req.body['dob-day'],
         req.body['dob-month'],
@@ -46,10 +46,10 @@ module.exports = function (router) {
         .then(function (result) {
           req.session.referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
           req.session.decryptedRef = result.reference
-          var benefitOwner = req.session.benefitOwner
-          var relationships = Object.keys(prisonerRelationshipEnum)
-          var relationship
-          for (var r of relationships) {
+          const benefitOwner = req.session.benefitOwner
+          const relationships = Object.keys(prisonerRelationshipEnum)
+          let relationship
+          for (const r of relationships) {
             if (prisonerRelationshipEnum[r].urlValue === req.session.relationship) {
               relationship = prisonerRelationshipEnum[r].value
             }

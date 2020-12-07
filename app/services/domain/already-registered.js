@@ -16,7 +16,7 @@ class AlreadyRegistered {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.reference, 'reference', errors)
       .isRequired(ERROR_MESSAGES.getEnterReference)
@@ -29,7 +29,7 @@ class AlreadyRegistered {
       .isPastDate(this.dob)
       .isOlderThanInYears(this.dob, MINIMUM_AGE_IN_YEARS)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

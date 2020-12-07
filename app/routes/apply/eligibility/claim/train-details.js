@@ -11,14 +11,14 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/train', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var claim = {}
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const claim = {}
+    const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
     getIsAdvanceClaim(req.session.claimId)
       .then(function (isAdvanceClaim) {
         claim.isAdvanceClaim = isAdvanceClaim
@@ -42,16 +42,16 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/train', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    var isAdvanceClaim = req.session.isAdvanceClaim
+    const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const isAdvanceClaim = req.session.isAdvanceClaim
     try {
-      var expense = new TrainExpense(
+      const expense = new TrainExpense(
         req.body.cost,
         req.body.from,
         req.body.to,

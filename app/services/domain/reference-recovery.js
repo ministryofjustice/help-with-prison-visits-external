@@ -10,7 +10,7 @@ class ReferenceRecovery {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.EmailAddress, 'EmailAddress', errors)
       .isRequired()
@@ -21,7 +21,7 @@ class ReferenceRecovery {
       .isRequired()
       .isLessThanLength(10)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

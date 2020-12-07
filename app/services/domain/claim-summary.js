@@ -18,7 +18,7 @@ class ClaimSummary {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     if (BenefitEnum.getByValue(this.benefit).requireBenefitUpload && !this.benefitUploadNotRequired) {
       FieldValidator(this.benefitDocumentStatus, 'benefit-information', errors)
@@ -45,7 +45,7 @@ class ClaimSummary {
 
     checkForZeroExpense(this.claimExpenses, this.isAdvanceClaim, errors)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

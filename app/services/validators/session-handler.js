@@ -16,44 +16,44 @@ module.exports = {
 
     function validateData (session) {
       if (session.dobEncoded && session.dobEncoded != null) {
-        var dob = dateFormatter.decodeDate(session.dobEncoded)
+        const dob = dateFormatter.decodeDate(session.dobEncoded)
 
         validateParam(dob, 'isValidDateOfBirth')
       }
 
       if (session.relationship && session.relationship != null) {
-        var relationship = session.relationship
+        const relationship = session.relationship
 
         validateParam(relationship, 'isValidPrisonerRelationship')
       }
 
       if (session.benefit && session.benefit != null) {
-        var benefit = session.benefit
+        const benefit = session.benefit
 
         validateParam(benefit, 'isValidBenefit')
       }
 
       if (session.referenceId && session.referenceId != null) {
-        var referenceId = decrypt(session.referenceId)
+        const referenceId = decrypt(session.referenceId)
 
         validateParam(referenceId.reference, 'isValidReference')
         validateParam(referenceId.id, 'isValidReferenceId')
       }
 
       if (session.decryptedRef && session.decryptedRef != null) {
-        var reference = session.decryptedRef
+        const reference = session.decryptedRef
 
         validateParam(reference, 'isValidReference')
       }
 
       if (session.claimType && session.claimType != null) {
-        var claimType = session.claimType
+        const claimType = session.claimType
 
         validateParam(claimType, 'isValidClaimType')
       }
 
       if (session.advanceOrPast && session.advanceOrPast != null) {
-        var advanceOrPast = session.advanceOrPast
+        const advanceOrPast = session.advanceOrPast
 
         validateParam(advanceOrPast, 'isValidAdvanceOrPast')
       }
@@ -68,17 +68,12 @@ module.exports = {
     }
 
     function checkDependencies (session, url) {
-      var splitUrl = url.split('/')
-      var page = splitUrl.pop(-1)
+      const splitUrl = url.split('/')
+      let page = splitUrl.pop(-1)
 
       if (page.includes('?')) {
-        var tempPage = page.split('?')
+        const tempPage = page.split('?')
         page = tempPage[0]
-      }
-
-      if (page === 'start' ||
-          page === 'start-already-registered' ||
-          page === 'date-of-birth') {
       }
 
       if (page === 'prisoner-relationship') {
@@ -246,8 +241,8 @@ module.exports = {
     return checkDependencies(session, url)
   },
   getErrorPath: function (session, url, referenceDisabled = false) {
-    var splitUrl = url.split('/')
-    var claimType = splitUrl[2]
+    const splitUrl = url.split('/')
+    let claimType = splitUrl[2]
 
     if (claimType !== claimTypeEnum.FIRST_TIME ||
         claimType !== claimTypeEnum.REPEAT_CLAIM ||
@@ -258,7 +253,7 @@ module.exports = {
       }
     }
 
-    var path = '/start-already-registered?error=expired'
+    let path = '/start-already-registered?error=expired'
     if (claimType === claimTypeEnum.FIRST_TIME) {
       path = `/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth?error=expired`
     }
@@ -269,11 +264,11 @@ module.exports = {
     return path
   },
   clearSession: function (session, url) {
-    var splitUrl = url.split('/')
-    var page = splitUrl.pop(-1)
+    const splitUrl = url.split('/')
+    let page = splitUrl.pop(-1)
 
     if (page.includes('?')) {
-      var tempPage = page.split('?')
+      const tempPage = page.split('?')
       page = tempPage[0]
     }
 

@@ -13,8 +13,8 @@ class ErrorHandler {
   }
 
   get () {
-    var errors = this.errors
-    for (var field in errors) {
+    const errors = this.errors
+    for (const field in errors) {
       if (errors[field].length > 0) {
         return errors
       }

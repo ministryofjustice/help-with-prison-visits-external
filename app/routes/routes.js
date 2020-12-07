@@ -2,7 +2,7 @@
  * This file defines all routes used in this application. Any logic that is applicable to all routes can be added here.
  */
 
-var routes = [
+const routes = [
   require('./index'),
   require('./start'),
   require('./start-already-registered'),

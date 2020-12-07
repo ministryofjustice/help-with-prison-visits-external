@@ -41,8 +41,8 @@ describe('services/data/insert-repeat-duplicate-claim', function () {
   ]
   const LAST_CLAIM_DETAILS = { children: CHILDREN, expenses: EXPENSES }
 
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   beforeEach(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)

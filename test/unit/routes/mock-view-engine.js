@@ -1,8 +1,8 @@
-var path = require('path')
+const path = require('path')
 
-var viewEngine = function (app, viewsPath) {
+const viewEngine = function (app, viewsPath) {
   app.engine('html', function (filePath, options, callback) {
-    var rendered = `${filePath}: ${JSON.stringify(options)}`
+    const rendered = `${filePath}: ${JSON.stringify(options)}`
     return callback(null, rendered)
   })
   app.set('view engine', 'html')

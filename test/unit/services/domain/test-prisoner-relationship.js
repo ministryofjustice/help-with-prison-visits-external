@@ -7,7 +7,7 @@ describe('services/domain/prisoner-relationship', function () {
   const INVALID_RELATIONSHIP = ''
 
   it('should construct a domain object given valid input', function () {
-    var prisonerRelationship = new PrisonerRelationship(VALID_RELATIONSHIP)
+    const prisonerRelationship = new PrisonerRelationship(VALID_RELATIONSHIP)
     expect(prisonerRelationship.relationship).to.equal(VALID_RELATIONSHIP)
   })
 

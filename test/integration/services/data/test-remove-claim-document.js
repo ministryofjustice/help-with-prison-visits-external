@@ -5,9 +5,9 @@ const claimDocumentHelper = require('../../../helpers/data/claim-document-helper
 
 describe('services/data/remove-claim-document', function () {
   const REFERENCE = 'V123467'
-  var eligibilityId
-  var claimId
-  var claimDocumentId
+  let eligibilityId
+  let claimId
+  let claimDocumentId
 
   before(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)

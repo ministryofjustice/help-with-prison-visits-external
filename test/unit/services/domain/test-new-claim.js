@@ -5,7 +5,7 @@ const dateFormatter = require('../../../../app/services/date-formatter')
 const booleanSelectEnum = require('../../../../app/constants/boolean-select-enum')
 const expect = require('chai').expect
 
-var claim
+let claim
 
 describe('services/domain/new-claim', function () {
   const VALID_REFERENCE = 'APVS123'
@@ -18,7 +18,7 @@ describe('services/domain/new-claim', function () {
   const RELEASE_DATE_IS_SET = false
   const RELEASE_DATE = null
 
-  var expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
+  const expectedDateOfJourney = dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR)
 
   it('should construct a domain object given valid input', function () {
     claim = new NewClaim(
@@ -51,7 +51,7 @@ describe('services/domain/new-claim', function () {
   })
 
   it('should throw a ValidationError if given a date in the future for past claims', function () {
-    var futureDate = dateFormatter.now().add(1, 'days')
+    const futureDate = dateFormatter.now().add(1, 'days')
     expect(function () {
       new NewClaim(
         VALID_REFERENCE,
@@ -66,7 +66,7 @@ describe('services/domain/new-claim', function () {
   })
 
   it('should throw a ValidationError if given a date more than 60 days away for a past claim', function () {
-    var dateFurtherThan60Days = dateFormatter.now().subtract(62, 'days') // 62 rather than 61 as locally fails in BST, server runs GMT
+    const dateFurtherThan60Days = dateFormatter.now().subtract(62, 'days') // 62 rather than 61 as locally fails in BST, server runs GMT
     expect(function () {
       new NewClaim(
         VALID_REFERENCE,
@@ -81,7 +81,7 @@ describe('services/domain/new-claim', function () {
   })
 
   it('should throw a ValidationError if given a date more than 60 days away for an advance claim', function () {
-    var dateFurtherThan60Days = dateFormatter.now().add(62, 'days') // 62 rather than 61 as locally fails in BST, server runs GMT
+    const dateFurtherThan60Days = dateFormatter.now().add(62, 'days') // 62 rather than 61 as locally fails in BST, server runs GMT
     expect(function () {
       new NewClaim(
         VALID_REFERENCE,
@@ -96,7 +96,7 @@ describe('services/domain/new-claim', function () {
   })
 
   it('should throw a ValidationError if given a date in the future for an advance claims', function () {
-    var pastDate = dateFormatter.now().add(-1)
+    const pastDate = dateFormatter.now().add(-1)
     expect(function () {
       new NewClaim(
         VALID_REFERENCE,
@@ -111,7 +111,7 @@ describe('services/domain/new-claim', function () {
   })
 
   it('should throw a ValidationError if given a date less than 5 days away for an advance claims', function () {
-    var futureDate = dateFormatter.now().add(4, 'days')
+    const futureDate = dateFormatter.now().add(4, 'days')
     expect(function () {
       new NewClaim(
         VALID_REFERENCE,
@@ -126,7 +126,7 @@ describe('services/domain/new-claim', function () {
   })
 
   it('should throw a ValidationError if given a date after release date', function () {
-    var pastDate = dateFormatter.now().subtract(4, 'days')
+    const pastDate = dateFormatter.now().subtract(4, 'days')
     expect(function () {
       new NewClaim(
         VALID_REFERENCE,

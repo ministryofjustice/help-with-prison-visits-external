@@ -16,7 +16,7 @@ class FieldValidator {
   }
 
   isRequired (specificMessage) {
-    var message = (!specificMessage) ? ERROR_MESSAGES.getIsRequired : specificMessage
+    const message = (!specificMessage) ? ERROR_MESSAGES.getIsRequired : specificMessage
     if (validator.isNullOrUndefined(this.data)) {
       this.errors.add(this.fieldName, message)
     } else if (this.data === 'select') {
@@ -61,7 +61,7 @@ class FieldValidator {
   }
 
   isLength (length, specificMessage) {
-    var message = (!specificMessage) ? ERROR_MESSAGES.getIsLengthMessage : specificMessage
+    const message = (!specificMessage) ? ERROR_MESSAGES.getIsLengthMessage : specificMessage
     if (!validator.isLength(this.data, length)) {
       this.errors.add(this.fieldName, message, { length: length })
     }
@@ -69,7 +69,7 @@ class FieldValidator {
   }
 
   isLessThanLength (length, specificMessage) {
-    var message = (!specificMessage) ? ERROR_MESSAGES.getIsPhoneNumberLessThanLengthMessage : specificMessage
+    const message = (!specificMessage) ? ERROR_MESSAGES.getIsPhoneNumberLessThanLengthMessage : specificMessage
     if (!validator.isLessThanLength(this.data, length)) {
       this.errors.add(this.fieldName, message, { length: length })
     }

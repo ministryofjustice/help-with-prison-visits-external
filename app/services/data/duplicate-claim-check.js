@@ -25,7 +25,7 @@ function getPrisonNumber (eligibilityId) {
 function getReferencesForDuplicateCheck (prisonNumber, nationalInsuranceNumber) {
   return knex.raw('SELECT * FROM [IntSchema].[getReferencesForDuplicateCheck] (?, ?)', [prisonNumber, nationalInsuranceNumber])
     .then(function (results) {
-      var references = []
+      const references = []
 
       results.forEach(function (result) { references.push(result.Reference) })
 

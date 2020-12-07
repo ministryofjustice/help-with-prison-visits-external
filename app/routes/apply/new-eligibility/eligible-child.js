@@ -8,7 +8,7 @@ const SessionHandler = require('../../../services/validators/session-handler')
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/eligible-child', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -27,16 +27,16 @@ module.exports = function (router) {
   router.post('/apply/:claimType/new-eligibility/eligible-child', function (req, res, next) {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var eligibleChildDetails = req.body
+    const eligibleChildDetails = req.body
 
     try {
-      var eligibleChild = new EligibleChild(
+      const eligibleChild = new EligibleChild(
         req.body.FirstName,
         req.body.LastName,
         req.body.ChildRelationship,
@@ -51,11 +51,11 @@ module.exports = function (router) {
         req.body.PostCode,
         req.body.Country)
 
-      var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+      const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
       insertNewEligibleChild(eligibleChild, referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
         .then(function (result) {
-          var benefitOwner = req.session.benefitOwner
+          const benefitOwner = req.session.benefitOwner
 
           if (req.body['add-another-child']) {
             return res.redirect(req.originalUrl)

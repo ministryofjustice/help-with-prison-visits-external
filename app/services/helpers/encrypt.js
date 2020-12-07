@@ -1,13 +1,13 @@
 const crypto = require('crypto')
 const config = require('../../../config')
 
-var algorithm = 'aes-256-ctr'
+const algorithm = 'aes-256-ctr'
 
 module.exports = function (value) {
   try {
     const iv = Buffer.alloc(16, 0)
-    var cipher = crypto.createCipheriv(algorithm, config.EXT_REFERENCE_SALT, iv)
-    var crypted = cipher.update(value, 'utf8', 'hex')
+    const cipher = crypto.createCipheriv(algorithm, config.EXT_REFERENCE_SALT, iv)
+    let crypted = cipher.update(value, 'utf8', 'hex')
     crypted += cipher.final('hex')
 
     return crypted

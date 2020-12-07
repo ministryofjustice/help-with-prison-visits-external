@@ -7,7 +7,7 @@ const internalPrisonerHelper = require('../../../helpers/data/internal/internal-
 describe('services/data/get-masked-eligibility', function () {
   const REFERENCE = 'MASK467'
   const INVALID_REFERENCE = 'INVALID'
-  var eligibilityId
+  let eligibilityId
 
   before(function () {
     return internalEligiblityHelper.insertEligibilityAndClaim(REFERENCE)

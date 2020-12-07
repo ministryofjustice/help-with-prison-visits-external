@@ -13,8 +13,8 @@ describe('services/domain/file-upload', function () {
   const UPLOAD_ERROR = new UploadError('File type error')
   const VALID_ALTERNATIVE = 'some alternative'
 
-  var FileUpload
-  var fsStub
+  let FileUpload
+  let fsStub
 
   beforeEach(function () {
     fsStub = sinon.stub()
@@ -26,7 +26,7 @@ describe('services/domain/file-upload', function () {
   })
 
   it('should construct a domain object given valid input when documentStatus is set to uploaded', function () {
-    var fileUpload = new FileUpload(
+    const fileUpload = new FileUpload(
       VALID_ID,
       VALID_DOCUMENT_TYPE,
       VALID_ID,
@@ -41,7 +41,7 @@ describe('services/domain/file-upload', function () {
   })
 
   it('should construct a domain object given valid input when documentStatus is set to alternative and change undefined claimExpeneseId to null', function () {
-    var fileUpload = new FileUpload(
+    const fileUpload = new FileUpload(
       VALID_ID,
       VALID_DOCUMENT_TYPE,
       undefined,

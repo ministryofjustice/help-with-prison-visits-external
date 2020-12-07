@@ -7,7 +7,7 @@ describe('services/domain/update-contact-details', function () {
   const VALID_PHONE_NUMBER = '02121 565 654'
 
   it('should construct a domain object given valid input', function () {
-    var updatedContactDetails = new UpdatedContactDetails(VALID_EMAIL, VALID_PHONE_NUMBER)
+    const updatedContactDetails = new UpdatedContactDetails(VALID_EMAIL, VALID_PHONE_NUMBER)
     expect(updatedContactDetails.emailAddress).to.equal(VALID_EMAIL)
     expect(updatedContactDetails.phoneNumber).to.equal(VALID_PHONE_NUMBER)
   })

@@ -6,32 +6,14 @@ const config = require('../../../config')
 describe('services/log-streams', function () {
   const EXPECTED_LOG_LEVEL = config.LOGGING_LEVEL
 
-  var logStreams
-  var prettyStreamStub
-  var bunyanLogstashTcpStub
+  let logStreams
+  let prettyStreamStub
 
   beforeEach(function () {
     prettyStreamStub = sinon.stub()
-    bunyanLogstashTcpStub = sinon.stub()
 
     logStreams = proxyquire('../../../app/services/log-streams', {
-      'bunyan-prettystream': prettyStreamStub,
-      'bunyan-logstash-tcp': bunyanLogstashTcpStub
-    })
-  })
-
-  describe('buildLogstashStream', function () {
-    const EXPECTED_TYPE = 'raw'
-
-    it('should build and return the expected logstash stream', function () {
-      sinon.stub(bunyanLogstashTcpStub, 'createStream').returns({
-        on: function () {}
-      })
-
-      var stream = logStreams.buildLogstashStream()
-      expect(stream.type).to.equal(EXPECTED_TYPE)
-      expect(stream.level).to.equal(EXPECTED_LOG_LEVEL)
-      expect(stream.stream).to.not.equal(null)
+      'bunyan-prettystream': prettyStreamStub
     })
   })
 
@@ -42,7 +24,7 @@ describe('services/log-streams', function () {
       prettyStreamStub.returns({
         pipe: function () {}
       })
-      var stream = logStreams.buildConsoleStream()
+      const stream = logStreams.buildConsoleStream()
       sinon.assert.calledOnce(prettyStreamStub)
       expect(stream.level).to.equal(EXPECTED_LOG_LEVEL)
       expect(stream.stream).to.not.equal(null)
@@ -56,7 +38,7 @@ describe('services/log-streams', function () {
     const EXPECTED_COUNT = 7
 
     it('should build and return the expected file stream', function () {
-      var stream = logStreams.buildFileStream()
+      const stream = logStreams.buildFileStream()
       expect(stream.type).to.equal(EXPECTED_TYPE)
       expect(stream.level).to.equal(EXPECTED_LOG_LEVEL)
       expect(stream.path).to.equal(EXPECTED_LOG_PATH)

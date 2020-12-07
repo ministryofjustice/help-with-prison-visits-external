@@ -5,9 +5,9 @@ const getClaimEscortByIdOrLastApproved = require('./get-claim-escort-by-id-or-la
 const maskArrayOfNames = require('../helpers/mask-array-of-names')
 
 module.exports = function (reference, eligibilityId, mask, thisClaimIsAdvance) {
-  var result = {}
-  var claimId = null
-  var lastClaimWasAdvance = false
+  const result = {}
+  let claimId = null
+  let lastClaimWasAdvance = false
   return getLastClaimForReference(reference, eligibilityId)
     .then(function (claimIdReturned) {
       if (claimIdReturned.length > 0) {

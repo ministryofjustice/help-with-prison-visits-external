@@ -7,7 +7,7 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 module.exports = function (router) {
   router.get('/apply/eligibility/new-claim/future-or-past-visit', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -21,7 +21,7 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/new-claim/future-or-past-visit', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -31,7 +31,7 @@ module.exports = function (router) {
       var futureOrPastVisit = new FutureOrPastVisit(req.body['advance-past']) // eslint-disable-line
       req.session.advanceOrPast = req.body['advance-past']
 
-      var nextPage = 'journey-information'
+      let nextPage = 'journey-information'
       if (req.session.claimType === claimTypeEnum.REPEAT_CLAIM) {
         nextPage = 'same-journey-as-last-claim'
       }

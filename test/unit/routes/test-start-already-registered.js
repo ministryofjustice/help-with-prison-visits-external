@@ -9,16 +9,16 @@ const ValidationError = require('../../../app/services/errors/validation-error')
 describe('routes/start-already-registered', function () {
   const ROUTE = '/start-already-registered'
 
-  var app
+  let app
 
-  var alreadyRegisteredStub
-  var encryptStub
+  let alreadyRegisteredStub
+  let encryptStub
 
   beforeEach(function () {
     alreadyRegisteredStub = sinon.stub()
     encryptStub = sinon.stub()
 
-    var route = proxyquire('../../../app/routes/start-already-registered', {
+    const route = proxyquire('../../../app/routes/start-already-registered', {
       '../services/domain/already-registered': alreadyRegisteredStub,
       '../services/helpers/encrypt': encryptStub
     })

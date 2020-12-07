@@ -18,7 +18,7 @@ describe('services/domain/technical-help', function () {
   const INVALID_ISSUE = new Array(1250).join('a')
 
   it('should construct a domain object given valid input', function () {
-    var technicalHelp = new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE)
+    const technicalHelp = new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE)
     expect(technicalHelp.name).to.equal(VALID_NAME)
     expect(technicalHelp.emailAddress).to.equal(VALID_EMAIL_ADDRESS)
     expect(technicalHelp.referenceNumber).to.equal(VALID_REFERENCE)

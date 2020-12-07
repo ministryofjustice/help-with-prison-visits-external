@@ -8,7 +8,7 @@ describe('services/domain/reference-recovery', function () {
   const INVALID_PRISONER_NUMBER = ''
 
   it('should construct a domain object given valid input', function () {
-    var referenceRecovery = new ReferenceRecovery(VALID_EMAIL, VALID_PRISONER_NUMBER)
+    const referenceRecovery = new ReferenceRecovery(VALID_EMAIL, VALID_PRISONER_NUMBER)
     expect(referenceRecovery.EmailAddress).to.equal(VALID_EMAIL)
     expect(referenceRecovery.PrisonerNumber).to.equal(VALID_PRISONER_NUMBER)
   })

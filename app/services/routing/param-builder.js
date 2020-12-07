@@ -4,7 +4,7 @@
 const URL_PARAMS = require('../../constants/expenses-url-path-enum')
 
 module.exports.format = function (params) {
-  var queryString = ''
+  let queryString = ''
   if (!isEmpty(params)) {
     queryString = '?'
     params.forEach(function (param) {
@@ -15,7 +15,7 @@ module.exports.format = function (params) {
 }
 
 module.exports.build = function (params) {
-  var paramsArray = []
+  const paramsArray = []
   if (params) {
     params.forEach(function (param) {
       if (URL_PARAMS.includes(param)) {

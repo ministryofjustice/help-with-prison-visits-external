@@ -7,9 +7,9 @@ describe('services/data/duplicate-claim-check', function () {
   const EXT_REFERENCE = 'DUPCHKE'
   const INT_REFERENCE = 'DUPCHKI'
 
-  var eligibilityId
-  var sameNationalInsuranceNumber = 'BN180518D'
-  var diffNationalInsuranceNumber = 'DIFF0518D'
+  let eligibilityId
+  const sameNationalInsuranceNumber = 'BN180518D'
+  const diffNationalInsuranceNumber = 'DIFF0518D'
 
   before(function () {
     return eligiblityHelper.insertEligibilityVisitorAndPrisoner(EXT_REFERENCE)

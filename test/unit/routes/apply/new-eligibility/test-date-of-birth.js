@@ -4,9 +4,9 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
-var urlPathValidatorStub
-var stubDateOfBirth
-var app
+let urlPathValidatorStub
+let stubDateOfBirth
+let app
 
 describe('routes/apply/new-eligibility/date-of-birth', function () {
   const DOB = '113725122'
@@ -17,7 +17,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
     urlPathValidatorStub = sinon.stub()
     stubDateOfBirth = sinon.stub()
 
-    var route = proxyquire(
+    const route = proxyquire(
       '../../../../../app/routes/apply/new-eligibility/date-of-birth', {
         '../../../services/domain/date-of-birth': stubDateOfBirth,
         '../../../services/validators/url-path-validator': urlPathValidatorStub

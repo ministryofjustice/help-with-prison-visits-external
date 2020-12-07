@@ -4,9 +4,9 @@ const path = require('path')
 const favicon = require('serve-favicon')
 const i18n = require('i18n')
 
-var app = express()
+const app = express()
 
-var serviceName = 'Get help with prison visits'
+const serviceName = 'Get help with prison visits'
 
 app.set('view engine', 'html')
 app.set('views', path.join(__dirname, 'views'))

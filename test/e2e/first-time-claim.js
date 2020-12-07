@@ -7,29 +7,29 @@ const dateFormatter = require('../../app/services/date-formatter')
 
 const expect = require('chai').expect
 
-var todaysDate = dateFormatter.now()
+const todaysDate = dateFormatter.now()
 describe('First Time Claim Flow', () => {
   // The reference will be generated as part of this flow. So capture it once it is generated.
-  var caseworker = 'teste2e@test.com'
+  const caseworker = 'teste2e@test.com'
 
   it('should display each page in the first time eligibility flow', async () => {
     await browser.url('/assisted-digital?caseworker=teste2e@test.com')
 
     // Index
-    var submitButton = await $('#start')
+    let submitButton = await $('#start')
     await submitButton.click()
 
     // Start
     submitButton = await $('#start-submit')
-    var noRadioButton = await $('[for="no"]')
+    const noRadioButton = await $('[for="no"]')
     await noRadioButton.click()
     await submitButton.click()
 
     // Date of birth
     submitButton = await $('#date-of-birth-submit')
-    var dobDayInput = await $('#dob-day-input')
-    var dobMonthInput = await $('#dob-month-input')
-    var dobYearInput = await $('#dob-year-input')
+    let dobDayInput = await $('#dob-day-input')
+    let dobMonthInput = await $('#dob-month-input')
+    let dobYearInput = await $('#dob-year-input')
     await dobDayInput.setValue('01')
     await dobMonthInput.setValue('05')
     await dobYearInput.setValue('1955')
@@ -37,28 +37,28 @@ describe('First Time Claim Flow', () => {
 
     // Prisoner relationship
     submitButton = await $('#prisoner-relationship-submit')
-    var partnerButton = await $('[for="partner"]')
+    const partnerButton = await $('[for="partner"]')
     await partnerButton.click()
     await submitButton.click()
 
     // Benefit
     submitButton = await $('#benefit-submit')
-    var incomeSupportButton = await $('[for="income-support"]')
-    var yesButton = await $('[for="yes"]')
+    const incomeSupportButton = await $('[for="income-support"]')
+    const yesButton = await $('[for="yes"]')
     await incomeSupportButton.click()
     await yesButton.click()
     await submitButton.click()
 
     // About the Prisoner
     submitButton = await $('#about-the-prisoner-submit')
-    var firstName = await $('#prisoner-first-name')
-    var lastName = await $('#prisoner-last-name')
+    let firstName = await $('#prisoner-first-name')
+    let lastName = await $('#prisoner-last-name')
     dobDayInput = await $('#dob-day')
     dobMonthInput = await $('#dob-month')
     dobYearInput = await $('#dob-year')
-    var prisonerNumber = await $('#prisoner-number')
-    var prisonName = await $('#prison-name-text-input')
-    var nameOfPrisonLabel = await $('#NameOfPrison')
+    const prisonerNumber = await $('#prisoner-number')
+    const prisonName = await $('#prison-name-text-input')
+    const nameOfPrisonLabel = await $('#NameOfPrison')
     await firstName.setValue('Joe')
     await lastName.setValue('Bloggs')
     await dobDayInput.setValue('01')
@@ -73,14 +73,14 @@ describe('First Time Claim Flow', () => {
     submitButton = await $('#about-you-submit')
     firstName = await $('#first-name-input')
     lastName = await $('#last-name-input')
-    var niNumber = await $('#national-insurance-number-input')
-    var houseNumber = await $('#house-number-and-street-input')
-    var town = await $('#town-input')
-    var county = await $('#county-input')
-    var postcode = await $('#post-code-input')
-    var country = await $('#country-input')
-    var email = await $('#email-address-input')
-    var phone = await $('#phone-number-input')
+    const niNumber = await $('#national-insurance-number-input')
+    const houseNumber = await $('#house-number-and-street-input')
+    const town = await $('#town-input')
+    const county = await $('#county-input')
+    const postcode = await $('#post-code-input')
+    const country = await $('#country-input')
+    const email = await $('#email-address-input')
+    const phone = await $('#phone-number-input')
     await firstName.setValue('Joe')
     await lastName.setValue('Bloggs')
     await niNumber.setValue('TS876541T')
@@ -95,15 +95,15 @@ describe('First Time Claim Flow', () => {
 
     // Future or past visit
     submitButton = await $('#future-or-past-submit')
-    var past = await $('[for="past"]')
+    const past = await $('[for="past"]')
     await past.click()
     await submitButton.click()
 
     // Journey information
     submitButton = await $('#journey-information-submit')
-    var dayInput = await $('#date-of-journey-day')
-    var monthInput = await $('#date-of-journey-month')
-    var yearInput = await $('#date-of-journey-year')
+    const dayInput = await $('#date-of-journey-day')
+    const monthInput = await $('#date-of-journey-month')
+    const yearInput = await $('#date-of-journey-year')
     await dayInput.setValue(todaysDate.date())
     await monthInput.setValue(todaysDate.month() + 1)
     await yearInput.setValue(todaysDate.year())
@@ -111,7 +111,7 @@ describe('First Time Claim Flow', () => {
 
     // Has Escort
     submitButton = await $('#has-escort-submit')
-    var yes = await $('[for="escort-yes"]')
+    let yes = await $('[for="escort-yes"]')
     await yes.click()
     await submitButton.click()
 
@@ -142,8 +142,8 @@ describe('First Time Claim Flow', () => {
     dobDayInput = await $('#dob-day-input')
     dobMonthInput = await $('#dob-month-input')
     dobYearInput = await $('#dob-year-input')
-    var whoseChild = await $('[for="my-child"]')
-    var addAnother = await $('[for="add-another-child"]')
+    let whoseChild = await $('[for="my-child"]')
+    let addAnother = await $('[for="add-another-child"]')
     await firstName.setValue('Sam')
     await lastName.setValue('Bloggs')
     await dobDayInput.setValue('15')
@@ -174,9 +174,9 @@ describe('First Time Claim Flow', () => {
 
     // Expense
     submitButton = await $('#expenses-submit')
-    var car = await $('[for="car"]')
-    var bus = await $('[for="bus"]')
-    var refreshment = await $('[for="refreshment"]')
+    const car = await $('[for="car"]')
+    const bus = await $('[for="bus"]')
+    const refreshment = await $('[for="refreshment"]')
     await car.click()
     await bus.click()
     await refreshment.click()
@@ -188,11 +188,11 @@ describe('First Time Claim Flow', () => {
 
     // Bus #1 (adult expense)
     submitButton = await $('#bus-details-submit')
-    var whoseTicket = await $('[for="is-child-ticket"]')
-    var from = await $('#from-input')
-    var to = await $('#to-input')
-    var returnNo = await $('[for="return-no"]')
-    var cost = await $('#cost-input')
+    let whoseTicket = await $('[for="is-child-ticket"]')
+    let from = await $('#from-input')
+    let to = await $('#to-input')
+    let returnNo = await $('[for="return-no"]')
+    let cost = await $('#cost-input')
     addAnother = await $('[for="add-another-journey"]')
     await whoseTicket.click()
     await from.setValue('Euston')
@@ -226,12 +226,12 @@ describe('First Time Claim Flow', () => {
     await submitButton.click()
 
     // Claim summary
-    var addVisitConfirmation = await $('#add-visit-confirmation')
+    const addVisitConfirmation = await $('#add-visit-confirmation')
     await addVisitConfirmation.click()
 
     // Upload visit confirmation
     submitButton = await $('#file-upload-submit')
-    var post = await $('[for="Post"]')
+    let post = await $('[for="Post"]')
     await post.click()
     await submitButton.click()
 
@@ -242,7 +242,7 @@ describe('First Time Claim Flow', () => {
     // await document.pause(5000)
 
     // Claim summary
-    var addExpenseReceipt = await $('.add-expense-receipt')
+    let addExpenseReceipt = await $('.add-expense-receipt')
     await addExpenseReceipt.click()
 
     // Upload Receipt Bus Adult
@@ -269,9 +269,9 @@ describe('First Time Claim Flow', () => {
 
     // Enter Bank Account Details
     submitButton = await $('#bank-payment-submit')
-    var nameOnAccount = await $('#name-on-account-input')
-    var sortCode = await $('#sort-code-input')
-    var accountNumber = await $('#account-number-input')
+    const nameOnAccount = await $('#name-on-account-input')
+    const sortCode = await $('#sort-code-input')
+    const accountNumber = await $('#account-number-input')
     await nameOnAccount.setValue('Joe Bloggs')
     await sortCode.setValue('001122')
     await accountNumber.setValue('00123456')
@@ -279,12 +279,12 @@ describe('First Time Claim Flow', () => {
 
     // Declaration page
     submitButton = await $('#claim-submit')
-    var tAndC = await $('[for="terms-and-conditions-input"]')
+    const tAndC = await $('[for="terms-and-conditions-input"]')
     await tAndC.click()
     await submitButton.click()
 
     // Application submitted
-    var title = await browser.getTitle()
+    const title = await browser.getTitle()
     expect(title).to.be.equal('Application submitted - Get help with the cost of prison visits')
   })
 

@@ -32,7 +32,7 @@ class FileUpload {
   }
 
   IsValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     if (this.error) {
       if (this.error instanceof UploadError) {
@@ -52,7 +52,7 @@ class FileUpload {
       throw new ValidationError({ upload: [ERROR_MESSAGES.getUploadFileAndAlternativeSelected] })
     }
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
 
     if (validationErrors) {
       throw new ValidationError(validationErrors)

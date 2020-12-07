@@ -9,12 +9,12 @@ class SameJourneyAsLastClaim {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.sameJourneyAsLastClaim, 'same-journey-as-last-claim', errors)
       .isRequired()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

@@ -6,7 +6,7 @@ describe('services/domain/expenses/refreshment-expense', function () {
   const INVALID_COST = '0'
 
   it('should construct a domain object given valid input', function () {
-    var expense = new RefreshmentExpense(
+    const expense = new RefreshmentExpense(
       VALID_COST
     )
     expect(expense.cost).to.equal(VALID_COST)

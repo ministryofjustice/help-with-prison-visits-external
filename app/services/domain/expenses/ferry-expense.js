@@ -12,7 +12,7 @@ class FerryExpense extends BaseExpense {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.from, 'from', errors)
       .isRequired(ERROR_MESSAGES.getEnterFrom)
@@ -37,7 +37,7 @@ class FerryExpense extends BaseExpense {
       .isGreaterThanZero()
       .isMaxCostOrLess()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }
