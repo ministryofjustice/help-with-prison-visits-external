@@ -49,7 +49,7 @@
     ]
   },
   "dependencies": {
-    "applicationinsights": "https://registry.npmjs.org/applicationinsights/-/applicationinsights-1.7.0.tgz",
+    "applicationinsights": "^1.8.8",
     "bases": "^0.2.1",
     "basic-auth": "^2.0.1",
     "bluebird": "^3.7.2",
