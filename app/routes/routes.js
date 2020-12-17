@@ -2,7 +2,7 @@
  * This file defines all routes used in this application. Any logic that is applicable to all routes can be added here.
  */
 
-var routes = [
+const routes = [
   require('./index'),
   require('./start'),
   require('./start-already-registered'),
@@ -46,6 +46,8 @@ var routes = [
   require('./apply/eligibility/claim/claim-summary'),
   require('./apply/eligibility/claim/file-upload'),
   require('./apply/eligibility/claim/payment-details'),
+  require('./apply/eligibility/claim/bank-payment-details'),
+  require('./apply/eligibility/claim/payout-confirmation'),
   require('./apply/eligibility/claim/declaration'),
 
   // Your Claims Flow

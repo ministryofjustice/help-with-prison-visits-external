@@ -3,9 +3,9 @@ const supertest = require('supertest')
 const route = require('../../../app/routes/cookies')
 
 describe('routes/cookies', function () {
-  const ROUTE = `/cookies`
+  const ROUTE = '/cookies'
 
-  var app
+  let app
 
   beforeEach(function () {
     app = routeHelper.buildApp(route)

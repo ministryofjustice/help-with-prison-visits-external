@@ -31,13 +31,13 @@ module.exports = function (router) {
 
 function get (carOnly, req, res, next) {
   UrlPathValidator(req.params)
-  var isValidSession = SessionHandler.validateSession(req.session, req.url)
+  const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
   if (!isValidSession) {
     return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
   }
 
-  var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+  const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
   getIsAdvanceClaim(req.session.claimId)
     .then(function (isAdvanceClaim) {
@@ -62,7 +62,7 @@ function get (carOnly, req, res, next) {
       } else {
         getMaskedEligibility(referenceAndEligibilityId.reference, null, referenceAndEligibilityId.id)
           .then(function (result) {
-            var fromAndTo = {from: result.Town, to: result.NameOfPrison}
+            const fromAndTo = { from: result.Town, to: result.NameOfPrison }
             return res.render('apply/eligibility/claim/car-details', {
               claimType: req.session.claimType,
               referenceId: req.session.referenceId,
@@ -84,25 +84,28 @@ function get (carOnly, req, res, next) {
 
 function post (carOnly, req, res, next) {
   UrlPathValidator(req.params)
-  var isValidSession = SessionHandler.validateSession(req.session, req.url)
+  const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
   if (!isValidSession) {
     return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
   }
 
-  var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+  const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
   try {
-    var expense = new CarExpense(
+    const expense = new CarExpense(
       req.body.from,
       req.body.to,
       req.body.toll,
-      req.body[ 'toll-cost' ],
-      req.body[ 'parking-charge' ],
-      req.body[ 'parking-charge-cost' ],
+      req.body['toll-cost'],
+      req.body['parking-charge'],
+      req.body['parking-charge-cost'],
       req.body['new-destination'],
       req.body.destination,
-      req.body.PostCode
+      req.body.PostCode,
+      req.body['new-origin'],
+      req.body.origin,
+      req.body.FromPostCode
     )
 
     insertCarExpenses(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)

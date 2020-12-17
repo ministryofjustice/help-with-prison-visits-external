@@ -29,63 +29,57 @@ module.exports = {
     urlValue: 'r5'
   },
 
-  GRANDMOTHER: {
-    value: 'grandmother',
-    displayName: 'Grandmother',
+  GRANDCHILD: {
+    value: 'grandchild',
+    displayName: 'Grandchild',
     urlValue: 'r6'
-  },
-
-  GRANDFATHER: {
-    value: 'father',
-    displayName: 'Grandfather',
-    urlValue: 'r7'
   },
 
   BROTHER: {
     value: 'brother',
     displayName: 'Brother',
-    urlValue: 'r8'
+    urlValue: 'r7'
   },
 
   SISTER: {
     value: 'sister',
     displayName: 'Sister',
-    urlValue: 'r9'
+    urlValue: 'r8'
   },
 
   SON: {
     value: 'son',
     displayName: 'Son',
-    urlValue: 'r10'
+    urlValue: 'r9'
   },
 
   DAUGHTER: {
     value: 'daughter',
     displayName: 'Daughter',
-    urlValue: 'r11'
+    urlValue: 'r10'
   },
 
   NEXT_OF_KIN: {
     value: 'next-of-kin',
     displayName: 'Next of kin',
-    urlValue: 'r12'
+    urlValue: 'r11'
   },
 
   SOLE_VISITOR: {
     value: 'sole-visitor',
     displayName: 'Sole visitor',
-    urlValue: 'r13'
+    urlValue: 'r12'
   },
 
   ELIGIBLE_CHILD: {
     value: 'eligible-child',
     displayName: 'Eligible child',
-    urlValue: 'r14'
+    urlValue: 'r13'
   },
 
   NONE: {
     value: 'none',
     displayName: '',
-    urlValue: 'r15'
+    urlValue: 'r14'
   }
 }

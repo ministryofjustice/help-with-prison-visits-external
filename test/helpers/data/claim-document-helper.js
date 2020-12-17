@@ -12,7 +12,7 @@ module.exports.build = function (claimId) {
     claimId,
     'VISIT_CONFIRMATION',
     undefined,
-    {path: this.PATH},
+    { path: this.PATH },
     undefined,
     undefined
   )
@@ -23,7 +23,7 @@ module.exports.buildExpenseDoc = function (claimId, expenseId) {
     claimId,
     'RECEIPT',
     expenseId,
-    {path: 'random/path'},
+    { path: 'random/path' },
     undefined,
     undefined
   )

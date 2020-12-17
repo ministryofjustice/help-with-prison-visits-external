@@ -7,7 +7,7 @@ const internalPrisonerHelper = require('../../../helpers/data/internal/internal-
 describe('services/data/get-masked-eligibility', function () {
   const REFERENCE = 'MASK467'
   const INVALID_REFERENCE = 'INVALID'
-  var eligibilityId
+  let eligibilityId
 
   before(function () {
     return internalEligiblityHelper.insertEligibilityAndClaim(REFERENCE)
@@ -21,7 +21,7 @@ describe('services/data/get-masked-eligibility', function () {
   })
 
   it('should retrieve eligibility data for the given reference and dob', function () {
-    return getMaskedEligibility(REFERENCE, internalVisitorHelper.DATE_OF_BIRTH.toDate(), null)
+    return getMaskedEligibility(REFERENCE, internalVisitorHelper.DATE_OF_BIRTH.format('YYYY-MM-DD'), null)
       .then(function (eligibility) {
         expect(eligibility.EligibilityId).to.equal(eligibilityId)
 
@@ -46,12 +46,12 @@ describe('services/data/get-masked-eligibility', function () {
   })
 
   it('should throw an exception given an invalid reference and dob', function () {
-    return getMaskedEligibility(INVALID_REFERENCE, internalVisitorHelper.DATE_OF_BIRTH.toDate())
+    return getMaskedEligibility(INVALID_REFERENCE, internalVisitorHelper.DATE_OF_BIRTH.format('YYYY-MM-DD'))
       .then(function () {
-        expect(false, 'should have throw error').to.be.true
+        expect(false, 'should have throw error').to.be.true  //eslint-disable-line
       })
       .catch(function (error) {
-        expect(error).not.to.be.null
+        expect(error).not.to.be.null //eslint-disable-line
       })
   })
 })

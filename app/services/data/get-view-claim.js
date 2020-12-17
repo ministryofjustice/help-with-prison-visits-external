@@ -12,7 +12,7 @@ const Promise = require('bluebird')
 module.exports = function (claimId, reference, dob) {
   return getHistoricClaimByClaimId(reference, dob, claimId)
     .then(function (historicClaim) {
-      var claim = historicClaim[0]
+      const claim = historicClaim[0]
       return Promise.all([getRepeatEligibility(reference, dob, null),
         getClaimDocumentsHistoricClaim(reference, claim.EligibilityId, claimId),
         getClaimExpenseByIdOrLastApproved(reference, null, claimId),
@@ -21,12 +21,12 @@ module.exports = function (claimId, reference, dob) {
         getClaimChildrenByIdOrLastApproved(reference, null, claimId)
       ])
         .then(function (results) {
-          var eligibility = results[0]
-          var claimDocuments = results[1]
-          var claimExpenses = results[2]
-          var externalClaimDocuments = results[3]
-          var claimEvents = results[4]
-          var claimChild = results[5].map(function (claimChild) {
+          const eligibility = results[0]
+          const claimDocuments = results[1]
+          const claimExpenses = results[2]
+          const externalClaimDocuments = results[3]
+          const claimEvents = results[4]
+          const claimChild = results[5].map(function (claimChild) {
             claimChild.LastName = maskString(claimChild.LastName, 1)
             return claimChild
           })

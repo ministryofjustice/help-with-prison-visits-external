@@ -102,52 +102,52 @@ describe('services/validators/url-path-validator', function () {
   })
 
   it('should return undefined if passed a valid claimType value', function () {
-    var result = UrlPathValidator(VALID_CLAIM_TYPE)
+    const result = UrlPathValidator(VALID_CLAIM_TYPE)
     expect(result).to.equal(undefined)
   })
 
   it('should return undefined if passed a valid dob value', function () {
-    var result = UrlPathValidator(VALID_ENCODED_DOB)
+    const result = UrlPathValidator(VALID_ENCODED_DOB)
     expect(result).to.equal(undefined)
   })
 
   it('should return undefined if passed a valid relationship value', function () {
-    var result = UrlPathValidator(VALID_RELATIONSHIP)
+    const result = UrlPathValidator(VALID_RELATIONSHIP)
     expect(result).to.equal(undefined)
   })
 
   it('should return undefined if passed a valid dob value', function () {
-    var result = UrlPathValidator(VALID_ENCODED_DOB)
+    const result = UrlPathValidator(VALID_ENCODED_DOB)
     expect(result).to.equal(undefined)
   })
 
   it('should return undefined if passed a valid benefit value', function () {
-    var result = UrlPathValidator(VALID_BENEFIT)
+    const result = UrlPathValidator(VALID_BENEFIT)
     expect(result).to.equal(undefined)
   })
 
   it('should return undefined if passed a valid encrypted reference value', function () {
-    var result = UrlPathValidator(VALID_ENCRYPTED_REFERENCE)
+    const result = UrlPathValidator(VALID_ENCRYPTED_REFERENCE)
     expect(result).to.equal(undefined)
   })
 
   it('should return undefined if passed a valid claimId value', function () {
-    var result = UrlPathValidator(VALID_CLAIMID)
+    const result = UrlPathValidator(VALID_CLAIMID)
     expect(result).to.equal(undefined)
   })
 
   it('should return undefined if passed a valid encrypted referenceId value', function () {
-    var result = UrlPathValidator(VALID_ENCRYPTED_REFERENCEID)
+    const result = UrlPathValidator(VALID_ENCRYPTED_REFERENCEID)
     expect(result).to.equal(undefined)
   })
 
   it('should return undefined if passed a valid claimDocumentId value', function () {
-    var result = UrlPathValidator(VALID_CLAIM_DOCUMENT_ID)
+    const result = UrlPathValidator(VALID_CLAIM_DOCUMENT_ID)
     expect(result).to.equal(undefined)
   })
 
   it('should return undefined if passed a valid advanceOrPast value', function () {
-    var result = UrlPathValidator(VALID_ADVANCE_OR_PAST)
+    const result = UrlPathValidator(VALID_ADVANCE_OR_PAST)
     expect(result).to.equal(undefined)
   })
 })

@@ -3,28 +3,27 @@ const routeHelper = require('../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 describe('/your-claims/your-claims', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjU5LjQ4NjY2NjY3LCJkZWNyeXB0ZWRSZWYiOiJRSFFDWFdaIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyJ9' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
-  const ROUTE = `/your-claims`
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjU5LjQ4NjY2NjY3LCJkZWNyeXB0ZWRSZWYiOiJRSFFDWFdaIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyJ9']
+  const COOKIES_EXPIRED = ['apvs-start-application=']
+  const ROUTE = '/your-claims'
 
-  const CLAIMS_CAN_START_NEW_CLAIM = [{Status: 'APPROVED'}, {Status: 'AUTO-APPROVED'}, {Status: 'REJECTED'}]
-  const CLAIMS_CANNOT_START_NEW_CLAIM = [{Status: 'INPROGRESS'}]
+  const CLAIMS_CAN_START_NEW_CLAIM = [{ Status: 'APPROVED' }, { Status: 'AUTO-APPROVED' }, { Status: 'REJECTED' }]
+  const CLAIMS_CANNOT_START_NEW_CLAIM = [{ Status: 'INPROGRESS' }]
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var getHistoricClaimsStub
-  var getHistoricClaimsByReferenceStub
+  let urlPathValidatorStub
+  let getHistoricClaimsStub
+  let getHistoricClaimsByReferenceStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     getHistoricClaimsStub = sinon.stub()
     getHistoricClaimsByReferenceStub = sinon.stub()
 
-    var route = proxyquire('../../../../app/routes/your-claims/your-claims', {
+    const route = proxyquire('../../../../app/routes/your-claims/your-claims', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../services/data/get-historic-claims': getHistoricClaimsStub,
       '../../services/data/get-historic-claims-by-reference': getHistoricClaimsByReferenceStub

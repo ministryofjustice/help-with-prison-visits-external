@@ -8,14 +8,13 @@ const tasksEnum = require('../../../../app/constants/tasks-enum')
 const eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
 const claimStatusEnum = require('../../../../app/constants/claim-status-enum')
 const dateFormatter = require('../../../../app/services/date-formatter')
-require('sinon-bluebird')
 
 const REFERENCE = 'SUBMITF'
 const CLAIM_TYPE = 'first-time'
-var eligibilityId
-var claimId
+let eligibilityId
+let claimId
 
-var stubInsertTask = sinon.stub().resolves()
+const stubInsertTask = sinon.stub().resolves()
 
 const submitClaim = proxyquire('../../../../app/services/data/submit-claim', {
   './insert-task': stubInsertTask
@@ -31,15 +30,15 @@ describe('services/data/submit-claim', function () {
   })
 
   it('should update Eligibility/Claim Status, DateSubmitted and insert tasks', function () {
-    var currentDate = dateFormatter.now()
-    var twoMinutesAgo = dateFormatter.now().minutes(currentDate.get('minutes') - 2)
-    var twoMinutesAhead = dateFormatter.now().minutes(currentDate.get('minutes') + 2)
-    var assistedDigitalCaseworker = 'a@b.com'
-    var paymentMethod = 'bank'
+    const currentDate = dateFormatter.now()
+    const twoMinutesAgo = dateFormatter.now().minutes(currentDate.get('minutes') - 2)
+    const twoMinutesAhead = dateFormatter.now().minutes(currentDate.get('minutes') + 2)
+    const assistedDigitalCaseworker = 'a@b.com'
+    const paymentMethod = 'bank'
 
-    submitClaim(REFERENCE, eligibilityId, claimId, CLAIM_TYPE, assistedDigitalCaseworker, paymentMethod)
+    return submitClaim(REFERENCE, eligibilityId, claimId, CLAIM_TYPE, assistedDigitalCaseworker, paymentMethod)
       .then(function () {
-        knex.first().from('ExtSchema.Eligibility').where('Reference', REFERENCE)
+        return knex.first().from('ExtSchema.Eligibility').where('Reference', REFERENCE)
           .then(function (eligibility) {
             return knex.first().from('ExtSchema.Claim').where('Reference', REFERENCE)
               .then(function (claim) {
@@ -48,10 +47,10 @@ describe('services/data/submit-claim', function () {
 
                 expect(claim.Status).to.equal(claimStatusEnum.SUBMITTED)
                 expect(claim.AssistedDigitalCaseworker).to.equal(assistedDigitalCaseworker)
-                expect(claim.DateSubmitted).to.be.within(twoMinutesAgo, twoMinutesAhead)
+                expect(claim.DateSubmitted).to.be.within(twoMinutesAgo.toDate(), twoMinutesAhead.toDate())
                 expect(claim.PaymentMethod).to.equal(paymentMethod)
 
-                expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true
+                expect(stubInsertTask.calledWith(REFERENCE, eligibilityId, claimId, tasksEnum.COMPLETE_CLAIM, CLAIM_TYPE)).to.be.true  //eslint-disable-line
               })
           })
       })

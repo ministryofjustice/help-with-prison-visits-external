@@ -8,7 +8,7 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/about-child', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -23,18 +23,18 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/about-child', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
-      var child = new AboutChild(
-        req.body['FirstName'],
-        req.body['LastName'],
+      const child = new AboutChild(
+        req.body.FirstName,
+        req.body.LastName,
         req.body['dob-day'],
         req.body['dob-month'],
         req.body['dob-year'],
@@ -46,7 +46,7 @@ module.exports = function (router) {
           if (req.body['add-another-child']) {
             return res.redirect(req.originalUrl)
           } else {
-            return res.redirect(`/apply/eligibility/claim/expenses`)
+            return res.redirect('/apply/eligibility/claim/expenses')
           }
         })
         .catch(function (error) {

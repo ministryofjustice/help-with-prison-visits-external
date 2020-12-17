@@ -5,7 +5,7 @@ const generateCsrfToken = require('../../../app/services/generate-csrf-token')
 const CSRF_TOKENT = 'some value'
 
 describe('services/generate-csrf-token', function () {
-  var request
+  let request
 
   beforeEach(function () {
     request = {
@@ -15,7 +15,7 @@ describe('services/generate-csrf-token', function () {
 
   it('should return the value of the crsfToken attached to the request object', function () {
     request.csrfToken.returns(CSRF_TOKENT)
-    var result = generateCsrfToken(request)
+    const result = generateCsrfToken(request)
     expect(result).to.equal(CSRF_TOKENT)
   })
 })

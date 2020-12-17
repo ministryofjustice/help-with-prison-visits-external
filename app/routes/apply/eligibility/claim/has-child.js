@@ -6,7 +6,7 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/has-child', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -21,18 +21,18 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/has-child', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {
-      var hasChild = new HasChild(req.body['has-child'])
+      const hasChild = new HasChild(req.body['has-child'])
       if (hasChild.hasChild === 'yes') {
-        return res.redirect(`/apply/eligibility/claim/about-child`)
+        return res.redirect('/apply/eligibility/claim/about-child')
       } else {
-        return res.redirect(`/apply/eligibility/claim/expenses`)
+        return res.redirect('/apply/eligibility/claim/expenses')
       }
     } catch (error) {
       if (error instanceof ValidationError) {

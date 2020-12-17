@@ -1,5 +1,4 @@
 const HasEscort = require('../../../../app/services/domain/has-escort')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/has-escort', function () {
@@ -7,7 +6,7 @@ describe('services/domain/has-escort', function () {
   const INVALID_INPUT = 'invalid input'
 
   it('should construct a domain object given valid input', function () {
-    var hasEscort = new HasEscort(
+    const hasEscort = new HasEscort(
       VALID_INPUT
     )
     expect(hasEscort.hasEscort).to.equal(VALID_INPUT)
@@ -18,6 +17,6 @@ describe('services/domain/has-escort', function () {
       new HasEscort(
         INVALID_INPUT
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

@@ -3,23 +3,22 @@ const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const encrypt = require('../../../app/services/helpers/encrypt')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
 
 describe('routes/start-already-registered', function () {
   const ROUTE = '/start-already-registered'
 
-  var app
+  let app
 
-  var alreadyRegisteredStub
-  var encryptStub
+  let alreadyRegisteredStub
+  let encryptStub
 
   beforeEach(function () {
     alreadyRegisteredStub = sinon.stub()
     encryptStub = sinon.stub()
 
-    var route = proxyquire('../../../app/routes/start-already-registered', {
+    const route = proxyquire('../../../app/routes/start-already-registered', {
       '../services/domain/already-registered': alreadyRegisteredStub,
       '../services/helpers/encrypt': encryptStub
     })
@@ -68,7 +67,7 @@ describe('routes/start-already-registered', function () {
         .send({
           reference: REFERENCE
         })
-        .expect('location', `/your-claims`)
+        .expect('location', '/your-claims')
         .expect(hasSetCookie)
     })
 

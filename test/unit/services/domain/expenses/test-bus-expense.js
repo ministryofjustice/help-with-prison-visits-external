@@ -1,5 +1,4 @@
 const BusExpense = require('../../../../../app/services/domain/expenses/bus-expense')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/bus-expense', function () {
@@ -11,7 +10,7 @@ describe('services/domain/expenses/bus-expense', function () {
   const INVALID_COST = '0'
 
   it('should construct a domain object given valid input', function () {
-    var expense = new BusExpense(
+    const expense = new BusExpense(
       VALID_COST,
       VALID_FROM,
       VALID_TO,
@@ -34,6 +33,6 @@ describe('services/domain/expenses/bus-expense', function () {
         VALID_IS_RETURN,
         VALID_TICKET_OWNER
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

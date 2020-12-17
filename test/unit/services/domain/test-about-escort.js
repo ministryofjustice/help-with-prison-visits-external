@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const AboutEscort = require('../../../../app/services/domain/about-escort')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 
@@ -14,7 +13,7 @@ describe('services/domain/about-escort', function () {
   const INVALID_CHARS_FIRST_NAME = 'child&lt>&gtname>'
 
   it('should construct a domain object given valid input', function () {
-    var escort = new AboutEscort(
+    const escort = new AboutEscort(
       VALID_FIRST_NAME,
       VALID_LAST_NAME,
       VALID_DAY,
@@ -33,18 +32,18 @@ describe('services/domain/about-escort', function () {
         VALID_MONTH,
         VALID_YEAR
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a validation error if any inputs were not set and the default domain object values where used', function () {
     expect(function () {
       new AboutEscort()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should strip illegal characters from otherwise valid input', function () {
-    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
-    var escort = new AboutEscort(
+    const unsafeInputPattern = />|<|&lt|&gt/g
+    const escort = new AboutEscort(
       INVALID_CHARS_FIRST_NAME,
       VALID_LAST_NAME,
       VALID_DAY,

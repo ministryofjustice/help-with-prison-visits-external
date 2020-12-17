@@ -31,25 +31,22 @@
             <span class="error-message">{{ errors['has-escort'][0] }}</span>
           {% endif %}
 
-          <fieldset>
+          <fieldset class="inline">
             <legend class="visually-hidden">Do you want to claim expenses for an escort</legend>
 
-            <label for="escort-yes" class="block-label inline">
-              <input id="escort-yes"
-                     type="radio"
-                     name="has-escort"
-                     value="yes"
-                     {% if claim['has-escort'] == 'yes' %} checked {% endif %}>
-              Yes
-            </label>
-            <label for="escort-no" class="block-label inline">
-              <input id="escort-no"
-                     type="radio"
-                     name="has-escort"
-                     value="no"
-                     {% if claim['has-escort'] == 'no' %} checked {% endif %}>
-              No
-            </label>
+            <div class="multiple-choice">
+              <input id="escort-yes" type="radio" name="has-escort" value="yes" {% if claim['has-escort'] == 'yes' %} checked {% endif %}>
+              <label for="escort-yes" class="block-label inline">
+                Yes
+              </label>
+            </div>
+            
+            <div class="multiple-choice">
+              <input id="escort-no" type="radio" name="has-escort" value="no" {% if claim['has-escort'] == 'no' %} checked {% endif %}>
+              <label for="escort-no" class="block-label inline">
+                No
+              </label>
+            </div>
 
           </fieldset>
 

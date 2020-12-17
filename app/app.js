@@ -22,7 +22,7 @@ const auth = require('basic-auth')
 const RateLimit = require('express-rate-limit')
 const cookieSession = require('cookie-session')
 
-var app = express()
+const app = express()
 
 // Use gzip compression - remove if possible via reverse proxy/Azure gateway.
 app.use(compression())
@@ -41,7 +41,7 @@ app.use(helmet.contentSecurityPolicy({
       "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='",
       "'sha256-G29/qSW/JHHANtFhlrZVDZW1HOkCDRc78ggbqwwIJ2g='"],
     styleSrc: ["'self'"],
-    fontSrc: ['data:'],
+    fontSrc: ["'self'", 'data:'],
     imgSrc: ["'self'", 'www.google-analytics.com']
   }
 }))
@@ -49,7 +49,7 @@ app.use(helmet.contentSecurityPolicy({
 // rate limiting
 if (config.RATE_LIMITING_ENABLED === 'true') {
   app.enable('trust proxy')
-  var limiter = new RateLimit({
+  const limiter = new RateLimit({
     windowMs: parseInt(config.RATE_LIMITING_WINDOW_MILLISECONDS),
     max: parseInt(config.RATE_LIMITING_REQUEST_LIMIT),
     delayMs: 0, // disable delaying - full speed until the max limit is reached
@@ -61,10 +61,10 @@ if (config.RATE_LIMITING_ENABLED === 'true') {
   app.use(limiter)
 }
 
-var packageJson = require('../package.json')
-var developmentMode = app.get('env') === 'development'
-var releaseVersion = packageJson.version
-var serviceName = 'Get help with the cost of prison visits'
+const packageJson = require('../package.json')
+const developmentMode = app.get('env') === 'development'
+const releaseVersion = packageJson.version
+const serviceName = 'Get help with the cost of prison visits'
 
 app.set('view engine', 'html')
 app.set('views', path.join(__dirname, 'views'))
@@ -82,7 +82,7 @@ app.use(favicon(path.join(__dirname, 'govuk_modules', 'govuk_template', 'images'
 // Basic auth
 if (config.BASIC_AUTH_ENABLED === 'true') {
   app.use(function (req, res, next) {
-    var credentials = auth(req)
+    const credentials = auth(req)
 
     if (req.url === '' || req.url === '/' || req.url === '/status') {
       next() // must leave root url free for Azure gateway
@@ -155,7 +155,7 @@ app.use(function (req, res, next) {
 app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' }))
 
 // Check for valid CSRF tokens on state-changing methods.
-var csrfProtection = csurf({ cookie: { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' } })
+const csrfProtection = csurf({ cookie: { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' } })
 
 app.use(function (req, res, next) {
   csrfExcludeRoutes.forEach(function (route) {
@@ -169,14 +169,14 @@ app.use(function (req, res, next) {
 
 // Generate CSRF tokens to be sent in POST requests
 app.use(function (req, res, next) {
-  if (req.hasOwnProperty('csrfToken')) {
+  if (Object.prototype.hasOwnProperty.call(req, 'csrfToken')) {
     res.locals.csrfToken = req.csrfToken()
   }
   next()
 })
 
 // Build the router to route all HTTP requests and pass to the routes file for route configuration.
-var router = express.Router()
+const router = express.Router()
 routes(router)
 app.use('/', router)
 
@@ -192,7 +192,7 @@ app.use(function (req, res, next) {
 
 // catch 404 and forward to error handler.
 app.use(function (req, res, next) {
-  var err = new Error('Not Found')
+  const err = new Error('Not Found')
   err.status = 404
   res.status(404)
   next(err)
@@ -201,7 +201,7 @@ app.use(function (req, res, next) {
 // catch CSRF token errors
 app.use(function (err, req, res, next) {
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
-  log.error({error: err})
+  log.error({ error: err })
   res.status(403)
   res.render('includes/error', {
     error: 'Invalid CSRF token'
@@ -210,7 +210,7 @@ app.use(function (err, req, res, next) {
 
 // Development error handler.
 app.use(function (err, req, res, next) {
-  log.error({error: err})
+  log.error({ error: err })
   res.status(err.status || 500)
   if (err.status === 404) {
     res.render('includes/error-404')

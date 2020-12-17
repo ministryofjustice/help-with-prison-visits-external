@@ -9,12 +9,12 @@ class CheckYourInformation {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.confirmCorrect, 'confirm-correct', errors)
       .isRequired()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

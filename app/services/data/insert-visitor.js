@@ -7,9 +7,9 @@ module.exports = function (reference, eligibilityId, aboutYou) {
     throw new Error('Provided aboutYou object is not an instance of the expected class')
   }
 
-  var dateOfBirth = aboutYou.dob.toDate()
+  const dateOfBirth = aboutYou.dob.format('YYYY-MM-DD')
 
-  var visitorInformation = {
+  const visitorInformation = {
     EligibilityId: eligibilityId,
     Reference: reference,
     FirstName: aboutYou.firstName,
@@ -29,18 +29,18 @@ module.exports = function (reference, eligibilityId, aboutYou) {
   }
 
   return knex('Visitor')
-  .where('Reference', reference)
-  .count('Reference as ReferenceCount')
-  .then(function (countResult) {
-    var count = countResult[ 0 ].ReferenceCount
+    .where('Reference', reference)
+    .count('Reference as ReferenceCount')
+    .then(function (countResult) {
+      const count = countResult[0].ReferenceCount
 
-    if (count === 0) {
-      return knex('Visitor')
-      .insert(visitorInformation)
-    } else {
-      return knex('Visitor')
-      .where('Reference', reference)
-      .update(visitorInformation)
-    }
-  })
+      if (count === 0) {
+        return knex('Visitor')
+          .insert(visitorInformation)
+      } else {
+        return knex('Visitor')
+          .where('Reference', reference)
+          .update(visitorInformation)
+      }
+    })
 }

@@ -7,7 +7,7 @@ describe('views/helpers/date-helper', function () {
     const DATE = dateFormatter.buildFromDateString('2016-02-01')
     const DATE_FORMATTED = 'Monday 1 February 2016'
 
-    var result = dateHelper(DATE.toDate())
+    const result = dateHelper(DATE.toDate())
 
     expect(result).to.equal(DATE_FORMATTED)
 
@@ -18,7 +18,7 @@ describe('views/helpers/date-helper', function () {
     const DATE = dateFormatter.buildFromDateString('2016-02-08')
     const DATE_FORMATTED = 'Monday 8 February 2016'
 
-    var result = dateHelper(DATE.toDate())
+    const result = dateHelper(DATE.toDate())
 
     expect(result).to.equal(DATE_FORMATTED)
 

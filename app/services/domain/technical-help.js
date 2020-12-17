@@ -16,7 +16,7 @@ class Feedback {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.name, 'name', errors)
       .isRequired()
@@ -38,7 +38,7 @@ class Feedback {
       .isRequired()
       .isLessThanLength(1200)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

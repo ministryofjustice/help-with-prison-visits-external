@@ -16,32 +16,32 @@ describe('services/validators/common-validator', function () {
 
   describe('isNullOrUndefined', function () {
     it('should return true if passed null', function () {
-      var result = validator.isNullOrUndefined(null)
+      const result = validator.isNullOrUndefined(null)
       expect(result).to.equal(true)
     })
 
     it('should return true if passed undefined', function () {
-      var result = validator.isNullOrUndefined(undefined)
+      const result = validator.isNullOrUndefined(undefined)
       expect(result).to.equal(true)
     })
 
     it('should return true if passed an empty string', function () {
-      var result = validator.isNullOrUndefined('')
+      const result = validator.isNullOrUndefined('')
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isNullOrUndefined({})
+      const result = validator.isNullOrUndefined({})
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an array', function () {
-      var result = validator.isNullOrUndefined([])
+      const result = validator.isNullOrUndefined([])
       expect(result).to.equal(false)
     })
 
     it('should return false if passed a non empty string', function () {
-      var result = validator.isNullOrUndefined('any string')
+      const result = validator.isNullOrUndefined('any string')
       expect(result).to.equal(false)
     })
   })
@@ -66,17 +66,17 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed an alpha string', function () {
-      var result = validator.isAlpha(ALPHA_STRING)
+      const result = validator.isAlpha(ALPHA_STRING)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an alphanumeric string', function () {
-      var result = validator.isAlpha(ALPHANUMERIC_STRING)
+      const result = validator.isAlpha(ALPHANUMERIC_STRING)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed a numeric string', function () {
-      var result = validator.isAlpha(NUMERIC_STRING)
+      const result = validator.isAlpha(NUMERIC_STRING)
       expect(result).to.equal(false)
     })
   })
@@ -101,17 +101,17 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return false if passed an alpha string', function () {
-      var result = validator.isNumeric(ALPHA_STRING)
+      const result = validator.isNumeric(ALPHA_STRING)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an alphanumeric string', function () {
-      var result = validator.isNumeric(ALPHANUMERIC_STRING)
+      const result = validator.isNumeric(ALPHANUMERIC_STRING)
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a numeric string', function () {
-      var result = validator.isNumeric(NUMERIC_STRING)
+      const result = validator.isNumeric(NUMERIC_STRING)
       expect(result).to.equal(true)
     })
   })
@@ -140,12 +140,12 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a string that has the same length as the length parameter', function () {
-      var result = validator.isLength(VALID_STRING, LENGTH)
+      const result = validator.isLength(VALID_STRING, LENGTH)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed a string that does not have the same length as the length parameter', function () {
-      var result = validator.isLength(INVALID_STRING, LENGTH)
+      const result = validator.isLength(INVALID_STRING, LENGTH)
       expect(result).to.equal(false)
     })
   })
@@ -174,40 +174,40 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a string that has a valid length', function () {
-      var result = validator.isLessThanLength(VALID_STRING, LENGTH)
+      const result = validator.isLessThanLength(VALID_STRING, LENGTH)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed a string that has an invalid length', function () {
-      var result = validator.isLessThanLength(INVALID_STRING, LENGTH)
+      const result = validator.isLessThanLength(INVALID_STRING, LENGTH)
       expect(result).to.equal(false)
     })
   })
 
   describe('isValidDate', function () {
     it('should return false if passed null', function () {
-      var result = validator.isValidDate(null)
+      const result = validator.isValidDate(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidDate(undefined)
+      const result = validator.isValidDate(undefined)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isValidDate({})
+      const result = validator.isValidDate({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid Date object', function () {
-      var result = validator.isValidDate(dateFormatter.now())
+      const result = validator.isValidDate(dateFormatter.now())
       expect(result).to.equal(true)
     })
 
     it('should return false if passed a Date more than 120 years ago', function () {
-      var numYearsToSubtract = 130
-      var result = validator.isValidDate(dateFormatter.now().subtract(numYearsToSubtract, 'years'))
+      const numYearsToSubtract = 130
+      const result = validator.isValidDate(dateFormatter.now().subtract(numYearsToSubtract, 'years'))
       expect(result).to.equal(false)
     })
   })
@@ -217,27 +217,27 @@ describe('services/validators/common-validator', function () {
     const FUTURE_DATE = dateFormatter.now().add(1, 'day')
 
     it('should return false if passed null', function () {
-      var result = validator.isDateInThePast(null)
+      const result = validator.isDateInThePast(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isDateInThePast(undefined)
+      const result = validator.isDateInThePast(undefined)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isDateInThePast({})
+      const result = validator.isDateInThePast({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid Date object', function () {
-      var result = validator.isDateInThePast(PAST_DATE)
+      const result = validator.isDateInThePast(PAST_DATE)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid Date object', function () {
-      var result = validator.isDateInThePast(FUTURE_DATE)
+      const result = validator.isDateInThePast(FUTURE_DATE)
       expect(result).to.equal(false)
     })
   })
@@ -247,27 +247,27 @@ describe('services/validators/common-validator', function () {
     const FUTURE_DATE = dateFormatter.now().add(1, 'day')
 
     it('should return false if passed null', function () {
-      var result = validator.isDateInTheFuture(null)
+      const result = validator.isDateInTheFuture(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isDateInTheFuture(undefined)
+      const result = validator.isDateInTheFuture(undefined)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isDateInTheFuture({})
+      const result = validator.isDateInTheFuture({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid Date object', function () {
-      var result = validator.isDateInTheFuture(FUTURE_DATE)
+      const result = validator.isDateInTheFuture(FUTURE_DATE)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid Date object', function () {
-      var result = validator.isDateInTheFuture(PAST_DATE)
+      const result = validator.isDateInTheFuture(PAST_DATE)
       expect(result).to.equal(false)
     })
   })
@@ -278,12 +278,12 @@ describe('services/validators/common-validator', function () {
     const DATE_OUTSIDE_28_DAYS = dateFormatter.now().startOf('day').subtract(29, 'days')
 
     it('should return true if passed a valid Date object', function () {
-      var result = validator.isDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
+      const result = validator.isDateWithinDays(DATE_WITHIN_28_DAYS, DAYS)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid Date object', function () {
-      var result = validator.isDateWithinDays(DATE_OUTSIDE_28_DAYS, DAYS)
+      const result = validator.isDateWithinDays(DATE_OUTSIDE_28_DAYS, DAYS)
       expect(result).to.equal(false)
     })
   })
@@ -294,12 +294,12 @@ describe('services/validators/common-validator', function () {
     const DATE_OUTSIDE_5_DAYS = dateFormatter.now().startOf('day').add(6, 'days')
 
     it('should return true if passed a valid Date object', function () {
-      var result = validator.isNotDateWithinDays(DATE_OUTSIDE_5_DAYS, DAYS)
+      const result = validator.isNotDateWithinDays(DATE_OUTSIDE_5_DAYS, DAYS)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid Date object', function () {
-      var result = validator.isNotDateWithinDays(DATE_WITHIN_5_DAYS, DAYS)
+      const result = validator.isNotDateWithinDays(DATE_WITHIN_5_DAYS, DAYS)
       expect(result).to.equal(false)
     })
   })
@@ -310,27 +310,27 @@ describe('services/validators/common-validator', function () {
     const YOUNGER_THAN_DOB = dateFormatter.now()
 
     it('should return false if passed null', function () {
-      var result = validator.isOlderThanInYears(null)
+      const result = validator.isOlderThanInYears(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isOlderThanInYears(undefined)
+      const result = validator.isOlderThanInYears(undefined)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isOlderThanInYears({})
+      const result = validator.isOlderThanInYears({})
       expect(result).to.equal(false)
     })
 
     it(`should return true if passed a DOB whose age is greater than ${YEARS} years.`, function () {
-      var result = validator.isOlderThanInYears(OLDER_THAN_DOB, YEARS)
+      const result = validator.isOlderThanInYears(OLDER_THAN_DOB, YEARS)
       expect(result).to.equal(true)
     })
 
     it(`should return false if passed a DOB whose age is less than ${YEARS} years.`, function () {
-      var result = validator.isOlderThanInYears(YOUNGER_THAN_DOB, YEARS)
+      const result = validator.isOlderThanInYears(YOUNGER_THAN_DOB, YEARS)
       expect(result).to.equal(false)
     })
   })
@@ -360,12 +360,12 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a string that has a valid length', function () {
-      var result = validator.isRange(VALID_LENGTH, ACCEPTED_MIN, ACCEPTED_MAX)
+      const result = validator.isRange(VALID_LENGTH, ACCEPTED_MIN, ACCEPTED_MAX)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed a string that has an invalid length', function () {
-      var result = validator.isRange(INVALID_LENGTH, ACCEPTED_MIN, ACCEPTED_MAX)
+      const result = validator.isRange(INVALID_LENGTH, ACCEPTED_MIN, ACCEPTED_MAX)
       expect(result).to.equal(false)
     })
   })
@@ -393,12 +393,12 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a string that has a valid format', function () {
-      var result = validator.isNationalInsuranceNumber(VALID_STRING)
+      const result = validator.isNationalInsuranceNumber(VALID_STRING)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed a string that has an invalid format', function () {
-      var result = validator.isNationalInsuranceNumber(INVALID_STRING)
+      const result = validator.isNationalInsuranceNumber(INVALID_STRING)
       expect(result).to.equal(false)
     })
   })
@@ -426,12 +426,12 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a string that has a valid format', function () {
-      var result = validator.isPostcode(VALID_STRING)
+      const result = validator.isPostcode(VALID_STRING)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed a string that has an invalid format', function () {
-      var result = validator.isPostcode(INVALID_STRING)
+      const result = validator.isPostcode(INVALID_STRING)
       expect(result).to.equal(false)
     })
   })
@@ -459,12 +459,12 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a string that has a valid format', function () {
-      var result = validator.isEmail(VALID_STRING)
+      const result = validator.isEmail(VALID_STRING)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed a string that has an invalid format', function () {
-      var result = validator.isEmail(INVALID_STRING)
+      const result = validator.isEmail(INVALID_STRING)
       expect(result).to.equal(false)
     })
   })
@@ -493,17 +493,17 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a numeric string', function () {
-      var result = validator.isCurrency(VALID_INTEGER)
+      const result = validator.isCurrency(VALID_INTEGER)
       expect(result).to.equal(true)
     })
 
     it('should return true if passed a numeric string to 2 decimal places', function () {
-      var result = validator.isCurrency(VALID_DECIMAL)
+      const result = validator.isCurrency(VALID_DECIMAL)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed a non-numeric string', function () {
-      var result = validator.isCurrency(INVALID_STRING)
+      const result = validator.isCurrency(INVALID_STRING)
       expect(result).to.equal(false)
     })
   })
@@ -515,37 +515,37 @@ describe('services/validators/common-validator', function () {
     const INVALID_STRING = 'some invalid string'
 
     it('should return false if passed null', function () {
-      var result = validator.isGreaterThanZero(null)
+      const result = validator.isGreaterThanZero(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isGreaterThanZero(undefined)
+      const result = validator.isGreaterThanZero(undefined)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isGreaterThanZero({})
+      const result = validator.isGreaterThanZero({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a numeric string that is greater than zero', function () {
-      var result = validator.isGreaterThanZero(VALID_NUMERIC)
+      const result = validator.isGreaterThanZero(VALID_NUMERIC)
       expect(result).to.equal(true)
     })
 
     it('should return true if passed a float that is greater than zero', function () {
-      var result = validator.isGreaterThanZero(VALID_FLOAT)
+      const result = validator.isGreaterThanZero(VALID_FLOAT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed a negative numeric string', function () {
-      var result = validator.isGreaterThanZero(INVALID_NUMERIC)
+      const result = validator.isGreaterThanZero(INVALID_NUMERIC)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed a non-numeric string', function () {
-      var result = validator.isGreaterThanZero(INVALID_STRING)
+      const result = validator.isGreaterThanZero(INVALID_STRING)
       expect(result).to.equal(false)
     })
   })
@@ -559,47 +559,47 @@ describe('services/validators/common-validator', function () {
     const NON_NUMERIC_DATE = '1990-10-AS'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidDateOfBirth(null)
+      const result = validator.isValidDateOfBirth(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidDateOfBirth(undefined)
+      const result = validator.isValidDateOfBirth(undefined)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isValidDateOfBirth({})
+      const result = validator.isValidDateOfBirth({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid past date', function () {
-      var result = validator.isValidDateOfBirth(VALID_PAST_DATE)
+      const result = validator.isValidDateOfBirth(VALID_PAST_DATE)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid month', function () {
-      var result = validator.isValidDateOfBirth(INVALID_MONTH)
+      const result = validator.isValidDateOfBirth(INVALID_MONTH)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an invalid year', function () {
-      var result = validator.isValidDateOfBirth(INVALID_YEAR)
+      const result = validator.isValidDateOfBirth(INVALID_YEAR)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an invalid length for day', function () {
-      var result = validator.isValidDateOfBirth(INVALID_LENGTH)
+      const result = validator.isValidDateOfBirth(INVALID_LENGTH)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed a future date', function () {
-      var result = validator.isValidDateOfBirth(FUTURE_DATE)
+      const result = validator.isValidDateOfBirth(FUTURE_DATE)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed non-numeric values', function () {
-      var result = validator.isValidDateOfBirth(NON_NUMERIC_DATE)
+      const result = validator.isValidDateOfBirth(NON_NUMERIC_DATE)
       expect(result).to.equal(false)
     })
   })
@@ -609,27 +609,27 @@ describe('services/validators/common-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidPrisonerRelationship(null)
+      const result = validator.isValidPrisonerRelationship(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidPrisonerRelationship(undefined)
+      const result = validator.isValidPrisonerRelationship(undefined)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isValidPrisonerRelationship({})
+      const result = validator.isValidPrisonerRelationship({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid prisoner relationship', function () {
-      var result = validator.isValidPrisonerRelationship(VALID_INPUT)
+      const result = validator.isValidPrisonerRelationship(VALID_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid prisoner relationship', function () {
-      var result = validator.isValidPrisonerRelationship(INVALID_INPUT)
+      const result = validator.isValidPrisonerRelationship(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })
@@ -639,27 +639,27 @@ describe('services/validators/common-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidBenefit(null)
+      const result = validator.isValidBenefit(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidBenefit(undefined)
+      const result = validator.isValidBenefit(undefined)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an object', function () {
-      var result = validator.isValidBenefit({})
+      const result = validator.isValidBenefit({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid benefit value', function () {
-      var result = validator.isValidBenefit(VALID_INPUT)
+      const result = validator.isValidBenefit(VALID_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid benefit value', function () {
-      var result = validator.isValidBenefit(INVALID_INPUT)
+      const result = validator.isValidBenefit(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })
@@ -669,12 +669,12 @@ describe('services/validators/common-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidReference(null)
+      const result = validator.isValidReference(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidReference(undefined)
+      const result = validator.isValidReference(undefined)
       expect(result).to.equal(false)
     })
 
@@ -685,12 +685,12 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a valid reference value', function () {
-      var result = validator.isValidReference(VALID_INPUT)
+      const result = validator.isValidReference(VALID_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid reference value', function () {
-      var result = validator.isValidReference(INVALID_INPUT)
+      const result = validator.isValidReference(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })
@@ -700,12 +700,12 @@ describe('services/validators/common-validator', function () {
     const INVALID_INPUT = '49CCADM321321dsadad'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidReferenceId(null)
+      const result = validator.isValidReferenceId(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidReferenceId(undefined)
+      const result = validator.isValidReferenceId(undefined)
       expect(result).to.equal(false)
     })
 
@@ -716,12 +716,12 @@ describe('services/validators/common-validator', function () {
     })
 
     it('should return true if passed a valid referenceId value', function () {
-      var result = validator.isValidReferenceId(VALID_INPUT)
+      const result = validator.isValidReferenceId(VALID_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid referenceId value', function () {
-      var result = validator.isValidReferenceId(INVALID_INPUT)
+      const result = validator.isValidReferenceId(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })
@@ -731,27 +731,27 @@ describe('services/validators/common-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidChildRelationship(null)
+      const result = validator.isValidChildRelationship(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidChildRelationship(undefined)
+      const result = validator.isValidChildRelationship(undefined)
       expect(result).to.equal(false)
     })
 
     it('should throw Error if passed an object', function () {
-      var result = validator.isValidChildRelationship({})
+      const result = validator.isValidChildRelationship({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid child relationship value', function () {
-      var result = validator.isValidChildRelationship(VALID_INPUT)
+      const result = validator.isValidChildRelationship(VALID_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid child relationship value', function () {
-      var result = validator.isValidChildRelationship(INVALID_INPUT)
+      const result = validator.isValidChildRelationship(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })
@@ -761,27 +761,27 @@ describe('services/validators/common-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidBooleanSelect(null)
+      const result = validator.isValidBooleanSelect(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidBooleanSelect(undefined)
+      const result = validator.isValidBooleanSelect(undefined)
       expect(result).to.equal(false)
     })
 
     it('should throw Error if passed an object', function () {
-      var result = validator.isValidBooleanSelect({})
+      const result = validator.isValidBooleanSelect({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid value', function () {
-      var result = validator.isValidBooleanSelect(VALID_INPUT)
+      const result = validator.isValidBooleanSelect(VALID_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid value', function () {
-      var result = validator.isValidBooleanSelect(INVALID_INPUT)
+      const result = validator.isValidBooleanSelect(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })
@@ -791,27 +791,27 @@ describe('services/validators/common-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidClaimType(null)
+      const result = validator.isValidClaimType(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidClaimType(undefined)
+      const result = validator.isValidClaimType(undefined)
       expect(result).to.equal(false)
     })
 
     it('should throw Error if passed an object', function () {
-      var result = validator.isValidClaimType({})
+      const result = validator.isValidClaimType({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid value', function () {
-      var result = validator.isValidClaimType(VALID_INPUT)
+      const result = validator.isValidClaimType(VALID_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid value', function () {
-      var result = validator.isValidClaimType(INVALID_INPUT)
+      const result = validator.isValidClaimType(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })
@@ -821,70 +821,70 @@ describe('services/validators/common-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidExpense(null)
+      const result = validator.isValidExpense(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidExpense(undefined)
+      const result = validator.isValidExpense(undefined)
       expect(result).to.equal(false)
     })
 
     it('should throw Error if passed an object', function () {
-      var result = validator.isValidExpense({})
+      const result = validator.isValidExpense({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid value', function () {
-      var result = validator.isValidExpense(VALID_INPUT)
+      const result = validator.isValidExpense(VALID_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid value', function () {
-      var result = validator.isValidExpense(INVALID_INPUT)
+      const result = validator.isValidExpense(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })
 
   describe('isValidExpenseArray', function () {
-    const VALID_ARRAY_INPUT = [ expenseTypeEnum.PLANE.value, expenseTypeEnum.LIGHT_REFRESHMENT.value ]
+    const VALID_ARRAY_INPUT = [expenseTypeEnum.PLANE.value, expenseTypeEnum.LIGHT_REFRESHMENT.value]
     const VALID_STRING_INPUT = expenseTypeEnum.PLANE.value
 
-    const INVALID_ARRAY_INPUT = [ 'some invalid input', expenseTypeEnum.ACCOMMODATION.value ]
+    const INVALID_ARRAY_INPUT = ['some invalid input', expenseTypeEnum.ACCOMMODATION.value]
     const INVALID_STRING_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidExpenseArray(null)
+      const result = validator.isValidExpenseArray(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidExpenseArray(undefined)
+      const result = validator.isValidExpenseArray(undefined)
       expect(result).to.equal(false)
     })
 
     it('should throw Error if passed an object', function () {
-      var result = validator.isValidExpenseArray({})
+      const result = validator.isValidExpenseArray({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed all valid values', function () {
-      var result = validator.isValidExpenseArray(VALID_ARRAY_INPUT)
+      const result = validator.isValidExpenseArray(VALID_ARRAY_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return true if passed a valid value', function () {
-      var result = validator.isValidExpenseArray(VALID_STRING_INPUT)
+      const result = validator.isValidExpenseArray(VALID_STRING_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed any invalid values', function () {
-      var result = validator.isValidExpenseArray(INVALID_ARRAY_INPUT)
+      const result = validator.isValidExpenseArray(INVALID_ARRAY_INPUT)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed an invalid value', function () {
-      var result = validator.isValidExpenseArray(INVALID_STRING_INPUT)
+      const result = validator.isValidExpenseArray(INVALID_STRING_INPUT)
       expect(result).to.equal(false)
     })
   })
@@ -894,27 +894,27 @@ describe('services/validators/common-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return false if passed null', function () {
-      var result = validator.isValidAdvanceOrPast(null)
+      const result = validator.isValidAdvanceOrPast(null)
       expect(result).to.equal(false)
     })
 
     it('should return false if passed undefined', function () {
-      var result = validator.isValidAdvanceOrPast(undefined)
+      const result = validator.isValidAdvanceOrPast(undefined)
       expect(result).to.equal(false)
     })
 
     it('should throw Error if passed an object', function () {
-      var result = validator.isValidAdvanceOrPast({})
+      const result = validator.isValidAdvanceOrPast({})
       expect(result).to.equal(false)
     })
 
     it('should return true if passed a valid value', function () {
-      var result = validator.isValidAdvanceOrPast(VALID_INPUT)
+      const result = validator.isValidAdvanceOrPast(VALID_INPUT)
       expect(result).to.equal(true)
     })
 
     it('should return false if passed an invalid value', function () {
-      var result = validator.isValidAdvanceOrPast(INVALID_INPUT)
+      const result = validator.isValidAdvanceOrPast(INVALID_INPUT)
       expect(result).to.equal(false)
     })
   })

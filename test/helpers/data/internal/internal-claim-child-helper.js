@@ -17,14 +17,14 @@ module.exports.build = function () {
     ClaimChildId: this.CLAIM_CHILD_ID,
     FirstName: this.FIRST_NAME,
     LastName: this.LAST_NAME,
-    DateOfBirth: this.DOB.toDate(),
+    DateOfBirth: this.DOB.format('YYYY-MM-DD'),
     Relationship: this.CHILD_RELATIONSHIP,
     IsEnabled: true
   }
 }
 
 module.exports.insert = function (reference, eligibilityId, claimId, data) {
-  var child = data || this.build()
+  const child = data || this.build()
 
   return knex('IntSchema.ClaimChild').insert({
     ClaimChildId: child.ClaimChildId,

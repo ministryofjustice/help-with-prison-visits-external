@@ -15,8 +15,8 @@ class FieldsetValidator {
   }
 
   isRequired (specificMessage) {
-    var message = (!specificMessage) ? ERROR_MESSAGES.getIsRequired : specificMessage
-    var self = this
+    const message = (!specificMessage) ? ERROR_MESSAGES.getIsRequired : specificMessage
+    const self = this
     if (this.data instanceof Array) {
       this.data.forEach(function (data) {
         if (validator.isNullOrUndefined(data)) {
@@ -64,7 +64,7 @@ class FieldsetValidator {
 
   isDateWithinDays (date, days, isAdvanceClaim) {
     if (!validator.isDateWithinDays(date, days)) {
-      var message = isAdvanceClaim ? ERROR_MESSAGES.getFutureDateSetDaysAway : ERROR_MESSAGES.getPastDateSetDaysAway
+      const message = isAdvanceClaim ? ERROR_MESSAGES.getFutureDateSetDaysAway : ERROR_MESSAGES.getPastDateSetDaysAway
       this.errors.add(this.fieldName, message, { days: days })
     }
     return this

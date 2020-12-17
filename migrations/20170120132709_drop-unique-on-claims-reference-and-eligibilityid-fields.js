@@ -3,28 +3,28 @@ exports.up = function (knex, Promise) {
     table.dropForeign('Reference')
     table.dropForeign('EligibilityId')
   })
-  .then(function () {
-    return knex.schema.table('ClaimChild', function (table) {
-      table.dropForeign('Reference')
-      table.dropForeign('EligibilityId')
+    .then(function () {
+      return knex.schema.table('ClaimChild', function (table) {
+        table.dropForeign('Reference')
+        table.dropForeign('EligibilityId')
+      })
     })
-  })
-  .then(function () {
-    return knex.schema.table('ClaimExpense', function (table) {
-      table.dropForeign('Reference')
-      table.dropForeign('EligibilityId')
+    .then(function () {
+      return knex.schema.table('ClaimExpense', function (table) {
+        table.dropForeign('Reference')
+        table.dropForeign('EligibilityId')
+      })
     })
-  })
-  .then(function () {
-    return knex.schema.table('Claim', function (table) {
-      table.dropUnique('Reference')
-      table.dropUnique('EligibilityId')
+    .then(function () {
+      return knex.schema.table('Claim', function (table) {
+        table.dropUnique('Reference')
+        table.dropUnique('EligibilityId')
+      })
     })
-  })
-  .catch(function (error) {
-    console.log(error)
-    throw error
-  })
+    .catch(function (error) {
+      console.log(error)
+      throw error
+    })
 }
 
 exports.down = function (knex, Promise) {

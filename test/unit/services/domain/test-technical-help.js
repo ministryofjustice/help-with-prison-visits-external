@@ -1,5 +1,4 @@
 const TechnicalHelp = require('../../../../app/services/domain/technical-help')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/technical-help', function () {
@@ -19,7 +18,7 @@ describe('services/domain/technical-help', function () {
   const INVALID_ISSUE = new Array(1250).join('a')
 
   it('should construct a domain object given valid input', function () {
-    var technicalHelp = new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE)
+    const technicalHelp = new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE)
     expect(technicalHelp.name).to.equal(VALID_NAME)
     expect(technicalHelp.emailAddress).to.equal(VALID_EMAIL_ADDRESS)
     expect(technicalHelp.referenceNumber).to.equal(VALID_REFERENCE)
@@ -32,42 +31,42 @@ describe('services/domain/technical-help', function () {
   it('should throw an error if passed invalid name', function () {
     expect(function () {
       new TechnicalHelp(INVALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid email address', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, INVALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid reference', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, INVALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid day', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, INVALID_DAY, VALID_MONTH, VALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid month', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, INVALID_MONTH, VALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid year', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, INVALID_YEAR, VALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid issue', function () {
     expect(function () {
       new TechnicalHelp(VALID_NAME, VALID_EMAIL_ADDRESS, VALID_REFERENCE, VALID_DAY, VALID_MONTH, VALID_YEAR, INVALID_ISSUE).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

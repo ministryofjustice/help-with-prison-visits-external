@@ -1,5 +1,4 @@
 const Feedback = require('../../../../app/services/domain/feedback')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/feedback', function () {
@@ -11,7 +10,7 @@ describe('services/domain/feedback', function () {
   const INVALID_EMAIL_ADDRESS = 'dsadasdasda'
 
   it('should construct a domain object given valid input', function () {
-    var feedback = new Feedback(VALID_RATING, VALID_IMPROVEMENTS, VALID_EMAIL_ADDRESS)
+    const feedback = new Feedback(VALID_RATING, VALID_IMPROVEMENTS, VALID_EMAIL_ADDRESS)
     expect(feedback.rating).to.equal(VALID_RATING)
     expect(feedback.improvements).to.equal(VALID_IMPROVEMENTS)
     expect(feedback.emailAddress).to.equal(VALID_EMAIL_ADDRESS)
@@ -20,18 +19,18 @@ describe('services/domain/feedback', function () {
   it('should throw an error if passed invalid rating', function () {
     expect(function () {
       new Feedback(INVALID_RATING, VALID_IMPROVEMENTS, VALID_EMAIL_ADDRESS).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid message', function () {
     expect(function () {
       new Feedback(VALID_RATING, INVALID_IMPROVEMENTS, VALID_EMAIL_ADDRESS).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid email address', function () {
     expect(function () {
       new Feedback(VALID_RATING, VALID_IMPROVEMENTS, INVALID_EMAIL_ADDRESS).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

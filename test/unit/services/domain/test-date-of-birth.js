@@ -1,10 +1,9 @@
 /* eslint-disable no-new */
 const expect = require('chai').expect
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const dateFormatter = require('../../../../app/services/date-formatter')
 const DateOfBirth = require('../../../../app/services/domain/date-of-birth')
 
-var dateOfBirth
+let dateOfBirth
 
 describe('services/domain/date-of-birth', function () {
   const VALID_DAY = '01'
@@ -38,7 +37,7 @@ describe('services/domain/date-of-birth', function () {
         VALID_MONTH,
         VALID_FUTURE_YEAR
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw ValidationError if date is under 16 years', function () {
@@ -48,7 +47,7 @@ describe('services/domain/date-of-birth', function () {
         dateFormatter.now().month() + 1,
         dateFormatter.now().year()
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw ValidationError if given invalid day, month, or year', function () {
@@ -58,6 +57,6 @@ describe('services/domain/date-of-birth', function () {
         INVALID_MONTH,
         INVALID_YEAR
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

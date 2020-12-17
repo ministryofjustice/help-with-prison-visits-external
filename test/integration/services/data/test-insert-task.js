@@ -10,14 +10,14 @@ const insertTask = require('../../../../app/services/data/insert-task')
 const REFERENCE = 'S123456'
 const TASKTYPE = 'TEST'
 const ADDITIONAL_DATA = 'ADDITIONAL_DATA'
-var eligibilityId = 321
-var claimId = 123
+const eligibilityId = 321
+const claimId = 123
 
 describe('services/data/insert-task', function () {
   it('should insert a new task', function () {
     return insertTask(REFERENCE, eligibilityId, claimId, TASKTYPE, ADDITIONAL_DATA)
       .then(function () {
-        return knex.first().from('ExtSchema.Task').where({Reference: REFERENCE, ClaimId: claimId})
+        return knex.first().from('ExtSchema.Task').where({ Reference: REFERENCE, ClaimId: claimId })
           .then(function (task) {
             expect(task.Task).to.equal(TASKTYPE)
             expect(task.Reference).to.equal(REFERENCE)

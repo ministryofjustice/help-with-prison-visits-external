@@ -11,7 +11,7 @@ module.exports = function (router) {
 
   router.post('/reference-recovery', function (req, res, next) {
     try {
-      var referenceRecovery = new ReferenceRecovery(req.body.EmailAddress, req.body.PrisonerNumber)
+      const referenceRecovery = new ReferenceRecovery(req.body.EmailAddress, req.body.PrisonerNumber)
       insertTask(null, null, null, TaskEnums.REFERENCE_RECOVERY, `${referenceRecovery.EmailAddress}~~${referenceRecovery.PrisonerNumber}`)
         .then(function () {
           return res.redirect('/start-already-registered?recovery=true')
@@ -20,7 +20,7 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         return res.status(400).render('reference-recovery', {
           errors: error.validationErrors,
-          recovery: {EmailAddress: req.body.EmailAddress, PrisonerNumber: req.body.PrisonerNumber}
+          recovery: { EmailAddress: req.body.EmailAddress, PrisonerNumber: req.body.PrisonerNumber }
         })
       } else {
         next(error)

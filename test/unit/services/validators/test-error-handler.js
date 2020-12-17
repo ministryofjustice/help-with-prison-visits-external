@@ -17,7 +17,7 @@ describe('services/validators/error-handler', function () {
   describe('add', function () {
     it('should return single result if one error is added', function () {
       this.errorHandler.add(FIELD_NAME_1, message, OPTIONS)
-      var result = this.errorHandler.get()
+      const result = this.errorHandler.get()
       expect(result).to.have.property(FIELD_NAME_1)
         .that.is.an('array')
         .that.has.length(1)
@@ -27,7 +27,7 @@ describe('services/validators/error-handler', function () {
       this.errorHandler.add(FIELD_NAME_1, message, OPTIONS)
       this.errorHandler.add(FIELD_NAME_1, message, OPTIONS)
       this.errorHandler.add(FIELD_NAME_1, message, OPTIONS)
-      var result = this.errorHandler.get()
+      const result = this.errorHandler.get()
       expect(result).to.have.property(FIELD_NAME_1)
         .that.is.an('array')
         .that.has.length(3)
@@ -36,7 +36,7 @@ describe('services/validators/error-handler', function () {
     it('should have a property and error for each differnet field name passed to add', function () {
       this.errorHandler.add(FIELD_NAME_1, message, OPTIONS)
       this.errorHandler.add(FIELD_NAME_2, message, OPTIONS)
-      var result = this.errorHandler.get()
+      const result = this.errorHandler.get()
       expect(result).to.have.property(FIELD_NAME_1)
         .that.is.an('array')
         .that.has.length(1)
@@ -48,13 +48,13 @@ describe('services/validators/error-handler', function () {
 
   describe('get', function () {
     it('should return false if no errors are added', function () {
-      var result = this.errorHandler.get()
+      const result = this.errorHandler.get()
       expect(result).to.equal(false)
     })
 
     it('should ignore fields that have zero length', function () {
       this.errorHandler.errors = { 'some-zero-length-field': '' }
-      var result = this.errorHandler.get()
+      const result = this.errorHandler.get()
       expect(result).to.equal(false)
     })
   })

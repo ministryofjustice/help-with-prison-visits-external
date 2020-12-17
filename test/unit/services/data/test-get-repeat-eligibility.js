@@ -1,18 +1,17 @@
-var expect = require('chai').expect
+const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
-const MASKED_ELIGIBILITY = {EligibilityId: '1', FirstName: 'Bo*', EmailAddress: 'test@test.com', PhoneNumber: '87654321'}
-const UPDATE_CONTACT_DETAILS = {EmailAddress: 'forTesting@test.com', PhoneNumber: '12345678'}
+const MASKED_ELIGIBILITY = { EligibilityId: '1', FirstName: 'Bo*', EmailAddress: 'test@test.com', PhoneNumber: '87654321' }
+const UPDATE_CONTACT_DETAILS = { EmailAddress: 'forTesting@test.com', PhoneNumber: '12345678' }
 const REFERENCE = 'V123456'
 const ELIGIBILITYID = null
 const DOB = '10-10-1990'
 
 describe('services/data/get-repeat-eligibility', function () {
-  var getRepeatEligibility
-  var getMaskedEligibilityStub
-  var getEligibilityVisitorUpdateContactDetailStub
+  let getRepeatEligibility
+  let getMaskedEligibilityStub
+  let getEligibilityVisitorUpdateContactDetailStub
 
   before(function () {
     getMaskedEligibilityStub = sinon.stub()
@@ -29,8 +28,8 @@ describe('services/data/get-repeat-eligibility', function () {
     getEligibilityVisitorUpdateContactDetailStub.resolves(UPDATE_CONTACT_DETAILS)
     return getRepeatEligibility(REFERENCE, DOB, ELIGIBILITYID)
       .then(function (result) {
-        expect(getMaskedEligibilityStub.calledWith(REFERENCE, DOB, ELIGIBILITYID)).to.be.true
-        expect(getEligibilityVisitorUpdateContactDetailStub.calledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)).to.be.true
+        expect(getMaskedEligibilityStub.calledWith(REFERENCE, DOB, ELIGIBILITYID)).to.be.true  //eslint-disable-line
+        expect(getEligibilityVisitorUpdateContactDetailStub.calledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)).to.be.true  //eslint-disable-line
 
         expect(result.EmailAddress).to.equal(UPDATE_CONTACT_DETAILS.EmailAddress)
         expect(result.PhoneNumber).to.equal(UPDATE_CONTACT_DETAILS.PhoneNumber)
@@ -43,8 +42,8 @@ describe('services/data/get-repeat-eligibility', function () {
     getEligibilityVisitorUpdateContactDetailStub.resolves({})
     return getRepeatEligibility(REFERENCE, DOB, ELIGIBILITYID)
       .then(function (result) {
-        expect(getMaskedEligibilityStub.calledWith(REFERENCE, DOB, ELIGIBILITYID)).to.be.true
-        expect(getEligibilityVisitorUpdateContactDetailStub.calledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)).to.be.true
+        expect(getMaskedEligibilityStub.calledWith(REFERENCE, DOB, ELIGIBILITYID)).to.be.true  //eslint-disable-line
+        expect(getEligibilityVisitorUpdateContactDetailStub.calledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)).to.be.true  //eslint-disable-line
 
         expect(result.EmailAddress).to.equal(MASKED_ELIGIBILITY.EmailAddress)
         expect(result.PhoneNumber).to.equal(MASKED_ELIGIBILITY.PhoneNumber)

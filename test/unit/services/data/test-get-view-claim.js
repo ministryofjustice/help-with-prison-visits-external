@@ -1,7 +1,6 @@
-var expect = require('chai').expect
+const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const REFERENCE = 'V123456'
 const CLAIMID = 1234
@@ -9,21 +8,21 @@ const DOB = '10-10-1990'
 const ELIGIBILITYID = 1234
 
 describe('services/data/get-view-claim', function () {
-  var getViewClaim
-  var getRepeatEligibilityStub
-  var getClaimExpenseByIdOrLastApprovedStub
-  var getClaimChildrenByIdOrLastApprovedStub
-  var getHistoricClaimByClaimIdStub
-  var getClaimDocumentsHistoricClaimStub
-  var getAllClaimDocumentsByClaimIdStub
-  var getClaimEventsStub
-  var sortViewClaimResultsHelperStub
+  let getViewClaim
+  let getRepeatEligibilityStub
+  let getClaimExpenseByIdOrLastApprovedStub
+  let getClaimChildrenByIdOrLastApprovedStub
+  let getHistoricClaimByClaimIdStub
+  let getClaimDocumentsHistoricClaimStub
+  let getAllClaimDocumentsByClaimIdStub
+  let getClaimEventsStub
+  let sortViewClaimResultsHelperStub
 
   before(function () {
     getRepeatEligibilityStub = sinon.stub().resolves([[]])
     getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves([])
     getClaimChildrenByIdOrLastApprovedStub = sinon.stub().resolves([])
-    getHistoricClaimByClaimIdStub = sinon.stub().resolves([{EligibilityId: ELIGIBILITYID}])
+    getHistoricClaimByClaimIdStub = sinon.stub().resolves([{ EligibilityId: ELIGIBILITYID }])
     getClaimDocumentsHistoricClaimStub = sinon.stub().resolves([])
     getAllClaimDocumentsByClaimIdStub = sinon.stub().resolves([])
     getClaimEventsStub = sinon.stub().resolves([])
@@ -44,12 +43,12 @@ describe('services/data/get-view-claim', function () {
   it('should call each data call, then return sorted results', function () {
     return getViewClaim(CLAIMID, REFERENCE, DOB)
       .then(function (result) {
-        expect(getRepeatEligibilityStub.calledWith(REFERENCE, DOB, null)).to.be.true
-        expect(getClaimExpenseByIdOrLastApprovedStub.calledWith(REFERENCE, null, CLAIMID)).to.be.true
-        expect(getClaimChildrenByIdOrLastApprovedStub.calledWith(REFERENCE, null, CLAIMID)).to.be.true
-        expect(getHistoricClaimByClaimIdStub.calledWith(REFERENCE, DOB, CLAIMID)).to.be.true
-        expect(getClaimDocumentsHistoricClaimStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID)).to.be.true
-        expect(getAllClaimDocumentsByClaimIdStub.calledWith(CLAIMID, REFERENCE, ELIGIBILITYID)).to.be.true
+        expect(getRepeatEligibilityStub.calledWith(REFERENCE, DOB, null)).to.be.true  //eslint-disable-line
+        expect(getClaimExpenseByIdOrLastApprovedStub.calledWith(REFERENCE, null, CLAIMID)).to.be.true  //eslint-disable-line
+        expect(getClaimChildrenByIdOrLastApprovedStub.calledWith(REFERENCE, null, CLAIMID)).to.be.true  //eslint-disable-line
+        expect(getHistoricClaimByClaimIdStub.calledWith(REFERENCE, DOB, CLAIMID)).to.be.true  //eslint-disable-line
+        expect(getClaimDocumentsHistoricClaimStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID)).to.be.true  //eslint-disable-line
+        expect(getAllClaimDocumentsByClaimIdStub.calledWith(CLAIMID, REFERENCE, ELIGIBILITYID)).to.be.true  //eslint-disable-line
         sinon.assert.calledOnce(sortViewClaimResultsHelperStub)
       })
   })

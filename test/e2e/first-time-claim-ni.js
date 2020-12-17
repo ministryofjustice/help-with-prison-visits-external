@@ -1,131 +1,166 @@
 const internalEligibilityHelper = require('../helpers/data/internal/internal-eligibility-helper')
 const dateFormatter = require('../../app/services/date-formatter')
 const claimHelper = require('../helpers/data/claim-helper')
+const expect = require('chai').expect
 
-var todaysDate = dateFormatter.now()
+const todaysDate = dateFormatter.now()
 describe('First Time Claim Flow', () => {
   // The reference will be generated as part of this flow. So capture it once it is generated.
   // var reference
-  var caseworker = 'teste2e@test.com'
+  const caseworker = 'teste2e@test.com'
 
-  it('should display each page in the first time eligibility flow for NI rules', () => {
-    return browser.url('/assisted-digital?caseworker=teste2e@test.com')
+  it('should display each page in the first time eligibility flow for NI rules', async () => {
+    await browser.url('/assisted-digital?caseworker=teste2e@test.com')
 
-      // Index
-      .waitForExist('#start')
-      .click('#start')
+    // Index
+    let submitButton = await $('#start')
+    await submitButton.click()
 
-      // Start
-      .waitForExist('#start-submit')
-      .click('[for="no"]')
-      .click('#start-submit')
+    // Start
+    submitButton = await $('#start-submit')
+    const noRadioButton = await $('[for="no"]')
+    await noRadioButton.click()
+    await submitButton.click()
 
-      // Date of birth
-      .waitForExist('#date-of-birth-submit')
-      .setValue('#dob-day-input', '01')
-      .setValue('#dob-month-input', '05')
-      .setValue('#dob-year-input', '1955')
-      .click('#date-of-birth-submit')
+    // Date of birth
+    submitButton = await $('#date-of-birth-submit')
+    let dobDayInput = await $('#dob-day-input')
+    let dobMonthInput = await $('#dob-month-input')
+    let dobYearInput = await $('#dob-year-input')
+    await dobDayInput.setValue('01')
+    await dobMonthInput.setValue('05')
+    await dobYearInput.setValue('1955')
+    await submitButton.click()
 
-      // Prisoner relationship
-      .waitForExist('#prisoner-relationship-submit')
-      .click('[for="partner"]')
-      .click('#prisoner-relationship-submit')
+    // Prisoner relationship
+    submitButton = await $('#prisoner-relationship-submit')
+    const partnerButton = await $('[for="partner"]')
+    await partnerButton.click()
+    await submitButton.click()
 
-      // Benefit
-      .waitForExist('#benefit-submit')
-      .click('[for="income-support"]')
-      .click('[for="yes"]')
-      .click('#benefit-submit')
+    // Benefit
+    submitButton = await $('#benefit-submit')
+    const incomeSupportButton = await $('[for="income-support"]')
+    const yesButton = await $('[for="yes"]')
+    await incomeSupportButton.click()
+    await yesButton.click()
+    await submitButton.click()
 
-      // About the Prisoner
-      .waitForExist('#about-the-prisoner-submit')
-      .setValue('#prisoner-first-name', 'Martin')
-      .setValue('#prisoner-last-name', 'O\'Hara')
-      .setValue('#dob-day', '01')
-      .setValue('#dob-month', '05')
-      .setValue('#dob-year', '1955')
-      .setValue('#prisoner-number', 'Z6544TS')
-      .setValue('#prison-name-text-input', 'Maghaberry')
-      .click('#NameOfPrison') // click label to remove input focus
-      .click('#about-the-prisoner-submit')
+    // About the Prisoner
+    submitButton = await $('#about-the-prisoner-submit')
+    let firstName = await $('#prisoner-first-name')
+    let lastName = await $('#prisoner-last-name')
+    dobDayInput = await $('#dob-day')
+    dobMonthInput = await $('#dob-month')
+    dobYearInput = await $('#dob-year')
+    const prisonerNumber = await $('#prisoner-number')
+    const prisonName = await $('#prison-name-text-input')
+    const nameOfPrisonLabel = await $('#NameOfPrison')
+    await firstName.setValue('Martin')
+    await lastName.setValue('O\'Hara')
+    await dobDayInput.setValue('01')
+    await dobMonthInput.setValue('05')
+    await dobYearInput.setValue('1955')
+    await prisonerNumber.setValue('Z6544TS')
+    await prisonName.setValue('Maghaberry')
+    await nameOfPrisonLabel.click() // click label to remove input focus
+    await submitButton.click()
 
-      // About you
-      .waitForExist('#about-you-submit')
+    // About you
+    submitButton = await $('#about-you-submit')
+    firstName = await $('#first-name-input')
+    lastName = await $('#last-name-input')
+    const niNumber = await $('#national-insurance-number-input')
+    const houseNumber = await $('#house-number-and-street-input')
+    const town = await $('#town-input')
+    const county = await $('#county-input')
+    const postcode = await $('#post-code-input')
+    const country = await $('#country-input')
+    const email = await $('#email-address-input')
+    const phone = await $('#phone-number-input')
+    await firstName.setValue('Mary')
+    await lastName.setValue('O\'Hara')
+    await niNumber.setValue('TS876544T')
+    await houseNumber.setValue('1')
+    await town.setValue('Town')
+    await county.setValue('County')
+    await postcode.setValue('AA123AA')
+    await country.selectByVisibleText('Northern Ireland')
+    await email.setValue('donotsend@apvs.com')
+    await phone.setValue('0123456789')
+    await submitButton.click()
 
-      .setValue('#first-name-input', 'Mary')
-      .setValue('#last-name-input', 'O\'Hara')
-      .setValue('#national-insurance-number-input', 'TS876544T')
-      .setValue('#house-number-and-street-input', '1')
-      .setValue('#town-input', 'Town')
-      .setValue('#county-input', 'County')
-      .setValue('#post-code-input', 'AA123AA')
-      .selectByVisibleText('#country-input', 'Northern Ireland')
-      .setValue('#email-address-input', 'donotsend@apvs.com')
-      .setValue('#phone-number-input', '0123456789')
-      .click('#about-you-submit')
+    // Journey information - NI claims skip Future or past visit
+    submitButton = await $('#journey-information-submit')
+    const dayInput = await $('#date-of-journey-day')
+    const monthInput = await $('#date-of-journey-month')
+    const yearInput = await $('#date-of-journey-year')
+    await dayInput.setValue(todaysDate.date())
+    await monthInput.setValue(todaysDate.month() + 1)
+    await yearInput.setValue(todaysDate.year())
+    await submitButton.click()
 
-      // Journey information - NI claims skip Future or past visit
-      .waitForExist('#journey-information-submit')
-      .setValue('#date-of-journey-day', todaysDate.date())
-      .setValue('#date-of-journey-month', todaysDate.month() + 1)
-      .setValue('#date-of-journey-year', todaysDate.year())
-      .click('#journey-information-submit')
+    // Has Escort
+    submitButton = await $('#has-escort-submit')
+    let no = await $('[for="escort-no"]')
+    await no.click()
+    await submitButton.click()
 
-      // Has Escort
-      .waitForExist('#has-escort-submit')
-      .click('[for="escort-no"]')
-      .click('#has-escort-submit')
+    // Has Child
+    submitButton = await $('#has-child-submit')
+    no = await $('[for="child-no"]')
+    await no.click()
+    await submitButton.click()
 
-      // Has Child
-      .waitForExist('#has-child-submit')
-      .click('[for="child-no"]')
-      .click('#has-child-submit')
+    // Expense
+    submitButton = await $('#expenses-submit')
+    const carOnly = await $('[for="car-only"]')
+    await carOnly.click()
+    await submitButton.click()
 
-      // Expense
-      .waitForExist('#expenses-submit')
-      .click('[for="car-only"]')
-      .click('#expenses-submit')
+    // Car
+    submitButton = await $('#car-details-submit')
+    await submitButton.click()
 
-      // Car
-      .waitForExist('#car-details-submit')
-      .click('#car-details-submit')
+    // Claim summary
+    const addVisitConfirmation = await $('#add-visit-confirmation')
+    await addVisitConfirmation.click()
 
-      // Claim summary
-      .waitForExist('#claim-summary-submit')
-      .click('#add-visit-confirmation')
+    // Upload visit confirmation
+    submitButton = await $('#file-upload-submit')
+    const post = await $('[for="Post"]')
+    await post.click()
+    await submitButton.click()
 
-      // Upload visit confirmation
-      .waitForExist('#Post')
-      .click('[for="Post"]')
-      .click('#file-upload-submit')
+    // Claim summary
+    submitButton = await $('#claim-summary-submit')
+    await submitButton.click()
 
-      // Claim summary
-      .waitForExist('#claim-summary-submit')
-      .click('#claim-summary-submit')
+    // Enter Bank Account Details
+    submitButton = await $('#bank-payment-submit')
+    const nameOnAccount = await $('#name-on-account-input')
+    const sortCode = await $('#sort-code-input')
+    const accountNumber = await $('#account-number-input')
+    await nameOnAccount.setValue('Joe Bloggs')
+    await sortCode.setValue('001122')
+    await accountNumber.setValue('00123456')
+    await submitButton.click()
 
-      // Bank account details
-      .waitForExist('#payment-submit')
+    // Declaration page
+    submitButton = await $('#claim-submit')
+    const tAndC = await $('[for="terms-and-conditions-input"]')
+    await tAndC.click()
+    await submitButton.click()
 
-      // Uncomment when private beta toggle is turned off
-      // .click('[for="bank"]')
-      // .setValue('#account-number-input', '00123456')
-      // .setValue('#sort-code-input', '001122')
-      .click('#payment-submit')
-
-      // Declaration page
-      .waitForExist('#claim-submit')
-      .click('[for="terms-and-conditions-input"]')
-      .click('#claim-submit')
-
-      // Application submitted
-      .waitForExist('#reference')
+    // Application submitted
+    const title = await browser.getTitle()
+    expect(title).to.be.equal('Application submitted - Get help with the cost of prison visits')
   })
 
   after(function () {
     return claimHelper.getRef(caseworker)
-    .then(function (reference) {
-      return internalEligibilityHelper.deleteAll(reference)
-    })
+      .then(function (reference) {
+        return internalEligibilityHelper.deleteAll(reference)
+      })
   })
 })

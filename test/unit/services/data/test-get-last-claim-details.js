@@ -1,24 +1,23 @@
 const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const REFERENCE = 'LASTCD1'
 const ELIGIBILITYID = '1234'
 const LAST_NAME = 'Bloggs'
 const LAST_NAME_MASKED = 'B*****'
 
-const CLAIMID = [{ClaimId: 1, IsAdvanceClaim: false}]
-const CHILDREN = [{ClaimChildId: 1, LastName: LAST_NAME}]
-const EXPENSES = [{ClaimExpenseId: 2, ExpenseType: 'bus', Cost: '20'}, {ClaimExpenseId: 3, ExpenseType: 'taxi', Cost: '15'}, {ClaimExpenseId: 4, ExpenseType: 'train', Cost: '10'}, {ClaimExpenseId: 5, ExpenseType: 'train', Cost: '5'}]
-const ESCORT = [{ClaimEscortId: 3, LastName: LAST_NAME}]
-const CLAIMID2 = [{ClaimId: 2, IsAdvanceClaim: true}]
+const CLAIMID = [{ ClaimId: 1, IsAdvanceClaim: false }]
+const CHILDREN = [{ ClaimChildId: 1, LastName: LAST_NAME }]
+const EXPENSES = [{ ClaimExpenseId: 2, ExpenseType: 'bus', Cost: '20' }, { ClaimExpenseId: 3, ExpenseType: 'taxi', Cost: '15' }, { ClaimExpenseId: 4, ExpenseType: 'train', Cost: '10' }, { ClaimExpenseId: 5, ExpenseType: 'train', Cost: '5' }]
+const ESCORT = [{ ClaimEscortId: 3, LastName: LAST_NAME }]
+const CLAIMID2 = [{ ClaimId: 2, IsAdvanceClaim: true }]
 
-var getLastClaimForReferenceStub = sinon.stub()
-var getClaimChildrenByIdOrLastApprovedStub = sinon.stub().resolves(CHILDREN)
-var getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves(EXPENSES)
-var getClaimEscortByIdOrLastApprovedStub = sinon.stub().resolves(ESCORT)
-var maskArrayOfNamesStub = sinon.stub().returns(LAST_NAME_MASKED)
+const getLastClaimForReferenceStub = sinon.stub()
+const getClaimChildrenByIdOrLastApprovedStub = sinon.stub().resolves(CHILDREN)
+const getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves(EXPENSES)
+const getClaimEscortByIdOrLastApprovedStub = sinon.stub().resolves(ESCORT)
+const maskArrayOfNamesStub = sinon.stub().returns(LAST_NAME_MASKED)
 
 const getLastClaimDetails = proxyquire('../../../../app/services/data/get-last-claim-details', {
   './get-last-claim-for-reference': getLastClaimForReferenceStub,
@@ -80,7 +79,7 @@ describe('services/data/get-last-claim-details', function () {
     getLastClaimForReferenceStub.resolves(CLAIMID2)
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, true)
       .then(function (result) {
-        var trainExpenses = result.expenses.filter(expense => expense.ExpenseType === 'train')
+        const trainExpenses = result.expenses.filter(expense => expense.ExpenseType === 'train')
 
         trainExpenses.forEach(function (expense) {
           expect(expense.Cost).to.be.equal('0')

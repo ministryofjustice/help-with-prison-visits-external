@@ -7,7 +7,7 @@ const internalPrisonerHelper = require('../../../helpers/data/internal/internal-
 
 describe('services/data/get-historic-claim-by-claim-id', function () {
   const REFERENCE = 'V123467'
-  var claimId
+  let claimId
 
   before(function () {
     return internalEligiblityHelper.insertEligibilityAndClaim(REFERENCE)

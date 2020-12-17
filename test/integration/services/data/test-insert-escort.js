@@ -7,8 +7,8 @@ const knex = require('knex')(config)
 
 describe('services/data/insert-escort', function () {
   const REFERENCE = 'V123467'
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   before(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)
@@ -40,12 +40,12 @@ describe('services/data/insert-escort', function () {
     const NEW_NAME = 'NEW'
     return insertEscort(REFERENCE, eligibilityId, claimId, claimEscortHelper.build())
       .then(function () {
-        var newEscort = claimEscortHelper.build()
+        const newEscort = claimEscortHelper.build()
         newEscort.FirstName = NEW_NAME
         return insertEscort(REFERENCE, eligibilityId, claimId, newEscort)
       })
       .then(function () {
-        return knex('ExtSchema.ClaimEscort').first().where({'ClaimId': claimId, IsEnabled: false})
+        return knex('ExtSchema.ClaimEscort').first().where({ ClaimId: claimId, IsEnabled: false })
       })
       .then(function (oldDisabledEscort) {
         expect(oldDisabledEscort.FirstName).to.equal(claimEscortHelper.FIRST_NAME)

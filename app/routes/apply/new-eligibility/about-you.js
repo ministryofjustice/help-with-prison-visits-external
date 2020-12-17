@@ -17,7 +17,7 @@ module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/about-you', function (req, res) {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -38,60 +38,60 @@ module.exports = function (router) {
   router.post('/apply/:claimType/new-eligibility/about-you', function (req, res, next) {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var dob = dateFormatter.decodeDate(req.session.dobEncoded)
-    var relationship = enumHelper.getKeyByAttribute(relationshipHelper, req.session.relationship, 'urlValue').value
-    var benefit = enumHelper.getKeyByAttribute(benefitsHelper, req.session.benefit, 'urlValue').value
-    var benefitOwner = req.session.benefitOwner
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    var visitorDetails = req.body
+    const dob = dateFormatter.decodeDate(req.session.dobEncoded)
+    const relationship = enumHelper.getKeyByAttribute(relationshipHelper, req.session.relationship, 'urlValue').value
+    const benefit = enumHelper.getKeyByAttribute(benefitsHelper, req.session.benefit, 'urlValue').value
+    const benefitOwner = req.session.benefitOwner
+    const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const visitorDetails = req.body
 
     try {
-      var aboutYou = new AboutYou(dob, relationship, benefit, benefitOwner,
-        req.body['FirstName'],
-        req.body['LastName'],
-        req.body['NationalInsuranceNumber'],
-        req.body['HouseNumberAndStreet'],
-        req.body['Town'],
-        req.body['County'],
-        req.body['PostCode'],
-        req.body['Country'],
-        req.body['EmailAddress'],
-        req.body['PhoneNumber'])
+      const aboutYou = new AboutYou(dob, relationship, benefit, benefitOwner,
+        req.body.FirstName,
+        req.body.LastName,
+        req.body.NationalInsuranceNumber,
+        req.body.HouseNumberAndStreet,
+        req.body.Town,
+        req.body.County,
+        req.body.PostCode,
+        req.body.Country,
+        req.body.EmailAddress,
+        req.body.PhoneNumber)
 
       duplicateClaimCheck(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou.nationalInsuranceNumber)
-      .then(function (isDuplicate) {
-        if (isDuplicate) {
-          return renderValidationError(req, res, visitorDetails, null, true)
-        }
+        .then(function (isDuplicate) {
+          if (isDuplicate) {
+            return renderValidationError(req, res, visitorDetails, null, true)
+          }
 
-        return insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou)
-        .then(function () {
-          return getTravellingFromAndTo(referenceAndEligibilityId.reference)
-            .then(function (result) {
-              var nameOfPrison = result.to
-              var isNorthernIrelandClaim = aboutYou.country === NORTHERN_IRELAND
-              var isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
+          return insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou)
+            .then(function () {
+              return getTravellingFromAndTo(referenceAndEligibilityId.reference)
+                .then(function (result) {
+                  const nameOfPrison = result.to
+                  const isNorthernIrelandClaim = aboutYou.country === NORTHERN_IRELAND
+                  const isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
 
-              // Northern Ireland claims cannot be advance claims so skip future-or-past
-              var nextPage = 'future-or-past-visit'
-              if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
-                req.session.advanceOrPast = 'past'
-                nextPage = 'journey-information'
-              }
+                  // Northern Ireland claims cannot be advance claims so skip future-or-past
+                  let nextPage = 'future-or-past-visit'
+                  if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
+                    req.session.advanceOrPast = 'past'
+                    nextPage = 'journey-information'
+                  }
 
-              return res.redirect(`/apply/eligibility/new-claim/${nextPage}`)
+                  return res.redirect(`/apply/eligibility/new-claim/${nextPage}`)
+                })
             })
         })
-      })
-      .catch(function (error) {
-        next(error)
-      })
+        .catch(function (error) {
+          next(error)
+        })
     } catch (error) {
       if (error instanceof ValidationError) {
         return renderValidationError(req, res, visitorDetails, error.validationErrors, false)

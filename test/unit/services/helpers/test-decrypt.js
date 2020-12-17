@@ -1,5 +1,5 @@
-var expect = require('chai').expect
-var decrypt = require('../../../../app/services/helpers/decrypt')
+const expect = require('chai').expect
+const decrypt = require('../../../../app/services/helpers/decrypt')
 
 describe('services/helpers/decrypt', function () {
   it('throws error on invalid input', function () {

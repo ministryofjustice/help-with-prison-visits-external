@@ -11,13 +11,13 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/plane', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     getIsAdvanceClaim(req.session.claimId)
       .then(function (isAdvanceClaim) {
@@ -38,16 +38,16 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/plane', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
-      var expense = new PlaneExpense(
+      const expense = new PlaneExpense(
         req.body.cost,
         req.body.from,
         req.body.to,

@@ -8,7 +8,7 @@ const SessionHandler = require('../../../services/validators/session-handler')
 module.exports = function (router) {
   router.get('/apply/:claimType/new-eligibility/eligible-child', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -27,40 +27,44 @@ module.exports = function (router) {
   router.post('/apply/:claimType/new-eligibility/eligible-child', function (req, res, next) {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var eligibleChildDetails = req.body
+    const eligibleChildDetails = req.body
 
     try {
-      var eligibleChild = new EligibleChild(
-        req.body['FirstName'],
-        req.body['LastName'],
-        req.body['ChildRelationship'],
+      const eligibleChild = new EligibleChild(
+        req.body.FirstName,
+        req.body.LastName,
+        req.body.ChildRelationship,
         req.body['dob-day'],
         req.body['dob-month'],
         req.body['dob-year'],
-        req.body['ParentFirstName'],
-        req.body['ParentLastName'],
-        req.body['HouseNumberAndStreet'],
-        req.body['Town'],
-        req.body['County'],
-        req.body['PostCode'],
-        req.body['Country'])
+        req.body.ParentFirstName,
+        req.body.ParentLastName,
+        req.body.HouseNumberAndStreet,
+        req.body.Town,
+        req.body.County,
+        req.body.PostCode,
+        req.body.Country)
 
-      var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+      const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
       insertNewEligibleChild(eligibleChild, referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
         .then(function (result) {
-          var benefitOwner = req.session.benefitOwner
+          const benefitOwner = req.session.benefitOwner
 
-          if (benefitOwner === 'no') {
-            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+          if (req.body['add-another-child']) {
+            return res.redirect(req.originalUrl)
           } else {
-            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+            if (benefitOwner === 'no') {
+              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+            } else {
+              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
+            }
           }
         })
         .catch(function (error) {

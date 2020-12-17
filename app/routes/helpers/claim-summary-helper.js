@@ -5,11 +5,11 @@ const getClaimDocumentFilePath = require('../../services/data/get-claim-document
 const DEFAULT_FILE_NAME = 'APVS-Upload'
 
 module.exports.buildClaimSummaryUrl = function (req) {
-  return `/apply/eligibility/claim/summary`
+  return '/apply/eligibility/claim/summary'
 }
 
 module.exports.buildRemoveDocumentUrl = function (req) {
-  var url = this.buildClaimSummaryUrl(req)
+  const url = this.buildClaimSummaryUrl(req)
   if (req.query.multipage) {
     return url
   } else if (req.query.claimExpenseId) {
@@ -28,13 +28,13 @@ module.exports.removeDocument = function (claimDocumentId) {
 }
 
 module.exports.removeExpenseAndDocument = function (claimId, claimExpenseId, claimDocumentId) {
-  var self = this
+  const self = this
   return self.removeExpense(claimId, claimExpenseId)
     .then(function () { return self.removeDocument(claimDocumentId) })
 }
 
 module.exports.getBenefitDocument = function (benefitDocument) {
-  var result
+  let result
   if (benefitDocument && benefitDocument.length > 0) {
     result = benefitDocument[0]
   }
@@ -45,7 +45,7 @@ module.exports.getDocumentFilePath = function (claimDocumentId) {
   return getClaimDocumentFilePath(claimDocumentId)
     .then(function (result) {
       if (result && result.Filepath) {
-        var path = result.Filepath
+        const path = result.Filepath
         return {
           path: path,
           name: `${DEFAULT_FILE_NAME}.${path.split('.').pop()}`

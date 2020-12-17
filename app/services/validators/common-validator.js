@@ -16,6 +16,7 @@ const dateFormatter = require('../date-formatter')
 const NUM_YEARS_LIMIT = 120
 const SQL_MAX_INT = 2147483647
 const config = require('../../../config')
+const VALID_ROLL_NUMBER_REGEX = '^[-0-9.A-Za-z ]+$'
 
 exports.isNullOrUndefined = function (value) {
   return !value
@@ -65,12 +66,12 @@ exports.isNotDateWithinDays = function (date, days) {
 }
 
 exports.isOlderThanInYears = function (dob, years) {
-  var age = dateFormatter.now().diff(dob, 'years')
+  const age = dateFormatter.now().diff(dob, 'years')
   return age >= years
 }
 
 exports.isRange = function (value, min, max) {
-  return validator.isLength(value, {min: min, max: max})
+  return validator.isLength(value, { min: min, max: max })
 }
 
 exports.isNationalInsuranceNumber = function (value) {
@@ -116,7 +117,7 @@ exports.isValidDateOfBirth = function (dob) {
 }
 
 exports.isValidPrisonerRelationship = function (value) {
-  var result = false
+  let result = false
   Object.keys(prisonerRelationshipsEnum).forEach(function (key) {
     if (key !== 'getByValue' && prisonerRelationshipsEnum[key].urlValue === value) {
       result = true
@@ -126,7 +127,7 @@ exports.isValidPrisonerRelationship = function (value) {
 }
 
 exports.isValidBenefit = function (benefit) {
-  var result = false
+  let result = false
   Object.keys(benefitsEnum).forEach(function (key) {
     if (key !== 'getByValue' && benefitsEnum[key].urlValue === benefit) {
       result = true
@@ -143,6 +144,13 @@ exports.isValidReference = function (reference) {
     this.isLength(reference, referenceNumber.VALID_LENGTH)
 }
 
+exports.isValidRollNumber = function (rollNumber) {
+  if (this.isNullOrUndefined(rollNumber)) {
+    return false
+  }
+  return rollNumber.match(VALID_ROLL_NUMBER_REGEX) !== null
+}
+
 exports.isValidReferenceId = function (referenceId) {
   if (this.isNullOrUndefined(referenceId)) {
     return false
@@ -151,7 +159,7 @@ exports.isValidReferenceId = function (referenceId) {
 }
 
 exports.isValidChildRelationship = function (relationship) {
-  var result = false
+  let result = false
   Object.keys(childRelationshipEnum).forEach(function (key) {
     if (childRelationshipEnum[key] === relationship) {
       result = true
@@ -161,7 +169,7 @@ exports.isValidChildRelationship = function (relationship) {
 }
 
 exports.isValidBooleanSelect = function (value) {
-  var result = false
+  let result = false
   Object.keys(booleanSelectEnum).forEach(function (key) {
     if (booleanSelectEnum[key] === value) {
       result = true
@@ -171,7 +179,7 @@ exports.isValidBooleanSelect = function (value) {
 }
 
 exports.isValidClaimType = function (claimType) {
-  var result = false
+  let result = false
   Object.keys(claimTypeEnum).forEach(function (key) {
     if (claimTypeEnum[key] === claimType) {
       result = true
@@ -181,7 +189,7 @@ exports.isValidClaimType = function (claimType) {
 }
 
 exports.isValidExpense = function (expense) {
-  var result = false
+  let result = false
   Object.keys(expenseTypeEnum).forEach(function (key) {
     if (expenseTypeEnum[key].value === expense) {
       result = true
@@ -191,8 +199,8 @@ exports.isValidExpense = function (expense) {
 }
 
 exports.isValidExpenseArray = function (expenseArray) {
-  var self = this
-  var result = true
+  const self = this
+  let result = true
 
   if (!(expenseArray instanceof Array)) {
     return this.isValidExpense(expenseArray)
@@ -207,7 +215,7 @@ exports.isValidExpenseArray = function (expenseArray) {
 }
 
 exports.isValidAdvanceOrPast = function (value) {
-  var result = false
+  let result = false
   Object.keys(advancePastEnum).forEach(function (key) {
     if (advancePastEnum[key] === value) {
       result = true
@@ -217,7 +225,7 @@ exports.isValidAdvanceOrPast = function (value) {
 }
 
 exports.isVisitDateBeforeReleaseDate = function (visitDate, releaseDate) {
-  var visitDateMoment = moment(visitDate)
-  var releaseDateMoment = moment(releaseDate)
+  const visitDateMoment = moment(visitDate)
+  const releaseDateMoment = moment(releaseDate)
   return visitDateMoment.isBefore(releaseDateMoment)
 }

@@ -3,19 +3,18 @@ const ValidationError = require('../../../../app/services/errors/validation-erro
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 describe('/your-claims/check-your-information', function () {
   const REFERENCE = 'APVS123'
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MTgzLjA0MjMzMzMzNSwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMifQ==' ]
-  const ROUTE = `/your-claims/check-your-information`
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MTgzLjA0MjMzMzMzNSwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMifQ==']
+  const ROUTE = '/your-claims/check-your-information'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var decryptStub
-  var getRepeatEligibility
-  var CheckYourInformation
+  let urlPathValidatorStub
+  let decryptStub
+  let getRepeatEligibility
+  let CheckYourInformation
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -23,7 +22,7 @@ describe('/your-claims/check-your-information', function () {
     getRepeatEligibility = sinon.stub()
     CheckYourInformation = sinon.stub()
 
-    var route = proxyquire('../../../../app/routes/your-claims/check-your-information', {
+    const route = proxyquire('../../../../app/routes/your-claims/check-your-information', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../services/helpers/decrypt': decryptStub,
       '../../services/data/get-repeat-eligibility': getRepeatEligibility,
@@ -74,7 +73,7 @@ describe('/your-claims/check-your-information', function () {
 
     it('should respond with a 302 and redirect to /apply/eligibility/new-claim/future-or-past-visit', function () {
       CheckYourInformation.returns({})
-      getRepeatEligibility.resolves({NameOfPrison: 'hewell', Country: 'England'})
+      getRepeatEligibility.resolves({ NameOfPrison: 'hewell', Country: 'England' })
 
       return supertest(app)
         .post(ROUTE)
@@ -83,12 +82,12 @@ describe('/your-claims/check-your-information', function () {
         .expect(function () {
           sinon.assert.calledOnce(CheckYourInformation)
         })
-        .expect('location', `/apply/eligibility/new-claim/future-or-past-visit`)
+        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
     })
 
     it('should respond with a 302 and redirect to /apply/eligibility/new-claim/future-or-past-visit if prison GB and Country NI', function () {
       CheckYourInformation.returns({})
-      getRepeatEligibility.resolves({NameOfPrison: 'hewell', Country: 'Northern Ireland'})
+      getRepeatEligibility.resolves({ NameOfPrison: 'hewell', Country: 'Northern Ireland' })
 
       return supertest(app)
         .post(ROUTE)
@@ -97,12 +96,12 @@ describe('/your-claims/check-your-information', function () {
         .expect(function () {
           sinon.assert.calledOnce(CheckYourInformation)
         })
-        .expect('location', `/apply/eligibility/new-claim/future-or-past-visit`)
+        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
     })
 
     it('should redirect to /apply/eligibility/new-claim/same-journey-as-last-claim for Northern Ireland prison and Country', function () {
       CheckYourInformation.returns({})
-      getRepeatEligibility.resolves({NameOfPrison: 'maghaberry', Country: 'Northern Ireland'})
+      getRepeatEligibility.resolves({ NameOfPrison: 'maghaberry', Country: 'Northern Ireland' })
 
       return supertest(app)
         .post(ROUTE)
@@ -111,7 +110,7 @@ describe('/your-claims/check-your-information', function () {
         .expect(function () {
           sinon.assert.calledOnce(CheckYourInformation)
         })
-        .expect('location', `/apply/eligibility/new-claim/same-journey-as-last-claim`)
+        .expect('location', '/apply/eligibility/new-claim/same-journey-as-last-claim')
     })
 
     it('should respond with a 400 for a validation error', function () {

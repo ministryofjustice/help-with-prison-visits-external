@@ -3,7 +3,7 @@ const FieldValidator = require('../validators/field-validator')
 const FieldsetValidator = require('../validators/fieldset-validator')
 const dateFormatter = require('../date-formatter')
 const ErrorHandler = require('../validators/error-handler')
-const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+const unsafeInputPattern = />|<|&lt|&gt/g
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutThePrisoner {
@@ -20,7 +20,7 @@ class AboutThePrisoner {
   }
 
   IsValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
       .isRequired(ERROR_MESSAGES.getEnterPrisonerFirstName)
@@ -30,13 +30,13 @@ class AboutThePrisoner {
       .isRequired(ERROR_MESSAGES.getEnterPrisonerLastName)
       .isLessThanLength(100, ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage)
 
-    var dobFields = [
+    const dobFields = [
       this.dobDay,
       this.dobMonth,
       this.dobYear
     ]
 
-    var dob = dateFormatter.build(this.dobDay, this.dobMonth, this.dobYear)
+    const dob = dateFormatter.build(this.dobDay, this.dobMonth, this.dobYear)
 
     FieldsetValidator(dobFields, 'dob', errors)
       .isRequired(ERROR_MESSAGES.getEnterPrisonerDateOfBirth)
@@ -51,13 +51,13 @@ class AboutThePrisoner {
       .isRequired(ERROR_MESSAGES.getEnterPrison)
       .isLessThanLength(100)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
 
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }
 
-    this.dob = dob.toDate()
+    this.dob = dob.format('YYYY-MM-DD')
   }
 }
 

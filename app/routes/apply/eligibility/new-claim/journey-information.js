@@ -11,7 +11,7 @@ const getReleaseDate = require('../../../../services/data/get-release-date')
 module.exports = function (router) {
   router.get('/apply/eligibility/new-claim/journey-information', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -26,26 +26,26 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/new-claim/journey-information', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    var isAdvancedClaim = req.session.advanceOrPast === 'advance'
+    const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
+    const isAdvancedClaim = req.session.advanceOrPast === 'advance'
 
     try {
       console.dir('try')
 
       return getReleaseDate(referenceAndEligibilityId.id).then(function (results) {
-        var releaseDateIsSet
-        var releaseDate
+        let releaseDateIsSet
+        let releaseDate
         if (results.length > 0) {
           releaseDateIsSet = results[0].ReleaseDateIsSet
           releaseDate = results[0].ReleaseDate
         }
-        var newClaim = new NewClaim(
+        const newClaim = new NewClaim(
           req.session.referenceId,
           req.body['date-of-journey-day'],
           req.body['date-of-journey-month'],
@@ -59,7 +59,7 @@ module.exports = function (router) {
           insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimType, newClaim)
             .then(function (claimId) {
               req.session.claimId = claimId
-              return res.redirect(`/apply/eligibility/claim/has-escort`)
+              return res.redirect('/apply/eligibility/claim/has-escort')
             })
             .catch(function (error) {
               next(error)
@@ -68,7 +68,7 @@ module.exports = function (router) {
           insertRepeatDuplicateClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, newClaim)
             .then(function (claimId) {
               req.session.claimId = claimId
-              return res.redirect(`/apply/eligibility/claim/summary`)
+              return res.redirect('/apply/eligibility/claim/summary')
             })
             .catch(function (error) {
               next(error)
@@ -104,7 +104,7 @@ module.exports = function (router) {
 }
 
 function isRepeatDuplicateClaim (claimType) {
-  var isRepeatDuplicateClaim = false
+  let isRepeatDuplicateClaim = false
   if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
     isRepeatDuplicateClaim = true
   }

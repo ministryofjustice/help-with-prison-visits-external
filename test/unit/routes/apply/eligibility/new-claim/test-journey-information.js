@@ -2,27 +2,26 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/new-claim/journey-information', function () {
   const CLAIM_ID = '123'
-  const ROUTE = `/apply/eligibility/new-claim/journey-information`
+  const ROUTE = '/apply/eligibility/new-claim/journey-information'
 
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjI4LjQxMjQzMzMzNCwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1MjJmMWQxZWJhYzY1ZGE3MGIiLCJkZWNyeXB0ZWRSZWYiOiJYWVpQRjBUIiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0In0=' ]
-  const COOKIES_REPEAT_DUPLICATE = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjQwLjY4ODE2NjY2NywiZGVjcnlwdGVkUmVmIjoiVEtZQ0NSQSIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QlEiLCJyZWZlcmVuY2VJZCI6IjVlM2QxZTBkYmZhNDQ4YTcwYyIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1UeXBlIjoicmVwZWF0LWR1cGxpY2F0ZSJ9' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjI4LjQxMjQzMzMzNCwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1MjJmMWQxZWJhYzY1ZGE3MGIiLCJkZWNyeXB0ZWRSZWYiOiJYWVpQRjBUIiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0In0=']
+  const COOKIES_REPEAT_DUPLICATE = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjQwLjY4ODE2NjY2NywiZGVjcnlwdGVkUmVmIjoiVEtZQ0NSQSIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QlEiLCJyZWZlcmVuY2VJZCI6IjVlM2QxZTBkYmZhNDQ4YTcwYyIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1UeXBlIjoicmVwZWF0LWR1cGxpY2F0ZSJ9']
+  const COOKIES_EXPIRED = ['apvs-start-application=']
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var newClaimStub
-  var insertNewClaimStub
-  var insertRepeatDuplicateClaimStub
-  var getReleaseDateStub
+  let urlPathValidatorStub
+  let newClaimStub
+  let insertNewClaimStub
+  let insertRepeatDuplicateClaimStub
+  let getReleaseDateStub
 
-  var releaseDate = [
+  const releaseDate = [
     {
       ReleaseDateIsSet: false,
       ReleaseDate: null
@@ -36,7 +35,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     insertRepeatDuplicateClaimStub = sinon.stub()
     getReleaseDateStub = sinon.stub()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/journey-information', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/journey-information', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/domain/new-claim': newClaimStub,
       '../../../../services/data/insert-new-claim': insertNewClaimStub,
@@ -99,7 +98,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
-        .expect('location', `/apply/eligibility/claim/has-escort`)
+        .expect('location', '/apply/eligibility/claim/has-escort')
     })
 
     it('should redirect to claim summary page if claim is repeat duplicate', function () {
@@ -109,7 +108,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT_DUPLICATE)
-        .expect('location', `/apply/eligibility/claim/summary`)
+        .expect('location', '/apply/eligibility/claim/summary')
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
@@ -119,7 +118,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', `/start-already-registered?error=expired`)
+        .expect('location', '/start-already-registered?error=expired')
     })
 
     it('should respond with a 500 if promise rejects.', function () {

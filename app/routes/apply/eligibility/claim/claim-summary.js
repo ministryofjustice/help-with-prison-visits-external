@@ -14,19 +14,19 @@ const ERROR_MESSAGES = require('../../../../services/validators/validation-error
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/summary', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
-    var savedClaimDetails
+    let savedClaimDetails
     getClaimSummary(req.session.claimId, req.session.claimType)
       .then(function (claimDetails) {
         savedClaimDetails = claimDetails
 
         if (req.session.ExpenseIsEnabled != null) {
           req.session.ExpenseIsEnabled = null
-          var errors = ErrorHandler()
+          const errors = ErrorHandler()
           errors.add('claim-expense', ERROR_MESSAGES.getExpenseDisabled)
           throw new ValidationError(errors.get())
         }
@@ -66,30 +66,30 @@ module.exports = function (router) {
 
   router.post('/apply/eligibility/claim/summary', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    var referenceId = req.session.referenceId
-    var claimId = req.session.claimId
-    var claimType = req.session.claimType
+    const referenceId = req.session.referenceId
+    const claimId = req.session.claimId
+    const claimType = req.session.claimType
 
-    var savedClaimDetails
+    let savedClaimDetails
     getClaimSummary(req.session.claimId, req.session.claimType)
       .then(function (claimDetails) {
         savedClaimDetails = claimDetails
 
-        var visitConfirmation = claimDetails.claim.visitConfirmation
-        var benefit = claimDetails.claim.Benefit
-        var benefitDocument = claimSummaryHelper.getBenefitDocument(claimDetails.claim.benefitDocument)
-        var claimExpenses = claimDetails.claimExpenses
-        var isAdvanceClaim = claimDetails.claim.IsAdvanceClaim
-        var benefitUpload = benefitUploadNotRequired(claimType)
+        const visitConfirmation = claimDetails.claim.visitConfirmation
+        const benefit = claimDetails.claim.Benefit
+        const benefitDocument = claimSummaryHelper.getBenefitDocument(claimDetails.claim.benefitDocument)
+        const claimExpenses = claimDetails.claimExpenses
+        const isAdvanceClaim = claimDetails.claim.IsAdvanceClaim
+        const benefitUpload = benefitUploadNotRequired(claimType)
 
         new ClaimSummary(visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUpload) // eslint-disable-line no-new
-        return res.redirect(`/apply/eligibility/claim/payment-details?isAdvance=${isAdvanceClaim}`)
+        return res.redirect(`/apply/eligibility/claim/bank-payment-details?isAdvance=${isAdvanceClaim}`)
       })
       .catch(function (error) {
         if (error instanceof ValidationError) {

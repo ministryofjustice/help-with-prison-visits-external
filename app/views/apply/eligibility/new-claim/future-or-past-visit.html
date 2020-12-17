@@ -28,21 +28,19 @@
         <fieldset>
           <legend class="visually-hidden">Have you already made the prison visit</legend>
           <div class="form-group">
-            <label for="past" class="block-label">
-              <input type="radio"
-                     name="advance-past"
-                     value="past"
-                     id="past">
-              Yes
-            </label>
+            <div class="multiple-choice">
+              <input type="radio" name="advance-past" value="past" id="past">
+              <label for="past" class="block-label">
+                Yes
+              </label>
+            </div>
 
-            <label for="advance" class="block-label">
-              <input type="radio"
-                     name="advance-past"
-                     value="advance"
-                     id="advance">
-              No - it's in the future
-            </label>
+            <div class="multiple-choice">
+              <input type="radio" name="advance-past" value="advance" id="advance">
+              <label for="advance" class="block-label">
+                No - it's in the future
+              </label>
+            </div>
           </div>
         </fieldset>
 

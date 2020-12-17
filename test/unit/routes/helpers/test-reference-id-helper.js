@@ -14,7 +14,7 @@ describe('routes/helpers/reference-id-helper', function () {
   })
   describe('getReferenceId', function () {
     it('should return reference-id', function () {
-      var result = referenceIdHelper.extractReferenceId(ENCRYPTED_REFERENCEID)
+      const result = referenceIdHelper.extractReferenceId(ENCRYPTED_REFERENCEID)
       expect(result.reference).to.equal(REFERENCE)
       expect(result.id).to.equal(ID)
     })

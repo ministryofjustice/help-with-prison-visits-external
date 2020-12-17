@@ -24,8 +24,8 @@ module.exports.build = function (dateAdded, caseworker, additionalData, note, is
 }
 
 module.exports.insert = function (reference, eligibilityId, claimId, data) {
-  var claimEvent = data || this.build(this.DATE_ADDED, this.CASEWORKER, this.ADDITIONAL_DATA, this.NOTE, false)
-  var claimEvent2 = data || this.build(this.DATE_ADDED2, this.CASEWORKER2, this.ADDITIONAL_DATA2, this.NOTE2, true)
+  const claimEvent = data || this.build(this.DATE_ADDED, this.CASEWORKER, this.ADDITIONAL_DATA, this.NOTE, false)
+  const claimEvent2 = data || this.build(this.DATE_ADDED2, this.CASEWORKER2, this.ADDITIONAL_DATA2, this.NOTE2, true)
 
   return knex('IntSchema.ClaimEvent').insert({
     ClaimId: claimId,
@@ -38,19 +38,19 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
     Note: claimEvent.Note,
     IsInternal: claimEvent.IsInternal
   })
-  .then(function () {
-    return knex('IntSchema.ClaimEvent').insert({
-      ClaimId: claimId,
-      EligibilityId: eligibilityId,
-      Reference: reference,
-      DateAdded: claimEvent2.DateAdded,
-      Caseworker: claimEvent2.Caseworker,
-      Event: claimEvent2.Event,
-      AdditionalData: claimEvent2.AdditionalData,
-      Note: claimEvent2.Note,
-      IsInternal: claimEvent2.IsInternal
+    .then(function () {
+      return knex('IntSchema.ClaimEvent').insert({
+        ClaimId: claimId,
+        EligibilityId: eligibilityId,
+        Reference: reference,
+        DateAdded: claimEvent2.DateAdded,
+        Caseworker: claimEvent2.Caseworker,
+        Event: claimEvent2.Event,
+        AdditionalData: claimEvent2.AdditionalData,
+        Note: claimEvent2.Note,
+        IsInternal: claimEvent2.IsInternal
+      })
     })
-  })
 }
 
 module.exports.get = function (claimId) {

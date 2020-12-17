@@ -7,7 +7,7 @@ const SessionHandler = require('../../services/validators/session-handler')
 module.exports = function (router) {
   router.get('/your-claims/update-contact-details', function (req, res) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
@@ -20,17 +20,17 @@ module.exports = function (router) {
 
   router.post('/your-claims/update-contact-details', function (req, res, next) {
     UrlPathValidator(req.params)
-    var isValidSession = SessionHandler.validateSession(req.session, req.url)
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
     try {
-      var updatedContactDetails = new UpdatedContactDetails(req.body['email-address'], req.body['phone-number'])
+      const updatedContactDetails = new UpdatedContactDetails(req.body['email-address'], req.body['phone-number'])
       insertEligibilityVisitorUpdatedContactDetail(req.session.decryptedRef, req.session.eligibilityId, updatedContactDetails)
         .then(function () {
-          res.redirect(`/your-claims/check-your-information`)
+          res.redirect('/your-claims/check-your-information')
         })
         .catch(function (error) {
           next(error)

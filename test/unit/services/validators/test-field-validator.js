@@ -26,59 +26,59 @@ describe('services/validators/field-validator', function () {
     const INVALID_DATA_SELECT = 'select'
 
     it('should return an error object if passed null', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
         .isRequired()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed undefined', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(undefined, FIELD_NAME, errorHandler)
         .isRequired()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should throw error if data is an object', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator({}, FIELD_NAME, errorHandler)
         .isRequired()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_ALPHA, FIELD_NAME, errorHandler)
         .isRequired()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_DATA, FIELD_NAME, errorHandler)
         .isRequired()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error if passed invalid data with a specific message', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
         .isRequired(ERROR_MESSAGES.getRadioQuestionIsRequired)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
       expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getRadioQuestionIsRequired(DISPLAY_NAME))
     })
 
     it('should return an error if passed invalid data from a select input', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_DATA_SELECT, FIELD_NAME, errorHandler)
         .isRequired()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -106,18 +106,18 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_ALPHA, FIELD_NAME, errorHandler)
         .isAlpha()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_DATA, FIELD_NAME, errorHandler)
         .isAlpha()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -145,18 +145,18 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_NUMERIC, FIELD_NAME, errorHandler)
         .isNumeric()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_DATA, FIELD_NAME, errorHandler)
         .isNumeric()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -188,28 +188,28 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_LENGTH, FIELD_NAME, errorHandler)
         .isLength(ACCEPTED_LENGTH)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_LENGTH, FIELD_NAME, errorHandler)
         .isLength(ACCEPTED_LENGTH)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error if passed invalid data with a specific message', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_LENGTH, FIELD_NAME, errorHandler)
         .isLength(ACCEPTED_LENGTH, ERROR_MESSAGES.getIsLengthDigitsMessage)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
-      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getIsLengthDigitsMessage(DISPLAY_NAME, {length: ACCEPTED_LENGTH}))
+      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getIsLengthDigitsMessage(DISPLAY_NAME, { length: ACCEPTED_LENGTH }))
     })
   })
 
@@ -236,18 +236,18 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_NATIONAL_INSURANCE_NUMBER, FIELD_NAME, errorHandler)
         .isNationalInsuranceNumber()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_FORMAT_DATA, FIELD_NAME, errorHandler)
         .isNationalInsuranceNumber()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -275,18 +275,18 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_POSTCODE, FIELD_NAME, errorHandler)
         .isPostcode()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_FORMAT_DATA, FIELD_NAME, errorHandler)
         .isPostcode()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -314,18 +314,18 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_EMAIL, FIELD_NAME, errorHandler)
         .isEmail()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_FORMAT_DATA, FIELD_NAME, errorHandler)
         .isEmail()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -358,18 +358,18 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_LENGTH, FIELD_NAME, errorHandler)
         .isRange(ACCEPTED_MIN, ACCEPTED_MAX)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_LENGTH, FIELD_NAME, errorHandler)
         .isRange(ACCEPTED_MIN, ACCEPTED_MAX)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -401,28 +401,28 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_LENGTH, FIELD_NAME, errorHandler)
         .isLessThanLength(ACCEPTED_LENGTH)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_LENGTH, FIELD_NAME, errorHandler)
         .isLessThanLength(ACCEPTED_LENGTH)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error if passed invalid data with a specific message', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_LENGTH, FIELD_NAME, errorHandler)
         .isLessThanLength(ACCEPTED_LENGTH, ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
-      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage(DISPLAY_NAME, {length: ACCEPTED_LENGTH}))
+      expect(errors[FIELD_NAME]).to.include(ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage(DISPLAY_NAME, { length: ACCEPTED_LENGTH }))
     })
   })
 
@@ -431,23 +431,23 @@ describe('services/validators/field-validator', function () {
     const INVALID_REFERENCE = 'APVS1234'
 
     it('should return false if data is null', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
         .isReference()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should throw error if data is undefined', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(undefined, FIELD_NAME, errorHandler)
         .isReference()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should throw error if data is an object', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       expect(function () {
         FieldValidator({}, FIELD_NAME, errorHandler)
           .isReference()
@@ -455,18 +455,18 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_REFERENCE, FIELD_NAME, errorHandler)
         .isReference()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_REFERENCE, FIELD_NAME, errorHandler)
         .isReference()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -497,18 +497,18 @@ describe('services/validators/field-validator', function () {
     })
 
     it('should return false if passed valid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
         .isCurrency()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed invalid data', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
         .isCurrency()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -518,42 +518,42 @@ describe('services/validators/field-validator', function () {
     const INVALID_INPUT = '0'
 
     it('should return an error object if passed null', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
         .isGreaterThanZero()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed undefined', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(undefined, FIELD_NAME, errorHandler)
         .isGreaterThanZero()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed an object', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator({}, FIELD_NAME, errorHandler)
         .isGreaterThanZero()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return false if passed a numeric value greater than zero', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
         .isGreaterThanZero()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed a value less than or equal to zero', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
         .isGreaterThanZero()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -563,42 +563,42 @@ describe('services/validators/field-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return an error object if passed null', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
         .isValidChildRelationship()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed undefined', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(undefined, FIELD_NAME, errorHandler)
         .isValidChildRelationship()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed an object', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator({}, FIELD_NAME, errorHandler)
         .isValidChildRelationship()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return false if passed a valid child relationship value', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
         .isValidChildRelationship()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed an invalid child relationship value', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
         .isValidChildRelationship()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -608,42 +608,42 @@ describe('services/validators/field-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return an error object if passed null', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
         .isValidBooleanSelect()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed undefined', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(undefined, FIELD_NAME, errorHandler)
         .isValidBooleanSelect()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed an object', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator({}, FIELD_NAME, errorHandler)
         .isValidBooleanSelect()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return false if passed a valid value', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
         .isValidBooleanSelect()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed an invalid value', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
         .isValidBooleanSelect()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -653,42 +653,42 @@ describe('services/validators/field-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return an error object if passed null', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
         .isValidPrisonerRelationship()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed undefined', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(undefined, FIELD_NAME, errorHandler)
         .isValidPrisonerRelationship()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed an object', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator({}, FIELD_NAME, errorHandler)
         .isValidPrisonerRelationship()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return false if passed a valid prisoner relationship value', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
         .isValidPrisonerRelationship()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed an invalid prisoner relationship value', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
         .isValidPrisonerRelationship()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -699,105 +699,105 @@ describe('services/validators/field-validator', function () {
     const NONE_OF_THE_ABOVE = 'none'
 
     it('should return an error object if passed null', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
         .isValidBenefit()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed undefined', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(undefined, FIELD_NAME, errorHandler)
         .isValidBenefit()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed an object', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator({}, FIELD_NAME, errorHandler)
         .isValidBenefit()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return false if passed a valid benefits value', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
         .isValidBenefit()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return false if passed none and fromDomain is true', function () {
-      var errorHandler = ErrorHandler()
-      var fromDomain = true
+      const errorHandler = ErrorHandler()
+      const fromDomain = true
       FieldValidator(NONE_OF_THE_ABOVE, 'none', errorHandler)
         .isValidBenefit(fromDomain)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return not return an error object if passed none and fromDomain is false', function () {
-      var errorHandler = ErrorHandler()
-      var fromDomain = false
+      const errorHandler = ErrorHandler()
+      const fromDomain = false
       FieldValidator(NONE_OF_THE_ABOVE, 'None', errorHandler)
         .isValidBenefit(fromDomain)
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed an invalid benefits value', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
         .isValidBenefit()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
 
   describe('isValidExpenseArray', function () {
-    const VALID_INPUT = [ expensesEnum.BUS.value, expensesEnum.PLANE.value ]
-    const INVALID_INPUT = [ 'some invalid input', expensesEnum.PLANE.value ]
+    const VALID_INPUT = [expensesEnum.BUS.value, expensesEnum.PLANE.value]
+    const INVALID_INPUT = ['some invalid input', expensesEnum.PLANE.value]
 
     it('should return an error object if passed null', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
         .isValidExpenseArray()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed undefined', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(undefined, FIELD_NAME, errorHandler)
         .isValidExpenseArray()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed an object', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator({}, FIELD_NAME, errorHandler)
         .isValidExpenseArray()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return false if passed all valid expenses', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
         .isValidExpenseArray()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed any invalid expenses', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
         .isValidBenefit()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })
@@ -807,42 +807,42 @@ describe('services/validators/field-validator', function () {
     const INVALID_INPUT = 'some invalid input'
 
     it('should return an error object if passed null', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(null, FIELD_NAME, errorHandler)
         .isValidAdvanceOrPast()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed undefined', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(undefined, FIELD_NAME, errorHandler)
         .isValidAdvanceOrPast()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return an error object if passed an object', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator({}, FIELD_NAME, errorHandler)
         .isValidAdvanceOrPast()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
 
     it('should return false if passed a valid value', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(VALID_INPUT, FIELD_NAME, errorHandler)
         .isValidAdvanceOrPast()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.equal(false)
     })
 
     it('should return an error object if passed an invalid value', function () {
-      var errorHandler = ErrorHandler()
+      const errorHandler = ErrorHandler()
       FieldValidator(INVALID_INPUT, FIELD_NAME, errorHandler)
         .isValidAdvanceOrPast()
-      var errors = errorHandler.get()
+      const errors = errorHandler.get()
       expect(errors).to.have.property(FIELD_NAME)
     })
   })

@@ -1,13 +1,13 @@
-# Assisted Prison Visits Scheme (APVS) - External Web
+# Help With Prison Visits (HWPV) - External Web
 
 [![Build Status](https://travis-ci.org/ministryofjustice/apvs-external-web.svg?branch=develop)](https://travis-ci.org/ministryofjustice/apvs-external-web?branch=develop) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) [![NSP Status](https://nodesecurity.io/orgs/ministry-of-justice-digital/projects/ab82f6bb-11e0-4368-b7b8-abe97fb65d8a/badge)](https://nodesecurity.io/orgs/ministry-of-justice-digital/projects/ab82f6bb-11e0-4368-b7b8-abe97fb65d8a)
 
-Beta implementation of the Assisted Prison Visits Scheme external web application.
+Beta implementation of the Help With Prison Visits external web application.
 
 ## Requirements
 
 * Docker (Including Docker Compose)
-* Node 6 (Including NPM) - If running locally
+* Node 12 (Including NPM) - If running locally
 
 ## Run
 
@@ -46,7 +46,7 @@ git push heroku master
 
 ```
 npm test                        # checks code against standard JS and runs mocha unit tests.
-npm run-script test-coverage    # unit tests and generates code coverage using Istanbul
+npm run-script test-coverage    # unit tests and generates code coverage using nyc
 npm run-script test-unit        # unit tests
 npm run-script test-integration # integration tests
 npm run-script test-e2e         # e2e tests using selenium standalone against local application (must already be running)

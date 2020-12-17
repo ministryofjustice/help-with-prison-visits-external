@@ -2,28 +2,27 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/claim/car-details', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9' ]
-  const COOKIES_REPEAT = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDI1LjQ2OTMxNjY2NSwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJyZWZlcmVuY2VJZCI6IjViM2UxNjBkYTRhMTUzYTcwZiIsImNsYWltVHlwZSI6InJlcGVhdCIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTJ9' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
+  const COOKIES_REPEAT = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDI1LjQ2OTMxNjY2NSwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJyZWZlcmVuY2VJZCI6IjViM2UxNjBkYTRhMTUzYTcwZiIsImNsYWltVHlwZSI6InJlcGVhdCIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTJ9']
+  const COOKIES_EXPIRED = ['apvs-start-application=']
 
-  const ROUTE = `/apply/eligibility/claim/car`
-  const ROUTE_REPEAT = `/apply/eligibility/claim/car`
-  const ROUTE_CAR_ONLY = `/apply/eligibility/claim/car-only`
+  const ROUTE = '/apply/eligibility/claim/car'
+  const ROUTE_REPEAT = '/apply/eligibility/claim/car'
+  const ROUTE_CAR_ONLY = '/apply/eligibility/claim/car-only'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var expenseUrlRouterStub
-  var insertCarExpensesStub
-  var getTravellingFromAndToStub
-  var carExpenseStub
-  var getMaskedEligibilityStub
-  var getIsAdvanceClaimStub
+  let urlPathValidatorStub
+  let expenseUrlRouterStub
+  let insertCarExpensesStub
+  let getTravellingFromAndToStub
+  let carExpenseStub
+  let getMaskedEligibilityStub
+  let getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -34,7 +33,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
     getMaskedEligibilityStub = sinon.stub()
     getIsAdvanceClaimStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/car-details', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/car-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-car-expenses': insertCarExpensesStub,
@@ -70,7 +69,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
 
     it('should call parseParams', function () {
       getTravellingFromAndToStub.resolves()
-      var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
+      const parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -100,7 +99,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
     })
 
     it('REPEAT - should respond with a 200', function () {
-      getMaskedEligibilityStub.resolves({from: '', to: ''})
+      getMaskedEligibilityStub.resolves({ from: '', to: '' })
       return supertest(app)
         .get(ROUTE_REPEAT)
         .set('Cookie', COOKIES_REPEAT)
@@ -119,8 +118,8 @@ describe('routes/apply/eligibility/claim/car-details', function () {
     })
 
     it('REPEAT - should call parseParams', function () {
-      getMaskedEligibilityStub.resolves({from: '', to: ''})
-      var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
+      getMaskedEligibilityStub.resolves({ from: '', to: '' })
+      const parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
       return supertest(app)
         .get(ROUTE_REPEAT)
         .set('Cookie', COOKIES_REPEAT)
@@ -176,7 +175,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
-      var getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
+      const getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
       insertCarExpensesStub.resolves()
       return supertest(app)
         .post(ROUTE)

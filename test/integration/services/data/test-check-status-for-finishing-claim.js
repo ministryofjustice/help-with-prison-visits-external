@@ -6,8 +6,8 @@ const knex = require('knex')(config)
 
 describe('services/data/check-status-for-finishing-claim', function () {
   const REFERENCE = 'FINSTAT'
-  var claimId
-  var eligibilityId
+  let claimId
+  let eligibilityId
 
   beforeEach(function () {
     return eligibilityHelper.insertEligibilityClaim(REFERENCE)
@@ -24,16 +24,16 @@ describe('services/data/check-status-for-finishing-claim', function () {
   it('should return true for claim that is in progress', function () {
     return checkStatusForFinishingClaim(REFERENCE, eligibilityId, claimId)
       .then(function (result) {
-        expect(result).to.be.true
+        expect(result).to.be.true  //eslint-disable-line
       })
   })
 
   it('should return false claim not being in progress', function () {
-    return knex('Claim').update({'Status': 'NOT-IN-PROGRESS'}).where({'ClaimId': claimId, 'Reference': REFERENCE})
+    return knex('Claim').update({ Status: 'NOT-IN-PROGRESS' }).where({ ClaimId: claimId, Reference: REFERENCE })
       .then(function () {
         return checkStatusForFinishingClaim(REFERENCE, eligibilityId, claimId)
           .then(function (result) {
-            expect(result).to.be.false
+            expect(result).to.be.false  //eslint-disable-line
           })
       })
   })

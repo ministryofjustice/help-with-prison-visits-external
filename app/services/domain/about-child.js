@@ -4,7 +4,7 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 const CHILD_MAXIMUM_AGE_IN_YEARS = 18
-const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
+const unsafeInputPattern = />|<|&lt|&gt/g
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutChild {
@@ -22,7 +22,7 @@ class AboutChild {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
       .isRequired(ERROR_MESSAGES.getEnterChildFirstName)
@@ -42,7 +42,7 @@ class AboutChild {
       .isRequired(ERROR_MESSAGES.getEnterChildRelationship)
       .isValidChildRelationship()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

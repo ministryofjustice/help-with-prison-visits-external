@@ -11,7 +11,6 @@ module.exports = function (claimId, claimType) {
     .leftJoin('Eligibility', 'Claim.EligibilityId', '=', 'Eligibility.EligibilityId')
     .leftJoin('Visitor', 'Eligibility.EligibilityId', '=', 'Visitor.EligibilityId')
     .leftJoin('Prisoner', 'Eligibility.EligibilityId', '=', 'Prisoner.EligibilityId')
-    .leftJoin('EligibleChild', 'Eligibility.EligibilityId', '=', 'EligibleChild.EligibilityId')
     .where('Claim.ClaimId', claimId)
     .first(
       'Claim.EligibilityId',
@@ -29,17 +28,6 @@ module.exports = function (claimId, claimType) {
       'Prisoner.DateOfBirth AS PrisonerDateOfBirth',
       'Prisoner.PrisonNumber',
       'Prisoner.NameOfPrison',
-      'EligibleChild.FirstName AS EligibleChildFirstName',
-      'EligibleChild.LastName AS EligibleChildLastName',
-      'EligibleChild.ChildRelationship AS EligibleChildChildRelationship',
-      'EligibleChild.DateOfBirth AS EligibleChildDateOfBirth',
-      'EligibleChild.ParentFirstName AS EligibleChildParentFirstName',
-      'EligibleChild.ParentLastName AS EligibleChildParentLastName',
-      'EligibleChild.HouseNumberAndStreet AS EligibleChildHouseNumberAndStreet',
-      'EligibleChild.Town AS EligibleChildTown',
-      'EligibleChild.County AS EligibleChildCounty',
-      'EligibleChild.PostCode AS EligibleChildPostCode',
-      'EligibleChild.Country AS EligibleChildCountry',
       'Eligibility.Status AS EligibilityStatus'
     )
     .then(function (claim) {
@@ -64,13 +52,14 @@ module.exports = function (claimId, claimType) {
     })
     .then(function (claim) {
       return knex('ClaimDocument')
-        .where({'ClaimDocument.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null})
+        .where({ 'ClaimDocument.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null })
         .orWhere({
           'ClaimDocument.ClaimId': null,
           'ClaimDocument.Reference': claim.Reference,
           'ClaimDocument.EligibilityId': claim.EligibilityId,
           'ClaimDocument.IsEnabled': true,
-          'ClaimDocument.ClaimExpenseId': null})
+          'ClaimDocument.ClaimExpenseId': null
+        })
         .select('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
         .orderBy('ClaimDocument.DateSubmitted', 'desc')
         .then(function (claimDocuments) {
@@ -87,7 +76,7 @@ module.exports = function (claimId, claimType) {
             .then(function (claimExpenses) {
               claim.benefitDocument = []
               claimDocuments.forEach(function (document) {
-                if (document.DocumentType === documentTypeEnum['VISIT_CONFIRMATION'].documentType) {
+                if (document.DocumentType === documentTypeEnum.VISIT_CONFIRMATION.documentType) {
                   claim.visitConfirmation = document
                 } else {
                   claim.benefitDocument.push(document)
@@ -103,7 +92,7 @@ module.exports = function (claimId, claimType) {
             .select()
             .orderBy('ClaimChild.FirstName')
             .then(function (claimChild) {
-              var child = claimChild
+              let child = claimChild
               if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
                 child = maskArrayOfNames(claimChild)
               }
@@ -121,7 +110,7 @@ module.exports = function (claimId, claimType) {
             })
             .first()
             .then(function (claimEscort) {
-              var escort = claimEscort
+              const escort = claimEscort
               if (claimType === claimTypeEnum.REPEAT_DUPLICATE && claimEscort) {
                 escort.LastName = maskString(claimEscort.LastName, 1)
               }
@@ -130,6 +119,36 @@ module.exports = function (claimId, claimType) {
                 claimExpenses: expensesAndChildren.claimExpenses,
                 claimChild: expensesAndChildren.claimChild,
                 claimEscort: claimEscort
+              }
+            })
+        })
+        .then(function (expensesChildrenAndEscort) {
+          return knex('EligibleChild')
+            .where('EligibleChild.EligibilityId', claim.EligibilityId)
+            .columns([
+              'EligibleChild.FirstName AS EligibleChildFirstName',
+              'EligibleChild.LastName AS LastName',
+              'EligibleChild.ChildRelationship AS EligibleChildChildRelationship',
+              'EligibleChild.DateOfBirth AS EligibleChildDateOfBirth',
+              'EligibleChild.ParentFirstName AS EligibleChildParentFirstName',
+              'EligibleChild.ParentLastName AS EligibleChildParentLastName',
+              'EligibleChild.HouseNumberAndStreet AS EligibleChildHouseNumberAndStreet',
+              'EligibleChild.Town AS EligibleChildTown',
+              'EligibleChild.County AS EligibleChildCounty',
+              'EligibleChild.PostCode AS EligibleChildPostCode',
+              'EligibleChild.Country AS EligibleChildCountry'
+            ])
+            .then(function (children) {
+              let eligibleChildren = children
+              if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
+                eligibleChildren = maskArrayOfNames(eligibleChildren)
+              }
+              return {
+                claim: expensesChildrenAndEscort.claim,
+                claimExpenses: expensesChildrenAndEscort.claimExpenses,
+                claimChild: expensesChildrenAndEscort.claimChild,
+                claimEscort: expensesChildrenAndEscort.claimEscort,
+                eligibleChildren: eligibleChildren
               }
             })
         })

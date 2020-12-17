@@ -7,10 +7,10 @@ const claimDocumentHelper = require('../../../helpers/data/claim-document-helper
 
 const getClaimDocumentFilePath = require('../../../../app/services/data/get-claim-document-file-path')
 
-var REFERENCE = 'V123456'
-var eligibilityId
-var claimId
-var claimDocumentId
+const REFERENCE = 'V123456'
+let eligibilityId
+let claimId
+let claimDocumentId
 
 describe('services/data/get-claim-document-file-path', function () {
   before(function () {

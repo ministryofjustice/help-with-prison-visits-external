@@ -2,17 +2,16 @@ const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 describe('routes/application-submitted', function () {
-  const ROUTE = `/application-submitted`
-  var app
-  var urlPathValidatorStub
+  const ROUTE = '/application-submitted'
+  let app
+  let urlPathValidatorStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
 
-    var route = proxyquire('../../../app/routes/application-submitted', {
+    const route = proxyquire('../../../app/routes/application-submitted', {
       '../services/validators/url-path-validator': urlPathValidatorStub
     })
     app = routeHelper.buildApp(route)

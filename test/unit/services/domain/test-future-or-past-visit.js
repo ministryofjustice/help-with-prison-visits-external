@@ -1,5 +1,4 @@
 const FutureOrPastVisit = require('../../../../app/services/domain/future-or-past-visit')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/future-or-past-visit', function () {
@@ -7,7 +6,7 @@ describe('services/domain/future-or-past-visit', function () {
   const INVALID_INPUT = 'invalid input'
 
   it('should construct a domain object given valid input', function () {
-    var futureOrPastVisit = new FutureOrPastVisit(
+    const futureOrPastVisit = new FutureOrPastVisit(
       VALID_INPUT
     )
     expect(futureOrPastVisit.advancePast).to.equal(VALID_INPUT)
@@ -18,6 +17,6 @@ describe('services/domain/future-or-past-visit', function () {
       new FutureOrPastVisit(
         INVALID_INPUT
       ).isValid()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

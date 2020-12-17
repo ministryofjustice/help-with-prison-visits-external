@@ -2,27 +2,26 @@ const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 const benefitsEnum = require('../../../../../app/constants/benefits-enum')
 
 describe('routes/apply/new-eligibility/benefits', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAxMDE5LjU4NzAxNjY3LCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InI1In0=' ]
-  const COOKIES_REPEAT = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MTQxLjMxMTA2NjY3LCJkZWNyeXB0ZWRSZWYiOiJUS1lDQ1JBIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInByaXNvbmVyTnVtYmVyIjoiQTEyMzRCUSIsInJlbGF0aW9uc2hpcCI6InIxIn0=' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
-  const ROUTE = `/apply/first-time/new-eligibility/benefits`
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAxMDE5LjU4NzAxNjY3LCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InI1In0=']
+  const COOKIES_REPEAT = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MTQxLjMxMTA2NjY3LCJkZWNyeXB0ZWRSZWYiOiJUS1lDQ1JBIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInByaXNvbmVyTnVtYmVyIjoiQTEyMzRCUSIsInJlbGF0aW9uc2hpcCI6InIxIn0=']
+  const COOKIES_EXPIRED = ['apvs-start-application=']
+  const ROUTE = '/apply/first-time/new-eligibility/benefits'
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var benefitsStub
+  let urlPathValidatorStub
+  let benefitsStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     benefitsStub = sinon.stub()
 
-    var route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefits', {
+    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefits', {
       '../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../services/domain/benefits': benefitsStub
     })
@@ -72,7 +71,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
-        .expect('location', `/apply/first-time/new-eligibility/about-the-prisoner`)
+        .expect('location', '/apply/first-time/new-eligibility/about-the-prisoner')
     })
 
     it('should respond with a 302 and redirect to /apply/first-time/new-eligibility/date-of-birth?error=expired', function () {
@@ -81,11 +80,11 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
         .expect(302)
-        .expect('location', `/apply/first-time/new-eligibility/date-of-birth?error=expired`)
+        .expect('location', '/apply/first-time/new-eligibility/date-of-birth?error=expired')
     })
 
     it('should respond with a 302 and redirect to prisoner page with reference/prisoner-number query params if repeat-new-eligibility', function () {
-      const REPEAT_NEW_ELIGIBILITY_ROUTE = `/apply/repeat-new-eligibility/new-eligibility/benefits`
+      const REPEAT_NEW_ELIGIBILITY_ROUTE = '/apply/repeat-new-eligibility/new-eligibility/benefits'
 
       benefitsStub.returns(VALID_PRISONER_BENEFIT)
 
@@ -93,7 +92,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .post(REPEAT_NEW_ELIGIBILITY_ROUTE)
         .set('Cookie', COOKIES_REPEAT)
         .expect(302)
-        .expect('location', `/apply/repeat-new-eligibility/new-eligibility/about-the-prisoner`)
+        .expect('location', '/apply/repeat-new-eligibility/new-eligibility/about-the-prisoner')
     })
 
     it('should respond with a 302 and redirect to /eligibility-fail if the benefit is set to none', function () {

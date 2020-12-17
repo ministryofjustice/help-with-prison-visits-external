@@ -18,7 +18,7 @@ class DateOfBirth {
   }
 
   IsValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldsetValidator(this.fields, 'dob', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourDateOfBirth)
@@ -26,7 +26,7 @@ class DateOfBirth {
       .isPastDate(this.dob)
       .isOlderThanInYears(this.dob, MINIMUM_AGE_IN_YEARS)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
 
     if (validationErrors) {
       throw new ValidationError(validationErrors)

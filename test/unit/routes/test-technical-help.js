@@ -3,12 +3,11 @@ const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const TaskEnums = require('../../../app/constants/tasks-enum')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
 
 describe('routes/help', function () {
-  const ROUTE = `/help`
+  const ROUTE = '/help'
   const VALID_DATA = {
     name: 'Joe Bloggs',
     emailAddress: 'test@test.com',
@@ -19,17 +18,17 @@ describe('routes/help', function () {
     issue: 'Testing problems are occuring'
   }
 
-  var dateOfClaim = ''
-  var app
+  const dateOfClaim = ''
+  let app
 
-  var technicalHelpStub
-  var insertTaskStub
+  let technicalHelpStub
+  let insertTaskStub
 
   beforeEach(function () {
     technicalHelpStub = sinon.stub()
     insertTaskStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../app/routes/technical-help', {
+    const route = proxyquire('../../../app/routes/technical-help', {
       '../services/domain/technical-help': technicalHelpStub,
       '../services/data/insert-task': insertTaskStub
     })

@@ -9,7 +9,7 @@
 (function () {
   'use strict'
 
-  var NATIVE_DETAILS = typeof document.createElement('details').open === 'boolean'
+  const NATIVE_DETAILS = typeof document.createElement('details').open === 'boolean'
 
   // Add event construct for modern browsers or IE
   // which fires the callback with a pre-converted target reference
@@ -62,7 +62,7 @@
 
   // Create a started flag so we can prevent the initialisation
   // function firing from both DOMContentLoaded and window.onload
-  var started = false
+  let started = false
 
   // Initialisation function
   function addDetailsPolyfill (list) {
@@ -80,10 +80,10 @@
     }
 
     // else iterate through them to apply their initial state
-    var n = list.length
-    var i = 0
+    const n = list.length
+    let i = 0
     for (i; i < n; i++) {
-      var details = list[i]
+      const details = list[i]
 
       // Save shortcuts to the inner summary and content elements
       details.__summary = details.getElementsByTagName('summary').item(0)
@@ -111,7 +111,7 @@
       }
 
       // Detect initial open state
-      var openAttr = details.getAttribute('open') !== null
+      const openAttr = details.getAttribute('open') !== null
       if (openAttr === true) {
         details.__summary.setAttribute('aria-expanded', 'true')
         details.__content.setAttribute('aria-hidden', 'false')
@@ -130,7 +130,7 @@
       // If this is not a native implementation, create an arrow
       // inside the summary
       if (!NATIVE_DETAILS) {
-        var twisty = document.createElement('i')
+        const twisty = document.createElement('i')
 
         if (openAttr === true) {
           twisty.className = 'arrow arrow-open'
@@ -148,8 +148,8 @@
     // Define a statechange function that updates aria-expanded and style.display
     // Also update the arrow position
     function statechange (summary) {
-      var expanded = summary.__details.__summary.getAttribute('aria-expanded') === 'true'
-      var hidden = summary.__details.__content.getAttribute('aria-hidden') === 'true'
+      const expanded = summary.__details.__summary.getAttribute('aria-expanded') === 'true'
+      const hidden = summary.__details.__content.getAttribute('aria-hidden') === 'true'
 
       summary.__details.__summary.setAttribute('aria-expanded', (expanded ? 'false' : 'true'))
       summary.__details.__content.setAttribute('aria-hidden', (hidden ? 'false' : 'true'))
@@ -157,7 +157,7 @@
       if (!NATIVE_DETAILS) {
         summary.__details.__content.style.display = (expanded ? 'none' : '')
 
-        var hasOpenAttr = summary.__details.getAttribute('open') !== null
+        const hasOpenAttr = summary.__details.getAttribute('open') !== null
         if (!hasOpenAttr) {
           summary.__details.setAttribute('open', 'open')
         } else {

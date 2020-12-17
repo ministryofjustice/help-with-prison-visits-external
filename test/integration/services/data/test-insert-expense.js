@@ -3,15 +3,14 @@ const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const expenseHelper = require('../../../helpers/data/expense-helper')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 describe('services/data/insert-expense', function () {
-  var insertExpense
-  var disableNonTicketedExpensesForClaim
+  let insertExpense
+  let disableNonTicketedExpensesForClaim
 
   const REFERENCE = 'INSEXPS'
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   before(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)
@@ -59,7 +58,7 @@ describe('services/data/insert-expense', function () {
   it('should call to disable previous expenses for non-ticketed expense types', function () {
     return insertExpense(REFERENCE, eligibilityId, claimId, expenseHelper.build(claimId))
       .then(function () {
-        expect(disableNonTicketedExpensesForClaim.calledOnce).to.be.true
+        expect(disableNonTicketedExpensesForClaim.calledOnce).to.be.true  //eslint-disable-line
       })
   })
 

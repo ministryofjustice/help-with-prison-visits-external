@@ -10,12 +10,12 @@ class Declaration {
   }
 
   IsValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.termsAndConiditions, 'terms-and-conditions', errors)
       .isRequired(ERROR_MESSAGES.getDisclaimer)
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
 
     if (validationErrors) {
       throw new ValidationError(validationErrors)

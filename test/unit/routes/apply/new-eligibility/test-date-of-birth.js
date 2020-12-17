@@ -2,23 +2,22 @@ const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
-var urlPathValidatorStub
-var stubDateOfBirth
-var app
+let urlPathValidatorStub
+let stubDateOfBirth
+let app
 
 describe('routes/apply/new-eligibility/date-of-birth', function () {
   const DOB = '113725122'
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAwMjE5LjI3OTk4MzMzNCwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSJ9' ]
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAwMjE5LjI3OTk4MzMzNCwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSJ9']
   const ROUTE = '/apply/first-time/new-eligibility/date-of-birth'
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     stubDateOfBirth = sinon.stub()
 
-    var route = proxyquire(
+    const route = proxyquire(
       '../../../../../app/routes/apply/new-eligibility/date-of-birth', {
         '../../../services/domain/date-of-birth': stubDateOfBirth,
         '../../../services/validators/url-path-validator': urlPathValidatorStub
@@ -57,7 +56,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
       })
 
       it('should respond with a 302 and redirect to /apply/first-time/new-eligibility/prisoner-relationship', function () {
-        stubDateOfBirth.returns({encodedDate: DOB, sixteenOrUnder: false})
+        stubDateOfBirth.returns({ encodedDate: DOB, sixteenOrUnder: false })
         return supertest(app)
           .post(ROUTE)
           .set('Cookie', COOKIES)
@@ -65,7 +64,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
           .expect(function () {
             sinon.assert.calledOnce(stubDateOfBirth)
           })
-          .expect('location', `/apply/first-time/new-eligibility/prisoner-relationship`)
+          .expect('location', '/apply/first-time/new-eligibility/prisoner-relationship')
           .expect(hasSetCookie)
       })
 

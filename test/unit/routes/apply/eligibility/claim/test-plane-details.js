@@ -2,23 +2,22 @@ const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/claim/plane-details', function () {
-  const ROUTE = `/apply/eligibility/claim/plane`
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9' ]
-  const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
+  const ROUTE = '/apply/eligibility/claim/plane'
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
+  const COOKIES_EXPIRED = ['apvs-start-application=']
 
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var expenseUrlRouterStub
-  var insertExpenseStub
-  var planeExpenseStub
-  var getExpenseOwnerDataStub
-  var getIsAdvanceClaimStub
+  let urlPathValidatorStub
+  let expenseUrlRouterStub
+  let insertExpenseStub
+  let planeExpenseStub
+  let getExpenseOwnerDataStub
+  let getIsAdvanceClaimStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -28,7 +27,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
     getExpenseOwnerDataStub = sinon.stub()
     getIsAdvanceClaimStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/plane-details', {
+    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/plane-details', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
       '../../../../services/data/insert-expense': insertExpenseStub,
@@ -73,7 +72,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
 
     it('should call parseParams', function () {
       getExpenseOwnerDataStub.resolves({})
-      var parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
+      const parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -119,7 +118,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
-      var getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
+      const getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
       insertExpenseStub.resolves()
       return supertest(app)
         .post(ROUTE)

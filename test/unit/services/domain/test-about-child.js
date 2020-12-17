@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const AboutChild = require('../../../../app/services/domain/about-child')
-const ValidationError = require('../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
@@ -16,7 +15,7 @@ describe('services/domain/about-child', function () {
   const INVALID_CHARS_LAST_NAME = 'child&lt>&gtname>'
 
   it('should construct a domain object given valid input', function () {
-    var child = new AboutChild(
+    const child = new AboutChild(
       VALID_FIRST_NAME,
       VALID_LAST_NAME,
       VALID_DAY,
@@ -40,18 +39,18 @@ describe('services/domain/about-child', function () {
         VALID_YEAR,
         VALID_CHILD_RELATIONSHIP
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw a validation error if any inputs were not set and the default domain object values where used', function () {
     expect(function () {
       new AboutChild()
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should strip illegal characters from otherwise valid input', function () {
-    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
-    var child = new AboutChild(
+    const unsafeInputPattern = />|<|&lt|&gt/g
+    const child = new AboutChild(
       VALID_FIRST_NAME,
       INVALID_CHARS_LAST_NAME,
       VALID_DAY,

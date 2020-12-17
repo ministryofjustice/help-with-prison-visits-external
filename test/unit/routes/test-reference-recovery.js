@@ -3,27 +3,26 @@ const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const TaskEnums = require('../../../app/constants/tasks-enum')
-require('sinon-bluebird')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
 
 describe('routes/reference-recovery', function () {
-  const ROUTE = `/reference-recovery`
+  const ROUTE = '/reference-recovery'
   const VALID_DATA = {
     EmailAddress: 'test@test.com',
     PrisonerNumber: 'B7328973'
   }
 
-  var app
+  let app
 
-  var referenceRecoveryStub
-  var insertTaskStub
+  let referenceRecoveryStub
+  let insertTaskStub
 
   beforeEach(function () {
     referenceRecoveryStub = sinon.stub()
     insertTaskStub = sinon.stub().resolves()
 
-    var route = proxyquire('../../../app/routes/reference-recovery', {
+    const route = proxyquire('../../../app/routes/reference-recovery', {
       '../services/domain/reference-recovery': referenceRecoveryStub,
       '../services/data/insert-task': insertTaskStub
     })
@@ -52,7 +51,7 @@ describe('routes/reference-recovery', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      referenceRecoveryStub.throws(new ValidationError({ 'EmailAddress': {} }))
+      referenceRecoveryStub.throws(new ValidationError({ EmailAddress: {} }))
       return supertest(app)
         .post(ROUTE)
         .expect(400)

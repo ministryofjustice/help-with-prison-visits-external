@@ -29,7 +29,7 @@ module.exports.build = function () {
 }
 
 module.exports.insert = function (reference, eligibilityId, claimId, data) {
-  var expense = data || this.build()
+  const expense = data || this.build()
 
   return knex('IntSchema.ClaimExpense').insert({
     ClaimExpenseId: expense.ClaimExpenseId,

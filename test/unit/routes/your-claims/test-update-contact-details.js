@@ -3,23 +3,22 @@ const ValidationError = require('../../../../app/services/errors/validation-erro
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-require('sinon-bluebird')
 
 describe('/your-claims/update-contact-details', function () {
-  const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjM3LjI5MDYxNjY2NSwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJlbGlnaWJpbGl0eUlkIjoxfQ==' ]
-  const ROUTE = `/your-claims/update-contact-details`
+  const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjM3LjI5MDYxNjY2NSwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJlbGlnaWJpbGl0eUlkIjoxfQ==']
+  const ROUTE = '/your-claims/update-contact-details'
 
-  var app
-  var urlPathValidatorStub
-  var updatedContactDetailsStub
-  var insertEligibilityVisitorUpdatedContactDetailStub
+  let app
+  let urlPathValidatorStub
+  let updatedContactDetailsStub
+  let insertEligibilityVisitorUpdatedContactDetailStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
     updatedContactDetailsStub = sinon.stub()
     insertEligibilityVisitorUpdatedContactDetailStub = sinon.stub()
 
-    var route = proxyquire('../../../../app/routes/your-claims/update-contact-details', {
+    const route = proxyquire('../../../../app/routes/your-claims/update-contact-details', {
       '../../services/validators/url-path-validator': urlPathValidatorStub,
       '../../services/domain/updated-contact-details': updatedContactDetailsStub,
       '../../services/data/insert-eligibility-visitor-updated-contact-detail': insertEligibilityVisitorUpdatedContactDetailStub
@@ -64,13 +63,13 @@ describe('/your-claims/update-contact-details', function () {
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
-        .send({'email-address': 'test@test.com', 'phone-number': '5553425172'})
+        .send({ 'email-address': 'test@test.com', 'phone-number': '5553425172' })
         .expect(302)
         .expect(function () {
           sinon.assert.calledOnce(updatedContactDetailsStub)
           sinon.assert.calledOnce(insertEligibilityVisitorUpdatedContactDetailStub)
         })
-        .expect('location', `/your-claims/check-your-information`)
+        .expect('location', '/your-claims/check-your-information')
     })
 
     it('should respond with a 400 for a validation error', function () {

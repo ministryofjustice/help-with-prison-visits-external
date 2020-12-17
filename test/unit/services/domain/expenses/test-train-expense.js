@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const TrainExpense = require('../../../../../app/services/domain/expenses/train-expense')
-const ValidationError = require('../../../../../app/services/errors/validation-error')
 const expect = require('chai').expect
 
 describe('services/domain/expenses/train-expense', function () {
@@ -22,7 +21,7 @@ describe('services/domain/expenses/train-expense', function () {
   const INVALID_CHARS_TO = '&><>To somewhere<&gt<>'
 
   it('should construct a domain object given valid input', function () {
-    var expense = new TrainExpense(
+    const expense = new TrainExpense(
       VALID_COST,
       VALID_FROM,
       VALID_TO,
@@ -40,7 +39,7 @@ describe('services/domain/expenses/train-expense', function () {
   })
 
   it('should construct a domain object given valid input', function () {
-    var expense = new TrainExpense(
+    const expense = new TrainExpense(
       VALID_COST,
       VALID_FROM,
       VALID_TO,
@@ -59,8 +58,8 @@ describe('services/domain/expenses/train-expense', function () {
   })
 
   it('should strip illegal characters from otherwise valid input', function () {
-    const unsafeInputPattern = new RegExp(/>|<|&lt|&gt/g)
-    var expense = new TrainExpense(
+    const unsafeInputPattern = />|<|&lt|&gt/g
+    const expense = new TrainExpense(
       VALID_COST,
       INVALID_CHARS_FROM,
       INVALID_CHARS_TO,
@@ -90,7 +89,7 @@ describe('services/domain/expenses/train-expense', function () {
         EMPTY_RETURN_TIME,
         IS_PAST_CLAIM
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 
   it('should throw an error if passed invalid advance claim data - no return', function () {
@@ -105,6 +104,6 @@ describe('services/domain/expenses/train-expense', function () {
         EMPTY_RETURN_TIME,
         IS_ADVANCE_CLAIM
       )
-    }).to.throw(ValidationError)
+    }).to.throw()
   })
 })

@@ -7,8 +7,8 @@ const claimChildHelper = require('../../../helpers/data/claim-child-helper')
 
 describe('services/data/get-expense-owner-data', function () {
   const REFERENCE = 'V123467'
-  var claimId
-  var eligibilityId
+  let claimId
+  let eligibilityId
 
   beforeEach(function () {
     return eligibilityHelper.insert(REFERENCE)
@@ -32,8 +32,8 @@ describe('services/data/get-expense-owner-data', function () {
         return getExpenseOwnerData(claimId, eligibilityId, REFERENCE)
       })
       .then(function (expenseOwnerData) {
-        expect(expenseOwnerData.escort).to.be.true
-        expect(expenseOwnerData.child).to.be.false
+        expect(expenseOwnerData.escort).to.be.true  //eslint-disable-line
+        expect(expenseOwnerData.child).to.be.false  //eslint-disable-line
       })
   })
 
@@ -43,8 +43,8 @@ describe('services/data/get-expense-owner-data', function () {
         return getExpenseOwnerData(claimId, eligibilityId, REFERENCE)
       })
       .then(function (expenseOwnerData) {
-        expect(expenseOwnerData.escort).to.be.false
-        expect(expenseOwnerData.child).to.be.true
+        expect(expenseOwnerData.escort).to.be.false  //eslint-disable-line
+        expect(expenseOwnerData.child).to.be.true  //eslint-disable-line
       })
   })
 
@@ -57,16 +57,16 @@ describe('services/data/get-expense-owner-data', function () {
         return getExpenseOwnerData(claimId, eligibilityId, REFERENCE)
       })
       .then(function (expenseOwnerData) {
-        expect(expenseOwnerData.escort).to.be.true
-        expect(expenseOwnerData.child).to.be.true
+        expect(expenseOwnerData.escort).to.be.true  //eslint-disable-line
+        expect(expenseOwnerData.child).to.be.true  //eslint-disable-line
       })
   })
 
   it('should return false if neither a ClaimChild or ClaimEscort are associated to claim', function () {
     return getExpenseOwnerData(claimId, eligibilityId, REFERENCE)
       .then(function (expenseOwnerData) {
-        expect(expenseOwnerData.escort).to.be.false
-        expect(expenseOwnerData.child).to.be.false
+        expect(expenseOwnerData.escort).to.be.false  //eslint-disable-line
+        expect(expenseOwnerData.child).to.be.false  //eslint-disable-line
       })
   })
 })

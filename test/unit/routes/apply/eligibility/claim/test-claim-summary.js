@@ -3,16 +3,15 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 const routeHelper = require('../../../../../helpers/routes/route-helper')
-require('sinon-bluebird')
 
 const CLAIM_EXPENSE_ID = '1234'
 const CLAIM_DOCUMENT_ID = '123'
 const FILEPATH_RESULT = { path: 'test/resources/testfile.txt', name: 'testfile.txt' }
 
-const COOKIES = [ 'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MTU0Ljk4OTM4MzMzMiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1MzQ0MTE3OGJiYjU0NGE3MGZhOCIsImRlY3J5cHRlZFJlZiI6IlkyVjZHQ00iLCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiYWR2YW5jZU9yUGFzdCI6InBhc3QiLCJjbGFpbUlkIjoxM30=' ]
+const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MTU0Ljk4OTM4MzMzMiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1MzQ0MTE3OGJiYjU0NGE3MGZhOCIsImRlY3J5cHRlZFJlZiI6IlkyVjZHQ00iLCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiYWR2YW5jZU9yUGFzdCI6InBhc3QiLCJjbGFpbUlkIjoxM30=']
 
-const COOKIES_EXPIRED = [ 'apvs-start-application=' ]
-const ROUTE = `/apply/eligibility/claim/summary`
+const COOKIES_EXPIRED = ['apvs-start-application=']
+const ROUTE = '/apply/eligibility/claim/summary'
 const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIM_DOCUMENT_ID}`
 const REMOVE_EXPENSE_ROUTE = `${ROUTE}/remove-expense/${CLAIM_EXPENSE_ID}?claimDocumentId=${CLAIM_DOCUMENT_ID}`
 const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIM_DOCUMENT_ID}?document=VISIT_CONFIRMATION`
@@ -27,12 +26,12 @@ const CLAIM = {
 }
 
 describe('routes/apply/eligibility/claim/claim-summary', function () {
-  var app
+  let app
 
-  var urlPathValidatorStub
-  var getClaimSummaryStub
-  var claimSummaryStub
-  var claimSummaryHelperStub
+  let urlPathValidatorStub
+  let getClaimSummaryStub
+  let claimSummaryStub
+  let claimSummaryHelperStub
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
@@ -40,7 +39,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     claimSummaryStub = sinon.stub()
     claimSummaryHelperStub = sinon.stub()
 
-    var route = proxyquire(
+    const route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': urlPathValidatorStub,
         '../../../../services/data/get-claim-summary': getClaimSummaryStub,
@@ -94,7 +93,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
-        .expect('location', `/apply/eligibility/claim/payment-details?isAdvance=false`)
+        .expect('location', '/apply/eligibility/claim/bank-payment-details?isAdvance=false')
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
@@ -156,7 +155,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 302', function () {
-      var removeExpenseAndDocument = sinon.stub(claimSummaryHelperStub, 'removeExpenseAndDocument').resolves()
+      const removeExpenseAndDocument = sinon.stub(claimSummaryHelperStub, 'removeExpenseAndDocument').resolves()
       return supertest(app)
         .post(REMOVE_EXPENSE_ROUTE)
         .expect(302)
@@ -184,7 +183,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 302, call removeClaimDocument, and redirect to claim summary', function () {
-      var removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
+      const removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
         .expect(302)
@@ -196,7 +195,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 302, call removeClaimDocument, and redirect to file upload', function () {
-      var removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
+      const removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
       return supertest(app)
         .post(REMOVE_DOCUMENT_ROUTE)
         .expect(302)
@@ -208,8 +207,8 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     })
 
     it('should respond with a 302, call removeClaimDocument, and redirect to file upload', function () {
-      var removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
-      var claimExpenseParam = '&claimExpenseId=1'
+      const removeDocument = sinon.stub(claimSummaryHelperStub, 'removeDocument').resolves()
+      const claimExpenseParam = '&claimExpenseId=1'
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}${claimExpenseParam}`)
         .expect(302)

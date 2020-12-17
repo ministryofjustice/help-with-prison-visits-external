@@ -5,8 +5,8 @@ const insertVisitor = require('../../../../app/services/data/insert-visitor')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 describe('services/data/insert-visitor', function () {
-  var REFERENCE = 'V123456'
-  var eligibilityId
+  const REFERENCE = 'V123456'
+  let eligibilityId
 
   before(function () {
     return eligiblityHelper.insert(REFERENCE)
@@ -16,7 +16,7 @@ describe('services/data/insert-visitor', function () {
   })
 
   it('should insert a new Visitor for a reference', function () {
-    var visitorInserted = visitorHelper.build()
+    const visitorInserted = visitorHelper.build()
     return insertVisitor(REFERENCE, eligibilityId, visitorInserted)
       .then(function () {
         return visitorHelper.get(REFERENCE)
@@ -44,8 +44,8 @@ describe('services/data/insert-visitor', function () {
   })
 
   it('should handle daylight saving time when storing Visitor DOB', function () {
-    var dateExpected = dateFormatter.buildFromDateString('1990-10-12')
-    var visitorInserted = visitorHelper.build()
+    const dateExpected = dateFormatter.buildFromDateString('1990-10-12')
+    const visitorInserted = visitorHelper.build()
     visitorInserted.dob = dateExpected
 
     return insertVisitor(REFERENCE, eligibilityId, visitorInserted)

@@ -5,8 +5,8 @@ const claimChildHelper = require('../../../helpers/data/claim-child-helper')
 
 describe('services/data/insert-child', function () {
   const REFERENCE = 'V123467'
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   before(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)

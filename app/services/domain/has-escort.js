@@ -10,13 +10,13 @@ class HasEscort {
   }
 
   isValid () {
-    var errors = ErrorHandler()
+    const errors = ErrorHandler()
 
     FieldValidator(this.hasEscort, 'has-escort', errors)
       .isRequired(ERROR_MESSAGES.getClaimingForEscort)
       .isValidBooleanSelect()
 
-    var validationErrors = errors.get()
+    const validationErrors = errors.get()
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

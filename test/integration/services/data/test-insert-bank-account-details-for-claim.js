@@ -5,8 +5,8 @@ const bankHelper = require('../../../helpers/data/bank-helper')
 
 describe('services/data/insert-bank-account-details-for-claim', function () {
   const REFERENCE = 'V123456'
-  var eligibilityId
-  var claimId
+  let eligibilityId
+  let claimId
 
   before(function () {
     return eligiblityHelper.insertEligibilityClaim(REFERENCE)
@@ -24,6 +24,8 @@ describe('services/data/insert-bank-account-details-for-claim', function () {
       .then(function (bank) {
         expect(bank.AccountNumber).to.equal(bankHelper.ACCOUNT_NUMBER)
         expect(bank.SortCode).to.equal(bankHelper.SORT_CODE)
+        expect(bank.RollNumber).to.equal(bankHelper.ROLL_NUMBER)
+        expect(bank.NameOnAccount).to.equal(bankHelper.NAME_ON_ACCOUNT)
       })
   })
 

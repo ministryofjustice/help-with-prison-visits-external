@@ -29,19 +29,19 @@ const ERROR = {
 
 describe('services/log-serializers', function () {
   it('should build the requestSerializer', function () {
-    var result = logSerializers.requestSerializer(REQUEST)
+    const result = logSerializers.requestSerializer(REQUEST)
     expect(result.url).to.equal(REQUEST_URL)
     expect(result.method).to.equal(REQUEST_METHOD)
     expect(result.params).to.equal(REQUEST_PARAMS)
   })
 
   it('should build the responseSerializer', function () {
-    var result = logSerializers.responseSerializer(RESPONSE)
+    const result = logSerializers.responseSerializer(RESPONSE)
     expect(result.statusCode).to.equal(RESPONSE_STATUS_CODE)
   })
 
   it('should build the errorSerializer', function () {
-    var result = logSerializers.errorSerializer(ERROR)
+    const result = logSerializers.errorSerializer(ERROR)
     expect(result.message).to.equal(ERROR_MESSAGE)
     expect(result.name).to.equal(ERROR_NAME)
     expect(result.stack).to.equal(ERROR_STACK)
