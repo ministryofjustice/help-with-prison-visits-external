@@ -49,6 +49,7 @@
     ]
   },
   "dependencies": {
+    "applicationinsights": "^1.8.8",
     "bases": "^0.2.1",
     "basic-auth": "^2.0.1",
     "bluebird": "^3.7.2",
