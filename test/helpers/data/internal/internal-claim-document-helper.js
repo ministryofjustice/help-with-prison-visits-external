@@ -1,11 +1,11 @@
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 
-module.exports.CLAIM_DOCUMENT_ID = Math.floor(Date.now() / 100) - 14000000000
+module.exports.CLAIM_DOCUMENT_ID = Math.floor(Date.now() / 100) - 15000000000
 module.exports.DOCUMENT_TYPE = 'VISIT-CONFIRMATION'
 module.exports.DOCUMENT_STATUS = 'upload-later'
 
-module.exports.CLAIM_DOCUMENT_ID2 = (Math.floor(Date.now() / 100) - 14000000000) + 1
+module.exports.CLAIM_DOCUMENT_ID2 = (Math.floor(Date.now() / 100) - 15000000000) + 1
 module.exports.DOCUMENT_TYPE2 = 'RECEIPT'
 module.exports.DOCUMENT_STATUS2 = 'upload-later'
 
