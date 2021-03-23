@@ -6,7 +6,7 @@ const DAY = '01'
 const MONTH = '11'
 const YEAR = '2016'
 
-module.exports.CLAIM_ID = Math.floor(Date.now() / 100) - 14000000000
+module.exports.CLAIM_ID = Math.floor(Date.now() / 100) - 15000000000
 module.exports.CLAIM_TYPE = 'first-time'
 module.exports.IS_ADVANCE_CLAIM = false
 module.exports.DATE_OF_JOURNEY = dateFormatter.build(DAY, MONTH, YEAR)

@@ -2,7 +2,7 @@ const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 const dateFormatter = require('../../../../app/services/date-formatter')
 
-module.exports.PRISONER_ID = Math.floor(Date.now() / 100) - 14000000000
+module.exports.PRISONER_ID = Math.floor(Date.now() / 100) - 15000000000
 module.exports.FIRST_NAME = 'John'
 module.exports.LAST_NAME = 'Smith'
 module.exports.DATE_OF_BIRTH = dateFormatter.now()

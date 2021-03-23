@@ -1,7 +1,7 @@
 const config = require('../../../../knexfile').migrations
 const knex = require('knex')(config)
 
-module.exports.CLAIM_EXPENSE_ID = Math.floor(Date.now() / 100) - 14000000000
+module.exports.CLAIM_EXPENSE_ID = Math.floor(Date.now() / 100) - 15000000000
 module.exports.EXPENSE_TYPE = 'bus'
 module.exports.COST = '10'
 module.exports.TRAVEL_TIME = null

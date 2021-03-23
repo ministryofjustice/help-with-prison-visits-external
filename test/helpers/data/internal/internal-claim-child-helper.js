@@ -3,7 +3,7 @@ const knex = require('knex')(config)
 const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
-module.exports.CLAIM_CHILD_ID = Math.floor(Date.now() / 100) - 14000000000
+module.exports.CLAIM_CHILD_ID = Math.floor(Date.now() / 100) - 15000000000
 module.exports.FIRST_NAME = 'Joe'
 module.exports.LAST_NAME = 'Bloggs'
 module.exports.DAY = '15'

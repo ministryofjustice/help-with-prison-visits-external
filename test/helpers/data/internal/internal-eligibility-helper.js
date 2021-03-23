@@ -9,7 +9,7 @@ const prisonerHelper = require('./internal-prisoner-helper')
 const claimDocumentHelper = require('./internal-claim-document-helper')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
-module.exports.ELIGIBILITY_ID = Math.floor(Date.now() / 100) - 14000000000
+module.exports.ELIGIBILITY_ID = Math.floor(Date.now() / 100) - 15000000000
 module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
 module.exports.STATUS = 'APPROVED'
