@@ -1,18 +1,19 @@
-# NOTE THIS IS NOT A PRODUCTION READY CONTAINER FOR DEVELOPMENT ONLY
-FROM node:6.5.0
+FROM node:14-buster as builder
 
-RUN mkdir -p /usr/src/app/app
-WORKDIR /usr/src/app
+ARG BUILD_NUMBER
+ARG GIT_REF
 
-COPY package.json /usr/src/app/
-COPY config.js /usr/src/app/
-COPY knexfile.js /usr/src/app/
-COPY app /usr/src/app/app
-COPY migrations /usr/src/app/migrations
+RUN apt-get update && \
+    apt-get upgrade -y
 
-EXPOSE 3000
+WORKDIR /app
+
+COPY . .
+
+RUN npm ci --no-audit && \
+    npm run generate-assets
 
 HEALTHCHECK CMD curl --fail http://localhost:3000/status || exit 1
 
-# Resolve dependencies at container startup to allow caching
-CMD npm install && npm run-script migrations && node_modules/.bin/nodemon --exec node_modules/.bin/gulp --config="nodemon.json"
+CMD [ "node", "./app/bin/www" ]
+# CMD npm install && npm run-script migrations && node_modules/.bin/nodemon --exec node_modules/.bin/gulp --config="nodemon.json"
