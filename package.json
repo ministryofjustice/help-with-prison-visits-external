@@ -34,7 +34,6 @@
   },
   "standard": {
     "ignore": [
-      "cache_node_modules/*",
       "jquery*.js",
       "ga.js"
     ],
