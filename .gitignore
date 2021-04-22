@@ -4,7 +4,6 @@ npm-debug.log*
 
 .grunt
 node_modules
-cache_node_modules
 .npm
 .node_repl_history
 .sass-cache
