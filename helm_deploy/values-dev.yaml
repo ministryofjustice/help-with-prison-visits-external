@@ -1,5 +1,5 @@
 ---
-# Environment specific values, override helm_deploy/help-with-prison-visits-internal/values.yaml
+# Environment specific values, override helm_deploy/help-with-prison-visits-external/values.yaml
 generic-service:
   replicaCount: 2
   ingress:

@@ -13,7 +13,7 @@ generic-service:
     annotations:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/custom-http-errors: "418"
-    tlsSecretName: help-with-prison-visits-external-cert
+    tlsSecretName: help-with-prison-visits-cert
     path: /
 
   livenessProbe:
@@ -28,17 +28,16 @@ generic-service:
   
   env:
     FILE_UPLOAD_LOCATION: '/data'
-    FILE_ARCHIVE_LOCATION: '/archive'
     LOGGING_LEVEL: 'DEBUG'
-    APVS_MOJ_SSO_AUTHENTICATION_ENABLED: 'true'
-    APVS_MOJ_SSO_TOKEN_PATH: '/oauth/token'
-    APVS_MOJ_SSO_AUTHORIZE_PATH: '/oauth/authorize'
-    APVS_MOJ_SSO_USER_PATH_PREFIX: /api/user
-    APVS_MOJ_SSO_USER_DETAILS_PATH: '/me'
-    APVS_MOJ_SSO_USER_EMAIL_PATH: '/email'
-    APVS_MOJ_SSO_USER_ROLES_PATH: '/me/roles'
-    APVS_MOJ_SSO_LOGOUT_PATH: '/logout'
-    APVS_INT_SECURE_COOKIE: 'true'
+    APVS_EXT_SECURE_COOKIE: 'true'
+    APVS_ENABLE_MALWARE_SCANNING: 'true'
+    APVS_CLAM_AV_PATH: '/usr/bin/clamdscan'
+    APVS_CLAM_AV_CONF_PATH: '/etc/clamav/clamd.conf'
+    APVS_UPLOAD_FILE_TMP_DIR: '/tmp'
+    APVS_MALWARE_NOTIFICATION_ADDRESS: 'apvs-monitoring-notification@kainos.com'
+    RATE_LIMITING_ENABLED: 'true'
+    RATE_LIMITING_WINDOW_MILLISECONDS: '10000'
+    RATE_LIMITING_REQUEST_LIMIT: '200'
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
@@ -48,13 +47,9 @@ generic-service:
   namespace_secrets:
     help-with-prison-visits-external:
       APVS_APP_INSIGHTS_INSTRUMENTATION_KEY: "APVS_APP_INSIGHTS_INSTRUMENTATION_KEY"
-      APVS_MOJ_SSO_CLIENT_ID: "APVS_MOJ_SSO_CLIENT_ID"
-      APVS_MOJ_SSO_CLIENT_SECRET: "APVS_MOJ_SSO_CLIENT_SECRET"
-      APVS_MOJ_SSO_SESSION_SECRET: "APVS_MOJ_SSO_SESSION_SECRET"
-      APVS_INT_APPLICATION_SECRET: "APVS_INT_APPLICATION_SECRET"
+      APVS_EXT_APPLICATION_SECRET: "APVS_INT_APPLICATION_SECRET"
     rds-instance-output:
       APVS_DATABASE: "database_name"
       APVS_DATABASE_SERVER: 'rds_instance_address'
-      APVS_INT_WEB_USERNAME: 'database_username'
-      APVS_INT_WEB_PASSWORD: 'database_password'
-
+      APVS_EXT_WEB_USERNAME: 'database_username'
+      APVS_EXT_WEB_PASSWORD: 'database_password'
