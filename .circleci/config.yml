@@ -72,8 +72,8 @@ workflows:
       # - integration_test:
       #     requires:
       #       - unit_test
-      - hmpps/helm_lint:
-          name: helm_lint
+      # - hmpps/helm_lint:
+      #     name: helm_lint
       # - hmpps/build_docker:
       #     name: build_docker
       #     filters:
