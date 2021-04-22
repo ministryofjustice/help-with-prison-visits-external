@@ -17,14 +17,14 @@ jobs:
       tag: 14.15-browsers
     steps:
       - checkout
-      - run:
-          name: Switch python
-          command: sudo apt-get update -y && sudo apt-get install -y --no-install-recommends python-is-python3
+      # - run:
+      #     name: Switch python
+      #     command: sudo apt-get update -y && sudo apt-get install -y --no-install-recommends python-is-python3
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm install --python python3
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
