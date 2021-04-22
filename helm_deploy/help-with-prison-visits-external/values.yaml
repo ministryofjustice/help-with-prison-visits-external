@@ -31,9 +31,9 @@ generic-service:
     LOGGING_LEVEL: 'DEBUG'
     APVS_EXT_SECURE_COOKIE: 'true'
     APVS_ENABLE_MALWARE_SCANNING: 'true'
-    APVS_CLAM_AV_HOST: 'clamav',
-    APVS_CLAM_AV_PORT: '3310',
-    APVS_CLAM_AV_TIMEOUT: '60000',
+    APVS_CLAM_AV_HOST: 'clamav'
+    APVS_CLAM_AV_PORT: '3310'
+    APVS_CLAM_AV_TIMEOUT: '60000'
     APVS_UPLOAD_FILE_TMP_DIR: '/tmp'
     APVS_MALWARE_NOTIFICATION_ADDRESS: 'apvs-monitoring-notification@kainos.com'
     RATE_LIMITING_ENABLED: 'true'
