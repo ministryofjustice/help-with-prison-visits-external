@@ -18,8 +18,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: check python
-          command: apt-get update -y && apt-get install -y --no-install-recommends python3
+          name: Install python
+          command: sudo apt-get update -y && sudo apt-get install -y --no-install-recommends python3
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
