@@ -17,6 +17,9 @@ jobs:
       tag: 14.15-browsers
     steps:
       - checkout
+      - run:
+          name: check python
+          command: python --version && which python
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
