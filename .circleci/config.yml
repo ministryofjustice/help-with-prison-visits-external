@@ -19,7 +19,7 @@ jobs:
       - checkout
       - run:
           name: check python
-          command: python --version && which python
+          command: apt-get update -y && apt-get install -y --no-install-recommends python3
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
