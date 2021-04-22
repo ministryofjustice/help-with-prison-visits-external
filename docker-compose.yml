@@ -1,30 +1,25 @@
-version: '3'
+version: '2'
 services:
-  help-with-prison-visits-external:
-    build:
-      context: .
+
+  node-external-apvs:
+    build: .
     volumes:
       - "./gulpfile.js:/usr/src/app/gulpfile.js"
       - "./nodemon.json:/usr/src/app/nodemon.json"
       - "./app:/usr/src/app/app"
+      - "./cache_node_modules:/usr/src/app/node_modules"
       - "./logs:/usr/src/app/logs"
       - "./uploads:/usr/src/app/uploads"
-    networks:
-      - hmpps_int
-    depends_on:
-      - clamav
     ports:
       - "3000:3000"
-    env_file: ./.env
-
-  clamav:
-    image: quay.io/hmpps/hmpps-clamav:latest
-    restart: always
-    container_name: clamav-int
-    networks:
-      - hmpps_int
-    ports:
-      - "3310:3310"
-
-networks:
-  hmpps_int:
+    environment:
+    - LOGGING_PATH=/usr/src/app/logs/external-web.log
+    - APVS_DATABASE
+    - APVS_DATABASE_SERVER
+    - APVS_EXT_WEB_USERNAME
+    - APVS_EXT_WEB_PASSWORD
+    - APVS_EXT_MIGRATION_USERNAME
+    - APVS_EXT_MIGRATION_PASSWORD
+    - I18N_UPDATEFILES
+    - FILE_UPLOAD_LOCATION=/usr/src/app/uploads
+    - FILE_UPLOAD_MAXSIZE

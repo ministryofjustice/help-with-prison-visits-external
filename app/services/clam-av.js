@@ -6,15 +6,15 @@ const log = require('./log')
 let clam
 try {
   clam = new NodeClam().init({
+    remove_infected: config.CLAM_REMOVE_INFECTED,
+    quarantine_infected: false,
     clamdscan: {
-      host: config.CLAM_AV_HOST,
-      port: config.CLAM_AV_PORT,
-      timeout: config.CLAM_AV_TIMEOUT
+      path: config.CLAM_AV_PATH,
+      config_file: config.CLAM_AV_CONF_PATH
     }
   })
 } catch (error) {
   // Suppress clamscan error if disabled
-  console.log(error)
   if (config.ENABLE_MALWARE_SCANNING !== 'true' &&
       !error.message.includes('No valid & active virus scanning binaries are active and available and no host/socket option provided!')) {
     throw error
