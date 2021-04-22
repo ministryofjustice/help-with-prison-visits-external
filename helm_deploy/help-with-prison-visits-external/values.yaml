@@ -48,7 +48,7 @@ generic-service:
   namespace_secrets:
     help-with-prison-visits-external:
       APVS_APP_INSIGHTS_INSTRUMENTATION_KEY: "APVS_APP_INSIGHTS_INSTRUMENTATION_KEY"
-      APVS_EXT_APPLICATION_SECRET: "APVS_INT_APPLICATION_SECRET"
+      APVS_EXT_APPLICATION_SECRET: "APVS_EXT_APPLICATION_SECRET"
     rds-instance-output:
       APVS_DATABASE: "database_name"
       APVS_DATABASE_SERVER: 'rds_instance_address'
