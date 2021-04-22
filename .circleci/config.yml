@@ -18,7 +18,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install python
+          name: Switch python
           command: sudo apt-get update -y && sudo apt-get install -y --no-install-recommends python-is-python3
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}

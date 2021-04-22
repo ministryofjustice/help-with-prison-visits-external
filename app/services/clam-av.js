@@ -9,7 +9,7 @@ try {
     clamdscan: {
       host: config.CLAM_AV_HOST,
       port: config.CLAM_AV_PORT,
-      timeout: config.CLAM_AV_TIMEOUT,
+      timeout: config.CLAM_AV_TIMEOUT
     }
   })
 } catch (error) {
