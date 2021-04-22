@@ -1,0 +1,56 @@
+---
+# Values here are the same across all environments
+generic-service:
+  nameOverride: help-with-prison-visits-external
+
+  image:
+    repository: quay.io/hmpps/help-with-prison-visits-external
+    tag: app_version    # override at deployment time
+    port: 3000
+
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/custom-http-errors: "418"
+    tlsSecretName: help-with-prison-visits-cert
+    path: /
+
+  livenessProbe:
+    httpGet:
+      path: /status
+      port: http
+  
+  readinessProbe:
+    httpGet:
+      path: /status
+      port: http
+  
+  env:
+    FILE_UPLOAD_LOCATION: '/data'
+    LOGGING_LEVEL: 'DEBUG'
+    APVS_EXT_SECURE_COOKIE: 'true'
+    APVS_ENABLE_MALWARE_SCANNING: 'true'
+    APVS_CLAM_AV_HOST: 'clamav'
+    APVS_CLAM_AV_PORT: '3310'
+    APVS_CLAM_AV_TIMEOUT: '60000'
+    APVS_UPLOAD_FILE_TMP_DIR: '/tmp'
+    APVS_MALWARE_NOTIFICATION_ADDRESS: 'apvs-monitoring-notification@kainos.com'
+    RATE_LIMITING_ENABLED: 'true'
+    RATE_LIMITING_WINDOW_MILLISECONDS: '10000'
+    RATE_LIMITING_REQUEST_LIMIT: '200'
+
+  # Pre-existing kubernetes secrets to load as environment variables in the deployment.
+  # namespace_secrets:
+  #   [name of kubernetes secret]:
+  #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
+
+  namespace_secrets:
+    help-with-prison-visits-external:
+      APVS_APP_INSIGHTS_INSTRUMENTATION_KEY: "APVS_APP_INSIGHTS_INSTRUMENTATION_KEY"
+      APVS_EXT_APPLICATION_SECRET: "APVS_EXT_APPLICATION_SECRET"
+    rds-instance-output:
+      APVS_DATABASE: "database_name"
+      APVS_DATABASE_SERVER: 'rds_instance_address'
+      APVS_EXT_WEB_USERNAME: 'database_username'
+      APVS_EXT_WEB_PASSWORD: 'database_password'

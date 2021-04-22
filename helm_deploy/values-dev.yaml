@@ -1,0 +1,18 @@
+---
+# Environment specific values, override helm_deploy/help-with-prison-visits-external/values.yaml
+generic-service:
+  replicaCount: 2
+  ingress:
+    host: "help-with-prison-visits-dev.hmpps.service.justice.gov.uk"
+  env:
+    # APVS_MOJ_SSO_REDIRECT_URI: 'https://manage.hwpv-dev.hmpps.service.justice.gov.uk/auth/hmppsauth/callback'
+    # APVS_MOJ_SSO_TOKEN_HOST: 'https://sign-in-dev.hmpps.service.justice.gov.uk/auth'
+    APVS_EXTERNAL_SERVICE_URL: 'https://help-with-prison-visits-dev.service.justice.gov.uk'
+
+  allowlist:
+    office: "217.33.148.210/32"
+    health-kick: "35.177.252.195/32"
+    mojvpn: "81.134.202.29/32"
+    cloudplatform-live1-1: "35.178.209.113/32"
+    cloudplatform-live1-2: "3.8.51.207/32"
+    cloudplatform-live1-3: "35.177.252.54/32"
