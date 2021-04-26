@@ -12,13 +12,12 @@ module.exports = function (tempPath, targetDir, targetFile) {
   return new Promise(function (resolve, reject) {
     const targetFileName = `${targetDir}${config.FILE_SEPARATOR}${targetFile}`
     const uploadParams = {
-      Bucket: process.argv[2],
+      Bucket: config.AWS_S3_BUCKET_NAME,
       Key: targetFileName,
       Body: ''
     }
 
     const fileStream = fs.createReadStream(tempPath)
-      .pipe(fs.createWriteStream(targetFilePath))
       .on('error', function (error) {
         logger.error('Error occurred writing file ' + targetFileName)
         return reject(error)
