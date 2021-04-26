@@ -1,7 +1,6 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const DocumentTypeEnum = require('../../../../constants/document-type-enum')
-// const DirectoryCheck = require('../../../../services/directory-check')
 const Upload = require('../../../../services/upload')
 const ValidationError = require('../../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
@@ -87,7 +86,6 @@ function renderFileUploadPage (req, res) {
     const decryptedRef = decrypt(req.session.referenceId)
 
     const claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
-    // DirectoryCheck(decryptedRef, claimId, req.query.claimExpenseId, req.query.document)
 
     return res.render('apply/eligibility/claim/file-upload', {
       document: req.query.document,
