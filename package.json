@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "applicationinsights": "^1.8.8",
+    "aws-sdk": "^2.892.0",
     "bases": "^0.2.1",
     "basic-auth": "^2.0.1",
     "bluebird": "^3.7.2",
@@ -76,7 +77,6 @@
     "helmet": "^4.3.1",
     "i18n": "^0.13.2",
     "knex": "^0.21.15",
-    "mkdirp": "^1.0.4",
     "moment": "^2.29.1",
     "mssql": "^6.3.1",
     "multer": "^1.4.2",

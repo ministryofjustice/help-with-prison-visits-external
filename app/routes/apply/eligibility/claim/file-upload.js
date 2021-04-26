@@ -1,7 +1,7 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const DocumentTypeEnum = require('../../../../constants/document-type-enum')
-const DirectoryCheck = require('../../../../services/directory-check')
+// const DirectoryCheck = require('../../../../services/directory-check')
 const Upload = require('../../../../services/upload')
 const ValidationError = require('../../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
@@ -87,7 +87,7 @@ function renderFileUploadPage (req, res) {
     const decryptedRef = decrypt(req.session.referenceId)
 
     const claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
-    DirectoryCheck(decryptedRef, claimId, req.query.claimExpenseId, req.query.document)
+    // DirectoryCheck(decryptedRef, claimId, req.query.claimExpenseId, req.query.document)
 
     return res.render('apply/eligibility/claim/file-upload', {
       document: req.query.document,
@@ -195,12 +195,11 @@ function setReferenceIds (req) {
 
 function moveScannedFileToStorage (req, res, next) {
   const tempPath = req.file.path
-  const targetDir = getTargetDir(req)
+  const filenamePrefix = getFilenamePrefix(req)
   const filename = req.file.filename
-  return moveFile(tempPath, targetDir, filename)
-    .then(function (result) {
-      req.fileUpload.destination = result.dest
-      req.fileUpload.path = result.path
+  return moveFile(tempPath, filenamePrefix, filename)
+    .then(function (targetFileName) {
+      req.fileUpload.path = targetFileName
     })
 }
 
@@ -228,17 +227,16 @@ function unlinkFile (path) {
   })
 }
 
-function getTargetDir (req) {
+function getFilenamePrefix (req) {
   const decryptedReferenceId = decrypt(req.session.referenceId)
-  let targetDir
+
   if (req.query.document !== 'VISIT_CONFIRMATION' && req.query.document !== 'RECEIPT') {
-    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.query.document}`
+    return `${decryptedReferenceId}${config.FILE_SEPARATOR}${config.FILE_SEPARATOR}${config.FILE_SEPARATOR}${req.query.document}`
   } else if (req.query.claimExpenseId) {
-    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.session.claimId}/${req.query.claimExpenseId}/${req.query.document}`
-  } else {
-    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.session.claimId}/${req.query.document}`
+    return `${decryptedReferenceId}${config.FILE_SEPARATOR}${req.session.claimId}${config.FILE_SEPARATOR}${req.query.claimExpenseId}${config.FILE_SEPARATOR}${req.query.document}`
   }
-  return targetDir
+
+  return `${decryptedReferenceId}${config.FILE_SEPARATOR}${req.session.claimId}${config.FILE_SEPARATOR}${config.FILE_SEPARATOR}${req.query.document}`
 }
 
 function addClaimIdIfNotBenefitDocument (document, claimId) {

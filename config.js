@@ -29,6 +29,11 @@ module.exports = {
   // File upload
   FILE_UPLOAD_LOCATION: process.env.FILE_UPLOAD_LOCATION || './uploads',
   FILE_UPLOAD_MAXSIZE: process.env.FILE_UPLOAD_MAXSIZE || '5242880', // 5MB in Bytes.
+  FILE_SEPARATOR: '_XXX_',
+
+  // S3
+  AWS_S3_ACCESS_KEY_ID: process.env.AWS_S3_ACCESS_KEY_ID,
+  AWS_S3_ACCESS_KEY_SECRET: process.env.AWS_S3_ACCESS_KEY_SECRET,
 
   // Session and Cookie security (defaults for development)
   EXT_APPLICATION_SECRET: process.env.APVS_EXT_APPLICATION_SECRET, // NO DEFAULT FOR SECURITY REASONS, WILL FAIL IF NOT SET
