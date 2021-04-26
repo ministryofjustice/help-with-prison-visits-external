@@ -1,4 +1,4 @@
-FROM node:14-buster as builder
+FROM node:12-buster as builder
 
 ARG BUILD_NUMBER
 ARG GIT_REF
@@ -15,7 +15,7 @@ RUN npm ci --no-audit && \
 
 RUN npm prune --production
 
-FROM node:14-buster-slim
+FROM node:12-buster-slim
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
 RUN apt-get update && \
