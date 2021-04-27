@@ -32,8 +32,8 @@ module.exports = {
   FILE_SEPARATOR: '_XXX_',
 
   // S3
-  AWS_S3_ACCESS_KEY_ID: process.env.AWS_S3_ACCESS_KEY_ID,
-  AWS_S3_ACCESS_KEY_SECRET: process.env.AWS_S3_ACCESS_KEY_SECRET,
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
   AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME,
 
   // Session and Cookie security (defaults for development)

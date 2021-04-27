@@ -19,8 +19,8 @@ const dateFormatter = require('../../services/date-formatter')
 const config = require('../../../config')
 const AWS = require('aws-sdk')
 const s3 = new AWS.S3({
-  accessKeyId: config.AWS_S3_ACCESS_KEY_ID,
-  secretAccessKey: config.AWS_S3_ACCESS_KEY_SECRET
+  accessKeyId: config.AWS_ACCESS_KEY_ID,
+  secretAccessKey: config.AWS_SECRET_ACCESS_KEY
 })
 
 const REFERENCE_SESSION_ERROR = '?error=expired'
