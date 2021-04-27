@@ -1,3 +1,4 @@
+const fs = require('fs')
 const UrlPathValidator = require('../../services/validators/url-path-validator')
 const getViewClaim = require('../../services/data/get-view-claim')
 const displayHelper = require('../../views/helpers/display-helper')
@@ -15,6 +16,12 @@ const forEdit = require('../helpers/for-edit')
 const encrypt = require('../../services/helpers/encrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 const dateFormatter = require('../../services/date-formatter')
+const config = require('../../../config')
+const AWS = require('aws-sdk')
+const s3 = new AWS.S3({
+  accessKeyId: config.AWS_S3_ACCESS_KEY_ID,
+  secretAccessKey: config.AWS_S3_ACCESS_KEY_SECRET
+})
 
 const REFERENCE_SESSION_ERROR = '?error=expired'
 
@@ -149,10 +156,22 @@ module.exports = function (router) {
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
       .then(function (result) {
-        const path = result.Filepath
-        if (path) {
-          const fileName = 'APVS-Upload.' + path.split('.').pop()
-          return res.download(path, fileName)
+        const filename = result.Filepath
+        if (filename) {
+          const downloadFileName = `APVS-Upload.${filename}`
+
+          const downloadParams = {
+            Bucket: config.AWS_S3_BUCKET_NAME,
+            Key: downloadFileName
+          }
+
+          s3.getObject(downloadParams).promise().then((data) => {
+            const tempFile = `${config.UPLOAD_FILE_TMP_DIR}/${filename}`
+            fs.writeFileSync(tempFile, data.Body)
+            return res.download(tempFile, downloadFileName)
+          }).catch((err) => {
+            throw err
+          })
         } else {
           throw new Error('No path to file provided')
         }

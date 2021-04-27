@@ -83,10 +83,6 @@ function get (req, res) {
 
 function renderFileUploadPage (req, res) {
   if (Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query.document)) {
-    const decryptedRef = decrypt(req.session.referenceId)
-
-    const claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
-
     return res.render('apply/eligibility/claim/file-upload', {
       document: req.query.document,
       fileUploadGuidingText: DocumentTypeEnum,
@@ -94,9 +90,9 @@ function renderFileUploadPage (req, res) {
       yourClaimUrl: req.yourClaimUrl,
       hideAlternative: req.query.hideAlt
     })
-  } else {
-    throw new Error('Not a valid document type')
   }
+
+  throw new Error('Not a valid document type')
 }
 
 function post (req, res, next, redirectURL) {

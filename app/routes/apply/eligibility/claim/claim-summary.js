@@ -1,3 +1,4 @@
+const fs = require('fs')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const getClaimSummary = require('../../../../services/data/get-claim-summary')
 const claimSummaryHelper = require('../../../helpers/claim-summary-helper')
@@ -10,6 +11,12 @@ const displayHelper = require('../../../../views/helpers/display-helper')
 const SessionHandler = require('../../../../services/validators/session-handler')
 const ErrorHandler = require('../../../../services/validators/error-handler')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
+const config = require('../../../../../config')
+const AWS = require('aws-sdk')
+const s3 = new AWS.S3({
+  accessKeyId: config.AWS_S3_ACCESS_KEY_ID,
+  secretAccessKey: config.AWS_S3_ACCESS_KEY_SECRET
+})
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/summary', function (req, res, next) {
@@ -116,7 +123,18 @@ module.exports = function (router) {
 
     return claimSummaryHelper.getDocumentFilePath(req.params.claimDocumentId)
       .then(function (file) {
-        return res.download(file.path, file.name)
+        const downloadParams = {
+          Bucket: config.AWS_S3_BUCKET_NAME,
+          Key: file.path
+        }
+
+        s3.getObject(downloadParams).promise().then((data) => {
+          const tempFile = `${config.UPLOAD_FILE_TMP_DIR}/${file.path}`
+          fs.writeFileSync(tempFile, data.Body)
+          return res.download(tempFile, file.name)
+        }).catch((err) => {
+          throw err
+        })
       })
       .catch(function (error) {
         next(error)
