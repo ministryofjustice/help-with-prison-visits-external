@@ -43,18 +43,18 @@ describe('routes/helpers/claim-summary-helper', function () {
   let claimSummaryHelper
   let removeClaimExpenseStub
   let removeClaimDocumentStub
-  let getClaimDocumnetFilePathStub
+  let getClaimDocumentFilePathStub
 
   beforeEach(function () {
     removeClaimExpenseStub = sinon.stub()
     removeClaimDocumentStub = sinon.stub()
-    getClaimDocumnetFilePathStub = sinon.stub()
+    getClaimDocumentFilePathStub = sinon.stub()
 
     claimSummaryHelper = proxyquire(
       '../../../../app/routes/helpers/claim-summary-helper', {
         '../../services/data/remove-claim-expense': removeClaimExpenseStub,
         '../../services/data/remove-claim-document': removeClaimDocumentStub,
-        '../../services/data/get-claim-document-file-path': getClaimDocumnetFilePathStub
+        '../../services/data/get-claim-document-file-path': getClaimDocumentFilePathStub
       })
   })
 
@@ -125,25 +125,24 @@ describe('routes/helpers/claim-summary-helper', function () {
   describe('getDocumentFilePath', function () {
     const FILE_EXTENSION = 'txt'
     const FILE_NAME = `example.${FILE_EXTENSION}`
-    const FILE_PATH = `../../examples/${FILE_NAME}`
     const EXPECTED_FILE_NAME = `APVS-Upload.${FILE_EXTENSION}`
 
     it('should return an object containing the file name and file path', function () {
-      getClaimDocumnetFilePathStub.resolves({ Filepath: FILE_PATH })
+      getClaimDocumentFilePathStub.resolves({ Filepath: FILE_NAME })
       return claimSummaryHelper.getDocumentFilePath()
         .then(function (file) {
-          expect(file.path).to.equal(FILE_PATH)
+          expect(file.path).to.equal(FILE_NAME)
           expect(file.name).to.equal(EXPECTED_FILE_NAME)
         })
     })
 
     it('should reject promise if the call to getDocumentFilePath rejects', function () {
-      getClaimDocumnetFilePathStub.rejects()
+      getClaimDocumentFilePathStub.rejects()
       return expect(claimSummaryHelper.getDocumentFilePath()).to.be.rejected
     })
 
     it('should reject promise if there is no filepath returned by getDocumentFilePath call', function () {
-      getClaimDocumnetFilePathStub.resolves()
+      getClaimDocumentFilePathStub.resolves()
       return expect(claimSummaryHelper.getDocumentFilePath()).to.be.rejected
     })
   })

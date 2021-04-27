@@ -46,9 +46,10 @@ module.exports.getDocumentFilePath = function (claimDocumentId) {
     .then(function (result) {
       if (result && result.Filepath) {
         const path = result.Filepath
+        const extension = path.split('.')[1]
         return {
           path: path,
-          name: `${DEFAULT_FILE_NAME}.${path}`
+          name: `${DEFAULT_FILE_NAME}.${extension}`
         }
       }
       throw new Error(`Could not find the path to the document with claim document id ${claimDocumentId}`)
