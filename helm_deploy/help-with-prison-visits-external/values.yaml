@@ -52,13 +52,13 @@ generic-service:
     rds-sqlserver-instance-output:
      APVS_DATABASE: "database_name"
      APVS_DATABASE_SERVER: 'rds_instance_address'
-     APVS_EXT_WEB_USERNAME: 'database_username'
-     APVS_EXT_WEB_PASSWORD: 'database_password'
-    # azure-sqlserver:
+    #  APVS_EXT_WEB_USERNAME: 'database_username'
+    #  APVS_EXT_WEB_PASSWORD: 'database_password'
+    azure-sqlserver:
     #   APVS_DATABASE: "APVS_DATABASE"
     #   APVS_DATABASE_SERVER: "APVS_DATABASE_SERVER"
-    #   APVS_EXT_WEB_USERNAME: "APVS_EXT_WEB_USERNAME"
-    #   APVS_EXT_WEB_PASSWORD: "APVS_EXT_WEB_PASSWORD"
+      APVS_EXT_WEB_USERNAME: "APVS_EXT_WEB_USERNAME"
+      APVS_EXT_WEB_PASSWORD: "APVS_EXT_WEB_PASSWORD"
     hwpv-document-s3-external:
       AWS_ACCESS_KEY_ID: access_key_id
       AWS_SECRET_ACCESS_KEY: secret_access_key
