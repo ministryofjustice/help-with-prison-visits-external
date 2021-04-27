@@ -49,16 +49,16 @@ generic-service:
     help-with-prison-visits-external:
       APVS_APP_INSIGHTS_INSTRUMENTATION_KEY: "APVS_APP_INSIGHTS_INSTRUMENTATION_KEY"
       APVS_EXT_APPLICATION_SECRET: "APVS_EXT_APPLICATION_SECRET"
-    #rds-instance-output:
-    #  APVS_DATABASE: "database_name"
-    #  APVS_DATABASE_SERVER: 'rds_instance_address'
-    #  APVS_EXT_WEB_USERNAME: 'database_username'
-    #  APVS_EXT_WEB_PASSWORD: 'database_password'
-    azure-sqlserver:
-      APVS_DATABASE: "APVS_DATABASE"
-      APVS_DATABASE_SERVER: "APVS_DATABASE_SERVER"
-      APVS_EXT_WEB_USERNAME: "APVS_EXT_WEB_USERNAME"
-      APVS_EXT_WEB_PASSWORD: "APVS_EXT_WEB_PASSWORD"
+    rds-sqlserver-instance-output:
+     APVS_DATABASE: "database_name"
+     APVS_DATABASE_SERVER: 'rds_instance_address'
+     APVS_EXT_WEB_USERNAME: 'database_username'
+     APVS_EXT_WEB_PASSWORD: 'database_password'
+    # azure-sqlserver:
+    #   APVS_DATABASE: "APVS_DATABASE"
+    #   APVS_DATABASE_SERVER: "APVS_DATABASE_SERVER"
+    #   APVS_EXT_WEB_USERNAME: "APVS_EXT_WEB_USERNAME"
+    #   APVS_EXT_WEB_PASSWORD: "APVS_EXT_WEB_PASSWORD"
 
 clamav:
   image:
