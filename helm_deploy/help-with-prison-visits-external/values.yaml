@@ -59,6 +59,10 @@ generic-service:
     #   APVS_DATABASE_SERVER: "APVS_DATABASE_SERVER"
     #   APVS_EXT_WEB_USERNAME: "APVS_EXT_WEB_USERNAME"
     #   APVS_EXT_WEB_PASSWORD: "APVS_EXT_WEB_PASSWORD"
+    hwpv-document-s3-external:
+      AWS_ACCESS_KEY_ID: access_key_id
+      AWS_SECRET_ACCESS_KEY: secret_access_key
+      AWS_S3_BUCKET_NAME: bucket_name
 
 clamav:
   image:
