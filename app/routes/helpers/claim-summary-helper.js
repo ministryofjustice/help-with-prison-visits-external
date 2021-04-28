@@ -54,4 +54,7 @@ module.exports.getDocumentFilePath = function (claimDocumentId) {
       }
       throw new Error(`Could not find the path to the document with claim document id ${claimDocumentId}`)
     })
+    .catch(function (error) {
+      throw new Error(error)
+    })
 }

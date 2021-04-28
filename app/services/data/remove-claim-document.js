@@ -20,7 +20,7 @@ module.exports = function (claimDocumentId) {
           Bucket: config.AWS_S3_BUCKET_NAME,
           Key: filepath[0]
         }
-        s3.deleteObject(params, function(err) {
+        s3.deleteObject(deleteParams, function (err) {
           if (err) {
             throw new Error(err)
           }

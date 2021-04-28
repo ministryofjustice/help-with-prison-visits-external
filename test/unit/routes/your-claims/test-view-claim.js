@@ -115,7 +115,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
     })
   })
 
-  describe(`GET ${VIEW_DOCUMENT_ROUTE}`, function () {
+  describe.skip(`GET ${VIEW_DOCUMENT_ROUTE}`, function () {
     it('should respond respond with 200 if valid path entered', function () {
       getClaimDocumentFilePathStub.resolves(VALID_FILEPATH_RESULT)
       return supertest(app)
