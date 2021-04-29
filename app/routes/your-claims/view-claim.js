@@ -162,7 +162,7 @@ module.exports = function (router) {
 
           const downloadParams = {
             Bucket: config.AWS_S3_BUCKET_NAME,
-            Key: downloadFileName
+            Key: filename
           }
 
           s3.getObject(downloadParams).promise().then((data) => {
