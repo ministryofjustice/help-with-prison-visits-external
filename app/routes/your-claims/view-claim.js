@@ -166,7 +166,7 @@ module.exports = function (router) {
           }
 
           s3.getObject(downloadParams).promise().then((data) => {
-            const tempFile = `${config.UPLOAD_FILE_TMP_DIR}/${filename}`
+            const tempFile = `${config.FILE_TMP_DIR}/${filename}`
             fs.writeFileSync(tempFile, data.Body)
             return res.download(tempFile, downloadFileName)
           }).catch((err) => {

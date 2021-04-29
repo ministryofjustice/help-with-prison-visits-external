@@ -10,7 +10,7 @@ const allowedFileTypes = ['image/png', 'image/x-png', 'image/jpeg', 'image/pjpeg
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, config.UPLOAD_FILE_TMP_DIR)
+    cb(null, config.FILE_TMP_DIR)
   },
   filename: function (req, file, cb) {
     crypto.randomBytes(16, function (err, raw) {
