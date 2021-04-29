@@ -1,4 +1,3 @@
-const fs = require('fs')
 const UrlPathValidator = require('../../services/validators/url-path-validator')
 const getViewClaim = require('../../services/data/get-view-claim')
 const displayHelper = require('../../views/helpers/display-helper')
@@ -17,6 +16,7 @@ const encrypt = require('../../services/helpers/encrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 const dateFormatter = require('../../services/date-formatter')
 const config = require('../../../config')
+const fs = require('fs')
 const AWS = require('aws-sdk')
 const s3 = new AWS.S3({
   accessKeyId: config.AWS_ACCESS_KEY_ID,
@@ -156,18 +156,18 @@ module.exports = function (router) {
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
       .then(function (result) {
-        const filename = result.Filepath
-        if (filename) {
-          const downloadFileName = `APVS-Upload.${filename.split('.').pop()}`
+        const path = result.Filepath
+        if (path) {
+          const fileName = `APVS-Upload.${path.split('.').pop()}`
           const downloadParams = {
             Bucket: config.AWS_S3_BUCKET_NAME,
-            Key: filename
+            Key: path
           }
 
           s3.getObject(downloadParams).promise().then((data) => {
-            const tempFile = `${config.FILE_TMP_DIR}/${downloadFileName}`
+            const tempFile = `${config.FILE_TMP_DIR}/${fileName}`
             fs.writeFileSync(tempFile, data.Body)
-            return res.download(tempFile, downloadFileName)
+            return res.download(tempFile, fileName)
           }).catch((err) => {
             throw err
           })

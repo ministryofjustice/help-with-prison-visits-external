@@ -1,6 +1,7 @@
 const Promise = require('bluebird').Promise
 const fs = Promise.promisifyAll(require('fs'))
 const logger = require('./log')
+const path = require('path')
 const config = require('../../config')
 const AWS = require('aws-sdk')
 const s3 = new AWS.S3({
@@ -10,20 +11,20 @@ const s3 = new AWS.S3({
 
 module.exports = function (tempPath, targetDir, targetFile) {
   return new Promise(function (resolve, reject) {
-    const targetFileName = `${targetDir}${targetFile}`
+    const targetFilePath = path.join(targetDir, targetFile)
     const uploadParams = {
       Bucket: config.AWS_S3_BUCKET_NAME,
-      Key: targetFileName,
+      Key: targetFilePath,
       Body: ''
     }
 
     const fileStream = fs.createReadStream(tempPath)
       .on('error', function (error) {
-        logger.error('Error occurred writing file ' + targetFileName)
+        logger.error('Error occurred writing file ' + targetFilePath)
         return reject(error)
       })
       .on('finish', function () {
-        logger.info(`Move file to location ${targetFileName}`)
+        logger.info(`Move file to location ${targetFilePath}`)
       })
 
     uploadParams.Body = fileStream
@@ -34,7 +35,7 @@ module.exports = function (tempPath, targetDir, targetFile) {
         logger.error('Error', err)
       } if (data) {
         logger.info('Upload Success', data.Location)
-        return resolve(targetFileName)
+        return resolve(targetFilePath)
       }
     })
   })

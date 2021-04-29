@@ -189,10 +189,11 @@ function setReferenceIds (req) {
 
 function moveScannedFileToStorage (req, res, next) {
   const tempPath = req.file.path
-  const filenamePrefix = getFilenamePrefix(req)
+  const targetDir = getTargetDir(req)
   const filename = req.file.filename
-  return moveFile(tempPath, filenamePrefix, filename)
+  return moveFile(tempPath, targetDir, filename)
     .then(function (targetFileName) {
+      req.fileUpload.destination = ''
       req.fileUpload.path = targetFileName
     })
 }
@@ -221,16 +222,18 @@ function unlinkFile (path) {
   })
 }
 
-function getFilenamePrefix (req) {
+function getTargetDir (req) {
   const decryptedReferenceId = decrypt(req.session.referenceId)
-
+  let targetDir
   if (req.query.document !== 'VISIT_CONFIRMATION' && req.query.document !== 'RECEIPT') {
-    return `${decryptedReferenceId}/${req.query.document}`
+    targetDir = `${decryptedReferenceId}/${req.query.document}`
   } else if (req.query.claimExpenseId) {
-    return `${decryptedReferenceId}/${req.session.claimId}/${req.query.claimExpenseId}/${req.query.document}`
+    targetDir = `${decryptedReferenceId}/${req.session.claimId}/${req.query.claimExpenseId}/${req.query.document}`
+  } else {
+    targetDir = `${decryptedReferenceId}/${req.session.claimId}/${req.query.document}`
   }
 
-  return `${decryptedReferenceId}/${req.session.claimId}/${req.query.document}`
+  return targetDir
 }
 
 function addClaimIdIfNotBenefitDocument (document, claimId) {

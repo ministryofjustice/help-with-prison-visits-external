@@ -1,4 +1,3 @@
-const fs = require('fs')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const getClaimSummary = require('../../../../services/data/get-claim-summary')
 const claimSummaryHelper = require('../../../helpers/claim-summary-helper')
@@ -12,6 +11,7 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 const ErrorHandler = require('../../../../services/validators/error-handler')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
 const config = require('../../../../../config')
+const fs = require('fs')
 const AWS = require('aws-sdk')
 const s3 = new AWS.S3({
   accessKeyId: config.AWS_ACCESS_KEY_ID,
