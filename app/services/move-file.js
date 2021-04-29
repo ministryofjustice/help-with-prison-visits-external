@@ -1,7 +1,7 @@
 const Promise = require('bluebird').Promise
 const fs = Promise.promisifyAll(require('fs'))
-const logger = require('./log')
 const path = require('path')
+const logger = require('./log')
 const config = require('../../config')
 const AWS = require('aws-sdk')
 const s3 = new AWS.S3({

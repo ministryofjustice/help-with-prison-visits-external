@@ -232,7 +232,6 @@ function getTargetDir (req) {
   } else {
     targetDir = `${decryptedReferenceId}/${req.session.claimId}/${req.query.document}`
   }
-
   return targetDir
 }
 

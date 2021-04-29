@@ -11,7 +11,8 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 const ErrorHandler = require('../../../../services/validators/error-handler')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
 const config = require('../../../../../config')
-const fs = require('fs')
+const Promise = require('bluebird').Promise
+const fs = Promise.promisifyAll(require('fs'))
 const AWS = require('aws-sdk')
 const s3 = new AWS.S3({
   accessKeyId: config.AWS_ACCESS_KEY_ID,
@@ -129,7 +130,8 @@ module.exports = function (router) {
         }
 
         s3.getObject(downloadParams).promise().then((data) => {
-          const tempFile = `${config.FILE_TMP_DIR}/${file.path}`
+          const filename = file.path.split('/').join('')
+          const tempFile = `${config.FILE_TMP_DIR}/${filename}`
           fs.writeFileSync(tempFile, data.Body)
           return res.download(tempFile, file.name)
         }).catch((err) => {
