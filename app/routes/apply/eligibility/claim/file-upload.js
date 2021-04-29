@@ -225,12 +225,12 @@ function getFilenamePrefix (req) {
   const decryptedReferenceId = decrypt(req.session.referenceId)
 
   if (req.query.document !== 'VISIT_CONFIRMATION' && req.query.document !== 'RECEIPT') {
-    return `${decryptedReferenceId}${config.FILE_SEPARATOR}${config.FILE_SEPARATOR}${config.FILE_SEPARATOR}${req.query.document}`
+    return `${decryptedReferenceId}/${req.query.document}`
   } else if (req.query.claimExpenseId) {
-    return `${decryptedReferenceId}${config.FILE_SEPARATOR}${req.session.claimId}${config.FILE_SEPARATOR}${req.query.claimExpenseId}${config.FILE_SEPARATOR}${req.query.document}`
+    return `${decryptedReferenceId}/${req.session.claimId}/${req.query.claimExpenseId}/${req.query.document}`
   }
 
-  return `${decryptedReferenceId}${config.FILE_SEPARATOR}${req.session.claimId}${config.FILE_SEPARATOR}${config.FILE_SEPARATOR}${req.query.document}`
+  return `${decryptedReferenceId}/${req.session.claimId}/${req.query.document}`
 }
 
 function addClaimIdIfNotBenefitDocument (document, claimId) {

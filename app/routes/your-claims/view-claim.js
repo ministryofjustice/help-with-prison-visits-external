@@ -158,15 +158,14 @@ module.exports = function (router) {
       .then(function (result) {
         const filename = result.Filepath
         if (filename) {
-          const downloadFileName = `APVS-Upload.${filename}`
-
+          const downloadFileName = `APVS-Upload.${filename.split('.').pop()}`
           const downloadParams = {
             Bucket: config.AWS_S3_BUCKET_NAME,
             Key: filename
           }
 
           s3.getObject(downloadParams).promise().then((data) => {
-            const tempFile = `${config.FILE_TMP_DIR}/${filename}`
+            const tempFile = `${config.FILE_TMP_DIR}/${downloadFileName}`
             fs.writeFileSync(tempFile, data.Body)
             return res.download(tempFile, downloadFileName)
           }).catch((err) => {

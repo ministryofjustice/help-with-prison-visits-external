@@ -10,7 +10,7 @@ const s3 = new AWS.S3({
 
 module.exports = function (tempPath, targetDir, targetFile) {
   return new Promise(function (resolve, reject) {
-    const targetFileName = `${targetDir}${config.FILE_SEPARATOR}${targetFile}`
+    const targetFileName = `${targetDir}${targetFile}`
     const uploadParams = {
       Bucket: config.AWS_S3_BUCKET_NAME,
       Key: targetFileName,
