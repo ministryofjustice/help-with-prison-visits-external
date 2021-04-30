@@ -62,4 +62,3 @@ generic-service:
 clamav:
   image:
     tag: 2020-06-19.7.cdf9043
-  refresh_clamav_db_cron: "0 6 * * *"
