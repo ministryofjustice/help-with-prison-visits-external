@@ -10,14 +10,8 @@ const displayHelper = require('../../../../views/helpers/display-helper')
 const SessionHandler = require('../../../../services/validators/session-handler')
 const ErrorHandler = require('../../../../services/validators/error-handler')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
-const config = require('../../../../../config')
-const Promise = require('bluebird').Promise
-const fs = Promise.promisifyAll(require('fs'))
-const AWS = require('aws-sdk')
-const s3 = new AWS.S3({
-  accessKeyId: config.AWS_ACCESS_KEY_ID,
-  secretAccessKey: config.AWS_SECRET_ACCESS_KEY
-})
+const { AWSHelper } = require('../../../../services/aws-helper')
+const aws = new AWSHelper()
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/summary', function (req, res, next) {
@@ -124,19 +118,7 @@ module.exports = function (router) {
 
     return claimSummaryHelper.getDocumentFilePath(req.params.claimDocumentId)
       .then(function (file) {
-        const downloadParams = {
-          Bucket: config.AWS_S3_BUCKET_NAME,
-          Key: file.path
-        }
-
-        s3.getObject(downloadParams).promise().then((data) => {
-          const filename = file.path.split('/').join('')
-          const tempFile = `${config.FILE_TMP_DIR}/${filename}`
-          fs.writeFileSync(tempFile, data.Body)
-          return res.download(tempFile, file.name)
-        }).catch((err) => {
-          throw err
-        })
+        return res.download(aws.download(file.path), file.name)
       })
       .catch(function (error) {
         next(error)

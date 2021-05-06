@@ -15,13 +15,8 @@ const forEdit = require('../helpers/for-edit')
 const encrypt = require('../../services/helpers/encrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 const dateFormatter = require('../../services/date-formatter')
-const config = require('../../../config')
-const fs = require('fs')
-const AWS = require('aws-sdk')
-const s3 = new AWS.S3({
-  accessKeyId: config.AWS_ACCESS_KEY_ID,
-  secretAccessKey: config.AWS_SECRET_ACCESS_KEY
-})
+const { AWSHelper } = require('../../services/aws-helper')
+const aws = new AWSHelper()
 
 const REFERENCE_SESSION_ERROR = '?error=expired'
 
@@ -159,18 +154,8 @@ module.exports = function (router) {
         const path = result.Filepath
         if (path) {
           const fileName = `APVS-Upload.${path.split('.').pop()}`
-          const downloadParams = {
-            Bucket: config.AWS_S3_BUCKET_NAME,
-            Key: path
-          }
 
-          s3.getObject(downloadParams).promise().then((data) => {
-            const tempFile = `${config.FILE_TMP_DIR}/${fileName}`
-            fs.writeFileSync(tempFile, data.Body)
-            return res.download(tempFile, fileName)
-          }).catch((err) => {
-            throw err
-          })
+          return res.download(aws.download(path), fileName)
         } else {
           throw new Error('No path to file provided')
         }
