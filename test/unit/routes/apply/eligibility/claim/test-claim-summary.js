@@ -1,7 +1,6 @@
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const AWS = require('aws-sdk')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 
@@ -26,8 +25,6 @@ const CLAIM = {
   }
 }
 
-const S3 = new AWS.S3()
-
 describe('routes/apply/eligibility/claim/claim-summary', function () {
   let app
 
@@ -35,15 +32,6 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
   let getClaimSummaryStub
   let claimSummaryStub
   let claimSummaryHelperStub
-  const s3getObjectStub = sinon.stub(S3, 'getObject')
-  s3getObjectStub.returns({
-    promise: () => {
-      console.log('BOO')
-      return {
-        Body: Buffer.from('Test file\n')
-      }
-    }
-  })
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
