@@ -44,7 +44,7 @@ class AWSHelper {
 
     this.s3.upload(uploadParams).promise()
       .then(function (data) {
-        log.info('Upload Success', data.Location)
+        log.info('Upload Success', data.Location, key)
         return key
       })
       .catch(function (error) {
@@ -53,16 +53,16 @@ class AWSHelper {
       })
   }
 
-  download (key) {
+  download (key, filename, res) {
     const downloadParams = {
       Bucket: this.bucketName,
       Key: key
     }
 
     this.s3.getObject(downloadParams).promise().then((data) => {
-      const tempFile = `${config.FILE_TMP_DIR}/${key}`
+      const tempFile = `${config.FILE_TMP_DIR}/${filename}`
       fs.writeFileSync(tempFile, data.Body)
-      return tempFile
+      return res.download(tempFile, filename)
     }).catch((err) => {
       throw err
     })

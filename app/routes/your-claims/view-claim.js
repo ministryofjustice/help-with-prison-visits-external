@@ -155,7 +155,7 @@ module.exports = function (router) {
         if (path) {
           const fileName = `APVS-Upload.${path.split('.').pop()}`
 
-          return res.download(aws.download(path), fileName)
+          return aws.download(path, fileName, res)
         } else {
           throw new Error('No path to file provided')
         }

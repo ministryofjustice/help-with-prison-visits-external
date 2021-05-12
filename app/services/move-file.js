@@ -8,7 +8,8 @@ module.exports = function (tempPath, targetDir, targetFile) {
     const targetFilePath = path.join(targetDir, targetFile)
 
     try {
-      return resolve(aws.upload(targetFilePath, tempPath))
+      const key = aws.upload(targetFilePath, tempPath)
+      return resolve(targetFilePath)
     } catch (error) {
       reject(error)
     }
