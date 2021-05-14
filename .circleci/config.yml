@@ -95,7 +95,28 @@ workflows:
             - helm_lint
             - unit_test
             - build_docker
-
+      - request-preprod-approval:
+          type: approval
+          requires:
+            - deploy_dev
+      - hmpps/deploy_env:
+          name: deploy_preprod
+          env: "preprod"
+          context: help-with-prison-visits-internal-preprod
+          requires:
+            - request-preprod-approval
+      # - request-prod-approval:
+      #     type: approval
+      #     requires:
+      #       - deploy_preprod
+      # - hmpps/deploy_env:
+      #     name: deploy_prod
+      #     env: "prod"
+      #     slack_notification: true
+      #     context: help-with-prison-visits-internal-prod
+      #     requires:
+      #       - request-prod-approval
+      
   # security:
   #   triggers:
   #     - schedule:
