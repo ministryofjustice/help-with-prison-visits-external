@@ -153,10 +153,14 @@ module.exports = function (router) {
       .then(async function (result) {
         const path = result.Filepath
         if (path) {
-          const fileName = `HwPV-Upload.${path.split('.').pop()}`
-          const awsDownload = await aws.download(fileName)
+          try {
+            const fileName = `HwPV-Upload.${path.split('.').pop()}`
+            const awsDownloadPath = await aws.download(path)
 
-          res.download(awsDownload, fileName)
+            return res.download(awsDownloadPath, fileName)
+          } catch (error) {
+            next(error)
+          }
         } else {
           throw new Error('No path to file provided')
         }

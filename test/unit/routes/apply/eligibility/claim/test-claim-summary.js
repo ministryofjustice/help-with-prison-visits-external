@@ -27,6 +27,7 @@ const CLAIM = {
 
 describe('routes/apply/eligibility/claim/claim-summary', function () {
   let app
+  let awsStub
 
   let urlPathValidatorStub
   let getClaimSummaryStub
@@ -38,14 +39,25 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
     getClaimSummaryStub = sinon.stub()
     claimSummaryStub = sinon.stub()
     claimSummaryHelperStub = sinon.stub()
+    awsStub = function () {
+      return {
+        download: sinon.stub().resolves(FILEPATH_RESULT.path)
+      }
+    }
+
+    const awsHelperStub = {
+      AWSHelper: awsStub
+    }
 
     const route = proxyquire(
       '../../../../../../app/routes/apply/eligibility/claim/claim-summary', {
         '../../../../services/validators/url-path-validator': urlPathValidatorStub,
         '../../../../services/data/get-claim-summary': getClaimSummaryStub,
         '../../../../services/domain/claim-summary': claimSummaryStub,
+        '../../../../services/aws-helper': awsHelperStub,
         '../../../helpers/claim-summary-helper': claimSummaryHelperStub
-      })
+      }
+    )
 
     app = routeHelper.buildApp(route)
   })
@@ -131,7 +143,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         })
     })
 
-    it.skip('should respond respond with 200 if valid path entered', function () {
+    it('should respond respond with 200 if valid path entered', function () {
       sinon.stub(claimSummaryHelperStub, 'getDocumentFilePath').resolves(FILEPATH_RESULT)
       return supertest(app)
         .get(VIEW_DOCUMENT_ROUTE)

@@ -118,8 +118,9 @@ module.exports = function (router) {
 
     return claimSummaryHelper.getDocumentFilePath(req.params.claimDocumentId)
       .then(async function (file) {
-        const awsDownload = await aws.download(file.path)
-        res.download(awsDownload, file.name)
+        const awsDownloadPath = await aws.download(file.path)
+
+        res.download(awsDownloadPath, file.name)
       })
       .catch(function (error) {
         next(error)
