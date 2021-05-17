@@ -15,17 +15,18 @@ class AWSHelper {
     })
   }
 
-  delete (key) {
+  async delete (key) {
     const deleteParams = {
       Bucket: this.bucketName,
       Key: key
     }
-    this.s3.deleteObject(deleteParams, function (error) {
-      if (error) {
-        log.error(`Problem deleting file ${key}`)
-        throw new Error(error)
-      }
-    })
+
+    try {
+      await this.s3.deleteObject(deleteParams).promise()
+    } catch (error) {
+      log.error(`Problem deleting file ${key}`)
+      throw new Error(error)
+    }
   }
 
   async upload (key, source) {

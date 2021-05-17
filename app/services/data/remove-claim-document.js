@@ -10,9 +10,9 @@ module.exports = function (claimDocumentId) {
     .update({
       IsEnabled: false
     })
-    .then(function (filepath) {
+    .then(async function (filepath) {
       if (filepath[0]) {
-        aws.delete(filepath[0])
+        await aws.delete(filepath[0])
       }
     })
 }
