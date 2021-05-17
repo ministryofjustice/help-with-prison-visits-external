@@ -117,8 +117,9 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
 
     return claimSummaryHelper.getDocumentFilePath(req.params.claimDocumentId)
-      .then(function (file) {
-        return aws.download(file.path, file.name, res)
+      .then(async function (file) {
+        const awsDownload = await aws.download(file.path)
+        res.download(awsDownload, file.name)
       })
       .catch(function (error) {
         next(error)

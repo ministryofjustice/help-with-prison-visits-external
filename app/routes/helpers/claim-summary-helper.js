@@ -2,7 +2,7 @@ const removeClaimExpense = require('../../services/data/remove-claim-expense')
 const removeClaimDocument = require('../../services/data/remove-claim-document')
 const getClaimDocumentFilePath = require('../../services/data/get-claim-document-file-path')
 
-const DEFAULT_FILE_NAME = 'APVS-Upload'
+const DEFAULT_FILE_NAME = 'HwPV-Upload'
 
 module.exports.buildClaimSummaryUrl = function (req) {
   return '/apply/eligibility/claim/summary'

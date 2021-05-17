@@ -133,12 +133,13 @@ function checkForMalware (req, res, next, redirectURL) {
   const ids = setReferenceIds(req)
   const claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
   if (req.file) {
-    clam.scan(req.file.path).then((infected) => {
+    clam.scan(req.file.path).then(async (infected) => {
       if (infected) insertMalwareAlertTask(ids, claimId, req.file.path)
-      return moveScannedFileToStorage(req, res, next).then(function () {
-        return updateClaimDocumentMetadata(ids, claimId, req).then(function () {
-          res.redirect(redirectURL)
-        })
+
+      await moveScannedFileToStorage(req, res, next)
+
+      return updateClaimDocumentMetadata(ids, claimId, req).then(function () {
+        res.redirect(redirectURL)
       })
     }).catch((error) => {
       handleError(req, res, next, error)
@@ -187,15 +188,13 @@ function setReferenceIds (req) {
   return { eligibilityId: id, reference: reference }
 }
 
-function moveScannedFileToStorage (req, res, next) {
+async function moveScannedFileToStorage (req, res, next) {
   const tempPath = req.file.path
   const targetDir = getTargetDir(req)
   const filename = req.file.filename
-  return moveFile(tempPath, targetDir, filename)
-    .then(function (targetFileName) {
-      req.fileUpload.destination = ''
-      req.fileUpload.path = targetFileName
-    })
+  const targetFileName = await moveFile(tempPath, targetDir, filename)
+  req.fileUpload.destination = ''
+  req.fileUpload.path = targetFileName
 }
 
 function insertMalwareAlertTask (ids, claimId, path) {

@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid')
 const AWS = require('aws-sdk')
 const fs = require('fs')
 const log = require('./log')
@@ -27,7 +28,7 @@ class AWSHelper {
     })
   }
 
-  upload (key, source) {
+  async upload (key, source) {
     const uploadParams = {
       Bucket: this.bucketName,
       Key: key,
@@ -42,30 +43,32 @@ class AWSHelper {
 
     uploadParams.Body = fileStream
 
-    this.s3.upload(uploadParams).promise()
-      .then(function (data) {
-        log.info('Upload Success', data.Location, key)
-        return key
-      })
-      .catch(function (error) {
-        log.error(`Error occurred uploading file to s3 ${key}`, error)
-        throw new Error(error)
-      })
+    try {
+      const uploadResult = await this.s3.upload(uploadParams).promise()
+      log.info('Upload Success', uploadResult.Location, key)
+      return key
+    } catch (error) {
+      log.error(`Error occurred uploading file to s3 ${key}`, error)
+      throw new Error(error)
+    }
   }
 
-  download (key, filename, res) {
+  async download (key) {
     const downloadParams = {
       Bucket: this.bucketName,
       Key: key
     }
+    const randomFilename = uuidv4()
+    const tempFile = `${config.FILE_TMP_DIR}/${randomFilename}`
 
-    this.s3.getObject(downloadParams).promise().then((data) => {
-      const tempFile = `${config.FILE_TMP_DIR}/${filename}`
+    try {
+      const data = await this.s3.getObject(downloadParams).promise()
       fs.writeFileSync(tempFile, data.Body)
-      return res.download(tempFile, filename)
-    }).catch((err) => {
-      throw err
-    })
+    } catch (error) {
+      throw new Error(error)
+    }
+
+    return tempFile
   }
 }
 

@@ -125,7 +125,7 @@ describe('routes/helpers/claim-summary-helper', function () {
   describe('getDocumentFilePath', function () {
     const FILE_EXTENSION = 'txt'
     const FILE_NAME = `example.${FILE_EXTENSION}`
-    const EXPECTED_FILE_NAME = `APVS-Upload.${FILE_EXTENSION}`
+    const EXPECTED_FILE_NAME = `HwPV-Upload.${FILE_EXTENSION}`
 
     it('should return an object containing the file name and file path', function () {
       getClaimDocumentFilePathStub.resolves({ Filepath: FILE_NAME })

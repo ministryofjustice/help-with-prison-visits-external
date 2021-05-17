@@ -150,12 +150,13 @@ module.exports = function (router) {
     }
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
-      .then(function (result) {
+      .then(async function (result) {
         const path = result.Filepath
         if (path) {
-          const fileName = `APVS-Upload.${path.split('.').pop()}`
+          const fileName = `HwPV-Upload.${path.split('.').pop()}`
+          const awsDownload = await aws.download(fileName)
 
-          return aws.download(path, fileName, res)
+          res.download(awsDownload, fileName)
         } else {
           throw new Error('No path to file provided')
         }

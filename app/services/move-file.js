@@ -1,17 +1,13 @@
-const Promise = require('bluebird').Promise
 const path = require('path')
 const { AWSHelper } = require('./aws-helper')
 const aws = new AWSHelper()
 
-module.exports = function (tempPath, targetDir, targetFile) {
-  return new Promise(function (resolve, reject) {
-    const targetFilePath = path.join(targetDir, targetFile)
+module.exports = async function (tempPath, targetDir, targetFile) {
+  const targetFilePath = path.join(targetDir, targetFile)
 
-    try {
-      const key = aws.upload(targetFilePath, tempPath)
-      return resolve(targetFilePath)
-    } catch (error) {
-      reject(error)
-    }
-  })
+  try {
+    return await aws.upload(targetFilePath, tempPath)
+  } catch (error) {
+    throw new Error(error)
+  }
 }
