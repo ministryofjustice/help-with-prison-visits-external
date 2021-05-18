@@ -12,6 +12,7 @@
   "scripts": {
     "start": "gulp",
     "start-docker": "node /app/bin/www",
+    "security_audit": "npx audit-ci --config audit-ci.json",
     "generate-assets": "gulp generate-assets",
     "start-maintenance": "node app/bin/www-maintenance",
     "test": "standard && mocha --recursive test/unit/ --exit",

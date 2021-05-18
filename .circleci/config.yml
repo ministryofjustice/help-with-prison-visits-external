@@ -105,9 +105,9 @@ workflows:
               only:
                 - main
     jobs:
-#      - hmpps/npm_security_audit:
-#          context:
-#            - hmpps-common-vars
+      - hmpps/npm_security_audit:
+          context:
+            - hmpps-common-vars
       - hmpps/veracode_pipeline_scan:
           context:
             - veracode-credentials
