@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.1
+  hmpps: ministryofjustice/hmpps@3.2
 
 # executors:
 #   integration-tests:
@@ -96,19 +96,20 @@ workflows:
             - unit_test
             - build_docker
 
-  # security:
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 7 * * 1-5"
-  #         filters:
-  #           branches:
-  #             only:
-  #               - main
-  #   jobs:
-  #     - check_outdated
-  #     - hmpps/npm_security_audit:
-  #         context:
-  #           - hmpps-common-vars
-  #     - hmpps/veracode_pipeline_scan:
-  #         context:
-  #           - hmpps-common-vars
+  security:
+    triggers:
+      - schedule:
+          cron: "0 7 * * 1-5"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+#      - hmpps/npm_security_audit:
+#          context:
+#            - hmpps-common-vars
+      - hmpps/veracode_pipeline_scan:
+          context:
+            - veracode-credentials
+            - hmpps-common-vars
+
