@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "applicationinsights": "^1.8.8",
-    "aws-sdk": "^2.905.0",
+    "aws-sdk": "^2.909.0",
     "bases": "^0.2.1",
     "basic-auth": "^2.0.1",
     "bluebird": "^3.7.2",
