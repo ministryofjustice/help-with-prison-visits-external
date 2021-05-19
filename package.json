@@ -1,19 +1,19 @@
 {
-  "name": "external-web",
-  "version": "0.1.0",
+  "name": "help-with-prison-visits-external",
+  "version": "1.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ministryofjustice/apvs-external-web.git"
+    "url": "https://github.com/ministryofjustice/help-with-prison-visits-external.git"
   },
   "engines": {
     "node": "12.x.x"
   },
   "scripts": {
+    "generate-assets": "gulp generate-assets",
     "start": "gulp",
     "start-docker": "node /app/bin/www",
     "security_audit": "npx audit-ci --config audit-ci.json",
-    "generate-assets": "gulp generate-assets",
     "start-maintenance": "node app/bin/www-maintenance",
     "test": "standard && mocha --recursive test/unit/ --exit",
     "test-coverage": "nyc npm run test-unit",
