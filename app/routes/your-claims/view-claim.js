@@ -15,6 +15,8 @@ const forEdit = require('../helpers/for-edit')
 const encrypt = require('../../services/helpers/encrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 const dateFormatter = require('../../services/date-formatter')
+const { AWSHelper } = require('../../services/aws-helper')
+const aws = new AWSHelper()
 
 const REFERENCE_SESSION_ERROR = '?error=expired'
 
@@ -148,11 +150,17 @@ module.exports = function (router) {
     }
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
-      .then(function (result) {
+      .then(async function (result) {
         const path = result.Filepath
         if (path) {
-          const fileName = 'APVS-Upload.' + path.split('.').pop()
-          return res.download(path, fileName)
+          try {
+            const fileName = `HwPV-Upload.${path.split('.').pop()}`
+            const awsDownloadPath = await aws.download(path)
+
+            return res.download(awsDownloadPath, fileName)
+          } catch (error) {
+            next(error)
+          }
         } else {
           throw new Error('No path to file provided')
         }

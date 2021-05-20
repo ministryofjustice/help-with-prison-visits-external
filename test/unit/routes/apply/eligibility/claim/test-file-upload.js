@@ -11,7 +11,6 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
 
   let app
   let urlPathValidatorStub
-  let directoryCheckStub
   let uploadStub
   let fileUploadStub
   let claimDocumentInsertStub
@@ -24,7 +23,6 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
 
   beforeEach(function () {
     urlPathValidatorStub = sinon.stub()
-    directoryCheckStub = sinon.stub()
     uploadStub = sinon.stub()
     fileUploadStub = sinon.stub()
     claimDocumentInsertStub = sinon.stub()
@@ -37,7 +35,6 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
 
     const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/file-upload', {
       '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/directory-check': directoryCheckStub,
       '../../../../services/upload': uploadStub,
       '../../../../services/domain/file-upload': fileUploadStub,
       '../../../../services/data/insert-file-upload-details-for-claim': claimDocumentInsertStub,
@@ -76,15 +73,6 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
         .get(`${ROUTE}VISIT_CONFIRMATION`)
         .set('Cookie', COOKIES)
         .expect(200)
-    })
-
-    it('should call the directory check', function () {
-      return supertest(app)
-        .get(`${ROUTE}VISIT_CONFIRMATION`)
-        .set('Cookie', COOKIES)
-        .expect(function () {
-          sinon.assert.calledOnce(directoryCheckStub)
-        })
     })
 
     it('should respond with a 500 if passed invalid document type', function () {

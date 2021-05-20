@@ -26,6 +26,7 @@ const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIM_DOCUMENT_ID}?doc
 
 describe('routes/apply/eligibility/claim/view-claim', function () {
   let app
+  let awsStub
 
   let urlPathValidatorStub
   let getViewClaimStub
@@ -41,6 +42,15 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
     viewClaimDomainObjectStub = sinon.stub()
     submitUpdateStub = sinon.stub()
     removeClaimDocumentStub = sinon.stub()
+    awsStub = function () {
+      return {
+        download: sinon.stub().resolves(VALID_FILEPATH_RESULT.Filepath)
+      }
+    }
+
+    const awsHelperStub = {
+      AWSHelper: awsStub
+    }
 
     const route = proxyquire(
       '../../../../app/routes/your-claims/view-claim', {
@@ -49,7 +59,8 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         '../../services/data/get-claim-document-file-path': getClaimDocumentFilePathStub,
         '../../services/domain/view-claim': viewClaimDomainObjectStub,
         '../../services/data/submit-update': submitUpdateStub,
-        '../../services/data/remove-claim-document': removeClaimDocumentStub
+        '../../services/data/remove-claim-document': removeClaimDocumentStub,
+        '../../services/aws-helper': awsHelperStub
       })
     app = routeHelper.buildApp(route)
   })

@@ -20,15 +20,17 @@ module.exports = {
   DATABASE: process.env.APVS_DATABASE,
   EXT_WEB_USERNAME: process.env.APVS_EXT_WEB_USERNAME,
   EXT_WEB_PASSWORD: process.env.APVS_EXT_WEB_PASSWORD,
-  EXT_MIGRATION_USERNAME: process.env.APVS_EXT_MIGRATION_USERNAME,
-  EXT_MIGRATION_PASSWORD: process.env.APVS_EXT_MIGRATION_PASSWORD,
 
   // i18n
   I18N_UPDATEFILES: process.env.I18N_UPDATEFILES,
 
   // File upload
-  FILE_UPLOAD_LOCATION: process.env.FILE_UPLOAD_LOCATION || './uploads',
   FILE_UPLOAD_MAXSIZE: process.env.FILE_UPLOAD_MAXSIZE || '5242880', // 5MB in Bytes.
+
+  // S3
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+  AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME,
 
   // Session and Cookie security (defaults for development)
   EXT_APPLICATION_SECRET: process.env.APVS_EXT_APPLICATION_SECRET, // NO DEFAULT FOR SECURITY REASONS, WILL FAIL IF NOT SET
@@ -43,7 +45,7 @@ module.exports = {
   CLAM_AV_HOST: process.env.APVS_CLAM_AV_HOST || 'clamav',
   CLAM_AV_PORT: process.env.APVS_CLAM_AV_PORT || '3310',
   CLAM_AV_TIMEOUT: process.env.APVS_CLAM_AV_TIMEOUT || '60000',
-  UPLOAD_FILE_TMP_DIR: process.env.APVS_UPLOAD_FILE_TMP_DIR || '/tmp',
+  FILE_TMP_DIR: process.env.APVS_FILE_TMP_DIR || '/tmp',
   MALWARE_NOTIFICATION_EMAIL_ADDRESS: process.env.APVS_MALWARE_NOTIFICATION_ADDRESS || 'donotsend@apvs.com',
 
   // Toggle for turning private beta setting on and off

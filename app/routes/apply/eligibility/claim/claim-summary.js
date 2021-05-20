@@ -10,6 +10,8 @@ const displayHelper = require('../../../../views/helpers/display-helper')
 const SessionHandler = require('../../../../services/validators/session-handler')
 const ErrorHandler = require('../../../../services/validators/error-handler')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
+const { AWSHelper } = require('../../../../services/aws-helper')
+const aws = new AWSHelper()
 
 module.exports = function (router) {
   router.get('/apply/eligibility/claim/summary', function (req, res, next) {
@@ -115,8 +117,10 @@ module.exports = function (router) {
     UrlPathValidator(req.params)
 
     return claimSummaryHelper.getDocumentFilePath(req.params.claimDocumentId)
-      .then(function (file) {
-        return res.download(file.path, file.name)
+      .then(async function (file) {
+        const awsDownloadPath = await aws.download(file.path)
+
+        res.download(awsDownloadPath, file.name)
       })
       .catch(function (error) {
         next(error)
