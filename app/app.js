@@ -1,8 +1,5 @@
-const appInsights = require('applicationinsights')
+require('./azure-appinsights')
 const config = require('../config')
-appInsights.setup(config.APP_INSIGHTS_INSTRUMENTATION_KEY)
-  .setSendLiveMetrics(true)
-appInsights.start()
 const express = require('express')
 const nunjucks = require('express-nunjucks')
 const path = require('path')
@@ -140,7 +137,6 @@ app.use(i18n.init)
 
 // Log each HTML request and it's response.
 app.use(function (req, res, next) {
-  appInsights.defaultClient.trackNodeHttpRequest({ request: req, response: res })
   // Log response started.
   log.info({ request: req }, 'Route Started.')
 
