@@ -118,6 +118,7 @@ workflows:
           name: deploy_prod
           env: "prod"
           slack_notification: true
+          slack_channel_name: << pipeline.parameters.alerts-slack-channel >>
           context: help-with-prison-visits-external-prod
           requires:
             - request-prod-approval
