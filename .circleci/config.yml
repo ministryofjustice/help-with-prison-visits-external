@@ -119,7 +119,9 @@ workflows:
           env: "prod"
           slack_notification: true
           slack_channel_name: << pipeline.parameters.alerts-slack-channel >>
-          context: help-with-prison-visits-external-prod
+          context:
+            - help-with-prison-visits-asynchronous-worker-prod
+            - hmpps-common-vars
           requires:
             - request-prod-approval
 
