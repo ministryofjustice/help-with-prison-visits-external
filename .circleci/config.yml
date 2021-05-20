@@ -107,7 +107,7 @@ workflows:
       - hmpps/deploy_env:
           name: deploy_preprod
           env: "preprod"
-          context: help-with-prison-visits-internal-preprod
+          context: help-with-prison-visits-external-preprod
           requires:
             - request-preprod-approval
       - request-prod-approval:
@@ -118,7 +118,7 @@ workflows:
           name: deploy_prod
           env: "prod"
           slack_notification: true
-          context: help-with-prison-visits-internal-prod
+          context: help-with-prison-visits-external-prod
           requires:
             - request-prod-approval
 
