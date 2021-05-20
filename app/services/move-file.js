@@ -1,20 +1,13 @@
-const Promise = require('bluebird').Promise
-const fs = Promise.promisifyAll(require('fs'))
 const path = require('path')
-const logger = require('./log')
+const { AWSHelper } = require('./aws-helper')
+const aws = new AWSHelper()
 
-module.exports = function (tempPath, targetDir, targetFile) {
-  return new Promise(function (resolve, reject) {
-    const targetFilePath = path.join(targetDir, targetFile)
-    return fs.createReadStream(tempPath)
-      .pipe(fs.createWriteStream(targetFilePath))
-      .on('error', function (error) {
-        logger.error('Error occurred writing file ' + targetFilePath)
-        return reject(error)
-      })
-      .on('finish', function () {
-        logger.info(`Move file to location ${targetFilePath}`)
-        return resolve({ dest: targetDir, path: targetFilePath })
-      })
-  })
+module.exports = async function (tempPath, targetDir, targetFile) {
+  const targetFilePath = path.join(targetDir, targetFile)
+
+  try {
+    return await aws.upload(targetFilePath, tempPath)
+  } catch (error) {
+    throw new Error(error)
+  }
 }

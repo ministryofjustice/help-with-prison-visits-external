@@ -1,7 +1,6 @@
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const DocumentTypeEnum = require('../../../../constants/document-type-enum')
-const DirectoryCheck = require('../../../../services/directory-check')
 const Upload = require('../../../../services/upload')
 const ValidationError = require('../../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
@@ -84,11 +83,6 @@ function get (req, res) {
 
 function renderFileUploadPage (req, res) {
   if (Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query.document)) {
-    const decryptedRef = decrypt(req.session.referenceId)
-
-    const claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
-    DirectoryCheck(decryptedRef, claimId, req.query.claimExpenseId, req.query.document)
-
     return res.render('apply/eligibility/claim/file-upload', {
       document: req.query.document,
       fileUploadGuidingText: DocumentTypeEnum,
@@ -96,9 +90,9 @@ function renderFileUploadPage (req, res) {
       yourClaimUrl: req.yourClaimUrl,
       hideAlternative: req.query.hideAlt
     })
-  } else {
-    throw new Error('Not a valid document type')
   }
+
+  throw new Error('Not a valid document type')
 }
 
 function post (req, res, next, redirectURL) {
@@ -139,12 +133,13 @@ function checkForMalware (req, res, next, redirectURL) {
   const ids = setReferenceIds(req)
   const claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
   if (req.file) {
-    clam.scan(req.file.path).then((infected) => {
+    clam.scan(req.file.path).then(async (infected) => {
       if (infected) insertMalwareAlertTask(ids, claimId, req.file.path)
-      return moveScannedFileToStorage(req, res, next).then(function () {
-        return updateClaimDocumentMetadata(ids, claimId, req).then(function () {
-          res.redirect(redirectURL)
-        })
+
+      await moveScannedFileToStorage(req, res, next)
+
+      return updateClaimDocumentMetadata(ids, claimId, req).then(function () {
+        res.redirect(redirectURL)
       })
     }).catch((error) => {
       handleError(req, res, next, error)
@@ -193,15 +188,13 @@ function setReferenceIds (req) {
   return { eligibilityId: id, reference: reference }
 }
 
-function moveScannedFileToStorage (req, res, next) {
+async function moveScannedFileToStorage (req, res, next) {
   const tempPath = req.file.path
   const targetDir = getTargetDir(req)
   const filename = req.file.filename
-  return moveFile(tempPath, targetDir, filename)
-    .then(function (result) {
-      req.fileUpload.destination = result.dest
-      req.fileUpload.path = result.path
-    })
+  const targetFileName = await moveFile(tempPath, targetDir, filename)
+  req.fileUpload.destination = ''
+  req.fileUpload.path = targetFileName
 }
 
 function insertMalwareAlertTask (ids, claimId, path) {
@@ -232,11 +225,11 @@ function getTargetDir (req) {
   const decryptedReferenceId = decrypt(req.session.referenceId)
   let targetDir
   if (req.query.document !== 'VISIT_CONFIRMATION' && req.query.document !== 'RECEIPT') {
-    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.query.document}`
+    targetDir = `${decryptedReferenceId}/${req.query.document}`
   } else if (req.query.claimExpenseId) {
-    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.session.claimId}/${req.query.claimExpenseId}/${req.query.document}`
+    targetDir = `${decryptedReferenceId}/${req.session.claimId}/${req.query.claimExpenseId}/${req.query.document}`
   } else {
-    targetDir = `${config.FILE_UPLOAD_LOCATION}/${decryptedReferenceId}/${req.session.claimId}/${req.query.document}`
+    targetDir = `${decryptedReferenceId}/${req.session.claimId}/${req.query.document}`
   }
   return targetDir
 }

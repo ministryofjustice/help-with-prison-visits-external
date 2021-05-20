@@ -1,6 +1,7 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
-const fs = require('fs')
+const knexConfig = require('../../../knexfile').extweb
+const knex = require('knex')(knexConfig)
+const { AWSHelper } = require('../aws-helper')
+const aws = new AWSHelper()
 
 module.exports = function (claimDocumentId) {
   return knex('ClaimDocument')
@@ -9,9 +10,9 @@ module.exports = function (claimDocumentId) {
     .update({
       IsEnabled: false
     })
-    .then(function (filepath) {
-      if (filepath[0] && fs.existsSync(filepath[0])) {
-        fs.unlinkSync(filepath[0])
+    .then(async function (filepath) {
+      if (filepath[0]) {
+        await aws.delete(filepath[0])
       }
     })
 }
