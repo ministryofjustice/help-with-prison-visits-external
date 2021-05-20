@@ -3,9 +3,9 @@
 generic-service:
   replicaCount: 2
   ingress:
-    host: "help-with-prison-visits-dev.hmpps.service.justice.gov.uk"
+    host: "help-with-prison-visits.hmpps.service.justice.gov.uk"
   env:
-    APVS_EXTERNAL_SERVICE_URL: 'https://help-with-prison-visits-dev.service.justice.gov.uk'
+    APVS_EXTERNAL_SERVICE_URL: 'https://help-with-prison-visits.service.justice.gov.uk'
 
   allowlist:
     office: "217.33.148.210/32"
@@ -14,6 +14,3 @@ generic-service:
     cloudplatform-live1-1: "35.178.209.113/32"
     cloudplatform-live1-2: "3.8.51.207/32"
     cloudplatform-live1-3: "35.177.252.54/32"
-
-clamav:
-  refresh_clamav_db_cron: "30 10 * * *"
