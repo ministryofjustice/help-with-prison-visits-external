@@ -61,3 +61,7 @@ generic-service:
 clamav:
   image:
     tag: 2020-06-19.7.cdf9043
+
+
+generic-prometheus-alerts:
+  targetApplication: help-with-prison-visits-external
