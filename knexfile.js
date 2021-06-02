@@ -9,7 +9,7 @@ module.exports = {
       password: config.EXT_WEB_PASSWORD,
       database: config.DATABASE,
       options: {
-        encrypt: true,
+        encrypt: false,
         enableArithAbort: true
       }
     },
