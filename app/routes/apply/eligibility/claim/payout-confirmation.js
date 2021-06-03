@@ -3,7 +3,6 @@ const UrlPathValidator = require('../../../../services/validators/url-path-valid
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const getAddressAndLinkDetails = require('../../../../services/data/get-address-and-link-details')
 const getChangeAddressLink = require('../../../helpers/get-change-address-link')
-const config = require('../../../../../config')
 const SessionHandler = require('../../../../services/validators/session-handler')
 const PaymentDetails = require('../../../../services/domain/payment-details')
 
@@ -27,7 +26,6 @@ module.exports = function (router) {
           claimId: req.session.claimId,
           isAdvance: req.query.isAdvance,
           address: addressAndLinkDetails,
-          privateBeta: config.PRIVATE_BETA_TOGGLE,
           changeAddressLink: getChangeAddressLink(req.session.claimType)
         })
       })
@@ -56,7 +54,6 @@ module.exports = function (router) {
               claimId: req.session.claimId,
               isAdvance: req.query.isAdvance,
               address: addressAndLinkDetails,
-              privateBeta: config.PRIVATE_BETA_TOGGLE,
               changeAddressLink: getChangeAddressLink(req.session.claimType)
             })
           })

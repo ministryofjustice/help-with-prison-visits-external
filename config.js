@@ -48,9 +48,6 @@ module.exports = {
   FILE_TMP_DIR: process.env.APVS_FILE_TMP_DIR || '/app/tmp',
   MALWARE_NOTIFICATION_EMAIL_ADDRESS: process.env.APVS_MALWARE_NOTIFICATION_ADDRESS || 'donotsend@apvs.com',
 
-  // Toggle for turning private beta setting on and off
-  PRIVATE_BETA_TOGGLE: process.env.APVS_PRIVATE_BETA_TOGGLE || 'true',
-
   // Maximum cost for an individual expense
   MAX_COST: process.env.APVS_MAX_COST || '999999.99',
 
