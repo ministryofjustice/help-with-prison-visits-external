@@ -46,7 +46,7 @@ class AWSHelper {
 
     try {
       const uploadResult = await this.s3.upload(uploadParams).promise()
-      log.info('Upload Success', uploadResult.Location, key)
+      log.info('Upload Success')
       return key
     } catch (error) {
       log.error(`Error occurred uploading file to s3 ${key}`, error)
@@ -66,6 +66,7 @@ class AWSHelper {
       const data = await this.s3.getObject(downloadParams).promise()
       fs.writeFileSync(tempFile, data.Body)
     } catch (error) {
+      log.error(`Error occurred downloading file from s3 ${key}`, error)
       throw new Error(error)
     }
 
