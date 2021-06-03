@@ -2,7 +2,6 @@ const insertBankAccountDetailsForClaim = require('../../../../services/data/inse
 const ValidationError = require('../../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
-const config = require('../../../../../config')
 const BankAccountDetails = require('../../../../services/domain/bank-account-details')
 const SessionHandler = require('../../../../services/validators/session-handler')
 const PaymentDetails = require('../../../../services/domain/payment-details')
@@ -22,8 +21,7 @@ module.exports = function (router) {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
       claimId: req.session.claimId,
-      isAdvance: req.query.isAdvance,
-      privateBeta: config.PRIVATE_BETA_TOGGLE
+      isAdvance: req.query.isAdvance
     })
   })
 
@@ -55,8 +53,7 @@ module.exports = function (router) {
           paymentDetails: req.body,
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          isAdvance: req.query.isAdvance,
-          privateBeta: config.PRIVATE_BETA_TOGGLE
+          isAdvance: req.query.isAdvance
         })
       } else {
         throw error
