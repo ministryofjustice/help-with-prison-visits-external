@@ -45,7 +45,7 @@ module.exports = {
   CLAM_AV_HOST: process.env.APVS_CLAM_AV_HOST || 'clamav',
   CLAM_AV_PORT: process.env.APVS_CLAM_AV_PORT || '3310',
   CLAM_AV_TIMEOUT: process.env.APVS_CLAM_AV_TIMEOUT || 60000,
-  FILE_TMP_DIR: process.env.APVS_FILE_TMP_DIR || '/tmp',
+  FILE_TMP_DIR: process.env.APVS_FILE_TMP_DIR || '/app/tmp',
   MALWARE_NOTIFICATION_EMAIL_ADDRESS: process.env.APVS_MALWARE_NOTIFICATION_ADDRESS || 'donotsend@apvs.com',
 
   // Toggle for turning private beta setting on and off
