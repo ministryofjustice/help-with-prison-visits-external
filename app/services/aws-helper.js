@@ -46,7 +46,7 @@ class AWSHelper {
     uploadParams.Body = fileStream
 
     try {
-      const uploadResult = await this.s3.upload(uploadParams).promise()
+      await this.s3.upload(uploadParams).promise()
       log.info(`S3 Upload Success ${key}`)
       return key
     } catch (error) {
