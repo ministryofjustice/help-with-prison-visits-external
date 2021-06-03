@@ -23,8 +23,9 @@ class AWSHelper {
 
     try {
       await this.s3.deleteObject(deleteParams).promise()
+      log.info(`S3 Delete Success ${key}`)
     } catch (error) {
-      log.error(`Problem deleting file ${key}`)
+      log.error(`Problem deleting file from s3 ${key}`)
       throw new Error(error)
     }
   }
@@ -38,15 +39,15 @@ class AWSHelper {
 
     const fileStream = fs.createReadStream(source)
       .on('error', function (error) {
-        log.error(`Error occurred reading from file ${source}`, error)
+        log.error(`Error occurred reading from file ${source} for s3 upload`, error)
         throw new Error(error)
       })
 
     uploadParams.Body = fileStream
 
     try {
-      const uploadResult = await this.s3.upload(uploadParams).promise()
-      log.info('Upload Success', uploadResult.Location, key)
+      await this.s3.upload(uploadParams).promise()
+      log.info(`S3 Upload Success ${key}`)
       return key
     } catch (error) {
       log.error(`Error occurred uploading file to s3 ${key}`, error)
@@ -65,7 +66,9 @@ class AWSHelper {
     try {
       const data = await this.s3.getObject(downloadParams).promise()
       fs.writeFileSync(tempFile, data.Body)
+      log.info(`S3 Download Success ${key}`)
     } catch (error) {
+      log.error(`Error occurred downloading file from s3 ${key}`, error)
       throw new Error(error)
     }
 

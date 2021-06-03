@@ -33,7 +33,7 @@ generic-service:
     APVS_CLAM_AV_HOST: 'clamav'
     APVS_CLAM_AV_PORT: '3310'
     APVS_CLAM_AV_TIMEOUT: 60000
-    APVS_FILE_TMP_DIR: '/tmp'
+    APVS_FILE_TMP_DIR: '/app/tmp'
     APVS_MALWARE_NOTIFICATION_ADDRESS: 'apvs-monitoring-notification@kainos.com'
     RATE_LIMITING_ENABLED: 'true'
     RATE_LIMITING_WINDOW_MILLISECONDS: '10000'
