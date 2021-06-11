@@ -1,7 +1,7 @@
 require('./azure-appinsights')
 const config = require('../config')
 const express = require('express')
-const nunjucks = require('express-nunjucks')
+const nunjucks = require('nunjucks')
 const path = require('path')
 const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
@@ -63,18 +63,27 @@ const developmentMode = app.get('env') === 'development'
 const releaseVersion = packageJson.version
 const serviceName = 'Get help with the cost of prison visits'
 
-app.set('view engine', 'html')
-app.set('views', path.join(__dirname, 'views'))
+const appViews = [
+  path.join(__dirname, '../node_modules/govuk_template_jinja/'),
+  path.join(__dirname, 'views')
+]
 
-nunjucks(app, {
+// View Engine Configuration
+app.set('view engine', 'html')
+nunjucks.configure(appViews, {
+  express: app,
+  autoescape: true,
   watch: developmentMode,
   noCache: developmentMode
 })
 
-app.use('/public', express.static(path.join(__dirname, 'public')))
-app.use('/public', express.static(path.join(__dirname, 'govuk_modules', 'govuk_template')))
-app.use('/public', express.static(path.join(__dirname, 'govuk_modules', 'govuk_frontend_toolkit')))
-app.use(favicon(path.join(__dirname, 'govuk_modules', 'govuk_template', 'images', 'favicon.ico')))
+const publicFolders = ['public', 'assets', '../node_modules/govuk_template_jinja/assets', '../node_modules/govuk_frontend_toolkit']
+
+publicFolders.forEach(dir => {
+  app.use('/public', express.static(path.join(__dirname, dir)))
+})
+
+app.use(favicon(path.join(__dirname, '../node_modules/govuk_template_jinja/assets/images/favicon.ico')))
 
 // Basic auth
 if (config.BASIC_AUTH_ENABLED === 'true') {

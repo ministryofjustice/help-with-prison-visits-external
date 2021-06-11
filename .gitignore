@@ -13,10 +13,6 @@ node_modules
 .tmuxp.*
 .env
 
-# Static managed assets
-app/views/govuk_template.html
-app/govuk_modules
-
 # Locales
 app/locales/en.json
 
