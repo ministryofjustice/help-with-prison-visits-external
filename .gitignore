@@ -38,7 +38,6 @@ run-end-to-end-tests-firefox.sh
 run-integration-tests.sh
 run-knex-migrations.sh
 run-knex-rollback.sh
-run-nodemon.sh
 run-standard-linter.sh
 run-test-coverage.sh
 run-unit-tests.sh
