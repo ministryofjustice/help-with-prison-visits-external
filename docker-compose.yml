@@ -4,8 +4,6 @@ services:
     build:
       context: .
     volumes:
-      - "./gulpfile.js:/usr/src/app/gulpfile.js"
-      - "./nodemon.json:/usr/src/app/nodemon.json"
       - "./app:/usr/src/app/app"
       - "./logs:/usr/src/app/logs"
       - "./uploads:/usr/src/app/uploads"
