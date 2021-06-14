@@ -11,7 +11,7 @@ WORKDIR /app
 COPY . .
 
 RUN npm ci --no-audit && \
-    npm run build-css
+    npm run css-build
 
 RUN npm prune --production
 
@@ -42,6 +42,7 @@ COPY --from=builder --chown=appuser:appgroup \
         /app/package-lock.json \
         /app/knexfile.js \
         /app/config.js \
+        /app/build-css \
         ./
 
 COPY --from=builder --chown=appuser:appgroup \
