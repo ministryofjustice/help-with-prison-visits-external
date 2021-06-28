@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.2
+  hmpps: ministryofjustice/hmpps@3.5
 
 # executors:
 #   integration-tests:
@@ -138,7 +138,11 @@ workflows:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
           context:
             - hmpps-common-vars
-      - hmpps/veracode_pipeline_scan:
+      - hmpps/trivy_latest_scan:
+          slack_channel: << pipeline.parameters.alerts-slack-channel >>
+          context:
+            - hmpps-common-vars
+      - hmpps/veracode_policy_scan:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
           context:
             - veracode-credentials
