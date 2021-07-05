@@ -58,10 +58,5 @@ generic-service:
       AWS_SECRET_ACCESS_KEY: secret_access_key
       AWS_S3_BUCKET_NAME: bucket_name
 
-clamav:
-  image:
-    tag: 2020-06-19.7.cdf9043
-
-
 generic-prometheus-alerts:
   targetApplication: help-with-prison-visits-external
