@@ -31,8 +31,5 @@ generic-service:
     quantum2: 212.137.36.230/32
     quantum3: 195.92.38.16/28
 
-clamav:
-  refresh_clamav_db_cron: "30 10 * * *"
-
 generic-prometheus-alerts:
   alertSeverity: help-with-prison-visits-devtest
