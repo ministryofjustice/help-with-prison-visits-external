@@ -8,7 +8,7 @@ dependencies:
     version: 1.0.10
     repository: https://ministryofjustice.github.io/hmpps-helm-charts
   - name: clamav
-    version: 0.1.4
+    version: 0.1.5
     repository: https://ministryofjustice.github.io/hmpps-helm-charts
   - name: generic-prometheus-alerts
     version: 0.1.4
