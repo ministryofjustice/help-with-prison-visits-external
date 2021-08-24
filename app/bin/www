@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 require('dotenv').config();
-var app = require('../app')
+var app = process.env.APVS_MAINTENANCE_MODE === 'true' ? require('../app-maintenance') : require('../app')
 var debug = require('debug')('apvs-external-web:server')
 var http = require('http')
 
