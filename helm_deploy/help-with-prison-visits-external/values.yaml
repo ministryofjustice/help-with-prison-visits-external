@@ -38,6 +38,7 @@ generic-service:
     RATE_LIMITING_ENABLED: 'true'
     RATE_LIMITING_WINDOW_MILLISECONDS: '10000'
     RATE_LIMITING_REQUEST_LIMIT: '200'
+    APVS_MAINTENANCE_MODE: 'false'
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
