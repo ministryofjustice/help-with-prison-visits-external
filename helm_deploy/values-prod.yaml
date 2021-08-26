@@ -6,6 +6,7 @@ generic-service:
     host: "help-with-prison-visits.hmpps.service.justice.gov.uk"
   env:
     APVS_EXTERNAL_SERVICE_URL: 'https://help-with-prison-visits.service.justice.gov.uk'
+    APVS_MAINTENANCE_MODE: 'true'
 
   allowlist:
     office: "217.33.148.210/32"
