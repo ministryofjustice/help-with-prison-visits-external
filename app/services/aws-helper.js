@@ -5,13 +5,15 @@ const log = require('./log')
 const config = require('../../config')
 
 class AWSHelper {
-  constructor ({ accessKeyId = config.AWS_ACCESS_KEY_ID, secretAccessKey = config.AWS_SECRET_ACCESS_KEY, bucketName = config.AWS_S3_BUCKET_NAME } = { }) {
+  constructor ({ accessKeyId = config.AWS_ACCESS_KEY_ID, secretAccessKey = config.AWS_SECRET_ACCESS_KEY, bucketName = config.AWS_S3_BUCKET_NAME, region = config.AWS_REGION } = { }) {
     this.accessKeyId = accessKeyId
     this.secretAccessKey = secretAccessKey
     this.bucketName = bucketName
+    this.region = region
     this.s3 = new AWS.S3({
       accessKeyId: this.accessKeyId,
-      secretAccessKey: this.secretAccessKey
+      secretAccessKey: this.secretAccessKey,
+      region: this.region
     })
   }
 
