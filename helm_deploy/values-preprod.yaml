@@ -6,6 +6,8 @@ generic-service:
     host: "help-with-prison-visits-preprod.hmpps.service.justice.gov.uk"
   env:
     APVS_EXTERNAL_SERVICE_URL: 'https://help-with-prison-visits-preprod.service.justice.gov.uk'
+    APVS_ZENDESK_ENABLED: "false"
+    APVS_ZENDESK_API_URL: "https://ministryofjustice.zendesk.com"
 
   allowlist:
     office: "217.33.148.210/32"

@@ -5,7 +5,7 @@ const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 const dateFormatter = require('../date-formatter')
 
-class Feedback {
+class TechnicalHelp {
   constructor (name, emailAddress, referenceNumber, day, month, year, issue) {
     this.name = name ? name.trim() : ''
     this.emailAddress = emailAddress ? emailAddress.trim() : ''
@@ -45,4 +45,4 @@ class Feedback {
   }
 }
 
-module.exports = Feedback
+module.exports = TechnicalHelp
