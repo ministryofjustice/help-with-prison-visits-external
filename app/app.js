@@ -15,7 +15,6 @@ const onFinished = require('on-finished')
 const cookieParser = require('cookie-parser')
 const csurf = require('csurf')
 const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
-const auth = require('basic-auth')
 const RateLimit = require('express-rate-limit')
 const cookieSession = require('cookie-session')
 
@@ -84,27 +83,6 @@ publicFolders.forEach(dir => {
 })
 
 app.use(favicon(path.join(__dirname, '../node_modules/govuk_template_jinja/assets/images/favicon.ico')))
-
-// Basic auth
-if (config.BASIC_AUTH_ENABLED === 'true') {
-  app.use(function (req, res, next) {
-    const credentials = auth(req)
-
-    if (req.url === '' || req.url === '/' || req.url === '/status') {
-      next() // must leave root url free for Azure gateway
-    } else {
-      if (!credentials ||
-        credentials.name !== config.BASIC_AUTH_USERNAME ||
-        credentials.pass !== config.BASIC_AUTH_PASSWORD) {
-        res.statusCode = 401
-        res.setHeader('WWW-Authenticate', 'Basic realm="APVS External Web"')
-        res.end('Access denied')
-      } else {
-        next()
-      }
-    }
-  })
-}
 
 // Cookie session
 app.set('trust proxy', 1) // trust first proxy

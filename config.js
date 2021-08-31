@@ -1,9 +1,4 @@
 module.exports = {
-  // Basic auth (for public test environments)
-  BASIC_AUTH_ENABLED: process.env.BASIC_AUTH_ENABLED || 'false',
-  BASIC_AUTH_USERNAME: process.env.BASIC_AUTH_USERNAME,
-  BASIC_AUTH_PASSWORD: process.env.BASIC_AUTH_PASSWORD,
-
   // Logging
   LOGGING_PATH: process.env.LOGGING_PATH,
   LOGGING_LEVEL: process.env.LOGGING_LEVEL || 'DEBUG',
