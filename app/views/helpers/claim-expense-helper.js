@@ -18,6 +18,9 @@ module.exports = function (expense) {
     case 'refreshment':
       formattedDetail = ''
       break
+    case 'child-care':
+      formattedDetail = ''
+      break
     case 'accommodation':
       formattedDetail = `Nights stayed: ${expense.DurationOfTravel}`
       break

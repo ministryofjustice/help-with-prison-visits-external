@@ -29,6 +29,9 @@ describe('views/helpers/claim-expense-helper', function () {
     expect(claimExpenseHelper({ ExpenseType: 'refreshment' }))
       .to.equal('')
 
+    expect(claimExpenseHelper({ ExpenseType: 'child-care' }))
+      .to.equal('')
+
     expect(claimExpenseHelper({ ExpenseType: 'accommodation', DurationOfTravel: DURATION_OF_TRAVEL }))
       .to.equal(`Nights stayed: ${DURATION_OF_TRAVEL}`)
 

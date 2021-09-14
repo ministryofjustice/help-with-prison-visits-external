@@ -85,5 +85,12 @@ module.exports = {
     displayName: 'Accommodation',
     receiptRequired: true,
     ticketed: false
+  },
+
+  CHILD_CARE: {
+    value: 'child-care',
+    displayName: 'Child care',
+    receiptRequired: false,
+    ticketed: false
   }
 }

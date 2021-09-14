@@ -1,0 +1,52 @@
+{% extends "includes/layout.html" %}
+
+{% block page_title %}
+  Enter your child care details - {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+
+  {% include "includes/phase_banner_beta.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      {% include "includes/validation-error-messages.html" %}
+
+      <h1 class="heading-large">
+        Child care
+      </h1>
+
+      <p>If you were away from home for more than 5 hours you may get a contribution for food and drink.</p>
+
+      <p>There’s a limit of £2.55 per person for trips over 5 hours and £5.10 for trips over 10 hours.</p>
+
+      <p>Give the total for every person you are claiming for.</p>
+
+      <form action="/apply/eligibility/claim/child-care{{ params }}"
+            method="post">
+
+        {% set costExample = 2.55 %}
+        {% include "partials/expenses/cost.html" %}
+
+        <p>Keep receipts as you may need to show them later on.<p>
+
+        {% include "partials/csrf-hidden-input.html" %}
+
+        <input id="child-care-details-submit"
+               type="submit"
+               value="Continue"
+               class="button">
+      </form>
+
+      <br>
+      <a href="{{ redirectUrl }}" class="link">Remove this expense</a>
+
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

@@ -185,6 +185,7 @@ module.exports = {
           page === 'hire' ||
           page === 'ferry' ||
           page === 'refreshment' ||
+          page === 'child-care' ||
           page === 'plane' ||
           page === 'taxi' ||
           page === 'train' ||

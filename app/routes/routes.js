@@ -41,6 +41,7 @@ const routes = [
   require('./apply/eligibility/claim/ferry-details'),
   require('./apply/eligibility/claim/light-refreshment-details'),
   require('./apply/eligibility/claim/accommodation-details'),
+  require('./apply/eligibility/claim/child-care-details'),
 
   // Claim Summary
   require('./apply/eligibility/claim/claim-summary'),

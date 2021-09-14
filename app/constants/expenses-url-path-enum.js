@@ -8,5 +8,6 @@ module.exports = [
   'plane',
   'ferry',
   'refreshment',
-  'accommodation'
+  'accommodation',
+  'child-care'
 ]
