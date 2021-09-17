@@ -48,5 +48,9 @@ module.exports = {
 
   // Maximum number of days before and after which a claim can be submitted
   MAX_DAYS_AFTER_RETROSPECTIVE_CLAIM: process.env.APVS_MAX_DAYS_AFTER_RETROSPECTIVE_CLAIM || '28',
-  MAX_DAYS_BEFORE_ADVANCE_CLAIM: process.env.APVS_MAX_DAYS_AFTER_RETROSPECTIVE_CLAIM || '28'
+  MAX_DAYS_BEFORE_ADVANCE_CLAIM: process.env.APVS_MAX_DAYS_AFTER_RETROSPECTIVE_CLAIM || '28',
+
+  features: {
+    YCS_JOURNEY: process.env.FEATURES_YCS_JOURNEY === 'true' || false
+  }
 }
