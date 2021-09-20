@@ -1,8 +1,10 @@
+const config = require('../../config')
+
 /**
  * This file defines all routes used in this application. Any logic that is applicable to all routes can be added here.
  */
 
-const routes = [
+const startRoutes = [
   require('./index'),
   require('./start'),
   require('./start-already-registered'),
@@ -40,9 +42,14 @@ const routes = [
   require('./apply/eligibility/claim/plane-details'),
   require('./apply/eligibility/claim/ferry-details'),
   require('./apply/eligibility/claim/light-refreshment-details'),
-  require('./apply/eligibility/claim/accommodation-details'),
-  require('./apply/eligibility/claim/child-care-details'),
+  require('./apply/eligibility/claim/accommodation-details')
+]
 
+if (config.features.YCS_JOURNEY) {
+  startRoutes.push(require('./apply/eligibility/clim/child-care-details'))
+}
+
+const remainingRoutes = [
   // Claim Summary
   require('./apply/eligibility/claim/claim-summary'),
   require('./apply/eligibility/claim/file-upload'),
@@ -60,6 +67,8 @@ const routes = [
   // Health check routes
   require('./health-check/status')
 ]
+
+const routes = startRoutes.concat(remainingRoutes)
 
 module.exports = function (router) {
   routes.forEach(function (route) {

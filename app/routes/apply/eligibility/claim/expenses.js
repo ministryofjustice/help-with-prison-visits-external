@@ -5,6 +5,7 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimSummary = require('../../../../services/data/get-claim-summary')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const SessionHandler = require('../../../../services/validators/session-handler')
+const config = require('../../../../../config')
 const NORTHERN_IRELAND = 'Northern Ireland'
 
 module.exports = function (router) {
@@ -27,7 +28,8 @@ module.exports = function (router) {
               referenceId: req.session.referenceId,
               claimId: req.session.claimId,
               isNorthernIrelandClaim: isNorthernIrelandClaim,
-              isAdvanceClaim: isAdvanceClaim
+              isAdvanceClaim: isAdvanceClaim,
+              ycsEnabled: config.features.YCS_JOURNEY
             })
           })
       })
@@ -58,7 +60,8 @@ module.exports = function (router) {
                   referenceId: req.session.referenceId,
                   claimId: req.session.claimId,
                   isNorthernIrelandClaim: isNorthernIrelandClaim,
-                  isAdvanceClaim: isAdvanceClaim
+                  isAdvanceClaim: isAdvanceClaim,
+                  ycsEnabled: config.features.YCS_JOURNEY
                 })
               })
           })

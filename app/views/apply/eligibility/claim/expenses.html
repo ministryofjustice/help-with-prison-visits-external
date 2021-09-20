@@ -115,13 +115,14 @@
                 Accommodation
               </label>
             </div>
-            
+            {% if ycsEnabled %}
             <div class="multiple-choice">
               <input id="childCare" type="checkbox" name="expenses" value="child-care">
               <label for="childCare" class="block-label">
                 Child care
               </label>
             </div>
+            {% endif %}
 
           </fieldset>
         {% else %}
