@@ -97,6 +97,14 @@ module.exports = {
     urlValue: 'no'
   },
 
+  YCS: {
+    value: 'ycs',
+    requireBenefitUpload: false,
+    displayName: 'YCS',
+    multipage: false,
+    urlValue: 'ycs'
+  },
+
   getByValue: function (value) {
     return EnumHelper.getKeyByAttribute(this, value)
   }

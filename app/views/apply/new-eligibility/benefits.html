@@ -104,7 +104,14 @@
                 <strong class="bold-small">NHS Tax Credit Exemption Certificate</strong>
               </label>
             </div>
-
+            {% if showYCS %}
+            <div class="multiple-choice">
+              <input id="ycs" type="radio" name="benefit" value="ycs">
+              <label for="ycs" class="block-label">
+              <strong class="bold-small">YCS</strong>
+              </label>
+            </div>
+            {% endif %}
             <div class="multiple-choice">
               <input id="none-of-the-above" type="radio" name="benefit" value="none">
               <label for="none-of-the-above" class="block-label">

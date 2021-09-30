@@ -22,7 +22,8 @@ module.exports = function (router) {
     }
     return res.render('apply/new-eligibility/benefits', {
       URL: req.url,
-      relationship: relationship
+      relationship: relationship,
+      showYCS: !!req.cookies['apvs-assisted-digital']
     })
   })
 
@@ -51,9 +52,9 @@ module.exports = function (router) {
 
       if (benefit === 'none') {
         return res.redirect('/eligibility-fail')
-      } else {
-        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-the-prisoner`)
       }
+
+      return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-the-prisoner`)
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/new-eligibility/benefits', {
