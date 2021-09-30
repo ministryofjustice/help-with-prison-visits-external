@@ -147,6 +147,13 @@ Enter information about the prisoner being visited - {{ serviceName }}
               <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
             {% endfor %}
             </optgroup>
+            {% if showYCS %}
+            <optgroup label="YCS">
+            {% for key, prison in displayHelper.getPrisonsByRegion('YCS') %}
+              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+            {% endfor %}
+            </optgroup>
+            {% endif %}
           </select>
         </div>
 

@@ -877,5 +877,13 @@ module.exports = {
     value: 'les-nicolles',
     displayName: 'Les Nicolles',
     region: 'GSY'
+  },
+
+  // YCS
+
+  YCS_TEST: {
+    value: 'ycs-test',
+    displayName: 'YCS Test',
+    region: 'YCS'
   }
 }

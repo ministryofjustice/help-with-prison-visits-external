@@ -44,7 +44,8 @@ const prisonsByRegion = {
   SCO: {},
   NI: {},
   JSY: {},
-  GSY: {}
+  GSY: {},
+  YCS: {}
 }
 
 for (const prisonKey in prisonsEnum) {
