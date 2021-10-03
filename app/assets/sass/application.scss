@@ -9,6 +9,14 @@ $path: "/public/images/";
 // Autocomplete styles from https://github.com/ministryofjustice/prison-visits-public
 @import 'moj.autocomplete';
 
+// new govuk-frontend
+$govuk-compatibility-govukelements: true;
+$govuk-compatibility-govuktemplate: true;
+$govuk-compatibility-govukfrontendtoolkit: true;
+// $govuk-show-breakpoints: true;
+$govuk-global-styles: true;
+@import '../../../node_modules/govuk-frontend/govuk/all';
+
 @mixin respond-to($media) {
   @if $media==handhelds {
     @media only screen and (max-width: 568px) {

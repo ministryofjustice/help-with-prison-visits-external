@@ -34,7 +34,8 @@ app.use(helmet.contentSecurityPolicy({
     scriptSrc: ["'self'",
       'www.google-analytics.com',
       "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='",
-      "'sha256-G29/qSW/JHHANtFhlrZVDZW1HOkCDRc78ggbqwwIJ2g='"],
+      "'sha256-G29/qSW/JHHANtFhlrZVDZW1HOkCDRc78ggbqwwIJ2g='",
+      "'sha256-l1eTVSK8DTnK8+yloud7wZUqFrI0atVo6VlC6PJvYaQ='"], // govuk-frontend - initAll() inline script
     connectSrc: ["'self'", 'www.google-analytics.com'],
     styleSrc: ["'self'"],
     fontSrc: ["'self'", 'data:'],
@@ -63,6 +64,7 @@ const releaseVersion = packageJson.version
 const serviceName = 'Get help with the cost of prison visits'
 
 const appViews = [
+  path.join(__dirname, '../node_modules/govuk-frontend/'),
   path.join(__dirname, '../node_modules/govuk_template_jinja/'),
   path.join(__dirname, 'views')
 ]
@@ -80,6 +82,15 @@ const publicFolders = ['public', 'assets', '../node_modules/govuk_template_jinja
 
 publicFolders.forEach(dir => {
   app.use('/public', express.static(path.join(__dirname, dir)))
+})
+
+// new govuk-frontend asset paths
+const govukAssets = [
+  '../node_modules/govuk-frontend/govuk/assets',
+  '../node_modules/govuk-frontend'
+]
+govukAssets.forEach(dir => {
+  app.use('/assets', express.static(path.join(__dirname, dir)))
 })
 
 app.use(favicon(path.join(__dirname, '../node_modules/govuk_template_jinja/assets/images/favicon.ico')))
