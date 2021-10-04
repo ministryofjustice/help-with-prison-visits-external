@@ -1,61 +1,61 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
+{% block pageTitle %}
   Have you applied online for help visiting this prisoner before - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
-
-<main id="content" role="main">
-
-  {% include "includes/phase_banner_beta.html" %}
-
-  <div class="grid-row">
-    <div class="column-two-thirds">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
 
       {% include "includes/validation-error-messages.html" %}
 
-      <h1 id="start" class="heading-large">
-        Have you applied online for help visiting this prisoner before?
-      </h1>
-
       <form action="/start" method="post">
-        <div class="form-group">
-
-          <fieldset>
-            <legend class="visually-hidden">Have you applied online for help visiting this prisoner before?</legend>
-
-            <div class="multiple-choice">
-              <input id="yes"type="radio" name="madeClaimForPrisonerBefore" value="yes" data-cy="yes">
-              <label for="yes" class="block-label">Yes</label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="no" type="radio" name="madeClaimForPrisonerBefore" value="no" data-cy="no">
-              <label for="no" class="block-label">No</label>
-            </div>
-          </fieldset>
-        </div>
+        {{ govukRadios({
+          idPrefix: "madeClaimForPrisonerBefore",
+          name: "madeClaimForPrisonerBefore",
+          fieldset: {
+            legend: {
+              text: "Have you applied online for help visiting this prisoner before?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              attributes: {
+                "data-cy": "yes"
+              }
+            },
+            {
+              value: "no",
+              text: "No",
+              attributes: {
+                "data-cy": "no"
+              }
+            }
+          ]
+        }) }}
 
         {% include "partials/csrf-hidden-input.html" %}
 
-        <input id="start-submit"
-               type="submit"
-               value="Continue"
-               class="button"
-               data-cy="submit">
+        {{ govukButton({
+          text: "Continue",
+          preventDoubleClick: true,
+          attributes: {
+            "data-cy": "submit"
+          }
+        }) }}
       </form>
 
     </div>
   </div>
 
-  </br>
-  <div class="bold-small">Please note</div>
-    <p class="note">
-      If you don’t enter any information for more than 20 minutes, your session will time out and you’ll need to start again.
-    </p>
-  </div>
-
-</main>
-
+  <p><strong class="govuk-!-font-weight-bold">Please note</strong>
+    <br>If you don’t enter any information for more than 20 minutes, your session will time out and you’ll need to start again.
+  </p>
 {% endblock %}
