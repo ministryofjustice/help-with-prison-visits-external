@@ -5,8 +5,6 @@ generic-service:
   ingress:
     host: "help-with-prison-visits.service.gov.uk"
     tlsSecretName: "help-with-prison-visits-service-cert"
-  env:
-    APVS_EXTERNAL_SERVICE_URL: 'https://help-with-prison-visits.service.justice.gov.uk'
 
 generic-prometheus-alerts:
   alertSeverity: help-with-prison-visits
