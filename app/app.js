@@ -4,7 +4,6 @@ const express = require('express')
 const nunjucks = require('nunjucks')
 const path = require('path')
 const favicon = require('serve-favicon')
-const bodyParser = require('body-parser')
 const expressSanitized = require('express-sanitized')
 const helmet = require('helmet')
 const compression = require('compression')
@@ -97,8 +96,8 @@ app.use(function (req, res, next) {
   next()
 })
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.use(expressSanitized())
 
 // Send assetPath to all views.
