@@ -20,7 +20,8 @@ module.exports = function (router) {
       dob: req.session.dobEncoded,
       relationship: req.session.relationship,
       benefit: req.session.benefit,
-      referenceId: req.session.referenceId
+      referenceId: req.session.referenceId,
+      showYCS: !!req.cookies['apvs-assisted-digital']
     })
   })
 
@@ -89,6 +90,7 @@ function renderValidationError (req, res, eligibleChildDetails, validationErrors
     relationship: req.session.relationship,
     benefit: req.session.benefit,
     referenceId: req.session.referenceId,
-    eligibleChild: eligibleChildDetails
+    eligibleChild: eligibleChildDetails,
+    showYCS: !!req.cookies['apvs-assisted-digital']
   })
 }

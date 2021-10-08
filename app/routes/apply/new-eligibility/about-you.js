@@ -31,7 +31,8 @@ module.exports = function (router) {
       relationship: req.session.relationship,
       benefit: req.session.benefit,
       benefitOwner: req.session.benefitOwner,
-      referenceId: req.session.referenceId
+      referenceId: req.session.referenceId,
+      showYCS: !!req.cookies['apvs-assisted-digital']
     })
   })
 
