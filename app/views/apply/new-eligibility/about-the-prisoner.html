@@ -31,7 +31,8 @@ Enter information about the prisoner being visited - {{ serviceName }}
                  value="{{ prisoner['FirstName'] }}"
                  type="text"
                  autocomplete="off"
-                 class="form-control">
+                 class="form-control"
+                 data-cy="prisoner-first-name">
         </div>
 
         <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
@@ -44,7 +45,8 @@ Enter information about the prisoner being visited - {{ serviceName }}
                  value="{{ prisoner['LastName'] }}"
                  type="text"
                  autocomplete="off"
-                 class="form-control">
+                 class="form-control"
+                 data-cy="prisoner-last-name">
         </div>
 
         <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
@@ -66,7 +68,8 @@ Enter information about the prisoner being visited - {{ serviceName }}
                        value="{{ prisoner['dob-day'] }}"
                        type="number"
                        autocomplete="off"
-                       class="form-control">
+                       class="form-control"
+                       data-cy="dob-day">
               </div>
 
               <div class="form-group form-group-month">
@@ -76,7 +79,8 @@ Enter information about the prisoner being visited - {{ serviceName }}
                        value="{{ prisoner['dob-month'] }}"
                        type="number"
                        autocomplete="off"
-                       class="form-control">
+                       class="form-control"
+                       data-cy="dob-month">
               </div>
 
               <div class="form-group form-group-year">
@@ -86,7 +90,8 @@ Enter information about the prisoner being visited - {{ serviceName }}
                        value="{{ prisoner['dob-year'] }}"
                        type="number"
                        autocomplete="off"
-                       class="form-control">
+                       class="form-control"
+                       data-cy="dob-year">
               </div>
             </div>
 
@@ -106,7 +111,8 @@ Enter information about the prisoner being visited - {{ serviceName }}
                  value="{{ prisoner['PrisonerNumber'] }}"
                  type="text"
                  autocomplete="off"
-                 class="form-control">
+                 class="form-control"
+                 data-cy="prisoner-number">
         {% else %}
           <span>{{ prisonerNumber }}</span>
           <input id="prisoner-number" name="PrisonerNumber" value="{{ prisonerNumber }}" type="hidden">
@@ -120,7 +126,7 @@ Enter information about the prisoner being visited - {{ serviceName }}
           <span class="error-message" id="error-message-NameOfPrison">{{ errors['NameOfPrison'][0] }}</span>
           {% endif %}
           <!-- Ignore WCAG2AA.Principle4.Guideline4_1.4_1_2.H91 and WCAG2AA.Principle1.Guideline1_3.1_3_1.F68, caused by autocomplete generated input -->
-          <select id="prison-name" class="form-control js-autocomplete" name="NameOfPrison" aria-label="Name of the prison">
+          <select id="prison-name" class="form-control js-autocomplete" name="NameOfPrison" aria-label="Name of the prison" data-cy="prison-name">
             <option value="">select</option>
             <optgroup label="England / Wales">
             {% for key, prison in displayHelper.getPrisonsByRegion('ENG/WAL') %}
@@ -162,7 +168,8 @@ Enter information about the prisoner being visited - {{ serviceName }}
         <input id="about-the-prisoner-submit"
                type="submit"
                class="button"
-               value="Continue">
+               value="Continue"
+               data-cy="submit">
       </form>
 
     </div>

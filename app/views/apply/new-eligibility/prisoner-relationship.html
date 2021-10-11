@@ -45,7 +45,7 @@ How are you related to the prisoner - {{ serviceName }}
             </div>
  
             <div class="multiple-choice">
-              <input id="partner" type="radio" name="relationship" value="r3">
+              <input id="partner" type="radio" name="relationship" value="r3" data-cy="partner">
               <label for="partner" class="block-label" data-target="partner-question">
                 <strong class="bold-small">Partner</strong>
                 <br>
@@ -156,7 +156,8 @@ How are you related to the prisoner - {{ serviceName }}
           <input id="prisoner-relationship-submit"
                  type="submit"
                  class="button"
-                 value="Continue">
+                 value="Continue"
+                 data-cy="submit">
         </div>
       </form>
 
