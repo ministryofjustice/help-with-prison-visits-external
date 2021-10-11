@@ -19,6 +19,10 @@ app/locales/en.json
 # e2e selenium
 errorShots
 
+# Cypress e2e
+test/cypress-e2e/screenshots/
+test/cypress-e2e/videos/
+
 # artillery reports
 test/load/*.html
 test/load/*.json

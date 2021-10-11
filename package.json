@@ -28,7 +28,8 @@
     "test-e2e-smoke-jenkins": "wdio test/wdio.conf.sauce.chrome.jenkins.smoke.js",
     "test-load": "cd test/load && ../../node_modules/.bin/artillery run scenarios.yaml cd ../../",
     "css-build": "./build-css",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"    
   },
   "standard": {
     "ignore": [
