@@ -35,7 +35,7 @@ docker-compose up clamav
 ## Tests
 Testing is currently being looked at. Local unit tests can currently be run using `npm run test`
 
-Integration tests are being setup to be able to run locally but currently the migrations are out of date and these do not work.
+Integration tests are being setup to be able to run locally.
 
 e2e tests will be converted to use Cypress which is the current studio standard.
 
@@ -51,7 +51,7 @@ npm install -g pa11y
 
 ## Database
 
-The application requires a MS SQL database instance, configured with an external web user and a migration user. The migrations are currently out-of-date and are in the process of being setup correctly.
+The application requires a MS SQL database instance, configured with an external web user.
 
 
 ## Security

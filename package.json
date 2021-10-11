@@ -27,8 +27,6 @@
     "test-e2e-android": "wdio test/wdio.conf.sauce.android.js",
     "test-e2e-smoke-jenkins": "wdio test/wdio.conf.sauce.chrome.jenkins.smoke.js",
     "test-load": "cd test/load && ../../node_modules/.bin/artillery run scenarios.yaml cd ../../",
-    "migrations": "knex migrate:latest --env migrations",
-    "rollback": "knex migrate:rollback --env migrations",
     "css-build": "./build-css"
   },
   "standard": {
