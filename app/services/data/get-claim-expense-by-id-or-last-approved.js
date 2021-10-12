@@ -1,8 +1,9 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 
 module.exports = function (reference, eligibiltyId, claimId) {
-  return knex.raw('SELECT * FROM [IntSchema].[getClaimExpenseByIdOrLastApproved] (?, ?, ?)', [reference, eligibiltyId, claimId])
+  const db = getDatabaseConnector()
+
+  return db.raw('SELECT * FROM [IntSchema].[getClaimExpenseByIdOrLastApproved] (?, ?, ?)', [reference, eligibiltyId, claimId])
     .then(function (claimExpenses) {
       claimExpenses.forEach(function (expense) {
         if (!expense.Cost) {

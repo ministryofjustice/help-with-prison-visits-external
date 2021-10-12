@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../app/databaseConnector')
 const claimChildHelper = require('./claim-child-helper')
 const claimEscortHelper = require('./claim-escort-helper')
 const expenseHelper = require('./expense-helper')
@@ -54,19 +53,25 @@ module.exports.insertWithExpenseChildDocuments = function (reference, eligibilit
 }
 
 module.exports.get = function (claimId) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('ExtSchema.Claim')
     .where('ClaimId', claimId)
 }
 
 module.exports.delete = function (claimId) {
-  return knex('ExtSchema.Claim')
+  const db = getDatabaseConnector()
+
+  return db('ExtSchema.Claim')
     .where('ClaimId', claimId)
     .del()
 }
 
 module.exports.getRef = function (caseworker) {
-  return knex.first('Reference')
+  const db = getDatabaseConnector()
+
+  return db.first('Reference')
     .from('ExtSchema.Claim')
     .where('AssistedDigitalCaseworker', caseworker)
     .orderBy('DateCreated', 'desc')

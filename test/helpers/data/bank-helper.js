@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../app/databaseConnector')
 const insertBankAccountDetailsForClaim = require('../../../app/services/data/insert-bank-account-details-for-claim')
 const BankAccountDetails = require('../../../app/services/domain/bank-account-details')
 
@@ -22,13 +21,17 @@ module.exports.insert = function (claimId) {
 }
 
 module.exports.get = function (claimId) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('ExtSchema.ClaimBankDetail')
     .where('ClaimId', claimId)
 }
 
 module.exports.delete = function (claimId) {
-  return knex.select()
+  const db = getDatabaseConnector()
+
+  return db.select()
     .from('ExtSchema.ClaimBankDetail')
     .where('ClaimId', claimId)
     .del()

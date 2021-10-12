@@ -1,6 +1,7 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 
 module.exports = function (reference) {
-  return knex.raw('SELECT * FROM [IntSchema].[getHistoricClaimsByReference] (?) ORDER BY getHistoricClaimsByReference.DateSubmitted DESC', [reference])
+  const db = getDatabaseConnector()
+
+  return db.raw('SELECT * FROM [IntSchema].[getHistoricClaimsByReference] (?) ORDER BY getHistoricClaimsByReference.DateSubmitted DESC', [reference])
 }

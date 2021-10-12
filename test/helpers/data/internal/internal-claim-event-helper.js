@@ -1,5 +1,4 @@
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 module.exports.DATE_ADDED = dateFormatter.now()
@@ -26,8 +25,9 @@ module.exports.build = function (dateAdded, caseworker, additionalData, note, is
 module.exports.insert = function (reference, eligibilityId, claimId, data) {
   const claimEvent = data || this.build(this.DATE_ADDED, this.CASEWORKER, this.ADDITIONAL_DATA, this.NOTE, false)
   const claimEvent2 = data || this.build(this.DATE_ADDED2, this.CASEWORKER2, this.ADDITIONAL_DATA2, this.NOTE2, true)
+  const db = getDatabaseConnector()
 
-  return knex('IntSchema.ClaimEvent').insert({
+  return db('IntSchema.ClaimEvent').insert({
     ClaimId: claimId,
     EligibilityId: eligibilityId,
     Reference: reference,
@@ -39,7 +39,7 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
     IsInternal: claimEvent.IsInternal
   })
     .then(function () {
-      return knex('IntSchema.ClaimEvent').insert({
+      return db('IntSchema.ClaimEvent').insert({
         ClaimId: claimId,
         EligibilityId: eligibilityId,
         Reference: reference,
@@ -54,13 +54,17 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
 }
 
 module.exports.get = function (claimId) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('IntSchema.ClaimEvent')
     .where('ClaimId', claimId)
 }
 
 module.exports.delete = function (claimId) {
-  return knex('IntSchema.ClaimEvent')
+  const db = getDatabaseConnector()
+
+  return db('IntSchema.ClaimEvent')
     .where('ClaimId', claimId)
     .del()
 }

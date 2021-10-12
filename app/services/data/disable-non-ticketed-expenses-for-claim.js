@@ -1,26 +1,27 @@
 const expenseTypeEnum = require('../../constants/expense-type-enum')
 const enumHelper = require('../../constants/helpers/enum-helper')
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const Promise = require('bluebird')
 
 module.exports = function (reference, eligibilityId, claimId, expenseType) {
   const expense = enumHelper.getKeyByAttribute(expenseTypeEnum, expenseType)
 
   if (expense && !expense.ticketed) {
-    return knex('ClaimExpense')
+    const db = getDatabaseConnector()
+
+    return db('ClaimExpense')
       .update('IsEnabled', false)
       .where({ ClaimId: claimId, ExpenseType: expenseType }).returning('ClaimExpenseId')
       .then(function (expenseIds) {
         if (expenseIds.length > 0) {
-          return knex('ClaimDocument')
+          return db('ClaimDocument')
             .update('IsEnabled', false)
             .whereIn('ClaimExpenseId', expenseIds)
-        } else {
-          return Promise.resolve()
         }
+
+        return Promise.resolve()
       })
-  } else {
-    return Promise.resolve()
   }
+
+  return Promise.resolve()
 }

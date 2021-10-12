@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 
 module.exports = function (claimId, eligibilityId, reference) {
   const result = {}
@@ -19,7 +18,9 @@ module.exports = function (claimId, eligibilityId, reference) {
 }
 
 function getAnyClaimChildren (claimId, eligibilityId, reference) {
-  return knex('ClaimChild')
+  const db = getDatabaseConnector()
+
+  return db('ClaimChild')
     .where({
       ClaimId: claimId,
       EligibilityId: eligibilityId,
@@ -30,7 +31,9 @@ function getAnyClaimChildren (claimId, eligibilityId, reference) {
 }
 
 function getAnyClaimEscorts (claimId, eligibilityId, reference) {
-  return knex('ClaimEscort')
+  const db = getDatabaseConnector()
+
+  return db('ClaimEscort')
     .where({
       ClaimId: claimId,
       EligibilityId: eligibilityId,
@@ -41,5 +44,7 @@ function getAnyClaimEscorts (claimId, eligibilityId, reference) {
 }
 
 function getAnyEligibleChildren (eligibilityId, reference) {
-  return knex.raw('SELECT * FROM [IntSchema].[getEligibleChildren] (?, ?)', [reference, eligibilityId])
+  const db = getDatabaseConnector()
+
+  return db.raw('SELECT * FROM [IntSchema].[getEligibleChildren] (?, ?)', [reference, eligibilityId])
 }

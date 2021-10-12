@@ -1,6 +1,5 @@
-const config = require('../../../knexfile').extweb
 const Promise = require('bluebird').Promise
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const dateFormatter = require('../date-formatter')
 
 module.exports = function (day, month, year, eligibilityId) {
@@ -29,7 +28,9 @@ module.exports = function (day, month, year, eligibilityId) {
 }
 
 function getPrisonNumber (eligibilityId) {
-  return knex('Prisoner').where('EligibilityId', eligibilityId).first('PrisonNumber')
+  const db = getDatabaseConnector()
+
+  return db('Prisoner').where('EligibilityId', eligibilityId).first('PrisonNumber')
     .then(function (result) {
       try {
         return result.PrisonNumber
@@ -41,8 +42,9 @@ function getPrisonNumber (eligibilityId) {
 
 function getEligibilityIds (day, month, year) {
   const dateOfJourney = dateFormatter.buildFormatted(day, month, year)
+  const db = getDatabaseConnector()
 
-  return knex.raw('SELECT * FROM [IntSchema].[getIdsForVisitorPrisonerCheck] (?)', [dateOfJourney])
+  return db.raw('SELECT * FROM [IntSchema].[getIdsForVisitorPrisonerCheck] (?)', [dateOfJourney])
     .then(function (results) {
       const eligibilityIds = []
 
@@ -55,7 +57,9 @@ function getEligibilityIds (day, month, year) {
 }
 
 function getPrisonNumberFromEligibilityId (eligibilityIds) {
-  return knex('IntSchema.Prisoner').whereIn('EligibilityId', eligibilityIds).select('PrisonNumber')
+  const db = getDatabaseConnector()
+
+  return db('IntSchema.Prisoner').whereIn('EligibilityId', eligibilityIds).select('PrisonNumber')
     .then(function (results) {
       const prisonNumbers = []
 

@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../app/databaseConnector')
 const AboutEscort = require('../../../app/services/domain/about-escort')
 const insertEscort = require('../../../app/services/data/insert-escort')
 const dateFormatter = require('../../../app/services/date-formatter')
@@ -26,13 +25,17 @@ module.exports.insert = function (reference, eligibilityId, claimId) {
 }
 
 module.exports.get = function (claimId) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('ExtSchema.ClaimEscort')
     .where({ ClaimId: claimId, IsEnabled: true })
 }
 
 module.exports.delete = function (claimId) {
-  return knex('ExtSchema.ClaimEscort')
+  const db = getDatabaseConnector()
+
+  return db('ExtSchema.ClaimEscort')
     .where('ClaimId', claimId)
     .del()
 }

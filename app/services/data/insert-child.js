@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const AboutChild = require('../domain/about-child')
 
 module.exports = function (reference, eligibilityId, claimId, child) {
@@ -7,7 +6,9 @@ module.exports = function (reference, eligibilityId, claimId, child) {
     throw new Error('Provided object is not an instance of the expected class')
   }
 
-  return knex('ClaimChild').insert({
+  const db = getDatabaseConnector()
+
+  return db('ClaimChild').insert({
     EligibilityId: eligibilityId,
     Reference: reference,
     ClaimId: claimId,

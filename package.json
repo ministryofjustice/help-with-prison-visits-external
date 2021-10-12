@@ -15,7 +15,7 @@
     "test": "standard && mocha --recursive test/unit/ --exit",
     "test-coverage": "nyc npm run test-unit",
     "test-unit": "mocha --recursive test/unit/ --exit",
-    "test-integration": "mocha --recursive test/integration/ --timeout 15000 --exit",
+    "test-integration": "KNEX_CONFIG=testing mocha --recursive test/integration/ --timeout 15000 --exit",
     "test-e2e": "gulp --gulpfile gulpfile-e2e.js",
     "test-e2e-smoke": "gulp --gulpfile gulpfile-e2e.js e2e-smoke",
     "test-e2e-ie8": "wdio test/wdio.conf.sauce.ie8.js",

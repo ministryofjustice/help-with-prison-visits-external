@@ -1,6 +1,5 @@
 const Promise = require('bluebird')
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const claimTypeEnum = require('../../constants/claim-type-enum')
 const insertNewClaim = require('./insert-new-claim')
 const getLastClaimDetails = require('./get-last-claim-details')
@@ -39,8 +38,10 @@ function insertClaimDetail (tableName, reference, eligibilityId, claimId, claimD
       delete claimDetail.ClaimExpenseId
     })
 
-    return knex(tableName).insert(claimDetails)
-  } else {
-    return Promise.resolve()
+    const db = getDatabaseConnector()
+
+    return db(tableName).insert(claimDetails)
   }
+
+  return Promise.resolve()
 }

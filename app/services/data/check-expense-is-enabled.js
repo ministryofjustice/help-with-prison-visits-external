@@ -1,8 +1,9 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 
 module.exports = function (claimExpenseId) {
-  return knex('ClaimExpense')
+  const db = getDatabaseConnector()
+
+  return db('ClaimExpense')
     .select('IsEnabled')
     .where({ ClaimExpenseId: claimExpenseId })
 }

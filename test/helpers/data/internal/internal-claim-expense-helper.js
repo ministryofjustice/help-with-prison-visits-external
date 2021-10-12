@@ -1,5 +1,4 @@
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 
 module.exports.CLAIM_EXPENSE_ID = Math.floor(Date.now() / 100) - 15000000000
 module.exports.EXPENSE_TYPE = 'bus'
@@ -30,8 +29,9 @@ module.exports.build = function () {
 
 module.exports.insert = function (reference, eligibilityId, claimId, data) {
   const expense = data || this.build()
+  const db = getDatabaseConnector()
 
-  return knex('IntSchema.ClaimExpense').insert({
+  return db('IntSchema.ClaimExpense').insert({
     ClaimExpenseId: expense.ClaimExpenseId,
     ClaimId: claimId,
     EligibilityId: eligibilityId,
@@ -51,13 +51,17 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
 }
 
 module.exports.get = function (claimId) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('IntSchema.ClaimExpense')
     .where('ClaimId', claimId)
 }
 
 module.exports.delete = function (claimId) {
-  return knex('IntSchema.ClaimExpense')
+  const db = getDatabaseConnector()
+
+  return db('IntSchema.ClaimExpense')
     .where('ClaimId', claimId)
     .del()
 }

@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const BaseExpense = require('../../services/domain/expenses/base-expense')
 const disableNonTicketedExpensesForClaim = require('./disable-non-ticketed-expenses-for-claim')
 
@@ -10,7 +9,9 @@ module.exports = function (reference, eligibilityId, claimId, expense) {
 
   return disableNonTicketedExpensesForClaim(reference, eligibilityId, claimId, expense.expenseType)
     .then(function () {
-      return knex('ClaimExpense').insert({
+      const db = getDatabaseConnector()
+
+      return db('ClaimExpense').insert({
         EligibilityId: eligibilityId,
         Reference: reference,
         ClaimId: claimId,

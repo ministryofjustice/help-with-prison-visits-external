@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../app/databaseConnector')
 const insertVisitor = require('../../../app/services/data/insert-visitor')
 const AboutYou = require('../../../app/services/domain/about-you')
 
@@ -43,13 +42,17 @@ module.exports.insert = function (reference, eligibilityId) {
 }
 
 module.exports.get = function (reference) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('ExtSchema.Visitor')
     .where('Reference', reference)
 }
 
 module.exports.delete = function (reference) {
-  return knex('ExtSchema.Visitor')
+  const db = getDatabaseConnector()
+
+  return db('ExtSchema.Visitor')
     .where('Reference', reference)
     .del()
 }

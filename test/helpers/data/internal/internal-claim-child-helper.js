@@ -1,5 +1,4 @@
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
@@ -25,8 +24,9 @@ module.exports.build = function () {
 
 module.exports.insert = function (reference, eligibilityId, claimId, data) {
   const child = data || this.build()
+  const db = getDatabaseConnector()
 
-  return knex('IntSchema.ClaimChild').insert({
+  return db('IntSchema.ClaimChild').insert({
     ClaimChildId: child.ClaimChildId,
     ClaimId: claimId,
     EligibilityId: eligibilityId,
@@ -40,13 +40,17 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
 }
 
 module.exports.get = function (claimId) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('IntSchema.ClaimChild')
     .where('ClaimId', claimId)
 }
 
 module.exports.delete = function (claimId) {
-  return knex('IntSchema.ClaimChild')
+  const db = getDatabaseConnector()
+
+  return db('IntSchema.ClaimChild')
     .where('ClaimId', claimId)
     .del()
 }

@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const BenefitOwner = require('../domain/benefit-owner')
 
 module.exports = function (reference, eligibilityId, benefitOwner) {
@@ -7,6 +6,7 @@ module.exports = function (reference, eligibilityId, benefitOwner) {
     throw new Error('Provided benefitOwner object is not an instance of the expected class')
   }
 
+  const db = getDatabaseConnector()
   const benefitInformation = {
     EligibilityId: eligibilityId,
     Reference: reference,
@@ -16,17 +16,17 @@ module.exports = function (reference, eligibilityId, benefitOwner) {
     DateOfBirth: benefitOwner.dob
   }
 
-  return knex('Benefit')
+  return db('Benefit')
     .where('Reference', reference)
     .count('Reference as ReferenceCount')
     .then(function (countResult) {
       const count = countResult[0].ReferenceCount
 
       if (count === 0) {
-        return knex('Benefit')
+        return db('Benefit')
           .insert(benefitInformation)
       } else {
-        return knex('Benefit')
+        return db('Benefit')
           .where('Reference', reference)
           .update(benefitInformation)
       }

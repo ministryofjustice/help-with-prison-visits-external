@@ -1,8 +1,9 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 
 module.exports = function (claimId) {
-  return knex('Claim')
+  const db = getDatabaseConnector()
+
+  return db('Claim')
     .where('ClaimId', claimId)
     .first('IsAdvanceClaim')
     .then(function (result) {

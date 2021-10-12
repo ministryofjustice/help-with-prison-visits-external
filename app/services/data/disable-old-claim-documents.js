@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const FileUpload = require('../domain/file-upload')
 const Promise = require('bluebird')
 
@@ -11,7 +10,9 @@ module.exports = function (reference, claimId, fileUpload, multipageDoc) {
   if (multipageDoc) {
     return Promise.resolve()
   } else {
-    return knex('ClaimDocument')
+    const db = getDatabaseConnector()
+
+    return db('ClaimDocument')
       .update('IsEnabled', false)
       .where({
         Reference: reference,

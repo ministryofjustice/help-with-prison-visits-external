@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const claimTypeEnum = require('../../constants/claim-type-enum')
 const documentTypeEnum = require('../../constants/document-type-enum')
 const getRepeatEligibility = require('./get-repeat-eligibility')
@@ -7,7 +6,9 @@ const maskArrayOfNames = require('../helpers/mask-array-of-names')
 const maskString = require('../helpers/mask-string')
 
 module.exports = function (claimId, claimType) {
-  return knex('Claim')
+  const db = getDatabaseConnector()
+
+  return db('Claim')
     .leftJoin('Eligibility', 'Claim.EligibilityId', '=', 'Eligibility.EligibilityId')
     .leftJoin('Visitor', 'Eligibility.EligibilityId', '=', 'Visitor.EligibilityId')
     .leftJoin('Prisoner', 'Eligibility.EligibilityId', '=', 'Prisoner.EligibilityId')
@@ -51,7 +52,7 @@ module.exports = function (claimId, claimType) {
       return claim
     })
     .then(function (claim) {
-      return knex('ClaimDocument')
+      return db('ClaimDocument')
         .where({ 'ClaimDocument.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null })
         .orWhere({
           'ClaimDocument.ClaimId': null,
@@ -63,7 +64,7 @@ module.exports = function (claimId, claimType) {
         .select('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
         .orderBy('ClaimDocument.DateSubmitted', 'desc')
         .then(function (claimDocuments) {
-          return knex('Claim')
+          return db('Claim')
             .join('ClaimExpense', 'Claim.ClaimId', '=', 'ClaimExpense.ClaimId')
             .where({ 'Claim.ClaimId': claimId, 'ClaimExpense.IsEnabled': true })
             .select('ClaimExpense.*', 'ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
@@ -86,7 +87,7 @@ module.exports = function (claimId, claimType) {
             })
         })
         .then(function (claimExpenses) {
-          return knex('Claim')
+          return db('Claim')
             .join('ClaimChild', 'Claim.ClaimId', '=', 'ClaimChild.ClaimId')
             .where({ 'Claim.ClaimId': claimId, 'ClaimChild.IsEnabled': true })
             .select()
@@ -103,7 +104,7 @@ module.exports = function (claimId, claimType) {
             })
         })
         .then(function (expensesAndChildren) {
-          return knex('ClaimEscort')
+          return db('ClaimEscort')
             .where({
               'ClaimEscort.ClaimId': claimId,
               'ClaimEscort.IsEnabled': true
@@ -123,7 +124,7 @@ module.exports = function (claimId, claimType) {
             })
         })
         .then(function (expensesChildrenAndEscort) {
-          return knex('EligibleChild')
+          return db('EligibleChild')
             .where('EligibleChild.EligibilityId', claim.EligibilityId)
             .columns([
               'EligibleChild.FirstName AS EligibleChildFirstName',

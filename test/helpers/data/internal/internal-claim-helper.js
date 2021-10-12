@@ -1,5 +1,4 @@
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 const DAY = '01'
@@ -34,10 +33,11 @@ module.exports.build = function () {
 
 module.exports.insert = function (reference, eligibilityId, data, status) {
   const claim = data || this.build()
+  const db = getDatabaseConnector()
   if (status) {
     claim.Status = status
   }
-  return knex('IntSchema.Claim').insert({
+  return db('IntSchema.Claim').insert({
     ClaimId: claim.ClaimId,
     EligibilityId: eligibilityId,
     Reference: reference,
@@ -57,13 +57,17 @@ module.exports.insert = function (reference, eligibilityId, data, status) {
 }
 
 module.exports.get = function (claimId) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('IntSchema.Claim')
     .where('ClaimId', claimId)
 }
 
 module.exports.delete = function (claimId) {
-  return knex('IntSchema.Claim')
+  const db = getDatabaseConnector()
+
+  return db('IntSchema.Claim')
     .where('ClaimId', claimId)
     .del()
 }

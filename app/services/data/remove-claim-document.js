@@ -1,10 +1,11 @@
-const knexConfig = require('../../../knexfile').extweb
-const knex = require('knex')(knexConfig)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const { AWSHelper } = require('../aws-helper')
 const aws = new AWSHelper()
 
 module.exports = function (claimDocumentId) {
-  return knex('ClaimDocument')
+  const db = getDatabaseConnector()
+
+  return db('ClaimDocument')
     .returning('Filepath')
     .where('ClaimDocumentId', claimDocumentId)
     .update({

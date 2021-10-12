@@ -5,8 +5,7 @@ const AboutThePrisoner = require('../../../../app/services/domain/about-the-pris
 const prisonerHelper = require('../../../helpers/data/prisoner-helper')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 const moment = require('moment')
 
 const UNIQUE_REFERENCE1 = '1234567'
@@ -38,13 +37,14 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
       .then(function (result) {
         const newReference = result.reference
         const newEligibilityId = result.eligibilityId
+        const db = getDatabaseConnector()
 
         expect(newReference).to.equal(UNIQUE_REFERENCE1)
         expect(newEligibilityId).to.exist //eslint-disable-line
 
-        return knex('ExtSchema.Eligibility').where('Reference', UNIQUE_REFERENCE1).first().then(function (newEligibilityRow) {
+        return db('ExtSchema.Eligibility').where('Reference', UNIQUE_REFERENCE1).first().then(function (newEligibilityRow) {
           expect(newEligibilityRow.Status).to.equal(eligibilityStatusEnum.IN_PROGRESS)
-          return knex('ExtSchema.Prisoner').where('Reference', UNIQUE_REFERENCE1).first().then(function (newPrisonerRow) {
+          return db('ExtSchema.Prisoner').where('Reference', UNIQUE_REFERENCE1).first().then(function (newPrisonerRow) {
             expect(stubReferenceGeneratorGenerate.calledOnce).to.be.true  //eslint-disable-line
             expect(newPrisonerRow.FirstName).to.equal(aboutThePrisoner.firstName)
             expect(newPrisonerRow.LastName).to.equal(aboutThePrisoner.lastName)
@@ -83,8 +83,10 @@ describe('services/data/insert-new-eligibility-and-prisoner', function () {
 
   after(function () {
     // Clean up
-    return knex('ExtSchema.Prisoner').whereIn('Reference', [UNIQUE_REFERENCE1, UNIQUE_REFERENCE2, NON_UNIQUE_REFERENCE, EXISTING_REFERENCE]).del().then(function () {
-      return knex('ExtSchema.Eligibility').whereIn('Reference', [UNIQUE_REFERENCE1, UNIQUE_REFERENCE2, NON_UNIQUE_REFERENCE, EXISTING_REFERENCE]).del()
+    const db = getDatabaseConnector()
+
+    return db('ExtSchema.Prisoner').whereIn('Reference', [UNIQUE_REFERENCE1, UNIQUE_REFERENCE2, NON_UNIQUE_REFERENCE, EXISTING_REFERENCE]).del().then(function () {
+      return db('ExtSchema.Eligibility').whereIn('Reference', [UNIQUE_REFERENCE1, UNIQUE_REFERENCE2, NON_UNIQUE_REFERENCE, EXISTING_REFERENCE]).del()
     })
   })
 })

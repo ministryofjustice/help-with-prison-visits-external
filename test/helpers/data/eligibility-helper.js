@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../app/databaseConnector')
 const eligiblityStatusEnum = require('../../../app/constants/eligibility-status-enum')
 const visitorHelper = require('./visitor-helper')
 const prisonerHelper = require('./prisoner-helper')
@@ -11,7 +10,9 @@ module.exports.DATE_SUBMITTED = dateFormatter.now()
 module.exports.STATUS = eligiblityStatusEnum.IN_PROGRESS
 
 module.exports.insert = function (reference) {
-  return knex('ExtSchema.Eligibility')
+  const db = getDatabaseConnector()
+
+  return db('ExtSchema.Eligibility')
     .insert({
       Reference: reference,
       DateCreated: this.DATE_CREATED.toDate(),
@@ -54,7 +55,9 @@ module.exports.insertEligibilityClaim = function (reference) {
 }
 
 module.exports.get = function (reference) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('ExtSchema.Eligibility')
     .where('Reference', reference)
 }
@@ -64,7 +67,9 @@ module.exports.delete = function (reference) {
 }
 
 function deleteByReference (schemaTable, reference) {
-  return knex(schemaTable).where('Reference', reference).del()
+  const db = getDatabaseConnector()
+
+  return db(schemaTable).where('Reference', reference).del()
 }
 
 module.exports.deleteAll = function (reference) {
