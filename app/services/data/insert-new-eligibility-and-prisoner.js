@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const claimTypeEnum = require('../../constants/claim-type-enum')
 const eligibilityStatusEnum = require('../../constants/eligibility-status-enum')
 const referenceGenerator = require('../reference-generator')
@@ -13,7 +12,9 @@ module.exports = function (aboutThePrisoner, claimType, existingReference) {
     reference = referenceGenerator.generate()
   }
 
-  return knex('Eligibility')
+  const db = getDatabaseConnector()
+
+  return db('Eligibility')
     .where('Reference', reference)
     .count('Reference as ReferenceCount')
     .then(function (countResult) {
@@ -33,8 +34,9 @@ module.exports = function (aboutThePrisoner, claimType, existingReference) {
 
 function insertNewEligibiltyAndPrisoner (aboutThePrisoner, uniqueReference) {
   let newEligibilityId
+  const db = getDatabaseConnector()
 
-  return knex.insert({
+  return db.insert({
     Reference: uniqueReference,
     DateCreated: dateFormatter.now().toDate(),
     Status: eligibilityStatusEnum.IN_PROGRESS
@@ -44,7 +46,7 @@ function insertNewEligibiltyAndPrisoner (aboutThePrisoner, uniqueReference) {
     .then(function (insertedIds) {
       newEligibilityId = insertedIds[0]
 
-      return knex.insert({
+      return db.insert({
         EligibilityId: newEligibilityId,
         Reference: uniqueReference,
         FirstName: aboutThePrisoner.firstName,
@@ -66,8 +68,9 @@ function insertNewEligibiltyAndPrisoner (aboutThePrisoner, uniqueReference) {
 
 function updateExistingEligibilityAndPrisoner (aboutThePrisoner, uniqueReference) {
   let newEligibilityId
+  const db = getDatabaseConnector()
 
-  return knex('Eligibility')
+  return db('Eligibility')
     .where('Reference', uniqueReference)
     .update({
       Reference: uniqueReference,
@@ -78,7 +81,7 @@ function updateExistingEligibilityAndPrisoner (aboutThePrisoner, uniqueReference
     .then(function (updatedIds) {
       newEligibilityId = updatedIds[0]
 
-      return knex('Prisoner')
+      return db('Prisoner')
         .where('Reference', uniqueReference)
         .andWhere('EligibilityId', newEligibilityId)
         .update({

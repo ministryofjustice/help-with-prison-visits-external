@@ -1,5 +1,4 @@
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 module.exports.VISITOR_ID = Math.floor(Date.now() / 100) - 15000000000
@@ -24,7 +23,9 @@ module.exports.BENEFIT = 'income-support'
 module.exports.BENEFIT_OWNER = 'yes'
 
 module.exports.insert = function (reference, eligibilityId) {
-  return knex('IntSchema.Visitor').insert({
+  const db = getDatabaseConnector()
+
+  return db('IntSchema.Visitor').insert({
     VisitorId: this.VISITOR_ID,
     EligibilityId: eligibilityId,
     Reference: reference,
@@ -46,13 +47,17 @@ module.exports.insert = function (reference, eligibilityId) {
 }
 
 module.exports.get = function (reference) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('IntSchema.Visitor')
     .where('Reference', reference)
 }
 
 module.exports.delete = function (reference) {
-  return knex('IntSchema.Visitor')
+  const db = getDatabaseConnector()
+
+  return db('IntSchema.Visitor')
     .where('Reference', reference)
     .del()
 }

@@ -1,8 +1,7 @@
 const expect = require('chai').expect
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const tasksEnum = require('../../../../app/constants/tasks-enum')
 const eligibilityStatusEnum = require('../../../../app/constants/eligibility-status-enum')
@@ -38,9 +37,11 @@ describe('services/data/submit-claim', function () {
 
     return submitClaim(REFERENCE, eligibilityId, claimId, CLAIM_TYPE, assistedDigitalCaseworker, paymentMethod)
       .then(function () {
-        return knex.first().from('ExtSchema.Eligibility').where('Reference', REFERENCE)
+        const db = getDatabaseConnector()
+
+        return db.first().from('ExtSchema.Eligibility').where('Reference', REFERENCE)
           .then(function (eligibility) {
-            return knex.first().from('ExtSchema.Claim').where('Reference', REFERENCE)
+            return db.first().from('ExtSchema.Claim').where('Reference', REFERENCE)
               .then(function (claim) {
                 expect(eligibility.Status).to.equal(eligibilityStatusEnum.SUBMITTED)
                 expect(eligibility.DateSubmitted).to.be.within(twoMinutesAgo.toDate(), twoMinutesAhead.toDate())

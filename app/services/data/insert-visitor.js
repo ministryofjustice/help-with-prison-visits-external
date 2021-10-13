@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const AboutYou = require('../domain/about-you')
 
 module.exports = function (reference, eligibilityId, aboutYou) {
@@ -8,6 +7,7 @@ module.exports = function (reference, eligibilityId, aboutYou) {
   }
 
   const dateOfBirth = aboutYou.dob.format('YYYY-MM-DD')
+  const db = getDatabaseConnector()
 
   const visitorInformation = {
     EligibilityId: eligibilityId,
@@ -28,17 +28,17 @@ module.exports = function (reference, eligibilityId, aboutYou) {
     BenefitOwner: aboutYou.benefitOwner
   }
 
-  return knex('Visitor')
+  return db('Visitor')
     .where('Reference', reference)
     .count('Reference as ReferenceCount')
     .then(function (countResult) {
       const count = countResult[0].ReferenceCount
 
       if (count === 0) {
-        return knex('Visitor')
+        return db('Visitor')
           .insert(visitorInformation)
       } else {
-        return knex('Visitor')
+        return db('Visitor')
           .where('Reference', reference)
           .update(visitorInformation)
       }

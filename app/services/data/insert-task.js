@@ -1,10 +1,11 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 const taskStatusEnum = require('../../constants/task-status-enum')
 const dateFormatter = require('../date-formatter')
 
 module.exports = function (reference, eligibilityId, claimId, taskType, additionalData, setTaskStatus) {
-  return knex('Task').insert({
+  const db = getDatabaseConnector()
+
+  return db('Task').insert({
     Task: taskType,
     Reference: reference,
     EligibilityId: eligibilityId,

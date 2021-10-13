@@ -1,8 +1,9 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 
 module.exports = function (reference) {
-  return knex('Visitor')
+  const db = getDatabaseConnector()
+
+  return db('Visitor')
     .join('Prisoner', 'Visitor.Reference', '=', 'Prisoner.Reference')
     .where('Visitor.Reference', reference)
     .first('Visitor.Town', 'Prisoner.NameOfPrison')

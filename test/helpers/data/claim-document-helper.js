@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../app/databaseConnector')
 const moment = require('moment')
 const FileUpload = require('../../../app/services/domain/file-upload')
 
@@ -30,7 +29,9 @@ module.exports.buildExpenseDoc = function (claimId, expenseId) {
 }
 
 module.exports.insert = function (reference, eligibilityId, claimId, documentType) {
-  return knex('ExtSchema.ClaimDocument')
+  const db = getDatabaseConnector()
+
+  return db('ExtSchema.ClaimDocument')
     .returning('ClaimDocumentId')
     .insert({
       EligibilityId: eligibilityId,
@@ -45,19 +46,25 @@ module.exports.insert = function (reference, eligibilityId, claimId, documentTyp
 }
 
 module.exports.get = function (claimId) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('ExtSchema.ClaimDocument')
     .where('ClaimId', claimId)
 }
 
 module.exports.getAllForExpense = function (expenseId) {
-  return knex.select('*')
+  const db = getDatabaseConnector()
+
+  return db.select('*')
     .from('ExtSchema.ClaimDocument')
     .where('ClaimExpenseId', expenseId)
 }
 
 module.exports.delete = function (claimId) {
-  return knex.select()
+  const db = getDatabaseConnector()
+
+  return db.select()
     .from('ExtSchema.ClaimDocument')
     .where('ClaimId', claimId)
     .del()

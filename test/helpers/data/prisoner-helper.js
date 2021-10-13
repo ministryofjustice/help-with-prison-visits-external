@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../app/databaseConnector')
 const dateFormatter = require('../../../app/services/date-formatter')
 
 module.exports.FIRST_NAME = 'John'
@@ -9,7 +8,9 @@ module.exports.PRISON_NUMBER = '0123456789'
 module.exports.NAME_OF_PRISON = 'hewell'
 
 module.exports.insert = function (reference, eligibilityId) {
-  return knex('ExtSchema.Prisoner')
+  const db = getDatabaseConnector()
+
+  return db('ExtSchema.Prisoner')
     .insert({
       EligibilityId: eligibilityId,
       Reference: reference,
@@ -22,13 +23,17 @@ module.exports.insert = function (reference, eligibilityId) {
 }
 
 module.exports.get = function (reference) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('ExtSchema.Prisoner')
     .where('Reference', reference)
 }
 
 module.exports.delete = function (reference) {
-  return knex('ExtSchema.Prisoner')
+  const db = getDatabaseConnector()
+
+  return db('ExtSchema.Prisoner')
     .where('Reference', reference)
     .del()
 }

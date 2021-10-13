@@ -2,8 +2,7 @@ const expect = require('chai').expect
 const insertEscort = require('../../../../app/services/data/insert-escort')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const claimEscortHelper = require('../../../helpers/data/claim-escort-helper')
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 
 describe('services/data/insert-escort', function () {
   const REFERENCE = 'V123467'
@@ -45,7 +44,9 @@ describe('services/data/insert-escort', function () {
         return insertEscort(REFERENCE, eligibilityId, claimId, newEscort)
       })
       .then(function () {
-        return knex('ExtSchema.ClaimEscort').first().where({ ClaimId: claimId, IsEnabled: false })
+        const db = getDatabaseConnector()
+
+        return db('ExtSchema.ClaimEscort').first().where({ ClaimId: claimId, IsEnabled: false })
       })
       .then(function (oldDisabledEscort) {
         expect(oldDisabledEscort.FirstName).to.equal(claimEscortHelper.FIRST_NAME)

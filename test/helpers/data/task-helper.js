@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../app/databaseConnector')
 const tasksEnum = require('../../../app/constants/tasks-enum')
 const taskStatusEnum = require('../../../app/constants/task-status-enum')
 const insertTask = require('../../../app/services/data/insert-task')
@@ -13,7 +12,9 @@ module.exports.insert = function (reference, claimId) {
 }
 
 module.exports.get = function (reference, claimId) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('ExtSchema.Task')
     .where({
       Reference: reference,
@@ -22,7 +23,9 @@ module.exports.get = function (reference, claimId) {
 }
 
 module.exports.delete = function (reference) {
-  return knex.select()
+  const db = getDatabaseConnector()
+
+  return db.select()
     .from('ExtSchema.Task')
     .where('Reference', reference)
     .del()

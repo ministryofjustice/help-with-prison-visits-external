@@ -1,8 +1,9 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 
 module.exports = function (reference) {
-  return knex.raw('SELECT * FROM [IntSchema].[checkForDisabledReference] (?)', [reference])
+  const db = getDatabaseConnector()
+
+  return db.raw('SELECT * FROM [IntSchema].[checkForDisabledReference] (?)', [reference])
     .then(function (results) {
       if (results.length > 0) {
         return true

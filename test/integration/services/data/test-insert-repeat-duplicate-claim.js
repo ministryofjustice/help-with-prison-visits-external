@@ -1,6 +1,5 @@
 const expect = require('chai').expect
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 const eligiblityHelper = require('../../../helpers/data/eligibility-helper')
 const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const ticketOwnerEnum = require('../../../../app/constants/ticket-owner-enum')
@@ -59,6 +58,7 @@ describe('services/data/insert-repeat-duplicate-claim', function () {
   it('should call to insert new Claim then copy last claim children and expenses', function () {
     insertNewClaimStub.resolves(claimId)
     getLastClaimDetailsStub.resolves(LAST_CLAIM_DETAILS)
+    const db = getDatabaseConnector()
 
     return insertRepeatDuplicateClaim(REFERENCE, eligibilityId, NEW_CLAIM)
       .then(function () {
@@ -66,7 +66,7 @@ describe('services/data/insert-repeat-duplicate-claim', function () {
         expect(getLastClaimDetailsStub.calledWith(REFERENCE, eligibilityId, false)).to.be.true  //eslint-disable-line
       })
       .then(function () {
-        return knex.select().from('ExtSchema.ClaimChild').where('ClaimId', claimId)
+        return db.select().from('ExtSchema.ClaimChild').where('ClaimId', claimId)
           .then(function (result) {
             expect(result.length).to.equal(1)
             expect(result[0].FirstName).to.equal(CHILDREN[0].FirstName)
@@ -74,7 +74,7 @@ describe('services/data/insert-repeat-duplicate-claim', function () {
           })
       })
       .then(function () {
-        return knex.select().from('ExtSchema.ClaimExpense').where('ClaimId', claimId)
+        return db.select().from('ExtSchema.ClaimExpense').where('ClaimId', claimId)
           .then(function (result) {
             expect(result.length).to.equal(1)
             expect(result[0].ExpenseType).to.equal(EXPENSES[0].ExpenseType)

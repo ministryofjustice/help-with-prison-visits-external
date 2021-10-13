@@ -1,5 +1,4 @@
-const config = require('../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../app/databaseConnector')
 const childRelationshipEnum = require('../../../app/constants/child-relationship-enum')
 const AboutChild = require('../../../app/services/domain/about-child')
 const insertChild = require('../../../app/services/data/insert-child')
@@ -29,13 +28,17 @@ module.exports.insert = function (reference, eligibilityId, claimId) {
 }
 
 module.exports.get = function (claimId) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('ExtSchema.ClaimChild')
     .where('ClaimId', claimId)
 }
 
 module.exports.delete = function (claimId) {
-  return knex('ExtSchema.ClaimChild')
+  const db = getDatabaseConnector()
+
+  return db('ExtSchema.ClaimChild')
     .where('ClaimId', claimId)
     .del()
 }

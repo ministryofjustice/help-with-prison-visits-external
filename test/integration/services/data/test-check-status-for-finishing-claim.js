@@ -1,8 +1,7 @@
 const expect = require('chai').expect
 const checkStatusForFinishingClaim = require('../../../../app/services/data/check-status-for-finishing-claim')
 const eligibilityHelper = require('../../../helpers/data/eligibility-helper')
-const config = require('../../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 
 describe('services/data/check-status-for-finishing-claim', function () {
   const REFERENCE = 'FINSTAT'
@@ -29,7 +28,9 @@ describe('services/data/check-status-for-finishing-claim', function () {
   })
 
   it('should return false claim not being in progress', function () {
-    return knex('Claim').update({ Status: 'NOT-IN-PROGRESS' }).where({ ClaimId: claimId, Reference: REFERENCE })
+    const db = getDatabaseConnector()
+
+    return db('Claim').update({ Status: 'NOT-IN-PROGRESS' }).where({ ClaimId: claimId, Reference: REFERENCE })
       .then(function () {
         return checkStatusForFinishingClaim(REFERENCE, eligibilityId, claimId)
           .then(function (result) {

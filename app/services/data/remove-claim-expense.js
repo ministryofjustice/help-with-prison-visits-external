@@ -1,9 +1,10 @@
-const config = require('../../../knexfile').extweb
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../databaseConnector')
 
 // TODO test
 module.exports = function (claimId, claimExpenseId) {
-  return knex('ClaimExpense').where({ ClaimId: claimId, ClaimExpenseId: claimExpenseId }).update({
+  const db = getDatabaseConnector()
+
+  return db('ClaimExpense').where({ ClaimId: claimId, ClaimExpenseId: claimExpenseId }).update({
     IsEnabled: false
   })
 }

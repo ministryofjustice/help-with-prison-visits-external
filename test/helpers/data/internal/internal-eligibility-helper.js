@@ -1,5 +1,4 @@
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 const claimHelper = require('./internal-claim-helper')
 const claimChildHelper = require('./internal-claim-child-helper')
 const claimExpenseHelper = require('./internal-claim-expense-helper')
@@ -15,7 +14,9 @@ module.exports.DATE_SUBMITTED = dateFormatter.now()
 module.exports.STATUS = 'APPROVED'
 
 module.exports.insert = function (reference) {
-  return knex('IntSchema.Eligibility')
+  const db = getDatabaseConnector()
+
+  return db('IntSchema.Eligibility')
     .insert({
       EligibilityId: this.ELIGIBILITY_ID,
       Reference: reference,
@@ -47,7 +48,9 @@ module.exports.insertEligibilityAndClaim = function (reference, status) {
 }
 
 module.exports.get = function (reference) {
-  return knex.first()
+  const db = getDatabaseConnector()
+
+  return db.first()
     .from('IntSchema.Eligibility')
     .where('Reference', reference)
 }
@@ -57,7 +60,9 @@ module.exports.delete = function (reference) {
 }
 
 function deleteByReference (schemaTable, reference) {
-  return knex(schemaTable).where('Reference', reference).del()
+  const db = getDatabaseConnector()
+
+  return db(schemaTable).where('Reference', reference).del()
 }
 
 /**

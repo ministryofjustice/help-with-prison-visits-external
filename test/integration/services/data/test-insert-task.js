@@ -1,6 +1,5 @@
 const expect = require('chai').expect
-const config = require('../../../../knexfile').migrations
-const knex = require('knex')(config)
+const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 const dateFormatter = require('../../../../app/services/date-formatter')
 const taskStatusEnum = require('../../../../app/constants/task-status-enum')
 const taskHelper = require('../../../helpers/data/task-helper')
@@ -17,7 +16,9 @@ describe('services/data/insert-task', function () {
   it('should insert a new task', function () {
     return insertTask(REFERENCE, eligibilityId, claimId, TASKTYPE, ADDITIONAL_DATA)
       .then(function () {
-        return knex.first().from('ExtSchema.Task').where({ Reference: REFERENCE, ClaimId: claimId })
+        const db = getDatabaseConnector()
+
+        return db.first().from('ExtSchema.Task').where({ Reference: REFERENCE, ClaimId: claimId })
           .then(function (task) {
             expect(task.Task).to.equal(TASKTYPE)
             expect(task.Reference).to.equal(REFERENCE)
