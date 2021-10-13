@@ -5,12 +5,10 @@ const dateFormatter = require('../../../app/services/date-formatter')
 const todaysDate = dateFormatter.now()
 
 describe('First Time Claim Flow', () => {
-
   // The reference will be generated as part of this flow. So capture it once it is generated.
   const caseworker = 'test-e2e@example.com'
 
   it('should display each page in the first time eligibility flow', () => {
-
     cy.visit(`/assisted-digital?caseworker=${caseworker}`)
     cy.location('pathname').should('equal', '/start')
     cy.getCookie('apvs-assisted-digital')
@@ -66,7 +64,7 @@ describe('First Time Claim Flow', () => {
 
     // Journey information
     cy.get('[data-cy=journey-day]').type(todaysDate.date())
-    cy.get('[data-cy=journey-month]').type(todaysDate.month() +1)
+    cy.get('[data-cy=journey-month]').type(todaysDate.month() + 1)
     cy.get('[data-cy=journey-year]').type(todaysDate.year())
     cy.get('[data-cy=submit]').contains('Continue').click()
 
@@ -134,7 +132,7 @@ describe('First Time Claim Flow', () => {
     // Light refreshment
     cy.get('[data-cy=cost]').type('7.99')
     cy.get('[data-cy=submit]').contains('Continue').click()
-    
+
     // Claim summary
     cy.get('[data-cy=add-visit-confirmation]').click()
 
@@ -176,5 +174,4 @@ describe('First Time Claim Flow', () => {
     // Application submitted
     cy.contains('Application submitted')
   })
-
 })

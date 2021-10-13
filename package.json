@@ -44,7 +44,9 @@
       "after",
       "it",
       "browser",
-      "$"
+      "$",
+      "cy",
+      "expect"
     ]
   },
   "dependencies": {
