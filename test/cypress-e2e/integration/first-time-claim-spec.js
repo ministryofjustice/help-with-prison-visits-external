@@ -173,5 +173,6 @@ describe('First Time Claim Flow', () => {
 
     // Application submitted
     cy.contains('Application submitted')
+    cy.get('[data-cy=reference]').contains(/^[0-9A-Z]{7}$/)
   })
 })
