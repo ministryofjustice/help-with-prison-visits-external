@@ -150,9 +150,6 @@ Enter information about you - {{ serviceName }}
             <option {% if visitor['Country'] == 'Wales' %} selected {% endif %} value="Wales" id="country-wales">Wales</option>
             <option {% if visitor['Country'] == 'Scotland' %} selected {% endif %} value="Scotland" id="country-scotland">Scotland</option>
             <option {% if visitor['Country'] == 'Northern Ireland' %} selected {% endif %} value="Northern Ireland" id="country-ni">Northern Ireland</option>
-            {% if showYCS %}
-            <option {% if visitor['Country'] == 'YCS' %} selected {% endif %} value="YCS" id="country-ycs">YCS</option>
-            {% endif %}
           </select>
         </div>
 

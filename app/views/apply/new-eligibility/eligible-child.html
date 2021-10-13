@@ -232,9 +232,6 @@ Enter information about the Eligible Child you are escorting - {{ serviceName }}
             <option {% if eligibleChild['Country'] == 'Wales' %} selected {% endif %} value="Wales" id="country-wales">Wales</option>
             <option {% if eligibleChild['Country'] == 'Scotland' %} selected {% endif %} value="Scotland" id="country-scotland">Scotland</option>
             <option {% if eligibleChild['Country'] == 'Northern Ireland' %} selected {% endif %} value="Northern Ireland" id="country-ni">Northern Ireland</option>
-            {% if showYCS %}
-            <option {% if eligibleChild['Country'] == 'YCS' %} selected {% endif %} value="YCS" id="country-ycs">YCS</option>
-            {% endif %}
           </select>
         </div>
 
