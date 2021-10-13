@@ -37,14 +37,14 @@
             <legend class="visually-hidden">Do you want to claim expenses for any children</legend>
 
             <div class="multiple-choice">
-              <input id="child-yes" type="radio" name="has-child" value="yes" {% if claim['has-child'] == 'yes' %} checked {% endif %}>
+              <input id="child-yes" type="radio" name="has-child" value="yes" {% if claim['has-child'] == 'yes' %} checked {% endif %} data-cy="child-yes">
               <label for="child-yes" class="block-label inline">  
                 Yes
               </label>
             </div>
 
             <div class="multiple-choice">
-              <input id="child-no" type="radio" name="has-child" value="no" {% if claim['has-child'] == 'no' %} checked {% endif %}>
+              <input id="child-no" type="radio" name="has-child" value="no" {% if claim['has-child'] == 'no' %} checked {% endif %} data-cy="child-no">
               <label for="child-no" class="block-label inline">
                 No
               </label>
@@ -59,7 +59,8 @@
         <input id="has-child-submit"
                type="submit"
                value="Continue"
-               class="button">
+               class="button"
+               data-cy="submit">
       </form>
 
     </div>

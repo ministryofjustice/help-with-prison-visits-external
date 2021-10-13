@@ -33,7 +33,8 @@
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ escort['FirstName'] }}">
+                 value="{{ escort['FirstName'] }}"
+                 data-cy="first-name">
         </div>
 
         <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
@@ -48,7 +49,8 @@
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ escort['LastName'] }}">
+                 value="{{ escort['LastName'] }}"
+                 data-cy="last-name">
         </div>
 
         <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
@@ -68,7 +70,8 @@
                        autocomplete="off"
                        value="{{ escort['dob-day'] }}"
                        type="number"
-                       class="form-control">
+                       class="form-control"
+                       data-cy="dob-day">
               </div>
 
               <div class="form-group form-group-month">
@@ -78,7 +81,8 @@
                        autocomplete="off"
                        value="{{ escort['dob-month'] }}"
                        type="number"
-                       class="form-control">
+                       class="form-control"
+                       data-cy="dob-month">
               </div>
 
               <div class="form-group form-group-year">
@@ -88,7 +92,8 @@
                        autocomplete="off"
                        value="{{ escort['dob-year'] }}"
                        type="number"
-                       class="form-control">
+                       class="form-control"
+                       data-cy="dob-year">
               </div>
             </div>
 
@@ -100,7 +105,8 @@
         <input id="about-escort-submit"
                type="submit"
                value="Continue"
-               class="button">
+               class="button"
+               data-cy="submit">
       </form>
     </div>
   </div>

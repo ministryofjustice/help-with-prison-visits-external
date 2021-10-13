@@ -43,7 +43,8 @@
                          name="date-of-journey-day"
                          autocomplete="off"
                          value="{{ claim['date-of-journey-day'] }}"
-                         class="form-control">
+                         class="form-control"
+                         data-cy="journey-day">
                 </div>
 
                 <div class="form-group form-group-month">
@@ -52,7 +53,8 @@
                          name="date-of-journey-month"
                          autocomplete="off"
                          value="{{ claim['date-of-journey-month'] }}"
-                         class="form-control">
+                         class="form-control"
+                         data-cy="journey-month">
                 </div>
 
                 <div class="form-group form-group-year">
@@ -61,7 +63,8 @@
                          name="date-of-journey-year"
                          autocomplete="off"
                          value="{{ claim['date-of-journey-year'] }}"
-                         class="form-control">
+                         class="form-control"
+                         data-cy="journey-year">
                 </div>
               </fieldset>
             </div>
@@ -74,7 +77,8 @@
         <input id="journey-information-submit"
                type="submit"
                value="Continue"
-               class="button">
+               class="button"
+               data-cy="submit">
       </form>
 
     </div>

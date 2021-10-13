@@ -49,7 +49,8 @@ Enter information about you - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ visitor['FirstName'] }}">
+                 value="{{ visitor['FirstName'] }}"
+                 data-cy="first-name">
         </div>
 
         <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
@@ -62,7 +63,8 @@ Enter information about you - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ visitor['LastName'] }}">
+                 value="{{ visitor['LastName'] }}"
+                 data-cy="last-name">
         </div>
 
         <div class="form-group {% if errors['NationalInsuranceNumber'][0] or isDuplicateClaim %} error {% endif %}">
@@ -77,7 +79,8 @@ Enter information about you - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ visitor['NationalInsuranceNumber'] }}">
+                 value="{{ visitor['NationalInsuranceNumber'] }}"
+                 data-cy="ni-number">
         </div>
 
         <div class="heading-medium-prevent-margin-collapse">
@@ -97,7 +100,8 @@ Enter information about you - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ visitor['HouseNumberAndStreet'] }}">
+                 value="{{ visitor['HouseNumberAndStreet'] }}"
+                 data-cy="house-num-and-street">
         </div>
 
         <div class="form-group {% if errors['Town'][0] %} error {% endif %}">
@@ -110,7 +114,8 @@ Enter information about you - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ visitor['Town'] }}">
+                 value="{{ visitor['Town'] }}"
+                 data-cy="town">
         </div>
 
         <div class="form-group {% if errors['County'][0] %} error {% endif %}">
@@ -123,7 +128,8 @@ Enter information about you - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ visitor['County'] }}">
+                 value="{{ visitor['County'] }}"
+                 data-cy="county">
         </div>
 
         <div class="form-group {% if errors['PostCode'][0] %} error {% endif %}">
@@ -136,7 +142,8 @@ Enter information about you - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ visitor['PostCode'] }}">
+                 value="{{ visitor['PostCode'] }}"
+                 data-cy="postcode">
         </div>
 
         <div class="form-group {% if errors['Country'][0] %} error {% endif %}">
@@ -144,7 +151,7 @@ Enter information about you - {{ serviceName }}
           {% if errors['Country'][0] %}
           <span class="error-message" id="error-message-country">{{ errors['Country'][0] }}</span>
           {% endif %}
-          <select id="country-input" class="form-control" name="Country">
+          <select id="country-input" class="form-control" name="Country" data-cy="country">
             <option>select</option>
             <option {% if visitor['Country'] == 'England' %} selected {% endif %} value="England" id="country-england">England</option>
             <option {% if visitor['Country'] == 'Wales' %} selected {% endif %} value="Wales" id="country-wales">Wales</option>
@@ -166,7 +173,8 @@ Enter information about you - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ visitor['EmailAddress'] }}">
+                 value="{{ visitor['EmailAddress'] }}"
+                 data-cy="email">
         </div>
 
         <div class="form-group {% if errors['PhoneNumber'][0] %} error {% endif %}">
@@ -179,7 +187,8 @@ Enter information about you - {{ serviceName }}
                  type="text"
                  autocomplete="off"
                  class="form-control"
-                 value="{{ visitor['PhoneNumber'] }}">
+                 value="{{ visitor['PhoneNumber'] }}"
+                 data-cy="phone">
         </div>
 
         {% include "partials/csrf-hidden-input.html" %}
@@ -187,7 +196,8 @@ Enter information about you - {{ serviceName }}
         <input id="about-you-submit"
                type="submit"
                class="button"
-               value="Continue">
+               value="Continue"
+               data-cy="submit">
       </form>
 
     </div>

@@ -111,7 +111,7 @@
             <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-visit-confirmation-post">change</a>
           {% else %}
             <span class="text-warning">Visit confirmation needed</span>
-            <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-visit-confirmation" class="button grey pull-right">Add</a>
+            <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-visit-confirmation" class="button grey pull-right" data-cy="add-visit-confirmation">Add</a>
           {% endif %}
         {% endif %}
       </td>

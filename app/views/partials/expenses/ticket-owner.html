@@ -10,7 +10,7 @@
       <legend class="visually-hidden">Who is this ticket for</legend>
 
       <div class="multiple-choice">
-        <input id="is-your-ticket" type="radio" name="ticket-owner" value="you">
+        <input id="is-your-ticket" type="radio" name="ticket-owner" value="you" data-cy="is-your-ticket">
         <label for="is-your-ticket" class="block-label inline">
             Yourself
         </label>
@@ -18,7 +18,7 @@
 
       {% if expenseOwners.child %}
         <div class="multiple-choice">
-          <input id="is-child-ticket" type="radio" name="ticket-owner" value="child">
+          <input id="is-child-ticket" type="radio" name="ticket-owner" value="child" data-cy="is-child-ticket">
           <label for="is-child-ticket" class="block-label inline">
             Child
           </label>
@@ -27,7 +27,7 @@
 
       {% if expenseOwners.eligibleChildren %}
         <div class="multiple-choice">
-          <input id="is-eligible-child-ticket" type="radio" name="ticket-owner" value="eligible-child">
+          <input id="is-eligible-child-ticket" type="radio" name="ticket-owner" value="eligible-child" data-cy="is-eligible-child-ticket">
           <label for="is-eligible-child-ticket" class="block-label inline">
             Eligible Child
           </label>
@@ -36,7 +36,7 @@
 
       {% if expenseOwners.escort %}
         <div class="multiple-choice">
-          <input id="is-escort-ticket" type="radio" name="ticket-owner" value="escort">
+          <input id="is-escort-ticket" type="radio" name="ticket-owner" value="escort" data-cy="is-escort-ticket">
           <label for="is-escort-ticket" class="block-label inline">
             Escort
           </label>
@@ -49,7 +49,7 @@
 {% else %}
   <div class='form-group {% if errors['ticket-owner'][0] %} error {% endif %}' id='ticket-owner'>
     <div class="multiple-choice">
-      <input id="is-your-ticket" type="radio" name="ticket-owner" value="you" checked>
+      <input id="is-your-ticket" type="radio" name="ticket-owner" value="you" checked data-cy="is-your-ticket">
       <label for="is-your-ticket" class="block-label inline js-hidden">
           Yourself
       </label>
