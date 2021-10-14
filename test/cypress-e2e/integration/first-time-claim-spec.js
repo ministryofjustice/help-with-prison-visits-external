@@ -42,6 +42,7 @@ describe('First Time Claim Flow', () => {
     cy.get('[data-cy=prisoner-number]').type('Z6541TS')
     // test auto-complete for 'Hewell'
     cy.get('input[data-cy=prison-name]').type('Hewe').type('{enter}')
+      .should('have.value', 'Hewell')
     cy.get('[data-cy=submit]').contains('Continue').click()
 
     // About you
@@ -53,7 +54,7 @@ describe('First Time Claim Flow', () => {
     cy.get('[data-cy=county]').type('Testshire')
     cy.get('[data-cy=postcode]').type('T1 2AB')
     cy.get('[data-cy=country]').select('England')
-    cy.get('[data-cy=country]').should('have.value', 'England')
+      .should('have.value', 'England')
     cy.get('[data-cy=email]').type('test-visitor@example.com')
     cy.get('[data-cy=phone]').type('01234 567789')
     cy.get('[data-cy=submit]').contains('Continue').click()
