@@ -1,3 +1,12 @@
+main_branch: &main_branch
+  filters:
+    branches:
+      only: main
+feature_branch: &feature_branch
+  filters:
+    branches:
+      ignore: main
+
 version: 2.1
 
 orbs:
@@ -84,23 +93,31 @@ workflows:
           name: helm_lint
       - hmpps/build_docker:
           name: build_docker
-          filters:
-            branches:
-              only:
-                - main
-      - hmpps/deploy_env:
-          name: deploy_dev
-          env: "dev"
-          context: hmpps-common-vars
-          filters:
-            branches:
-              only:
-                - main
+      - request_dev_approval:
+          <<: *feature_branch
+          type: approval
           requires:
             - helm_lint
             - unit_test
             - build_docker
-      - request-preprod-approval:
+      - hmpps/deploy_env:
+          <<: *feature_branch
+          name: deploy_dev_preview
+          env: "dev"
+          context: hmpps-common-vars
+          requires:
+            - request_dev_approval
+      - hmpps/deploy_env:
+          <<: *main_branch
+          name: deploy_dev
+          env: "dev"
+          context: hmpps-common-vars
+          requires:
+            - helm_lint
+            - unit_test
+            - build_docker
+      - request_preprod_approval:
+          <<: *main_branch
           type: approval
           requires:
             - deploy_dev
@@ -109,8 +126,8 @@ workflows:
           env: "preprod"
           context: help-with-prison-visits-external-preprod
           requires:
-            - request-preprod-approval
-      - request-prod-approval:
+            - request_preprod_approval
+      - request_prod_approval:
           type: approval
           requires:
             - deploy_preprod
@@ -123,7 +140,7 @@ workflows:
             - help-with-prison-visits-asynchronous-worker-prod
             - hmpps-common-vars
           requires:
-            - request-prod-approval
+            - request_prod_approval
 
   security:
     triggers:
