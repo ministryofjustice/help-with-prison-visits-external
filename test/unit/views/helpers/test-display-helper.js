@@ -78,7 +78,8 @@ describe('views/helpers/display-helper', function () {
       'SCO',
       'NI',
       'JSY',
-      'GSY'
+      'GSY',
+      'YCS'
     ]
     const INVALID_REGION = 'some invalid region'
 
