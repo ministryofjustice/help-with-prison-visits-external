@@ -12,6 +12,9 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
+const internalEligibilityHelper = require('../../helpers/data/internal/internal-eligibility-helper')
+const claimHelper = require('../../helpers/data/claim-helper')
+
 /**
  * @type {Cypress.PluginConfig}
  */
@@ -19,4 +22,18 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+
+  on('task', {
+
+    /**
+     * Finds first claim reference for given Assisted Digital
+     * caseworker then deletes all records with that reference
+     */
+    deleteRecordsforADCaseworker (caseworker) {
+      return claimHelper.getRef(caseworker)
+        .then(function (reference) {
+          return internalEligibilityHelper.deleteAll(reference)
+        })
+    }
+  })
 }

@@ -101,4 +101,8 @@ describe('First Time Claim Flow (Northern Ireland rules)', () => {
     cy.contains('Application submitted')
     cy.get('[data-cy=reference]').contains(/^[0-9A-Z]{7}$/)
   })
+
+  after(() => {
+    cy.task('deleteRecordsforADCaseworker', caseworker)
+  })
 })
