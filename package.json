@@ -7,7 +7,8 @@
     "url": "https://github.com/ministryofjustice/help-with-prison-visits-external.git"
   },
   "engines": {
-    "node": "12.x.x"
+    "node": "12",
+    "npm": "6"
   },
   "scripts": {
     "start": "npm run css-build && node ./app/bin/www",
@@ -46,7 +47,7 @@
     "bluebird": "^3.7.2",
     "bunyan": "^1.8.15",
     "bunyan-prettystream": "^0.1.3",
-    "clamscan": "^1.4.2",
+    "clamscan": "^2.0.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "cookie-session": "^2.0.0-rc.1",
