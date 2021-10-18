@@ -93,7 +93,7 @@
             ><span class="claim-status">Progress </span>{{ claimStatusHelper(claim.Status) }}
           {% endif %}
         </td>
-        <td><a id="add-info" href="/your-claims/{{ claim.ClaimId }}"
+        <td><a id="add-info" href="/your-claims/{{ claim.ClaimId }}" data-cy="add-info"
         {% if forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
           class="button grey"> Add information
         {% else %}

@@ -37,7 +37,7 @@
               <span class="text-success">Visit confirmation uploaded</span>
             {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' or claimDetails.claim['VisitConfirmationCheck'] == 'REQUEST-INFORMATION' %}
               <span class="text-warning">Visit confirmation stamp pending upload</span>
-              <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-visit-confirmation" class="button grey pull-right">Add</a>
+              <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-visit-confirmation" class="button grey pull-right" data-cy="update-visit-confirmation">Add</a>
             {% elif claimDetails.claim.visitConfirmation['DocumentStatus'] == 'post-later' %}
               <span class="text-pending">Sending visit confirmation by post</span>
               <a href="{{ URL }}/file-upload?document=VISIT_CONFIRMATION&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-visit-confirmation-post">change</a>

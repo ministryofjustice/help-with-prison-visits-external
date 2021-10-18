@@ -43,11 +43,12 @@ module.exports = (on, config) => {
      * Generates a claim reference and inserts necessary test
      * records for this across tables
      *
+     * @param {String} status claim status (optional)
      * @returns String generated claim reference
      */
-    insertEligibilityAndClaim () {
+    insertEligibilityAndClaim (status) {
       const reference = referenceGenerator.generate()
-      internalEligibilityHelper.insertEligibilityAndClaim(reference)
+      internalEligibilityHelper.insertEligibilityAndClaim(reference, status)
       return reference
     },
 
