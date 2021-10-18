@@ -44,7 +44,7 @@
 
   {% if canStartNewClaim %}
   <form action="/your-claims/check-your-information" method="GET">
-      <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" />
+      <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" data-cy="new-claim"/>
   </form>
   {% else %}
   <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />

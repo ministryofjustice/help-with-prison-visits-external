@@ -68,14 +68,14 @@
           <fieldset class="inline">
             <legend class="visually-hidden">Are you applying for the same journey as last time</legend>
             <div class="multiple-choice">
-              <input type="radio" name="same-journey-as-last-claim" value="yes" id="yes">
+              <input type="radio" name="same-journey-as-last-claim" value="yes" id="yes" data-cy="yes">
               <label for="yes" class="block-label inline">
                 Yes
               </label>
             </div>
               
             <div class="multiple-choice">
-              <input type="radio" name="same-journey-as-last-claim" value="no" id="no">
+              <input type="radio" name="same-journey-as-last-claim" value="no" id="no" data-cy="no">
               <label for="no" class="block-label inline">
                 No
               </label>
@@ -90,7 +90,8 @@
                  id="same-journey-as-last-claim-submit"
                  name="commit"
                  value="Continue"
-                 class="button">
+                 class="button"
+                 data-cy="submit">
         </div>
 
       </form>

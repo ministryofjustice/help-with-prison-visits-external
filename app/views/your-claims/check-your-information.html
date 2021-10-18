@@ -47,7 +47,7 @@
   <form action="/your-claims/check-your-information" method="post">
     <div class="form-group">
       <div class="multiple-choice">
-        <input id="confirm-correct" type="checkbox" name="confirm-correct" value="true" >
+        <input id="confirm-correct" type="checkbox" name="confirm-correct" value="true" data-cy="confirm-correct">
         <label for="confirm-correct" class="block-label">  
           Confirm these details are correct
         </label>
@@ -58,7 +58,7 @@
 
     {% include "partials/csrf-hidden-input.html" %}
 
-    <input id="continue" type="submit" name="commit" value="Continue" class="button">
+    <input id="continue" type="submit" name="commit" value="Continue" class="button" data-cy="submit">
   </form>
 </main>
 

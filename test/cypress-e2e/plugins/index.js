@@ -14,6 +14,7 @@
 
 const internalEligibilityHelper = require('../../helpers/data/internal/internal-eligibility-helper')
 const claimHelper = require('../../helpers/data/claim-helper')
+const referenceGenerator = require('../../../app/services/reference-generator')
 
 /**
  * @type {Cypress.PluginConfig}
@@ -28,12 +29,35 @@ module.exports = (on, config) => {
     /**
      * Finds first claim reference for given Assisted Digital
      * caseworker then deletes all records with that reference
+     *
+     * @param {String} caseworker email address
      */
     deleteRecordsforADCaseworker (caseworker) {
       return claimHelper.getRef(caseworker)
         .then(function (reference) {
           return internalEligibilityHelper.deleteAll(reference)
         })
+    },
+
+    /**
+     * Generates a claim reference and inserts necessary test
+     * records for this across tables
+     *
+     * @returns String generated claim reference
+     */
+    insertEligibilityAndClaim () {
+      const reference = referenceGenerator.generate()
+      internalEligibilityHelper.insertEligibilityAndClaim(reference)
+      return reference
+    },
+
+    /**
+     * Deletes all records with the given reference across all schemas
+     *
+     * @param {String} claim reference
+     */
+    deleteAllforReference (reference) {
+      return internalEligibilityHelper.deleteAll(reference)
     }
   })
 }
