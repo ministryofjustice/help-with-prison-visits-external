@@ -16,20 +16,10 @@
     "test-coverage": "nyc npm run test-unit",
     "test-unit": "mocha --recursive test/unit/ --exit",
     "test-integration": "KNEX_CONFIG=testing mocha --recursive test/integration/ --timeout 15000 --exit",
-    "test-e2e": "gulp --gulpfile gulpfile-e2e.js",
-    "test-e2e-smoke": "gulp --gulpfile gulpfile-e2e.js e2e-smoke",
-    "test-e2e-ie8": "wdio test/wdio.conf.sauce.ie8.js",
-    "test-e2e-firefox": "wdio test/wdio.conf.sauce.firefox.js",
-    "test-e2e-ie8-jenkins": "wdio test/wdio.conf.sauce.ie8.jenkins.js",
-    "test-e2e-firefox-jenkins": "wdio test/wdio.conf.sauce.firefox.jenkins.js",
-    "test-e2e-chrome-jenkins": "wdio test/wdio.conf.sauce.chrome.jenkins.js",
-    "test-e2e-ios": "wdio test/wdio.conf.sauce.ios.js",
-    "test-e2e-android": "wdio test/wdio.conf.sauce.android.js",
-    "test-e2e-smoke-jenkins": "wdio test/wdio.conf.sauce.chrome.jenkins.smoke.js",
+    "test-e2e": "KNEX_CONFIG=testing cypress run --config video=false",
+    "test-e2e-ui": "KNEX_CONFIG=testing cypress open",
     "test-load": "cd test/load && ../../node_modules/.bin/artillery run scenarios.yaml cd ../../",
-    "css-build": "./build-css",
-    "cypress:open": "KNEX_CONFIG=testing cypress open",
-    "cypress:run": "KNEX_CONFIG=testing cypress run --config video=false"
+    "css-build": "./build-css"
   },
   "standard": {
     "ignore": [
