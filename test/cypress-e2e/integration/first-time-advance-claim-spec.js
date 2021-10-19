@@ -4,7 +4,7 @@ const dateFormatter = require('../../../app/services/date-formatter')
 
 const futureDate = dateFormatter.now().add(14, 'days')
 
-describe('First Time Claim Flow', () => {
+describe('First Time Claim Flow (Advance)', () => {
   // The reference will be generated as part of this flow. So capture it once it is generated.
   const caseworker = 'test-e2e@example.com'
 
