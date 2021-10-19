@@ -37,8 +37,17 @@ Testing is currently being looked at. Local unit tests can currently be run usin
 
 Integration tests are being setup to be able to run locally.
 
-e2e tests will be converted to use Cypress which is the current studio standard.
+**e2e tests** currently run locally using Cypress:
+```
+# Make sure the app is running
+npm start
 
+# Run the e2e tests headless
+npm run test-e2e
+
+# Or, open up the Cypress UI to run tests
+npm run test-e2e-ui
+```
 
 Run accessibility tests with [pa11y](https://github.com/pa11y/pa11y)
 ```

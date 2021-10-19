@@ -26,12 +26,12 @@
             <legend class="visually-hidden">Have you applied online for help visiting this prisoner before?</legend>
 
             <div class="multiple-choice">
-              <input id="yes"type="radio" name="madeClaimForPrisonerBefore" value="yes">
+              <input id="yes"type="radio" name="madeClaimForPrisonerBefore" value="yes" data-cy="yes">
               <label for="yes" class="block-label">Yes</label>
             </div>
 
             <div class="multiple-choice">
-              <input id="no" type="radio" name="madeClaimForPrisonerBefore" value="no">
+              <input id="no" type="radio" name="madeClaimForPrisonerBefore" value="no" data-cy="no">
               <label for="no" class="block-label">No</label>
             </div>
           </fieldset>
@@ -42,7 +42,8 @@
         <input id="start-submit"
                type="submit"
                value="Continue"
-               class="button">
+               class="button"
+               data-cy="submit">
       </form>
 
     </div>

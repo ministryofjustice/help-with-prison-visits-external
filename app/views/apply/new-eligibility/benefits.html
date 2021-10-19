@@ -35,7 +35,7 @@
           <div class="form-group">
             
             <div class="multiple-choice">
-              <input id="income-support" type="radio" name="benefit" value="b1">
+              <input id="income-support" type="radio" name="benefit" value="b1" data-cy="income-support">
               <label for="income-support" class="block-label">
                 <strong class="bold-small">Income Support</strong>
               </label>
@@ -129,14 +129,14 @@
           <legend class="visually-hidden">BenefitOwner</legend>
           <div class="form-group">
             <div class="multiple-choice">
-              <input id="yes" type="radio" name="benefitOwner" value="yes">
+              <input id="yes" type="radio" name="benefitOwner" value="yes" data-cy="yes">
               <label for="yes" class="block-label">
                 <strong class="bold-small">Yes</strong>
               </label>
             </div>
 
             <div class="multiple-choice">
-              <input id="no" type="radio" name="benefitOwner" value="no">
+              <input id="no" type="radio" name="benefitOwner" value="no" data-cy="no">
               <label for="no" class="block-label">
                 <strong class="bold">No</strong>
               </label>
@@ -150,7 +150,8 @@
         <input id="benefit-submit"
                type="submit"
                value="Continue"
-               class="button">
+               class="button"
+               data-cy="submit">
       </form>
 
     </div>

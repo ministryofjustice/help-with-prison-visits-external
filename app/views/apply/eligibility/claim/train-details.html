@@ -41,7 +41,8 @@
                    autocomplete="off"
                    name="departure-time"
                    value="{{ expense['departure-time'] }}"
-                   class="form-control">
+                   class="form-control"
+                   data-cy="departure-time">
           </div>
 
         {% endif %}
@@ -60,7 +61,7 @@
                   <span class="error-message">{{ errors['return-time'][0] }}</span>
                 {% endif %}
               <p class="form-hint">For example, 4pm</p>
-              <input id="return-time-input" name="return-time-input" type="text" autocomplete="off" class="form-control">
+              <input id="return-time-input" name="return-time-input" type="text" autocomplete="off" class="form-control" data-cy="return-time">
 
             </div>
           </div>
@@ -82,7 +83,8 @@
                      autocomplete="off"
                      name="cost"
                      value="{{ expense['cost'] }}"
-                     class="form-control">
+                     class="form-control"
+                     data-cy="cost">
             </div>
           </div>
 
@@ -97,7 +99,8 @@
         <input id="train-details-submit"
                type="submit"
                class="button"
-               value="Continue">
+               value="Continue"
+               data-cy="submit">
       </form>
 
       <br>

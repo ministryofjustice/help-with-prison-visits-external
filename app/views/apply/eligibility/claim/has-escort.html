@@ -35,14 +35,14 @@
             <legend class="visually-hidden">Do you want to claim expenses for an escort</legend>
 
             <div class="multiple-choice">
-              <input id="escort-yes" type="radio" name="has-escort" value="yes" {% if claim['has-escort'] == 'yes' %} checked {% endif %}>
+              <input id="escort-yes" type="radio" name="has-escort" value="yes" {% if claim['has-escort'] == 'yes' %} checked {% endif %} data-cy="escort-yes">
               <label for="escort-yes" class="block-label inline">
                 Yes
               </label>
             </div>
             
             <div class="multiple-choice">
-              <input id="escort-no" type="radio" name="has-escort" value="no" {% if claim['has-escort'] == 'no' %} checked {% endif %}>
+              <input id="escort-no" type="radio" name="has-escort" value="no" {% if claim['has-escort'] == 'no' %} checked {% endif %} data-cy="escort-no">
               <label for="escort-no" class="block-label inline">
                 No
               </label>
@@ -57,7 +57,8 @@
         <input id="has-escort-submit"
                type="submit"
                value="Continue"
-               class="button">
+               class="button"
+               data-cy="submit">
       </form>
 
     </div>

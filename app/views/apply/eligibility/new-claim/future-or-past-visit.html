@@ -29,14 +29,14 @@
           <legend class="visually-hidden">Have you already made the prison visit</legend>
           <div class="form-group">
             <div class="multiple-choice">
-              <input type="radio" name="advance-past" value="past" id="past">
+              <input type="radio" name="advance-past" value="past" id="past" data-cy="past">
               <label for="past" class="block-label">
                 Yes
               </label>
             </div>
 
             <div class="multiple-choice">
-              <input type="radio" name="advance-past" value="advance" id="advance">
+              <input type="radio" name="advance-past" value="advance" id="advance" data-cy="advance">
               <label for="advance" class="block-label">
                 No - it's in the future
               </label>
@@ -51,7 +51,8 @@
                  id="future-or-past-submit"
                  name="commit"
                  value="Continue"
-                 class="button">
+                 class="button"
+                 data-cy="submit">
         </div>
 
       </form>

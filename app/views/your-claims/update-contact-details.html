@@ -26,7 +26,7 @@
           {% if errors['EmailAddress'][0] %}
             <span class="error-message">{{ errors['EmailAddress'][0] }}</span>
           {% endif %}
-          <input type="text" autocomplete="off" class="form-control" name="email-address" id="email-address" value="{{ contactDetails['email-address'] }}">
+          <input type="text" autocomplete="off" class="form-control" name="email-address" id="email-address" value="{{ contactDetails['email-address'] }}" data-cy="email">
         </div>
 
         <div class="form-group {% if errors['PhoneNumber'][0] %} error {% endif %}">
@@ -34,7 +34,7 @@
           {% if errors['PhoneNumber'][0] %}
             <span class="error-message">{{ errors['PhoneNumber'][0] }}</span>
           {% endif %}
-          <input type="text" autocomplete="off" class="form-control" name="phone-number"  id="phone-number" value="{{ contactDetails['phone-number'] }}">
+          <input type="text" autocomplete="off" class="form-control" name="phone-number"  id="phone-number" value="{{ contactDetails['phone-number'] }}" data-cy="phone">
         </div>
 
         <br>
@@ -44,7 +44,7 @@
 
         <input type="hidden" name="EligibilityId" value="{{ eligibilityId }}">
 
-        <div class="form-group"><input id="submit" type="submit" name="commit" value="Save" class="button"></div>
+        <div class="form-group"><input id="submit" type="submit" name="commit" value="Save" class="button" data-cy="submit"></div>
         <a href="/your-claims/check-your-information" class="link">Cancel</a>
       </form>
 

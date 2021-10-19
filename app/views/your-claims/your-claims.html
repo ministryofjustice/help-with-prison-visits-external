@@ -44,7 +44,7 @@
 
   {% if canStartNewClaim %}
   <form action="/your-claims/check-your-information" method="GET">
-      <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" />
+      <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" data-cy="new-claim"/>
   </form>
   {% else %}
   <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />
@@ -93,7 +93,7 @@
             ><span class="claim-status">Progress </span>{{ claimStatusHelper(claim.Status) }}
           {% endif %}
         </td>
-        <td><a id="add-info" href="/your-claims/{{ claim.ClaimId }}"
+        <td><a id="add-info" href="/your-claims/{{ claim.ClaimId }}" data-cy="add-info"
         {% if forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
           class="button grey"> Add information
         {% else %}

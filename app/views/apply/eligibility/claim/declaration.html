@@ -53,7 +53,7 @@ Declaration - {{ serviceName }}
       <span class="error-message" id="error-message-terms-an-conditions">{{ errors['terms-and-conditions'][0] }}</span>
       {% endif %}        
       <div class="multiple-choice">
-        <input id="terms-and-conditions-input" type="checkbox" name="terms-and-conditions-input" {% if bankDetails['tAndC'] %} checked {% endif %} value="yes">
+        <input id="terms-and-conditions-input" type="checkbox" name="terms-and-conditions-input" {% if bankDetails['tAndC'] %} checked {% endif %} value="yes" data-cy="terms-and-conditions">
         <label for="terms-and-conditions-input" class="block-label">
           <strong class="bold-small"> I agree to the declaration</strong>
         </label>
@@ -65,7 +65,8 @@ Declaration - {{ serviceName }}
     <input id="claim-submit"
            type="submit"
            class="button"
-           value="Finish">
+           value="Finish"
+           data-cy="submit">
   </form>
 
 </main>

@@ -62,7 +62,7 @@
           <fieldset>
             <legend class="visually-hidden">Choose alternative option to upload</legend>
             <div class="multiple-choice">
-              <input type="radio" name="alternative" value="post-later" id="Post">
+              <input type="radio" name="alternative" value="post-later" id="Post" data-cy="post">
               <label for="Post" class="block-label">
                 <strong class="bold-small">Send by post</strong>
                 <br>It will take 10 or more days longer to process your claim
@@ -70,7 +70,7 @@
             </div>
 
             <div class="multiple-choice">
-              <input type="radio" name="alternative" value="upload-later" id="UploadLater">
+              <input type="radio" name="alternative" value="upload-later" id="UploadLater" data-cy="upload-later">
               <label for="UploadLater" class="block-label">
                 <strong class="bold-small">Upload later</strong>
                 <br> You will get a reference number allowing you to return and complete your application
@@ -85,7 +85,8 @@
                  type="submit"
                  name="commit"
                  value="Continue"
-                 class="button">
+                 class="button"
+                 data-cy="submit">
         </div>
       </form>
       <a href="{{ yourClaimUrl }}" class="link">Cancel and return to your claim</a>
