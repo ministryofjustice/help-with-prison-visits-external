@@ -7,55 +7,56 @@
 {% endblock %}
 
 {% block content %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-      {% include "includes/validation-error-messages-new.html" %}
+    {% include "includes/validation-error-messages-new.html" %}
 
-      <form action="/start" method="post">
-        {{ govukRadios({
-          idPrefix: "madeClaimForPrisonerBefore",
-          name: "madeClaimForPrisonerBefore",
-          fieldset: {
-            legend: {
-              text: "Have you applied online for help visiting this prisoner before?",
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
+    <form action="/start" method="post">
+      {{ govukRadios({
+        idPrefix: "madeClaimForPrisonerBefore",
+        name: "madeClaimForPrisonerBefore",
+        fieldset: {
+          legend: {
+            text: "Have you applied online for help visiting this prisoner before?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            attributes: {
+              "data-cy": "yes"
             }
           },
-          items: [
-            {
-              value: "yes",
-              text: "Yes",
-              attributes: {
-                "data-cy": "yes"
-              }
-            },
-            {
-              value: "no",
-              text: "No",
-              attributes: {
-                "data-cy": "no"
-              }
+          {
+            value: "no",
+            text: "No",
+            attributes: {
+              "data-cy": "no"
             }
-          ]
-        }) }}
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        {{ govukButton({
-          text: "Continue",
-          preventDoubleClick: true,
-          attributes: {
-            "data-cy": "submit"
           }
-        }) }}
-      </form>
+        ],
+        errorMessage: errors | findError('madeClaimForPrisonerBefore')
+      }) }}
 
-    </div>
+      {% include "partials/csrf-hidden-input.html" %}
+
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
+
   </div>
+</div>
 
-  <p><strong class="govuk-!-font-weight-bold">Please note</strong>
-    <br>If you don’t enter any information for more than 20 minutes, your session will time out and you’ll need to start again.
-  </p>
+<p><strong class="govuk-!-font-weight-bold">Please note</strong>
+  <br>If you don’t enter any information for more than 20 minutes, your session will time out and you’ll need to start again.
+</p>
 {% endblock %}

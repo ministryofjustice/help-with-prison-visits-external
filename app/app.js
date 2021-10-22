@@ -1,7 +1,7 @@
 require('./azure-appinsights')
 const config = require('../config')
 const express = require('express')
-const nunjucks = require('nunjucks')
+const nunjucksSetup = require('./services/nunjucks-setup')
 const path = require('path')
 const favicon = require('serve-favicon')
 const expressSanitized = require('express-sanitized')
@@ -63,32 +63,7 @@ const developmentMode = app.get('env') === 'development'
 const releaseVersion = packageJson.version
 const serviceName = 'Get help with the cost of prison visits'
 
-const appViews = [
-  path.join(__dirname, '../node_modules/govuk-frontend/'),
-  path.join(__dirname, '../node_modules/govuk_template_jinja/'),
-  path.join(__dirname, 'views')
-]
-
-// View Engine Configuration
-app.set('view engine', 'html')
-const njkEnv = nunjucks.configure(appViews, {
-  express: app,
-  autoescape: true,
-  watch: developmentMode,
-  noCache: developmentMode
-})
-
-// convert errors to format for GOV.UK error summary component
-njkEnv.addFilter('errorSummaryList', (errors) => {
-  return Object.keys(errors).map((error) => {
-    const errorListItem = {}
-    errorListItem.text = errors[error][0]
-    if (error !== 'expired') {
-      errorListItem.href = `#${error}`
-    }
-    return errorListItem
-  })
-})
+nunjucksSetup(app, developmentMode)
 
 const publicFolders = ['public', 'assets', '../node_modules/govuk_template_jinja/assets', '../node_modules/govuk_frontend_toolkit']
 
