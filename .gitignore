@@ -36,3 +36,5 @@ coverage
 
 # Public directory
 app/public
+
+.localstack
