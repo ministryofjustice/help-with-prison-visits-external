@@ -71,11 +71,23 @@ const appViews = [
 
 // View Engine Configuration
 app.set('view engine', 'html')
-nunjucks.configure(appViews, {
+const njkEnv = nunjucks.configure(appViews, {
   express: app,
   autoescape: true,
   watch: developmentMode,
   noCache: developmentMode
+})
+
+// convert errors to format for GOV.UK error summary component
+njkEnv.addFilter('errorSummaryList', (errors) => {
+  return Object.keys(errors).map((error) => {
+    const errorListItem = {}
+    errorListItem.text = errors[error][0]
+    if (error !== 'expired') {
+      errorListItem.href = `#${error}`
+    }
+    return errorListItem
+  })
 })
 
 const publicFolders = ['public', 'assets', '../node_modules/govuk_template_jinja/assets', '../node_modules/govuk_frontend_toolkit']
