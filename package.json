@@ -71,7 +71,7 @@
     "sass": "^1.42.1",
     "serve-favicon": "~2.5.0",
     "uuid": "^8.3.2",
-    "validator": "^13.6.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "artillery": "^1.7.9",
