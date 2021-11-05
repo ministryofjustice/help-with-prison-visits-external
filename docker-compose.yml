@@ -24,5 +24,48 @@ services:
     ports:
       - "3310:3310"
 
+  localstack:
+    image: localstack/localstack:0.11.2
+    ports:
+      - "4567-4584:4567-4584"
+      - "8088:8088"
+    networks:
+      - hmpps_int
+    container_name: localstack
+    restart: always
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - PORT_WEB_UI=8088
+      - DEFAULT_REGION=eu-west-2
+    volumes:
+      - './.localstack:/tmp/localstack'
+
+  localstack-setup:
+    image: jetbrainsinfra/aws-cli
+    networks:
+      - hmpps_int
+    depends_on:
+      - localstack
+    volumes:
+      - ./dev_env:/project/dev_env
+    container_name: localstack-setup
+    environment:
+      - AWS_ACCESS_KEY_ID=foo
+      - AWS_SECRET_ACCESS_KEY=bar
+      - AWS_DEFAULT_REGION=eu-west-2
+    entrypoint: /bin/sh -c
+    command: >
+      "
+        while [[ $$(curl -s -o /dev/null -w ''%{http_code}'' localstack:4572) != "200" ]]; do
+          echo 'HwPV External AWS - awaiting localstack service start'
+          sleep 10
+        done
+        aws --endpoint-url=http://localstack:4572 s3 mb s3://testbucket
+        aws --endpoint-url=http://localstack:4572 s3 ls
+        exit 0
+      "
+
 networks:
   hmpps_int:
