@@ -30,7 +30,7 @@ generic-service:
     APVS_CLAM_AV_PORT: '3310'
     APVS_CLAM_AV_TIMEOUT: 60000
     APVS_FILE_TMP_DIR: '/app/tmp'
-    APVS_MALWARE_NOTIFICATION_ADDRESS: 'apvs-monitoring-notification@kainos.com'
+    APVS_MALWARE_NOTIFICATION_ADDRESS: 'help-with-prison-visits@digital.justice.gov.uk'
     RATE_LIMITING_ENABLED: 'true'
     RATE_LIMITING_WINDOW_MILLISECONDS: '10000'
     RATE_LIMITING_REQUEST_LIMIT: '200'
