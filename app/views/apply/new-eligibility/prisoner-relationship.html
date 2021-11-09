@@ -1,169 +1,169 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block pageTitle %}
-How are you related to the prisoner - {{ serviceName }}
+  {% if errors %}Error: {% endif %}How are you related to the prisoner - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <form action="{{ URL }}" method="post">
+      {{ govukRadios({
+        idPrefix: "relationship",
+        name: "relationship",
+        fieldset: {
+          legend: {
+            text: "How are you related to the prisoner?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        hint: {
+          text: "They are my:"
+        },
+        items: [
+          {
+            value: "r1",
+            text: "Husband",
+            attributes: {
+              "data-cy": "husband"
+            }
+          },
+          {
+            value: "r2",
+            text: "Wife",
+            attributes: {
+              "data-cy": "wife"
+            }
+          },
+          {
+            value: "r3",
+            text: "Partner",
+            hint: {
+              text: "You must have been living with the prisoner before the period of imprisonment"
+            },
+            attributes: {
+              "data-cy": "partner"
+            }
+          },
+          {
+            value: "r4",
+            text: "Mother",
+            hint: {
+              text: "Including step mother or adoptive mother"
+            },
+            attributes: {
+              "data-cy": "mother"
+            }
+          },
+          {
+            value: "r5",
+            text: "Father",
+            hint: {
+              text: "Including step father or adoptive father"
+            },
+            attributes: {
+              "data-cy": "father"
+            }
+          },
+          {
+            value: "r6",
+            text: "Grandchild",
+            attributes: {
+              "data-cy": "grandchild"
+            }
+          },
+          {
+            value: "r7",
+            text: "Brother",
+            hint: {
+              text: "Including step brother or half brother"
+            },
+            attributes: {
+              "data-cy": "brother"
+            }
+          },
+          {
+            value: "r8",
+            text: "Sister",
+            hint: {
+              text: "Including step sister or adoptive sister"
+            },
+            attributes: {
+              "data-cy": "sister"
+            }
+          },
+          {
+            value: "r9",
+            text: "Son",
+            hint: {
+              text: "Including step son or adoptive son"
+            },
+            attributes: {
+              "data-cy": "son"
+            }
+          },
+          {
+            value: "r10",
+            text: "Daughter",
+            hint: {
+              text: "Including step daughter or adoptive daughter"
+            },
+            attributes: {
+              "data-cy": "daughter"
+            }
+          },
+          {
+            value: "r11",
+            text: "Next of kin",
+            attributes: {
+              "data-cy": "next-of-kin"
+            }
+          },
+          {
+            value: "r12",
+            text: "Sole visitor",
+            hint: {
+              text: "The only adult visitor within the 4 week period before your visit took place"
+            },
+            attributes: {
+              "data-cy": "sole-visitor"
+            }
+          },
+          {
+            value: "r13",
+            text: "None of the above, but I am escorting an eligible child",
+            attributes: {
+              "data-cy": "none-eligible-child"
+            }
+          },
+          {
+            value: "r14",
+            text: "None of the above",
+            attributes: {
+              "data-cy": "none"
+            }
+          }
+        ],
+        errorMessage: errors | findError('relationship')
+      }) }}
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+      {% include "partials/csrf-hidden-input.html" %}
 
-      {% include "includes/validation-error-messages.html" %}
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-      <h1 id='relationship' class="heading-large">
-        How are you related to the prisoner?
-      </h1>
-
-      {% if errors['relationship'][0] %}
-      <span class="error-message" id="error-message-relaionship">{{ errors['relationship'][0] }}</span>
-      {% endif %}
-
-      <form action="{{ URL }}" method="post">
-        <div class="form-group {% if errors['relationship'][0] %} error {% endif %}">
-          <p>They are my:</p>
-          <fieldset>
-            <legend class="visually-hidden">Relationship to prisoner</legend>
-            <div class="multiple-choice">
-              <input id="husband" type="radio" name="relationship" value="r1">
-              <label for="husband" class="block-label" data-target="husband-question">
-                <strong class="bold-small">Husband</strong>
-                <br>
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="wife" type="radio" name="relationship" value="r2">
-              <label for="wife" class="block-label" data-target="wife">
-                <strong class="bold-small">Wife</strong>
-                <br>
-              </label>
-            </div>
- 
-            <div class="multiple-choice">
-              <input id="partner" type="radio" name="relationship" value="r3" data-cy="partner">
-              <label for="partner" class="block-label" data-target="partner-question">
-                <strong class="bold-small">Partner</strong>
-                <br>
-                You must have been living with the prisoner before the period of imprisonment
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="mother" type="radio" name="relationship" value="r4">
-              <label for="mother" class="block-label" data-target="mother-question">
-                <strong class="bold-small">Mother</strong>
-                <br>
-                Including step mother or adoptive mother
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-            <input id="father" type="radio" name="relationship" value="r5">
-            <label for="father" class="block-label" data-target="father-question">
-              <strong class="bold-small">Father</strong>
-              <br>
-              Including step father or adoptive father
-            </label>
-            </div>
-
-            <div class="multiple-choice">
-            <input id="grandchild" type="radio" name="relationship" value="r6">
-            <label for="grandchild" class="block-label" data-target="grandchild-question">
-              <strong class="bold-small">Grandchild</strong>
-              <br>
-            </label>
-            </div>
-
-            <div class="multiple-choice">
-            <input id="brother" type="radio" name="relationship" value="r7">
-            <label for="brother" class="block-label" data-target="brother-question">
-              <strong class="bold-small">Brother</strong>
-              <br>
-              Including step brother or half brother
-            </label>
-            </div>
-
-            <div class="multiple-choice">
-            <input id="sister" type="radio" name="relationship" value="r8">
-            <label for="sister" class="block-label" data-target="sister-question">
-              <strong class="bold-small">Sister</strong>
-              <br>
-              Including step sister or adoptive sister
-            </label>
-            </div>
-
-            <div class="multiple-choice">
-            <input id="son" type="radio" name="relationship" value="r9">
-            <label for="son" class="block-label" data-target="son-question">
-              <strong class="bold-small">Son</strong>
-              <br>
-              Including step son or adoptive son
-            </label>
-            </div>
-
-            <div class="multiple-choice">
-            <input id="daughter" type="radio" name="relationship" value="r10">
-            <label for="daughter" class="block-label" data-target="daughter-question">
-              <strong class="bold-small">Daughter</strong>
-              <br>
-              Including step daughter or adoptive daughter
-            </label>
-            </div>
-
-            <div class="multiple-choice">
-            <input id="next-of-kin" type="radio" name="relationship" value="r11">
-            <label for="next-of-kin" class="block-label" data-target="next-of-kin-question">
-              <strong class="bold-small">Next of kin</strong>
-              <br>
-            </label>
-            </div>
-            
-            <div class="multiple-choice">
-            <input id="sole-visitor" type="radio" name="relationship" value="r12">
-            <label for="sole-visitor" class="block-label">
-              <strong class="bold-small">Sole visitor</strong>
-              <br>
-              The only adult visitor within the 4 week period before your visit took place
-            </label>
-            </div>
-
-            <div class="multiple-choice">
-            <input id="eligible-child" type="radio" name="relationship" value="r13">
-            <label for="eligible-child" class="block-label">
-              <strong class="bold-small">None of the above, but I am escorting an eligible child</strong>
-              <br>
-            </label>
-            </div>  
-
-            <div class="multiple-choice">
-            <input id="other" type="radio" name="relationship" value="r14">
-            <label for="other" class="block-label" data-target="other-question">
-              <strong class="bold-small">None of the above</strong>
-              <br>
-            </label>
-            </div>
-
-          </fieldset>
-        </div>
-
-        {% include "partials/csrf-hidden-input.html" %}
-        <div class="form-group">
-          <input id="prisoner-relationship-submit"
-                 type="submit"
-                 class="button"
-                 value="Continue"
-                 data-cy="submit">
-        </div>
-      </form>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}
