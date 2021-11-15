@@ -1,7 +1,17 @@
 {% extends "govuk/template.njk" %}
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 
 {% block head %}
   <link href="/public/stylesheets/application.css" rel="stylesheet">
+{% endblock %}
+
+{%block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: {
+      text: "beta"
+    },
+    html: 'This is a new service - your <a href="https://www.gov.uk/done/help-with-prison-visits">feedback</a> will help us to improve it. If you\'re having a problem, <a href="/help">get in touch</a>.'
+  }) }}
 {% endblock %}
 
 {% block content %}
