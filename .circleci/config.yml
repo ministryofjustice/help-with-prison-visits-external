@@ -107,6 +107,18 @@ workflows:
           context: hmpps-common-vars
           requires:
             - request_dev_approval
+      - request_preprod_approval_branch:
+          <<: *feature_branch
+          type: approval
+          requires:
+            - deploy_dev_preview
+      - hmpps/deploy_env:
+          <<: *feature_branch
+          name: deploy_preprod_preview
+          env: "preprod"
+          context: help-with-prison-visits-external-preprod
+          requires:
+            - request_preprod_approval_branch
       - hmpps/deploy_env:
           <<: *main_branch
           name: deploy_dev
