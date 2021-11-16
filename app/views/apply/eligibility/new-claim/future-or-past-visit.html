@@ -1,65 +1,64 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Have you already made the prison visit - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Have you already made the prison visit - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-  <main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <form action="/apply/eligibility/new-claim/future-or-past-visit" method="post">
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+      {{ govukRadios({
+        idPrefix: "advance-past",
+        name: "advance-past",
+        fieldset: {
+          legend: {
+            text: "Have you already made the prison visit?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        hint: {
+          html: "<p>You can apply for help with one visit at a time.</p>",
+          classes: "govuk-!-margin-top-1"
+        },
+        items: [
+          {
+            value: "past",
+            text: "Yes",
+            attributes: {
+              "data-cy": "past"
+            }
+          },
+          {
+            value: "advance",
+            text: "No - it's in the future",
+            attributes: {
+              "data-cy": "advance"
+            }
+          }
+        ],
+        errorMessage: errors | findError('advance-past')
+      }) }}
 
-      {% include "includes/validation-error-messages.html" %}
+      {% include "partials/csrf-hidden-input.html" %}
 
-      <h1 class="heading-large">
-        Have you already made the prison visit?
-      </h1>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
 
-      <p>You can apply for help with one visit at a time.</p>
+    </form>
 
-      <form action="/apply/eligibility/new-claim/future-or-past-visit" method="post" class="form">
-      {% if errors['advance-past'][0] %}
-        <span class="error-message">{{ errors['advance-past'][0] }}</span>
-      {% endif %}
-        <fieldset>
-          <legend class="visually-hidden">Have you already made the prison visit</legend>
-          <div class="form-group">
-            <div class="multiple-choice">
-              <input type="radio" name="advance-past" value="past" id="past" data-cy="past">
-              <label for="past" class="block-label">
-                Yes
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input type="radio" name="advance-past" value="advance" id="advance" data-cy="advance">
-              <label for="advance" class="block-label">
-                No - it's in the future
-              </label>
-            </div>
-          </div>
-        </fieldset>
-
-        <div class="form-group">
-          {% include "partials/csrf-hidden-input.html" %}
-
-          <input type="submit"
-                 id="future-or-past-submit"
-                 name="commit"
-                 value="Continue"
-                 class="button"
-                 data-cy="submit">
-        </div>
-
-      </form>
-
-    </div>
   </div>
-
-  </main>
-
+</div>
 {% endblock %}
