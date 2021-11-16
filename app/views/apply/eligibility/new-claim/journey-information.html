@@ -1,89 +1,84 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Date of the prison visit you are claiming for - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Date of the prison visit you are claiming for - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <form action="/apply/eligibility/new-claim/journey-information" method="post">
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+      {% set errorDateOfJourney = errors | findError('DateOfJourney') %}
+      {% set errorClass = " govuk-input--error" if DateOfJourney %}
 
-      {% include "includes/validation-error-messages.html" %}
+      {% set hint %}
+        {% if advanceOrPast == 'past' %}
+          <p>The visit must have been in the last 28 days.</p>
+        {% else %}
+          <p>The visit must be in the next 28 days.</p>
+        {% endif %}
+      {% endset %}
 
-      <h1 class="heading-large">
-        Date of prison visit
-      </h1>
+      {{ govukDateInput({
+        id: "DateOfJourney",
+        namePrefix: "date-of-journey",
+        fieldset: {
+          legend: {
+            text: "Date of prison visit",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        hint: {
+          html: hint,
+          classes: "govuk-!-margin-top-1"
+        },
+        items: [
+          {
+            name: "day",
+            classes: "govuk-input--width-2" + errorClass,
+            value: claim['date-of-journey-day'],
+            attributes: {
+              "data-cy": "journey-day"
+            }
+          },
+          {
+            name: "month",
+            classes: "govuk-input--width-2" + errorClass,
+            value: claim['date-of-journey-month'],
+            attributes: {
+              "data-cy": "journey-month"
+            }
+          },
+          {
+            name: "year",
+            classes: "govuk-input--width-4" + errorClass,
+            value: claim['date-of-journey-year'],
+            attributes: {
+              "data-cy": "journey-year"
+            }
+          }
+        ],
+        errorMessage: errorDateOfJourney
+      }) }}
 
-      {% if advanceOrPast == 'past' %}
-        <p>The visit must have been in the last 28 days.</p>
-      {% else %}
-        <p>The visit must be in the next 28 days.</p>
-      {% endif %}
-      <form action="/apply/eligibility/new-claim/journey-information" method="post">
+      {% include "partials/csrf-hidden-input.html" %}
 
-        <div class="form-group {% if errors['DateOfJourney'][0] %} form-group-error {% endif %}">
-          <fieldset>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-            {% if errors['DateOfJourney'][0] %}
-              <span class="error-message" id="error-message-benefit">{{ errors['DateOfJourney'][0] }}</span>
-            {% endif %}
-
-            <div id="DateOfJourney" class="form-date">
-              <fieldset>
-                <legend class="visually-hidden">Date of visit</legend>
-
-                <div class="form-group form-group-day">
-                  <label for="date-of-journey-day">Day</label>
-                  <input id="date-of-journey-day"
-                         name="date-of-journey-day"
-                         autocomplete="off"
-                         value="{{ claim['date-of-journey-day'] }}"
-                         class="form-control"
-                         data-cy="journey-day">
-                </div>
-
-                <div class="form-group form-group-month">
-                  <label for="date-of-journey-month">Month</label>
-                  <input id="date-of-journey-month"
-                         name="date-of-journey-month"
-                         autocomplete="off"
-                         value="{{ claim['date-of-journey-month'] }}"
-                         class="form-control"
-                         data-cy="journey-month">
-                </div>
-
-                <div class="form-group form-group-year">
-                  <label for="date-of-journey-year">Year</label>
-                  <input id="date-of-journey-year"
-                         name="date-of-journey-year"
-                         autocomplete="off"
-                         value="{{ claim['date-of-journey-year'] }}"
-                         class="form-control"
-                         data-cy="journey-year">
-                </div>
-              </fieldset>
-            </div>
-
-          </fieldset>
-        </div>
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="journey-information-submit"
-               type="submit"
-               value="Continue"
-               class="button"
-               data-cy="submit">
-      </form>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}
