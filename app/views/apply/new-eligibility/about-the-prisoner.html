@@ -1,180 +1,178 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-Enter information about the prisoner being visited - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter information about the prisoner being visited - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      About the prisoner
+    </h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <form action="{{ URL }}" method="post">
 
-      {% include "includes/validation-error-messages.html" %}
+      {{ govukInput({
+        label: {
+          text: "Prisoner first name"
+        },
+        id: "FirstName",
+        name: "FirstName",
+        value: prisoner['FirstName'],
+        classes: "govuk-!-width-one-half",
+        spellcheck: false,
+        attributes: {
+          "data-cy": "prisoner-first-name"
+        },
+        errorMessage: errors | findError('FirstName')
+      }) }}
 
-      <h1 class="heading-large">
-        About the prisoner
-      </h1>
+      {{ govukInput({
+        label: {
+          text: "Prisoner last name"
+        },
+        id: "LastName",
+        name: "LastName",
+        value: prisoner['LastName'],
+        classes: "govuk-!-width-one-half",
+        spellcheck: false,
+        attributes: {
+          "data-cy": "prisoner-last-name"
+        },
+        errorMessage: errors | findError('LastName')
+      }) }}
 
-      <form action="{{ URL }}" method="post">
+      {% set errorDob = errors | findError('dob') %}
+      {% set errorClass = " govuk-input--error" if errorDob %}
+      {{ govukDateInput({
+        id: "dob",
+        namePrefix: "dob",
+        fieldset: {
+          legend: {
+            text: "Prisoner date of birth"
+          }
+        },
+        hint: {
+          text: "For example, 18 08 1989"
+        },
+        items: [
+          {
+            name: "day",
+            classes: "govuk-input--width-2" + errorClass,
+            value: prisoner['dob-day'],
+            attributes: {
+              "data-cy": "dob-day"
+            }
+          },
+          {
+            name: "month",
+            classes: "govuk-input--width-2" + errorClass,
+            value: prisoner['dob-month'],
+            attributes: {
+              "data-cy": "dob-month"
+            }
+          },
+          {
+            name: "year",
+            classes: "govuk-input--width-4" + errorClass,
+            value: prisoner['dob-year'],
+            attributes: {
+              "data-cy": "dob-year"
+            }
+          }
+        ],
+        errorMessage: errorDob
+      }) }}
 
-        <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
-          <label id="FirstName" class="form-label-bold" for="prisoner-first-name">Prisoner first name</label>
-          {% if errors['FirstName'][0] %}
-          <span class="error-message" id="error-message-FirstName">{{ errors['FirstName'][0] }}</span>
-          {% endif %}
-          <input id="prisoner-first-name"
-                 name="FirstName"
-                 value="{{ prisoner['FirstName'] }}"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 data-cy="prisoner-first-name">
-        </div>
+      {% if not prisonerNumber %}
+      {{ govukInput({
+        label: {
+          text: "Prisoner number"
+        },
+        hint: {
+          text: "For example, A1234BC"
+        },
+        id: "prisoner-number",
+        name: "PrisonerNumber",
+        value: prisoner['PrisonerNumber'],
+        classes: "govuk-!-width-one-half",
+        spellcheck: false,
+        attributes: {
+          "data-cy": "prisoner-number"
+        },
+        errorMessage: errors | findError('PrisonerNumber')
+      }) }}
+      {% else %}
+        <label id="PrisonerNumber" class="govuk-label" for="prisoner-number">Prisoner number</label>
+        <span>{{ prisonerNumber }}</span>
+        <input id="prisoner-number" name="PrisonerNumber" value="{{ prisonerNumber }}" type="hidden">
+      {% endif %}
 
-        <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-          <label id="LastName" class="form-label-bold" for="prisoner-last-name">Prisoner last name</label>
-          {% if errors['LastName'][0] %}
-          <span class="error-message" id="error-message-LastName">{{ errors['LastName'][0] }}</span>
-          {% endif %}
-          <input id="prisoner-last-name"
-                 name="LastName"
-                 value="{{ prisoner['LastName'] }}"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 data-cy="prisoner-last-name">
-        </div>
-
-        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
-          <fieldset>
-            <legend id="dob" class="form-label-bold">Prisoner date of birth</legend>
-
-            {% if errors['dob'][0] %}
-            <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
-            {% endif %}
-
-            <div class="form-date">
-
-              <p class="form-hint">For example, 18 08 1989</p>
-
-              <div class="form-group form-group-day">
-                <label for="dob-day">Day</label>
-                <input id="dob-day"
-                       name="dob-day"
-                       value="{{ prisoner['dob-day'] }}"
-                       type="number"
-                       autocomplete="off"
-                       class="form-control"
-                       data-cy="dob-day">
-              </div>
-
-              <div class="form-group form-group-month">
-                <label for="dob-month">Month</label>
-                <input id="dob-month"
-                       name="dob-month"
-                       value="{{ prisoner['dob-month'] }}"
-                       type="number"
-                       autocomplete="off"
-                       class="form-control"
-                       data-cy="dob-month">
-              </div>
-
-              <div class="form-group form-group-year">
-                <label for="dob-year">Year</label>
-                <input id="dob-year"
-                       name="dob-year"
-                       value="{{ prisoner['dob-year'] }}"
-                       type="number"
-                       autocomplete="off"
-                       class="form-control"
-                       data-cy="dob-year">
-              </div>
-            </div>
-
-          </fieldset>
-        </div>
-
-        <div class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
-          <label id="PrisonerNumber" class="form-label-bold" for="prisoner-number">Prisoner number</label>
-        {% if not prisonerNumber %}
-          <p class="form-hint">For example, A1234BC</p>
-          {% if errors['PrisonerNumber'][0] %}
-          <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
-          {% endif %}
-
-          <input id="prisoner-number"
-                 name="PrisonerNumber"
-                 value="{{ prisoner['PrisonerNumber'] }}"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 data-cy="prisoner-number">
-        {% else %}
-          <span>{{ prisonerNumber }}</span>
-          <input id="prisoner-number" name="PrisonerNumber" value="{{ prisonerNumber }}" type="hidden">
+      <div class="govuk-form-group {% if errors['NameOfPrison'][0] %} govuk-form-group--error{% endif %}">
+        <label id="NameOfPrison" class="govuk-label" for="prison-name">Name of the prison</label>
+        <div class="govuk-hint">For example, Hewell</div>
+        {% if errors['NameOfPrison'][0] %}
+        <span class="govuk-error-message">
+          <span class="govuk-visually-hidden">Error:</span> {{ errors['NameOfPrison'][0] }}
+        </span>
         {% endif %}
-        </div>
-
-        <div class="form-group {% if errors['NameOfPrison'][0] %} error {% endif %}">
-          <label id="NameOfPrison" class="form-label-bold" for="prison-name">Name of the prison</label>
-          <p class="form-hint">For example, Hewell</p>
-          {% if errors['NameOfPrison'][0] %}
-          <span class="error-message" id="error-message-NameOfPrison">{{ errors['NameOfPrison'][0] }}</span>
+        <!-- Ignore WCAG2AA.Principle4.Guideline4_1.4_1_2.H91 and WCAG2AA.Principle1.Guideline1_3.1_3_1.F68, caused by autocomplete generated input -->
+        <select id="prison-name" class="govuk-select js-autocomplete" name="NameOfPrison" aria-label="Name of the prison" data-cy="prison-name">
+          <option value="">select</option>
+          <optgroup label="England / Wales">
+          {% for key, prison in displayHelper.getPrisonsByRegion('ENG/WAL') %}
+            <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+          {% endfor %}
+          </optgroup>
+          <optgroup label="Scotland">
+          {% for key, prison in displayHelper.getPrisonsByRegion('SCO') %}
+            <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+          {% endfor %}
+          </optgroup>
+          <optgroup label="Northern Ireland">
+          {% for key, prison in displayHelper.getPrisonsByRegion('NI') %}
+            <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+          {% endfor %}
+          </optgroup>
+          <optgroup label="Jersey">
+          {% for key, prison in displayHelper.getPrisonsByRegion('JSY') %}
+            <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+          {% endfor %}
+          </optgroup>
+          <optgroup label="Guernsey">
+          {% for key, prison in displayHelper.getPrisonsByRegion('GSY') %}
+            <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+          {% endfor %}
+          </optgroup>
+          {% if showYCS %}
+          <optgroup label="YCS">
+          {% for key, prison in displayHelper.getPrisonsByRegion('YCS') %}
+            <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
+          {% endfor %}
+          </optgroup>
           {% endif %}
-          <!-- Ignore WCAG2AA.Principle4.Guideline4_1.4_1_2.H91 and WCAG2AA.Principle1.Guideline1_3.1_3_1.F68, caused by autocomplete generated input -->
-          <select id="prison-name" class="form-control js-autocomplete" name="NameOfPrison" aria-label="Name of the prison" data-cy="prison-name">
-            <option value="">select</option>
-            <optgroup label="England / Wales">
-            {% for key, prison in displayHelper.getPrisonsByRegion('ENG/WAL') %}
-              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
-            {% endfor %}
-            </optgroup>
-            <optgroup label="Scotland">
-            {% for key, prison in displayHelper.getPrisonsByRegion('SCO') %}
-              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
-            {% endfor %}
-            </optgroup>
-            <optgroup label="Northern Ireland">
-            {% for key, prison in displayHelper.getPrisonsByRegion('NI') %}
-              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
-            {% endfor %}
-            </optgroup>
-            <optgroup label="Jersey">
-            {% for key, prison in displayHelper.getPrisonsByRegion('JSY') %}
-              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
-            {% endfor %}
-            </optgroup>
-            <optgroup label="Guernsey">
-            {% for key, prison in displayHelper.getPrisonsByRegion('GSY') %}
-              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
-            {% endfor %}
-            </optgroup>
-            {% if showYCS %}
-            <optgroup label="YCS">
-            {% for key, prison in displayHelper.getPrisonsByRegion('YCS') %}
-              <option value="{{ prison.value }}" {% if prisoner['NameOfPrison'] == prison.value %} selected {% endif %} id="prison-{{ prison.value }}">{{ prison.displayName }}</option>
-            {% endfor %}
-            </optgroup>
-            {% endif %}
-          </select>
-        </div>
+        </select>
+      </div>
 
-        {% include "partials/csrf-hidden-input.html" %}
+      {% include "partials/csrf-hidden-input.html" %}
 
-        <input id="about-the-prisoner-submit"
-               type="submit"
-               class="button"
-               value="Continue"
-               data-cy="submit">
-      </form>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-    </div>
   </div>
-
-</main>
+</div>
 
 {% endblock %}
