@@ -116,7 +116,7 @@ workflows:
           <<: *feature_branch
           name: deploy_preprod_preview
           env: "preprod"
-          context: help-with-prison-visits-internal-preprod
+          context: help-with-prison-visits-external-preprod
           requires:
             - request_preprod_approval_branch
       - hmpps/deploy_env:
