@@ -1,69 +1,68 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Do you want to claim expenses for an escort - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Do you want to claim expenses for an escort - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <form action="/apply/eligibility/claim/has-escort" method="post">
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+      {% set hint %}
+        <p>You can claim travel and expenses for someone who {% if isAdvanceClaim %}will help{% else %}helped{% endif %} you if you are 75 or over, or have a serious medical condition.</p>
+        <p>We may ask later for evidence of any medical condition.</p>
+      {% endset %}
 
-      {% include "includes/validation-error-messages.html" %}
+      {{ govukRadios({
+        idPrefix: "has-escort",
+        name: "has-escort",
+        fieldset: {
+          legend: {
+            text: "Do you want to claim expenses for an escort?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+          }
+        },
+       hint: {
+          html: hint,
+          classes: "govuk-!-margin-top-1"
+        },
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            attributes: {
+              "data-cy": "escort-yes"
+            }
+          },
+          {
+            value: "no",
+            text: "No",
+            attributes: {
+              "data-cy": "escort-no"
+            }
+          }
+        ],
+        errorMessage: errors | findError('has-escort')
+      }) }}
 
-      <h1 class="heading-large">
-        Do you want to claim expenses for an escort?
-      </h1>
+      {% include "partials/csrf-hidden-input.html" %}
 
-      <form action="/apply/eligibility/claim/has-escort" method="post">
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-        <div id="has-escort" class="form-group {% if errors['has-escort'][0] %} error {% endif %}">
-
-          <p>You can claim travel and expenses for someone who {% if isAdvanceClaim %}will help{% else %}helped{% endif %} you if you are 75 or over, or have a serious medical condition.</p>
-
-          <p>We may ask later for evidence of any medical condition.</p>
-
-          {% if errors['has-escort'][0] %}
-            <span class="error-message">{{ errors['has-escort'][0] }}</span>
-          {% endif %}
-
-          <fieldset class="inline">
-            <legend class="visually-hidden">Do you want to claim expenses for an escort</legend>
-
-            <div class="multiple-choice">
-              <input id="escort-yes" type="radio" name="has-escort" value="yes" {% if claim['has-escort'] == 'yes' %} checked {% endif %} data-cy="escort-yes">
-              <label for="escort-yes" class="block-label inline">
-                Yes
-              </label>
-            </div>
-            
-            <div class="multiple-choice">
-              <input id="escort-no" type="radio" name="has-escort" value="no" {% if claim['has-escort'] == 'no' %} checked {% endif %} data-cy="escort-no">
-              <label for="escort-no" class="block-label inline">
-                No
-              </label>
-            </div>
-
-          </fieldset>
-
-        </div>
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="has-escort-submit"
-               type="submit"
-               value="Continue"
-               class="button"
-               data-cy="submit">
-      </form>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}
