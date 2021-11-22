@@ -1123,3 +1123,37 @@ ul.claim-dialog-public li.claimant {
     overflow: hidden;
   }
 }
+
+
+/* TEMPORARY Global cookie message from old GOVUK toolkit */
+#global-cookie-message p {
+  max-width: 960px;
+  margin: 0 15px; }
+  @media (min-width: 641px) {
+    #global-cookie-message p {
+      margin: 0 30px; } }
+  @media (min-width: 1020px) {
+    #global-cookie-message p {
+      margin: 0 auto; } }
+
+.js-enabled #global-cookie-message {
+  display: none;
+  /* shown with JS, always on for non-JS */ }
+
+#global-cookie-message {
+  width: 100%;
+  background-color: #d5e8f3;
+  padding-top: 10px;
+  padding-bottom: 10px; }
+  #global-cookie-message p {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 14px;
+    line-height: 1.14286;
+    margin-top: 0;
+    margin-bottom: 0; }
+    @media (min-width: 641px) {
+      #global-cookie-message p {
+        font-size: 16px;
+        line-height: 1.25; } }

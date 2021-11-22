@@ -5,6 +5,15 @@
   <link href="/public/stylesheets/application.css" rel="stylesheet">
 {% endblock %}
 
+{# Temporarily using old-style cookie banner #}
+{% block bodyStart %}
+<div id="global-cookie-message">
+  <p>{{__('GOV.UK uses cookies to make the site simpler.')}}
+    <a href="/cookies" title="{{__('Find out more about cookies')}}">{{__('Find out more about cookies')}}</a>
+  </p>
+</div>
+{% endblock %}
+
 {%block beforeContent %}
   {{ govukPhaseBanner({
     tag: {
@@ -64,4 +73,7 @@
   {# new GOV.UK Frontend #}
   <script src="/assets/govuk/all.js"></script>
   <script>window.GOVUKFrontend.initAll()</script>
+
+  {# TEMPORARY - for cookie banner #}
+  <script src="/public/javascripts/govuk-template.js?0.26.0"></script>
 {% endblock %}
