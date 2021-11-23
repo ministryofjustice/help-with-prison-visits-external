@@ -1,71 +1,68 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Do you want to claim expeneses for any children - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Do you want to claim expeneses for any children - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <form action="/apply/eligibility/claim/has-child" method="post">
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
-
-      {% include "includes/validation-error-messages.html" %}
-
-      <h1 class="heading-large">
-        Do you want to claim expenses for any children?
-      </h1>
-
-      <form action="/apply/eligibility/claim/has-child" method="post">
-
-        <div id="has-child" class="form-group {% if errors['has-child'][0] %} error {% endif %}">
-
-          <p>
+      {{ govukRadios({
+        idPrefix: "has-child",
+        name: "has-child",
+        fieldset: {
+          legend: {
+            text: "Do you want to claim expenses for any children?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        hint: {
+          html:
+          "<p>
             You are only allowed to claim for children if they are the prisoner's
             child or if they're your child and you're the prisoner's husband, wife or civil partner.
           </p>
+          <p>We may ask you later for evidence of the relationship.</p>",
+          classes: "govuk-!-margin-top-1"
+        },
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            attributes: {
+              "data-cy": "child-yes"
+            }
+          },
+          {
+            value: "no",
+            text: "No",
+            attributes: {
+              "data-cy": "child-no"
+            }
+          }
+        ],
+        errorMessage: errors | findError('has-child')
+      }) }}
 
-          <p>We may ask you later for evidence of the relationship.</p>
+      {% include "partials/csrf-hidden-input.html" %}
 
-          {% if errors['has-child'][0] %}
-            <span class="error-message">{{ errors['has-child'][0] }}</span>
-          {% endif %}
-          <fieldset class="inline">
-            <legend class="visually-hidden">Do you want to claim expenses for any children</legend>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-            <div class="multiple-choice">
-              <input id="child-yes" type="radio" name="has-child" value="yes" {% if claim['has-child'] == 'yes' %} checked {% endif %} data-cy="child-yes">
-              <label for="child-yes" class="block-label inline">  
-                Yes
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="child-no" type="radio" name="has-child" value="no" {% if claim['has-child'] == 'no' %} checked {% endif %} data-cy="child-no">
-              <label for="child-no" class="block-label inline">
-                No
-              </label>
-            </div>
-
-          </fieldset>
-
-        </div>
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="has-child-submit"
-               type="submit"
-               value="Continue"
-               class="button"
-               data-cy="submit">
-      </form>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}
