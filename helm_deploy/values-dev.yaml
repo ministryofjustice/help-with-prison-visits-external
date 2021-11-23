@@ -4,6 +4,7 @@ generic-service:
   replicaCount: 2
   ingress:
     host: "help-with-prison-visits-dev.hmpps.service.justice.gov.uk"
+    contextColour: green
   env:
     FEATURES_YCS_JOURNEY: 'true'
 
