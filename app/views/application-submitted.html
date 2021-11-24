@@ -1,63 +1,53 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
 
-{% block page_title %}
+{% block pageTitle %}
 Application submitted - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {{ govukPanel({
+      titleText: "Application submitted",
+      html:
+      'Your reference number is <br><br><strong data-cy="reference">' + reference + '</strong>' +
+      '<br><br><span class="govuk-!-font-size-24">Keep your reference number safe. You will need it if you contact us or make another application.</span>'
+    }) }}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <p>You must upload or send any evidence to go with your application within 7 days</p>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <p>We have sent you a confirmation email.</p>
 
-      <div class="govuk-box-highlight">
-        <h1 class="bold-large">Application submitted</h1>
-        <p class="lede">
-          Your reference number is <br>
-          <strong id="reference" class="heading-medium" data-cy="reference">{{reference}}</strong>
-        </p>
-        <p class="lede">Keep your reference number safe. You will need it if you contact us or make another application.
-        </p>
-      </div>
+    <p><a href="/start-already-registered">Check progress on your application</a></p>
 
-      <p>You must upload or send any evidence to go with your application within 7 days</p>
+    <h2 class="govuk-heading-m">What happens next</h2>
 
-      <p>We have sent you a confirmation email.</p>
+    <p>We will contact you within 5 working days.</p>
 
-      <a href="/start-already-registered">Check progress on your application</a>
+    {% if advanceOrPast == 'advance' %}
+      <p>If your application is approved you will receive:</p>
 
-      <h2 class="heading-medium">What happens next</h2>
+      <ul class=" list list-bullet">
+        <li>a FastTicket reference number if you’ve chosen train travel</li>
+        <li>money by your chosen method for other travel and expenses</li>
+      </ul>
 
-      <p>We will contact you within 5 working days.</p>
+      <p>Once you’ve made your visit you’ll be asked to send your completed visit confirmation form.</p>
 
-      {% if advanceOrPast == 'advance' %}
-        <p>If your application is approved you will receive:</p>
+      <p>If you don’t make the visit you may need to refund the cost of your travel.</p>
 
-        <ul class=" list list-bullet">
-          <li>a FastTicket reference number if you’ve chosen train travel</li>
-          <li>money by your chosen method for other travel and expenses</li>
-        </ul>
+    {% endif %}
 
-        <p>Once you’ve made your visit you’ll be asked to send your completed visit confirmation form.</p>
-
-        <p>If you don’t make the visit you may need to refund the cost of your travel.</p>
-
-      {% endif %}
-
-      <div class="download-confirmation-form">
-        <a href="https://www.gov.uk/government/publications/assisted-prison-visits-form">Download a confirmation of visit form</a>
-      </div>
-
-      <div class="print-page">
-        <a class="print-link" href="#">Print this page</a>
-      </div>
+    <div class="download-confirmation-form">
+      <a href="https://www.gov.uk/government/publications/assisted-prison-visits-form">Download a confirmation of visit form</a>
     </div>
 
+    <div class="print-page">
+      <a class="print-link" href="#">Print this page</a>
+    </div>
   </div>
 
-</main>
-
+</div>
 {% endblock %}
