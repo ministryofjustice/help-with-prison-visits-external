@@ -1,7 +1,7 @@
 require('./azure-appinsights')
 const config = require('../config')
 const express = require('express')
-const nunjucks = require('nunjucks')
+const nunjucksSetup = require('./services/nunjucks-setup')
 const path = require('path')
 const favicon = require('serve-favicon')
 const expressSanitized = require('express-sanitized')
@@ -34,7 +34,8 @@ app.use(helmet.contentSecurityPolicy({
     scriptSrc: ["'self'",
       'www.google-analytics.com',
       "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='",
-      "'sha256-G29/qSW/JHHANtFhlrZVDZW1HOkCDRc78ggbqwwIJ2g='"],
+      "'sha256-G29/qSW/JHHANtFhlrZVDZW1HOkCDRc78ggbqwwIJ2g='",
+      "'sha256-l1eTVSK8DTnK8+yloud7wZUqFrI0atVo6VlC6PJvYaQ='"], // govuk-frontend - initAll() inline script
     connectSrc: ["'self'", 'www.google-analytics.com'],
     styleSrc: ["'self'"],
     fontSrc: ["'self'", 'data:'],
@@ -62,24 +63,21 @@ const developmentMode = app.get('env') === 'development'
 const releaseVersion = packageJson.version
 const serviceName = 'Get help with the cost of prison visits'
 
-const appViews = [
-  path.join(__dirname, '../node_modules/govuk_template_jinja/'),
-  path.join(__dirname, 'views')
-]
-
-// View Engine Configuration
-app.set('view engine', 'html')
-nunjucks.configure(appViews, {
-  express: app,
-  autoescape: true,
-  watch: developmentMode,
-  noCache: developmentMode
-})
+nunjucksSetup(app, developmentMode)
 
 const publicFolders = ['public', 'assets', '../node_modules/govuk_template_jinja/assets', '../node_modules/govuk_frontend_toolkit']
 
 publicFolders.forEach(dir => {
   app.use('/public', express.static(path.join(__dirname, dir)))
+})
+
+// new govuk-frontend asset paths
+const govukAssets = [
+  '../node_modules/govuk-frontend/govuk/assets',
+  '../node_modules/govuk-frontend'
+]
+govukAssets.forEach(dir => {
+  app.use('/assets', express.static(path.join(__dirname, dir)))
 })
 
 app.use(favicon(path.join(__dirname, '../node_modules/govuk_template_jinja/assets/images/favicon.ico')))

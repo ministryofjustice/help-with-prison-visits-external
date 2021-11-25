@@ -1,208 +1,267 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-Enter information about you - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter information about you - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    {% if isDuplicateClaim %}
+      {{ govukErrorSummary({
+        titleText: "There was a problem",
+        classes: "error-summary",
+        errorList: [
+          {
+            html: "You've already applied<br><a class=\"repeat-link\" href=\"/start-already-registered\">Start a repeat claim</a>"
+          }
+        ]
+      }) }}
+    {% endif %}
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <form action="/apply/{{ claimType }}/new-eligibility/about-you" method="post">
 
-      {% include "includes/validation-error-messages.html" %}
+      {% call govukFieldset({
+        legend: {
+          text: "About you",
+          classes: "govuk-fieldset__legend--l",
+          isPageHeading: true
+        }
+      }) %}
 
-      {% if isDuplicateClaim %}
-      <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
+        {{ govukInput({
+          label: {
+            text: "First name"
+          },
+          id: "FirstName",
+          name: "FirstName",
+          value: visitor['FirstName'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "given-name",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "first-name"
+          },
+          errorMessage: errors | findError('FirstName')
+        }) }}
 
-        <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
-          There was a problem
-        </h1>
+        {{ govukInput({
+          label: {
+            text: "Last name"
+          },
+          id: "LastName",
+          name: "LastName",
+          value: visitor['LastName'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "family-name",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "last-name"
+          },
+          errorMessage: errors | findError('LastName')
+        }) }}
 
-        <ul class="error-summary-list">
-          <li>
-            <a href="#NationalInsuranceNumber">You've already applied</a>
-            <br><a class="repeat-link" href="/start-already-registered">Start a repeat claim</a>
-          </li>
-        </ul>
+        {{ govukInput({
+          label: {
+            text: "National Insurance number"
+          },
+          hint: {
+            text: "For example, QQ123456C"
+          },
+          id: "NationalInsuranceNumber",
+          name: "NationalInsuranceNumber",
+          value: visitor['NationalInsuranceNumber'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "off",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "ni-number"
+          },
+          errorMessage: errors | findError('NationalInsuranceNumber')
+        }) }}
 
-      </div>
-      {% endif %}
+      {% endcall %}
 
-      <h1 class="heading-large">
-        About you
-      </h1>
 
-      <form action="/apply/{{ claimType }}/new-eligibility/about-you"
-            method="post">
+      <h2 class="govuk-heading-m">Address</h2>
+      <p>Any post to do with your claim will be sent here.</p>
 
-        <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
-          <label id="FirstName" class="form-label-bold" for="first-name-input">First name</label>
-          {% if errors['FirstName'][0] %}
-          <span class="error-message" id="error-message-first-name">{{ errors['FirstName'][0] }}</span>
-          {% endif %}
-          <input id="first-name-input"
-                 name="FirstName"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ visitor['FirstName'] }}"
-                 data-cy="first-name">
-        </div>
+      {% call govukFieldset({
+        legend: {
+          text: "Address",
+          classes: "govuk-visually-hidden"
+        }
+      }) %}
 
-        <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-          <label id="LastName" class="form-label-bold" for="last-name-input">Last name</label>
-          {% if errors['LastName'][0] %}
-          <span class="error-message" id="error-message-last-name">{{ errors['LastName'][0] }}</span>
-          {% endif %}
-          <input id="last-name-input"
-                 name="LastName"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ visitor['LastName'] }}"
-                 data-cy="last-name">
-        </div>
+        {{ govukInput({
+          label: {
+            text: "House number and street"
+          },
+          hint: {
+            text: "For example, 123 Street Name"
+          },
+          id: "HouseNumberAndStreet",
+          name: "HouseNumberAndStreet",
+          value: visitor['HouseNumberAndStreet'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "address-line1",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "house-num-and-street"
+          },
+          errorMessage: errors | findError('HouseNumberAndStreet')
+        }) }}
 
-        <div class="form-group {% if errors['NationalInsuranceNumber'][0] or isDuplicateClaim %} error {% endif %}">
-          <label id="NationalInsuranceNumber" class="form-label-bold" for="national-insurance-number-input">National
-            Insurance number</label>
-          {% if errors['NationalInsuranceNumber'][0] %}
-          <span class="error-message" id="error-message-national">{{ errors['NationalInsuranceNumber'][0] }}</span>
-          {% endif %}
-          <p class="form-hint">For example, QQ123456C</p>
-          <input id="national-insurance-number-input"
-                 name="NationalInsuranceNumber"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ visitor['NationalInsuranceNumber'] }}"
-                 data-cy="ni-number">
-        </div>
+        {{ govukInput({
+          label: {
+            text: "Town"
+          },
+          id: "Town",
+          name: "Town",
+          value: visitor['Town'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "address-level2",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "town"
+          },
+          errorMessage: errors | findError('Town')
+        }) }}
 
-        <div class="heading-medium-prevent-margin-collapse">
-          <p class="heading-medium">Address</p>
-          <p>Any post to do with your claim will be sent here.</p>
-        </div>
+        {{ govukInput({
+          label: {
+            text: "County"
+          },
+          id: "County",
+          name: "County",
+          value: visitor['County'],
+          classes: "govuk-!-width-one-half",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "county"
+          },
+          errorMessage: errors | findError('County')
+        }) }}
 
-        <div class="form-group {% if errors['HouseNumberAndStreet'][0] %} error {% endif %}">
-          <label id="HouseNumberAndStreet" class="form-label-bold" for="house-number-and-street-input">House number and
-            street</label>
-          {% if errors['HouseNumberAndStreet'][0] %}
-          <span class="error-message" id="error-message-house-street">{{ errors['HouseNumberAndStreet'][0] }}</span>
-          {% endif %}
-          <p class="form-hint">For example, 123 Street Name</p>
-          <input id="house-number-and-street-input"
-                 name="HouseNumberAndStreet"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ visitor['HouseNumberAndStreet'] }}"
-                 data-cy="house-num-and-street">
-        </div>
+        {{ govukInput({
+          label: {
+            text: "Postcode"
+          },
+          id: "PostCode",
+          name: "PostCode",
+          value: visitor['PostCode'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "postal-code",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "postcode"
+          },
+          errorMessage: errors | findError('PostCode')
+        }) }}
 
-        <div class="form-group {% if errors['Town'][0] %} error {% endif %}">
-          <label id="Town" class="form-label-bold" for="town-input">Town</label>
-          {% if errors['Town'][0] %}
-          <span class="error-message" id="error-message-town">{{ errors['Town'][0] }}</span>
-          {% endif %}
-          <input id="town-input"
-                 name="Town"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ visitor['Town'] }}"
-                 data-cy="town">
-        </div>
+        {{ govukSelect({
+          id: "Country",
+          name: "Country",
+          label: {
+            text: "Country"
+          },
+          classes: "govuk-!-width-one-half",
+          items: [
+            {
+              text: "select"
+            },
+            {
+              value: "England",
+              text: "England",
+              selected: (true if visitor['Country'] == 'England')
+            },
+            {
+              value: "Wales",
+              text: "Wales",
+              selected: (true if visitor['Country'] == 'Wales')
+            },
+            {
+              value: "Scotland",
+              text: "Scotland",
+              selected: (true if visitor['Country'] == 'Scotland')
+            },
+            {
+              value: "Northern Ireland",
+              text: "Northern Ireland",
+              selected: (true if visitor['Country'] == 'Northern Ireland')
+            }
+          ],
+          attributes: {
+            "data-cy": "country"
+          },
+          errorMessage: errors | findError('Country')
+        }) }}
 
-        <div class="form-group {% if errors['County'][0] %} error {% endif %}">
-          <label id="County" class="form-label-bold" for="county-input">County</label>
-          {% if errors['County'][0] %}
-          <span class="error-message" id="error-message-county">{{ errors['County'][0] }}</span>
-          {% endif %}
-          <input id="county-input"
-                 name="County"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ visitor['County'] }}"
-                 data-cy="county">
-        </div>
+      {% endcall %}
 
-        <div class="form-group {% if errors['PostCode'][0] %} error {% endif %}">
-          <label id="PostCode" class="form-label-bold" for="post-code-input">Postcode</label>
-          {% if errors['PostCode'][0] %}
-          <span class="error-message" id="error-message-post-code">{{ errors['PostCode'][0] }}</span>
-          {% endif %}
-          <input id="post-code-input"
-                 name="PostCode"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ visitor['PostCode'] }}"
-                 data-cy="postcode">
-        </div>
+      <h2 class="govuk-heading-m">Contact details</h2>
 
-        <div class="form-group {% if errors['Country'][0] %} error {% endif %}">
-          <label id="Country" class="form-label-bold" for="country-input">Country</label>
-          {% if errors['Country'][0] %}
-          <span class="error-message" id="error-message-country">{{ errors['Country'][0] }}</span>
-          {% endif %}
-          <select id="country-input" class="form-control" name="Country" data-cy="country">
-            <option>select</option>
-            <option {% if visitor['Country'] == 'England' %} selected {% endif %} value="England" id="country-england">England</option>
-            <option {% if visitor['Country'] == 'Wales' %} selected {% endif %} value="Wales" id="country-wales">Wales</option>
-            <option {% if visitor['Country'] == 'Scotland' %} selected {% endif %} value="Scotland" id="country-scotland">Scotland</option>
-            <option {% if visitor['Country'] == 'Northern Ireland' %} selected {% endif %} value="Northern Ireland" id="country-ni">Northern Ireland</option>
-          </select>
-        </div>
+      {% call govukFieldset({
+        legend: {
+          text: "Contact details",
+          classes: "govuk-visually-hidden"
+        }
+      }) %}
 
-        <p class="heading-medium">Contact details</p>
+        {{ govukInput({
+          label: {
+            text: "Email address"
+          },
+          id: "EmailAddress",
+          name: "EmailAddress",
+          type: "email",
+          value: visitor['EmailAddress'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "email",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "email"
+          },
+          errorMessage: errors | findError('EmailAddress')
+        }) }}
 
-        <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
-          <label id="EmailAddress" class="form-label-bold" for="email-address-input">Email address</label>
-          {% if errors['EmailAddress'][0] %}
-          <span class="error-message" id="error-message-email">{{ errors['EmailAddress'][0] }}</span>
-          {% endif %}
-          <p class="form-hint">You’ll receive confirmation by email</p>
-          <input id="email-address-input"
-                 name="EmailAddress"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ visitor['EmailAddress'] }}"
-                 data-cy="email">
-        </div>
+        {{ govukInput({
+          label: {
+            text: "Phone number (optional)"
+          },
+          id: "PhoneNumber",
+          name: "PhoneNumber",
+          type: "tel",
+          value: visitor['PhoneNumber'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "tel",
+          attributes: {
+            "data-cy": "phone"
+          },
+          errorMessage: errors | findError('PhoneNumber')
+        }) }}
 
-        <div class="form-group {% if errors['PhoneNumber'][0] %} error {% endif %}">
-          <label id="PhoneNumber" class="form-label-bold" for="phone-number-input">Phone number (optional)</label>
-          {% if errors['PhoneNumber'][0] %}
-          <span class="error-message" id="error-message-phone">{{ errors['PhoneNumber'][0] }}</span>
-          {% endif %}
-          <input id="phone-number-input"
-                 name="PhoneNumber"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ visitor['PhoneNumber'] }}"
-                 data-cy="phone">
-        </div>
+      {% endcall %}
 
-        {% include "partials/csrf-hidden-input.html" %}
+      {% include "partials/csrf-hidden-input.html" %}
 
-        <input id="about-you-submit"
-               type="submit"
-               class="button"
-               value="Continue"
-               data-cy="submit">
-      </form>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}

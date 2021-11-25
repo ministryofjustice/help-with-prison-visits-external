@@ -1,36 +1,29 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
 
-{% block page_title %}
+{% block pageTitle %}
 Not Eligible - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    <h1 class="govuk-heading-l">
+      You can’t apply this time
+    </h1>
 
-  {% include "includes/phase_banner_beta.html" %}
+    <p>Based on the information you’ve given, you aren’t eligible for help with the cost of prison visits.</p>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <p>
+      For more information about who can apply and what for see the <a target="_blank" href="https://www.gov.uk/government/publications/assisted-prison-visits-form">guide to applying</a>.
+    </p>
 
-      <h1 class="heading-large">
-        You can’t apply this time
-      </h1>
+    <p>
+      You can also <a target="_blank" href="/help">contact Help With Prison Visits (HWPV) for help</a>.
+    </p>
 
-      <p>Based on the information you’ve given, you aren’t eligible for help with the cost of prison visits.</p>
+    <a href="https://www.gov.uk/">Continue to GOV.UK</a>
 
-      <p>
-        For more information about who can apply and what for see the <a target="_blank" href="https://www.gov.uk/government/publications/assisted-prison-visits-form">guide to applying</a>.
-      </p>
-
-      <p>
-        You can also <a target="_blank" href="/help">contact Help With Prison Visits (HWPV) for help</a>.
-      </p>
-
-      <a href="https://www.gov.uk/">Continue to GOV.UK</a>
-
-    </div>
   </div>
-</main>
-
+</div>
 {% endblock %}

@@ -1,91 +1,80 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-What is your date of birth - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}What is your date of birth - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <form action="/apply/{{ claimType }}/new-eligibility/date-of-birth" method="post">
+      {% set errorDob = errors | findError('dob') %}
+      {% set errorClass = " govuk-input--error" if errorDob %}
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+      {{ govukDateInput({
+        id: "dob",
+        namePrefix: "dob",
+        fieldset: {
+          legend: {
+            text: "What is your date of birth?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        hint: {
+          html: 
+          '<p>You must be 18 or over (16 or over in Scotland)</p>
+          For example, 18 08 1989',
+          classes: "govuk-!-margin-top-1"
+        },
+        items: [
+          {
+            name: "day",
+            classes: "govuk-input--width-2" + errorClass,
+            autocomplete: "bday-day",
+            value: claimant['dob-day'],
+            attributes: {
+              "data-cy": "dob-day"
+            }
+          },
+          {
+            name: "month",
+            classes: "govuk-input--width-2" + errorClass,
+            autocomplete: "bday-month",
+            value: claimant['dob-month'],
+            attributes: {
+              "data-cy": "dob-month"
+            }
+          },
+          {
+            name: "year",
+            classes: "govuk-input--width-4" + errorClass,
+            autocomplete: "bday-year",
+            value: claimant['dob-year'],
+            attributes: {
+              "data-cy": "dob-year"
+            }
+          }
+        ],
+        errorMessage: errorDob
+      }) }}
 
-      {% include "includes/validation-error-messages.html" %}
+      {% include "partials/csrf-hidden-input.html" %}
 
-      <h1 class="heading-large">
-        What is your date of birth?
-      </h1>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-      <p>You must be 18 or over (16 or over in Scotland)</p>
-
-      <form action="/apply/{{ claimType }}/new-eligibility/date-of-birth" method="post">
-
-        <div class="form-group">
-          <div class="date-of-birth {% if errors['dob'][0] %} error {% endif %}">
-
-            {% if errors['dob'][0] %}
-              <span class="error-message">{{ errors['dob'][0] }}</span>
-            {% endif %}
-
-            <div id="dob" class="form-date">
-              <fieldset>
-                <legend class="visually-hidden">Date of birth</legend>
-
-                <p class="form-hint">For example, 18 08 1989</p>
-
-                <div class="form-group form-group-day">
-                  <label id="dob-day" for="dob-day-input">Day</label>
-                  <input id="dob-day-input"
-                         type="number"
-                         name="dob-day"
-                         autocomplete="off"
-                         value="{{ claimant['dob-day'] }}"
-                         class="form-control"
-                         data-cy="dob-day">
-                </div>
-
-                <div class="form-group form-group-month">
-                  <label id="dob-month" for="dob-month-input">Month</label>
-                  <input id="dob-month-input"
-                         type="number"
-                         name="dob-month"
-                         autocomplete="off"
-                         value="{{ claimant['dob-month'] }}"
-                         class="form-control"
-                         data-cy="dob-month">
-                </div>
-
-                <div class="form-group form-group-year">
-                  <label id="dob-year" for="dob-year-input">Year</label>
-                  <input id="dob-year-input"
-                         type="number"
-                         name="dob-year"
-                         autocomplete="off"
-                         value="{{ claimant['dob-year'] }}"
-                         class="form-control"
-                         data-cy="dob-year">
-                </div>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-
-        {% include "partials/csrf-hidden-input.html" %}
-        <div class="form-group">
-          <input id="date-of-birth-submit"
-                 type="submit"
-                 value="Continue"
-                 class="button"
-                 data-cy="submit">
-        </div>
-      </form>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}

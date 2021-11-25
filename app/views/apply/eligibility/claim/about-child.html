@@ -1,154 +1,161 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Enter details about your child - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter details about your child - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <form action="/apply/eligibility/claim/about-child" method="post">
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+      {% call govukFieldset({
+        legend: {
+          text: "About the child",
+          classes: "govuk-fieldset__legend--l",
+          isPageHeading: true
+        }
+      }) %}
 
-      {% include "includes/validation-error-messages.html" %}
+        {{ govukInput({
+          label: {
+            text: "First name"
+          },
+          id: "FirstName",
+          name: "FirstName",
+          value: claimant['FirstName'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "given-name",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "first-name"
+          },
+          errorMessage: errors | findError('FirstName')
+        }) }}
 
-      <h1 class="heading-large">
-        About the child
-      </h1>
+        {{ govukInput({
+          label: {
+            text: "Last name"
+          },
+          id: "LastName",
+          name: "LastName",
+          value: claimant['LastName'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "family-name",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "last-name"
+          },
+          errorMessage: errors | findError('LastName')
+        }) }}
 
-      <form action="/apply/eligibility/claim/about-child" method="post">
+      {% endcall %}
 
-        <div id="FirstName" class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
-          <label class="form-label-bold" for="first-name-input">First name</label>
+      {% set errorDob = errors | findError('dob') %}
+      {% set errorClass = " govuk-input--error" if errorDob %}
+      {{ govukDateInput({
+        id: "dob",
+        namePrefix: "dob",
+        fieldset: {
+          legend: {
+            text: "Date of birth"
+          }
+        },
+        items: [
+          {
+            name: "day",
+            classes: "govuk-input--width-2" + errorClass,
+            value: claimant['dob-day'],
+            attributes: {
+              "data-cy": "dob-day"
+            }
+          },
+          {
+            name: "month",
+            classes: "govuk-input--width-2" + errorClass,
+            value: claimant['dob-month'],
+            attributes: {
+              "data-cy": "dob-month"
+            }
+          },
+          {
+            name: "year",
+            classes: "govuk-input--width-4" + errorClass,
+            value: claimant['dob-year'],
+            attributes: {
+              "data-cy": "dob-year"
+            }
+          }
+        ],
+        errorMessage: errorDob
+      }) }}
 
-          {% if errors['FirstName'][0] %}
-          <span class="error-message">{{ errors['FirstName'][0] }}</span>
-          {% endif %}
+      {% set claimantsChild = true if claimant['child-relationship'] == 'claimants-child' else false %}
+      {% set prisonersChild = true if claimant['child-relationship'] == 'prisoners-child' else false %}
+      {{ govukRadios({
+        idPrefix: "child-relationship",
+        name: "child-relationship",
+        fieldset: {
+          legend: {
+            text: "Relationship"
+          }
+        },
+        items: [
+          {
+            value: "claimants-child",
+            text: "My child",
+            checked: claimantsChild,
+            attributes: {
+              "data-cy": "claimants-child"
+            }
+          },
+          {
+            value: "prisoners-child",
+            text: "Prisoner's child",
+            checked: prisonersChild,
+            attributes: {
+              "data-cy": "prisoners-child"
+            }
+          }
+        ],
+        errorMessage: errors | findError('child-relationship')
+      }) }}
 
-          <input id="first-name-input"
-                 type="text"
-                 name="FirstName"
-                 autocomplete="off"
-                 value="{{ claimant['FirstName'] }}"
-                 class="form-control"
-                 data-cy="first-name">
-        </div>
 
-        <div id="LastName" class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-          <label class="form-label-bold" for="last-name-input">Last name</label>
 
-          {% if errors['LastName'][0] %}
-          <span class="error-message">{{ errors['LastName'][0] }}</span>
-          {% endif %}
+      {{ govukCheckboxes({
+        idPrefix: "add-another-child",
+        name: "add-another-child",
+        items: [
+          {
+            value: "on",
+            text: "Add another child",
+            attributes: {
+              "data-cy": "add-another-child"
+            }
+          }
+        ]
+      }) }}
 
-          <input id="last-name-input"
-                 type="text"
-                 name="LastName"
-                 autocomplete="off"
-                 value="{{ claimant['LastName'] }}"
-                 class="form-control"
-                 data-cy="last-name">
-        </div>
+      {% include "partials/csrf-hidden-input.html" %}
 
-        <div id="dob" class="form-group {% if errors['dob'][0] %} error {% endif %}">
-
-          <div class="form-date">
-
-            <h2 class="form-label-bold">Date of birth</h2>
-
-            {% if errors['dob'][0] %}
-              <span class="error-message">{{ errors['dob'][0] }}</span>
-            {% endif %}
-
-            <fieldset>
-              <legend class="visually-hidden">Child date of birth</legend>
-
-              <div class="form-group form-group-day">
-                <label for="dob-day-input">Day</label>
-                <input id="dob-day-input"
-                       name="dob-day"
-                       autocomplete="off"
-                       value="{{ claimant['dob-day'] }}"
-                       class="form-control"
-                       data-cy="dob-day">
-              </div>
-
-              <div class="form-group form-group-month">
-                <label for="dob-month-input">Month</label>
-                <input id="dob-month-input"
-                       name="dob-month"
-                       autocomplete="off"
-                       value="{{ claimant['dob-month'] }}"
-                       class="form-control"
-                       data-cy="dob-month">
-              </div>
-
-              <div class="form-group form-group-year">
-                <label for="dob-year-input">Year</label>
-                <input id="dob-year-input"
-                       name="dob-year"
-                       autocomplete="off"
-                       value="{{ claimant['dob-year'] }}"
-                       class="form-control"
-                       data-cy="dob-year">
-              </div>
-
-            </fieldset>
-
-          </div>
-
-        </div>
-
-        <div class="form-group">
-
-          <div id="child-relationship" class="form-group {% if errors['child-relationship'][0] %} error {% endif %}">
-
-            <h3 class="form-label-bold">Relationship</h3>
-
-            {% if errors['child-relationship'][0] %}
-              <span class="error-message">{{ errors['child-relationship'][0] }}</span>
-            {% endif %}
-            
-            <div class="multiple-choice">
-              <input id="my-child" type="radio" name="child-relationship" value="claimants-child" {% if claimant['child-relationship'] == 'claimants-child' %} checked {% endif %} data-cy="claimants-child">
-              <label for="my-child" class="block-label">
-                My child
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="prisoners-child" type="radio" name="child-relationship" value="prisoners-child" {% if claimant['child-relationship'] == 'prisoners-child' %} checked {% endif %} data-cy="prisoners-child">
-              <label for="prisoners-child" class="block-label">
-                Prisoner's child
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-            
-          <div class="multiple-choice">
-            <input id="add-another-child" type="checkbox" name="add-another-child" {% if expense['add-another-child'] == 'on' %} checked {% endif %} data-cy="add-another-child">
-            <label for="add-another-child" class="block-label">
-              Add another child
-            </label>
-          </div>
-        </div>
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="about-child-submit"
-               type="submit"
-               value="Continue"
-               class="button"
-               data-cy="submit">
-      </form>
-    </div>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
   </div>
-
-</main>
-
+</div>
 {% endblock %}

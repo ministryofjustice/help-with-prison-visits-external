@@ -17,7 +17,7 @@ module.exports = function (router) {
 
   router.post('/start', function (req, res) {
     if (!req.body.madeClaimForPrisonerBefore) {
-      const errors = { invalidReferenceNumberAndDob: [ERROR_MESSAGES.getMadeClaimForPrisonerBeforeIsRequired] }
+      const errors = { madeClaimForPrisonerBefore: [ERROR_MESSAGES.getMadeClaimForPrisonerBeforeIsRequired] }
       return res.status(400).render('start', { errors: errors })
     } else if (req.body.madeClaimForPrisonerBefore === 'yes') {
       return res.redirect('/start-already-registered')
