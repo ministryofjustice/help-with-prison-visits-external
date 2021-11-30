@@ -23,7 +23,7 @@ Then install dependencies and run on port 3000.
 npm install
 npm run dev
 ```
-
+ 
 ### Docker Compose
 This enables the application to run as a docker image locally and also contains setup to allow a local instance of clamav to run to allow the app to work locally.
 
