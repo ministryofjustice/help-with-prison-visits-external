@@ -30,7 +30,8 @@ module.exports = function (app, developmentMode) {
   })
 
   // find specifc error and return errorMessage for field validation
-  njkEnv.addFilter('findError', (errors = [], formFieldId) => {
+  njkEnv.addFilter('findError', (errors, formFieldId) => {
+    if (!errors || !formFieldId) return null
     if (errors[formFieldId]) {
       return {
         text: errors[formFieldId][0]
