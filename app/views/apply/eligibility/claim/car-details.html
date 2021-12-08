@@ -1,229 +1,248 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Enter your car or motorcycle journey details - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter your car or motorcycle journey details - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      Your car or motorcycle journey
+    </h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <p>
+      You will get 13p per mile for this kind of travel. The distance is calculated as the shortest route between
+      your home and the prison’s visitor centre.
+    </p>
 
-      {% include "includes/validation-error-messages.html" %}
+    {% if not carOnly %}
+    <p>
+      You can also claim for parking, and tolls for bridges or tunnels.
+    </p>
+    {% endif %}
 
-      <h1 class="heading-large">
-        Your car or motorcycle journey
-      </h1>
+    <p>
+      You are allowed one car journey per claim
+    </p>
 
-      <p>
-        You will get 13p per mile for this kind of travel. The distance is calculated as the shortest route between
-        your home and the prison’s visitor centre.
-      </p>
+    <form action="/apply/eligibility/claim/car{{ params }}" method="post">
+
+      {{ govukInput({
+        label: {
+          text: "From",
+          classes: "govuk-!-font-weight-bold"
+        },
+        formGroup: {
+          classes: "hide-border"
+        },
+        id: "from",
+        name: "from",
+        value: expense['from'],
+        classes: "govuk-!-width-one-half",
+        attributes: {
+          readonly: readonly
+        }
+      }) }}
+
+      {{ govukInput({
+        label: {
+          text: "To",
+          classes: "govuk-!-font-weight-bold"
+        },
+        formGroup: {
+          classes: "hide-border"
+        },
+        id: "to-display",
+        name: "to-display",
+        value: displayHelper.getPrisonDisplayName(expense['to']),
+        classes: "govuk-!-width-one-half",
+        attributes: {
+          readonly: readonly
+        }
+      }) }}
+
+      <input id="to" type="hidden" name="to" value="{{ expense['to'] }}">
+
+      {# change start point #}
+      {% set newOriginHtml %}
+      {{ govukInput({
+        label: {
+          html: '<span class="govuk-!-font-weight-bold">Starting point</span>' +
+            '<br>Please enter your prefered journey starting point'
+        },
+        id: "origin",
+        name: "origin",
+        hint: {
+          text: "For example, 123 Street Name, Town, County"
+        },
+        value: expense['origin'],
+        classes: "govuk-!-width-one-half",
+        errorMessage: errors | findError('origin')
+      }) }}
+      {% endset -%}
+      {% set fromPostcodeHtml %}
+      {{ govukInput({
+        label: {
+          text: "Postcode",
+          classes: "govuk-!-font-weight-bold"
+        },
+        id: "FromPostCode",
+        name: "FromPostCode",
+        value: expense['FromPostCode'],
+        classes: "govuk-!-width-one-half",
+        errorMessage: errors | findError('FromPostCode')
+      }) }}
+      {% endset -%}
+      {{ govukCheckboxes({
+        idPrefix: "new-origin",
+        name: "new-origin",
+        items: [
+          {
+            value: "on",
+            checked: expense['new-origin'],
+            text: "Change the Starting Point of your Journey",
+            conditional: {
+              html: newOriginHtml + fromPostcodeHtml
+            }
+          }
+        ]
+      }) }}
+
+
+      {# change destination #}
+      {% set newDestinationHtml %}
+      {{ govukInput({
+        label: {
+          html: '<span class="govuk-!-font-weight-bold">Destination</span>' +
+            '<br>Please enter your prefered destination'
+        },
+        id: "destination",
+        name: "destination",
+        hint: {
+          text: "For example, Euston train station"
+        },
+        value: expense['destination'],
+        classes: "govuk-!-width-one-half",
+        errorMessage: errors | findError('destination')
+      }) }}
+      {% endset -%}
+      {% set postcodeHtml %}
+      {{ govukInput({
+        label: {
+          text: "Postcode (optional)",
+          classes: "govuk-!-font-weight-bold"
+        },
+        id: "PostCode",
+        name: "PostCode",
+        value: expense['PostCode'],
+        classes: "govuk-!-width-one-half",
+        errorMessage: errors | findError('PostCode')
+      }) }}
+      {% endset -%}
+      {{ govukCheckboxes({
+        idPrefix: "new-destination",
+        name: "new-destination",
+        items: [
+          {
+            value: "on",
+            checked: expense['new-destination'],
+            text: "Change the Destination of your Journey",
+            conditional: {
+              html: newDestinationHtml + postcodeHtml
+            }
+          }
+        ]
+      }) }}
+
 
       {% if not carOnly %}
-      <p>
-        You can also claim for parking, and tolls for bridges or tunnels.
-      </p>
+
+        {# add toll charge #}
+        {% set tollCostHtml %}
+        {{ govukInput({
+          id: "toll-cost",
+          name: "toll-cost",
+          value: expense['toll-cost'],
+          label: {
+            text: "Estimated cost" if isAdvanceClaim else "Cost"
+          },
+          prefix: {
+            text: "£"
+          },
+          classes: "govuk-input--width-5",
+          spellcheck: false,
+          errorMessage: errors | findError('toll-cost')
+        }) }}
+        {% endset -%}
+        {{ govukCheckboxes({
+          idPrefix: "toll",
+          name: "toll",
+          items: [
+            {
+              value: "yes",
+              checked: expense['toll'],
+              text: "Add toll charge (bridges or tunnels only)",
+              conditional: {
+                html: tollCostHtml
+              }
+            }
+          ]
+        }) }}
+
+        {# add parking cost #}
+        {% set parkingChargeHtml %}
+        {{ govukInput({
+          id: "parking-charge-cost",
+          name: "parking-charge-cost",
+          value: expense['parking-charge-cost'],
+          label: {
+            text: "Estimated cost" if isAdvanceClaim else "Cost"
+          },
+          prefix: {
+            text: "£"
+          },
+          classes: "govuk-input--width-5",
+          spellcheck: false,
+          errorMessage: errors | findError('parking-charge-cost')
+        }) }}
+        {% endset -%}
+        {{ govukCheckboxes({
+          idPrefix: "parking-charge",
+          name: "parking-charge",
+          items: [
+            {
+              value: "yes",
+              checked: expense['parking-charge'],
+              text: "Add parking charge",
+              conditional: {
+                html: parkingChargeHtml
+              }
+            }
+          ]
+        }) }}
       {% endif %}
 
-      <p>
-        You are allowed one car journey per claim
-      </p>
+      {% include "partials/csrf-hidden-input.html" %}
 
-      <form action="/apply/eligibility/claim/car{{ params }}"
-            method="post">
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-        <div class="form-group hide-border">
-          <label class="form-label-bold" for="from">From</label>
-          <input id="from"
-                 type="text"
-                 autocomplete="off"
-                 name="from"
-                 value="{{ expense['from'] }}"
-                 class="form-control"
-                 readonly>
-        </div>
+    <a href="{{ redirectUrl }}">Remove this journey</a>
 
-        <div class="form-group hide-border">
-          <label class="form-label-bold" for="to-display">To</label>
-          <input id="to-display"
-                 name="to-display"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ displayHelper.getPrisonDisplayName(expense['to']) }}"
-                 readonly>
-          <input id="to"
-                 type="hidden"
-                 name="to"
-                 value="{{ expense['to'] }}">
-        </div>
-
-        <div class="form-group">
-          <div class="multiple-choice" data-target="new-origin-details">
-            <input id="new-origin" type="checkbox" name="new-origin" {% if expense['new-origin'] %}checked{% endif %}>
-            <label for="new-origin" class="block-label selection-button-checkbox">
-              Change the Starting Point of your Journey
-            </label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="multiple-choice" data-target="new-destination-details">
-            <input id="new-destination" type="checkbox" name="new-destination" {% if expense['new-destination'] %}checked{% endif %}>
-            <label for="new-destination" class="block-label selection-button-checkbox">
-              Change the Destination of your Journey
-            </label>
-          </div>
-        </div>
-
-        <div id="new-origin-details" class="panel panel-border-narrow js-hidden">
-          <span class="text-secondary">Please enter your prefered journey starting point</span>
-          <br>
-          <br>
-
-          <div class="form-group {% if errors['origin'][0] %} error {% endif %}">
-            <label id="origin" for="origin-input" class="form-label-bold">Starting point</label>
-
-            {% if errors['origin'][0] %}
-              <span class="error-message">{{ errors['origin'][0] }}</span>
-            {% endif %}
-            <p class="form-hint">For example, 123 Street Name, Town, County</p>
-            <input id="origin-input"
-                   type="text"
-                   name="origin"
-                   autocomplete="off"
-                   value="{{ expense['origin'] }}"
-                   class="form-control">
-          </div>
-
-          <div class="form-group {% if errors['FromPostCode'][0] %} error {% endif %}">
-            <label id="FromPostCode" for="from-postcode-input" class="form-label-bold">Postcode</label>
-
-            {% if errors['FromPostCode'][0] %}
-              <span class="error-message">{{ errors['FromPostCode'][0] }}</span>
-            {% endif %}
-            <input id="from-postcode-input"
-                   type="text"
-                   name="FromPostCode"
-                   autocomplete="off"
-                   value="{{ expense['FromPostCode'] }}"
-                   class="form-control">
-          </div>
-        </div>
-
-
-        <div id="new-destination-details" class="panel panel-border-narrow js-hidden">
-          <span class="text-secondary">Please enter your prefered destination</span>
-          <br>
-          <br>
-
-          <div class="form-group {% if errors['destination'][0] %} error {% endif %}">
-            <label id="destination" for="destination-input" class="form-label-bold">Destination</label>
-
-            {% if errors['destination'][0] %}
-              <span class="error-message">{{ errors['destination'][0] }}</span>
-            {% endif %}
-            <p class="form-hint">For example, Euston train station</p>
-            <input id="destination-input"
-                   type="text"
-                   name="destination"
-                   autocomplete="off"
-                   value="{{ expense['destination'] }}"
-                   class="form-control">
-          </div>
-
-          <div class="form-group {% if errors['PostCode'][0] %} error {% endif %}">
-            <label id="PostCode" for="postcode-input" class="form-label-bold">Postcode (optional)</label>
-
-            {% if errors['PostCode'][0] %}
-              <span class="error-message">{{ errors['PostCode'][0] }}</span>
-            {% endif %}
-            <input id="postcode-input"
-                   type="text"
-                   name="PostCode"
-                   autocomplete="off"
-                   value="{{ expense['PostCode'] }}"
-                   class="form-control">
-          </div>
-        </div>
-
-        {% if not carOnly %}
-        <fieldset>
-          <legend class="hidden">Parking and Toll charges</legend>
-          <div class="multiple-choice" data-target="toll-question">
-            <input id="toll" type="checkbox" name="toll" value="yes" {% if expense['toll'] == 'yes' %} checked {% endif %}>
-            <label for="toll" class="block-label">
-              Add toll charge (bridges or tunnels only)
-            </label>
-          </div>
-
-          <div id="toll-question" class="panel panel-border-narrow {% if errors['toll-cost'][0] %} error {% else %} js-hidden {% endif %}">
-            <label id="toll-cost" for="toll-cost-input" class="form-label">{% if isAdvanceClaim %}Estimated cost{% else %}Cost{% endif %}</label>
-
-            {% if errors['toll-cost'][0] %}
-              <span class="error-message">{{ errors['toll-cost'][0] }}</span>
-            {% endif %}
-            <div class="pound-wrapper">
-              <span>£</span>
-              <input id="toll-cost-input"
-                     type="text"
-                     autocomplete="off"
-                     name="toll-cost"
-                     value="{{ expense['toll-cost'] }}"
-                     class="form-control">
-            </div>
-          </div>
-
-          <div class="multiple-choice" data-target="parking-charge-question">
-            <input id="parking-charge" type="checkbox" name="parking-charge"value="yes" {% if expense['parking-charge'] == 'yes' %} checked {% endif %}>
-            <label for="parking-charge" class="block-label"> 
-              Add parking charge
-            </label>
-          </div>
-
-          <div id="parking-charge-question"
-               class="panel panel-border-narrow {% if errors['parking-charge-cost'][0] %} error {% else %} js-hidden {% endif %}">
-
-            <label id="parking-charge-cost" for="parking-charge-cost-input" class="form-label">{% if isAdvanceClaim %}Estimated cost{% else %}Cost{% endif %}</label>
-
-            {% if errors['parking-charge-cost'][0] %}
-              <span class="error-message">{{ errors['parking-charge-cost'][0] }}</span>
-            {% endif %}
-            <div class="pound-wrapper">
-              <span>£</span>
-              <input id="parking-charge-cost-input"
-                     type="text"
-                     autocomplete="off"
-                     name="parking-charge-cost"
-                     value="{{ expense['parking-charge-cost'] }}"
-                     class="form-control">
-            </div>
-          </div>
-
-        </fieldset>
-        {% endif %}
-
-        <br/>
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="car-details-submit"
-               type="submit"
-               class="button"
-               value="Continue"
-               data-cy="submit">
-      </form>
-
-      <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
-
-    </div>
   </div>
-
-</main>
+</div>
 
 {% endblock %}
