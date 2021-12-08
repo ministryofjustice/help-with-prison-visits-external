@@ -1,111 +1,110 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-Payment details and declaration - {{ serviceName }}
+{% block pageTitle %}
+{% if errors %}Error: {% endif %}Payment details and declaration - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      Bank Account Details
+    </h1>
 
-  {% include "includes/validation-error-messages.html" %}
+    <form action="/apply/eligibility/claim/bank-payment-details?isAdvance={{ isAdvance }}" method="post">
 
-  <h1 class="heading-large">
-    Bank Account Details
-  </h1>
+      {{ govukInput({
+        label: {
+          text: "Name on the account"
+        },
+        classes: "govuk-!-width-one-half",
+        id: "NameOnAccount",
+        name: "NameOnAccount",
+        value: paymentDetails['NameOnAccount'],
+        autocomplete: "name",
+        spellcheck: false,
+        attributes: {
+          "data-cy": "name-on-account"
+        },
+        errorMessage: errors | findError('NameOnAccount')
+      }) }}
 
-  <form action="/apply/eligibility/claim/bank-payment-details?isAdvance={{ isAdvance }}" method="post">
+      {{ govukInput({
+        label: {
+          text: "Sort code"
+        },
+        classes: "govuk-input--width-5",
+        hint: {
+          text: "Must be 6 digits long"
+        },
+        id: "SortCode",
+        name: "SortCode",
+        value: paymentDetails['SortCode'],
+        inputmode: "numeric",
+        pattern: "[0-9]*",
+        spellcheck: false,
+        attributes: {
+          "data-cy": "sort-code"
+        },
+        errorMessage: errors | findError('SortCode')
+      }) }}
 
-    <div class="grid-row">
-      <div class="column-two-thirds">
+      {{ govukInput({
+        label: {
+          text: "Account number"
+        },
+        classes: "govuk-input--width-10",
+        hint: {
+          text: "Must be 8 digits long"
+        },
+        id: "AccountNumber",
+        name: "AccountNumber",
+        value: paymentDetails['AccountNumber'],
+        inputmode: "numeric",
+        pattern: "[0-9]*",
+        spellcheck: false,
+        attributes: {
+          "data-cy": "account-number"
+        },
+        errorMessage: errors | findError('AccountNumber')
+      }) }}
 
-        {% if errors['PaymentMethod'][0] %}
-        <span class="error-message" id="error-message-payment-method">{{ errors['PaymentMethod'][0] }}</span>
-        {% endif %}
+      {{ govukInput({
+        label: {
+          text: "Building society roll number (if you have one)"
+        },
+        classes: "govuk-input--width-10",
+        hint: {
+          text: "You can find it on your card, statement or passbook"
+        },
+        id: "RollNumber",
+        name: "RollNumber",
+        value: paymentDetails['RollNumber'],
+        spellcheck: false,
+        attributes: {
+          "data-cy": "roll-number"
+        },
+        errorMessage: errors | findError('RollNumber')
+      }) }}
 
-        <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
-          <fieldset>
+      <a href="/apply/eligibility/claim/payout-confirmation?isAdvance={{ isAdvance }}" id="switchToVoucher" name="switchToVoucher" class="govuk-!-font-size-24" data-cy="voucher">Receive a cash voucher sent by post instead</a>
+      <br><br>
 
-              <div id="bank-details">
+      {% include "partials/csrf-hidden-input.html" %}
 
-                <div class="form-group {% if errors['NameOnAccount'][0] %} error {% endif %}">
-                  <label id="NameOnAccount" class="form-label-bold" for="name-on-account">Name on the account</label>
-                  {% if errors['NameOnAccount'][0] %}
-                  <span class="error-message" id="error-message-name-on-account">{{ errors['NameOnAccount'][0] }}</span>
-                  {% endif %}
-                  <input id="name-on-account-input"
-                         name="NameOnAccount"
-                         type="text"
-                         autocomplete="off"
-                         class="form-control full"
-                         value="{{ paymentDetails['NameOnAccount'] }}"
-                         data-cy="name-on-account">
-                </div>
-
-                <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
-                  <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort code</label>
-                  <p class="form-hint">Must be 6 digits long</p>
-                  {% if errors['SortCode'][0] %}
-                  <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
-                  {% endif %}
-                  <input id="sort-code-input"
-                         name="SortCode"
-                         type="text"
-                         autocomplete="off"
-                         class="form-control form-control-1-4"
-                         value="{{ paymentDetails['SortCode'] }}"
-                         data-cy="sort-code">
-                </div>
-
-                <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
-                  <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account number</label>
-                  <p class="form-hint">Must be 8 digits long</p>
-                  {% if errors['AccountNumber'][0] %}
-                  <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
-                  {% endif %}
-                  <input id="account-number-input"
-                         name="AccountNumber"
-                         type="text"
-                         autocomplete="off"
-                         class="form-control"
-                         value="{{ paymentDetails['AccountNumber'] }}"
-                         data-cy="account-number">
-                </div>
-
-                <div class="form-group {% if errors['RollNumber'][0] %} error {% endif %}">
-                  <label id="RollNumber" class="form-label-bold" for="roll-number-input">Building society roll number (if you have one)</label>
-                  <p class="form-hint">You can find it on your card, statement or passbook</p>
-                  {% if errors['RollNumber'][0] %}
-                  <span class="error-message" id="error-message-roll-number">{{ errors['RollNumber'][0] }}</span>
-                  {% endif %}
-                  <input id="roll-number-input"
-                         name="RollNumber"
-                         type="text"
-                         autocomplete="off"
-                         class="form-control"
-                         value="{{ paymentDetails['RollNumber'] }}"
-                         data-cy="roll-number">
-                </div>
-              </div>
-
-              <a href="/apply/eligibility/claim/payout-confirmation?isAdvance={{ isAdvance }}" id="switchToVoucher" name="switchToVoucher" class="link voucher" data-cy="voucher">Receive a cash voucher sent by post instead</a>
-
-          </fieldset>
-        </div>
-      </div>
-    </div>
-
-    {% include "partials/csrf-hidden-input.html" %}
-
-    <input id="bank-payment-submit"
-           type="submit"
-           class="button"
-           value="Continue"
-           data-cy="submit">
-  </form>
-
-</main>
-
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
+  </div>
+</div>
 {% endblock %}
