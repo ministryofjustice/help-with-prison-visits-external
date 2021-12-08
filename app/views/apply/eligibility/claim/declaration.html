@@ -1,74 +1,73 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-Declaration - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Declaration - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+{% include "includes/validation-error-messages-new.html" %}
 
-<main id="content" role="main">
+<h1 class="govuk-heading-l">
+  Declaration
+</h1>
 
-  {% include "includes/phase_banner_beta.html" %}
+<form action="/apply/eligibility/claim/declaration?isAdvance={{ isAdvance }}&paymentMethod={{ paymentMethod }}" method="post">
 
-  {% include "includes/validation-error-messages.html" %}
-
-  <h1 class="heading-large">
-    Declaration
-  </h1>
-
-  <form action="/apply/eligibility/claim/declaration?isAdvance={{ isAdvance }}&paymentMethod={{ paymentMethod }}" method="post">
-
-    {% if isAdvance == 'true' %}
-      <p>I declare that:</p>
-      <ul class="list list-bullet">
-        <li>The information I have given is true to the best of my knowledge</li>
-        <li>The evidence I’ve given is genuine and the most recent version</li>
-        <li>Any money or tickets I receive for a visit will only be used by
-        myself, on the date claimed for</li>
-        <li>If I do not use the tickets or money I will return them to
-          Help With Prison Visits (HWPV)</li>
-        <li>As this is an advance claim I will submit receipts and a visit
-          confirmation form within 28 days</li>
-        <li>I authorise the APVU to make any necessary checks with the
-          Department for Work and Pensions (DWP)</li>
-        <li>I understand that a false declaration may lead to prosecution and
-          a ban from claiming again</li>
-        <li>I agree to the terms of service as documented in the <a href="/privacy" target="_blank">terms and conditions</a></li>
-      </ul>
-    {% else %}
-      <p>I declare that:</p>
-      <ul class="list list-bullet">
-        <li>The information I have given is true to the best of my knowledge </li>
-        <li>The evidence I’ve given is genuine and the most recent version</li>
-        <li>I authorise the APVU to make any necessary checks with the
+  {% if isAdvance == 'true' %}
+    <p>I declare that:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>The information I have given is true to the best of my knowledge</li>
+      <li>The evidence I’ve given is genuine and the most recent version</li>
+      <li>Any money or tickets I receive for a visit will only be used by
+      myself, on the date claimed for</li>
+      <li>If I do not use the tickets or money I will return them to
+        Help With Prison Visits (HWPV)</li>
+      <li>As this is an advance claim I will submit receipts and a visit
+        confirmation form within 28 days</li>
+      <li>I authorise the APVU to make any necessary checks with the
         Department for Work and Pensions (DWP)</li>
-        <li>I understand that a false declaration may lead to prosecution and
+      <li>I understand that a false declaration may lead to prosecution and
         a ban from claiming again</li>
-        <li>I agree to the terms of service as documented in the <a href="/privacy" target="_blank">terms and conditions</a></li>
-      </ul>
-    {% endif %}
+      <li>I agree to the terms of service as documented in the <a href="/privacy" target="_blank">terms and conditions</a></li>
+    </ul>
+  {% else %}
+    <p>I declare that:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>The information I have given is true to the best of my knowledge </li>
+      <li>The evidence I’ve given is genuine and the most recent version</li>
+      <li>I authorise the APVU to make any necessary checks with the
+      Department for Work and Pensions (DWP)</li>
+      <li>I understand that a false declaration may lead to prosecution and
+      a ban from claiming again</li>
+      <li>I agree to the terms of service as documented in the <a href="/privacy" target="_blank">terms and conditions</a></li>
+    </ul>
+  {% endif %}
 
-    <div id="terms-and-conditions" class="form-group{% if errors['terms-and-conditions'][0] %} error {% endif %}">
-      {% if errors['terms-and-conditions'][0] %}
-      <span class="error-message" id="error-message-terms-an-conditions">{{ errors['terms-and-conditions'][0] }}</span>
-      {% endif %}        
-      <div class="multiple-choice">
-        <input id="terms-and-conditions-input" type="checkbox" name="terms-and-conditions-input" {% if bankDetails['tAndC'] %} checked {% endif %} value="yes" data-cy="terms-and-conditions">
-        <label for="terms-and-conditions-input" class="block-label">
-          <strong class="bold-small"> I agree to the declaration</strong>
-        </label>
-      </div>
-    </div>
+  {{ govukCheckboxes({
+    idPrefix: "terms-and-conditions-input",
+    name: "terms-and-conditions-input",
+    items: [
+      {
+        value: "yes",
+        html: '<span class="govuk-!-font-weight-bold">I agree to the declaration</span>',
+        attributes: {
+          "data-cy": "terms-and-conditions"
+        }
+      }
+    ],
+    errorMessage: errors | findError('terms-and-conditions')
+  }) }}
 
-    {% include "partials/csrf-hidden-input.html" %}
+  {% include "partials/csrf-hidden-input.html" %}
 
-    <input id="claim-submit"
-           type="submit"
-           class="button"
-           value="Finish"
-           data-cy="submit">
-  </form>
-
-</main>
-
+  {{ govukButton({
+    text: "Finish",
+    preventDoubleClick: true,
+    attributes: {
+      "data-cy": "submit"
+    }
+  }) }}
+</form>
 {% endblock %}
