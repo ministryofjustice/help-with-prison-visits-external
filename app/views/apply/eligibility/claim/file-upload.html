@@ -1,96 +1,100 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Upload your documentation - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Upload your documentation - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
-<main id="content" role="main">
-  {% include "includes/phase_banner_beta.html" %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+  {% include "includes/validation-error-messages.html" %}
 
-    {% include "includes/validation-error-messages.html" %}
+    <h1 class="govuk-heading-l">
+    {{ fileUploadGuidingText[document].title }}
+    </h1>
+    <p>{{ fileUploadGuidingText[document].guidingText }}</p>
+    {% if fileUploadGuidingText[document].displayDataProtection %}
+    <p>
+      We ask you to provide this information in order to assess your eligibility to apply for financial assistance. The information you provide will be managed in accordance with our <a href="/privacy">terms and conditions</a>.
+    </p>
+    {% endif %}
 
-      <h1 class="heading-large">
-      {{ fileUploadGuidingText[document].title }}
-      </h1>
-      <p>{{ fileUploadGuidingText[document].guidingText }}</p>
-      {% if fileUploadGuidingText[document].displayDataProtection %}
-      <p>
-        We ask you to provide this information in order to assess your eligibility to apply for financial assistance. The information you provide will be managed in accordance with our <a href="/privacy">terms and conditions</a>.
-      </p>
-      {% endif %}
-
-      <h2 id="upload" class="heading-medium">Upload now</h2>
-      <p>Your claim will be processed faster if you upload your document.</p>
-      <form action="{{ URL }}" method="post" class="form" enctype="multipart/form-data">
+    <h2 id="upload" class="govuk-heading-m">Upload now</h2>
+    <p>Your claim will be processed faster if you upload your document.</p>
+    <form action="{{ URL }}" method="post" class="form" enctype="multipart/form-data">
 
       {% include "partials/csrf-hidden-input.html" %}
+      <div>
         <div>
-          <div>
-            <p id='document-name' class="column-two-quarter"></p>
-            <a id="remove-file-upload" class="link pull-right remove-upload" href="{{ URL }}">remove</a>
-          </div>
-          <div>
-              <input id="document" type="file" name="document" class="inputfile"/>
-              <label id="label" class="custom-file-upload" for="document">Choose File</label>
-          </div>
-
+          <p id='document-name' class="govuk-!-width-three-quarters"></p>
+          <a id="remove-file-upload" class="remove-upload" href="{{ URL }}">remove</a>
         </div>
-        <br>
-        <div class="form-group">
-          <details>
-            <summary><span class="summary">How to upload a file</span>
-              <span class="visually-hidden">If using a screen reader such as JAWS if having difficulty accessing this list then try pressing control + space to expand the list then L + down to read list items</span>
-            </summary>
-            <div class="panel panel-border-narrow">
-              <ul class="list list-number">
-                <li>Take a photo using your smartphone, tablet or camera, or scan the document</li>
-                <li>Transfer the image to your computer or the device you’re using to make the claim</li>
-                <li>Go to ‘choose file’ above and find the image</li>
-              </ul>
-            </div>
-          </details>
+        <div>
+          <label id="label" class="custom-file-uploadx govuk-label" for="document">Upload a file</label>
+          <input id="document" type="file" name="document" class="inputfilex govuk-file-upload"/>
         </div>
+      </div>
 
-        <div id="alternative" class="form-group" {% if hideAlternative %} hidden {% endif %}>
-          <br>
-          <h3 class="heading-small">Can’t upload now?</h3>
+      <br>
 
-          <fieldset>
-            <legend class="visually-hidden">Choose alternative option to upload</legend>
-            <div class="multiple-choice">
-              <input type="radio" name="alternative" value="post-later" id="Post" data-cy="post">
-              <label for="Post" class="block-label">
-                <strong class="bold-small">Send by post</strong>
-                <br>It will take 10 or more days longer to process your claim
-              </label>
-            </div>
+      {{ govukDetails({
+        summaryText: "How to upload a file",
+        html:
+          '<ul class="govuk-list govuk-list--number">
+            <li>Take a photo using your smartphone, tablet or camera, or scan the document</li>
+            <li>Transfer the image to your computer or the device you’re using to make the claim</li>
+            <li>Go to ‘choose file’ above and find the image</li>
+          </ul>'
+      }) }}
 
-            <div class="multiple-choice">
-              <input type="radio" name="alternative" value="upload-later" id="UploadLater" data-cy="upload-later">
-              <label for="UploadLater" class="block-label">
-                <strong class="bold-small">Upload later</strong>
-                <br> You will get a reference number allowing you to return and complete your application
-              </label>
-            </div>
+      <div id="alternative" {% if hideAlternative %} hidden {% endif %}>
+        {{ govukRadios({
+          idPrefix: "alternative",
+          name: "alternative",
+          fieldset: {
+            legend: {
+              text: "Can’t upload now?",
+              classes: "govuk-fieldset__legend--s"
+            }
+          },
+          items: [
+            {
+              value: "post-later",
+              text: "Send by post",
+              hint: {
+                text: "It will take 10 or more days longer to process your claim"
+              },
+              attributes: {
+                "data-cy": "post"
+              }
+            },
+            {
+              value: "upload-later",
+              text: "Upload later",
+              hint: {
+                text: "You will get a reference number allowing you to return and complete your application"
+              },
+              attributes: {
+                "data-cy": "upload-later"
+              }
+            }
+          ]
+        }) }}
+      </div>
 
-          </fieldset>
-        </div>
-
-        <div class="form-group">
-          <input id="file-upload-submit"
-                 type="submit"
-                 name="commit"
-                 value="Continue"
-                 class="button"
-                 data-cy="submit">
-        </div>
-      </form>
-      <a href="{{ yourClaimUrl }}" class="link">Cancel and return to your claim</a>
-    </div>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
+    <a href="{{ yourClaimUrl }}">Cancel and return to your claim</a>
   </div>
-</main>
+</div>
 {% endblock %}

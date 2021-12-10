@@ -3,7 +3,7 @@ $('#document').change(function () {
   if (document) {
     $('#alternative').hide()
     $('#document-name').html(document).addClass('text-success')
-    $('#choose-file').hide()
+    $('#document').hide()
     $('#label').hide()
     $('#remove-file-upload').show()
   }
