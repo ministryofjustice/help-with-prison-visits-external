@@ -1,59 +1,54 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Summary of your claim - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Summary of your claim - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+{% include "includes/validation-error-messages-new.html" %}
 
-<main id="content" role="main">
+<h1 class="govuk-heading-l">
+  Your claim
+</h1>
 
-  {% include "includes/phase_banner_beta.html" %}
+<p>Add evidence to support your claim, and check that everything is correct.</p>
 
-  {% include "includes/validation-error-messages.html" %}
+{% include "partials/claim-summary/claim-summary-visitor.html" %}
 
-  <h1 class="heading-large">
-    Your claim
-  </h1>
+{% include "partials/claim-summary/claim-summary-eligible-children.html" %}
 
-  <p>Add evidence to support your claim, and check that everything is correct.</p>
+<h2 class="govuk-heading-m govuk-!-margin-top-7">Your visit</h2>
 
-  {% include "partials/claim-summary/claim-summary-visitor.html" %}
+{% include "partials/claim-summary/claim-summary-visit.html" %}
 
-  {% include "partials/claim-summary/claim-summary-eligible-children.html" %}
+<br>
 
-  <h2 class="heading-medium">Your visit</h2>
+{% include "partials/claim-summary/claim-summary-expenses.html" %}
 
-  {% include "partials/claim-summary/claim-summary-visit.html" %}
+<br>
+{% if not claimDetails.claimExpenses[0] %}
+  <span class="govuk-error-message" id="error-message-no-expenses">{{ errors['claim-expense'][0] }}</span>
+{% endif %}
+<a href="/apply/eligibility/claim/expenses">Add another expense</a>
 
-  <br>
+<br>
+<br>
+<br>
 
-  {% include "partials/claim-summary/claim-summary-expenses.html" %}
+<form action="/apply/eligibility/claim/summary" method="post">
 
-  <br>
-  {% if not claimDetails.claimExpenses[0] %}
-    <span class="error-message" id="error-message-no-expenses">{{ errors['claim-expense'][0] }}</span>
-  {% endif %}
-  <a href="/apply/eligibility/claim/expenses" class="link">Add another expense</a>
+  <div class="form-group">
+    {% include "partials/csrf-hidden-input.html" %}
 
-  <br>
-  <br>
-  <br>
+    {{ govukButton({
+      text: "Continue",
+      preventDoubleClick: true,
+      attributes: {
+        "data-cy": "submit"
+      }
+    }) }}
+  </div>
 
-  <form action="/apply/eligibility/claim/summary" method="post" class="form">
-
-    <div class="form-group">
-      {% include "partials/csrf-hidden-input.html" %}
-
-      <input id="claim-summary-submit"
-             type="submit"
-             value="Continue"
-             class="button"
-             data-cy="submit">
-    </div>
-
-  </form>
-
-</main>
-
+</form>
 {% endblock %}

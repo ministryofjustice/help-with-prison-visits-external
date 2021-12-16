@@ -1,57 +1,51 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Enter your bus journey details - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter your bus journey details - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      Your bus journey
+    </h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <form action="/apply/eligibility/claim/bus{{ params }}"
+          method="post">
+      {% include "partials/expenses/ticket-owner.html" %}
 
-      {% include "includes/validation-error-messages.html" %}
+      {% set exampleFrom = 'Euston' %}
+      {% include "partials/expenses/from.html" %}
 
-      <h1 class="heading-large">
-        Your bus journey
-      </h1>
+      {% set exampleTo = 'Birmingham New Street' %}
+      {% include "partials/expenses/to.html" %}
 
-      <form action="/apply/eligibility/claim/bus{{ params }}"
-            method="post">
-        {% include "partials/expenses/ticket-owner.html" %}
+      {% include "partials/expenses/return-journey.html" %}
 
-        {% set exampleFrom = 'Euston' %}
-        {% include "partials/expenses/from.html" %}
+      {% set costExample = 20 %}
+      {% include "partials/expenses/cost.html" %}
 
-        {% set exampleTo = 'Birmingham New Street' %}
-        {% include "partials/expenses/to.html" %}
+      {% set journeyType = 'bus' %}
+      {% include "partials/expenses/add-another-journey.html" %}
 
-        {% include "partials/expenses/return-journey.html" %}
+      {% include "partials/csrf-hidden-input.html" %}
 
-        {% set costExample = 20 %}
-        {% include "partials/expenses/cost.html" %}
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-        {% set journeyType = 'bus' %}
-        {% include "partials/expenses/add-another-journey.html" %}
+    <a href="{{ redirectUrl }}">Remove this journey</a>
 
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="bus-details-submit"
-               type="submit"
-               class="button"
-               value="Continue"
-               data-cy="submit">
-      </form>
-
-      <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}

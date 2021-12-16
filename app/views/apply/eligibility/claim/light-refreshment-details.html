@@ -1,53 +1,47 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Enter your light refreshment details - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter your light refreshment details - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      Light refreshments
+    </h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <p>If you were away from home for more than 5 hours you may get a contribution for food and drink.</p>
 
-      {% include "includes/validation-error-messages.html" %}
+    <p>There’s a limit of £2.55 per person for trips over 5 hours and £5.10 for trips over 10 hours.</p>
 
-      <h1 class="heading-large">
-        Light refreshments
-      </h1>
+    <p>Give the total for every person you are claiming for.</p>
 
-      <p>If you were away from home for more than 5 hours you may get a contribution for food and drink.</p>
+    <form action="/apply/eligibility/claim/refreshment{{ params }}"
+          method="post">
 
-      <p>There’s a limit of £2.55 per person for trips over 5 hours and £5.10 for trips over 10 hours.</p>
+      {% set costExample = 2.55 %}
+      {% include "partials/expenses/cost.html" %}
 
-      <p>Give the total for every person you are claiming for.</p>
+      <p>Keep receipts as you may need to show them later on.<p>
 
-      <form action="/apply/eligibility/claim/refreshment{{ params }}"
-            method="post">
+      {% include "partials/csrf-hidden-input.html" %}
 
-        {% set costExample = 2.55 %}
-        {% include "partials/expenses/cost.html" %}
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-        <p>Keep receipts as you may need to show them later on.<p>
+    <a href="{{ redirectUrl }}">Remove this expense</a>
 
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="light-refreshment-details-submit"
-               type="submit"
-               value="Continue"
-               class="button"
-               data-cy="submit">
-      </form>
-
-      <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this expense</a>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}

@@ -1,178 +1,197 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  What expenses are you claiming for - {{ serviceName }}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}What expenses are you claiming for - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="grid-row">
+  <div class="column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    {% if isAdvanceClaim %}
+      <h1 class="govuk-heading-l">
+        What kind of transport will you use?
+      </h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+      <p>If your application’s approved you will be sent train tickets or money to cover for expenses. Tickets will be the cheapest available for the time of day.</p>
 
-      {% include "includes/validation-error-messages.html" %}
+    {% else %}
+      <h1 class="govuk-heading-l">
+        What kind of transport did you use?
+      </h1>
 
-      {% if isAdvanceClaim %}
-        <h1 class="heading-large">
-          What kind of transport will you use?
-        </h1>
+      <p>You can select more than one. You will need to show us receipts or tickets
+        for all parts of the journey, except for car or motorcycle travel.</p>
+    {% endif %}
 
-        <p>If your application’s approved you will be sent train tickets or money to cover for expenses. Tickets will be the cheapest available for the time of day.</p>
+    <form action="/apply/eligibility/claim/expenses" method="post">
 
-      {% else %}
-        <h1 class="heading-large">
-          What kind of transport did you use?
-        </h1>
+      {% if not isNorthernIrelandClaim %}
+        {{ govukCheckboxes({
+          idPrefix: "expenses",
+          name: "expenses",
+          fieldset: {
+            legend: {
+              text: "Travel"
+            }
+          },
+          items: [
+            {
+              value: "car",
+              text: "Car or motorcycle",
+              attributes: {
+                "data-cy": "car"
+              }
+            },
+            {
+              value: "train",
+              text: "Train",
+              attributes: {
+                "data-cy": "train"
+              }
+            },
+            {
+              value: "bus",
+              text: "Bus",
+              attributes: {
+                "data-cy": "bus"
+              }
+            },
+            {
+              value: "hire",
+              text: "Car hire",
+              attributes: {
+                "data-cy": "hire"
+              }
+            },
+            {
+              value: "taxi",
+              text: "Taxi",
+              attributes: {
+                "data-cy": "taxi"
+              }
+            },
+            {
+              value: "ferry",
+              text: "Ferry",
+              attributes: {
+                "data-cy": "ferry"
+              }
+            },
+            {
+              value: "plane",
+              text: "Plane",
+              attributes: {
+                "data-cy": "plane"
+              }
+            }
+          ]
+        }) }}
 
-        <p>You can select more than one. You will need to show us receipts or tickets
-          for all parts of the journey, except for car or motorcycle travel.</p>
-      {% endif %}
-
-      <form action="/apply/eligibility/claim/expenses" method="post">
-        <div class="form-group">
-
-        {% if not isNorthernIrelandClaim %}
-          <fieldset>
-            <legend class="hidden">Travel</legend>
-            <div class="multiple-choice">
-              <input id="car" type="checkbox" name="expenses" value="car" data-cy="car">
-              <label for="car" class="block-label">
-                Car or motorcycle
-              </label>
-            </div>
-            
-            <div class="multiple-choice">
-              <input id="train" type="checkbox" name="expenses" value="train" data-cy="train">
-              <label for="train" class="block-label">
-                Train
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="bus" type="checkbox" name="expenses" value="bus" data-cy="bus">
-              <label for="bus" class="block-label">
-                Bus
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="hire" type="checkbox" name="expenses" value="hire" data-cy="hire">
-              <label for="hire" class="block-label">
-                Car hire
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="taxi" type="checkbox" name="expenses" value="taxi" data-cy="taxi">
-              <label for="taxi" class="block-label">  
-                Taxi
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="ferry" type="checkbox" name="expenses" value="ferry" data-cy="ferry">
-              <label for="ferry" class="block-label">
-                Ferry
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="plane" type="checkbox" name="expenses" value="plane" data-cy="plane">
-              <label for="plane" class="block-label">
-                Plane
-              </label>
-            </div>
-
-          </fieldset>
-
-          {% if isAdvanceClaim %}
-            <h2 class="heading-medium">
-              Will you have any other expenses?
-            </h2>
-          {% else %}
-            <h2 class="heading-medium">
-              Did you have any other expenses?
-            </h2>
-          {% endif %}
-
-          <p>You may be able to get help paying for light refreshments and accommodation.</p>
-
-          <fieldset>
-            <legend class="hidden">Other</legend>
-            <div class="multiple-choice">
-              <input id="refreshment" type="checkbox" name="expenses" value="refreshment" data-cy="refreshment">
-              <label for="refreshment" class="block-label">
-                Light refreshment
-              </label>
-            </div>
-            
-            <div class="multiple-choice">
-              <input id="accommodation" type="checkbox" name="expenses" value="accommodation" data-cy="accommodation">
-              <label for="accommodation" class="block-label">
-                Accommodation
-              </label>
-            </div>
-
-          </fieldset>
+        {% if isAdvanceClaim %}
+          <h2 class="govuk-heading-m">
+            Will you have any other expenses?
+          </h2>
         {% else %}
-          <fieldset>
-            <legend class="hidden">Travel</legend>
-            
-            <div class="multiple-choice">
-              <input id="car-only" type="checkbox" name="expenses" value="car-only" data-cy="car-only">
-              <label for="car-only" class="block-label">
-                Car/Motorcycle
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="train" type="checkbox" name="expenses" value="train" data-cy="train">
-              <label for="train" class="block-label">
-                Train (standard class)
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="bus" type="checkbox" name="expenses" value="bus" data-cy="bus">
-              <label for="bus" class="block-label">
-                Bus
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="taxi" type="checkbox" name="expenses" value="taxi" data-cy="taxi">
-              <label for="taxi" class="block-label">
-                Taxi
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="plane" type="checkbox" name="expenses" value="plane" data-cy="plane">
-              <label for="plane" class="block-label">
-                Plane
-              </label>
-            </div>
-
-          </fieldset>
+          <h2 class="govuk-heading-m">
+            Did you have any other expenses?
+          </h2>
         {% endif %}
 
-        </div>
+        <p>You may be able to get help paying for light refreshments and accommodation.</p>
 
-        {% include "partials/csrf-hidden-input.html" %}
+        {{ govukCheckboxes({
+          idPrefix: "otherExpenses",
+          name: "expenses",
+          fieldset: {
+            legend: {
+              text: "Other"
+            }
+          },
+          items: [
+            {
+              value: "refreshment",
+              text: "Light refreshment",
+              attributes: {
+                "data-cy": "refreshment"
+              }
+            },
+            {
+              value: "accommodation",
+              text: "Accommodation",
+              attributes: {
+                "data-cy": "accommodation"
+              }
+            }
+          ]
+        }) }}
 
-        <input id="expenses-submit"
-               type="submit"
-               class="button"
-               value="Continue"
-               data-cy="submit">
-      </form>
+      {% else %}
 
-    </div>
+        {{ govukCheckboxes({
+          idPrefix: "expenses",
+          name: "expenses",
+          fieldset: {
+            legend: {
+              text: "Travel"
+            }
+          },
+          items: [
+            {
+              value: "car-only",
+              text: "Car/Motorcycle",
+              attributes: {
+                "data-cy": "car-only"
+              }
+            },
+            {
+              value: "train",
+              text: "Train (standard class)",
+              attributes: {
+                "data-cy": "train"
+              }
+            },
+            {
+              value: "bus",
+              text: "Bus",
+              attributes: {
+                "data-cy": "bus"
+              }
+            },
+            {
+              value: "taxi",
+              text: "Taxi",
+              attributes: {
+                "data-cy": "taxi"
+              }
+            },
+            {
+              value: "plane",
+              text: "Plane",
+              attributes: {
+                "data-cy": "plane"
+              }
+            }
+          ]
+        }) }}
+      {% endif %}
+
+      {% include "partials/csrf-hidden-input.html" %}
+
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
+
   </div>
-
-</main>
-
+</div>
 {% endblock %}
