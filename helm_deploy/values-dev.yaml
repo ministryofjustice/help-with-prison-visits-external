@@ -7,7 +7,6 @@ generic-service:
     contextColour: green
   env:
     FEATURES_YCS_JOURNEY: 'true'
-    APVS_CLAM_AV_HOST: 'localhost'
 
   allowlist:
     office: "217.33.148.210/32"
