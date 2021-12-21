@@ -1,5 +1,4 @@
 const config = require('../../config')
-const Promise = require('bluebird').Promise
 const NodeClam = require('clamscan')
 const log = require('./log')
 
@@ -15,9 +14,8 @@ module.exports.scan = async function (filePath) {
       })
       clam.then(async clamscan => {
         try {
-          const {isInfected, file, viruses} = await clamscan.isInfected(filePath) //eslint-disable-line
-          log.info('clamav: File scanned')
-          return isInfected //eslint-disable-line
+          log.info('clamav: Scanning file')
+          return await clamscan.isInfected(filePath) //eslint-disable-line
         } catch (err) {
           log.error('Error thrown during clamav scan')
           log.error(err)
@@ -36,7 +34,7 @@ module.exports.scan = async function (filePath) {
         throw error
       }
     }
-  } else {
-    return Promise.resolve(false)
   }
+
+  return Promise.resolve(false)
 }
