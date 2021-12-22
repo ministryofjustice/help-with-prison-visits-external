@@ -7,6 +7,9 @@ generic-service:
     contextColour: green
   env:
     FEATURES_YCS_JOURNEY: 'true'
+    APVS_ZENDESK_ENABLED: 'true'
+    APVS_ZENDESK_TEST_ENVIRONMENT: 'true'
+    APVS_ZENDESK_API_URL: "https://test.zendesk.com"
 
   allowlist:
     office: "217.33.148.210/32"
