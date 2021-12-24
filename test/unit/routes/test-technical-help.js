@@ -19,12 +19,33 @@ describe('routes/help', function () {
 
   let app
   let technicalHelpStub
+  let configStub
+  let axiosStub
 
   beforeEach(function () {
     technicalHelpStub = sinon.stub()
+    axiosStub = {
+      post: sinon.stub().resolves({
+        status: 201,
+        data: {
+          ticket: {
+            id: '123'
+          }
+        }
+      })
+    }
+    configStub = {
+      ZENDESK_ENABLED: 'true',
+      ZENDESK_TEST_ENVIRONMENT: 'false',
+      ZENDESK_API_URL: 'http://test/',
+      ZENDESK_EMAIL_ADDRESS: 'nota@realem.mail',
+      ZENDESK_API_KEY: '123'
+    }
 
     const route = proxyquire('../../../app/routes/technical-help', {
-      '../services/domain/technical-help': technicalHelpStub
+      '../services/domain/technical-help': technicalHelpStub,
+      '../../config': configStub,
+      axios: axiosStub
     })
     app = routeHelper.buildApp(route)
   })
