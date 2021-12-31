@@ -14,7 +14,7 @@ describe('Smoke test', () => {
 
     cy.get('[data-cy=submit]').contains('Continue').click()
 
-    cy.title().should('eq', 'Return visitor sign in - Get help with the cost of prison visits')
+    cy.title().should('eq', 'Error: Return visitor sign in - Get help with the cost of prison visits')
     cy.contains('Could not find any claims for these details')
   })
 })
