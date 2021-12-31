@@ -23,10 +23,10 @@ try {
 
 module.exports.scan = async function (filePath) {
   if (config.ENABLE_MALWARE_SCANNING === 'true') {
-    clam.then(async clamscan => {
+    return clam.then(async clamscan => {
       try {
-        const {isInfected, file, viruses} = await clamscan.isInfected(filePath) //eslint-disable-line
-        return isInfected //eslint-disable-line
+        const { isInfected } = await clamscan.isInfected(filePath)
+        return Promise.resolve(isInfected)
       } catch (err) {
         log.error('Error thrown during clamav scan')
         log.error(err)
