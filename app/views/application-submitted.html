@@ -6,8 +6,8 @@ Application submitted - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
-<div class="grid-row">
-  <div class="column-two-thirds">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
     {{ govukPanel({
       titleText: "Application submitted",
@@ -29,7 +29,7 @@ Application submitted - {{ serviceName }}
     {% if advanceOrPast == 'advance' %}
       <p>If your application is approved you will receive:</p>
 
-      <ul class=" list list-bullet">
+      <ul class="govuk-list govuk-list--bullet">
         <li>a FastTicket reference number if you’ve chosen train travel</li>
         <li>money by your chosen method for other travel and expenses</li>
       </ul>
@@ -40,11 +40,11 @@ Application submitted - {{ serviceName }}
 
     {% endif %}
 
-    <div class="download-confirmation-form">
+    <div>
       <a href="https://www.gov.uk/government/publications/assisted-prison-visits-form">Download a confirmation of visit form</a>
     </div>
 
-    <div class="print-page">
+    <div>
       <a class="print-link" href="#">Print this page</a>
     </div>
   </div>

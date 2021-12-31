@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="grid-row">
-  <div class="column-two-thirds">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
   {% include "includes/validation-error-messages.html" %}
 
@@ -25,7 +25,7 @@
 
     <h2 id="upload" class="govuk-heading-m">Upload now</h2>
     <p>Your claim will be processed faster if you upload your document.</p>
-    <form action="{{ URL }}" method="post" class="form" enctype="multipart/form-data">
+    <form action="{{ URL }}" method="post" enctype="multipart/form-data">
 
       {% include "partials/csrf-hidden-input.html" %}
       <div>
@@ -34,8 +34,8 @@
           <a id="remove-file-upload" class="remove-upload" href="{{ URL }}">remove</a>
         </div>
         <div>
-          <label id="label" class="custom-file-uploadx govuk-label" for="document">Upload a file</label>
-          <input id="document" type="file" name="document" class="inputfilex govuk-file-upload"/>
+          <label id="label" class="govuk-label" for="document">Upload a file</label>
+          <input id="document" type="file" name="document" class="govuk-file-upload"/>
         </div>
       </div>
 
