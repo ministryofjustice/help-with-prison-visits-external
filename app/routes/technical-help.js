@@ -63,8 +63,9 @@ module.exports = function (router) {
 
             return res.redirect('/')
           })
-          .catch(function () {
+          .catch(function (error) {
             log.error(`Zendesk post failed. No ticket created for ref ${technicalHelp.referenceNumber}.`)
+            log.error(error)
             return res.redirect('/')
           })
       } else {
