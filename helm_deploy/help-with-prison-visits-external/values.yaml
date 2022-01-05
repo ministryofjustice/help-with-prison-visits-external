@@ -26,7 +26,7 @@ generic-service:
     LOGGING_LEVEL: 'DEBUG'
     APVS_EXT_SECURE_COOKIE: 'true'
     APVS_ENABLE_MALWARE_SCANNING: 'true'
-    APVS_CLAM_AV_HOST: 'clamav'
+    APVS_CLAM_AV_HOST: 'help-with-prison-visits-external-clamav'
     APVS_CLAM_AV_PORT: '3310'
     APVS_CLAM_AV_TIMEOUT: 60000
     APVS_FILE_TMP_DIR: '/app/tmp'
