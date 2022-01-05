@@ -22,7 +22,7 @@ module.exports.scan = async function (filePath) {
       return Promise.resolve(isInfected)
     } catch (err) {
       log.error(err)
-      throw new Error('Your file couldn\'t be uploaded. Please try again later.')
+      throw new Error("Your file couldn't be uploaded. Please try again later.")
     }
   } else {
     log.info(`Malware scanning disabled - not scanning: ${filePath}`)
