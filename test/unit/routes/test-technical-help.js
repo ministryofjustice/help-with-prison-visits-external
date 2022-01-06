@@ -2,7 +2,6 @@ const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const TaskEnums = require('../../../app/constants/tasks-enum')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
 
@@ -18,19 +17,35 @@ describe('routes/help', function () {
     issue: 'Testing problems are occuring'
   }
 
-  const dateOfClaim = ''
   let app
-
   let technicalHelpStub
-  let insertTaskStub
+  let configStub
+  let axiosStub
 
   beforeEach(function () {
     technicalHelpStub = sinon.stub()
-    insertTaskStub = sinon.stub().resolves()
+    axiosStub = {
+      post: sinon.stub().resolves({
+        status: 201,
+        data: {
+          ticket: {
+            id: '123'
+          }
+        }
+      })
+    }
+    configStub = {
+      ZENDESK_ENABLED: 'true',
+      ZENDESK_TEST_ENVIRONMENT: 'false',
+      ZENDESK_API_URL: 'http://test/',
+      ZENDESK_EMAIL_ADDRESS: 'nota@realem.mail',
+      ZENDESK_API_KEY: '123'
+    }
 
     const route = proxyquire('../../../app/routes/technical-help', {
       '../services/domain/technical-help': technicalHelpStub,
-      '../services/data/insert-task': insertTaskStub
+      '../../config': configStub,
+      axios: axiosStub
     })
     app = routeHelper.buildApp(route)
   })
@@ -52,7 +67,6 @@ describe('routes/help', function () {
         .expect(302)
         .expect(function () {
           sinon.assert.calledWith(technicalHelpStub, VALID_DATA.name, VALID_DATA.emailAddress, VALID_DATA.referenceNumber, VALID_DATA.day, VALID_DATA.month, VALID_DATA.year, VALID_DATA.issue)
-          sinon.assert.calledWith(insertTaskStub, null, null, null, TaskEnums.TECHNICAL_HELP_SUBMITTED, `${VALID_DATA.name}~~${VALID_DATA.emailAddress}~~Reference number: ${VALID_DATA.referenceNumber}\n\nDate of Claim: ${dateOfClaim}\n\n${VALID_DATA.issue}`)
         })
     })
 

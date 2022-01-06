@@ -43,6 +43,7 @@
   "dependencies": {
     "applicationinsights": "^2.1.9",
     "aws-sdk": "^2.1036.0",
+    "axios": "^0.24.0",
     "bases": "^0.2.1",
     "bluebird": "^3.7.2",
     "bunyan": "^1.8.15",
