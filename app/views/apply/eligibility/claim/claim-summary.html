@@ -38,17 +38,15 @@
 
 <form action="/apply/eligibility/claim/summary" method="post">
 
-  <div class="form-group">
-    {% include "partials/csrf-hidden-input.html" %}
+  {% include "partials/csrf-hidden-input.html" %}
 
-    {{ govukButton({
-      text: "Continue",
-      preventDoubleClick: true,
-      attributes: {
-        "data-cy": "submit"
-      }
-    }) }}
-  </div>
+  {{ govukButton({
+    text: "Continue",
+    preventDoubleClick: true,
+    attributes: {
+      "data-cy": "submit"
+    }
+  }) }}
 
 </form>
 {% endblock %}

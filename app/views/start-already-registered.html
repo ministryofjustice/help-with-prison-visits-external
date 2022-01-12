@@ -1,140 +1,125 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Return visitor sign in - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Return visitor sign in - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+  {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+  {% if recovery %}
+    {{ govukNotificationBanner({
+      titleText: "Reference recovery",
+      text: "Now check your email for your recovered reference number",
+      type: 'success'
+    }) }}
+  {% endif %}
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+  <h1 class="govuk-heading-l">
+    Return visitors
+  </h1>
 
-      {% include "includes/validation-error-messages.html" %}
+  <p>Sign in to check progress on a claim or apply without entering all of your information again.</p>
 
-      {% if recovery %}
-        <h1 id="recovery-requested" class="success-summary medium">
-          Now check your email for your recovered reference number
-        </h1>
-      {% endif %}
-
-      <h1 class="heading-large">
-        Return visitors
-      </h1>
-
-      <p>Sign in to check progress on a claim or apply without entering all of your information again.</p>
-
-      <p>If you are visiting a different prisoner or they’ve moved prisons, <a href='/apply/first-time/new-eligibility/date-of-birth'>start a new claim.</a></p>
+  <p>If you are visiting a different prisoner or they’ve moved prisons, <a href='/apply/first-time/new-eligibility/date-of-birth'>start a new claim.</a></p>
 
       <form action="/start-already-registered" method="post">
 
-        <div id="reference" class="form-group {% if errors['reference'][0] %} error {% endif %}">
-          <label class="form-label-bold" for="reference-input">Reference number</label>
+        {{ govukInput({
+          label: {
+            text: "Reference number"
+          },
+          hint: {
+            text: "For example, P1FD187"
+          },
+          id: "reference",
+          name: "reference",
+          value: reference,
+          classes: "govuk-!-width-one-half",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "reference"
+          },
+          errorMessage: errors | findError('reference')
+        }) }}
+        
+        {% set detailsHtml %}
+        <ul class="govuk-list govuk-list--number">
+          <li>Check your emails from HWPV (Help With Prison Visits)</li>
+          <li><a href="/reference-recovery">Recover your reference number</a></li>
+        </ul>
+        {% endset %}
+        {{ govukDetails({
+          summaryText: "Where to find your reference number",
+          html: detailsHtml
+        }) }}
 
-          {% if errors['reference'][0] %}
-            <span class="error-message">{{ errors['reference'][0] }}</span>
-          {% endif %}
 
-          <p class="form-hint">For example, P1FD187</p>
-          <input id="reference-input"
-                 name="reference"
-                 type="text"
-                 autocomplete="off"
-                 value="{{ reference }}"
-                 class="form-control"
-                 data-cy="reference"/>
-          <br>
-        </div>
-<div class="visually-hidden"></div>
-        <div class="form-group">
-          <details>
-            <summary><span class="summary">Where to find your reference number</span>
-            <span class="visually-hidden">If using a screen reader such as JAWS if having difficulty accessing this list then try pressing control + space to expand the list then L + down to read list items</span>
-            </summary>
-            <div class="panel panel-border-narrow">
-              <ul class="list list-number">
-                <li>Check your emails from HWPV (Help With Prison Visits)</li>
-                <li><span class="visually-hidden">link now available to recover reference number</span> <a href="/reference-recovery">Recover your reference number</a></li>
-              </ul>
-            </div>
-          </details>
-        </div>
+        {% set errorDob = errors | findError('dob') %}
+        {% set errorClass = " govuk-input--error" if errorDob %}
+        {{ govukDateInput({
+          id: "dob",
+          namePrefix: "dob",
+          fieldset: {
+            legend: {
+              text: "Date of birth"
+            }
+          },
+          items: [
+            {
+              name: "day",
+              classes: "govuk-input--width-2" + errorClass,
+              autocomplete: "bday-day",
+              value: dobDay,
+              attributes: {
+                "data-cy": "dob-day"
+              }
+            },
+            {
+              name: "month",
+              classes: "govuk-input--width-2" + errorClass,
+              autocomplete: "bday-month",
+              value: dobMonth,
+              attributes: {
+                "data-cy": "dob-month"
+              }
+            },
+            {
+              name: "year",
+              classes: "govuk-input--width-4" + errorClass,
+              autocomplete: "bday-year",
+              value: dobYear,
+              attributes: {
+                "data-cy": "dob-year"
+              }
+            }
+          ],
+          errorMessage: errorDob
+        }) }}
 
-        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
 
-          <fieldset>
-            <legend class="hidden">Date of birth</legend>
-            <div id="dob" class="form-date">
+        {% include "partials/csrf-hidden-input.html" %}
 
-              <label class="form-label-bold">Your date of birth</label>
+        {{ govukButton({
+          text: "Continue",
+          preventDoubleClick: true,
+          attributes: {
+            "data-cy": "submit"
+          }
+        }) }}
 
-              {% if errors['dob'][0] %}
-                <span class="error-message">{{ errors['dob'][0] }}</span>
-              {% endif %}
-
-              <div class="form-group form-group-day">
-                <label id="dob-day" for="dob-day-input">Day</label>
-                <input id="dob-day-input"
-                       name="dob-day"
-                       autocomplete="off"
-                       value="{{ dobDay }}"
-                       class="form-control"
-                       data-cy="dob-day"/>
-              </div>
-
-              <div class="form-group form-group-month">
-                <label id="dob-month" for="dob-month-input">Month</label>
-                <input id="dob-month-input"
-                       name="dob-month"
-                       autocomplete="off"
-                       value="{{ dobMonth }}"
-                       class="form-control"
-                       data-cy="dob-month"/>
-              </div>
-
-              <div class="form-group form-group-year">
-                <label id="dob-year" for="dob-year-input">Year</label>
-                <input id="dob-year-input"
-                       name="dob-year"
-                       autocomplete="off"
-                       value="{{ dobYear }}"
-                       class="form-control"
-                       data-cy="dob-year"/>
-              </div>
-
-            </div>
-
-          </fieldset>
-
-        </div>
-
-        <br>
-        <br>
-
-        <div class="form-group">
-
-          {% include "partials/csrf-hidden-input.html" %}
-
-          <input id="already-registered-submit"
-                 type="submit"
-                 value="Continue"
-                 class="button"
-                 data-cy="submit">
-        </div>
-
-        <div class="bold-small">Please note</div>
-        <p class="note">
-          If you don’t enter any information for more than 20 minutes, your session will time out and you’ll need to start again.
+        <p><strong class="govuk-!-font-weight-bold">Please note</strong>
+          <br>If you don’t enter any information for more than 20 minutes, your session will time out and you’ll need to start again.
         </p>
-  </div>
-
       </form>
-
     </div>
   </div>
-</main>
-
 {% endblock %}

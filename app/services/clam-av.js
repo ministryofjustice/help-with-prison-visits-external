@@ -3,41 +3,29 @@ const Promise = require('bluebird').Promise
 const NodeClam = require('clamscan')
 const log = require('./log')
 
-let clam
-try {
-  clam = new NodeClam().init({
-    clamdscan: {
-      host: config.CLAM_AV_HOST,
-      port: config.CLAM_AV_PORT,
-      timeout: config.CLAM_AV_TIMEOUT
-    }
-  })
-} catch (error) {
-  // Suppress clamscan error if disabled
-  console.log(error)
-  if (config.ENABLE_MALWARE_SCANNING !== 'true' &&
-      !error.message.includes('No valid & active virus scanning binaries are active and available and no host/socket option provided!')) {
-    throw error
-  }
-}
-
 module.exports.scan = async function (filePath) {
   if (config.ENABLE_MALWARE_SCANNING === 'true') {
-    clam.then(async clamscan => {
-      try {
-        const {isInfected, file, viruses} = await clamscan.isInfected(filePath) //eslint-disable-line
-        return isInfected //eslint-disable-line
-      } catch (err) {
-        log.error('Error thrown during clamav scan')
-        log.error(err)
-        throw err
-      }
-    }).catch(err => {
-      log.error('Error thrown during clamav initialisation')
+    try {
+      const clamscan = await new NodeClam().init({
+        clamdscan: {
+          host: config.CLAM_AV_HOST,
+          port: config.CLAM_AV_PORT,
+          timeout: config.CLAM_AV_TIMEOUT
+        }
+      })
+
+      log.info(`ClamAV initialised. Scanning ${filePath}`)
+      const { isInfected } = await clamscan.isInfected(filePath)
+
+      if (isInfected === null) throw new Error('ClamAV: Unable to scan')
+
+      return Promise.resolve(isInfected)
+    } catch (err) {
       log.error(err)
-      throw err
-    })
+      throw new Error("Your file couldn't be uploaded. Please try again later.")
+    }
   } else {
+    log.info(`Malware scanning disabled - not scanning: ${filePath}`)
     return Promise.resolve(false)
   }
 }
