@@ -9,7 +9,7 @@ generic-service:
   env:
     APVS_ZENDESK_ENABLED: 'true'
     APVS_ZENDESK_TEST_ENVIRONMENT: 'false'
-    APVS_ZENDESK_API_URL: "https://ministryofjustice.zendesk.com"'
+    APVS_ZENDESK_API_URL: "https://ministryofjustice.zendesk.com"
 
 generic-prometheus-alerts:
   alertSeverity: help-with-prison-visits
