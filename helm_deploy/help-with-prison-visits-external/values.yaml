@@ -10,7 +10,10 @@ generic-service:
 
   ingress:
     enabled: true
-    tlsSecretName: help-with-prison-visits-cert
+    tlsSecretName: help-with-prison-visits-cert   
+    annotations:
+      # note this limit is per ingress replica
+      nginx.ingress.kubernetes.io/limit-rpm: "120"
 
   livenessProbe:
     httpGet:
@@ -31,9 +34,6 @@ generic-service:
     APVS_CLAM_AV_TIMEOUT: 60000
     APVS_FILE_TMP_DIR: '/app/tmp'
     APVS_MALWARE_NOTIFICATION_ADDRESS: 'help-with-prison-visits@digital.justice.gov.uk'
-    RATE_LIMITING_ENABLED: 'true'
-    RATE_LIMITING_WINDOW_MILLISECONDS: '10000'
-    RATE_LIMITING_REQUEST_LIMIT: '200'
     APVS_MAINTENANCE_MODE: 'false'
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
