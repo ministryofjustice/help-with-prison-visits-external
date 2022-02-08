@@ -223,6 +223,12 @@ module.exports = {
     region: 'ENG/WAL'
   },
 
+  FIVE_WELLS: {
+    value: 'five-wells',
+    displayName: 'Five Wells',
+    region: 'ENG/WAL'
+  },
+
   FORD: {
     value: 'ford',
     displayName: 'Ford',
