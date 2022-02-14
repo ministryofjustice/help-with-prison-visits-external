@@ -38,6 +38,8 @@ generic-service:
     moj-official-ark-c-vodafone: 194.33.248.0/29
     moj-official-ark-f-vodafone: 194.33.249.0/29
     moj-official-ark-f-expo-e: 51.149.249.32/29
+    petty-france-wifi: "213.121.161.112/28"
+    global-protect: "35.176.93.186/32"
 
 generic-prometheus-alerts:
   alertSeverity: help-with-prison-visits-devtest
