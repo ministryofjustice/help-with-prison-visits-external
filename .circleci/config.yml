@@ -28,7 +28,7 @@ jobs:
   unit_test:
     executor:
       name: hmpps/node
-      tag: 12.22-browsers
+      tag: 16.14-browsers
     steps:
       - checkout
       - run:
