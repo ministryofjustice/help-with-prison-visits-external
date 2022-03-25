@@ -38,3 +38,4 @@ coverage
 app/public
 
 .localstack
+.vscode

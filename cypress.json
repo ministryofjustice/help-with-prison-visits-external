@@ -5,5 +5,7 @@
   "pluginsFile": "test/cypress-e2e/plugins/index.js",
   "screenshotsFolder": "test/cypress-e2e/screenshots",
   "supportFile": "test/cypress-e2e/support/index.js",
-  "videosFolder": "test/cypress-e2e/videos"
+  "videosFolder": "test/cypress-e2e/videos",
+  "viewportWidth": 1200,
+  "viewportHeight": 1400
 }
