@@ -90,6 +90,7 @@ describe('First Time Claim Flow (Advance)', () => {
     cy.get('[data-cy=submit]').contains('Continue').click()
 
     // Claim summary (advance claims do not need visit confirmation/expense upload)
+    cy.get('#claim-expense').contains('You - Euston to Birmingham New Street (10am) - Return (4pm)')
     cy.get('[data-cy=submit').click()
 
     // Enter Bank Account Details
