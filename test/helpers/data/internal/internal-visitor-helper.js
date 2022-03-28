@@ -2,7 +2,7 @@ const { getDatabaseConnector } = require('../../../../app/databaseConnector')
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 module.exports.VISITOR_ID = Math.floor(Date.now() / 100) - 15000000000
-module.exports.FIRST_NAME = 'John'
+module.exports.FIRST_NAME = 'Fred'
 module.exports.LAST_NAME = 'Smith'
 module.exports.NATIONAL_INSURANCE_NUMBER = 'BN180518D'
 module.exports.HOUSE_NUMBER_AND_STREET = '123 Street'

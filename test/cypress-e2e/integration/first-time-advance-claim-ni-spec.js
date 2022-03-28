@@ -35,7 +35,7 @@ describe('First Time Claim Flow (Northern Ireland rules - Advance)', () => {
 
     // About the prisoner
     cy.get('[data-cy=prisoner-first-name]').type('Martin')
-    cy.get('[data-cy=prisoner-last-name]').type('O\'Hara')
+    cy.get('[data-cy=prisoner-last-name]').type("O'Hara")
     cy.get('[data-cy=dob-day]').type('4')
     cy.get('[data-cy=dob-month]').type('9')
     cy.get('[data-cy=dob-year]').type('1959')
@@ -47,7 +47,7 @@ describe('First Time Claim Flow (Northern Ireland rules - Advance)', () => {
 
     // About you
     cy.get('[data-cy=first-name]').type('Mary')
-    cy.get('[data-cy=last-name]').type('O\'Hara')
+    cy.get('[data-cy=last-name]').type("O'Hara")
     cy.get('[data-cy=ni-number]').type('TS876544T')
     cy.get('[data-cy=house-num-and-street]').type('26 NI Street')
     cy.get('[data-cy=town]').type('NI Testtown')
@@ -85,10 +85,20 @@ describe('First Time Claim Flow (Northern Ireland rules - Advance)', () => {
     cy.get('[data-cy=submit]').contains('Continue').click()
 
     // Claim summary
+    cy.get('[data-cy=visitor]').contains("Mary O'Hara")
+    cy.get('[data-cy=benefits]').contains('Income Support')
+    cy.get('[data-cy="prisoner-name"]').contains("Martin O'Hara")
+    cy.get('[data-cy="prisoner-number"]').contains('Z6544TS')
+    cy.get('[data-cy="prison"]').contains('Hewell')
+    cy.get('[data-cy="visit-date"]').contains(futureDate.format('dddd D MMMM YYYY'))
+    cy.get('[data-cy="visit-confirmation"]').contains('Visit confirmation must be supplied after visit')
+    cy.get('[data-cy="expense-1"]')
+      .should('contain', 'Car')
+      .and('contain', 'NI Testtown to Hewell')
     cy.get('[data-cy=submit]').contains('Continue').click()
 
     // Enter Bank Account Details
-    cy.get('[data-cy=name-on-account]').type('Mrs Mary O\'Hara')
+    cy.get('[data-cy=name-on-account]').type("Mrs Mary O'Hara")
     cy.get('[data-cy=sort-code]').type('334455')
     cy.get('[data-cy=account-number]').type('65432100')
     cy.get('[data-cy=submit]').contains('Continue').click()

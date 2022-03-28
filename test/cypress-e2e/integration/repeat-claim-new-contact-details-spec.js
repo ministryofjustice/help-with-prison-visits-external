@@ -37,6 +37,15 @@ describe('Repeat claim with new contact details', () => {
     cy.get('[data-cy=new-claim]').click()
 
     // Check your information
+    cy.get('[data-cy=name').contains('Fred S****')
+    cy.get('[data-cy=address').contains('123*******, Belfast, ****7RT')
+    cy.get('[data-cy=benefit').contains('Income Support')
+    cy.get('[data-cy=relationship').contains('Partner')
+    cy.get('[data-cy=prisoner-name').contains('John S****')
+    cy.get('[data-cy=prisoner-number').contains('0123456789')
+    cy.get('[data-cy=prison').contains('Hewell')
+    cy.get('[data-cy=email').contains('donotsend@apvs.com')
+    cy.get('[data-cy=phone').contains('******5564')
     cy.get('[data-cy=change-contact-details]').click()
 
     // Change contact details
@@ -45,8 +54,8 @@ describe('Repeat claim with new contact details', () => {
     cy.get('[data-cy=submit]').contains('Save').click()
 
     // Check your information
-    cy.contains('updated-email@example.com')
-    cy.contains('9876543210')
+    cy.get('[data-cy=email').contains('updated-email@example.com')
+    cy.get('[data-cy=phone').contains('9876543210')
     cy.get('[data-cy=confirm-correct]').check()
     cy.get('[data-cy=submit]').contains('Continue').click()
 
@@ -98,6 +107,18 @@ describe('Repeat claim with new contact details', () => {
     cy.get('[data-cy=submit]').contains('Continue').click()
 
     // Claim summary
+    cy.get('[data-cy=visitor]').contains('Fred S****')
+    cy.get('[data-cy=benefits]').contains('Income Support')
+    cy.get('[data-cy="prisoner-name"]').contains('John S****')
+    cy.get('[data-cy="prisoner-number"]').contains('0123456789')
+    cy.get('[data-cy="prison"]').contains('Hewell')
+    cy.get('[data-cy="visit-date"]').contains(todaysDate.format('dddd D MMMM YYYY'))
+    cy.get('[data-cy="visit-confirmation"]').contains('Sending visit confirmation by post')
+    cy.get('[data-cy="expense-1"]')
+      .should('contain', 'Bus')
+      .and('contain', 'You - Euston to Birmingham New Street')
+    cy.get('[data-cy="expense-amount-1"]').contains('£20')
+    cy.get('[data-cy="expense-info-1"]').contains('Sending receipt by post')
     cy.get('[data-cy=submit]').contains('Continue').click()
 
     // Enter Bank Account Details

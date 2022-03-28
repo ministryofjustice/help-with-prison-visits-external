@@ -20,27 +20,27 @@
 
     <a id="change-your-details" href="/apply/repeat-new-eligibility/new-eligibility/date-of-birth" class="button grey push-right" data-cy="change-your-details">Change your details</a>
 
-    <p>Your name: <span class="bold">{{ eligibility['FirstName'] }} {{ eligibility['LastName'] }}</span></p>
+    <p>Your name: <span class="bold" data-cy="name">{{ eligibility['FirstName'] }} {{ eligibility['LastName'] }}</span></p>
 
-    <p>Your address: <span class="bold">{{ eligibility['HouseNumberAndStreet'] }}, {{ eligibility['Town'] }}, {{ eligibility['PostCode'] }}</span></p>
+    <p>Your address: <span class="bold" data-cy="address">{{ eligibility['HouseNumberAndStreet'] }}, {{ eligibility['Town'] }}, {{ eligibility['PostCode'] }}</span></p>
 
-    <p>You receive: <span class="bold">{{ displayHelper.getBenefitDisplayName(eligibility['Benefit']) }}</span></p>
+    <p>You receive: <span class="bold" data-cy="benefit">{{ displayHelper.getBenefitDisplayName(eligibility['Benefit']) }}</span></p>
 
-    <p>You're the prisoner's: <span class="bold">{{ displayHelper.getPrisonerRelationshipDisplayName(eligibility['Relationship']) }}</span></p>
+    <p>You're the prisoner's: <span class="bold" data-cy="relationship">{{ displayHelper.getPrisonerRelationshipDisplayName(eligibility['Relationship']) }}</span></p>
 
-    <p>You're visiting: <span class="bold">{{ eligibility['PrisonerFirstName'] }} {{ eligibility['PrisonerLastName'] }}</span></p>
+    <p>You're visiting: <span class="bold" data-cy="prisoner-name">{{ eligibility['PrisonerFirstName'] }} {{ eligibility['PrisonerLastName'] }}</span></p>
 
-    <p>Prisoner number: <span class="bold">{{ eligibility['PrisonNumber'] }}</span></p>
+    <p>Prisoner number: <span class="bold" data-cy="prisoner-number">{{ eligibility['PrisonNumber'] }}</span></p>
 
-    <p>Prison location: <span class="bold">{{ displayHelper.getPrisonDisplayName(eligibility['NameOfPrison']) }}</span></p>
+    <p>Prison location: <span class="bold" data-cy="prison">{{ displayHelper.getPrisonDisplayName(eligibility['NameOfPrison']) }}</span></p>
 
   <hr>
 
     <a id="change-contact-details" href="/your-claims/update-contact-details" class="button grey push-right" data-cy="change-contact-details">Change contact details</a>
 
-    <p>Contact email address: <span class="bold">{{ eligibility['EmailAddress'] }}</span></p>
+    <p>Contact email address: <span class="bold" data-cy="email">{{ eligibility['EmailAddress'] }}</span></p>
 
-    <p>Phone number: <span class="bold">{{ eligibility['PhoneNumber'] }}</span></p>
+    <p>Phone number: <span class="bold" data-cy="phone">{{ eligibility['PhoneNumber'] }}</span></p>
 
   <hr>
 

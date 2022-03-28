@@ -19,7 +19,7 @@
   {% else %}
     <tr {% if errors['claim-expense'][0] %} {% if claimExpense.DocumentStatus == null %} {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %} class="warning" {% endif %}{% endif %}{% endif %}>
   {% endif %}
-    <td>
+    <td data-cy="expense-{{ loop.index }}">
       <span class="bold pull-left{% if not viewClaim %} expense-padding{% endif %}">{{ displayHelper.getExpenseDisplayName(claimExpense.ExpenseType) }}
       {% if viewClaim %}</span><br>{% else %} - </span>
       <form
@@ -35,12 +35,12 @@
     {% if claimExpense.ExpenseType == 'train' and claimDetails.claim.IsAdvanceClaim %}
       <td></td>
     {% elseif claimExpense.ExpenseType == 'car' and claimExpense.Cost === 0 %}
-      <td>13p per mile</td>
+      <td data-cy="expense-amount-{{ loop.index }}">13p per mile</td>
     {% else %}
-      <td>{{ displayHelper.toCurrency(claimExpense.Cost) }}</td>
+      <td data-cy="expense-amount-{{ loop.index }}">{{ displayHelper.toCurrency(claimExpense.Cost) }}</td>
     {% endif %}
 
-    <td>
+    <td data-cy="expense-info-{{ loop.index }}">
     {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %}
       {% if claimDetails.claim.IsAdvanceClaim and not forEdit and not claimExpense['DocumentStatus'] %}
         <span class="text-pending">Receipt must be supplied after visit</span>
