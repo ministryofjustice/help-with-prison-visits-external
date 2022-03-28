@@ -127,7 +127,7 @@ describe('First Time Claim Flow', () => {
     cy.get('[data-cy=from]').type('Euston')
     cy.get('[data-cy=to]').type('Birmingham New Street')
     cy.get('[data-cy=return-no]').click()
-    cy.get('[data-cy=cost]').type('20')
+    cy.get('[data-cy=cost]').type('21')
     cy.get('[data-cy=submit]').contains('Continue').click()
 
     // Light refreshment
@@ -160,6 +160,32 @@ describe('First Time Claim Flow', () => {
     // Car journey and light refreshment do not require receipts
 
     // Claim summary
+    cy.get('[data-cy=visitor]').contains('John Smith')
+    cy.get('[data-cy=escort]').contains('Frank Jones')
+    cy.get('[data-cy=child-1]').contains('Lewis Bloggs')
+    cy.get('[data-cy=child-2]').contains('Sam Bloggs')
+    cy.get('[data-cy=benefits]').contains('Income Support')
+    cy.get('[data-cy="prisoner-name"]').contains('Joe Bloggs')
+    cy.get('[data-cy="prisoner-number"]').contains('Z6541TS')
+    cy.get('[data-cy="prison"]').contains('Hewell')
+    cy.get('[data-cy="visit-date"]').contains(todaysDate.format('dddd D MMMM YYYY'))
+    cy.get('[data-cy="visit-confirmation"]').contains('Sending visit confirmation by post')
+    cy.get('[data-cy="expense-1"]')
+      .should('contain', 'Car')
+      .and('contain', 'New Testtown to Hewell')
+    cy.get('[data-cy="expense-amount-1"]').contains('13p per mile')
+    cy.get('[data-cy="expense-2"]')
+      .should('contain', 'Bus')
+      .and('contain', 'Child - Euston to Birmingham New Street')
+    cy.get('[data-cy="expense-amount-2"]').contains('£20')
+    cy.get('[data-cy="expense-info-2"]').contains('Sending receipt by post')
+    cy.get('[data-cy="expense-3"]')
+      .should('contain', 'Bus')
+      .and('contain', 'Escort - Euston to Birmingham New Street')
+    cy.get('[data-cy="expense-amount-3"]').contains('£21')
+    cy.get('[data-cy="expense-info-3"]').contains('Sending receipt by post')
+    cy.get('[data-cy="expense-4"]').contains('Light refreshment')
+    cy.get('[data-cy="expense-amount-4"]').contains('£7.99')
     cy.get('[data-cy=submit]').contains('Continue').click()
 
     // Enter Bank Account Details

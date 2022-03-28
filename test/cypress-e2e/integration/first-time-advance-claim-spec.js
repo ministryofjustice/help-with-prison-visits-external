@@ -90,7 +90,17 @@ describe('First Time Claim Flow (Advance)', () => {
     cy.get('[data-cy=submit]').contains('Continue').click()
 
     // Claim summary (advance claims do not need visit confirmation/expense upload)
-    cy.get('#claim-expense').contains('You - Euston to Birmingham New Street (10am) - Return (4pm)')
+    // cy.get('#claim-expense').contains('You - Euston to Birmingham New Street (10am) - Return (4pm)')
+    cy.get('[data-cy=visitor]').contains('John Smith')
+    cy.get('[data-cy=benefits]').contains('Income Support')
+    cy.get('[data-cy="prisoner-name"]').contains('Joe Bloggs')
+    cy.get('[data-cy="prisoner-number"]').contains('Z6541TS')
+    cy.get('[data-cy="prison"]').contains('Hewell')
+    cy.get('[data-cy="visit-date"]').contains(futureDate.format('dddd D MMMM YYYY'))
+    cy.get('[data-cy="visit-confirmation"]').contains('Visit confirmation must be supplied after visit')
+    cy.get('[data-cy="expense-1"]')
+      .should('contain', 'Train')
+      .and('contain', 'You - Euston to Birmingham New Street (10am) - Return (4pm)')
     cy.get('[data-cy=submit').click()
 
     // Enter Bank Account Details
