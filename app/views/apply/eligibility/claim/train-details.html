@@ -1,114 +1,113 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Enter your train journey details - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter your train journey details - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      Your train journey
+    </h1>
+    <p>You can only claim for standard off peak trains</p>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <form action="/apply/eligibility/claim/train{{ params }}" method="post">
+      {% include "partials/expenses/ticket-owner.html" %}
 
-      {% include "includes/validation-error-messages.html" %}
+      {% set exampleFrom = 'Euston' %}
+      {% include "partials/expenses/from.html" %}
 
-      <h1 class="heading-large">
-        Your train journey
-      </h1>
-      <p>You can only claim for standard off peak trains</p>
-      <form action="/apply/eligibility/claim/train{{ params }}"
-            method="post">
-        {% include "partials/expenses/ticket-owner.html" %}
+      {% if isAdvanceClaim  %}
+        {{ govukInput({
+          label: {
+            text: "Departure time",
+            classes: "govuk-label--s"
+          },
+          classes: "govuk-!-width-one-half",
+          hint: {
+            text: "For example, 10am"
+          },
+          id: "departure-time-input",
+          name: "departure-time",
+          value: expense['departure-time'],
+          errorMessage: errors | findError('departure-time'),
+          attributes: {
+            "data-cy": "departure-time"
+          }
+        }) }}
+      {% endif %}
 
-        {% set exampleFrom = 'Euston' %}
-        {% include "partials/expenses/from.html" %}
+      {% set exampleTo = 'Birmingham New Street' %}
+      {% include "partials/expenses/to.html" %}
 
-        {% if isAdvanceClaim  %}
+      {% include "partials/expenses/return-journey.html" %}
 
-          <div id="departure-time" class="form-group {% if errors['departure-time'][0] %} error {% endif %}">
-            <label for="departure-time-input" class="form-label-bold">Departure time</label>
+      {% if isAdvanceClaim %}
+        {{ govukInput({
+          label: {
+            text: "What time is your return train home?",
+            classes: "govuk-label--s"
+          },
+          classes: "govuk-!-width-one-half",
+          hint: {
+            text: "For example, 4pm"
+          },
+          id: "return-time-input",
+          name: "return-time",
+          value: expense['return-time'],
+          errorMessage: errors | findError('return-time'),
+          attributes: {
+            "data-cy": "return-time"
+          }
+        }) }}
+      {% else %}
+        {{ govukInput({
+          label: {
+            text: "Cost",
+            classes: "govuk-label--s"
+          },
+          prefix: {
+            text: "£"
+          },
+          classes: "govuk-input--width-5",
+          hint: {
+            text: "For example, 20"
+          },
+          id: "cost-input",
+          name: "cost",
+          value: expense['cost'],
+          errorMessage: errors | findError('cost'),
+          attributes: {
+            "data-cy": "cost"
+          }
+        }) }}
+      {% endif %}
 
-            {% if errors['departure-time'][0] %}
-            <span class="error-message">{{ errors['departure-time'][0] }}</span>
-            {% endif %}
+      {% set journeyType = 'train' %}
+      {% include "partials/expenses/add-another-journey.html" %}
 
-            <p class="form-hint">For example, 10am</p>
-            <input id="departure-time-input"
-                   type="text"
-                   autocomplete="off"
-                   name="departure-time"
-                   value="{{ expense['departure-time'] }}"
-                   class="form-control"
-                   data-cy="departure-time">
-          </div>
+      {% include "partials/csrf-hidden-input.html" %}
 
-        {% endif %}
+      <input type="hidden" name="isAdvanceClaim" value="{{ isAdvanceClaim }}" />
 
-        {% set exampleTo = 'Birmingham New Street' %}
-        {% include "partials/expenses/to.html" %}
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-        {% include "partials/expenses/return-journey.html" %}
+    <br>
+    <a href="{{ redirectUrl }}">Remove this journey</a>
 
-        {% if isAdvanceClaim %}
-
-          <div id="return-time" class="panel panel-border-narrow js-hidden">
-            <div class="form-group {% if errors['return-time'][0] %} error {% endif %}">
-              <label class="form-label-bold" for="return-time-input">What time is your return train home?</label>
-                {% if errors['return-time'][0] %}
-                  <span class="error-message">{{ errors['return-time'][0] }}</span>
-                {% endif %}
-              <p class="form-hint">For example, 4pm</p>
-              <input id="return-time-input" name="return-time-input" type="text" autocomplete="off" class="form-control" data-cy="return-time">
-
-            </div>
-          </div>
-
-        {% else %}
-
-          <div id="cost" class="form-group {% if errors['cost'][0] %} error {% endif %}">
-            <label for="cost-input" class="form-label-bold">Cost</label>
-
-            {% if errors['cost'][0] %}
-            <span class="error-message">{{ errors['cost'][0] }}</span>
-            {% endif %}
-
-            <p class="form-hint">For example, 20</p>
-            <div class="pound-wrapper">
-              <span>£</span>
-              <input id="cost-input"
-                     type="text"
-                     autocomplete="off"
-                     name="cost"
-                     value="{{ expense['cost'] }}"
-                     class="form-control"
-                     data-cy="cost">
-            </div>
-          </div>
-
-        {% endif %}
-
-        {% set journeyType = 'train' %}
-        {% include "partials/expenses/add-another-journey.html" %}
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input type="hidden" name="isAdvanceClaim" value="{{ isAdvanceClaim }}" />
-        <input id="train-details-submit"
-               type="submit"
-               class="button"
-               value="Continue"
-               data-cy="submit">
-      </form>
-
-      <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}
