@@ -34,6 +34,13 @@ describe('Repeat claim duplicate claim', () => {
     cy.get('[data-cy=submit]').contains('Continue').click()
 
     // Your Claims - start a new claim
+    cy.get('[data-cy=reference]').contains(reference)
+    cy.get('[data-cy=prisoner-name]').contains('John Smith')
+    cy.get('[data-cy=prison]').contains('Hewell')
+    cy.get('[data-cy=prisoner-number]').contains('0123456789')
+    cy.get('[data-cy=claim-1-date]').contains(todaysDate.format('dddd D MMMM YYYY'))
+    cy.get('[data-cy=claim-1-visit-date]').contains('Tuesday 1 November 2016')
+    cy.get('[data-cy=claim-1-status]').contains('Approved')
     cy.get('[data-cy=new-claim]').click()
 
     // Check your information
