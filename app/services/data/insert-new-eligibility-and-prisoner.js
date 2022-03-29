@@ -44,7 +44,7 @@ function insertNewEligibiltyAndPrisoner (aboutThePrisoner, uniqueReference) {
     .into('Eligibility')
     .returning('EligibilityId')
     .then(function (insertedIds) {
-      newEligibilityId = insertedIds[0]
+      newEligibilityId = insertedIds[0].EligibilityId
 
       return db.insert({
         EligibilityId: newEligibilityId,
@@ -79,7 +79,7 @@ function updateExistingEligibilityAndPrisoner (aboutThePrisoner, uniqueReference
     })
     .returning('EligibilityId')
     .then(function (updatedIds) {
-      newEligibilityId = updatedIds[0]
+      newEligibilityId = updatedIds[0].EligibilityId
 
       return db('Prisoner')
         .where('Reference', uniqueReference)

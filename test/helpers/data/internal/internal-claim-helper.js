@@ -52,7 +52,7 @@ module.exports.insert = function (reference, eligibilityId, data, status) {
     Note: claim.Note
   }).returning('ClaimId')
     .then(function (insertedIds) {
-      return insertedIds[0]
+      return insertedIds[0].ClaimId
     })
 }
 
