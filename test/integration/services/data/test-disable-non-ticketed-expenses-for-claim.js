@@ -28,12 +28,12 @@ describe('services/data/disable-non-ticketed-expenses-for-claim', function () {
 
         return insertExpense(REFERENCE, eligibilityId, claimId, ticketedExpense)
           .then(function (expenseIds) {
-            const documentForTicketedExpense = documentHelper.buildExpenseDoc(claimId, expenseIds[0])
+            const documentForTicketedExpense = documentHelper.buildExpenseDoc(claimId, expenseIds[0].ClaimExpenseId)
             return insertClaimDocument(REFERENCE, eligibilityId, claimId, documentForTicketedExpense)
               .then(function () {
                 return insertExpense(REFERENCE, eligibilityId, claimId, nonticketedExpense)
                   .then(function (expenseIds) {
-                    const documentForNonTicketedExpense = documentHelper.buildExpenseDoc(claimId, expenseIds[0])
+                    const documentForNonTicketedExpense = documentHelper.buildExpenseDoc(claimId, expenseIds[0].ClaimExpenseId)
                     return insertClaimDocument(REFERENCE, eligibilityId, claimId, documentForNonTicketedExpense)
                   })
               })
