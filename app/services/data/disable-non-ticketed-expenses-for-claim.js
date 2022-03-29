@@ -14,9 +14,10 @@ module.exports = function (reference, eligibilityId, claimId, expenseType) {
       .where({ ClaimId: claimId, ExpenseType: expenseType }).returning('ClaimExpenseId')
       .then(function (expenseIds) {
         if (expenseIds.length > 0) {
+          const expenseIdList = expenseIds.map(expense => expense.ClaimExpenseId)
           return db('ClaimDocument')
             .update('IsEnabled', false)
-            .whereIn('ClaimExpenseId', expenseIds)
+            .whereIn('ClaimExpenseId', expenseIdList)
         }
 
         return Promise.resolve()

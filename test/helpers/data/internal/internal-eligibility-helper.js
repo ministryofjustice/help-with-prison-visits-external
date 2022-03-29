@@ -26,7 +26,7 @@ module.exports.insert = function (reference) {
     })
     .returning('EligibilityId')
     .then(function (insertedIds) {
-      return insertedIds[0]
+      return insertedIds[0].EligibilityId
     })
 }
 

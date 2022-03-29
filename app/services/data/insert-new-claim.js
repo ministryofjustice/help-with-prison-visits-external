@@ -21,6 +21,6 @@ module.exports = function (reference, eligibilityId, claimType, claim) {
     Status: claimStatusEnum.IN_PROGRESS
   }).returning('ClaimId')
     .then(function (insertedIds) {
-      return insertedIds[0]
+      return insertedIds[0].ClaimId
     })
 }
