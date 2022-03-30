@@ -1,15 +1,19 @@
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
 {% if forEdit and addInformation[0] %}
-  <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
 
-    <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
-      There is information required for this claim
-    </h1>
+  {% set infoList = [] %}
+  {% for information in addInformation %}
+    {% set infoList = (infoList.push(
+      {
+        text: information.message,
+        href: "#" + information.field
+        }
+    ), infoList)%}
+  {% endfor %}
 
-    <ul class="error-summary-list">
-      {% for information in addInformation %}
-        <li><a href="#{{ information.field }}">{{ information.message }}</a></li>
-      {% endfor %}
-    </ul>
-
-  </div>
+  {{ govukErrorSummary({
+    titleText: "There is information required for this claim",
+    errorList: infoList
+  }) }}
 {% endif %}

@@ -1,132 +1,159 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Your claim - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Your claim - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
 
-<main id="content" role="main">
+{% if updated %}
+  <div id="application-updated" class="success-summary">
+    Application updated
+  </div>
+{% endif %}
 
-  {% include "includes/phase_banner_beta.html" %}
+{% include "includes/validation-error-messages-new.html" %}
 
-  {% if updated %}
-    <div id="application-updated" class="success-summary medium">
-      Application updated
-    </div>
-  {% endif %}
+{% include "partials/claim-summary/claim-summary-information-requested.html" %}
 
-  {% include "includes/validation-error-messages.html" %}
+<h1 class="govuk-heading-l">
+  Your claim
+</h1>
 
-  {% include "partials/claim-summary/claim-summary-information-requested.html" %}
+{% if not updated %}
+  <p>Add evidence for your claim.</p>
+{% endif %}
 
-  <h1 class="heading-large">
-    Your claim
-  </h1>
+{% include "partials/claim-summary/claim-summary-visitor.html" %}
 
-  {% if not updated %}
-    <p>Add evidence for your claim.</p>
-  {% endif %}
+<h2 class="govuk-heading-m govuk-!-margin-top-7">Your visit</h2>
 
-  {% include "partials/claim-summary/claim-summary-visitor.html" %}
+{% include "partials/claim-summary/claim-summary-visit.html" %}
 
-  <h2 class="heading-medium">Your visit</h2>
+<br>
 
-  {% include "partials/claim-summary/claim-summary-visit.html" %}
+{% include "partials/claim-summary/claim-summary-expenses.html" %}
 
-  <br>
+{% include "partials/claim-summary/claim-summary-events.html" %}
 
-  {% include "partials/claim-summary/claim-summary-expenses.html" %}
+<form action="/your-claims/{{ claimId }}" method="post" novalidate>
 
-  {% include "partials/claim-summary/claim-summary-events.html" %}
+  <div id="bank-details" class="govuk-form-group">
+    {% include "partials/csrf-hidden-input.html" %}
+    {% if forEdit %}
 
-  <form action="/your-claims/{{ claimId }}" method="post" class="form">
+      {% if isRequestInfoPayment %}
 
-    <div id="bank-details" class="form-group">
-      {% include "partials/csrf-hidden-input.html" %}
-      {% if forEdit %}
+        {{ govukInput({
+          label: {
+            text: "Name on the account",
+            classes: "govuk-label--s"
+          },
+          classes: "govuk-!-width-one-half",
+          id: "name-on-account-input",
+          name: "NameOnAccount",
+          value: bankDetails['NameOnAccount'],
+          autocomplete: "name",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "name-on-account"
+          },
+          errorMessage: errors | findError('NameOnAccount')
+        }) }}
 
-        {% if isRequestInfoPayment %}
+        {{ govukInput({
+          label: {
+            text: "Sort code",
+            classes: "govuk-label--s"
+          },
+          classes: "govuk-input--width-5",
+          hint: {
+            text: "Must be 6 digits long"
+          },
+          id: "sort-code-input",
+          name: "SortCode",
+          value: bankDetails['SortCode'],
+          inputmode: "numeric",
+          pattern: "[0-9]*",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "sort-code"
+          },
+          errorMessage: errors | findError('SortCode')
+        }) }}
 
-          <div class="form-group {% if errors['NameOnAccount'][0] %} error {% endif %}">
-            <label id="NameOnAccount" class="form-label-bold" for="name-on-account">Name on the account</label>
-            {% if errors['NameOnAccount'][0] %}
-            <span class="error-message" id="error-message-name-on-account">{{ errors['NameOnAccount'][0] }}</span>
-            {% endif %}
-            <input id="name-on-account-input"
-                  name="NameOnAccount"
-                  type="text"
-                  autocomplete="off"
-                  class="form-control full"
-                  value="{{ bankDetails['NameOnAccount'] }}"
-                  data-cy="name-on-account">
-          </div>
+        {{ govukInput({
+          label: {
+            text: "Account number",
+            classes: "govuk-label--s"
+          },
+          classes: "govuk-input--width-10",
+          hint: {
+            text: "Must be 8 digits long"
+          },
+          id: "account-number-input",
+          name: "AccountNumber",
+          value: bankDetails['AccountNumber'],
+          inputmode: "numeric",
+          pattern: "[0-9]*",
+          spellcheck: false,
+          attributes: {
+            "data-cy": "account-number"
+          },
+          errorMessage: errors | findError('AccountNumber')
+        }) }}
 
-          <div class="form-group {% if errors['SortCode'][0] %} error {% endif %}">
-            <label id="SortCode" class="form-label-bold" for="sort-code-input">Sort Code</label>
-            <p class="form-hint">Must be 6 digits long</p>
-            {% if errors['SortCode'][0] %}
-            <span class="error-message" id="error-message-sort-code">{{ errors['SortCode'][0] }}</span>
-            {% endif %}
-            <input id="sort-code-input"
-                    name="SortCode"
-                    type="text"
-                    class="form-control form-control-1-4"
-                    value="{{ bankDetails['SortCode'] }}"
-                    data-cy="sort-code">
-          </div>
+        {{ govukInput({
+          label: {
+            text: "Building society roll number (if you have one)",
+            classes: "govuk-label--s"
+          },
+          classes: "govuk-input--width-10",
+          hint: {
+            text: "You can find it on your card, statement or passbook"
+          },
+          id: "roll-number-input",
+          name: "RollNumber",
+          value: bankDetails['RollNumber'],
+          spellcheck: false,
+          attributes: {
+            "data-cy": "roll-number"
+          },
+          errorMessage: errors | findError('RollNumber')
+        }) }}
 
-          <div class="form-group {% if errors['AccountNumber'][0] %} error {% endif %}">
-            <label id="AccountNumber" class="form-label-bold" for="account-number-input">Account Number</label>
-            <p class="form-hint">Must be 8 digits long</p>
-            {% if errors['AccountNumber'][0] %}
-            <span class="error-message" id="error-message-account-number">{{ errors['AccountNumber'][0] }}</span>
-            {% endif %}
-            <input id="account-number-input"
-                    name="AccountNumber"
-                    type="text"
-                    class="form-control"
-                    value="{{ bankDetails['AccountNumber'] }}"
-                    data-cy="account-number">
-          </div>
-
-          <div class="form-group {% if errors['RollNumber'][0] %} error {% endif %}">
-            <label id="RollNumber" class="form-label-bold" for="roll-number-input">Building society roll number (if you have one)</label>
-            <p class="form-hint">You can find it on your card, statement or passbook</p>
-            {% if errors['RollNumber'][0] %}
-            <span class="error-message" id="error-message-roll-number">{{ errors['RollNumber'][0] }}</span>
-            {% endif %}
-            <input id="roll-number-input"
-                   name="RollNumber"
-                   type="text"
-                   autocomplete="off"
-                   class="form-control"
-                   value="{{ bankDetails['RollNumber'] }}"
-                   data-cy="roll-number">
-          </div>
-        {% endif %}
-
-        <label id="send-message-to-caseworker" name="send-message-to-caseworker" class="form-label-bold">Send a message to your caseworker (optional)</label>
-        <textarea id="message-to-caseworker" name="message-to-caseworker" type="text" class="form-control" data-cy="message-to-caseworker"></textarea>
-
-        <br>
-
-        <input id="claim-view-submit"
-               type="submit"
-               value="Submit updates"
-               class="button"
-               data-cy="submit">
-        <br>
-        <br>
-        <a href="/your-claims" id="cancel" class="link">cancel</a>
-      {% else %}
-        <a href="/your-claims" id="back" class="link">back</a>
       {% endif %}
-    </div>
 
-  </form>
+      {{ govukTextarea({
+        name: "message-to-caseworker",
+        id: "message-to-caseworker",
+        classes: "govuk-!-width-one-half",
+        label: {
+          text: "Send a message to your caseworker (optional)",
+          classes: "govuk-label--s"
+        },
+        attributes: {
+          "data-cy": "message-to-caseworker"
+        }
+      }) }}
 
+      {{ govukButton({
+        text: "Submit updates",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
 
-</main>
+      <br>
+      <a href="/your-claims" id="cancel">cancel</a>
+    {% else %}
+      <a href="/your-claims" id="back">back</a>
+    {% endif %}
+  </div>
 
+</form>
 {% endblock %}
