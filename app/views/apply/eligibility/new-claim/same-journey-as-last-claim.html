@@ -1,104 +1,103 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Are you applying for the same journey as last time - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Are you applying for the same journey as last time - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-  <main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      Your last journey
+    </h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <table>
+      <thead>
+        <tr>
+          <th>Expense</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
 
-      {% include "includes/validation-error-messages.html" %}
+      <tbody>
+      {% for claimExpense in lastClaimDetails.expenses %}
+        <tr>
+          <td>
+            <div class="govuk-!-font-weight-bold">{{ displayHelper.getExpenseDisplayName(claimExpense.ExpenseType) }}</div>
+            {{ claimExpenseHelper(claimExpense) }}
+          </td>
+          <td>
+            {{ displayHelper.toCurrency(claimExpense.Cost) }}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
 
-      <h1 class="heading-large">
-        Your last journey
-      </h1>
+    {% if lastClaimDetails.escort[0] %}
+    <p>
+      <div class="govuk-!-font-weight-bold">Escort</div>
+      {% for claimEscort in lastClaimDetails.escort %}
+      <div>{{ claimEscort.FirstName + ' ' + claimEscort.LastName }}</div>
+      {% endfor %}
+    </p>
+    {% endif %}
 
-      <table>
-        <thead>
-          <tr>
-            <th>Expense</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
+    {% if lastClaimDetails.children[0] %}
+    <p>
+      <div class="govuk-!-font-weight-bold">Children</div>
+      {% for claimChild in lastClaimDetails.children %}
+      <div>{{ claimChild.FirstName }} {{ claimChild.LastName }}</div>
+      {% endfor %}
+    </p>
+    {% endif %}
 
-        <tbody>
-        {% for claimExpense in lastClaimDetails.expenses %}
-          <tr>
-            <td>
-              <div class="bold">{{ displayHelper.getExpenseDisplayName(claimExpense.ExpenseType) }}</div>
-              {{ claimExpenseHelper(claimExpense) }}
-            </td>
-            <td>
-              {{ displayHelper.toCurrency(claimExpense.Cost) }}
-            </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+    <form action="/apply/eligibility/new-claim/same-journey-as-last-claim" method="post" class="govuk-!-margin-top-7">
 
-      {% if lastClaimDetails.escort[0] %}
-      <p>
-        <div class="bold">Escort</div>
-        {% for claimEscort in lastClaimDetails.escort %}
-        <div>{{ claimEscort.FirstName + ' ' + claimEscort.LastName }}</div>
-        {% endfor %}
-      </p>
-      {% endif %}
+      {{ govukRadios({
+        classes: "govuk-radios--inline",
+        name: "same-journey-as-last-claim",
+        fieldset: {
+          legend: {
+            text: "Are you applying for the same journey as last time?",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            attributes: {
+              "data-cy": "yes"
+            }
+          },
+          {
+            value: "no",
+            text: "No",
+            attributes: {
+              "data-cy": "no"
+            }
+          }
+        ],
+        errorMessage: errors | findError('same-journey-as-last-claim')
+      }) }}
 
-      {% if lastClaimDetails.children[0] %}
-      <p>
-        <div class="bold">Children</div>
-        {% for claimChild in lastClaimDetails.children %}
-        <div>{{ claimChild.FirstName }} {{ claimChild.LastName }}</div>
-        {% endfor %}
-      </p>
-      {% endif %}
+      {% include "partials/csrf-hidden-input.html" %}
 
-      <h2 class="heading-medium">Are you applying for the same journey as last time?</h2>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
+    </form>
 
-      <form action="/apply/eligibility/new-claim/same-journey-as-last-claim" method="post" class="form">
-
-        <div class="form-group">
-          <fieldset class="inline">
-            <legend class="visually-hidden">Are you applying for the same journey as last time</legend>
-            <div class="multiple-choice">
-              <input type="radio" name="same-journey-as-last-claim" value="yes" id="yes" data-cy="yes">
-              <label for="yes" class="block-label inline">
-                Yes
-              </label>
-            </div>
-              
-            <div class="multiple-choice">
-              <input type="radio" name="same-journey-as-last-claim" value="no" id="no" data-cy="no">
-              <label for="no" class="block-label inline">
-                No
-              </label>
-            </div>
-          </fieldset>
-        </div>
-
-        <div class="form-group">
-          {% include "partials/csrf-hidden-input.html" %}
-
-          <input type="submit"
-                 id="same-journey-as-last-claim-submit"
-                 name="commit"
-                 value="Continue"
-                 class="button"
-                 data-cy="submit">
-        </div>
-
-      </form>
-
-    </div>
   </div>
-
-  </main>
-
+</div>
 {% endblock %}

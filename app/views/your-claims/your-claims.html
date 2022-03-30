@@ -1,110 +1,123 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
-{% block page_title %}
-  Start a new claim or view existing claim - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Start a new claim or view existing claim - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
 
-<main id="content" role="main">
-
-  {% include "includes/phase_banner_beta.html" %}
-
-  <br>
-  <div class="grid-row">
-
-    <div class="column-two-thirds">
-      <h1 class="heading-large push-top">
-        <span class="heading-secondary">Reference number</span>{{ reference }}
-      </h1>
-    </div>
-
-
-
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l" data-cy="reference">
+      <span class="govuk-heading-m govuk-!-font-weight-regular govuk-!-margin-bottom-1 secondary-text">Reference number</span>{{ reference }}
+    </h1>
   </div>
 
-  <div class="grid-row">
+</div>
 
-    <div class="column-one-third">
-      <span class="text-secondary">Prisoner name</span>
-      <div class="bold-small">{{ claims[0].FirstName }} {{ claims[0].LastName }}</div>
-    </div>
+<div class="govuk-grid-row govuk-!-margin-bottom-5">
 
-    <div class="column-one-third">
-      <span class="text-secondary">Prison</span>
-      <div class="bold-small">{{ displayHelper.getPrisonDisplayName(claims[0].NameOfPrison) }}</div>
-    </div>
-
-    <div class="column-one-third">
-      <span class="text-secondary">Prisoner number</span>
-      <div class="bold-small">{{ claims[0].PrisonNumber }}</div>
-    </div>
-
+  <div class="govuk-grid-column-one-third">
+    <span class="secondary-text">Prisoner name</span>
+    <div class="govuk-!-font-weight-bold" data-cy="prisoner-name">{{ claims[0].FirstName }} {{ claims[0].LastName }}</div>
   </div>
 
-  {% if canStartNewClaim %}
-  <form action="/your-claims/check-your-information" method="GET">
-      <input id="new-claim" type="submit" class="button heading-large" value="Start a new claim" data-cy="new-claim"/>
-  </form>
-  {% else %}
-  <input id="new-claim" type="button" class="button heading-large" disabled value="Start a new claim" />
-  <br />
-  <p class="text-warning">You can't start a new claim as you have an existing claim in progress</p>
-  <br />
-  {% endif %}
+  <div class="govuk-grid-column-one-third">
+    <span class="secondary-text">Prison</span>
+    <div class="govuk-!-font-weight-bold" data-cy="prison">{{ displayHelper.getPrisonDisplayName(claims[0].NameOfPrison) }}</div>
+  </div>
 
-  <br />
-  <a href="/start" class="link">Make a claim for a different prisoner</a>
+  <div class="govuk-grid-column-one-third">
+    <span class="secondary-text">Prisoner number</span>
+    <div class="govuk-!-font-weight-bold" data-cy="prisoner-number">{{ claims[0].PrisonNumber }}</div>
+  </div>
 
-  <hr>
+</div>
 
-  <h2 class="heading-medium">
-    Your claim{% if claims[1] %}s{% endif %}
-  </h2>
+{% if canStartNewClaim %}
+<form action="/your-claims/check-your-information" method="GET">
+  {{ govukButton({
+    text: "Start a new claim",
+    preventDoubleClick: true,
+    attributes: {
+      "data-cy": "new-claim"
+    }
+  }) }}
+</form>
+{% else %}
+  {{ govukButton({
+    text: "Start a new claim",
+    preventDoubleClick: true,
+    disabled: true,
+    attributes: {
+      "data-cy": "new-claim"
+    }
+  }) }}
 
-  <table class="claim-list">
+  {{ govukWarningText({
+    text: "You can't start a new claim as you have an existing claim in progress",
+    iconFallbackText: "Warning"
+  }) }}
+{% endif %}
 
-    <tr>
-      <th>Date sent</th>
-      <th>Date of visit</th>
-      <th>Progress</th>
-      <th></th>
-    </tr>
+<a href="/start">Make a claim for a different prisoner</a>
 
-    {% for claim in claims %}
-      <tr {% if forEdit(claim.Status) %} class='warning' {% endif %}>
-        <td><span class="date-submmited">Date sent </span>{{ dateHelper(claim.DateSubmitted) }}
-        <td><span class="visit-date">	Date of visit </span>{{ dateHelper(claim.DateOfJourney) }}</td>
-        <td
-          {% if claim.IsAdvanceClaim %}
-            {% if claim.Status == 'APPROVED-ADVANCE-CLOSED' %}
-              >Closed
-            {% elif forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
-              class ="text-warning your-claims"><span class="claim-status">Progress </span>Information needed
-            {% elif claim.Status == 'APPROVED' %}
-              class ="text-pending your-claims"><span class="claim-status">Progress </span>Information needed after visit takes place
-            {% elif claim.Status == 'REJECTED' %}
-              >Rejected
-            {% else %}
-              class ="text-pending your-claims"><span class="claim-status">Progress </span>In progress
-            {% endif %}
+<hr>
 
+<h2 class="govuk-heading-m">
+  Your claim{% if claims[1] %}s{% endif %}
+</h2>
+
+<table class="claim-list">
+
+  <tr>
+    <th>Date sent</th>
+    <th>Date of visit</th>
+    <th>Progress</th>
+    <th></th>
+  </tr>
+
+  {% for claim in claims %}
+    <tr {% if forEdit(claim.Status) %} class='warning' {% endif %}>
+      <td data-cy="claim-{{ loop.index }}-date"><span class="date-submmited">Date sent </span>{{ dateHelper(claim.DateSubmitted) }}</td>
+      <td data-cy="claim-{{ loop.index }}-visit-date"><span class="visit-date">	Date of visit </span>{{ dateHelper(claim.DateOfJourney) }}</td>
+      <td data-cy="claim-{{ loop.index }}-status"
+        {% if claim.IsAdvanceClaim %}
+          {% if claim.Status == 'APPROVED-ADVANCE-CLOSED' %}
+            >Closed
+          {% elif forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
+            class ="text-warning your-claims"><span class="claim-status">Progress </span>Information needed
+          {% elif claim.Status == 'APPROVED' %}
+            class ="text-pending your-claims"><span class="claim-status">Progress </span>Information needed after visit takes place
+          {% elif claim.Status == 'REJECTED' %}
+            >Rejected
           {% else %}
-            ><span class="claim-status">Progress </span>{{ claimStatusHelper(claim.Status) }}
+            class ="text-pending your-claims"><span class="claim-status">Progress </span>In progress
           {% endif %}
-        </td>
-        <td><a id="add-info" href="/your-claims/{{ claim.ClaimId }}" data-cy="add-info"
-        {% if forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
-          class="button grey"> Add information
+
         {% else %}
-          >View
+          ><span class="claim-status">Progress </span>{{ claimStatusHelper(claim.Status) }}
         {% endif %}
-        </a></td>
-      </tr>
-    {% endfor %}
+      </td>
+      <td>
+      {% if forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
+        {{ govukButton({
+          classes: "govuk-button--secondary govuk-!-margin-bottom-1",
+          text: "Add information",
+          preventDoubleClick: true,
+          href: "/your-claims/" + claim.ClaimId,
+          attributes: {
+            "data-cy": "add-info"
+          }
+        }) }}
+      {% else %}
+        <a id="add-info" href="/your-claims/{{ claim.ClaimId }}" data-cy="view-claim">View</a>
+      {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
 
-  </table>
-
-</main>
-
+</table>
 {% endblock %}

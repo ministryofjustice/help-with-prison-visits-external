@@ -1124,6 +1124,9 @@ ul.claim-dialog-public li.claimant {
   }
 }
 
+.secondary-text {
+  color: $govuk-secondary-text-colour;
+}
 
 /* TEMPORARY Global cookie message from old GOVUK toolkit */
 #global-cookie-message p {
