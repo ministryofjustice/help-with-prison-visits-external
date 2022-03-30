@@ -17,7 +17,7 @@
 
 </div>
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-margin-bottom-5">
 
   <div class="govuk-grid-column-one-third">
     <span class="secondary-text">Prisoner name</span>
@@ -38,7 +38,6 @@
 
 {% if canStartNewClaim %}
 <form action="/your-claims/check-your-information" method="GET">
-  <br>
   {{ govukButton({
     text: "Start a new claim",
     preventDoubleClick: true,
@@ -48,7 +47,6 @@
   }) }}
 </form>
 {% else %}
-<br />
   {{ govukButton({
     text: "Start a new claim",
     preventDoubleClick: true,
@@ -57,17 +55,15 @@
       "data-cy": "new-claim"
     }
   }) }}
-<br />
-{{ govukWarningText({
-  text: "You can't start a new claim as you have an existing claim in progress",
-  iconFallbackText: "Warning"
-}) }}
+
+  {{ govukWarningText({
+    text: "You can't start a new claim as you have an existing claim in progress",
+    iconFallbackText: "Warning"
+  }) }}
 {% endif %}
 
 <a href="/start">Make a claim for a different prisoner</a>
 
-<br>
-<br>
 <hr>
 
 <h2 class="govuk-heading-m">
