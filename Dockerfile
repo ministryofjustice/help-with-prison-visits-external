@@ -43,6 +43,10 @@ RUN npm prune --no-audit --production
 # Stage: copy production assets and dependencies
 FROM base
 
+RUN mkdir /app/logs && chown appuser:appgroup /app/logs
+RUN mkdir /app/uploads && chown appuser:appgroup /app/uploads
+RUN mkdir /app/tmp && chown appuser:appgroup /app/tmp
+
 COPY --from=build --chown=appuser:appgroup \
         /app/package.json \
         /app/package-lock.json \
@@ -54,6 +58,9 @@ COPY --from=build --chown=appuser:appgroup \
 
 COPY --from=build --chown=appuser:appgroup \
         /app/node_modules ./node_modules
+
+COPY --from=build --chown=appuser:appgroup \
+        /app/logs ./logs
 
 COPY --from=build --chown=appuser:appgroup \
         /app/app ./app
