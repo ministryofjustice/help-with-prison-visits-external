@@ -1,46 +1,53 @@
-FROM node:16.14-bullseye-slim as builder
+# Stage: base image
+FROM node:16.14-bullseye-slim as base
 
-ARG BUILD_NUMBER=dev
-ARG GIT_REF=dev
+ARG BUILD_NUMBER=1_0_0
+ARG GIT_REF=not-available
 
-RUN apt-get update && \
-    apt-get upgrade -y
+LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
+
+ENV TZ=Europe/London
+RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
+
+RUN addgroup --gid 2000 --system appgroup && \
+    adduser --uid 2000 --system appuser --gid 2000
 
 WORKDIR /app
-
-COPY . .
-
-RUN npm ci --no-audit && \
-    npm run css-build && \
-    export BUILD_NUMBER=${BUILD_NUMBER} && \
-    export GIT_REF=${GIT_REF} && \
-    npm run record-build-info
-
-RUN npm prune --production
-
-FROM node:16.14-bullseye-slim
-LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
-RUN addgroup --gid 2000 --system appgroup && \
-    adduser --uid 2000 --system appuser --gid 2000
+# Stage: build assets
+FROM base as build
 
-ENV TZ=Europe/London
-RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
+ARG BUILD_NUMBER=1_0_0
+ARG GIT_REF=not-available
 
-# Create app directory
-RUN mkdir /app && chown appuser:appgroup /app
+RUN apt-get update && \
+    apt-get install -y make python g++
+
+COPY package*.json ./
+RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
+
+COPY . .
+RUN npm run css-build
+
+RUN export BUILD_NUMBER=${BUILD_NUMBER} && \
+    export GIT_REF=${GIT_REF} && \
+    npm run record-build-info
+
+RUN npm prune --no-audit --production
+
+# Stage: copy production assets and dependencies
+FROM base
+
 RUN mkdir /app/logs && chown appuser:appgroup /app/logs
 RUN mkdir /app/uploads && chown appuser:appgroup /app/uploads
 RUN mkdir /app/tmp && chown appuser:appgroup /app/tmp
-USER 2000
-WORKDIR /app
 
-COPY --from=builder --chown=appuser:appgroup \
+COPY --from=build --chown=appuser:appgroup \
         /app/package.json \
         /app/package-lock.json \
         /app/knexfile.js \
@@ -49,17 +56,18 @@ COPY --from=builder --chown=appuser:appgroup \
         /app/build-css \
         ./
 
-COPY --from=builder --chown=appuser:appgroup \
+COPY --from=build --chown=appuser:appgroup \
         /app/node_modules ./node_modules
 
-COPY --from=builder --chown=appuser:appgroup \
+COPY --from=build --chown=appuser:appgroup \
+        /app/logs ./logs
+
+COPY --from=build --chown=appuser:appgroup \
         /app/app ./app
 
 ENV PORT=3000
-
 EXPOSE 3000
 USER 2000
-
 
 HEALTHCHECK CMD curl --fail http://localhost:3000/status || exit 1
 
