@@ -1,56 +1,75 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Update your contact details - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Update your contact details - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
 
-<main id="content" role="main">
+{% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      Update your contact details
+    </h1>
 
-  {% include "includes/validation-error-messages.html" %}
+    <form action="/your-claims/update-contact-details" method="post" novalidate>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
-      <h1 class="heading-large">
-        Update your contact details
-      </h1>
+      {{ govukInput({
+        label: {
+          text: "Email address"
+        },
+        hint: {
+          text: "You’ll receive confirmation by email"
+        },
+        id: "email-address",
+        name: "email-address",
+        type: "email",
+        value: contactDetails['email-address'],
+        classes: "govuk-!-width-one-half",
+        autocomplete: "email",
+        spellcheck: false,
+        attributes: {
+          "data-cy": "email"
+        },
+        errorMessage: errors | findError('EmailAddress')
+      }) }}
 
-      <form action="/your-claims/update-contact-details" method="post" class="form">
+      {{ govukInput({
+        label: {
+          text: "Phone number"
+        },
+        id: "phone-number",
+        name: "phone-number",
+        type: "tel",
+        value: contactDetails['phone-number'],
+        classes: "govuk-!-width-one-half",
+        autocomplete: "tel",
+        attributes: {
+          "data-cy": "phone"
+        },
+        errorMessage: errors | findError('PhoneNumber')
+      }) }}
 
-        <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}" >
-          <label id="EmailAddress" class="form-label" for="email-address">Email address</label>
-          <p class="form-hint">You’ll receive confirmation by email</p>
-          {% if errors['EmailAddress'][0] %}
-            <span class="error-message">{{ errors['EmailAddress'][0] }}</span>
-          {% endif %}
-          <input type="text" autocomplete="off" class="form-control" name="email-address" id="email-address" value="{{ contactDetails['email-address'] }}" data-cy="email">
-        </div>
+      {% include "partials/csrf-hidden-input.html" %}
 
-        <div class="form-group {% if errors['PhoneNumber'][0] %} error {% endif %}">
-          <label id="PhoneNumber" class="form-label" for="phone-number">Phone number</label>
-          {% if errors['PhoneNumber'][0] %}
-            <span class="error-message">{{ errors['PhoneNumber'][0] }}</span>
-          {% endif %}
-          <input type="text" autocomplete="off" class="form-control" name="phone-number"  id="phone-number" value="{{ contactDetails['phone-number'] }}" data-cy="phone">
-        </div>
+      <input type="hidden" name="EligibilityId" value="{{ eligibilityId }}">
 
-        <br>
-        <br>
+      {{ govukButton({
+        text: "Save",
+        preventDoubleClick: true,
+        attributes: {
+          "data-cy": "submit"
+        }
+      }) }}
 
-        {% include "partials/csrf-hidden-input.html" %}
+    </form>
 
-        <input type="hidden" name="EligibilityId" value="{{ eligibilityId }}">
+    <a href="/your-claims/check-your-information">Cancel</a>
 
-        <div class="form-group"><input id="submit" type="submit" name="commit" value="Save" class="button" data-cy="submit"></div>
-        <a href="/your-claims/check-your-information" class="link">Cancel</a>
-      </form>
-
-      </div>
     </div>
-
-</main>
-
+  </div>
 {% endblock %}

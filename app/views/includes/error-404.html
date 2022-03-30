@@ -1,24 +1,16 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
 
-{% block page_title %}
+{% block pageTitle %}
 404 error - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    <h1 class="govuk-heading-xl">This page cannot be found</h1>
+    <p>You can <a href="/">make a claim for a prison visit</a> or book your visit by phone instead.</p>
 
-  {% include "includes/phase_banner_beta.html" %}
-
-  <div class="grid-row">
-    <div class="column-two-thirds">
-
-      <h1 class="heading-xlarge">This page cannot be found</h1>
-      <p>You can <a href="/">make a claim for a prison visit</a> or book your visit by phone instead.</p>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}

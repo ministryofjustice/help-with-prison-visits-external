@@ -1,24 +1,16 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
 
-{% block page_title %}
+{% block pageTitle %}
 Error - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    <h1 class="govuk-heading-xl">An Error has occurred</h1>
+    <p>{{ error }}</p>
 
-  {% include "includes/phase_banner_beta.html" %}
-
-  <div class="grid-row">
-    <div class="column-two-thirds">
-
-      <h1 class="heading-xlarge">An Error has occurred</h1>
-      <p>{{ error }}</p>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}
