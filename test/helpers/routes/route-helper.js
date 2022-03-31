@@ -1,6 +1,6 @@
 const mockViewEngine = require('../../unit/routes/mock-view-engine')
 const express = require('express')
-const expressSanitized = require('express-sanitized')
+const htmlSanitizerMiddleware = require('../../../app/middleware/htmlSanitizer')
 const cookieParser = require('cookie-parser')
 const cookieSession = require('cookie-session')
 
@@ -10,7 +10,7 @@ module.exports.buildApp = function (route) {
   const app = express()
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
-  app.use(expressSanitized())
+  app.use(htmlSanitizerMiddleware())
   app.use(cookieParser())
 
   app.use(cookieSession({

@@ -4,7 +4,7 @@ const express = require('express')
 const nunjucksSetup = require('./services/nunjucks-setup')
 const path = require('path')
 const favicon = require('serve-favicon')
-const expressSanitized = require('express-sanitized')
+const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
 const helmet = require('helmet')
 const compression = require('compression')
 const i18n = require('i18n')
@@ -81,7 +81,7 @@ app.use(function (req, res, next) {
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(expressSanitized())
+app.use(htmlSanitizerMiddleware())
 
 // Send assetPath to all views.
 app.use(function (req, res, next) {

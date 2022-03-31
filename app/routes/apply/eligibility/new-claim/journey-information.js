@@ -36,8 +36,6 @@ module.exports = function (router) {
     const isAdvancedClaim = req.session.advanceOrPast === 'advance'
 
     try {
-      console.dir('try')
-
       return getReleaseDate(referenceAndEligibilityId.id).then(function (results) {
         let releaseDateIsSet
         let releaseDate
