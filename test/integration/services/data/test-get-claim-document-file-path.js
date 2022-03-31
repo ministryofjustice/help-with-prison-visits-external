@@ -30,7 +30,7 @@ describe('services/data/get-claim-document-file-path', function () {
             return claimDocumentHelper.insert(REFERENCE, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)
           })
           .then(function (newClaimDocumentId) {
-            claimDocumentId = newClaimDocumentId
+            claimDocumentId = newClaimDocumentId[0].ClaimDocumentId
           })
       })
   })
