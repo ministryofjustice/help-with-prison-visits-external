@@ -74,7 +74,6 @@
     "sanitize-html": "^2.7.0",
     "sass": "^1.49.9",
     "serve-favicon": "~2.5.0",
-    "underscore": "^1.13.2",
     "uuid": "^8.3.2",
     "validator": "^13.7.0"
   },

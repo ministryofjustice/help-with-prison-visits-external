@@ -1,33 +1,31 @@
 const sanitizeHtml = require('sanitize-html')
-const _ = require('underscore')
 
-/**
- * Simple middleware that wraps sanitizer and can be exposed
- * at the app.use router layer and apply to all methods.
- * This is best used for APIs where it is very unlikely
- * you would need to pass back and forth html entities
- *
- * @return {Function}
- * @api public
- *
- */
-module.exports = function htmlSanitizerMiddleware () {
-  return function expressSanitized (req, res, next) {
-    [req.body, req.query].forEach(function (val, ipar, request) {
-      if (_.size(val)) {
-        _.each(val, function (val, ichild) {
-          if (val) {
-            // strings
-            if (_.isString(val)) {
-              request[ipar][ichild] = sanitizeHtml(val)
-            }
+/*
+  Based on https://github.com/askhogan/express-sanitized which is no longer maintained
+*/
+module.exports = () => {
+  return (req, res, next) => {
+    Object.keys(req.body).forEach((key) => {
+      const value = req.body[key]
 
-            // arrays and objects
-            if (_.isArray(val) || _.isObject(val)) {
-              request[ipar][ichild] = sanitizeObject(val)
-            }
-          }
-        })
+      if (typeof value === 'string') {
+        req.body[key] = sanitizeHtml(value)
+      }
+
+      if (typeof value === 'object') {
+        req.body[key] = sanitizeObject(value)
+      }
+    })
+
+    Object.keys(req.query).forEach((key) => {
+      const value = req.query[key]
+
+      if (typeof value === 'string') {
+        req.query[key] = sanitizeHtml(value)
+      }
+
+      if (typeof value === 'object') {
+        req.query[key] = sanitizeObject(value)
       }
     })
 
@@ -35,11 +33,11 @@ module.exports = function htmlSanitizerMiddleware () {
   }
 }
 
-function sanitizeObject (val) {
+const sanitizeObject = (value) => {
   try {
-    const clean = sanitizeHtml(JSON.stringify(val))
-    return JSON.parse(clean)
+    const sanitized = sanitizeHtml(JSON.stringify(value))
+    return JSON.parse(sanitized)
   } catch (e) {
-    return val
+    return value
   }
 }

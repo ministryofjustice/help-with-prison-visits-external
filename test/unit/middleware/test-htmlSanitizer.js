@@ -23,6 +23,24 @@ describe('middleware/htmlSanitizer', function () {
     })
   })
 
+  it('should sanitize object with <script> tag', function (done) {
+    const mockRequest = httpMocks.createRequest({
+      method: 'POST',
+      url: '/',
+      body: {
+        propertyToSanitize: { someAttrib: '<script>hello</script> world' }
+      }
+    })
+    const mockResponse = httpMocks.createResponse()
+
+    htmlSanitizerMiddleware()(mockRequest, mockResponse, function next (error) {
+      if (error) { throw new Error('Expected not to receive an error') }
+
+      expect(mockRequest.body.propertyToSanitize).to.eql({ someAttrib: ' world' })
+      done()
+    })
+  })
+
   it('should sanitize request body containing <script> tag', function (done) {
     const app = express()
     app.use(express.json())
