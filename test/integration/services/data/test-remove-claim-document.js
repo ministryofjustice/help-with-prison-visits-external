@@ -16,7 +16,7 @@ describe('services/data/remove-claim-document', function () {
         claimId = ids.claimId
         return claimDocumentHelper.insert(REFERENCE, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)
           .then(function (claimDocId) {
-            claimDocumentId = claimDocId
+            claimDocumentId = claimDocId[0].ClaimDocumentId
           })
       })
   })
