@@ -1,24 +1,18 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
 
-{% block page_title %}
+{% block pageTitle %}
 Temporarily down for maintenance - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    <h1 class="govuk-heading-l">Temporarily down for maintenance</h1>
+    <p>The Help With Prison Visits service is temporarily unavailable for essential maintenance today, Thursday 27th January 2022.</p>
+    <p>You cannot submit claims or update your details during this time, but you can contact us as usual.</p>
+    <p>We apologise for any inconvenience this may cause.</p>
 
-  <div class="grid-row">
-    <div class="column-full-width">
-
-      <h1 class="heading-large">Temporarily down for maintenance</h1>
-      <p>The Help With Prison Visits service is temporarily unavailable for essential maintenance today, Thursday 27th January 2022.</p>
-      <p>You cannot submit claims or update your details during this time, but you can contact us as usual.</p>
-      <p>We apologise for any inconvenience this may cause.</p>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}

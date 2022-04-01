@@ -3,7 +3,6 @@ const config = require('../config')
 const express = require('express')
 const nunjucksSetup = require('./services/nunjucks-setup')
 const path = require('path')
-const favicon = require('serve-favicon')
 const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
 const helmet = require('helmet')
 const compression = require('compression')
@@ -63,8 +62,6 @@ const govukAssets = [
 govukAssets.forEach(dir => {
   app.use('/assets', express.static(path.join(__dirname, dir)))
 })
-
-app.use(favicon(path.join(__dirname, '../node_modules/govuk_template_jinja/assets/images/favicon.ico')))
 
 // Cookie session
 app.set('trust proxy', 1) // trust first proxy

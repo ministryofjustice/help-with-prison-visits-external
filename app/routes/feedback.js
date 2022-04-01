@@ -14,7 +14,7 @@ module.exports = function (router) {
       const feedback = new Feedback(req.body.rating, req.body.improvements, req.body.emailAddress)
       insertTask(null, null, null, TaskEnums.FEEDBACK_SUBMITTED, `${feedback.rating}~~${feedback.improvements}~~${feedback.emailAddress}`)
         .then(function () {
-          return res.redirect('/')
+          return res.redirect('/start')
         })
     } catch (error) {
       if (error instanceof ValidationError) {

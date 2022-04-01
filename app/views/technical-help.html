@@ -1,110 +1,119 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
 
-{% block page_title %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/character-count/macro.njk" import govukCharacterCount %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
 Ask for help - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+  {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+  <h1 class="govuk-heading-xl">Ask for help</h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+  <p>Enter the details requested below and a brief description of what you need help with. Help With Prison Visits (HWPV) will respond as soon as possible.</p>
+  <p>We'll only use your details to respond to your question. Don't include any personal information, for example national insurance number or date of birth.</p>
 
-      {% include "includes/validation-error-messages.html" %}
+  <form action="/help" method="post" novalidate>
+    {{ govukInput({
+      label: {
+        text: "Name",
+        classes: "govuk-label--s"
+      },
+      id: "name",
+      name: "name",
+      value: help['name'],
+      classes: "govuk-!-width-one-half",
+      autocomplete: "name",
+      spellcheck: false,
+      errorMessage: errors | findError('name')
+    }) }}
 
-      <h1 class="heading-xlarge">Ask for help</h1>
+    {{ govukInput({
+      label: {
+        text: "Email address",
+        classes: "govuk-label--s"
+      },
+      id: "EmailAddress",
+      name: "emailAddress",
+      type: "email",
+      value: help['emailAddress'],
+      classes: "govuk-!-width-one-half",
+      autocomplete: "email",
+      spellcheck: false,
+      errorMessage: errors | findError('EmailAddress')
+    }) }}
 
-      <p>Enter the details requested below and a brief description of what you need help with. Help With Prison Visits (HWPV) will respond as soon as possible.</p>
-      <p>We'll only use your details to respond to your question. Don't include any personal information, for example national insurance number or date of birth.</p>
+    {{ govukInput({
+      label: {
+        text: "Reference Number (optional)",
+        classes: "govuk-label--s"
+      },
+      id: "ReferenceNumber",
+      name: "referenceNumber",
+      value: help['referenceNumber'],
+      classes: "govuk-!-width-one-half",
+      spellcheck: false,
+      errorMessage: errors | findError('ReferenceNumber')
+    }) }}
 
-      <form action="/help" method="post">
-        <div class="form-group {% if errors['name'][0] %} error {% endif %}">
-          <label for="name" class="form-label-bold">Name</label>
-          {% if errors['name'][0] %}
-            <span class="error-message" id="error-message-name">{{ errors['name'][0] }}</span>
-          {% endif %}
-          <input id="name" autocomplete="off" name="name" class="form-control" value="{{ help['name'] }}">
-        </div>
+    {{ govukDateInput({
+      id: "date-of-claim",
+      namePrefix: "date-of-claim",
+      fieldset: {
+        legend: {
+          text: "Date of claim (optional)",
+          classes: "govuk-label--s"
+        }
+      },
+      items: [
+        {
+          classes: "govuk-input--width-2",
+          name: "day",
+          value: help['date-of-claim-day']
+        },
+        {
+          classes: "govuk-input--width-2",
+          name: "month",
+          value: help['date-of-claim-month']
+        },
+        {
+          classes: "govuk-input--width-4",
+          name: "year",
+          value: help['date-of-claim-year']
+        }
+      ],
+      errorMessage: errors | findError('DateOfClaim')
+    }) }}
 
-        <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
-          <label for="emailAddress" class="form-label-bold">Email address</label>
-          {% if errors['EmailAddress'][0] %}
-            <span class="error-message" id="error-message-email-address">{{ errors['EmailAddress'][0] }}</span>
-          {% endif %}
-          <input id="EmailAddress" autocomplete="off" name="emailAddress" class="form-control" value="{{ help['emailAddress'] }}">
-        </div>
+    {{ govukCharacterCount({
+      name: "issue",
+      id: "issue",
+      maxlength: 1200,
+      rows: 6,
+      label: {
+        text: "Describe what you'd like to talk about",
+        classes: "govuk-label--s"
+      },
+      hint: {
+        text: "Please don't include any personal information or financial information, for example your National Insurance or bank details."
+      },
+      value: help['issue'],
+      errorMessage: errors | findError('issue')
+    }) }}
 
-        <div class="form-group {% if errors['ReferenceNumber'][0] %} error {% endif %}">
-          <label for="referenceNumber" class="form-label-bold">Reference Number (optional)</label>
-          {% if errors['Reference Number'][0] %}
-            <span class="error-message" id="error-message-reference-number">{{ errors['ReferenceNumber'][0] }}</span>
-          {% endif %}
-          <input id="ReferenceNumber" autocomplete="off" name="referenceNumber" class="form-control" value="{{ help['referenceNumber'] }}">
-        </div>
+    {% include "partials/csrf-hidden-input.html" %}
 
-        <div class="form-group {% if errors['DateOfClaim'][0] %} error {% endif %}">
-          <fieldset>
-            <legend class="hidden">Date of claim</legend>
-            <div id="date-of-claim" class="form-date">
-              <label class="form-label-bold">Date of claim (optional)</label>
-
-              {% if errors['DateOfClaim'][0] %}
-                <span class="error-message">{{ errors['DateOfClaim'][0] }}</span>
-              {% endif %}
-
-              <div class="form-group form-group-day">
-                <label id="date-of-claim-day" for="date-of-claim-day-input">Day</label>
-                <input id="date-of-claim-day-input"
-                        type="number"
-                        name="date-of-claim-day"
-                        autocomplete="off"
-                        value="{{ help['date-of-claim-day'] }}"
-                        class="form-control"/>
-              </div>
-              <div class="form-group form-group-month">
-                <label id="date-of-claim-month" for="date-of-claim-month-input">Month</label>
-                <input id="date-of-claim-month-input"
-                        type="number"
-                        name="date-of-claim-month"
-                        autocomplete="off"
-                        value="{{ help['date-of-claim-month'] }}"
-                        class="form-control"/>
-              </div>
-              <div class="form-group form-group-year">
-                <label id="date-of-claim-year" for="date-of-claim-year-input">Year</label>
-                <input id="date-of-claim-year-input"
-                        type="number"
-                        name="date-of-claim-year"
-                        autocomplete="off"
-                        value="{{ help['date-of-claim-year'] }}"
-                        class="form-control"/>
-              </div>
-            </div>
-          </fieldset>
-        </div>
-
-        <p id="issue" class="heading-small">Describe what you'd like to talk about</p>
-        {% if errors['issue'][0] %}
-          <span class="error-message" id="error-message-phone-number">{{ errors['issue'][0] }}</span>
-        {% endif %}
-        <textarea id="issue" name="issue" class="form-control full {% if errors['issue'][0] %} error {% endif %}" rows="6">{{ help['issue'] }}</textarea>
-        <p>(Limit is 1200 characters)</p>
-        <p>Please don't include any personal information or financial information, for example your National Insurance or bank details.</p>
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="technical-submit"
-               type="submit"
-               value="Continue"
-               class="button">
-      </form>
-    </div>
-
-  </div>
-
-</main>
-
+    {{ govukButton({
+      text: "Continue",
+      preventDoubleClick: true
+    }) }}
+  </form>
+</div>
 {% endblock %}

@@ -12,47 +12,47 @@ module.exports = function (router) {
 
   router.post('/help', function (req, res, next) {
     try {
-      if (config.ZENDESK_ENABLED === 'true') {
-        const technicalHelp = new TechnicalHelp(
-          req.body.name,
-          req.body.emailAddress,
-          req.body.referenceNumber,
-          req.body['date-of-claim-day'],
-          req.body['date-of-claim-month'],
-          req.body['date-of-claim-year'],
-          req.body.issue
-        )
+      const technicalHelp = new TechnicalHelp(
+        req.body.name,
+        req.body.emailAddress,
+        req.body.referenceNumber,
+        req.body['date-of-claim-day'],
+        req.body['date-of-claim-month'],
+        req.body['date-of-claim-year'],
+        req.body.issue
+      )
 
-        const formattedDate = technicalHelp.dateOfClaim ? `${req.body['date-of-claim-day']}-${req.body['date-of-claim-month']}-${req.body['date-of-claim-year']}` : ''
+      const formattedDate = technicalHelp.dateOfClaim ? `${req.body['date-of-claim-day']}-${req.body['date-of-claim-month']}-${req.body['date-of-claim-year']}` : ''
 
-        let subjectText = 'Help With Prison Visits - Help'
-        const tagText = ['HelpWithPrisonVisits']
+      let subjectText = 'Help With Prison Visits - Help'
+      const tagText = ['HelpWithPrisonVisits']
 
-        if (config.ZENDESK_TEST_ENVIRONMENT === 'true') {
-          subjectText = 'Test: Help With Prison Visits - Help'
-          tagText.push('Test')
+      if (config.ZENDESK_TEST_ENVIRONMENT === 'true') {
+        subjectText = 'Test: Help With Prison Visits - Help'
+        tagText.push('Test')
+      }
+
+      const ticket = {
+        ticket: {
+          submitter_id: '114198238551',
+          requester: {
+            name: technicalHelp.name,
+            email: technicalHelp.emailAddress,
+            verified: true
+          },
+          subject: subjectText,
+          comment: {
+            body: `Reference number: ${technicalHelp.referenceNumber}\n\nDate of Claim: ${formattedDate}\n\n${technicalHelp.issue}`
+          },
+          tags: tagText
         }
+      }
 
+      if (config.ZENDESK_ENABLED === 'true') {
         const zendeskApiUrl = `${config.ZENDESK_API_URL}/api/v2/tickets.json`
         const credentials = `${config.ZENDESK_EMAIL_ADDRESS}/token:${config.ZENDESK_API_KEY}`
         const headers = {
           Authorization: 'Basic ' + Buffer.from(credentials).toString('base64')
-        }
-
-        const ticket = {
-          ticket: {
-            submitter_id: '114198238551',
-            requester: {
-              name: technicalHelp.name,
-              email: technicalHelp.emailAddress,
-              verified: true
-            },
-            subject: subjectText,
-            comment: {
-              body: `Reference number: ${technicalHelp.referenceNumber}\n\nDate of Claim: ${formattedDate}\n\n${technicalHelp.issue}`
-            },
-            tags: tagText
-          }
         }
 
         return axios.post(zendeskApiUrl, ticket, { headers })
@@ -61,16 +61,17 @@ module.exports = function (router) {
               log.info(`Zendesk ticket ${response.data.ticket.id} has been raised`)
             }
 
-            return res.redirect('/')
+            return res.redirect('/start')
           })
           .catch(function (error) {
             log.error(`Zendesk post failed. No ticket created for ref ${technicalHelp.referenceNumber}.`)
             log.error(error)
-            return res.redirect('/')
+            return res.redirect('/start')
           })
       } else {
+        log.info(ticket)
         log.info('Zendesk not enabled. No ticket created.')
-        return res.redirect('/')
+        return res.redirect('/start')
       }
     } catch (error) {
       if (error instanceof ValidationError) {
