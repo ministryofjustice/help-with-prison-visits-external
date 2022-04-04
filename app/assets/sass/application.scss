@@ -172,8 +172,8 @@ span.mileage input {
   margin-top: 0;
 }
 
-.error-summary a.repeat-link {
-  color: #005ea5;
+.govuk-error-summary a.repeat-link {
+  color: $govuk-link-colour;
 }
 
 .text-pending {
