@@ -1,55 +1,65 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Recover your reference number - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Recover your reference number - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-xl">Recover your reference number</h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <p> Enter your email address and the prisoner number to recover your reference number.</p>
 
-      {% include "includes/validation-error-messages.html" %}
+    <form action="/reference-recovery" method="post" novalidate>
 
-      <h1 class="heading-xlarge">Recover your reference number</h1>
+      {{ govukInput({
+        label: {
+          text: "Email address",
+          classes: "govuk-label--s"
+        },
+        id: "EmailAddress",
+        name: "EmailAddress",
+        type: "email",
+        value: recovery['EmailAddress'],
+        classes: "govuk-!-width-one-half",
+        autocomplete: "email",
+        spellcheck: false,
+        errorMessage: errors | findError('EmailAddress')
+      }) }}
 
-      <p> Enter your email address and the prisoner number to recover your reference number.</p>
+      {{ govukInput({
+        label: {
+          text: "Prisoner number",
+          classes: "govuk-label--s"
+        },
+        hint: {
+          text: "For example, A1234BC"
+        },
+        id: "PrisonerNumber",
+        name: "PrisonerNumber",
+        value: recovery['PrisonerNumber'],
+        classes: "govuk-!-width-one-half",
+        spellcheck: false,
+        errorMessage: errors | findError('PrisonerNumber')
+      }) }}
 
-      <form action="/reference-recovery" method="post">
-        <div id="EmailAddress" class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
-          <label for="EmailAddress" class="form-label-bold">Email address</label>
-          {% if errors['EmailAddress'][0] %}
-            <span class="error-message" id="error-message-email">{{ errors['EmailAddress'][0] }}</span>
-          {% endif %}
-          <input name="EmailAddress" autocomplete="off" class="form-control" value="{{ recovery['EmailAddress'] }}">
-        </div>
+      {% include "partials/csrf-hidden-input.html" %}
 
-        <div id="PrisonerNumber" class="form-group {% if errors['PrisonerNumber'][0] %} error {% endif %}">
-          <label for="PrisonerNumber" class="form-label-bold">Prisoner number</label>
-          <p class="form-hint">For example, A1234BC</p>
-          {% if errors['PrisonerNumber'][0] %}
-            <span class="error-message" id="error-message-PrisonerNumber">{{ errors['PrisonerNumber'][0] }}</span>
-          {% endif %}
-          <input name="PrisonerNumber" autocomplete="off" class="form-control" value="{{ recovery['PrisonerNumber'] }}">
-        </div>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true
+      }) }}
 
-        {% include "partials/csrf-hidden-input.html" %}
+    </form>
 
-        <input id="recovery-submit"
-               type="submit"
-               value="Continue"
-               class="button">
-      </form>
-      <br>
-      <a href="/start-already-registered" id="back" class="link">back</a>
-    </div>
-
+    <a href="/start-already-registered" id="back">back</a>
   </div>
 
-</main>
-
+</div>
 {% endblock %}
