@@ -1,141 +1,125 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-Enter information about the benefit owner - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter information about the benefit owner - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    {% if isDuplicateClaim %}
+    {{ govukErrorSummary({
+      titleText: "There was a problem",
+      errorList: [
+        {
+          text: "You've already applied"
+        },
+        {
+          text: "Start a repeat claim",
+          href: "/start-already-registered",
+          attributes: {
+            class: "repeat-link"
+          }
+        }
+      ]
+    }) }}
+    {% endif %}
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <h1 class="govuk-heading-l">
+      About the benefit owner
+    </h1>
 
-      {% include "includes/validation-error-messages.html" %}
+    <form action="{{ URL }}" method="post" novalidate>
+      {{ govukInput({
+        label: {
+          text: "First name"
+        },
+        id: "FirstName",
+        name: "FirstName",
+        value: benefitOwner['FirstName'],
+        classes: "govuk-!-width-one-half",
+        autocomplete: "given-name",
+        spellcheck: false,
+        errorMessage: errors | findError('FirstName')
+      }) }}
 
-      {% if isDuplicateClaim %}
-      <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
+      {{ govukInput({
+        label: {
+          text: "Last name"
+        },
+        id: "LastName",
+        name: "LastName",
+        value: benefitOwner['LastName'],
+        classes: "govuk-!-width-one-half",
+        autocomplete: "family-name",
+        spellcheck: false,
+        errorMessage: errors | findError('LastName')
+      }) }}
 
-        <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
-          There was a problem
-        </h1>
+      {% set errorDob = errors | findError('dob') %}
+      {% set errorClass = " govuk-input--error" if errorDob %}
+      {{ govukDateInput({
+        id: "dob",
+        namePrefix: "dob",
+        fieldset: {
+          legend: {
+            text: "Date of birth"
+          }
+        },
+        hint: {
+          text: "For example, 18 08 1989"
+        },
+        items: [
+          {
+            name: "day",
+            classes: "govuk-input--width-2" + errorClass,
+            value: benefitOwner['dob-day']
+          },
+          {
+            name: "month",
+            classes: "govuk-input--width-2" + errorClass,
+            value: benefitOwner['dob-month']
+          },
+          {
+            name: "year",
+            classes: "govuk-input--width-4" + errorClass,
+            value: benefitOwner['dob-year']
+          }
+        ],
+        errorMessage: errorDob
+      }) }}
 
-        <ul class="error-summary-list">
-          <li>
-            <a href="#NationalInsuranceNumber">You've already applied</a>
-            <br><a class="repeat-link" href="/start-already-registered">Start a repeat claim</a>
-          </li>
-        </ul>
+      {{ govukInput({
+        label: {
+          text: "National Insurance number"
+        },
+        hint: {
+          text: "For example, QQ123456C"
+        },
+        id: "NationalInsuranceNumber",
+        name: "NationalInsuranceNumber",
+        value: benefitOwner['NationalInsuranceNumber'],
+        classes: "govuk-!-width-one-half",
+        autocomplete: "off",
+        spellcheck: false,
+        errorMessage: errors | findError('NationalInsuranceNumber')
+      }) }}
 
-      </div>
-      {% endif %}
+      {% include "partials/csrf-hidden-input.html" %}
 
-      <h1 class="heading-large">
-        About the benefit owner
-      </h1>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true
+      }) }}
+    </form>
 
-      <form action="{{ URL }}" method="post">
-
-        <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
-          <label id="FirstName" class="form-label-bold" for="benefit-first-name">First name</label>
-          {% if errors['FirstName'][0] %}
-          <span class="error-message" id="error-message-FirstName">{{ errors['FirstName'][0] }}</span>
-          {% endif %}
-          <input id="benefit-first-name"
-                 name="FirstName"
-                 value="{{ benefitOwner['FirstName'] }}"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control">
-        </div>
-
-        <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-          <label id="LastName" class="form-label-bold" for="benefit-last-name">Last name</label>
-          {% if errors['LastName'][0] %}
-          <span class="error-message" id="error-message-LastName">{{ errors['LastName'][0] }}</span>
-          {% endif %}
-          <input id="benefit-last-name"
-                 name="LastName"
-                 value="{{ benefitOwner['LastName'] }}"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control">
-        </div>
-
-        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
-          <fieldset>
-            <legend id="dob" class="form-label-bold">Date of birth</legend>
-
-            {% if errors['dob'][0] %}
-            <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
-            {% endif %}
-
-            <div class="form-date">
-
-              <p class="form-hint">For example, 18 08 1989</p>
-
-              <div class="form-group form-group-day">
-                <label for="dob-day">Day</label>
-                <input id="dob-day"
-                       name="dob-day"
-                       value="{{ benefitOwner['dob-day'] }}"
-                       type="number"
-                       autocomplete="off"
-                       class="form-control">
-              </div>
-
-              <div class="form-group form-group-month">
-                <label for="dob-month">Month</label>
-                <input id="dob-month"
-                       name="dob-month"
-                       value="{{ benefitOwner['dob-month'] }}"
-                       type="number"
-                       autocomplete="off"
-                       class="form-control">
-              </div>
-
-              <div class="form-group form-group-year">
-                <label for="dob-year">Year</label>
-                <input id="dob-year"
-                       name="dob-year"
-                       value="{{ benefitOwner['dob-year'] }}"
-                       type="number"
-                       autocomplete="off"
-                       class="form-control">
-              </div>
-            </div>
-
-          </fieldset>
-        </div>
-
-        <div class="form-group {% if errors['NationalInsuranceNumber'][0] %} error {% endif %}">
-          <label id="NationalInsuranceNumber" class="form-label-bold" for="national-insurance-number-input">National
-            Insurance number</label>
-          {% if errors['NationalInsuranceNumber'][0] %}
-          <span class="error-message" id="error-message-national">{{ errors['NationalInsuranceNumber'][0] }}</span>
-          {% endif %}
-          <p class="form-hint">For example, QQ123456C</p>
-          <input id="national-insurance-number-input"
-                 name="NationalInsuranceNumber"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ benefitOwner['NationalInsuranceNumber'] }}">
-        </div>
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="about-the-benefit-owner-submit"
-               type="submit"
-               class="button"
-               value="Continue">
-      </form>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}

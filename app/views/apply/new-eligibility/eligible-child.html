@@ -1,261 +1,303 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-Enter information about the Eligible Child you are escorting - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter information about the Eligible Child you are escorting - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    {% if isDuplicateClaim %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+          text: "You've already applied"
+        },
+        {
+          text: "Start a repeat claim",
+          href: "/start-already-registered",
+          attributes: {
+            class: "repeat-link"
+          }
+        }
+      ]
+    }) }}
+    {% endif %}
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <h1 class="govuk-heading-l">
+      About the Eligible Child
+    </h1>
 
-      {% include "includes/validation-error-messages.html" %}
+    <form action="{{ URL }}" method="post" novalidate>
 
-      {% if isDuplicateClaim %}
-      <div class="error-summary" role="group" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
+      {{ govukInput({
+        label: {
+          text: "First name"
+        },
+        id: "FirstName",
+        name: "FirstName",
+        value: eligibleChild['FirstName'],
+        classes: "govuk-!-width-one-half",
+        autocomplete: "given-name",
+        spellcheck: false,
+        errorMessage: errors | findError('FirstName')
+      }) }}
 
-        <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
-          There was a problem
-        </h1>
+      {{ govukInput({
+        label: {
+          text: "Last name"
+        },
+        id: "LastName",
+        name: "LastName",
+        value: eligibleChild['LastName'],
+        classes: "govuk-!-width-one-half",
+        autocomplete: "family-name",
+        spellcheck: false,
+        errorMessage: errors | findError('LastName')
+      }) }}
 
-        <ul class="error-summary-list">
-          <li>
-            <a href="#NationalInsuranceNumber">You've already applied</a>
-            <br><a class="repeat-link" href="/start-already-registered">Start a repeat claim</a>
-          </li>
-        </ul>
+      {{ govukSelect({
+        id: "ChildRelationship",
+        name: "ChildRelationship",
+        label: {
+          text: "Child's relationship to the prisoner"
+        },
+        classes: "govuk-!-width-one-half",
+        hint: {
+          text: "The prisoner is the child's:"
+        },
+        items: [
+          {
+            text: "select"
+          },
+          {
+            value: "Mother",
+            text: "Mother",
+            selected: eligibleChild['ChildRelationship'] == "Mother"
+          },
+          {
+            value: "Father",
+            text: "Father",
+            selected: eligibleChild['ChildRelationship'] == "Father"
+          },
+          {
+            value: "Grandmother",
+            text: "Grandmother",
+            selected: eligibleChild['ChildRelationship'] == "Grandmother"
+          },
+          {
+            value: "Grandfather",
+            text: "Grandfather",
+            selected: eligibleChild['ChildRelationship'] == "Grandfather"
+          },
+          {
+            value: "Brother",
+            text: "Brother",
+            selected: eligibleChild['ChildRelationship'] == "Brother"
+          },
+          {
+            value: "Sister",
+            text: "Sister",
+            selected: eligibleChild['ChildRelationship'] == "Sister"
+          },
+          {
+            value: "Next of kin",
+            text: "Next of kin",
+            selected: eligibleChild['ChildRelationship'] == "Next of kin"
+          }
+        ],
+        errorSummary: errors | findError('ChildRelationship')
+      }) }}
 
-      </div>
-      {% endif %}
+      {% set errorDob = errors | findError('dob') %}
+      {% set errorClass = " govuk-input--error" if errorDob %}
+      {{ govukDateInput({
+        id: "dob",
+        namePrefix: "dob",
+        fieldset: {
+          legend: {
+            text: "Child's date of birth"
+          }
+        },
+        hint: {
+          text: "For example, 18 08 1989"
+        },
+        items: [
+          {
+            name: "day",
+            classes: "govuk-input--width-2" + errorClass,
+            value: eligibleChild['dob-day']
+          },
+          {
+            name: "month",
+            classes: "govuk-input--width-2" + errorClass,
+            value: eligibleChild['dob-month']
+          },
+          {
+            name: "year",
+            classes: "govuk-input--width-4" + errorClass,
+            value: eligibleChild['dob-year']
+          }
+        ],
+        errorMessage: errorDob
+      }) }}
 
-      <h1 class="heading-large">
-        About the Eligible Child
-      </h1>
+      {{ govukInput({
+        label: {
+          text: "Parent/Guardian First name"
+        },
+        id: "ParentFirstName",
+        name: "ParentFirstName",
+        value: eligibleChild['ParentFirstName'],
+        classes: "govuk-!-width-one-half",
+        autocomplete: "given-name",
+        spellcheck: false,
+        errorMessage: errors | findError('ParentFirstName')
+      }) }}
 
-      <form action="{{ URL }}"
-            method="post">
+      {{ govukInput({
+        label: {
+          text: "Parent/Guardian Last name"
+        },
+        id: "ParentLastName",
+        name: "ParentLastName",
+        value: eligibleChild['ParentLastName'],
+        classes: "govuk-!-width-one-half",
+        autocomplete: "given-name",
+        spellcheck: false,
+        errorMessage: errors | findError('ParentLastName')
+      }) }}
 
-        <div class="form-group {% if errors['FirstName'][0] %} error {% endif %}">
-          <label id="FirstName" class="form-label-bold" for="first-name-input">First name</label>
-          {% if errors['FirstName'][0] %}
-          <span class="error-message" id="error-message-first-name">{{ errors['FirstName'][0] }}</span>
-          {% endif %}
-          <input id="first-name-input"
-                 name="FirstName"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ eligibleChild['FirstName'] }}">
-        </div>
+      <h2 class="govuk-heading-m">Address</h2>
+      {% call govukFieldset({
+        legend: {
+          text: "Address",
+          classes: "govuk-visually-hidden"
+        }
+      }) %}
 
-        <div class="form-group {% if errors['LastName'][0] %} error {% endif %}">
-          <label id="LastName" class="form-label-bold" for="last-name-input">Last name</label>
-          {% if errors['LastName'][0] %}
-          <span class="error-message" id="error-message-last-name">{{ errors['LastName'][0] }}</span>
-          {% endif %}
-          <input id="last-name-input"
-                 name="LastName"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ eligibleChild['LastName'] }}">
-        </div>
+        {{ govukInput({
+          label: {
+            text: "House number and street"
+          },
+          hint: {
+            text: "For example, 123 Street Name"
+          },
+          id: "HouseNumberAndStreet",
+          name: "HouseNumberAndStreet",
+          value: eligibleChild['HouseNumberAndStreet'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "address-line1",
+          spellcheck: false,
+          errorMessage: errors | findError('HouseNumberAndStreet')
+        }) }}
 
-        <div class="form-group {% if errors['ChildRelationship'][0] %} error {% endif %}">
-          <label id="ChildRelationship" class="form-label-bold" for="child-relationship-input">Child's relationship to the prisoner</label>
-          {% if errors['ChildRelationship'][0] %}
-          <span class="error-message" id="error-message-child-relationship">{{ errors['ChildRelationship'][0] }}</span>
-          {% endif %}
-          <p>The prisoner is the child's:</p>
-          <select id="child-relationship-input" class="form-control" name="ChildRelationship">
-            <option>select</option>
-            
-            <option {% if eligibleChild['ChildRelationship'] == 'Mother' %} selected {% endif %} value="Mother" id="child-relationship-mother-">Mother</option>
-            
-            <option {% if eligibleChild['ChildRelationship'] == 'Father' %} selected {% endif %} value="Father" id="child-relationship-father">Father</option>
-            
-            <option {% if eligibleChild['ChildRelationship'] == 'Grandmother' %} selected {% endif %} value="Grandmother" id="child-relationship-grandmother">Grandmother</option>
-            
-            <option {% if eligibleChild['ChildRelationship'] == 'Grandfather' %} selected {% endif %} value="Grandfather" id="child-relationship-grandfather">Grandfather</option>
+        {{ govukInput({
+          label: {
+            text: "Town"
+          },
+          id: "Town",
+          name: "Town",
+          value: eligibleChild['Town'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "address-level2",
+          spellcheck: false,
+          errorMessage: errors | findError('Town')
+        }) }}
 
-            <option {% if eligibleChild['ChildRelationship'] == 'Brother' %} selected {% endif %} value="Brother" id="child-relationship-brother">Brother</option>
+        {{ govukInput({
+          label: {
+            text: "County"
+          },
+          id: "County",
+          name: "County",
+          value: eligibleChild['County'],
+          classes: "govuk-!-width-one-half",
+          spellcheck: false,
+          errorMessage: errors | findError('County')
+        }) }}
 
-            <option {% if eligibleChild['ChildRelationship'] == 'Sister' %} selected {% endif %} value="Sister" id="child-relationship-sister">Sister</option>
+        {{ govukInput({
+          label: {
+            text: "Postcode"
+          },
+          id: "PostCode",
+          name: "PostCode",
+          value: eligibleChild['PostCode'],
+          classes: "govuk-!-width-one-half",
+          autocomplete: "postal-code",
+          spellcheck: false,
+          errorMessage: errors | findError('PostCode')
+        }) }}
 
-            <option {% if eligibleChild['ChildRelationship'] == 'Next of kin' %} selected {% endif %} value="Next of kin" id="child-relationship-next-of-kin">Next of kin</option>
-          
-          </select>
-        </div>
+        {{ govukSelect({
+          id: "Country",
+          name: "Country",
+          label: {
+            text: "Country"
+          },
+          classes: "govuk-!-width-one-half",
+          items: [
+            {
+              text: "select"
+            },
+            {
+              value: "England",
+              text: "England",
+              selected: eligibleChild['Country'] == 'England'
+            },
+            {
+              value: "Wales",
+              text: "Wales",
+              selected: eligibleChild['Country'] == 'Wales'
+            },
+            {
+              value: "Scotland",
+              text: "Scotland",
+              selected: eligibleChild['Country'] == 'Scotland'
+            },
+            {
+              value: "Northern Ireland",
+              text: "Northern Ireland",
+              selected: eligibleChild['Country'] == 'Northern Ireland'
+            }
+          ],
+          errorMessage: errors | findError('Country')
+        }) }}
 
-        <div class="form-group {% if errors['dob'][0] %} error {% endif %}">
-          <fieldset>
-            <legend id="dob" class="form-label-bold">Child's date of birth</legend>
+      {% endcall %}
 
-            {% if errors['dob'][0] %}
-            <span class="error-message" id="error-message-dob">{{ errors['dob'][0] }}</span>
-            {% endif %}
+      {{ govukCheckboxes({
+        idPrefix: "add-another-child",
+        name: "add-another-child",
+        items: [
+          {
+            value: "on",
+            text: "Add another child",
+            checked: eligibleChild['add-another-child'] == 'on'
+          }
+        ]
+      }) }}
 
-            <div class="form-date">
+      {% include "partials/csrf-hidden-input.html" %}
 
-              <p class="form-hint">For example, 18 08 1989</p>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true
+      }) }}
+    </form>
 
-              <div class="form-group form-group-day">
-                <label for="dob-day">Day</label>
-                <input id="dob-day"
-                       name="dob-day"
-                       value="{{ eligibleChild['dob-day'] }}"
-                       type="number"
-                       autocomplete="off"
-                       class="form-control">
-              </div>
-
-              <div class="form-group form-group-month">
-                <label for="dob-month">Month</label>
-                <input id="dob-month"
-                       name="dob-month"
-                       value="{{ eligibleChild['dob-month'] }}"
-                       type="number"
-                       autocomplete="off"
-                       class="form-control">
-              </div>
-
-              <div class="form-group form-group-year">
-                <label for="dob-year">Year</label>
-                <input id="dob-year"
-                       name="dob-year"
-                       value="{{ eligibleChild['dob-year'] }}"
-                       type="number"
-                       autocomplete="off"
-                       class="form-control">
-              </div>
-            </div>
-
-          </fieldset>
-        </div>
-
-        <div class="form-group {% if errors['ParentFirstName'][0] %} error {% endif %}">
-          <label id="ParentFirstName" class="form-label-bold" for="parent-first-name-input">Parent/Guardian First name</label>
-          {% if errors['ParentFirstName'][0] %}
-          <span class="error-message" id="error-message-parent-first-name">{{ errors['ParentFirstName'][0] }}</span>
-          {% endif %}
-          <input id="first-name-input"
-                 name="ParentFirstName"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ eligibleChild['ParentFirstName'] }}">
-        </div>
-
-        <div class="form-group {% if errors['ParentLastName'][0] %} error {% endif %}">
-          <label id="ParentLastName" class="form-label-bold" for="parent-last-name-input">Parent/Guardian Last name</label>
-          {% if errors['ParentLastName'][0] %}
-          <span class="error-message" id="error-message-parent-last-name">{{ errors['ParentLastName'][0] }}</span>
-          {% endif %}
-          <input id="last-name-input"
-                 name="ParentLastName"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ eligibleChild['ParentLastName'] }}">
-        </div>
-
-        <div class="heading-medium-prevent-margin-collapse">
-          <p class="heading-medium">Address</p>
-        </div>
-
-        <div class="form-group {% if errors['HouseNumberAndStreet'][0] %} error {% endif %}">
-          <label id="HouseNumberAndStreet" class="form-label-bold" for="house-number-and-street-input">House number and
-            street</label>
-          {% if errors['HouseNumberAndStreet'][0] %}
-          <span class="error-message" id="error-message-house-street">{{ errors['HouseNumberAndStreet'][0] }}</span>
-          {% endif %}
-          <p class="form-hint">For example, 123 Street Name</p>
-          <input id="house-number-and-street-input"
-                 name="HouseNumberAndStreet"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ eligibleChild['HouseNumberAndStreet'] }}">
-        </div>
-
-        <div class="form-group {% if errors['Town'][0] %} error {% endif %}">
-          <label id="Town" class="form-label-bold" for="town-input">Town</label>
-          {% if errors['Town'][0] %}
-          <span class="error-message" id="error-message-town">{{ errors['Town'][0] }}</span>
-          {% endif %}
-          <input id="town-input"
-                 name="Town"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ eligibleChild['Town'] }}">
-        </div>
-
-        <div class="form-group {% if errors['County'][0] %} error {% endif %}">
-          <label id="County" class="form-label-bold" for="county-input">County</label>
-          {% if errors['County'][0] %}
-          <span class="error-message" id="error-message-county">{{ errors['County'][0] }}</span>
-          {% endif %}
-          <input id="county-input"
-                 name="County"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ eligibleChild['County'] }}">
-        </div>
-
-        <div class="form-group {% if errors['PostCode'][0] %} error {% endif %}">
-          <label id="PostCode" class="form-label-bold" for="post-code-input">Postcode</label>
-          {% if errors['PostCode'][0] %}
-          <span class="error-message" id="error-message-post-code">{{ errors['PostCode'][0] }}</span>
-          {% endif %}
-          <input id="post-code-input"
-                 name="PostCode"
-                 type="text"
-                 autocomplete="off"
-                 class="form-control"
-                 value="{{ eligibleChild['PostCode'] }}">
-        </div>
-
-        <div class="form-group {% if errors['Country'][0] %} error {% endif %}">
-          <label id="Country" class="form-label-bold" for="country-input">Country</label>
-          {% if errors['Country'][0] %}
-          <span class="error-message" id="error-message-country">{{ errors['Country'][0] }}</span>
-          {% endif %}
-          <select id="country-input" class="form-control" name="Country">
-            <option>select</option>
-            <option {% if eligibleChild['Country'] == 'England' %} selected {% endif %} value="England" id="country-england">England</option>
-            <option {% if eligibleChild['Country'] == 'Wales' %} selected {% endif %} value="Wales" id="country-wales">Wales</option>
-            <option {% if eligibleChild['Country'] == 'Scotland' %} selected {% endif %} value="Scotland" id="country-scotland">Scotland</option>
-            <option {% if eligibleChild['Country'] == 'Northern Ireland' %} selected {% endif %} value="Northern Ireland" id="country-ni">Northern Ireland</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-
-          <div class="multiple-choice">
-            <input id="add-another-child" type="checkbox" name="add-another-child" {% if eligibleChild['add-another-child'] == 'on' %} checked {% endif %}>
-            <label for="add-another-child" class="block-label">
-              Add another child
-            </label>
-          </div>
-        </div>
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="about-you-submit"
-               type="submit"
-               class="button"
-               value="Continue">
-      </form>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}
