@@ -1,151 +1,144 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
 
-{% block page_title %}
+{% block pageTitle %}
 Terms and conditions and privacy policy - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      HWPV Privacy Policy
+    </h1>
+    <p>By using the ‘Help with Prison Visits’ service, you agree to this privacy policy. Please read them carefully.</p>
+    <h2 class="govuk-heading-m">Purpose</h2>
+    <p>This privacy policy explains why the HM Prison and Probation Service (HMPPS) collects personal data when you use the Help with Prison Visits service.</p>
+    <p>The policy also explains:</p> 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>how we store this data</li>
+      <li>what we do with it</li>
+      <li>how you can get a copy of the data we have about you</li>
+      <li>how you can complain if you think we’ve done something wrong</li>
+    </ul>
+    <p>This service is managed by HMPPS, an executive agency of the Ministry of Justice (MOJ). MOJ is the data controller for the personal information we hold.</p>
+    <p>HMPPS collects and processes personal data so that it can safely and securely provide prison services, including those related to the management and rehabilitation of offenders.</p>
 
-<main id="content" role="main">
+    <h2 class="govuk-heading-m">About personal information</h2>
+    <p>Personal data is information about you as an individual. It can be your name, address, telephone number or bank details.</p>
+    <p>We know how important it is to protect your privacy and to comply with data protection laws. We will keep your personal data safe and will only disclose it where it is lawful to do so, or with your consent.</p>
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h2 class="govuk-heading-m">Types of personal data we process</h2>      
+    <p>We only process personal data that is relevant for the services we are providing to you. We also collect site-usage information which allows us to see how the service is being used in order to allow us to improve it. This information does not contain any personal data.</p>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
-      <h1 class="heading-xlarge">
-        HWPV Privacy Policy
-      </h1>
-      <p>By using the ‘Help with Prison Visits’ service, you agree to this privacy policy. Please read them carefully.</p>
-      <h5 class="heading-medium">Purpose</h5>
-      <p>This privacy policy explains why the HM Prison and Probation Service (HMPPS) collects personal data when you use the Help with Prison Visits service.</p>
-      <p>The policy also explains:</p> 
-      <ul class="list list-bullet">
-        <li>how we store this data</li>
-        <li>what we do with it</li>
-        <li>how you can get a copy of the data we have about you</li>
-        <li>how you can complain if you think we’ve done something wrong</li>
-      </ul>
-      <p>This service is managed by HMPPS, an executive agency of the Ministry of Justice (MOJ). MOJ is the data controller for the personal information we hold.</p>
-      <p>HMPPS collects and processes personal data so that it can safely and securely provide prison services, including those related to the management and rehabilitation of offenders.</p>
+    <p>It includes:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>questions, queries or feedback you leave if you send a message via feedback</li>
+      <li>your name, postal address, bank details, email address, details about your contact in prison, IP address, and details of which version of web browser you used</li>
+      <li>information on how you use the site, using cookies and page tagging techniques to help us improve the website</li>
+    </ul>
 
-      <h5 class="heading-medium">About personal information</h5>
-      <p>Personal data is information about you as an individual. It can be your name, address, telephone number or bank details.</p>
-      <p>We know how important it is to protect your privacy and to comply with data protection laws. We will keep your personal data safe and will only disclose it where it is lawful to do so, or with your consent.</p>
+    <p>This helps us to:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>improve the site by monitoring how you use it</li>
+      <li>respond to any feedback you send us, if you’ve asked us to</li>
+      <li>provide you with information about local services if you want it</li>
+    </ul>
+    <p>We can’t personally identify you using your site usage data.</p>
 
-      <h5 class="heading-medium">Types of personal data we process</h5>      
-      <p>We only process personal data that is relevant for the services we are providing to you. We also collect site-usage information which allows us to see how the service is being used in order to allow us to improve it. This information does not contain any personal data.</p>
+    <h2 class="govuk-heading-m">Purpose of processing and the lawful basis for the process</h2> 
+    <p>We collect personal data to assess your eligibility to apply for financial assistance to visit a prisoner and to make a payment if you are eligible. Data provided will be monitored for the purposes of crime detection and prevention.</p>
+    <p>Additionally, if we don’t have all the personal data we ask for, the bank transfer payment can not be processed. Data given will be monitored to protect from financial fraud.</p>
+    
+    <h2 class="govuk-heading-m">Who the information may be shared with</h2> 
+    <p>We sometimes need to share the personal information we process with the individual themselves and also with other organisations. Where this is necessary we will comply with all aspects of the data laws. The organisations we share your personal information with are:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a href="https://www.gov.uk/government/organisations/department-for-work-pensions/about/personal-information-charter">Department of Work & Pensions</a> to check benefit status;</li>
+      <li><a href="https://www.notifications.service.gov.uk/features/security">
+      GOV.UK Notify</a> to keep you informed on the status of your claim;</li>
+      <li><a href="https://www.postoffice.co.uk/privacy">Post Office</a> if a payment mechanism other than direct bank payment is chosen. This facilitates making a payment.</li>
+      <li>ZenDesk to handle any feedback that you leave. See the <a href="http://www.zendesk.com/company/terms">terms & conditions</a> attached to this service.</li>
+    </ul>
 
-      <p>It includes:</p>
-      <ul class="list list-bullet">
-        <li>questions, queries or feedback you leave if you send a message via feedback</li>
-        <li>your name, postal address, bank details, email address, details about your contact in prison, IP address, and details of which version of web browser you used</li>
-        <li>information on how you use the site, using cookies and page tagging techniques to help us improve the website</li>
-      </ul>
+    <h2 class="govuk-heading-m">Details of transfers to third country and safeguards</h2> 
+    <p>All data collected by this service is stored within the European Economic Area (EEA). However, due to the global nature of the internet, the data sent to and from the database may transit through countries outside of the EEA. Data is not stored in a non-EEA country. Any transfers made will be in full compliance with all aspects of the data protection law.</p>
 
-      <p>This helps us to:</p>
-      <ul class="list list-bullet">
-        <li>improve the site by monitoring how you use it</li>
-        <li>respond to any feedback you send us, if you’ve asked us to</li>
-        <li>provide you with information about local services if you want it</li>
-      </ul>
-      <p>We can’t personally identify you using your site usage data.</p>
+    <h2 class="govuk-heading-m">How long we keep data</h2>
+    <p>Data is retained for seven years in accordance with HMPPS <a href="https://www.justice.gov.uk/downloads/offenders/psipso/psi-2018/psi-04-2018-records-information-management-retention-policy.pdf">retention policy</a>.</p>
 
-      <h5 class="heading-medium">Purpose of processing and the lawful basis for the process</h5> 
-      <p>We collect personal data to assess your eligibility to apply for financial assistance to visit a prisoner and to make a payment if you are eligible. Data provided will be monitored for the purposes of crime detection and prevention.</p>
-      <p>Additionally, if we don’t have all the personal data we ask for, the bank transfer payment can not be processed. Data given will be monitored to protect from financial fraud.</p>
-      
-      <h5 class="heading-medium">Who the information may be shared with</h5> 
-      <p>We sometimes need to share the personal information we process with the individual themselves and also with other organisations. Where this is necessary we will comply with all aspects of the data laws. The organisations we share your personal information with are:</p>
-      <ul class="list list-bullet">
-        <li><a href="https://www.gov.uk/government/organisations/department-for-work-pensions/about/personal-information-charter">Department of Work & Pensions</a> to check benefit status;</li>
-        <li><a href="https://www.notifications.service.gov.uk/features/security">
-        GOV.UK Notify</a> to keep you informed on the status of your claim;</li>
-        <li><a href="https://www.postoffice.co.uk/privacy">Post Office</a> if a payment mechanism other than direct bank payment is chosen. This facilitates making a payment.</li>
-        <li>ZenDesk to handle any feedback that you leave. See the <a href="http://www.zendesk.com/company/terms">terms & conditions</a> attached to this service.</li>
-      </ul>
-
-      <h5 class="heading-medium">Details of transfers to third country and safeguards</h5> 
-      <p>All data collected by this service is stored within the European Economic Area (EEA). However, due to the global nature of the internet, the data sent to and from the database may transit through countries outside of the EEA. Data is not stored in a non-EEA country. Any transfers made will be in full compliance with all aspects of the data protection law.</p>
-
-      <h5 class="heading-medium">How long we keep data</h5>
-      <p>Data is retained for seven years in accordance with HMPPS <a href="https://www.justice.gov.uk/downloads/offenders/psipso/psi-2018/psi-04-2018-records-information-management-retention-policy.pdf">retention policy</a>.</p>
-
-      <h5 class="heading-medium">Access to personal information</h5>
-      <p>You can find out if we hold any personal data about you by making a ‘subject access request’. To make a subject access request please contact:</p>
-      <p>
-        Offender and ex-offenders; <br />
-        Branston Registry <br />
-        Building 16, S & T Store <br />
-        Burton Road <br />
-        Branston <br />
-        Burton-on-Trent <br />
-        Staffordshire <br />
-        DE14 3EG <br />
-      </p>
-      <p>
-        All others; <br />
-        Branston Registry <br />
-        Building 16, S & T Store <br />
-        Burton Road <br />
-        Branston <br />
-        Burton-on-Trent <br />
-        Staffordshire <br />
-        DE14 3EG <br />
-      </p>
+    <h2 class="govuk-heading-m">Access to personal information</h2>
+    <p>You can find out if we hold any personal data about you by making a ‘subject access request’. To make a subject access request please contact:</p>
+    <p>
+      Offender and ex-offenders; <br />
+      Branston Registry <br />
+      Building 16, S & T Store <br />
+      Burton Road <br />
+      Branston <br />
+      Burton-on-Trent <br />
+      Staffordshire <br />
+      DE14 3EG <br />
+    </p>
+    <p>
+      All others; <br />
+      Branston Registry <br />
+      Building 16, S & T Store <br />
+      Burton Road <br />
+      Branston <br />
+      Burton-on-Trent <br />
+      Staffordshire <br />
+      DE14 3EG <br />
+    </p>
 
 
-      <h5 class="heading-medium">When we ask you for personal data</h5>
-      <p>Whenever we ask for personal data, we promise to:</p>
-      <ul class="list list-bullet">
-        <li>only ask for the information we need</li>
-        <li>keep it safe and make sure nobody can access it unless authorised</li>
-        <li>make sure we do not keep the data longer than needed</li>
-        <li>only share the data with other organisations for legitimate purposes</li>
-        <li>consider any request you make to correct, stop storing or delete your personal data</li>
-      </ul>
+    <h2 class="govuk-heading-m">When we ask you for personal data</h2>
+    <p>Whenever we ask for personal data, we promise to:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>only ask for the information we need</li>
+      <li>keep it safe and make sure nobody can access it unless authorised</li>
+      <li>make sure we do not keep the data longer than needed</li>
+      <li>only share the data with other organisations for legitimate purposes</li>
+      <li>consider any request you make to correct, stop storing or delete your personal data</li>
+    </ul>
 
-      <p>We also promise to make it easy for you to:</p>
-      <ul class="list list-bullet">
-        <li>tell us at any time if you want us to stop storing your personal data</li>
-        <li>make a complaint with the supervisory authority</li>
-      </ul>
+    <p>We also promise to make it easy for you to:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>tell us at any time if you want us to stop storing your personal data</li>
+      <li>make a complaint with the supervisory authority</li>
+    </ul>
 
-      <h5 class="heading-medium">More information</h5>
-      <p>You can get more details on: </p>
-      <ul class="list list-bullet">
-        <li>agreements we have with other organisations for sharing information</li>
-        <li>when we can pass on personal information without telling you, for example, to help with the prevention or detection of crime or to produce anonymised statistics</li>
-        <li>instructions we give to staff on how to collect, use or delete your personal information</li>
-        <li>how we check that the information we hold is accurate and up-to-date</li>
-        <li>how to make a complaint</li>
-      </ul>
+    <h2 class="govuk-heading-m">More information</h2>
+    <p>You can get more details on: </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>agreements we have with other organisations for sharing information</li>
+      <li>when we can pass on personal information without telling you, for example, to help with the prevention or detection of crime or to produce anonymised statistics</li>
+      <li>instructions we give to staff on how to collect, use or delete your personal information</li>
+      <li>how we check that the information we hold is accurate and up-to-date</li>
+      <li>how to make a complaint</li>
+    </ul>
 
-      <p>
-        For more information about the above issues, please contact: <br />
-        MoJ Data Protection Officer <br />
-        Post point 10.38 <br />
-        102 petty France <br />
-        London <br />
-        SW1H 9AJ <br />
-      </p>
-      <p>or email: data.compliance@justice.gov.uk</p>
-      <p>For more information on how and why your information is processed please see the information provided when you accessed our services or were contacted by us.</p>
+    <p>
+      For more information about the above issues, please contact: <br />
+      MoJ Data Protection Officer <br />
+      Post point 10.38 <br />
+      102 petty France <br />
+      London <br />
+      SW1H 9AJ <br />
+    </p>
+    <p>or email: data.compliance@justice.gov.uk</p>
+    <p>For more information on how and why your information is processed please see the information provided when you accessed our services or were contacted by us.</p>
 
-      <h5 class="heading-medium">Complaints</h5>
-      <p>
-        When we ask you for information, we will keep to the law. If you think that your information has been handled incorrectly, you can contact the Information Commissioner for independent advice about data protection at:
-        <br/>
-      Information Commissioner's Office <br />
-      Wycliffe House <br />
-      Water Lane <br />
-      Wilmslow <br />
-      Cheshire <br />
-      SK9 5AF <br />
-      Tel: 0303 123 1113 <br />
-      www.ico.org.uk <br />
-      </p>
-    </div>
+    <h2 class="govuk-heading-m">Complaints</h2>
+    <p>
+      When we ask you for information, we will keep to the law. If you think that your information has been handled incorrectly, you can contact the Information Commissioner for independent advice about data protection at:
+      <br/>
+    Information Commissioner's Office <br />
+    Wycliffe House <br />
+    Water Lane <br />
+    Wilmslow <br />
+    Cheshire <br />
+    SK9 5AF <br />
+    Tel: 0303 123 1113 <br />
+    www.ico.org.uk <br />
+    </p>
   </div>
-</main>
-
+</div>
 {% endblock %}

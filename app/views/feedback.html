@@ -1,98 +1,99 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
 
-{% block page_title %}
-Give feedback - {{ serviceName }}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/character-count/macro.njk" import govukCharacterCount %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+ {% if errors %}Error: {% endif %}Give feedback - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-xl">Give feedback</h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <form action="/feedback" method="post" novalidate>
+      {{ govukRadios({
+        name: "rating",
+        fieldset: {
+          legend: {
+            text: "Overall, how did you feel about the service you received today?",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "very-satisfied",
+            text: "Very satisfied",
+            checked: rating == 'very-satisfied'
+          },
+          {
+            value: "satisfied",
+            text: "Satisfied",
+            checked: rating == 'satisfied'
+          },
+          {
+            value: "neutral",
+            text: "Neutral",
+            checked: rating == 'neutral'
+          },
+          {
+            value: "dissatisfied",
+            text: "Dissatisfied",
+            checked: rating == 'dissatisfied'
+          },
+          {
+            value: "very-dissatisfied",
+            text: "Very dissatisfied",
+            checked: rating == 'very-dissatisfied'
+          }
+        ],
+        errorMessage: errors | findError('rating')
+      }) }}
 
-      {% include "includes/validation-error-messages.html" %}
+      {{ govukCharacterCount({
+        name: "improvements",
+        id: "improvements",
+        maxlength: 1200,
+        label: {
+          text: "How could we improve this service?",
+          classes: "govuk-label--s"
+        },
+        hint: {
+          text: "Please don't include any personal information or financial information, for example your National Insurance or bank details."
+        },
+        value: improvements,
+        errorMessage: errors | findError('improve-service')
+      }) }}
 
-      <h1 class="heading-xlarge">Give feedback</h1>
-      <p id="rating" name="rating" class="heading-medium">Overall, how did you feel about the service you received today?</p>
+      {{ govukInput({
+        label: {
+          text: "Email address (optional, include if you want us to get back to you)",
+          classes: "govuk-label--s"
+        },
+        id: "emailAddress",
+        name: "emailAddress",
+        type: "email",
+        value: emailAddress,
+        classes: "govuk-!-width-one-half",
+        autocomplete: "email",
+        spellcheck: false,
+        errorMessage: errors | findError('EmailAddress')
+      }) }}
 
-      <form action="/feedback" method="post">
-        <div class="form-group {% if errors['rating'][0] %} error {% endif %}">
-          <fieldset>
-            <legend class="visually-hidden">Rating</legend>
-            <label for="very-satisfied" class="block-label">
-              <input id="very-satisfied"
-                     type="radio"
-                     name="rating"
-                     value="very-satisfied"
-                     {% if rating == 'very-satisfied' %} checked {% endif %}>
-              Very satisfied
-            </label>
+      {% include "partials/csrf-hidden-input.html" %}
 
-            <label for="satisfied" class="block-label">
-              <input id="satisfied"
-                     type="radio"
-                     name="rating"
-                     value="satisfied"
-                     {% if rating == 'satisfied' %} checked {% endif %}>
-              Satisfied
-            </label>
-
-            <label for="neutral" class="block-label">
-              <input id="neutral"
-                     type="radio"
-                     name="rating"
-                     value="neutral"
-                     {% if rating == 'very-satisfied' %} checked {% endif %}>
-              Neither satisfied or dissatisfied
-            </label>
-
-            <label for="dissatisfied" class="block-label">
-              <input id="dissatisfied"
-                     type="radio"
-                     name="rating"
-                     value="dissatisfied"
-                     {% if rating == 'dissatisfied' %} checked {% endif %}>
-              Dissatisfied
-            </label>
-
-            <label for="very-dissatisfied" class="block-label">
-              <input id="very-dissatisfied"
-                     type="radio"
-                     name="rating"
-                     value="very-dissatisfied"
-                     {% if rating == 'very-dissatisfied' %} checked {% endif %}>
-              Very dissatisfied
-            </label>
-          </fieldset>
-        </div>
-
-        <p id="improve-service" class="heading-small">How could we improve this service?</p>
-        <textarea id="improvements" name="improvements" class="form-control full {% if errors['improve-service'][0] %} error {% endif %}" rows="6">{{ improvements }}</textarea>
-        <p>(Limit is 1200 characters)</p>
-        <p>Please don't include any personal information or financial information, for example your National Insurance or bank details.</p>
-
-        <div class="form-group {% if errors['EmailAddress'][0] %} error {% endif %}">
-          <label for="EmailAddress" class="form-label-bold">Email address (optional, include if you want us to get back to you)</label>
-          {% if errors['EmailAddress'][0] %}
-            <span class="error-message" id="error-message-email-address">{{ errors['EmailAddress'][0] }}</span>
-          {% endif %}
-          <input id="EmailAddress" autocomplete="off" name="emailAddress" class="form-control" value="{{ emailAddress }}">
-        </div>
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="feedback-submit"
-               type="submit"
-               value="Continue"
-               class="button">
-      </form>
-    </div>
-
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true
+      }) }}
+    </form>
   </div>
 
-</main>
-
+</div>
 {% endblock %}

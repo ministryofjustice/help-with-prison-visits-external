@@ -1,7 +1,6 @@
 const express = require('express')
 const nunjucks = require('nunjucks')
 const path = require('path')
-const favicon = require('serve-favicon')
 const i18n = require('i18n')
 const onFinished = require('on-finished')
 const log = require('./services/log')
@@ -11,7 +10,7 @@ const serviceName = 'Get help with prison visits'
 const developmentMode = app.get('env') === 'development'
 
 const appViews = [
-  path.join(__dirname, '../node_modules/govuk_template_jinja/'),
+  path.join(__dirname, '../node_modules/govuk-frontend/'),
   path.join(__dirname, 'views')
 ]
 
@@ -24,13 +23,20 @@ nunjucks.configure(appViews, {
   noCache: false
 })
 
-const publicFolders = ['public', 'assets', '../node_modules/govuk_template_jinja/assets', '../node_modules/govuk_frontend_toolkit']
+const publicFolders = ['public', 'assets']
 
 publicFolders.forEach(dir => {
   app.use('/public', express.static(path.join(__dirname, dir)))
 })
 
-app.use(favicon(path.join(__dirname, '../node_modules/govuk_template_jinja/assets/images/favicon.ico')))
+// new govuk-frontend asset paths
+const govukAssets = [
+  '../node_modules/govuk-frontend/govuk/assets',
+  '../node_modules/govuk-frontend'
+]
+govukAssets.forEach(dir => {
+  app.use('/assets', express.static(path.join(__dirname, dir)))
+})
 
 // Send assetPath to all views.
 app.use(function (req, res, next) {
