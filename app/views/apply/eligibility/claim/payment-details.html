@@ -1,67 +1,57 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-Payment details and declaration - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Payment details and declaration - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      Your payment
+    </h1>
 
-  {% include "includes/validation-error-messages.html" %}
+    <p>If your application is successful, you will receive a payment for your travel and expenses.</p>
 
-  <h1 class="heading-large">
-    Your payment
-  </h1>
+    <form action="/apply/eligibility/claim/payment-details?isAdvance={{ isAdvance }}" method="post" novalidate>
 
-  <p>If your application is successful, you will receive a payment for your travel and expenses.</p>
+      {{ govukRadios({
+        idPrefix: "PaymentMethod",
+        name: "PaymentMethod",
+        fieldset: {
+          legend: {
+            text: "How do you want to receive your payment",
+            classes: "govuk-fieldset__legend--s"
+          }
+        },
+        items: [
+          {
+            value: "bank",
+            text: "Money paid into your bank account",
+            checked: paymentDetails['PaymentMethod'] == 'bank'
+          },
+          {
+            value: "payout",
+            text: "Cash voucher sent by post",
+            checked: paymentDetails['PaymentMethod'] == 'payout'
+          }
+        ],
+        errorMessage: errors | findError('PaymentMethod')
+      }) }}
 
-  <form action="/apply/eligibility/claim/payment-details?isAdvance={{ isAdvance }}"
-        method="post">
+      {% include "partials/csrf-hidden-input.html" %}
 
-    <div class="grid-row">
-      <div class="column-two-thirds">
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true
+      }) }}
 
-      <h2 class="heading-small">How do you want to receive your payment? </h2>
-        {% if errors['PaymentMethod'][0] %}
-        <span class="error-message" id="error-message-payment-method">{{ errors['PaymentMethod'][0] }}</span>
-        {% endif %}
-
-        <div id="PaymentMethod" class="form-group {% if errors['PaymentMethod'][0] %} error {% endif %}">
-          <fieldset>
-            <legend class="visually-hidden">How do you want to receive your payment</legend>
-            
-            <div class="multiple-choice">
-              <input id="bank" type="radio" name="PaymentMethod" value="bank" {% if paymentDetails['PaymentMethod'] == 'bank' %} checked {% endif %}>
-              <label for="bank" class="block-label" data-target="bank-details">
-                <span>Money paid into your bank account</span>
-                <br>
-              </label>
-            </div>
-
-            <div class="multiple-choice">
-              <input id="payout" type="radio" name="PaymentMethod" value="payout" {% if paymentDetails['PaymentMethod'] == 'payout' %} checked {% endif %}>
-              <label for="payout" class="block-label" data-target="payout-details">
-                <span>Cash voucher sent by post</span>
-                <br>
-                <br>
-              </label>
-            </div>
-          </fieldset>
-        </div>
-      </div>
-    </div>
-
-    {% include "partials/csrf-hidden-input.html" %}
-
-    <input id="payment-submit"
-           type="submit"
-           class="button"
-           value="Continue">
-  </form>
-
-</main>
-
+    </form>
+  </div>
+</div>
 {% endblock %}
