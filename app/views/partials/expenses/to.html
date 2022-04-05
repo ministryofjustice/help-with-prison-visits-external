@@ -1,17 +1,19 @@
-<div class="form-group {% if errors['to'][0] %} error {% endif %}">
-  <label id="to" for="to-input" class="form-label-bold">To</label>
+{% from "govuk/components/input/macro.njk" import govukInput %}
 
-  {% if errors['to'][0] %}
-  <span class="error-message">{{ errors['to'][0] }}</span>
-  {% endif %}
-
-  <p class="form-hint">For example, {{ exampleTo }}</p>
-
-  <input id="to-input"
-         type="text"
-         name="to"
-         autocomplete="off"
-         value="{{ expense['to'] }}"
-         class="form-control"
-         data-cy="to">
-</div>
+{{ govukInput({
+  label: {
+    text: "To"
+  },
+  hint: {
+    text: "For example, " + exampleTo
+  },
+  id: "to",
+  name: "to",
+  value: expense['to'],
+  classes: "govuk-!-width-one-half",
+  spellcheck: false,
+  attributes: {
+    "data-cy": "to"
+  },
+  errorMessage: errors | findError('to')
+}) }}
