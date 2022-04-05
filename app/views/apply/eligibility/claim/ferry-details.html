@@ -1,79 +1,71 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Enter your ferry journey details - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter your ferry journey details - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      Your ferry journey
+    </h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <p>You may be able to get help with the cost of a ferry ticket if your journey {% if isAdvanceClaim %}involves{% else %}involved{% endif %} a sea crossing
+      - for example from the Isle of Wight to the mainland.</p>
 
-      {% include "includes/validation-error-messages.html" %}
+    <form action="/apply/eligibility/claim/ferry{{ params }}" method="post" novalidate>
+      {% include "partials/expenses/ticket-owner.html" %}
 
-      <h1 class="heading-large">
-        Your ferry journey
-      </h1>
+      {% set exampleFrom = 'Portsmouth' %}
+      {% include "partials/expenses/from.html" %}
 
-      <p>You may be able to get help with the cost of a ferry ticket if your journey {% if isAdvanceClaim %}involves{% else %}involved{% endif %} a sea crossing
-        - for example from the Isle of Wight to the mainland.</p>
+      {% set exampleTo = 'Isle of Wight' %}
+      {% include "partials/expenses/to.html" %}
 
-      <form action="/apply/eligibility/claim/ferry{{ params }}"
-            method="post">
-        {% include "partials/expenses/ticket-owner.html" %}
+      {% include "partials/expenses/return-journey.html" %}
 
-        {% set exampleFrom = 'Portsmouth' %}
-        {% include "partials/expenses/from.html" %}
+      {{ govukRadios({
+        idPrefix: "ticket-type",
+        name: "ticket-type",
+        fieldset: {
+          legend: {
+            text: "Ticket type"
+          }
+        },
+        items: [
+          {
+            value: "foot-passenger",
+            text: "Foot passenger",
+            checked: expense['ticket-type'] == 'foot-passenger'
+          },
+          {
+            value: "car-passenger",
+            text: "Car",
+            checked: expense['ticket-type'] == 'car-passenger'
+          }
+        ],
+        errorMessage: errors | findError('ticket-type')
+      }) }}
 
-        {% set exampleTo = 'Isle of Wight' %}
-        {% include "partials/expenses/to.html" %}
+      {% set costExample = 100 %}
+      {% include "partials/expenses/cost.html" %}
 
-        {% include "partials/expenses/return-journey.html" %}
+      {% include "partials/csrf-hidden-input.html" %}
 
-        <div class="form-group {% if errors['ticket-type'][0] %} error {% endif %}">
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true
+      }) }}
+    </form>
 
-          <h2 id="ticket-type" class="form-label-bold">Ticket type</h2>
+    <a href="{{ redirectUrl }}">Remove this journey</a>
 
-          {% if errors['ticket-type'][0] %}
-            <span class="error-message">{{ errors['ticket-type'][0] }}</span>
-          {% endif %}
-            
-          <div class="multiple-choice">
-            <input id="ticket-type-yes" type="radio" name="ticket-type" value="foot-passenger" {% if expense['ticket-type'] == 'foot-passenger' %} checked {% endif %}>
-            <label for="ticket-type-yes" class="block-label">
-              Foot passenger
-            </label>
-          </div>
-
-          <div class="multiple-choice">
-            <input id="ticket-type-no" type="radio" name="ticket-type" value="car-passenger" {% if expense['ticket-type'] == 'car-passenger' %} checked {% endif %}>
-            <label for="ticket-type-no" class="block-label">
-              Car
-            </label>
-          </div>
-        </div>
-
-        {% set costExample = 100 %}
-        {% include "partials/expenses/cost.html" %}
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="ferry-details-submit"
-               type="submit"
-               class="button"
-               value="Continue">
-      </form>
-
-      <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}
