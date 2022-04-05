@@ -1,86 +1,75 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Enter your taxi journey details - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter your taxi journey details - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      Your taxi journey
+    </h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <p>You can get help paying for a taxi if public transport {% if isAdvanceClaim %}isn't{% else %}wasn’t{% endif %} available for part of the journey and it would
+      take longer that 20 minutes to walk.</p>
 
-      {% include "includes/validation-error-messages.html" %}
+    <p>If you are over 75 or have a medical reason, you can take a longer taxi journey.</p>
 
-      <h1 class="heading-large">
-        Your taxi journey
-      </h1>
+    <form action="/apply/eligibility/claim/taxi{{ params }}" method="post" novalidate>
 
-      <p>You can get help paying for a taxi if public transport {% if isAdvanceClaim %}isn't{% else %}wasn’t{% endif %} available for part of the journey and it would
-        take longer that 20 minutes to walk.</p>
+      {{ govukInput({
+        label: {
+          text: "From"
+        },
+        hint: {
+          text: "For example, Birmingham New Street"
+        },
+        id: "from",
+        name: "from",
+        value: expense['from'],
+        classes: "govuk-!-width-one-half",
+        spellcheck: false,
+        errorMessage: errors | findError('from')
+      }) }}
 
-      <p>If you are over 75 or have a medical reason, you can take a longer taxi journey.</p>
+      {{ govukInput({
+        label: {
+          text: "To"
+        },
+        hint: {
+          text: "For example, Hewell"
+        },
+        id: "to",
+        name: "to",
+        value: expense['to'],
+        classes: "govuk-!-width-one-half",
+        spellcheck: false,
+        errorMessage: errors | findError('to')
+      }) }}
 
-      <form action="/apply/eligibility/claim/taxi{{ params }}"
-            method="post">
 
-        <div class="form-group {% if errors['from'][0] %} error {% endif %}">
-          <label id="from" for="from-input" class="form-label-bold">From</label>
+      {% set costExample = 10 %}
+      {% include "partials/expenses/cost.html" %}
 
-          {% if errors['from'][0] %}
-            <span class="error-message">{{ errors['from'][0] }}</span>
-          {% endif %}
+      {% set journeyType = 'taxi' %}
+      {% include "partials/expenses/add-another-journey.html" %}
 
-          <p class="form-hint">For example, Birmingham New Street</p>
+      {% include "partials/csrf-hidden-input.html" %}
 
-          <input id="from-input"
-                 type="text"
-                 autocomplete="off"
-                 name="from"
-                 value="{{ expense['from'] }}"
-                 class="form-control">
-        </div>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true
+      }) }}
+    </form>
 
-        <div class="form-group {% if errors['to'][0] %} error {% endif %}">
-          <label id="to" for="to-input" class="form-label-bold">To</label>
+    <a href="{{ redirectUrl }}">Remove this journey</a>
 
-          {% if errors['to'][0] %}
-            <span class="error-message">{{ errors['to'][0] }}</span>
-          {% endif %}
-
-          <p class="form-hint">For example, Hewell</p>
-
-          <input id="to-input"
-                 type="text"
-                 autocomplete="off"
-                 name="to"
-                 value="{{ expense['to'] }}"
-                 class="form-control">
-        </div>
-
-        {% set costExample = 10 %}
-        {% include "partials/expenses/cost.html" %}
-
-        {% set journeyType = 'taxi' %}
-        {% include "partials/expenses/add-another-journey.html" %}
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="taxi-details-submit"
-               type="submit"
-               value="Continue"
-               class="button">
-      </form>
-
-      <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this journey</a>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}
