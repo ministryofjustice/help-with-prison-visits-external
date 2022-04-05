@@ -1,67 +1,57 @@
-{% extends "includes/layout.html" %}
+{% extends "includes/layout-new.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block page_title %}
-  Enter your accommodation details - {{ serviceName }}
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}Enter your accommodation details - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<main id="content" role="main">
+    {% include "includes/validation-error-messages-new.html" %}
 
-  {% include "includes/phase_banner_beta.html" %}
+    <h1 class="govuk-heading-l">
+      Your accommodation
+    </h1>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
+    <p>Claims that include accommodation must be approved before you travel by Help With Prison Visits (HWPV).</p>
 
-      {% include "includes/validation-error-messages.html" %}
+    <p>
+      You are allowed one accommodation expense per claim.
+    </p>
 
-      <h1 class="heading-large">
-        Your accommodation
-      </h1>
+    <form action="/apply/eligibility/claim/accommodation{{ params }}" method="post" novalidate>
 
-      <p>Claims that include accommodation must be approved before you travel by Help With Prison Visits (HWPV).</p>
+      {{ govukInput({
+        label: {
+          text: "Number of nights"
+        },
+        hint: {
+          text: "For example, 1"
+        },
+        id: "duration",
+        name: "duration",
+        value: expense['duration'],
+        classes: "govuk-!-width-one-half",
+        spellcheck: false,
+        errorMessage: errors | findError('duration')
+      }) }}
 
-      <p>
-        You are allowed one accommodation expense per claim.
-      </p>
+      {% set costExample = 50 %}
+      {% include "partials/expenses/cost.html" %}
 
-      <form action="/apply/eligibility/claim/accommodation{{ params }}"
-            method="post">
+      {% include "partials/csrf-hidden-input.html" %}
 
-        <div id="duration" class="form-group {% if errors['duration'][0] %} error {% endif %}">
-          <label for="duration-input" class="form-label-bold">Number of nights</label>
+      {{ govukButton({
+        text: "Continue",
+        preventDoubleClick: true
+      }) }}
+    </form>
 
-          {% if errors['duration'][0] %}
-            <span class="error-message">{{ errors['duration'][0] }}</span>
-          {% endif %}
+    <a href="{{ redirectUrl }}">Remove this expense</a>
 
-          <p class="form-hint">For example, 1</p>
-
-          <input id="duration-input"
-                 type="text"
-                 autocomplete="off"
-                 name="duration"
-                 value="{{ expense['duration'] }}"
-                 class="form-control">
-        </div>
-
-        {% set costExample = 50 %}
-        {% include "partials/expenses/cost.html" %}
-
-        {% include "partials/csrf-hidden-input.html" %}
-
-        <input id="accommodation-details-submit"
-               type="submit"
-               value="Continue"
-               class="button">
-      </form>
-
-      <br>
-      <a href="{{ redirectUrl }}" class="link">Remove this expense</a>
-
-    </div>
   </div>
-
-</main>
-
+</div>
 {% endblock %}
