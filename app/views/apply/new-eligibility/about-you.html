@@ -27,7 +27,7 @@
       }) }}
     {% endif %}
 
-    <form action="/apply/{{ claimType }}/new-eligibility/about-you" method="post">
+    <form action="/apply/{{ claimType }}/new-eligibility/about-you" method="post" novalidate>
 
       {% call govukFieldset({
         legend: {

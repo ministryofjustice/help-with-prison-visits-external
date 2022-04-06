@@ -16,7 +16,7 @@
 
     {% include "includes/validation-error-messages.html" %}
 
-    <form action="/apply/eligibility/claim/about-child" method="post">
+    <form action="/apply/eligibility/claim/about-child" method="post" novalidate>
 
       {% call govukFieldset({
         legend: {
