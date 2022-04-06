@@ -1,28 +1,31 @@
-<div class="form-group {% if errors['return-journey'][0] %} error {% endif %}">
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-  <h2 id="return-journey" class="form-label-bold">Is this a return journey?</h2>
-
-  {% if errors['return-journey'][0] %}
-    <span class="error-message">{{ errors['return-journey'][0] }}</span>
-  {% endif %}
-
-  <fieldset class="inline">
-    <legend class="visually-hidden">Is this a return journey</legend>
-      
-    <div class="multiple-choice"  data-target="return-time">
-      <input id="return-yes" type="radio" name="return-journey" value="yes" {% if expense['return-journey'] == 'yes' %} checked {% endif %} data-cy="return-yes">
-      <label for="return-yes" class="block-label inline">
-        Yes
-      </label>
-    </div>
-    
-    <div class="multiple-choice">
-      <input id="return-no" type="radio" name="return-journey" value="no" {% if expense['return-journey'] == 'no' %} checked {% endif %} data-cy="return-no">
-      <label for="return-no" class="block-label inline">
-        No
-      </label>
-    </div>
-
-  </fieldset>
-
-</div>
+{{ govukRadios({
+  classes: "govuk-radios--inline",
+  idPrefix: "return-journey",
+  name: "return-journey",
+  fieldset: {
+    legend: {
+      text: "Is this a return journey"
+    }
+  },
+  items: [
+    {
+      value: "yes",
+      text: "Yes",
+      checked: expense['return-journey'] == 'yes',
+      attributes: {
+        "data-cy": "return-yes"
+      }
+    },
+    {
+      value: "no",
+      text: "No",
+      checked: expense['return-journey'] == 'no',
+      attributes: {
+        "data-cy": "return-no"
+      }
+    }
+  ],
+  errorMessage: errors | findError('return-journey')
+}) }}

@@ -1,19 +1,21 @@
-<div id="cost" class="form-group {% if errors['cost'][0] %} error {% endif %}">
-  <label for="cost-input" class="form-label-bold">{% if isAdvanceClaim %}Estimated cost{% else %}Cost{% endif %}</label>
+{% from "govuk/components/input/macro.njk" import govukInput %}
 
-  {% if errors['cost'][0] %}
-    <span class="error-message">{{ errors['cost'][0] }}</span>
-  {% endif %}
-
-  <p class="form-hint">For example, {{ costExample }}</p>
-  <div class="pound-wrapper">
-    <span>£</span>
-    <input id="cost-input"
-           type="text"
-           name="cost"
-           autocomplete="off"
-           value="{{ expense['cost'] }}"
-           class="form-control"
-           data-cy="cost">
-  </div>
-</div>
+{{ govukInput({
+  label: {
+    text: "Cost"
+  },
+  prefix: {
+    text: "£"
+  },
+  classes: "govuk-input--width-5",
+  hint: {
+    text: "For example, " + costExample
+  },
+  id: "cost",
+  name: "cost",
+  value: expense['cost'],
+  errorMessage: errors | findError('cost'),
+  attributes: {
+    "data-cy": "cost"
+  }
+}) }}

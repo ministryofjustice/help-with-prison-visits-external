@@ -1,16 +1,19 @@
-<div class="form-group {% if errors['from'][0] %} error {% endif %}">
-  <label id="from" for="from-input" class="form-label-bold">From</label>
+{% from "govuk/components/input/macro.njk" import govukInput %}
 
-  {% if errors['from'][0] %}
-    <span class="error-message">{{ errors['from'][0] }}</span>
-  {% endif %}
-
-  <p class="form-hint">For example, {{ exampleFrom }}</p>
-  <input id="from-input"
-         type="text"
-         name="from"
-         autocomplete="off"
-         value="{{ expense['from'] }}"
-         class="form-control"
-         data-cy="from">
-</div>
+{{ govukInput({
+  label: {
+    text: "From"
+  },
+  hint: {
+    text: "For example, " + exampleFrom
+  },
+  id: "from",
+  name: "from",
+  value: expense['from'],
+  classes: "govuk-!-width-one-half",
+  spellcheck: false,
+  attributes: {
+    "data-cy": "from"
+  },
+  errorMessage: errors | findError('from')
+}) }}

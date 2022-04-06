@@ -32,10 +32,10 @@
               <span class="text-success">Benefit documentation uploaded</span>
             {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION'%}
               <span class="text-warning">Benefit documentation needed</span>
-              <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-benefit-documentation" class="button grey pull-right">Add</a>
+              <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-benefit-documentation" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 pull-right">Add</a>
             {% else %}
               <span class="text-pending">Sending benefit documentation by post</span>
-              <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">change</a>
+              <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="govuk-link--no-visited-state pull-right" name="change" id="change-benefit-documentation-post">change</a>
             {% endif %}
 
           {% else %}
@@ -68,7 +68,7 @@
                   </form>
                 </li>
               {% endfor %}
-              <li><a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&hideAlt=true&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-benefit" class="button grey pull-right">Add another page</a></li>
+              <li><a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&hideAlt=true&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-benefit" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 pull-right">Add another page</a></li>
             </ul>
             {% else %}
               <span class="text-success">Benefit documentation uploaded</span>
@@ -88,15 +88,15 @@
             {% endif %}
           {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' %}
             <span class="text-pending">Uploading benefit documentation later</span>
-            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">change</a>
+            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="govuk-link--no-visited-state pull-right" name="change" id="change-benefit-documentation-post">change</a>
           {% elif claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'post-later' %}
             <span class="text-pending">Sending benefit documentation by post</span>
-            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-benefit-documentation-post">change</a>
+            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="govuk-link--no-visited-state pull-right" name="change" id="change-benefit-documentation-post">change</a>
           {% elif benefitUploadNotRequired %}
             <span class="text-success">Benefit document previously uploaded</span>
           {% else %}
             <span class="text-warning">Benefit documentation needed</span>
-            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-benefit" class="button grey pull-right">Add</a>
+            <a href="{{ URL }}/file-upload?document={{ claimDetails.claim['Benefit'] }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-benefit" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 pull-right">Add</a>
           {% endif %}
 
         {% endif %}

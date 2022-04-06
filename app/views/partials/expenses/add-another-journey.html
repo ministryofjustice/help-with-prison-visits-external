@@ -1,9 +1,16 @@
-<div class="form-group">
-  <div class="multiple-choice">
-    <input id="add-another-journey" type="checkbox" name="add-another-journey" {% if expense['add-another-journey'] == 'on' %} checked {% endif %} data-cy="add-another-journey">
-    <label for="add-another-journey" class="block-label">
-      Add another {{ journeyType }} journey
-    </label>
-  </div>
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 
-</div>
+{{ govukCheckboxes({
+  idPrefix: "add-another-journey",
+  name: "add-another-journey",
+  items: [
+    {
+      value: "on",
+      text: "Add another " + journeyType + " journey",
+      checked: expense['add-another-journey'] == 'on',
+      attributes: {
+        "data-cy": "add-another-journey"
+      }
+    }
+  ]
+}) }}

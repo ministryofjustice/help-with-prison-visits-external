@@ -1,4 +1,4 @@
-{% extends "includes/layout-new.html" %}
+{% extends "includes/layout.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 
@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  {% include "includes/validation-error-messages-new.html" %}
+  {% include "includes/validation-error-messages.html" %}
 
   <h1 class="govuk-heading-l">
     Check your information

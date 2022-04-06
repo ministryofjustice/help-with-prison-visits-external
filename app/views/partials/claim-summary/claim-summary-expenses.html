@@ -50,7 +50,7 @@
           {% if claimDetails.claim.IsAdvanceClaim %}
             {% if not claimExpense['DocumentStatus'] and claimExpense['Status'] %}
               <span class="text-warning">Receipt pending upload</span>
-              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
+              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 pull-right">Add</a>
             {% else %}
               <span class="text-pending">Receipt must be supplied after visit</span>
             {% endif %}
@@ -60,10 +60,10 @@
               <span class="text-success">Receipt uploaded</span>
             {% elif claimExpense['DocumentStatus'] == 'upload-later' or claimExpense['Status'] == 'REQUEST-INFORMATION' %}
               <span class="text-warning">Receipt pending upload</span>
-              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="button grey pull-right">Add</a>
+              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="update-receipt" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 pull-right">Add</a>
             {% elif claimExpense['DocumentStatus'] == 'post-later' %}
               <span class="text-pending">Sending receipt by post</span>
-              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">change</button>
+              <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="govuk-link--no-visited-state pull-right" name="change" id="change-receipt-post">change</button>
             {% endif %}
           {% endif %}
 
@@ -100,15 +100,15 @@
 
         {% elif claimExpense.DocumentStatus == 'upload-later' %}
           <span class="text-pending">Uploading receipt later</span>
-          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">change</button>
+          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="govuk-link--no-visited-state pull-right" name="change" id="change-receipt-post">change</button>
 
         {% elif claimExpense.DocumentStatus == 'post-later' %}
           <span class="text-pending">Sending receipt by post</span>
-          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="link pull-right" name="change" id="change-receipt-post">change</button>
+          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" class="govuk-link--no-visited-state pull-right" name="change" id="change-receipt-post">change</button>
 
         {% else %}
           <span class="text-warning">Receipt needed</span>
-          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="button grey pull-right add-expense-receipt " data-cy="add-expense-receipt">Add</a>
+          <a href="{{ URL }}/file-upload?document=RECEIPT&claimExpenseId={{ claimExpense.ClaimExpenseId }}&eligibilityId={{ claimDetails.claim.EligibilityId }}" id="add-receipt-{{ claimExpense.ClaimExpenseId }}" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 pull-right add-expense-receipt " data-cy="add-expense-receipt">Add</a>
 
         {% endif %}
       {% endif %}
