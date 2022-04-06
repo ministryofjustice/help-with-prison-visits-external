@@ -52,7 +52,7 @@
         .attr('data-input-name', this.$select.attr('name'))
         .val(val) // set value if already selected
         .data('select', this.$select) // assoc select with this input
-        .addClass('form-control moj-autocomplete')
+        .addClass('govuk-input govuk-!-width-one-half moj-autocomplete')
         .attr('arial-label', this.$select.attr('arial-label'))
         .attr('id', textInputID)
 

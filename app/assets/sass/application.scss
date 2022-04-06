@@ -1,21 +1,9 @@
-// Path to assets for use with the file-url function
-// in the govuk frontend toolkit's url-helpers partial
-$path: "/public/images/";
-// This includes entire govuk-elements from _govuk-elements.scss
-@import 'govuk-elements';
-// Take a look at in app/assets/sass/patterns/ to see which files are imported.
-@import 'patterns/check-your-answers';
-@import 'patterns/unbranded';
-// Autocomplete styles from https://github.com/ministryofjustice/prison-visits-public
-@import 'moj.autocomplete';
-
-// new govuk-frontend
-$govuk-compatibility-govukelements: true;
-$govuk-compatibility-govuktemplate: true;
-$govuk-compatibility-govukfrontendtoolkit: true;
 // $govuk-show-breakpoints: true;
 $govuk-global-styles: true;
 @import '../../../node_modules/govuk-frontend/govuk/all';
+
+// Autocomplete styles from https://github.com/ministryofjustice/prison-visits-public
+@import 'moj.autocomplete';
 
 @mixin respond-to($media) {
   @if $media==handhelds {
@@ -89,19 +77,19 @@ span.button-separator {
 }
 
 // Related items
-.govuk-related-items {
-  margin-top: $gutter;
-  border-top: 10px solid $govuk-blue;
-  padding-top: 5px;
-  .heading-medium {
-    margin-top: 0.3em;
-    margin-bottom: 0.5em;
-  }
-  li {
-    margin-bottom: 10px;
-    list-style-type: none;
-  }
-}
+// .govuk-related-items {
+//   margin-top: $govuk-gutter;
+//   border-top: 10px solid $govuk-blue;
+//   padding-top: 5px;
+//   .heading-medium {
+//     margin-top: 0.3em;
+//     margin-bottom: 0.5em;
+//   }
+//   li {
+//     margin-bottom: 10px;
+//     list-style-type: none;
+//   }
+// }
 
 .heading-xlarge {
   margin-bottom: 30px;
@@ -507,14 +495,14 @@ span.bold {
   padding-right: 20px;
 }
 
-.form-control.action-select {
-  width: 200px;
-  float: right;
-}
+// .form-control.action-select {
+//   width: 200px;
+//   float: right;
+// }
 
-.form-control.full {
-  width: 100%;
-}
+// .form-control.full {
+//   width: 100%;
+// }
 
 .form-hint {
   margin-bottom: 5px;
@@ -1030,99 +1018,99 @@ ul.claim-dialog-public li.claimant {
   padding-top: 0.1px
 }
 
-@if ($is-ie==false) or ($ie-version>=9) {
-  .inputfile {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-  }
+// @if ($is-ie==false) or ($ie-version>=9) {
+//   .inputfile {
+//     width: 0.1px;
+//     height: 0.1px;
+//     opacity: 0;
+//     overflow: hidden;
+//     position: absolute;
+//     z-index: -1;
+//   }
 
-  .inputfile:focus + label {
-    outline: 1px dotted #000;
-    outline: -webkit-focus-ring-color auto 5px;
-  }
-  .custom-file-upload input[type="file"] {
-    display: none;
-  }
-  label.custom-file-upload {
-    display: inline-block;
-    margin-bottom: 20px;
-  }
-  label.custom-file-upload {
-    display: inline-block;
-    margin-bottom: 20px;
-  }
-  .custom-file-upload {
-    padding: 0.526315em 0.789473em 0.263157em;
-    background-color: #dee0e2;
-    position: relative;
-    border: none;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    -webkit-appearance: none;
-    -webkit-box-shadow: 0 2px 0 #b5babe;
-    -moz-box-shadow: 0 2px 0 #b5babe;
-    box-shadow: 0 2px 0 #b5babe;
-    font-size: 1em;
-    line-height: 1.25;
-    text-decoration: none;
-    -webkit-font-smoothing: antialiased;
-    cursor: pointer;
-    color: #0b0c0c;
-    .custom-file-upload {
-      padding: .526315em .789473em .263157em;
-      background-color: #dee0e2;
-      position: relative;
-      border: none;
-      -webkit-border-radius: 0;
-      -moz-border-radius: 0;
-      border-radius: 0;
-      -webkit-appearance: none;
-      -webkit-box-shadow: 0 2px 0 #b5babe;
-      -moz-box-shadow: 0 2px 0 #b5babe;
-      box-shadow: 0 2px 0 #b5babe;
-      font-size: 1em;
-      line-height: 1.25;
-      text-decoration: none;
-      -webkit-font-smoothing: antialiased;
-      cursor: pointer;
-      color: #0b0c0c;
-    }
-  }
-  .remove-upload {
-    display: none;
-  }
-  @media (min-width: 641px) {
-    .js-tab-content .tab-shiftlink {
-      font-size: 19px;
-      line-height: 1.31579;
-    }
-  }
-  @media (max-width: 640px) {
-    .js-tab-content .tab-shiftlink {
-      position: static;
-      left: auto;
-    }
-  }
-  @media (max-width: 640px) {
-    .js-tab-content .js-tab-container {
-      min-height: 0;
-    }
-    .js-tab-content .js-tab-pane {
-      border-bottom: solid 1px #bfc1c3;
-    }
-    .js-tab-content .js-tab-container:first-child {
-      border-top: solid 1px #bfc1c3;
-    }
-  }
-  .transaction .js-tab-content {
-    overflow: hidden;
-  }
-}
+//   .inputfile:focus + label {
+//     outline: 1px dotted #000;
+//     outline: -webkit-focus-ring-color auto 5px;
+//   }
+//   .custom-file-upload input[type="file"] {
+//     display: none;
+//   }
+//   label.custom-file-upload {
+//     display: inline-block;
+//     margin-bottom: 20px;
+//   }
+//   label.custom-file-upload {
+//     display: inline-block;
+//     margin-bottom: 20px;
+//   }
+//   .custom-file-upload {
+//     padding: 0.526315em 0.789473em 0.263157em;
+//     background-color: #dee0e2;
+//     position: relative;
+//     border: none;
+//     -webkit-border-radius: 0;
+//     -moz-border-radius: 0;
+//     border-radius: 0;
+//     -webkit-appearance: none;
+//     -webkit-box-shadow: 0 2px 0 #b5babe;
+//     -moz-box-shadow: 0 2px 0 #b5babe;
+//     box-shadow: 0 2px 0 #b5babe;
+//     font-size: 1em;
+//     line-height: 1.25;
+//     text-decoration: none;
+//     -webkit-font-smoothing: antialiased;
+//     cursor: pointer;
+//     color: #0b0c0c;
+//     .custom-file-upload {
+//       padding: .526315em .789473em .263157em;
+//       background-color: #dee0e2;
+//       position: relative;
+//       border: none;
+//       -webkit-border-radius: 0;
+//       -moz-border-radius: 0;
+//       border-radius: 0;
+//       -webkit-appearance: none;
+//       -webkit-box-shadow: 0 2px 0 #b5babe;
+//       -moz-box-shadow: 0 2px 0 #b5babe;
+//       box-shadow: 0 2px 0 #b5babe;
+//       font-size: 1em;
+//       line-height: 1.25;
+//       text-decoration: none;
+//       -webkit-font-smoothing: antialiased;
+//       cursor: pointer;
+//       color: #0b0c0c;
+//     }
+//   }
+//   .remove-upload {
+//     display: none;
+//   }
+//   @media (min-width: 641px) {
+//     .js-tab-content .tab-shiftlink {
+//       font-size: 19px;
+//       line-height: 1.31579;
+//     }
+//   }
+//   @media (max-width: 640px) {
+//     .js-tab-content .tab-shiftlink {
+//       position: static;
+//       left: auto;
+//     }
+//   }
+//   @media (max-width: 640px) {
+//     .js-tab-content .js-tab-container {
+//       min-height: 0;
+//     }
+//     .js-tab-content .js-tab-pane {
+//       border-bottom: solid 1px #bfc1c3;
+//     }
+//     .js-tab-content .js-tab-container:first-child {
+//       border-top: solid 1px #bfc1c3;
+//     }
+//   }
+//   .transaction .js-tab-content {
+//     overflow: hidden;
+//   }
+// }
 
 .secondary-text {
   color: $govuk-secondary-text-colour;
