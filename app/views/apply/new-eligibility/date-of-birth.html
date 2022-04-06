@@ -12,7 +12,7 @@
 
     {% include "includes/validation-error-messages.html" %}
 
-    <form action="/apply/{{ claimType }}/new-eligibility/date-of-birth" method="post">
+    <form action="/apply/{{ claimType }}/new-eligibility/date-of-birth" method="post" novalidate>
       {% set errorDob = errors | findError('dob') %}
       {% set errorClass = " govuk-input--error" if errorDob %}
 

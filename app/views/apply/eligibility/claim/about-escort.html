@@ -14,7 +14,7 @@
 
     {% include "includes/validation-error-messages.html" %}
 
-    <form action="/apply/eligibility/claim/about-escort" method="post">
+    <form action="/apply/eligibility/claim/about-escort" method="post" novalidate>
 
       {% call govukFieldset({
         legend: {

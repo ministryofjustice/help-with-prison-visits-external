@@ -16,7 +16,7 @@
     </h1>
 
     <form action="/apply/eligibility/claim/bus{{ params }}"
-          method="post">
+          method="post" novalidate>
       {% include "partials/expenses/ticket-owner.html" %}
 
       {% set exampleFrom = 'Euston' %}

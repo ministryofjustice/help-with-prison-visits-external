@@ -17,7 +17,7 @@
     </h1>
     <p>You can only claim for standard off peak trains</p>
 
-    <form action="/apply/eligibility/claim/train{{ params }}" method="post">
+    <form action="/apply/eligibility/claim/train{{ params }}" method="post" novalidate>
       {% include "partials/expenses/ticket-owner.html" %}
 
       {% set exampleFrom = 'Euston' %}
