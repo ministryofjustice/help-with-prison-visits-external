@@ -12,7 +12,7 @@ module.exports = function (claimDocumentId) {
       IsEnabled: false
     })
     .then(async function (filepath) {
-      if (filepath[0].Filepath) {
+      if (filepath[0]?.Filepath) {
         await aws.delete(filepath[0].Filepath)
       }
     })
