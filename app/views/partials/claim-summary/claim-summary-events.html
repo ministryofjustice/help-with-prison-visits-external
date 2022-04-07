@@ -8,13 +8,13 @@
   {% for event in claimDetails.claimEvents %}
 
     {% if event.Caseworker %}
-      <li class="caseworker">
+      <li class="caseworker govuk-body">
         <h4>{{ claimEventHelper(event.Event) }}</h4>
         <p>{{ event.Note }}</p>
         <p class="time">{{ dateHelper(event.DateAdded) }}</p>
 
     {% else %}
-      <li class="claimant">
+      <li class="claimant govuk-body">
         <h4>{{claimDetails.claim.FirstName}} {{claimDetails.claim.LastName}}</h4>
         <p>{{ event.Note }}</p>
         <p class="time">{{ dateHelper(event.DateAdded) }}</p>
@@ -27,5 +27,4 @@
 
 </div>
 
-<br>
 {% endif %}

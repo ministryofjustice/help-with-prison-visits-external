@@ -1,11 +1,11 @@
 {% if claimDetails.claimExpenses.length > 0 %}
-<table>
+<table class="govuk-table">
 
   <thead>
   <tr>
-    <th>Expense{% if claimDetails.claimExpenses[1] %}s{% endif %}</th>
-    <th>Amount</th>
-    <th></th>
+    <th class="govuk-table__header">Expense{% if claimDetails.claimExpenses[1] %}s{% endif %}</th>
+    <th class="govuk-table__header">Amount</th>
+    <th class="govuk-table__header"></th>
   </tr>
   </thead>
 
@@ -19,7 +19,7 @@
   {% else %}
     <tr {% if errors['claim-expense'][0] %} {% if claimExpense.DocumentStatus == null %} {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %} class="warning" {% endif %}{% endif %}{% endif %}>
   {% endif %}
-    <td data-cy="expense-{{ loop.index }}">
+    <td class="govuk-table__cell" data-cy="expense-{{ loop.index }}">
       <span class="bold pull-left{% if not viewClaim %} expense-padding{% endif %}">{{ displayHelper.getExpenseDisplayName(claimExpense.ExpenseType) }}
       {% if viewClaim %}</span><br>{% else %} - </span>
       <form
@@ -33,14 +33,14 @@
     </td>
 
     {% if claimExpense.ExpenseType == 'train' and claimDetails.claim.IsAdvanceClaim %}
-      <td></td>
+      <td class="govuk-table__cell"></td>
     {% elseif claimExpense.ExpenseType == 'car' and claimExpense.Cost === 0 %}
-      <td data-cy="expense-amount-{{ loop.index }}">13p per mile</td>
+      <td class="govuk-table__cell" data-cy="expense-amount-{{ loop.index }}">13p per mile</td>
     {% else %}
-      <td data-cy="expense-amount-{{ loop.index }}">{{ displayHelper.toCurrency(claimExpense.Cost) }}</td>
+      <td class="govuk-table__cell" data-cy="expense-amount-{{ loop.index }}">{{ displayHelper.toCurrency(claimExpense.Cost) }}</td>
     {% endif %}
 
-    <td data-cy="expense-info-{{ loop.index }}">
+    <td class="govuk-table__cell" data-cy="expense-info-{{ loop.index }}">
     {% if displayHelper.getExpenseReceiptRequired(claimExpense.ExpenseType) %}
       {% if claimDetails.claim.IsAdvanceClaim and not forEdit and not claimExpense['DocumentStatus'] %}
         <span class="text-pending">Receipt must be supplied after visit</span>
@@ -124,6 +124,4 @@
   </tbody>
 
 </table>
-
-<br>
 {% endif %}

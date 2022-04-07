@@ -33,8 +33,6 @@
 
 {% include "partials/claim-summary/claim-summary-visit.html" %}
 
-<br>
-
 {% include "partials/claim-summary/claim-summary-expenses.html" %}
 
 {% include "partials/claim-summary/claim-summary-events.html" %}
@@ -148,10 +146,13 @@
         }
       }) }}
 
-      <br>
-      <a href="/your-claims" id="cancel">cancel</a>
+      <p>
+        <a href="/your-claims" id="cancel">cancel</a>
+      </p>
     {% else %}
-      <a href="/your-claims" id="back">back</a>
+      <p>
+        <a href="/your-claims" id="back">back</a>
+      </p>
     {% endif %}
   </div>
 

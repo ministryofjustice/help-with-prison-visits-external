@@ -1,26 +1,26 @@
-<table class="col-2">
+<table class="govuk-table col-2">
   <tr>
-    <td>Visitor</td>
-    <td data-cy="visitor">{{ claimDetails.claim['FirstName'] }} {{ claimDetails.claim['LastName'] }}</td>
+    <td class="govuk-table__cell">Visitor</td>
+    <td class="govuk-table__cell" data-cy="visitor">{{ claimDetails.claim['FirstName'] }} {{ claimDetails.claim['LastName'] }}</td>
   </tr>
 
   {% if claimDetails.claimEscort %}
   <tr>
-    <td>Escort</td>
-    <td data-cy="escort">{{ claimDetails.claimEscort['FirstName'] }} {{ claimDetails.claimEscort['LastName'] }}</td>
+    <td class="govuk-table__cell">Escort</td>
+    <td class="govuk-table__cell" data-cy="escort">{{ claimDetails.claimEscort['FirstName'] }} {{ claimDetails.claimEscort['LastName'] }}</td>
   </tr>
   {% endif %}
 
   {% for child in claimDetails.claimChild %}
   <tr>
-    <td>Child</td>
-    <td data-cy="child-{{ loop.index }}">{{ child['FirstName'] }} {{ child['LastName'] }}</td>
+    <td class="govuk-table__cell">Child</td>
+    <td class="govuk-table__cell" data-cy="child-{{ loop.index }}">{{ child['FirstName'] }} {{ child['LastName'] }}</td>
   </tr>
   {% endfor %}
 
   <tr id='benefit-information' {% if errors['benefit-information'][0] %} class="warning" {% endif %}{% if forEdit %}{% if claimDetails.claim['benefitDocument'][0].fromInternalWeb %} {% if claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or  claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% endif %}{% endif %}>
-    <td>Benefit information</td>
-    <td data-cy="benefits">
+    <td class="govuk-table__cell">Benefit information</td>
+    <td class="govuk-table__cell" data-cy="benefits">
       {{ displayHelper.getBenefitDisplayName(claimDetails.claim['Benefit']) }}
 
       {% if displayHelper.getBenefitRequireUpload(claimDetails.claim['Benefit']) or claimDetails.claim['benefitDocument'][0]['DocumentStatus'] == 'upload-later' or claimDetails.claim['BenefitStatus'] == 'REQUEST-INFORMATION' %}

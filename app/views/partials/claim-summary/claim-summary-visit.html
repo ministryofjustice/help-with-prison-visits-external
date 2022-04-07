@@ -1,29 +1,29 @@
-<table class="col-2">
+<table class="govuk-table col-2">
 
   <tr>
-    <td>Prisoner name</td>
-    <td data-cy="prisoner-name">{{ claimDetails.claim['PrisonerFirstName']}} {{ claimDetails.claim['PrisonerLastName'] }}</td>
+    <td class="govuk-table__cell">Prisoner name</td>
+    <td class="govuk-table__cell" data-cy="prisoner-name">{{ claimDetails.claim['PrisonerFirstName']}} {{ claimDetails.claim['PrisonerLastName'] }}</td>
   </tr>
 
   <tr {% if claimDetails.claim['NomisCheck'] == 'REQUEST-INFORMATION' %} class="text-warning" {% endif %}>
-    <td>Prisoner number</td>
-    <td data-cy="prisoner-number">{{ claimDetails.claim['PrisonNumber'] }}</td>
+    <td class="govuk-table__cell">Prisoner number</td>
+    <td class="govuk-table__cell" data-cy="prisoner-number">{{ claimDetails.claim['PrisonNumber'] }}</td>
   </tr>
 
   <tr>
-    <td>Prison</td>
-    <td data-cy="prison">{{ displayHelper.getPrisonDisplayName(claimDetails.claim['NameOfPrison']) }}</td>
+    <td class="govuk-table__cell">Prison</td>
+    <td class="govuk-table__cell" data-cy="prison">{{ displayHelper.getPrisonDisplayName(claimDetails.claim['NameOfPrison']) }}</td>
   </tr>
 
   <tr>
-    <td>Date of visit</td>
-    <td data-cy="visit-date">{{ dateHelper(claimDetails.claim['DateOfJourney']) }}</td>
+    <td class="govuk-table__cell">Date of visit</td>
+    <td class="govuk-table__cell" data-cy="visit-date">{{ dateHelper(claimDetails.claim['DateOfJourney']) }}</td>
   </tr>
 
   {% if claimDetails.claim.visitConfirmation.fromInternalWeb or updated %}
     <tr id="VisitConfirmation" {% if forEdit %}{% if errors['VisitConfirmation'][0] or claimDetails.claim.visitConfirmation['DocumentStatus'] == 'upload-later' or claimDetails.claim['VisitConfirmationCheck'] == 'REQUEST-INFORMATION' %} class="warning" {% endif %}{% endif %}>
-      <td>Visit confirmation</td>
-      <td data-cy="visit-confirmation">
+      <td class="govuk-table__cell">Visit confirmation</td>
+      <td class="govuk-table__cell" data-cy="visit-confirmation">
         {% if forEdit %}
           {% if claimDetails.claim.IsAdvanceClaim %}
             {% if not claimDetails.claim.visitConfirmation['DocumentStatus'] and claimDetails.claim['Status'] == 'APPROVED' %}
@@ -82,8 +82,8 @@
 
   {% else %}
     <tr id="VisitConfirmation" {% if errors['VisitConfirmation'][0] %} class="warning" {% endif %}>
-      <td>Visit confirmation</td>
-      <td data-cy="visit-confirmation">
+      <td class="govuk-table__cell">Visit confirmation</td>
+      <td class="govuk-table__cell" data-cy="visit-confirmation">
         {% if claimDetails.claim.IsAdvanceClaim and not forEdit %}
           <span class="text-pending">Visit confirmation must be supplied after visit</span>
 

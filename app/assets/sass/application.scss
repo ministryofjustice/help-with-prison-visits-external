@@ -301,15 +301,20 @@ a#remove-file-upload {
   table.col-2 td:first-child {
     width: 140px!important;
     font-weight: bold;
+    border-bottom: none;
   }
   #claim-expense {
     td {
       width: 100% !important;
+      border-bottom: none;
     }
   }
   .claim-list {
     th {
       display: none;
+    }
+    td {
+      border-bottom: none;
     }
     .date-submmited, .visit-date, .claim-status {
       display: block;
@@ -451,7 +456,7 @@ tr.warning td:first-child {
 
 @include respond-to(handhelds) {
   .warning {
-    padding-bottom: 30px;
+    padding-bottom: 40px;
   }
   tr.warning td {
     background: none;
@@ -527,6 +532,13 @@ span.bold {
 
 .pull-right {
   float: right;
+  margin-right: 10px;
+}
+
+@include respond-to(handhelds) {
+  .pull-right {
+    margin-right: 0;
+  }
 }
 
 .pull-left {
@@ -853,6 +865,10 @@ ul.sub-tabs li a.active span.badge {
   margin-left: 0;
 }
 
+ul.claim-dialog-public {
+  padding: 0;
+}
+
 ul.claim-dialog-public li {
   max-width: 550px;
   padding: 10px;
@@ -865,8 +881,7 @@ ul.claim-dialog-public li p {
   margin: 0 0 5px;
 }
 
-ul.claim-dialog-public li h2 {
-  font-weight: bold;
+ul.claim-dialog-public li h4 {
   margin: 0 0 5px;
 }
 
@@ -1018,99 +1033,9 @@ ul.claim-dialog-public li.claimant {
   padding-top: 0.1px
 }
 
-// @if ($is-ie==false) or ($ie-version>=9) {
-//   .inputfile {
-//     width: 0.1px;
-//     height: 0.1px;
-//     opacity: 0;
-//     overflow: hidden;
-//     position: absolute;
-//     z-index: -1;
-//   }
-
-//   .inputfile:focus + label {
-//     outline: 1px dotted #000;
-//     outline: -webkit-focus-ring-color auto 5px;
-//   }
-//   .custom-file-upload input[type="file"] {
-//     display: none;
-//   }
-//   label.custom-file-upload {
-//     display: inline-block;
-//     margin-bottom: 20px;
-//   }
-//   label.custom-file-upload {
-//     display: inline-block;
-//     margin-bottom: 20px;
-//   }
-//   .custom-file-upload {
-//     padding: 0.526315em 0.789473em 0.263157em;
-//     background-color: #dee0e2;
-//     position: relative;
-//     border: none;
-//     -webkit-border-radius: 0;
-//     -moz-border-radius: 0;
-//     border-radius: 0;
-//     -webkit-appearance: none;
-//     -webkit-box-shadow: 0 2px 0 #b5babe;
-//     -moz-box-shadow: 0 2px 0 #b5babe;
-//     box-shadow: 0 2px 0 #b5babe;
-//     font-size: 1em;
-//     line-height: 1.25;
-//     text-decoration: none;
-//     -webkit-font-smoothing: antialiased;
-//     cursor: pointer;
-//     color: #0b0c0c;
-//     .custom-file-upload {
-//       padding: .526315em .789473em .263157em;
-//       background-color: #dee0e2;
-//       position: relative;
-//       border: none;
-//       -webkit-border-radius: 0;
-//       -moz-border-radius: 0;
-//       border-radius: 0;
-//       -webkit-appearance: none;
-//       -webkit-box-shadow: 0 2px 0 #b5babe;
-//       -moz-box-shadow: 0 2px 0 #b5babe;
-//       box-shadow: 0 2px 0 #b5babe;
-//       font-size: 1em;
-//       line-height: 1.25;
-//       text-decoration: none;
-//       -webkit-font-smoothing: antialiased;
-//       cursor: pointer;
-//       color: #0b0c0c;
-//     }
-//   }
-//   .remove-upload {
-//     display: none;
-//   }
-//   @media (min-width: 641px) {
-//     .js-tab-content .tab-shiftlink {
-//       font-size: 19px;
-//       line-height: 1.31579;
-//     }
-//   }
-//   @media (max-width: 640px) {
-//     .js-tab-content .tab-shiftlink {
-//       position: static;
-//       left: auto;
-//     }
-//   }
-//   @media (max-width: 640px) {
-//     .js-tab-content .js-tab-container {
-//       min-height: 0;
-//     }
-//     .js-tab-content .js-tab-pane {
-//       border-bottom: solid 1px #bfc1c3;
-//     }
-//     .js-tab-content .js-tab-container:first-child {
-//       border-top: solid 1px #bfc1c3;
-//     }
-//   }
-//   .transaction .js-tab-content {
-//     overflow: hidden;
-//   }
-// }
+.remove-upload {
+  display: none;
+}
 
 .secondary-text {
   color: $govuk-secondary-text-colour;

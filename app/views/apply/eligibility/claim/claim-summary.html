@@ -22,15 +22,14 @@
 
 {% include "partials/claim-summary/claim-summary-visit.html" %}
 
-<br>
-
 {% include "partials/claim-summary/claim-summary-expenses.html" %}
 
-<br>
 {% if not claimDetails.claimExpenses[0] %}
   <span class="govuk-error-message" id="error-message-no-expenses">{{ errors['claim-expense'][0] }}</span>
 {% endif %}
-<a href="/apply/eligibility/claim/expenses">Add another expense</a>
+<p>
+  <a href="/apply/eligibility/claim/expenses">Add another expense</a>
+</p>
 
 <form action="/apply/eligibility/claim/summary" method="post" class="govuk-!-margin-top-8">
 

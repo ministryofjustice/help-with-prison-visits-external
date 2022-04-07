@@ -27,7 +27,7 @@
       {% set costExample = 2.55 %}
       {% include "partials/expenses/cost.html" %}
 
-      <p>Keep receipts as you may need to show them later on.<p>
+      <p>Keep receipts as you may need to show them later on.</p>
 
       {% include "partials/csrf-hidden-input.html" %}
 
@@ -40,7 +40,9 @@
       }) }}
     </form>
 
-    <a href="{{ redirectUrl }}">Remove this expense</a>
+    <p>
+      <a href="{{ redirectUrl }}">Remove this expense</a>
+    </p>
 
   </div>
 </div>
