@@ -321,6 +321,11 @@ a#remove-file-upload {
       font-weight: bold;
     }
   }
+  .last-journey {
+    td {
+      border-bottom: none;
+    }
+  }
 }
 
 @include respond-to(handhelds-landscape) {
