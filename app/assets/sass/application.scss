@@ -460,9 +460,6 @@ tr.warning td:first-child {
 }
 
 @include respond-to(handhelds) {
-  .warning {
-    padding-bottom: 40px;
-  }
   tr.warning td {
     background: none;
     color: #a94442;
@@ -535,14 +532,10 @@ span.bold {
   background: #f40b0c;
 }
 
-.pull-right {
-  float: right;
-  margin-right: 10px;
-}
-
-@include respond-to(handhelds) {
+@media (min-width: 569px) {
   .pull-right {
-    margin-right: 0;
+    float: right;
+    margin-right: 10px;
   }
 }
 
