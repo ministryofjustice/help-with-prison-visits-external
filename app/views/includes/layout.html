@@ -56,25 +56,15 @@
 {% block bodyEnd %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
 
-  {# scripts from old layout #}
-  {# <script src="/public/javascripts/bind.js"></script> #}
-  {# <script src="/public/javascripts/details.polyfill.js"></script> #}
   <script src="/public/javascripts/jquery-1.11.3.js"></script>
   <script src="/public/javascripts/jquery-ui-autocomplete.js"></script>
   <script src="/public/javascripts/moj.autocomplete.js"></script>
-  {# <script src="/public/javascripts/govuk/selection-buttons.js"></script> #}
-  {# <script src="/public/javascripts/govuk/shim-links-with-button-role.js"></script> #}
-  {# <script src="/public/javascripts/govuk/show-hide-content.js"></script> #}
-  {# <script src="/public/javascripts/application.js"></script> #}
   <script src="/public/javascripts/upload-page.js"></script>
   <script src="/public/javascripts/print-link.js"></script>
-  {# can probably be replaced with 'data-prevent-double-click'? - https://design-system.service.gov.uk/components/button/ #}
-  <script src="/public/javascripts/disable-button-after-submit.js"></script>
 
-  {# new GOV.UK Frontend #}
   <script src="/assets/govuk/all.js"></script>
   <script>window.GOVUKFrontend.initAll()</script>
 
-  {# TEMPORARY - for cookie banner #}
-  <script src="/public/javascripts/govuk-template.js?0.26.0"></script>
+  {# TEMPORARY - code from https://github.com/alphagov/govuk_template_jinja for cookie banner #}
+  <script src="/public/javascripts/cookie-banner.js"></script>
 {% endblock %}

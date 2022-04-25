@@ -17,7 +17,7 @@
 
 </div>
 
-<div class="govuk-grid-row govuk-!-margin-bottom-5">
+<div class="govuk-grid-row govuk-!-margin-bottom-5 govuk-body">
 
   <div class="govuk-grid-column-one-third">
     <span class="secondary-text">Prisoner name</span>
@@ -62,7 +62,9 @@
   }) }}
 {% endif %}
 
-<a href="/start">Make a claim for a different prisoner</a>
+<p>
+  <a href="/start">Make a claim for a different prisoner</a>
+</p>
 
 <hr>
 
@@ -70,38 +72,38 @@
   Your claim{% if claims[1] %}s{% endif %}
 </h2>
 
-<table class="claim-list">
+<table class="govuk-table claim-list">
 
   <tr>
-    <th>Date sent</th>
-    <th>Date of visit</th>
-    <th>Progress</th>
-    <th></th>
+    <th scope="col" class="govuk-table__header">Date sent</th>
+    <th scope="col" class="govuk-table__header">Date of visit</th>
+    <th scope="col" class="govuk-table__header">Progress</th>
+    <th scope="col" class="govuk-table__header"></th>
   </tr>
 
   {% for claim in claims %}
     <tr {% if forEdit(claim.Status) %} class='warning' {% endif %}>
-      <td data-cy="claim-{{ loop.index }}-date"><span class="date-submmited">Date sent </span>{{ dateHelper(claim.DateSubmitted) }}</td>
-      <td data-cy="claim-{{ loop.index }}-visit-date"><span class="visit-date">	Date of visit </span>{{ dateHelper(claim.DateOfJourney) }}</td>
+      <td class="govuk-table__cell" data-cy="claim-{{ loop.index }}-date"><span class="date-submmited">Date sent </span>{{ dateHelper(claim.DateSubmitted) }}</td>
+      <td class="govuk-table__cell" data-cy="claim-{{ loop.index }}-visit-date"><span class="visit-date">	Date of visit </span>{{ dateHelper(claim.DateOfJourney) }}</td>
       <td data-cy="claim-{{ loop.index }}-status"
         {% if claim.IsAdvanceClaim %}
           {% if claim.Status == 'APPROVED-ADVANCE-CLOSED' %}
-            >Closed
+            class="govuk-table__cell">Closed
           {% elif forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
-            class ="text-warning your-claims"><span class="claim-status">Progress </span>Information needed
+            class ="govuk-table__cell text-warning your-claims"><span class="claim-status">Progress </span>Information needed
           {% elif claim.Status == 'APPROVED' %}
-            class ="text-pending your-claims"><span class="claim-status">Progress </span>Information needed after visit takes place
+            class ="govuk-table__cell text-pending your-claims"><span class="claim-status">Progress </span>Information needed after visit takes place
           {% elif claim.Status == 'REJECTED' %}
-            >Rejected
+            class="govuk-table__cell">Rejected
           {% else %}
-            class ="text-pending your-claims"><span class="claim-status">Progress </span>In progress
+            class ="govuk-table__cell text-pending your-claims"><span class="claim-status">Progress </span>In progress
           {% endif %}
 
         {% else %}
-          ><span class="claim-status">Progress </span>{{ claimStatusHelper(claim.Status) }}
+          class="govuk-table__cell"><span class="claim-status">Progress </span>{{ claimStatusHelper(claim.Status) }}
         {% endif %}
       </td>
-      <td>
+      <td class="govuk-table__cell">
       {% if forEdit(claim.Status, claim.IsAdvanceClaim, claim.DateOfJourney) %}
         {{ govukButton({
           classes: "govuk-button--secondary govuk-!-margin-bottom-1",

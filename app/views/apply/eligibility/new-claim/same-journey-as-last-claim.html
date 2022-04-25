@@ -16,22 +16,22 @@
       Your last journey
     </h1>
 
-    <table>
+    <table class="last-journey govuk-table">
       <thead>
         <tr>
-          <th>Expense</th>
-          <th>Amount</th>
+          <th class="govuk-table__header">Expense</th>
+          <th class="govuk-table__header">Amount</th>
         </tr>
       </thead>
 
       <tbody>
       {% for claimExpense in lastClaimDetails.expenses %}
         <tr>
-          <td>
+          <td class="govuk-table__cell">
             <div class="govuk-!-font-weight-bold">{{ displayHelper.getExpenseDisplayName(claimExpense.ExpenseType) }}</div>
             {{ claimExpenseHelper(claimExpense) }}
           </td>
-          <td>
+          <td class="govuk-table__cell">
             {{ displayHelper.toCurrency(claimExpense.Cost) }}
           </td>
         </tr>
@@ -41,18 +41,18 @@
 
     {% if lastClaimDetails.escort[0] %}
     <p>
-      <div class="govuk-!-font-weight-bold">Escort</div>
+      <div class="govuk-!-font-weight-bold govuk-body">Escort</div>
       {% for claimEscort in lastClaimDetails.escort %}
-      <div>{{ claimEscort.FirstName + ' ' + claimEscort.LastName }}</div>
+      <div class="govuk-body">{{ claimEscort.FirstName + ' ' + claimEscort.LastName }}</div>
       {% endfor %}
     </p>
     {% endif %}
 
     {% if lastClaimDetails.children[0] %}
     <p>
-      <div class="govuk-!-font-weight-bold">Children</div>
+      <div class="govuk-!-font-weight-bold govuk-body">Children</div>
       {% for claimChild in lastClaimDetails.children %}
-      <div>{{ claimChild.FirstName }} {{ claimChild.LastName }}</div>
+      <div class="govuk-body">{{ claimChild.FirstName }} {{ claimChild.LastName }}</div>
       {% endfor %}
     </p>
     {% endif %}

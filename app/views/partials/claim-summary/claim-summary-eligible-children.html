@@ -1,28 +1,28 @@
-<table class="col-2">
+<table class="govuk-table col-2">
   {% for eligibleChild in claimDetails.eligibleChildren %}
   <tr>
-    <td>Eligible child</td>
-    <td>{{ eligibleChild['EligibleChildFirstName'] }} {{ eligibleChild['LastName'] }}</td>
+    <td class="govuk-table__cell">Eligible child</td>
+    <td class="govuk-table__cell">{{ eligibleChild['EligibleChildFirstName'] }} {{ eligibleChild['LastName'] }}</td>
   </tr>
 
   <tr>
-    <td>Child's date of birth</td>
-    <td>{{ dateHelper(eligibleChild['EligibleChildDateOfBirth']) }}</td>
+    <td class="govuk-table__cell">Child's date of birth</td>
+    <td class="govuk-table__cell">{{ dateHelper(eligibleChild['EligibleChildDateOfBirth']) }}</td>
   </tr>
 
   <tr>
-    <td>Child's relationship to prisoner</td>
-    <td>{{ eligibleChild['EligibleChildChildRelationship'] }}</td>
+    <td class="govuk-table__cell">Child's relationship to prisoner</td>
+    <td class="govuk-table__cell">{{ eligibleChild['EligibleChildChildRelationship'] }}</td>
   </tr>
 
   <tr>
-    <td>Child's parent</td>
-    <td>{{ eligibleChild['EligibleChildParentFirstName'] }} {{ eligibleChild['EligibleChildParentLastName'] }}</td>
+    <td class="govuk-table__cell">Child's parent</td>
+    <td class="govuk-table__cell">{{ eligibleChild['EligibleChildParentFirstName'] }} {{ eligibleChild['EligibleChildParentLastName'] }}</td>
   </tr>
 
   <tr>
-    <td>Child's address</td>
-    <td>
+    <td class="govuk-table__cell">Child's address</td>
+    <td class="govuk-table__cell">
       {{ celigibleChild['EligibleChildHouseNumberAndStreet'] }}</br> 
       {{ eligibleChild['EligibleChildTown'] }}</br> 
       {{ eligibleChild['EligibleChildCounty'] }}</br> 

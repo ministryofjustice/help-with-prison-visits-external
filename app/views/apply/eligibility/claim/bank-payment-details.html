@@ -92,8 +92,9 @@
         errorMessage: errors | findError('RollNumber')
       }) }}
 
-      <a href="/apply/eligibility/claim/payout-confirmation?isAdvance={{ isAdvance }}" id="switchToVoucher" name="switchToVoucher" class="govuk-!-font-size-24" data-cy="voucher">Receive a cash voucher sent by post instead</a>
-      <br><br>
+      <p>
+        <a href="/apply/eligibility/claim/payout-confirmation?isAdvance={{ isAdvance }}" id="switchToVoucher" name="switchToVoucher" class="govuk-!-font-size-24" data-cy="voucher">Receive a cash voucher sent by post instead</a>
+      </p>
 
       {% include "partials/csrf-hidden-input.html" %}
 

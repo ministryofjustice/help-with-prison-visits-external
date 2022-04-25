@@ -9,23 +9,23 @@
   max-height: 208px;
   overflow-y: scroll;
   list-style: none;
-  background-color: $white;
-  border: 1px solid $grey-2;
+  background-color: $govuk-body-background-colour;
+  border: 1px solid govuk-colour("mid-grey");
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 
   .ui-menu-item {
     a {
       display: block;
       padding: 4px 6px;
-      color: $black;
+      color: $govuk-text-colour;
       cursor: pointer;
 
       &.ui-state-hover,
       &.ui-state-focus {
-        background-color: $light-blue-25;
-        color: $black;
+        background-color:  #d5e8f3;
+        color: $govuk-text-colour;
         &.ui-menu-noresults {
-          background-color: $white;
+          background-color: $govuk-body-background-colour;
         }
       }
     }

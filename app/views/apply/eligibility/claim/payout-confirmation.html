@@ -17,20 +17,18 @@
 
     <form action="/apply/eligibility/claim/payout-confirmation?isAdvance={{ isAdvance }}" method="post">
 
-      <h2 class="govuk-heading-s">Payment by voucher</h2>
+      <h2 class="govuk-heading-m">Payment by voucher</h2>
 
-      <div id="payout-details">
-        <span>You can exchange the voucher for cash at any post office.</span>
-        <br>
-        <br>
+      <p>You can exchange the voucher for cash at any post office.</p>
 
-        <p>Your voucher will be sent to:</p>
-        <p>{{ address.HouseNumberAndStreet }}
-        <br>{{ address.Town }}
-        <br>{{ address.PostCode }}</p>
-        <a href="{{ changeAddressLink }}">Change address</a><br><br>
-        <span>(This will take you back to the start of your application)</span>
-      </div>
+      <p>Your voucher will be sent to:</p>
+      <p>{{ address.HouseNumberAndStreet }}
+      <br>{{ address.Town }}
+      <br>{{ address.PostCode }}</p>
+      <p>
+        <a href="{{ changeAddressLink }}">Change address</a>
+        <br>(This will take you back to the start of your application)
+      </p>
 
       {% include "partials/csrf-hidden-input.html" %}
       <br/>

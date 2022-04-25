@@ -31,7 +31,7 @@
       <div>
         <div>
           <p id='document-name' class="govuk-!-width-three-quarters"></p>
-          <a id="remove-file-upload" class="remove-upload" href="{{ URL }}">remove</a>
+          <p><a id="remove-file-upload" class="remove-upload" href="{{ URL }}">remove</a></p>
         </div>
         <div>
           <label id="label" class="govuk-label" for="document">Upload a file</label>
@@ -94,7 +94,9 @@
         }
       }) }}
     </form>
-    <a href="{{ yourClaimUrl }}">Cancel and return to your claim</a>
+    <p>
+      <a href="{{ yourClaimUrl }}">Cancel and return to your claim</a>
+    </p>
   </div>
 </div>
 {% endblock %}
