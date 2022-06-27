@@ -27,7 +27,7 @@ module.exports = function (router) {
       let subjectText = 'Help With Prison Visits - Help'
       const tagText = ['HelpWithPrisonVisits']
 
-      if (config.ZENDESK_TEST_ENVIRONMENT === 'true') {
+      if (config.ZENDESK_PROD_ENVIRONMENT !== 'true') {
         subjectText = 'Test: Help With Prison Visits - Help'
         tagText.push('Test')
       }

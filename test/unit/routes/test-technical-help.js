@@ -36,7 +36,7 @@ describe('routes/help', function () {
     }
     configStub = {
       ZENDESK_ENABLED: 'true',
-      ZENDESK_TEST_ENVIRONMENT: 'false',
+      ZENDESK_PROD_ENVIRONMENT: 'true',
       ZENDESK_API_URL: 'http://test/',
       ZENDESK_EMAIL_ADDRESS: 'nota@realem.mail',
       ZENDESK_API_KEY: '123'
