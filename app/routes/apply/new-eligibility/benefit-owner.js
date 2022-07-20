@@ -64,7 +64,7 @@ module.exports = function (router) {
 function renderValidationError (req, res, benefitOwnerBody, validationErrors, isDuplicateClaim) {
   return res.status(400).render('apply/new-eligibility/benefit-owner', {
     errors: validationErrors,
-    isDuplicateClaim: isDuplicateClaim,
+    isDuplicateClaim,
     claimType: req.session.claimType,
     dob: req.session.dobEncoded,
     relationship: req.session.relationship,

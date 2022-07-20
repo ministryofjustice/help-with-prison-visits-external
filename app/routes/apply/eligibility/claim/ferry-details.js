@@ -29,7 +29,7 @@ module.exports = function (router) {
               expenseOwners: expenseOwnerData,
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-              isAdvanceClaim: isAdvanceClaim
+              isAdvanceClaim
             })
           })
       })
@@ -77,7 +77,7 @@ module.exports = function (router) {
                   params: expenseUrlRouter.parseParams(req.query),
                   redirectUrl: expenseUrlRouter.getRedirectUrl(req),
                   expense: req.body,
-                  isAdvanceClaim: isAdvanceClaim
+                  isAdvanceClaim
                 })
               })
           })

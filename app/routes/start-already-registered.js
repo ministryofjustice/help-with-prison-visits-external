@@ -16,7 +16,7 @@ module.exports = function (router) {
     } else if ((req.query.error === 'disabled')) {
       errors = { expired: [ERROR_MESSAGES.getReferenceDisabled] }
     }
-    return res.render('start-already-registered', { errors: errors, recovery: req.query.recovery })
+    return res.render('start-already-registered', { errors, recovery: req.query.recovery })
   })
 
   router.post('/start-already-registered', function (req, res) {
@@ -38,7 +38,7 @@ module.exports = function (router) {
           dobDay: day,
           dobMonth: month,
           dobYear: year,
-          reference: reference,
+          reference,
           errors: error.validationErrors
         })
       } else {

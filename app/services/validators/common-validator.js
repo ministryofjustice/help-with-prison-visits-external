@@ -71,7 +71,7 @@ exports.isOlderThanInYears = function (dob, years) {
 }
 
 exports.isRange = function (value, min, max) {
-  return validator.isLength(value, { min: min, max: max })
+  return validator.isLength(value, { min, max })
 }
 
 exports.isNationalInsuranceNumber = function (value) {

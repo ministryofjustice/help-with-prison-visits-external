@@ -22,7 +22,7 @@ module.exports = function (router) {
     }
     return res.render('apply/new-eligibility/benefits', {
       URL: req.url,
-      relationship: relationship,
+      relationship,
       showYCS: !!req.cookies['apvs-assisted-digital']
     })
   })
@@ -60,7 +60,7 @@ module.exports = function (router) {
         return res.status(400).render('apply/new-eligibility/benefits', {
           errors: error.validationErrors,
           URL: req.url,
-          relationship: relationship
+          relationship
         })
       } else {
         throw error

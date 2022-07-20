@@ -55,7 +55,7 @@ class FieldValidator {
 
   isRange (min, max) {
     if (!validator.isRange(this.data, min, max)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRangeMessage, { min: min, max: max })
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRangeMessage, { min, max })
     }
     return this
   }
@@ -63,7 +63,7 @@ class FieldValidator {
   isLength (length, specificMessage) {
     const message = (!specificMessage) ? ERROR_MESSAGES.getIsLengthMessage : specificMessage
     if (!validator.isLength(this.data, length)) {
-      this.errors.add(this.fieldName, message, { length: length })
+      this.errors.add(this.fieldName, message, { length })
     }
     return this
   }
@@ -71,7 +71,7 @@ class FieldValidator {
   isLessThanLength (length, specificMessage) {
     const message = (!specificMessage) ? ERROR_MESSAGES.getIsPhoneNumberLessThanLengthMessage : specificMessage
     if (!validator.isLessThanLength(this.data, length)) {
-      this.errors.add(this.fieldName, message, { length: length })
+      this.errors.add(this.fieldName, message, { length })
     }
     return this
   }

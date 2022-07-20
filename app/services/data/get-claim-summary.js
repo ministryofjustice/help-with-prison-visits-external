@@ -98,7 +98,7 @@ module.exports = function (claimId, claimType) {
                 child = maskArrayOfNames(claimChild)
               }
               return {
-                claimExpenses: claimExpenses,
+                claimExpenses,
                 claimChild: child
               }
             })
@@ -116,10 +116,10 @@ module.exports = function (claimId, claimType) {
                 escort.LastName = maskString(claimEscort.LastName, 1)
               }
               return {
-                claim: claim,
+                claim,
                 claimExpenses: expensesAndChildren.claimExpenses,
                 claimChild: expensesAndChildren.claimChild,
-                claimEscort: claimEscort
+                claimEscort
               }
             })
         })
@@ -149,7 +149,7 @@ module.exports = function (claimId, claimType) {
                 claimExpenses: expensesChildrenAndEscort.claimExpenses,
                 claimChild: expensesChildrenAndEscort.claimChild,
                 claimEscort: expensesChildrenAndEscort.claimEscort,
-                eligibleChildren: eligibleChildren
+                eligibleChildren
               }
             })
         })

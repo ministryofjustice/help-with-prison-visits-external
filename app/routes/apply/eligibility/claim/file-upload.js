@@ -165,7 +165,7 @@ function handleError (req, res, next, error) {
       fileUploadGuidingText: DocumentTypeEnum,
       URL: req.URL,
       yourClaimUrl: req.yourClaimUrl,
-      csrfToken: csrfToken,
+      csrfToken,
       hideAlternative: req.query.hideAlt
     })
   } else {
@@ -185,7 +185,7 @@ function setReferenceIds (req) {
     id = req.query.eligibilityId
     req.session.referenceId = referenceIdHelper.getReferenceId(reference, id)
   }
-  return { eligibilityId: id, reference: reference }
+  return { eligibilityId: id, reference }
 }
 
 async function moveScannedFileToStorage (req, res, next) {

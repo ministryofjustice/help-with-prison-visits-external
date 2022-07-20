@@ -26,8 +26,8 @@ module.exports = function (router) {
               claimType: req.session.claimType,
               referenceId: req.session.referenceId,
               claimId: req.session.claimId,
-              isNorthernIrelandClaim: isNorthernIrelandClaim,
-              isAdvanceClaim: isAdvanceClaim
+              isNorthernIrelandClaim,
+              isAdvanceClaim
             })
           })
       })
@@ -57,8 +57,8 @@ module.exports = function (router) {
                   claimType: req.session.claimType,
                   referenceId: req.session.referenceId,
                   claimId: req.session.claimId,
-                  isNorthernIrelandClaim: isNorthernIrelandClaim,
-                  isAdvanceClaim: isAdvanceClaim
+                  isNorthernIrelandClaim,
+                  isAdvanceClaim
                 })
               })
           })

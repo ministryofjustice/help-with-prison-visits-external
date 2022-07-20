@@ -50,7 +50,7 @@ module.exports.insertEligibilityClaim = function (reference) {
       return claimHelper.insert(reference, newEligibilityId)
     })
     .then(function (newClaimId) {
-      return { eligibilityId: eligibilityId, claimId: newClaimId }
+      return { eligibilityId, claimId: newClaimId }
     })
 }
 

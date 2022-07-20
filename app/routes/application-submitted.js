@@ -12,7 +12,7 @@ module.exports = function (router) {
 
     return res.render('application-submitted', {
       reference: decryptedRef,
-      advanceOrPast: advanceOrPast
+      advanceOrPast
     })
   })
 }

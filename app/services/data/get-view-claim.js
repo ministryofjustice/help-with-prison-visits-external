@@ -32,10 +32,10 @@ module.exports = function (claimId, reference, dob) {
           })
           sortViewClaimResults(claim, eligibility, claimDocuments, claimExpenses, externalClaimDocuments)
           return {
-            claim: claim,
-            claimExpenses: claimExpenses,
-            claimEvents: claimEvents,
-            claimChild: claimChild
+            claim,
+            claimExpenses,
+            claimEvents,
+            claimChild
           }
         })
     })

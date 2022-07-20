@@ -105,7 +105,7 @@ module.exports = function (router) {
 function renderValidationError (req, res, visitorDetails, validationErrors, isDuplicateClaim) {
   return res.status(400).render('apply/new-eligibility/about-you', {
     errors: validationErrors,
-    isDuplicateClaim: isDuplicateClaim,
+    isDuplicateClaim,
     claimType: req.session.claimType,
     dob: req.session.dobEncoded,
     relationship: req.session.relationship,

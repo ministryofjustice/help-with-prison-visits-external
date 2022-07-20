@@ -1,8 +1,8 @@
 const fs = require('fs')
 
 module.exports = {
-  setVisitDate: setVisitDate,
-  attachImageFile: attachImageFile
+  setVisitDate,
+  attachImageFile
 }
 
 // Date of visit needs to be dynamically set to a recent day in the past
