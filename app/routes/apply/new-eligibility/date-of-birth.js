@@ -18,7 +18,7 @@ module.exports = function (router) {
     }
 
     return res.render('apply/new-eligibility/date-of-birth', {
-      errors: errors,
+      errors,
       recovery: req.query.recovery,
       claimType: req.params.claimType
     })

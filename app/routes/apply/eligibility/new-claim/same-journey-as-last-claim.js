@@ -26,9 +26,9 @@ module.exports = function (router) {
           return res.render('apply/eligibility/new-claim/same-journey-as-last-claim', {
             referenceId: req.session.referenceId,
             advanceOrPast: req.session.advanceOrPast,
-            lastClaimDetails: lastClaimDetails,
-            claimExpenseHelper: claimExpenseHelper,
-            displayHelper: displayHelper
+            lastClaimDetails,
+            claimExpenseHelper,
+            displayHelper
           })
         } else {
           return res.redirect('/apply/eligibility/new-claim/journey-information')
@@ -66,9 +66,9 @@ module.exports = function (router) {
               errors: error.validationErrors,
               referenceId: req.session.referenceId,
               advanceOrPast: req.session.advanceOrPast,
-              lastClaimDetails: lastClaimDetails,
-              claimExpenseHelper: claimExpenseHelper,
-              displayHelper: displayHelper
+              lastClaimDetails,
+              claimExpenseHelper,
+              displayHelper
             })
           })
           .catch(function (error) {

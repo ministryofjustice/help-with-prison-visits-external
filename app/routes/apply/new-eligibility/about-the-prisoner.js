@@ -19,7 +19,7 @@ module.exports = function (router) {
     return res.render('apply/new-eligibility/about-the-prisoner', {
       URL: req.url,
       prisonerNumber: req.session.prisonerNumber,
-      displayHelper: displayHelper,
+      displayHelper,
       showYCS: !!req.cookies['apvs-assisted-digital']
     })
   })
@@ -74,8 +74,8 @@ module.exports = function (router) {
           errors: error.validationErrors,
           URL: req.url,
           prisonerNumber: req.query['prisoner-number'],
-          prisoner: prisoner,
-          displayHelper: displayHelper
+          prisoner,
+          displayHelper
         })
       } else {
         throw error

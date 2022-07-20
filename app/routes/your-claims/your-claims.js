@@ -34,12 +34,12 @@ module.exports = function (router) {
 
             return res.render('your-claims/your-claims', {
               reference: req.session.decryptedRef,
-              claims: claims,
-              dateHelper: dateHelper,
-              claimStatusHelper: claimStatusHelper,
-              canStartNewClaim: canStartNewClaim,
-              displayHelper: displayHelper,
-              forEdit: forEdit
+              claims,
+              dateHelper,
+              claimStatusHelper,
+              canStartNewClaim,
+              displayHelper,
+              forEdit
             })
           })
       })

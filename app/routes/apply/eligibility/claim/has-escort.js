@@ -19,7 +19,7 @@ module.exports = function (router) {
           claimType: req.session.claimType,
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          isAdvanceClaim: isAdvanceClaim
+          isAdvanceClaim
         })
       })
   })
@@ -48,7 +48,7 @@ module.exports = function (router) {
               claimType: req.session.claimType,
               referenceId: req.session.referenceId,
               claimId: req.session.claimId,
-              isAdvanceClaim: isAdvanceClaim
+              isAdvanceClaim
             })
           })
       } else {

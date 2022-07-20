@@ -38,9 +38,9 @@ function fileFilter (req, file, cb) {
 }
 
 module.exports = multer({
-  storage: storage,
+  storage,
   limits: {
     fileSize: maxFileSize
   },
-  fileFilter: fileFilter
+  fileFilter
 }).single('document')

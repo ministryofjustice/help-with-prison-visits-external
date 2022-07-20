@@ -12,13 +12,13 @@ module.exports = function (router) {
       errors = { expired: [ERROR_MESSAGES.getExpiredSession] }
     }
 
-    return res.render('start', { errors: errors, recovery: req.query.recovery })
+    return res.render('start', { errors, recovery: req.query.recovery })
   })
 
   router.post('/start', function (req, res) {
     if (!req.body.madeClaimForPrisonerBefore) {
       const errors = { madeClaimForPrisonerBefore: [ERROR_MESSAGES.getMadeClaimForPrisonerBeforeIsRequired] }
-      return res.status(400).render('start', { errors: errors })
+      return res.status(400).render('start', { errors })
     } else if (req.body.madeClaimForPrisonerBefore === 'yes') {
       return res.redirect('/start-already-registered')
     } else {

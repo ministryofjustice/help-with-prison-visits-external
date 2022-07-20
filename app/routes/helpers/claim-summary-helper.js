@@ -47,7 +47,7 @@ module.exports.getDocumentFilePath = function (claimDocumentId) {
       if (result && result.Filepath) {
         const path = result.Filepath
         return {
-          path: path,
+          path,
           name: `${DEFAULT_FILE_NAME}.${path.split('.').pop()}`
         }
       }

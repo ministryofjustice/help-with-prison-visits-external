@@ -65,28 +65,28 @@ class FieldsetValidator {
   isDateWithinDays (date, days, isAdvanceClaim) {
     if (!validator.isDateWithinDays(date, days)) {
       const message = isAdvanceClaim ? ERROR_MESSAGES.getFutureDateSetDaysAway : ERROR_MESSAGES.getPastDateSetDaysAway
-      this.errors.add(this.fieldName, message, { days: days })
+      this.errors.add(this.fieldName, message, { days })
     }
     return this
   }
 
   isNotDateWithinDays (date, days) {
     if (validator.isDateWithinDays(date, days)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getNotDateSetDaysAway, { days: days })
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getNotDateSetDaysAway, { days })
     }
     return this
   }
 
   isYoungerThanInYears (dob, years) {
     if (validator.isOlderThanInYears(dob, years)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsYoungerThan, { years: years })
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsYoungerThan, { years })
     }
     return this
   }
 
   isOlderThanInYears (dob, years) {
     if (!validator.isOlderThanInYears(dob, years)) {
-      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsOlderThan, { years: years })
+      this.errors.add(this.fieldName, ERROR_MESSAGES.getIsOlderThan, { years })
     }
     return this
   }

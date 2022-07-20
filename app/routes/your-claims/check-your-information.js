@@ -29,8 +29,8 @@ module.exports = function (router) {
         return res.render('your-claims/check-your-information', {
           dob: dobDecoded,
           reference: req.session.decryptedRef,
-          eligibility: eligibility,
-          displayHelper: displayHelper
+          eligibility,
+          displayHelper
         })
       })
       .catch(function (error) {
@@ -84,8 +84,8 @@ module.exports = function (router) {
               errors: error.validationErrors,
               dob: req.session.dobEncoded,
               reference: req.session.decryptedRef,
-              eligibility: eligibility,
-              displayHelper: displayHelper
+              eligibility,
+              displayHelper
             })
           })
           .catch(function (error) {

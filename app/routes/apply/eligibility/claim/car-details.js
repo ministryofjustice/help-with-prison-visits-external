@@ -51,9 +51,9 @@ function get (carOnly, req, res, next) {
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
               expense: result,
-              carOnly: carOnly,
-              displayHelper: displayHelper,
-              isAdvanceClaim: isAdvanceClaim
+              carOnly,
+              displayHelper,
+              isAdvanceClaim
             })
           })
           .catch(function (error) {
@@ -70,9 +70,9 @@ function get (carOnly, req, res, next) {
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
               expense: fromAndTo,
-              carOnly: carOnly,
-              displayHelper: displayHelper,
-              isAdvanceClaim: isAdvanceClaim
+              carOnly,
+              displayHelper,
+              isAdvanceClaim
             })
           })
           .catch(function (error) {
@@ -127,9 +127,9 @@ function post (carOnly, req, res, next) {
             params: expenseUrlRouter.parseParams(req.query),
             redirectUrl: expenseUrlRouter.getRedirectUrl(req),
             expense: req.body,
-            carOnly: carOnly,
-            displayHelper: displayHelper,
-            isAdvanceClaim: isAdvanceClaim
+            carOnly,
+            displayHelper,
+            isAdvanceClaim
           })
         })
     } else {

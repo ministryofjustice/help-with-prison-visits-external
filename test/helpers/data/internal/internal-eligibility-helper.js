@@ -44,7 +44,7 @@ module.exports.insertEligibilityAndClaim = function (reference, status) {
     .then(function () { return claimExpenseHelper.insert(reference, eligibilityId, claimId) })
     .then(function () { return claimDocumentHelper.insert(reference, eligibilityId, claimId, undefined, claimExpenseHelper.CLAIM_EXPENSE_ID) })
     .then(function () { return claimEventHelper.insert(reference, eligibilityId, claimId) })
-    .then(function () { return { eligibilityId: eligibilityId, claimId: claimId } })
+    .then(function () { return { eligibilityId, claimId } })
 }
 
 module.exports.get = function (reference) {

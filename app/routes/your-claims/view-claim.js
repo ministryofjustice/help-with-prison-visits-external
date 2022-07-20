@@ -47,22 +47,22 @@ module.exports = function (router) {
         return res.render('your-claims/view-claim',
           {
             reference: req.session.decryptedRef,
-            referenceId: referenceId,
+            referenceId,
             dob: dobDecoded,
             claimId: req.session.claimId,
-            claimDetails: claimDetails,
-            dateHelper: dateHelper,
-            claimExpenseHelper: claimExpenseHelper,
-            displayHelper: displayHelper,
+            claimDetails,
+            dateHelper,
+            claimExpenseHelper,
+            displayHelper,
             URL: req.url,
             forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney, req.query.updated),
             viewClaim: true,
-            claimStatusHelper: claimStatusHelper,
-            claimEventHelper: claimEventHelper,
-            isRequestInfoPayment: isRequestInfoPayment,
+            claimStatusHelper,
+            claimEventHelper,
+            isRequestInfoPayment,
             forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED' || req.query.updated,
             updated: req.query.updated,
-            addInformation: addInformation
+            addInformation
           })
       })
   })
@@ -117,21 +117,21 @@ module.exports = function (router) {
             return res.status(400).render('your-claims/view-claim', {
               errors: error.validationErrors,
               reference: req.session.decryptedRef,
-              referenceId: referenceId,
+              referenceId,
               claimId: req.session.claimId,
-              claimDetails: claimDetails,
-              dateHelper: dateHelper,
+              claimDetails,
+              dateHelper,
               dob: dobDecoded,
-              claimExpenseHelper: claimExpenseHelper,
-              displayHelper: displayHelper,
+              claimExpenseHelper,
+              displayHelper,
               URL: req.url,
               forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney),
               viewClaim: true,
-              claimEventHelper: claimEventHelper,
+              claimEventHelper,
               bankDetails: { AccountNumber, SortCode, NameOnAccount, RollNumber },
-              isRequestInfoPayment: isRequestInfoPayment,
-              addInformation: addInformation,
-              claimStatusHelper: claimStatusHelper
+              isRequestInfoPayment,
+              addInformation,
+              claimStatusHelper
             })
           } else {
             next(error)

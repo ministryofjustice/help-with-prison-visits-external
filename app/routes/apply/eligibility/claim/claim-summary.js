@@ -39,9 +39,9 @@ module.exports = function (router) {
             referenceId: req.session.referenceId,
             claimId: req.session.claimId,
             claimDetails: savedClaimDetails,
-            dateHelper: dateHelper,
-            claimExpenseHelper: claimExpenseHelper,
-            displayHelper: displayHelper,
+            dateHelper,
+            claimExpenseHelper,
+            displayHelper,
             benefitUploadNotRequired: benefitUploadNotRequired(req.session.claimType),
             URL: req.url
           })
@@ -54,9 +54,9 @@ module.exports = function (router) {
             referenceId: req.session.referenceId,
             claimId: req.session.claimId,
             claimDetails: savedClaimDetails,
-            dateHelper: dateHelper,
-            claimExpenseHelper: claimExpenseHelper,
-            displayHelper: displayHelper,
+            dateHelper,
+            claimExpenseHelper,
+            displayHelper,
             benefitUploadNotRequired: benefitUploadNotRequired(req.session.claimType),
             URL: req.url
           })
@@ -97,13 +97,13 @@ module.exports = function (router) {
         if (error instanceof ValidationError) {
           return res.status(400).render('apply/eligibility/claim/claim-summary', {
             errors: error.validationErrors,
-            claimType: claimType,
-            referenceId: referenceId,
-            claimId: claimId,
+            claimType,
+            referenceId,
+            claimId,
             claimDetails: savedClaimDetails,
-            dateHelper: dateHelper,
-            claimExpenseHelper: claimExpenseHelper,
-            displayHelper: displayHelper,
+            dateHelper,
+            claimExpenseHelper,
+            displayHelper,
             benefitUploadNotRequired: benefitUploadNotRequired(claimType),
             URL: req.url
           })
