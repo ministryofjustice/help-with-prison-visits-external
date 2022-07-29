@@ -79,30 +79,23 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .expect('location', '/apply/first-time/new-eligibility/date-of-birth?error=expired')
     })
 
-    it('should redirect to /apply/eligibility/new-claim/future-or-past-visit for Northern Ireland person and GB Prison', function () {
-      stubDuplicateClaimCheck.resolves(false)
-      stubInsertVisitor.resolves()
-      stubGetTravellingFromAndTo.resolves({ to: 'hewell' })
-      stubAboutYou.returns({ Country: 'Northern Ireland' })
+    it('should not do duplicate check for Northern Ireland person', function () {
+      stubAboutYou.returns({
+        country: 'Northern Ireland',
+        postCode: 'BT12 2WW'
+      })
 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
-        .expect(302)
-        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
-    })
-
-    it('should redirect to /apply/eligibility/new-claim/journey-information for Northern Ireland person and NI Prison', function () {
-      stubDuplicateClaimCheck.resolves(false)
-      stubInsertVisitor.resolves()
-      stubGetTravellingFromAndTo.resolves({ to: 'maghaberry' })
-      stubAboutYou.returns({ country: 'Northern Ireland' })
-
-      return supertest(app)
-        .post(ROUTE)
-        .set('Cookie', COOKIES)
-        .expect(302)
-        .expect('location', '/apply/eligibility/new-claim/journey-information')
+        .expect(200)
+        .expect(function () {
+          sinon.assert.calledOnce(urlPathValidatorStub)
+          sinon.assert.calledOnce(stubAboutYou)
+          sinon.assert.notCalled(stubDuplicateClaimCheck)
+          sinon.assert.notCalled(stubInsertVisitor)
+          sinon.assert.notCalled(stubGetTravellingFromAndTo)
+        })
     })
 
     it('should respond with a 400 for invalid data', function () {

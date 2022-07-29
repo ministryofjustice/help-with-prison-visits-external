@@ -5,7 +5,6 @@ const referenceIdHelper = require('../../helpers/reference-id-helper')
 const insertVisitor = require('../../../services/data/insert-visitor')
 const duplicateClaimCheck = require('../../../services/data/duplicate-claim-check')
 const getTravellingFromAndTo = require('../../../services/data/get-travelling-from-and-to')
-const prisonsHelper = require('../../../constants/helpers/prisons-helper')
 const enumHelper = require('../../../constants/helpers/enum-helper')
 const relationshipHelper = require('../../../constants/prisoner-relationships-enum')
 const dateFormatter = require('../../../services/date-formatter')
@@ -64,6 +63,12 @@ module.exports = function (router) {
         req.body.EmailAddress,
         req.body.PhoneNumber)
 
+      const nIClaimant = aboutYou.country === NORTHERN_IRELAND || (aboutYou.postCode && aboutYou.postCode.startsWith('BT'))
+
+      if (nIClaimant) {
+        return res.render('ni-claimant')
+      }
+
       duplicateClaimCheck(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou.nationalInsuranceNumber)
         .then(function (isDuplicate) {
           if (isDuplicate) {
@@ -74,18 +79,7 @@ module.exports = function (router) {
             .then(function () {
               return getTravellingFromAndTo(referenceAndEligibilityId.reference)
                 .then(function (result) {
-                  const nameOfPrison = result.to
-                  const isNorthernIrelandClaim = aboutYou.country === NORTHERN_IRELAND
-                  const isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
-
-                  // Northern Ireland claims cannot be advance claims so skip future-or-past
-                  let nextPage = 'future-or-past-visit'
-                  if (isNorthernIrelandClaim && isNorthernIrelandPrison) {
-                    req.session.advanceOrPast = 'past'
-                    nextPage = 'journey-information'
-                  }
-
-                  return res.redirect(`/apply/eligibility/new-claim/${nextPage}`)
+                  return res.redirect('/apply/eligibility/new-claim/future-or-past-visit')
                 })
             })
         })
