@@ -5,6 +5,8 @@ generic-service:
   ingress:
     host: "help-with-prison-visits-dev.hmpps.service.justice.gov.uk"
     contextColour: green
+    v1_2_enabled: true
+    v0_47_enabled: false
   env:
     FEATURES_YCS_JOURNEY: 'true'
     APVS_ZENDESK_ENABLED: 'true'
