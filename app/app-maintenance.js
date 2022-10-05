@@ -32,7 +32,9 @@ publicFolders.forEach(dir => {
 // new govuk-frontend asset paths
 const govukAssets = [
   '../node_modules/govuk-frontend/govuk/assets',
-  '../node_modules/govuk-frontend'
+  '../node_modules/govuk-frontend',
+  '../node_modules/jquery/dist',
+  '../node_modules/jquery-ui-dist'
 ]
 govukAssets.forEach(dir => {
   app.use('/assets', express.static(path.join(__dirname, dir)))
