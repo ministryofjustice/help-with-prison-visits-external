@@ -1,9 +1,5 @@
 /// <reference types="cypress" />
 
-const dateFormatter = require('../../../app/services/date-formatter')
-
-const todaysDate = dateFormatter.now()
-
 describe('First Time Claim Flow (Northern Ireland rules)', () => {
   // The reference will be generated as part of this flow. So capture it once it is generated.
   const caseworker = 'test-e2e@example.com'
@@ -52,71 +48,15 @@ describe('First Time Claim Flow (Northern Ireland rules)', () => {
     cy.get('[data-cy="house-num-and-street"]').type('26 NI Street')
     cy.get('[data-cy="town"]').type('NI Testtown')
     cy.get('[data-cy="county"]').type('NI Testshire')
-    cy.get('[data-cy="postcode"]').type('NI2 3CD')
+    cy.get('[data-cy="postcode"]').type('BT1 3CD')
     cy.get('[data-cy="country"]').select('Northern Ireland')
       .should('have.value', 'Northern Ireland')
     cy.get('[data-cy="email"]').type('test-visitor-ni@example.com')
     cy.get('[data-cy="phone"]').type('01234 98765')
     cy.get('[data-cy="submit"]').contains('Continue').click()
 
-    // Journey information - NI claims skip Future or past visit
-    cy.get('[data-cy="journey-day"]').type(todaysDate.date())
-    cy.get('[data-cy="journey-month"]').type(todaysDate.month() + 1)
-    cy.get('[data-cy="journey-year"]').type(todaysDate.year())
-    cy.get('[data-cy="submit"]').contains('Continue').click()
-
-    // Has escort
-    cy.get('[data-cy="escort-no"]').check()
-    cy.get('[data-cy="submit"]').contains('Continue').click()
-
-    // Has child
-    cy.get('[data-cy="child-no"]').check()
-    cy.get('[data-cy="submit"]').contains('Continue').click()
-
-    // Expense
-    cy.get('[data-cy="car-only"]').click()
-    cy.get('[data-cy="submit"]').contains('Continue').click()
-
-    // Car
-    cy.get('[data-cy="submit"]').contains('Continue').click()
-
-    // Claim summary
-    cy.get('[data-cy="visitor"]').contains("Mary O'Hara")
-    cy.get('[data-cy="benefits"]').contains('Income Support')
-    cy.get('[data-cy="prisoner-name"]').contains("Martin O'Hara")
-    cy.get('[data-cy="prisoner-number"]').contains('Z6544TS')
-    cy.get('[data-cy="prison"]').contains('Maghaberry')
-    cy.get('[data-cy="visit-date"]').contains(todaysDate.format('dddd D MMMM YYYY'))
-    cy.get('[data-cy="visit-confirmation"]').contains('Visit confirmation needed')
-    cy.get('[data-cy="add-visit-confirmation"]').contains('Add')
-    cy.get('[data-cy="expense-1"]')
-      .should('contain', 'Car')
-      .and('contain', 'NI Testtown to Maghaberry')
-    cy.get('[data-cy="add-visit-confirmation"]').click()
-
-    // Upload visit confirmation
-    cy.get('[data-cy="post"]').check()
-    cy.get('[data-cy="submit"]').contains('Continue').click()
-
-    // Claim summary
-    cy.get('[data-cy="submit"]').contains('Continue').click()
-
-    // Enter Bank Account Details
-    cy.get('[data-cy="name-on-account"]').type("Mrs Mary O'Hara")
-    cy.get('[data-cy="sort-code"]').type('334455')
-    cy.get('[data-cy="account-number"]').type('65432100')
-    cy.get('[data-cy="submit"]').contains('Continue').click()
-
-    // Declaration page
-    cy.get('[data-cy="terms-and-conditions"]').click()
-    cy.get('[data-cy="submit"]').contains('Finish').click()
-
-    // Application submitted
-    cy.contains('Application submitted')
-    cy.get('[data-cy="reference"]').contains(/^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{7}$/)
-  })
-
-  after(() => {
-    cy.task('deleteRecordsforADCaseworker', caseworker)
+    // NI claim - journey should finish with the NI Claimants info page
+    cy.location('pathname').should('equal', '/apply/first-time/new-eligibility/about-you')
+    cy.get('h1.govuk-heading-l').contains('Northern Ireland claimants')
   })
 })
