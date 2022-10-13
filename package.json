@@ -79,7 +79,7 @@
     "assert": "^2.0.0",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
-    "cypress": "^9.7.0",
+    "cypress": "^10.10.0",
     "mocha": "^10.0.0",
     "node-mocks-http": "^1.11.0",
     "nyc": "^15.1.0",
