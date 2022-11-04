@@ -3,7 +3,7 @@ const applicationVersion = require('./application-version')
 const ignoreNotFoundErrors = require('./telemetryProcessors/ignoreNotFound')
 
 const { packageData, buildNumber } = applicationVersion
-if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
+if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
   // eslint-disable-next-line no-console
   console.log('Enabling azure application insights')
   appInsights

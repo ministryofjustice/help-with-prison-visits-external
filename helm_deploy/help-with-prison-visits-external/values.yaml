@@ -35,6 +35,7 @@ generic-service:
     APVS_FILE_TMP_DIR: '/app/tmp'
     APVS_MALWARE_NOTIFICATION_ADDRESS: 'help-with-prison-visits@digital.justice.gov.uk'
     APVS_MAINTENANCE_MODE: 'false'
+    APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
