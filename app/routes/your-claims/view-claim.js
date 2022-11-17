@@ -65,6 +65,7 @@ module.exports = function (router) {
             addInformation
           })
       })
+      .catch(error => next(error))
   })
 
   router.post('/your-claims/:claimId', function (req, res, next) {
