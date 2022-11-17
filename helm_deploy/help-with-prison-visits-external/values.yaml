@@ -34,6 +34,7 @@ generic-service:
     APVS_CLAM_AV_TIMEOUT: 60000
     APVS_FILE_TMP_DIR: '/app/tmp'
     APVS_MALWARE_NOTIFICATION_ADDRESS: 'help-with-prison-visits@digital.justice.gov.uk'
+    NODE_ENV: 'production'
     APVS_MAINTENANCE_MODE: 'false'
     APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
 
