@@ -42,9 +42,9 @@
     ]
   },
   "dependencies": {
-    "applicationinsights": "^2.3.6",
-    "aws-sdk": "^2.1291.0",
-    "axios": "^1.2.2",
+    "applicationinsights": "^2.4.1",
+    "aws-sdk": "^2.1300.0",
+    "axios": "^1.2.3",
     "bases": "^0.2.1",
     "bluebird": "^3.7.2",
     "bunyan": "^1.8.15",
@@ -63,7 +63,7 @@
     "jquery": "^3.6.3",
     "jquery-ui-dist": "^1.13.2",
     "knex": "^2.4.0",
-    "mkdirp": "^1.0.4",
+    "mkdirp": "^2.1.3",
     "moment": "^2.29.4",
     "multer": "^1.4.5-lts.1",
     "nunjucks": "^3.2.3",
