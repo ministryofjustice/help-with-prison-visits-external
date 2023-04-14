@@ -24,11 +24,15 @@ parameters:
     type: string
     default: "help-with-prison-visits-alerts"
 
+  node-version:
+    type: string
+    default: 18.15-browsers
+
 jobs:
   unit_test:
     executor:
       name: hmpps/node
-      default: 18.15-browsers
+      tag: << pipeline.parameters.node-version >>
     steps:
       - checkout
       - run:
