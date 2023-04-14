@@ -75,8 +75,8 @@ class AWSHelper {
 
     try {
       const data = await this.s3.getObject(downloadParams)
-      const fileData = await data.Body.transformToString()
-      fs.writeFileSync(tempFile, fileData)
+      const fileData = await data.Body.transformToByteArray()
+      fs.writeFileSync(tempFile, Buffer.from(fileData))
       log.info(`S3 Download Success ${key}`)
     } catch (error) {
       log.error(`Error occurred downloading file from s3 ${key}`, error)
