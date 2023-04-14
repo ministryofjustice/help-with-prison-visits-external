@@ -10,7 +10,7 @@ feature_branch: &feature_branch
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.14
+  hmpps: ministryofjustice/hmpps@7.2.1
 
 # executors:
 #   integration-tests:
@@ -24,11 +24,15 @@ parameters:
     type: string
     default: "help-with-prison-visits-alerts"
 
+  node-version:
+    type: string
+    default: 18.15-browsers
+
 jobs:
   unit_test:
     executor:
       name: hmpps/node
-      tag: 16.14-browsers
+      tag: << pipeline.parameters.node-version >>
     steps:
       - checkout
       - run:
