@@ -10,7 +10,7 @@ feature_branch: &feature_branch
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.14
+  hmpps: ministryofjustice/hmpps@7.2.1
 
 # executors:
 #   integration-tests:
@@ -28,7 +28,7 @@ jobs:
   unit_test:
     executor:
       name: hmpps/node
-      tag: 16.14-browsers
+      default: 18.15-browsers
     steps:
       - checkout
       - run:
