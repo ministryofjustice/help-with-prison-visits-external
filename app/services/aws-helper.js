@@ -73,14 +73,13 @@ class AWSHelper {
     const randomFilename = uuidv4()
     const tempFile = `${config.FILE_TMP_DIR}/${randomFilename}`
 
-
     const streamToString = (stream) =>
       new Promise((resolve, reject) => {
-        const chunks = [];
-        stream.on("data", (chunk) => chunks.push(chunk));
-        stream.on("error", reject);
-        stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
-      });
+        const chunks = []
+        stream.on('data', (chunk) => chunks.push(chunk))
+        stream.on('error', reject)
+        stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
+      })
 
     try {
       const data = await this.s3.getObject(downloadParams)
