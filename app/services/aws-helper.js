@@ -30,7 +30,7 @@ class AWSHelper {
     }
 
     try {
-      await this.s3.deleteObject(deleteParams).promise()
+      await this.s3.deleteObject(deleteParams)
       log.info(`S3 Delete Success ${key}`)
     } catch (error) {
       log.error(`Problem deleting file from s3 ${key}`)
@@ -54,7 +54,7 @@ class AWSHelper {
     uploadParams.Body = fileStream
 
     try {
-      await this.s3.putObject(uploadParams).promise()
+      await this.s3.putObject(uploadParams)
       log.info(`S3 Upload Success ${key}`)
       return key
     } catch (error) {
@@ -72,7 +72,7 @@ class AWSHelper {
     const tempFile = `${config.FILE_TMP_DIR}/${randomFilename}`
 
     try {
-      const data = await this.s3.getObject(downloadParams).promise()
+      const data = await this.s3.getObject(downloadParams)
       fs.writeFileSync(tempFile, data.Body)
       log.info(`S3 Download Success ${key}`)
     } catch (error) {
