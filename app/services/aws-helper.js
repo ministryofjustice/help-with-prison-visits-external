@@ -73,17 +73,10 @@ class AWSHelper {
     const randomFilename = uuidv4()
     const tempFile = `${config.FILE_TMP_DIR}/${randomFilename}`
 
-    const streamToString = (stream) =>
-      new Promise((resolve, reject) => {
-        const chunks = []
-        stream.on('data', (chunk) => chunks.push(chunk))
-        stream.on('error', reject)
-        stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
-      })
-
     try {
       const data = await this.s3.getObject(downloadParams)
-      fs.writeFileSync(tempFile, await streamToString(data.Body))
+      const fileData = await data.Body.transformToString()
+      fs.writeFileSync(tempFile, fileData)
       log.info(`S3 Download Success ${key}`)
     } catch (error) {
       log.error(`Error occurred downloading file from s3 ${key}`, error)
