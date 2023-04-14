@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid')
-const AWS = require('aws-sdk')
+const { S3 } = require('@aws-sdk/client-s3')
 const fs = require('fs')
 const log = require('./log')
 const config = require('../../config')
@@ -20,7 +20,7 @@ class AWSHelper {
       this.s3config.s3ForcePathStyle = true
     }
 
-    this.s3 = new AWS.S3(this.s3config)
+    this.s3 = new S3(this.s3config)
   }
 
   async delete (key) {
