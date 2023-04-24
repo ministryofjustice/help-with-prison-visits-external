@@ -18,7 +18,6 @@ class AWSHelper {
 
     if (endpoint) {
       this.s3config.endpoint = endpoint
-      this.s3config.s3BucketEndpoint = true
       this.s3config.forcePathStyle = true
     }
 
