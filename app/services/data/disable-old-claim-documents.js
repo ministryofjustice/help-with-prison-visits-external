@@ -1,6 +1,5 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 const FileUpload = require('../domain/file-upload')
-const Promise = require('bluebird')
 
 module.exports = function (reference, claimId, fileUpload, multipageDoc) {
   if (!(fileUpload instanceof FileUpload)) {

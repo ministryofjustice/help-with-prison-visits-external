@@ -1,4 +1,3 @@
-const Promise = require('bluebird')
 const { getDatabaseConnector } = require('../../databaseConnector')
 const claimTypeEnum = require('../../constants/claim-type-enum')
 const insertNewClaim = require('./insert-new-claim')

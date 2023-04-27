@@ -1,5 +1,4 @@
 const config = require('../../config')
-const Promise = require('bluebird').Promise
 const NodeClam = require('clamscan')
 const log = require('./log')
 

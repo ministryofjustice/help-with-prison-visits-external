@@ -1,4 +1,3 @@
-const Promise = require('bluebird').Promise
 const { getDatabaseConnector } = require('../../databaseConnector')
 const dateFormatter = require('../date-formatter')
 

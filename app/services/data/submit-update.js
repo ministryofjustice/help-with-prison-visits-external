@@ -1,4 +1,3 @@
-const Promise = require('bluebird')
 const insertTask = require('./insert-task')
 const tasksEnum = require('../../constants/tasks-enum')
 const insertBankDetails = require('./insert-bank-account-details-for-claim')

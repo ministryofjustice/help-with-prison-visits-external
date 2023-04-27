@@ -1,7 +1,6 @@
 const expenseTypeEnum = require('../../constants/expense-type-enum')
 const enumHelper = require('../../constants/helpers/enum-helper')
 const { getDatabaseConnector } = require('../../databaseConnector')
-const Promise = require('bluebird')
 
 module.exports = function (reference, eligibilityId, claimId, expenseType) {
   const expense = enumHelper.getKeyByAttribute(expenseTypeEnum, expenseType)

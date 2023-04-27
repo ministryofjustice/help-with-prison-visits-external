@@ -1,4 +1,3 @@
-const Promise = require('bluebird')
 const { getDatabaseConnector } = require('../../databaseConnector')
 const insertTask = require('./insert-task')
 const tasksEnum = require('../../constants/tasks-enum')
