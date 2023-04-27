@@ -7,7 +7,6 @@ const getAllClaimDocumentsByClaimId = require('./get-all-claim-documents-by-clai
 const getClaimEvents = require('./get-claim-events')
 const sortViewClaimResults = require('../helpers/sort-view-claim-results-helper')
 const maskString = require('../helpers/mask-string')
-const Promise = require('bluebird')
 
 module.exports = function (claimId, reference, dob) {
   return getHistoricClaimByClaimId(reference, dob, claimId)

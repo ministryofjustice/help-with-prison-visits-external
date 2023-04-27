@@ -46,7 +46,6 @@
     "applicationinsights": "^2.5.1",
     "axios": "^1.3.6",
     "bases": "^0.2.1",
-    "bluebird": "^3.7.2",
     "bunyan": "^1.8.15",
     "bunyan-prettystream": "^0.1.3",
     "clamscan": "^2.1.2",

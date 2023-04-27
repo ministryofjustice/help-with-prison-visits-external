@@ -18,8 +18,7 @@ const insertTask = require('../../../../services/data/insert-task')
 const logger = require('../../../../services/log')
 const SessionHandler = require('../../../../services/validators/session-handler')
 const checkExpenseIsEnabled = require('../../../../services/data/check-expense-is-enabled')
-const Promise = require('bluebird').Promise
-const fs = Promise.promisifyAll(require('fs'))
+const fs = require('fs').promises
 let csrfToken
 
 module.exports = function (router) {
@@ -214,7 +213,7 @@ function updateClaimDocumentMetadata (ids, claimId, req) {
 }
 
 function unlinkFile (path) {
-  return fs.unlinkAsync(path).then(() => {
+  return fs.unlink(path).then(() => {
     logger.info(`Removed temporary file ${path}`)
   }).catch(function (error) {
     logger.error(error)
