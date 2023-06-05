@@ -5,7 +5,7 @@ const i18n = require('i18n')
 const onFinished = require('on-finished')
 const log = require('./services/log')
 const app = express()
-const serviceName = 'Get help with prison visits'
+const serviceName = 'Get help with the cost of prison visits'
 
 const developmentMode = app.get('env') === 'development'
 
