@@ -1,9 +1,19 @@
 {% extends "govuk/template.njk" %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "govuk/components/header/macro.njk" import govukHeader %}
 
 {% block head %}
   <link href="/public/stylesheets/application.css" rel="stylesheet">
   <script src="/public/javascripts/ga.js"></script>
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader({
+    homepageUrl: "/start",
+    containerClasses: "govuk-width-container",
+    serviceName: serviceName,
+    serviceUrl: "/"
+  }) }}
 {% endblock %}
 
 {# Temporarily using old-style cookie banner #}
