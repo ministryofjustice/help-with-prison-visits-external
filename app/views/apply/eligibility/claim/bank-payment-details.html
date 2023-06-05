@@ -1,6 +1,15 @@
 {% extends "includes/layout.html" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set cashPaymentVoucherNotificationHtml %}
+  <h3 class="govuk-notification-banner__heading">
+    Payment by cash voucher to end
+  </h3>
+  <p class="govuk-body">From September 2023, claims will only be paid to your bank account.</p>
+  <p class="govuk-body">Contact <a class="govuk-notification-banner__link" href="mailto:familyservices.management@justice.gov.uk">familyservices.management@justice.gov.uk</a> for more information.</p>
+{% endset %}
 
 {% block pageTitle %}
 {% if errors %}Error: {% endif %}Payment details and declaration - {{ serviceName }}
@@ -11,6 +20,10 @@
   <div class="govuk-grid-column-two-thirds">
 
     {% include "includes/validation-error-messages.html" %}
+
+    {{ govukNotificationBanner({
+      html: cashPaymentVoucherNotificationHtml
+    }) }}
 
     <h1 class="govuk-heading-l">
       Bank Account Details
