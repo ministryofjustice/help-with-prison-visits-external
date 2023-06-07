@@ -86,21 +86,6 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
         .expect('location', '/start-already-registered?error=expired')
     })
 
-    it('should respond with a 302 not submit bank details', function () {
-      const newPaymentDetails = { paymentMethod: 'payout' }
-      stubPaymentDetails.returns(newPaymentDetails)
-
-      return supertest(app)
-        .post(ROUTE)
-        .set('Cookie', COOKIES)
-        .send(VALID_DATA)
-        .expect(302)
-        .expect(function () {
-          sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.PaymentMethod)
-        })
-        .expect('location', '/apply/eligibility/claim/payout-confirmation?isAdvance=false')
-    })
-
     it('should respond with a 400 if validation fails', function () {
       stubPaymentDetails.throws(new ValidationError({ firstName: {} }))
       return supertest(app)

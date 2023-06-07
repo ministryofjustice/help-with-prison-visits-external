@@ -97,24 +97,6 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .expect('location', '/start-already-registered?error=expired')
     })
 
-    it('should respond with a 302 and call submit claim with payout and advance in route', function () {
-      stubDeclaration.returns()
-      stubSubmitClaim.resolves()
-      stubGetIsAdvanceClaim.resolves(true)
-      stubCheckStatusForFinishingClaim.resolves(true)
-      stubCheckIfReferenceIsDisabled.resolves(false)
-
-      return supertest(app)
-        .post(`${ROUTE}?paymentMethod=${paymentMethods.PAYOUT.value}`)
-        .set('Cookie', COOKIES)
-        .send(VALID_DATA)
-        .expect(302)
-        .expect(function () {
-          sinon.assert.calledWith(stubDeclaration, VALID_DATA['terms-and-conditions-input'])
-        })
-        .expect('location', '/application-submitted')
-    })
-
     it('should use assisted digital cookie value', function () {
       const assistedDigitalCaseWorker = 'a@b.com'
       stubDeclaration.returns()

@@ -47,7 +47,6 @@ const routes = [
   require('./apply/eligibility/claim/file-upload'),
   require('./apply/eligibility/claim/payment-details'),
   require('./apply/eligibility/claim/bank-payment-details'),
-  require('./apply/eligibility/claim/payout-confirmation'),
   require('./apply/eligibility/claim/declaration'),
 
   // Your Claims Flow
