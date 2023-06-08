@@ -241,6 +241,12 @@ module.exports = {
     region: 'ENG/WAL'
   },
 
+  FOSSE_WAY: {
+    value: 'fosse-way',
+    displayName: 'Fosse Way',
+    region: 'ENG/WAL'
+  },
+
   FOSTON_HALL: {
     value: 'foston-hall',
     displayName: 'Foston Hall',
