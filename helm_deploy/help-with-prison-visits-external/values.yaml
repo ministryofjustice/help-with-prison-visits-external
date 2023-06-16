@@ -2,6 +2,7 @@
 # Values here are the same across all environments
 generic-service:
   nameOverride: help-with-prison-visits-external
+  serviceAccountName: help-with-prison-visits-external
 
   image:
     repository: quay.io/hmpps/help-with-prison-visits-external
@@ -55,8 +56,6 @@ generic-service:
     rds-sqlserver-instance-output:
       APVS_DATABASE_SERVER: 'rds_instance_address'
     hwpv-document-s3-external:
-      AWS_ACCESS_KEY_ID: access_key_id
-      AWS_SECRET_ACCESS_KEY: secret_access_key
       AWS_S3_BUCKET_NAME: bucket_name
 
 generic-prometheus-alerts:
