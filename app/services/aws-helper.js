@@ -5,9 +5,12 @@ const log = require('./log')
 const config = require('../../config')
 
 class AWSHelper {
-  constructor ({ bucketName = config.AWS_S3_BUCKET_NAME, endpoint = config.AWS_S3_ENDPOINT } = { }) {
+  constructor ({ bucketName = config.AWS_S3_BUCKET_NAME, endpoint = config.AWS_S3_ENDPOINT, region = config.AWS_REGION } = { }) {
     this.bucketName = bucketName
-    this.s3config = {}
+    this.region = region
+    this.s3config = {
+      region: this.region
+    }
 
     if (endpoint) {
       this.s3config.endpoint = endpoint
