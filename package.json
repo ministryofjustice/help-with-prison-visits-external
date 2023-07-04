@@ -42,7 +42,7 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.360.0",
+    "@aws-sdk/client-s3": "^3.363.0",
     "applicationinsights": "^2.7.0",
     "axios": "^1.4.0",
     "bases": "^0.2.1",
@@ -86,5 +86,8 @@
     "sinon": "^15.2.0",
     "standard": "^17.1.0",
     "supertest": "^6.3.3"
+  },
+  "overrides": {
+    "semver": "^7.5.3"
   }
 }
