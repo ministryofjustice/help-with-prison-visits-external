@@ -15,10 +15,17 @@ Ask for help - {{ serviceName }}
 
   {% include "includes/validation-error-messages.html" %}
 
-  <h1 class="govuk-heading-xl">Ask for help</h1>
+  <h1 class="govuk-heading-xl">Help using the service</h1>
 
-  <p>Enter the details requested below and a brief description of what you need help with. Help With Prison Visits (HWPV) will respond as soon as possible.</p>
-  <p>We'll only use your details to respond to your question. Don't include any personal information, for example national insurance number or date of birth.</p>
+  <p>Contact us for help if you:</p>
+    <ul>
+      <li>are having a problem using the service</li>
+      <li>would like an update on a claim</li>
+    </ul>
+
+  <p>We only use your details to respond to your request.</p>
+  <p>If you do not need help, you can use the <a href="https://get-help-with-the-cost-of-prison-visits.form.service.justice.gov.uk/">feedback form</a>.</p>
+
 
   <form action="/help" method="post" novalidate>
     {{ govukInput({
@@ -52,7 +59,7 @@ Ask for help - {{ serviceName }}
 
     {{ govukInput({
       label: {
-        text: "Reference Number (optional)",
+        text: "Reference number (optional)",
         classes: "govuk-label--s"
       },
       id: "ReferenceNumber",
@@ -98,11 +105,11 @@ Ask for help - {{ serviceName }}
       maxlength: 1200,
       rows: 6,
       label: {
-        text: "Describe what you'd like to talk about",
+        text: "Describe what you'd like help with",
         classes: "govuk-label--s"
       },
       hint: {
-        text: "Please don't include any personal information or financial information, for example your National Insurance or bank details."
+        text: "Do not include personal or financial information."
       },
       value: help['issue'],
       errorMessage: errors | findError('issue')
