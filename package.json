@@ -42,7 +42,7 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.391.0",
+    "@aws-sdk/client-s3": "^3.400.0",
     "applicationinsights": "^2.7.3",
     "axios": "^1.4.0",
     "bases": "^0.2.1",
@@ -69,14 +69,14 @@
     "on-finished": "^2.4.1",
     "path": "^0.12.7",
     "sanitize-html": "^2.11.0",
-    "sass": "^1.65.1",
+    "sass": "^1.66.1",
     "tedious": "^16.4.0",
     "uuid": "^9.0.0",
     "validator": "^13.11.0"
   },
   "devDependencies": {
     "assert": "^2.0.0",
-    "chai": "^4.3.7",
+    "chai": "^4.3.8",
     "chai-as-promised": "^7.1.1",
     "cypress": "^12.17.4",
     "mocha": "^10.2.0",
