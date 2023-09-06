@@ -1,6 +1,5 @@
 {
     "low": true,
     "package-manager": "auto",
-    "registry": "https://registry.npmjs.org",
-    "allowlist": ["GHSA-p8p7-x288-28g6|cypress>@cypress/request"]
+    "registry": "https://registry.npmjs.org"
 }
