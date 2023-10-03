@@ -5,9 +5,7 @@ generic-service:
   ingress:
     host: "help-with-prison-visits.service.gov.uk"
     tlsSecretName: "help-with-prison-visits-service-cert"
-    contextColour: green
-    v1_2_enabled: true
-    v0_47_enabled: false
+
   env:
     APVS_ZENDESK_ENABLED: 'true'
     APVS_ZENDESK_PROD_ENVIRONMENT: 'true'
