@@ -8,7 +8,7 @@
   },
   "engines": {
     "node": "^18",
-    "npm": "^9"
+    "npm": "^10"
   },
   "scripts": {
     "record-build-info": "node scripts/record-build-info",
@@ -42,7 +42,7 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.421.0",
+    "@aws-sdk/client-s3": "^3.425.0",
     "applicationinsights": "^2.8.0",
     "axios": "^1.5.1",
     "bases": "^0.2.1",
@@ -76,7 +76,7 @@
   },
   "devDependencies": {
     "assert": "^2.1.0",
-    "chai": "^4.3.9",
+    "chai": "^4.3.10",
     "chai-as-promised": "^7.1.1",
     "cypress": "^13.3.0",
     "mocha": "^10.2.0",
