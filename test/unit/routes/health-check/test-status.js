@@ -18,4 +18,13 @@ describe('routes/health-check/status', function () {
         .expect(200)
     })
   })
+
+  describe('GET /health', function () {
+    it('should respond with a 200', function () {
+      return supertest(app)
+        .get('/health')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+    })
+  })
 })
