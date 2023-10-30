@@ -10,7 +10,7 @@ feature_branch: &feature_branch
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@7.2.1
+  hmpps: ministryofjustice/hmpps@7
 
 # executors:
 #   integration-tests:
@@ -26,7 +26,7 @@ parameters:
 
   node-version:
     type: string
-    default: 18.17-browsers
+    default: 20.9-browsers
 
 jobs:
   unit_test:
