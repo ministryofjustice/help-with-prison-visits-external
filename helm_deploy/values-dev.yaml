@@ -11,7 +11,6 @@ generic-service:
     APVS_ZENDESK_API_URL: "https://ministryofjustice.zendesk.com"
 
   allowlist:
-    ext-digital-accessibility-centre: 194.75.245.154/32
     groups:
       - internal
       - prisons
