@@ -191,7 +191,6 @@ module.exports = {
           page === 'summary' ||
           page === 'payment-details' ||
           page === 'bank-payment-details' ||
-          page === 'payout-confirmation' ||
           page === 'declaration') {
         if (!session.referenceId ||
             !session.decryptedRef ||
