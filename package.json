@@ -44,7 +44,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.438.0",
     "applicationinsights": "^2.9.0",
-    "axios": "^1.6.0",
+    "axios": "^1.6.5",
     "bases": "^0.2.1",
     "bunyan": "^1.8.15",
     "bunyan-prettystream": "^0.1.3",
