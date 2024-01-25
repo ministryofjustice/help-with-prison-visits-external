@@ -10,17 +10,6 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    {% set html %}
-    <p>This service will be temporarily unavailable for essential maintenance on Thursday 25th January 2024 from 13:30 for up to 3 hours.</p>
-    <p>You will not be able to submit claims or update your details during this time, but you can <a href="/help">contact us</a> as usual.</p>
-    <p>We apologise for any inconvenience this may cause.</p>
-    {% endset %}
-
-    {{ govukNotificationBanner({
-      titleText: "Maintenance",
-      html: html,
-      type: 'success'
-    }) }}
 
     {% include "includes/validation-error-messages.html" %}
 
