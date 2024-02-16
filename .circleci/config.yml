@@ -26,7 +26,7 @@ parameters:
 
   node-version:
     type: string
-    default: 20.9-browsers
+    default: 20.11-browsers
 
 jobs:
   unit_test:
