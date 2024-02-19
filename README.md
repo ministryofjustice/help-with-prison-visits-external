@@ -1,4 +1,4 @@
-# Help with Prison Visits (HwPV) External/Public
+# Get help with the cost of prison visits
 
 [![ministryofjustice](https://circleci.com/gh/ministryofjustice/help-with-prison-visits-external.svg?style=svg)](https://circleci.com/gh/ministryofjustice/help-with-prison-visits-external) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
