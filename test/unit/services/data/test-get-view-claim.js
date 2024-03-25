@@ -1,11 +1,40 @@
-const expect = require('chai').expect
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const REFERENCE = 'V123456'
 const CLAIMID = 1234
 const DOB = '10-10-1990'
 const ELIGIBILITYID = 1234
+
+jest.mock('./get-repeat-eligibility', () => getRepeatEligibilityStub);
+
+jest.mock(
+  './get-claim-expense-by-id-or-last-approved',
+  () => getClaimExpenseByIdOrLastApprovedStub
+);
+
+jest.mock(
+  './get-claim-children-by-id-or-last-approved',
+  () => getClaimChildrenByIdOrLastApprovedStub
+);
+
+jest.mock('./get-historic-claim-by-claim-id', () => getHistoricClaimByClaimIdStub);
+
+jest.mock(
+  './get-claim-documents-historic-claim',
+  () => getClaimDocumentsHistoricClaimStub
+);
+
+jest.mock(
+  './get-all-claim-documents-by-claim-id',
+  () => getAllClaimDocumentsByClaimIdStub
+);
+
+jest.mock('./get-claim-events', () => getClaimEventsStub);
+
+jest.mock(
+  '../helpers/sort-view-claim-results-helper',
+  () => sortViewClaimResultsHelperStub
+);
 
 describe('services/data/get-view-claim', function () {
   let getViewClaim
@@ -18,7 +47,7 @@ describe('services/data/get-view-claim', function () {
   let getClaimEventsStub
   let sortViewClaimResultsHelperStub
 
-  before(function () {
+  beforeAll(function () {
     getRepeatEligibilityStub = sinon.stub().resolves([[]])
     getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves([])
     getClaimChildrenByIdOrLastApprovedStub = sinon.stub().resolves([])
@@ -28,28 +57,19 @@ describe('services/data/get-view-claim', function () {
     getClaimEventsStub = sinon.stub().resolves([])
     sortViewClaimResultsHelperStub = sinon.stub().returns([])
 
-    getViewClaim = proxyquire('../../../../app/services/data/get-view-claim', {
-      './get-repeat-eligibility': getRepeatEligibilityStub,
-      './get-claim-expense-by-id-or-last-approved': getClaimExpenseByIdOrLastApprovedStub,
-      './get-claim-children-by-id-or-last-approved': getClaimChildrenByIdOrLastApprovedStub,
-      './get-historic-claim-by-claim-id': getHistoricClaimByClaimIdStub,
-      './get-claim-documents-historic-claim': getClaimDocumentsHistoricClaimStub,
-      './get-all-claim-documents-by-claim-id': getAllClaimDocumentsByClaimIdStub,
-      './get-claim-events': getClaimEventsStub,
-      '../helpers/sort-view-claim-results-helper': sortViewClaimResultsHelperStub
-    })
+    getViewClaim = require('../../../../app/services/data/get-view-claim')
   })
 
   it('should call each data call, then return sorted results', function () {
     return getViewClaim(CLAIMID, REFERENCE, DOB)
       .then(function (result) {
-        expect(getRepeatEligibilityStub.calledWith(REFERENCE, DOB, null)).to.be.true  //eslint-disable-line
-        expect(getClaimExpenseByIdOrLastApprovedStub.calledWith(REFERENCE, null, CLAIMID)).to.be.true  //eslint-disable-line
-        expect(getClaimChildrenByIdOrLastApprovedStub.calledWith(REFERENCE, null, CLAIMID)).to.be.true  //eslint-disable-line
-        expect(getHistoricClaimByClaimIdStub.calledWith(REFERENCE, DOB, CLAIMID)).to.be.true  //eslint-disable-line
-        expect(getClaimDocumentsHistoricClaimStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID)).to.be.true  //eslint-disable-line
-        expect(getAllClaimDocumentsByClaimIdStub.calledWith(CLAIMID, REFERENCE, ELIGIBILITYID)).to.be.true  //eslint-disable-line
-        sinon.assert.calledOnce(sortViewClaimResultsHelperStub)
-      })
+        expect(getRepeatEligibilityStub.calledWith(REFERENCE, DOB, null)).toBe(true)  //eslint-disable-line
+        expect(getClaimExpenseByIdOrLastApprovedStub.calledWith(REFERENCE, null, CLAIMID)).toBe(true)  //eslint-disable-line
+        expect(getClaimChildrenByIdOrLastApprovedStub.calledWith(REFERENCE, null, CLAIMID)).toBe(true)  //eslint-disable-line
+        expect(getHistoricClaimByClaimIdStub.calledWith(REFERENCE, DOB, CLAIMID)).toBe(true)  //eslint-disable-line
+        expect(getClaimDocumentsHistoricClaimStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID)).toBe(true)  //eslint-disable-line
+        expect(getAllClaimDocumentsByClaimIdStub.calledWith(CLAIMID, REFERENCE, ELIGIBILITYID)).toBe(true)  //eslint-disable-line
+        sinon.toHaveBeenCalledTimes(1)
+      });
   })
 })

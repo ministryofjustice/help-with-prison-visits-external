@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 const dateHelper = require('../../../../app/views/helpers/date-helper')
 
@@ -9,7 +8,7 @@ describe('views/helpers/date-helper', function () {
 
     const result = dateHelper(DATE.toDate())
 
-    expect(result).to.equal(DATE_FORMATTED)
+    expect(result).toBe(DATE_FORMATTED)
 
     done()
   })
@@ -20,7 +19,7 @@ describe('views/helpers/date-helper', function () {
 
     const result = dateHelper(DATE.toDate())
 
-    expect(result).to.equal(DATE_FORMATTED)
+    expect(result).toBe(DATE_FORMATTED)
 
     done()
   })

@@ -1,6 +1,5 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
@@ -8,6 +7,18 @@ let urlPathValidatorStub
 let stubAboutThePrisoner
 let stubInsertNewEligibilityAndPrisoner
 let app
+
+jest.mock(
+  '../../../services/data/insert-new-eligibility-and-prisoner',
+  () => stubInsertNewEligibilityAndPrisoner
+);
+
+jest.mock('../../../services/domain/about-the-prisoner', () => stubAboutThePrisoner);
+
+jest.mock(
+  '../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
 
 describe('routes/apply/new-eligibility/about-the-prisoner', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MDg2LjY0NDMsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJyZWxhdGlvbnNoaXAiOiJyNCIsImJlbmVmaXQiOiJiMSIsImJlbmVmaXRPd25lciI6InllcyJ9']
@@ -20,11 +31,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     stubAboutThePrisoner = sinon.stub()
     stubInsertNewEligibilityAndPrisoner = sinon.stub()
 
-    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/about-the-prisoner', {
-      '../../../services/data/insert-new-eligibility-and-prisoner': stubInsertNewEligibilityAndPrisoner,
-      '../../../services/domain/about-the-prisoner': stubAboutThePrisoner,
-      '../../../services/validators/url-path-validator': urlPathValidatorStub
-    })
+    const route = require('../../../../../app/routes/apply/new-eligibility/about-the-prisoner')
 
     app = routeHelper.buildApp(route)
   })
@@ -35,8 +42,8 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
   })
 
@@ -53,11 +60,11 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubAboutThePrisoner)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
           sinon.assert.calledWith(stubInsertNewEligibilityAndPrisoner, newAboutThePrisoner, 'first-time', undefined)
         })
-        .expect('location', '/apply/first-time/new-eligibility/about-you')
+        .expect('location', '/apply/first-time/new-eligibility/about-you');
     })
 
     it('should persist data and redirect to first-time/benefit-owner for valid data and not benefit owner', function () {
@@ -72,11 +79,11 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
         .set('Cookie', COOKIES_NOT_BENEFIT_OWNER)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubAboutThePrisoner)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
           sinon.assert.calledWith(stubInsertNewEligibilityAndPrisoner, newAboutThePrisoner, 'first-time', undefined)
         })
-        .expect('location', '/apply/first-time/new-eligibility/benefit-owner')
+        .expect('location', '/apply/first-time/new-eligibility/benefit-owner');
     })
 
     it('should persist data and redirect to /apply/first-time/new-eligibility?error=expired', function () {

@@ -1,9 +1,15 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock('../../../../services/domain/has-child', () => hasChildStub);
 
 describe('routes/apply/eligibility/claim/has-child', function () {
   const ROUTE = '/apply/eligibility/claim/has-child'
@@ -20,10 +26,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
     urlPathValidatorStub = sinon.stub()
     hasChildStub = sinon.stub()
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/has-child', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/has-child': hasChildStub
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/has-child')
     app = routeHelper.buildApp(route)
   })
 
@@ -33,8 +36,8 @@ describe('routes/apply/eligibility/claim/has-child', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -51,8 +54,8 @@ describe('routes/apply/eligibility/claim/has-child', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 if domain object is built successfully', function () {
@@ -60,9 +63,9 @@ describe('routes/apply/eligibility/claim/has-child', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(hasChildStub)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {

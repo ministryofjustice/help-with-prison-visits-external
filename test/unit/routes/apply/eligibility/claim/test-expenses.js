@@ -1,9 +1,26 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock(
+  '../../../../services/routing/expenses-url-router',
+  () => expenseUrlRouterStub
+);
+
+jest.mock('../../../../services/domain/expenses/expenses', () => expensesStub);
+jest.mock('../../../../services/data/get-claim-summary', () => getClaimSummaryStub);
+
+jest.mock(
+  '../../../../services/data/get-is-advance-claim',
+  () => getIsAdvanceClaimStub
+);
 
 describe('routes/apply/eligibility/claim/expenses', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MzgxLjEzODEzMzMzMiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiIzYjI0NzE3YWI5YTI0N2E3MGIiLCJkZWNyeXB0ZWRSZWYiOiIxUjY0RVROIiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6OH0=']
@@ -25,13 +42,7 @@ describe('routes/apply/eligibility/claim/expenses', function () {
     getClaimSummaryStub = sinon.stub().resolves({ claim: { Country: 'England' } })
     getIsAdvanceClaimStub = sinon.stub().resolves()
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/expenses', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
-      '../../../../services/domain/expenses/expenses': expensesStub,
-      '../../../../services/data/get-claim-summary': getClaimSummaryStub,
-      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/expenses')
     app = routeHelper.buildApp(route)
   })
 
@@ -41,8 +52,8 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should call to get claim details and check if NI prison', function () {
@@ -50,8 +61,8 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(getClaimSummaryStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -60,8 +71,8 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
   })
 
@@ -75,8 +86,8 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 if domain object is built successfully', function () {
@@ -85,9 +96,9 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(expensesStub)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
@@ -96,9 +107,9 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(getRedirectUrl)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', REDIRECT_URL)
+        .expect('location', REDIRECT_URL);
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
@@ -116,9 +127,9 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .set('Cookie', COOKIES)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(getClaimSummaryStub)
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {

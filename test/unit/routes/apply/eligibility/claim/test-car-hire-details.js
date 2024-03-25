@@ -1,9 +1,26 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock(
+  '../../../../services/routing/expenses-url-router',
+  () => expenseUrlRouterStub
+);
+
+jest.mock('../../../../services/data/insert-expense', () => insertExpenseStub);
+jest.mock('../../../../services/domain/expenses/hire-expense', () => hireExpenseStub);
+
+jest.mock(
+  '../../../../services/data/get-is-advance-claim',
+  () => getIsAdvanceClaimStub
+);
 
 describe('routes/apply/eligibility/claim/car-hire-details', function () {
   const ROUTE = '/apply/eligibility/claim/hire'
@@ -25,13 +42,7 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
     hireExpenseStub = sinon.stub()
     getIsAdvanceClaimStub = sinon.stub().resolves()
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/car-hire-details', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
-      '../../../../services/data/insert-expense': insertExpenseStub,
-      '../../../../services/domain/expenses/hire-expense': hireExpenseStub,
-      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/car-hire-details')
     app = routeHelper.buildApp(route)
   })
 
@@ -41,8 +52,8 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -51,8 +62,8 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should call parseParams', function () {
@@ -61,8 +72,8 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(parseParams)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
   })
 
@@ -76,8 +87,8 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 if domain object is built and then persisted successfully', function () {
@@ -87,10 +98,10 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(hireExpenseStub)
-          sinon.assert.calledOnce(insertExpenseStub)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
@@ -108,9 +119,9 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(getRedirectUrl)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', REDIRECT_URL)
+        .expect('location', REDIRECT_URL);
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
@@ -120,8 +131,8 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
         .set('Cookie', COOKIES)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {

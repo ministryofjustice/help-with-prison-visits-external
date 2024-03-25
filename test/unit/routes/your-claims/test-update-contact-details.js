@@ -1,8 +1,19 @@
 const routeHelper = require('../../../helpers/routes/route-helper')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+
+jest.mock('../../services/validators/url-path-validator', () => urlPathValidatorStub);
+
+jest.mock(
+  '../../services/domain/updated-contact-details',
+  () => updatedContactDetailsStub
+);
+
+jest.mock(
+  '../../services/data/insert-eligibility-visitor-updated-contact-detail',
+  () => insertEligibilityVisitorUpdatedContactDetailStub
+);
 
 describe('/your-claims/update-contact-details', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjM3LjI5MDYxNjY2NSwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJlbGlnaWJpbGl0eUlkIjoxfQ==']
@@ -18,11 +29,7 @@ describe('/your-claims/update-contact-details', function () {
     updatedContactDetailsStub = sinon.stub()
     insertEligibilityVisitorUpdatedContactDetailStub = sinon.stub()
 
-    const route = proxyquire('../../../../app/routes/your-claims/update-contact-details', {
-      '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/domain/updated-contact-details': updatedContactDetailsStub,
-      '../../services/data/insert-eligibility-visitor-updated-contact-detail': insertEligibilityVisitorUpdatedContactDetailStub
-    })
+    const route = require('../../../../app/routes/your-claims/update-contact-details')
     app = routeHelper.buildApp(route)
   })
 
@@ -32,8 +39,8 @@ describe('/your-claims/update-contact-details', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -52,8 +59,8 @@ describe('/your-claims/update-contact-details', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 and redirect to /your-claims/check-your-information', function () {
@@ -66,10 +73,10 @@ describe('/your-claims/update-contact-details', function () {
         .send({ 'email-address': 'test@test.com', 'phone-number': '5553425172' })
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(updatedContactDetailsStub)
-          sinon.assert.calledOnce(insertEligibilityVisitorUpdatedContactDetailStub)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', '/your-claims/check-your-information')
+        .expect('location', '/your-claims/check-your-information');
     })
 
     it('should respond with a 400 for a validation error', function () {

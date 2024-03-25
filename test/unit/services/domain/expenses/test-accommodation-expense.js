@@ -1,5 +1,4 @@
 const AccommodationExpense = require('../../../../../app/services/domain/expenses/accommodation-expense')
-const expect = require('chai').expect
 
 describe('services/domain/expenses/accommodation-expense', function () {
   const VALID_COST = '20'
@@ -11,8 +10,8 @@ describe('services/domain/expenses/accommodation-expense', function () {
       VALID_COST,
       VALID_DURATION_OF_TRAVEL
     )
-    expect(expense.cost).to.equal(VALID_COST)
-    expect(expense.durationOfTravel).to.equal(VALID_DURATION_OF_TRAVEL)
+    expect(expense.cost).toBe(VALID_COST)
+    expect(expense.durationOfTravel).toBe(VALID_DURATION_OF_TRAVEL)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -21,6 +20,6 @@ describe('services/domain/expenses/accommodation-expense', function () {
         INVALID_COST,
         VALID_DURATION_OF_TRAVEL
       ).isValid()
-    }).to.throw()
+    }).toThrow();
   })
 })

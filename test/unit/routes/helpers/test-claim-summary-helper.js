@@ -1,7 +1,4 @@
 const chaiAsPromised = require('chai-as-promised')
-const chai = require('chai').use(chaiAsPromised)
-const expect = chai.expect
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const CLAIM_TYPE = 'first-time'
@@ -39,6 +36,14 @@ const SINGLEPAGE_DOCUMENT_WITHOUT_CLAIM_EXPENSE_ID = {
   }
 }
 
+jest.mock('../../services/data/remove-claim-expense', () => removeClaimExpenseStub);
+jest.mock('../../services/data/remove-claim-document', () => removeClaimDocumentStub);
+
+jest.mock(
+  '../../services/data/get-claim-document-file-path',
+  () => getClaimDocumentFilePathStub
+);
+
 describe('routes/helpers/claim-summary-helper', function () {
   let claimSummaryHelper
   let removeClaimExpenseStub
@@ -50,37 +55,32 @@ describe('routes/helpers/claim-summary-helper', function () {
     removeClaimDocumentStub = sinon.stub()
     getClaimDocumentFilePathStub = sinon.stub()
 
-    claimSummaryHelper = proxyquire(
-      '../../../../app/routes/helpers/claim-summary-helper', {
-        '../../services/data/remove-claim-expense': removeClaimExpenseStub,
-        '../../services/data/remove-claim-document': removeClaimDocumentStub,
-        '../../services/data/get-claim-document-file-path': getClaimDocumentFilePathStub
-      })
+    claimSummaryHelper = require('../../../../app/routes/helpers/claim-summary-helper')
   })
 
   describe('buildClaimSummaryUrl', function () {
     it('should return claim summary URL constaining the claim type, reference, and claim id', function () {
       const result = claimSummaryHelper.buildClaimSummaryUrl(MULTIPAGE_DOCUMENT)
-      expect(result).to.equal('/apply/eligibility/claim/summary')
+      expect(result).toBe('/apply/eligibility/claim/summary')
     })
   })
 
   describe('buildRemoveDocumentUrl', function () {
     it('should return the claim summary url if the document is multipage', function () {
       const result = claimSummaryHelper.buildRemoveDocumentUrl(MULTIPAGE_DOCUMENT)
-      expect(result).to.equal('/apply/eligibility/claim/summary')
+      expect(result).toBe('/apply/eligibility/claim/summary')
     })
 
     it('should return the file upload url if the document is single page and claim expense id is set', function () {
       const result = claimSummaryHelper.buildRemoveDocumentUrl(SINGLEPAGE_DOCUMENT_WITH_CLAIM_EXPENSE_ID)
-      expect(result).to.equal(
+      expect(result).toBe(
         `/apply/eligibility/claim/summary/file-upload?document=${CLAIM_DOCUMENT_ID}&claimExpenseId=${CLAIM_EXPENSE_ID}`
       )
     })
 
     it('should return the file upload url if the document is single page and the claim expense id is not set', function () {
       const result = claimSummaryHelper.buildRemoveDocumentUrl(SINGLEPAGE_DOCUMENT_WITHOUT_CLAIM_EXPENSE_ID)
-      expect(result).to.equal(
+      expect(result).toBe(
         `/apply/eligibility/claim/summary/file-upload?document=${CLAIM_DOCUMENT_ID}`
       )
     })
@@ -89,7 +89,7 @@ describe('routes/helpers/claim-summary-helper', function () {
   describe('removeExpense', function () {
     it('should call removeExpense with the given parameters', function () {
       claimSummaryHelper.removeExpense(CLAIM_ID, CLAIM_EXPENSE_ID)
-      sinon.assert.calledOnce(removeClaimExpenseStub)
+      sinon.toHaveBeenCalledTimes(1)
       sinon.assert.calledWith(removeClaimExpenseStub, CLAIM_ID, CLAIM_EXPENSE_ID)
     })
   })
@@ -97,7 +97,7 @@ describe('routes/helpers/claim-summary-helper', function () {
   describe('removeDocument', function () {
     it('should call removeDocument with the given parameters', function () {
       claimSummaryHelper.removeDocument(CLAIM_DOCUMENT_ID)
-      sinon.assert.calledOnce(removeClaimDocumentStub)
+      sinon.toHaveBeenCalledTimes(1)
       sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
     })
   })
@@ -108,17 +108,17 @@ describe('routes/helpers/claim-summary-helper', function () {
 
     it('should return the first document if the input contains mutliple document', function () {
       const result = claimSummaryHelper.getBenefitDocument([DOCUMENT_ONE, DOCUMENT_TWO])
-      expect(result).to.equal(DOCUMENT_ONE)
+      expect(result).toBe(DOCUMENT_ONE)
     })
 
     it('should return undefined if the input array is empty', function () {
       const result = claimSummaryHelper.getBenefitDocument([])
-      expect(result).to.equal(undefined)
+      expect(result).toBeUndefined()
     })
 
     it('should return undefined if the input is undefined', function () {
       const result = claimSummaryHelper.getBenefitDocument()
-      expect(result).to.equal(undefined)
+      expect(result).toBeUndefined()
     })
   })
 
@@ -131,9 +131,9 @@ describe('routes/helpers/claim-summary-helper', function () {
       getClaimDocumentFilePathStub.resolves({ Filepath: FILE_NAME })
       return claimSummaryHelper.getDocumentFilePath()
         .then(function (file) {
-          expect(file.path).to.equal(FILE_NAME)
-          expect(file.name).to.equal(EXPECTED_FILE_NAME)
-        })
+          expect(file.path).toBe(FILE_NAME)
+          expect(file.name).toBe(EXPECTED_FILE_NAME)
+        });
     })
 
     it('should reject promise if the call to getDocumentFilePath rejects', function () {

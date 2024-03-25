@@ -1,8 +1,14 @@
-const expect = require('chai').expect
 const routeHelper = require('../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+
+jest.mock('../../services/validators/url-path-validator', () => urlPathValidatorStub);
+jest.mock('../../services/data/get-historic-claims', () => getHistoricClaimsStub);
+
+jest.mock(
+  '../../services/data/get-historic-claims-by-reference',
+  () => getHistoricClaimsByReferenceStub
+);
 
 describe('/your-claims/your-claims', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjU5LjQ4NjY2NjY3LCJkZWNyeXB0ZWRSZWYiOiJRSFFDWFdaIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyJ9']
@@ -23,11 +29,7 @@ describe('/your-claims/your-claims', function () {
     getHistoricClaimsStub = sinon.stub()
     getHistoricClaimsByReferenceStub = sinon.stub()
 
-    const route = proxyquire('../../../../app/routes/your-claims/your-claims', {
-      '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/data/get-historic-claims': getHistoricClaimsStub,
-      '../../services/data/get-historic-claims-by-reference': getHistoricClaimsByReferenceStub
-    })
+    const route = require('../../../../app/routes/your-claims/your-claims')
     app = routeHelper.buildApp(route)
   })
 
@@ -37,8 +39,8 @@ describe('/your-claims/your-claims', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200 if the database query returns a result', function () {
@@ -57,8 +59,8 @@ describe('/your-claims/your-claims', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function (response) {
-          expect(response.text).to.contain('"canStartNewClaim":true')
-        })
+          expect(response.text).toContain('"canStartNewClaim":true')
+        });
     })
 
     it('should set canStartNewClaim to false if claims in progress', function () {
@@ -68,8 +70,8 @@ describe('/your-claims/your-claims', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function (response) {
-          expect(response.text).to.contain('"canStartNewClaim":false')
-        })
+          expect(response.text).toContain('"canStartNewClaim":false')
+        });
     })
 
     it('should respond with a 302 and redirect if passed a non-matching reference number dob combination', function () {

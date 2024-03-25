@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const logSerializers = require('../../../app/services/log-serializers')
 
 const REQUEST_URL = 'some url'
@@ -30,20 +29,20 @@ const ERROR = {
 describe('services/log-serializers', function () {
   it('should build the requestSerializer', function () {
     const result = logSerializers.requestSerializer(REQUEST)
-    expect(result.url).to.equal(REQUEST_URL)
-    expect(result.method).to.equal(REQUEST_METHOD)
-    expect(result.params).to.equal(REQUEST_PARAMS)
+    expect(result.url).toBe(REQUEST_URL)
+    expect(result.method).toBe(REQUEST_METHOD)
+    expect(result.params).toBe(REQUEST_PARAMS)
   })
 
   it('should build the responseSerializer', function () {
     const result = logSerializers.responseSerializer(RESPONSE)
-    expect(result.statusCode).to.equal(RESPONSE_STATUS_CODE)
+    expect(result.statusCode).toBe(RESPONSE_STATUS_CODE)
   })
 
   it('should build the errorSerializer', function () {
     const result = logSerializers.errorSerializer(ERROR)
-    expect(result.message).to.equal(ERROR_MESSAGE)
-    expect(result.name).to.equal(ERROR_NAME)
-    expect(result.stack).to.equal(ERROR_STACK)
+    expect(result.message).toBe(ERROR_MESSAGE)
+    expect(result.name).toBe(ERROR_NAME)
+    expect(result.stack).toBe(ERROR_STACK)
   })
 })

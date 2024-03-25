@@ -1,10 +1,19 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 const prisonerRelationshipEnum = require('../../../../../app/constants/prisoner-relationships-enum')
+
+jest.mock(
+  '../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock(
+  '../../../services/domain/prisoner-relationship',
+  () => prisonerRelationshipStub
+);
 
 describe('routes/apply/new-eligibility/prisoner-relationship', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAwMjc0Ljc0NjYzMzMzMiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImRvYkVuY29kZWQiOiIxMTM3MjUxMjIifQ==']
@@ -21,10 +30,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
     urlPathValidatorStub = sinon.stub()
     prisonerRelationshipStub = sinon.stub()
 
-    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/prisoner-relationship', {
-      '../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../services/domain/prisoner-relationship': prisonerRelationshipStub
-    })
+    const route = require('../../../../../app/routes/apply/new-eligibility/prisoner-relationship')
     app = routeHelper.buildApp(route)
   })
 
@@ -34,8 +40,8 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -61,8 +67,8 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 and redirect to benefits page if the relationship value is valid', function () {
@@ -110,9 +116,9 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(prisonerRelationshipStub)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should respond with a 400 if domain object validation fails', function () {

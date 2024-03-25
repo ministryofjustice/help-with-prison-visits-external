@@ -1,9 +1,20 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock('../../../../services/domain/has-escort', () => hasEscortStub);
+
+jest.mock(
+  '../../../../services/data/get-is-advance-claim',
+  () => getIsAdvanceClaimStub
+);
 
 describe('routes/apply/eligibility/claim/has-escort', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MzYzLjAyMDUsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJyZWxhdGlvbnNoaXAiOiJyNCIsImJlbmVmaXQiOiJiMSIsInJlZmVyZW5jZUlkIjoiM2IyNDcxN2FiOWEyNDdhNzBiIiwiZGVjcnlwdGVkUmVmIjoiMVI2NEVUTiIsImNsYWltVHlwZSI6ImZpcnN0LXRpbWUiLCJhZHZhbmNlT3JQYXN0IjoicGFzdCIsImNsYWltSWQiOjh9']
@@ -21,11 +32,7 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
     hasEscortStub = sinon.stub()
     getIsAdvanceClaimStub = sinon.stub().resolves()
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/has-escort', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/has-escort': hasEscortStub,
-      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/has-escort')
     app = routeHelper.buildApp(route)
   })
 
@@ -35,8 +42,8 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -45,8 +52,8 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
   })
 
@@ -56,8 +63,8 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 if domain object is built successfully', function () {
@@ -65,9 +72,9 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(hasEscortStub)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
@@ -101,8 +108,8 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
         .set('Cookie', COOKIES)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {

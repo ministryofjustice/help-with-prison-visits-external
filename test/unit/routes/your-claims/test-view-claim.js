@@ -1,5 +1,4 @@
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const routeHelper = require('../../../helpers/routes/route-helper')
@@ -23,6 +22,19 @@ const CLAIM = {
 const ROUTE = `/your-claims/${CLAIMID}`
 const VIEW_DOCUMENT_ROUTE = `${ROUTE}/view-document/${CLAIM_DOCUMENT_ID}`
 const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIM_DOCUMENT_ID}?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITY_ID}`
+
+jest.mock('../../services/validators/url-path-validator', () => urlPathValidatorStub);
+jest.mock('../../services/data/get-view-claim', () => getViewClaimStub);
+
+jest.mock(
+  '../../services/data/get-claim-document-file-path',
+  () => getClaimDocumentFilePathStub
+);
+
+jest.mock('../../services/domain/view-claim', () => viewClaimDomainObjectStub);
+jest.mock('../../services/data/submit-update', () => submitUpdateStub);
+jest.mock('../../services/data/remove-claim-document', () => removeClaimDocumentStub);
+jest.mock('../../services/aws-helper', () => awsHelperStub);
 
 describe('routes/apply/eligibility/claim/view-claim', function () {
   let app
@@ -52,16 +64,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
       AWSHelper: awsStub
     }
 
-    const route = proxyquire(
-      '../../../../app/routes/your-claims/view-claim', {
-        '../../services/validators/url-path-validator': urlPathValidatorStub,
-        '../../services/data/get-view-claim': getViewClaimStub,
-        '../../services/data/get-claim-document-file-path': getClaimDocumentFilePathStub,
-        '../../services/domain/view-claim': viewClaimDomainObjectStub,
-        '../../services/data/submit-update': submitUpdateStub,
-        '../../services/data/remove-claim-document': removeClaimDocumentStub,
-        '../../services/aws-helper': awsHelperStub
-      })
+    const route = require('../../../../app/routes/your-claims/view-claim')
     app = routeHelper.buildApp(route)
   })
 
@@ -71,8 +74,8 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -90,8 +93,8 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302', function () {
@@ -102,9 +105,9 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(viewClaimDomainObjectStub)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', `/your-claims/${CLAIMID}?updated=true`)
+        .expect('location', `/your-claims/${CLAIMID}?updated=true`);
     })
 
     it('should respond with a 400 if validation errors', function () {

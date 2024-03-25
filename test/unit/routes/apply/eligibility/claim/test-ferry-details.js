@@ -1,9 +1,35 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock(
+  '../../../../services/routing/expenses-url-router',
+  () => expenseUrlRouterStub
+);
+
+jest.mock('../../../../services/data/insert-expense', () => insertExpenseStub);
+
+jest.mock(
+  '../../../../services/domain/expenses/ferry-expense',
+  () => ferryExpenseStub
+);
+
+jest.mock(
+  '../../../../services/data/get-expense-owner-data',
+  () => getExpenseOwnerDataStub
+);
+
+jest.mock(
+  '../../../../services/data/get-is-advance-claim',
+  () => getIsAdvanceClaimStub
+);
 
 describe('routes/apply/eligibility/claim/ferry-details', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
@@ -27,14 +53,7 @@ describe('routes/apply/eligibility/claim/ferry-details', function () {
     getExpenseOwnerDataStub = sinon.stub()
     getIsAdvanceClaimStub = sinon.stub().resolves()
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/ferry-details', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
-      '../../../../services/data/insert-expense': insertExpenseStub,
-      '../../../../services/domain/expenses/ferry-expense': ferryExpenseStub,
-      '../../../../services/data/get-expense-owner-data': getExpenseOwnerDataStub,
-      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/ferry-details')
     app = routeHelper.buildApp(route)
   })
 
@@ -45,8 +64,8 @@ describe('routes/apply/eligibility/claim/ferry-details', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should call the function to get expense owner data', function () {
@@ -55,8 +74,8 @@ describe('routes/apply/eligibility/claim/ferry-details', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(getExpenseOwnerDataStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -66,8 +85,8 @@ describe('routes/apply/eligibility/claim/ferry-details', function () {
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should call parseParams', function () {
@@ -77,8 +96,8 @@ describe('routes/apply/eligibility/claim/ferry-details', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(parseParams)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
   })
 
@@ -92,8 +111,8 @@ describe('routes/apply/eligibility/claim/ferry-details', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 if domain object is built and then persisted successfully', function () {
@@ -103,10 +122,10 @@ describe('routes/apply/eligibility/claim/ferry-details', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(ferryExpenseStub)
-          sinon.assert.calledOnce(insertExpenseStub)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
@@ -124,9 +143,9 @@ describe('routes/apply/eligibility/claim/ferry-details', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(getRedirectUrl)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', REDIRECT_URL)
+        .expect('location', REDIRECT_URL);
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
@@ -137,8 +156,8 @@ describe('routes/apply/eligibility/claim/ferry-details', function () {
         .set('Cookie', COOKIES)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {

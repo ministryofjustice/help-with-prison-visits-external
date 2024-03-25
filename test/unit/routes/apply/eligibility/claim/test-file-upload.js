@@ -1,8 +1,42 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock('../../../../services/upload', () => uploadStub);
+jest.mock('../../../../services/domain/file-upload', () => fileUploadStub);
+
+jest.mock(
+  '../../../../services/data/insert-file-upload-details-for-claim',
+  () => claimDocumentInsertStub
+);
+
+jest.mock('../../../../services/generate-csrf-token', () => generateCSRFTokenStub);
+
+jest.mock('../../../../services/clam-av', () => ({
+  clamAvStub,
+  '@noCallThru': true
+}));
+
+jest.mock('../../../../../config', () => configStub);
+jest.mock('../../../../services/data/insert-task', () => insertTaskStub);
+
+jest.mock(
+  '../../../../services/data/disable-old-claim-documents',
+  () => disableOldClaimDocumentsStub
+);
+
+jest.mock(
+  '../../../../services/data/check-expense-is-enabled',
+  () => checkExpenseIsEnabledStub
+);
+
+jest.mock(csurf, () => (function() { return function () { } }));
 
 describe('routes/apply/eligibility/claim/file-upload', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
@@ -33,19 +67,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     disableOldClaimDocumentsStub = sinon.stub().resolves()
     checkExpenseIsEnabledStub = sinon.stub().resolves()
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/file-upload', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/upload': uploadStub,
-      '../../../../services/domain/file-upload': fileUploadStub,
-      '../../../../services/data/insert-file-upload-details-for-claim': claimDocumentInsertStub,
-      '../../../../services/generate-csrf-token': generateCSRFTokenStub,
-      '../../../../services/clam-av': { clamAvStub, '@noCallThru': true },
-      '../../../../../config': configStub,
-      '../../../../services/data/insert-task': insertTaskStub,
-      '../../../../services/data/disable-old-claim-documents': disableOldClaimDocumentsStub,
-      '../../../../services/data/check-expense-is-enabled': checkExpenseIsEnabledStub,
-      csurf: function () { return function () { } }
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/file-upload')
     app = routeHelper.buildApp(route)
   })
 
@@ -55,8 +77,8 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should call the CSRFToken generator', function () {
@@ -64,8 +86,8 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(generateCSRFTokenStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200 if passed valid document type', function () {
@@ -91,8 +113,8 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should create a file upload object, insert it to DB and give 302', function () {
@@ -103,11 +125,11 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
         .post(`${ROUTE}VISIT_CONFIRMATION`)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(uploadStub)
-          sinon.assert.calledOnce(fileUploadStub)
-          sinon.assert.calledOnce(claimDocumentInsertStub)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {

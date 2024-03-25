@@ -1,5 +1,3 @@
-const expect = require('chai').expect
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const REFERENCE = 'LASTCD1'
@@ -19,13 +17,26 @@ const getClaimExpenseByIdOrLastApprovedStub = sinon.stub().resolves(EXPENSES)
 const getClaimEscortByIdOrLastApprovedStub = sinon.stub().resolves(ESCORT)
 const maskArrayOfNamesStub = sinon.stub().returns(LAST_NAME_MASKED)
 
-const getLastClaimDetails = proxyquire('../../../../app/services/data/get-last-claim-details', {
-  './get-last-claim-for-reference': getLastClaimForReferenceStub,
-  './get-claim-children-by-id-or-last-approved': getClaimChildrenByIdOrLastApprovedStub,
-  './get-claim-expense-by-id-or-last-approved': getClaimExpenseByIdOrLastApprovedStub,
-  './get-claim-escort-by-id-or-last-approved': getClaimEscortByIdOrLastApprovedStub,
-  '../helpers/mask-array-of-names': maskArrayOfNamesStub
-})
+jest.mock('./get-last-claim-for-reference', () => getLastClaimForReferenceStub);
+
+jest.mock(
+  './get-claim-children-by-id-or-last-approved',
+  () => getClaimChildrenByIdOrLastApprovedStub
+);
+
+jest.mock(
+  './get-claim-expense-by-id-or-last-approved',
+  () => getClaimExpenseByIdOrLastApprovedStub
+);
+
+jest.mock(
+  './get-claim-escort-by-id-or-last-approved',
+  () => getClaimEscortByIdOrLastApprovedStub
+);
+
+jest.mock('../helpers/mask-array-of-names', () => maskArrayOfNamesStub);
+
+const getLastClaimDetails = require('../../../../app/services/data/get-last-claim-details')
 
 describe('services/data/get-last-claim-details', function () {
   it('should call to get last claim children and last claim expenses', function () {
@@ -38,10 +49,10 @@ describe('services/data/get-last-claim-details', function () {
         sinon.assert.calledWith(getClaimEscortByIdOrLastApprovedStub, REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
         sinon.assert.notCalled(maskArrayOfNamesStub)
 
-        expect(result.children).to.be.equal(CHILDREN)
-        expect(result.expenses).to.be.equal(EXPENSES)
-        expect(result.escort).to.be.equal(ESCORT)
-      })
+        expect(result.children).toBe(CHILDREN)
+        expect(result.expenses).toBe(EXPENSES)
+        expect(result.escort).toBe(ESCORT)
+      });
   })
 
   it('should mask child last name and escort last name if mask is true', function () {
@@ -61,18 +72,18 @@ describe('services/data/get-last-claim-details', function () {
     getLastClaimForReferenceStub.resolves(CLAIMID)
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, true)
       .then(function (result) {
-        expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).to.be.equal(0)
-        expect(result.expenses.length).to.be.equal(2)
-      })
+        expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).toBe(0)
+        expect(result.expenses.length).toBe(2)
+      });
   })
 
   it('should get last claim and keep train expenses if last claim type is the same as this claim type', function () {
     getLastClaimForReferenceStub.resolves(CLAIMID)
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, false)
       .then(function (result) {
-        expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).to.be.equal(2)
-        expect(result.expenses.length).to.be.equal(4)
-      })
+        expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).toBe(2)
+        expect(result.expenses.length).toBe(4)
+      });
   })
 
   it('should get last claim and reset train expenses to zero if last claim type is the same as this claim type', function () {
@@ -82,11 +93,11 @@ describe('services/data/get-last-claim-details', function () {
         const trainExpenses = result.expenses.filter(expense => expense.ExpenseType === 'train')
 
         trainExpenses.forEach(function (expense) {
-          expect(expense.Cost).to.be.equal('0')
+          expect(expense.Cost).toBe('0')
         })
 
-        expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).to.be.equal(2)
-        expect(result.expenses.length).to.be.equal(4)
-      })
+        expect(result.expenses.filter(expense => expense.ExpenseType === 'train').length).toBe(2)
+        expect(result.expenses.length).toBe(4)
+      });
   })
 })

@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const ViewClaim = require('../../../../app/services/domain/view-claim')
 let viewClaim
 
@@ -10,29 +9,29 @@ describe('services/domain/claim-summary', function () {
 
   it('should construct a domain object given all updated content and a message', function () {
     viewClaim = new ViewClaim(UPDATED_DOCUMENT, UPDATED_DOCUMENT, UPDATED_EXPENSES, MESSAGE)
-    expect(viewClaim.message).to.be.equal(MESSAGE)
+    expect(viewClaim.message).toBe(MESSAGE)
   })
 
   it('should construct a domain object given all updated content and message', function () {
     viewClaim = new ViewClaim(UPDATED_DOCUMENT, UPDATED_DOCUMENT, UPDATED_EXPENSES, MESSAGE)
-    expect(viewClaim.message).to.be.equal(MESSAGE)
+    expect(viewClaim.message).toBe(MESSAGE)
   })
 
   it('should construct a domain object given all only expenses updated', function () {
     viewClaim = new ViewClaim(true, true, UPDATED_EXPENSES, '')
-    expect(viewClaim.message).to.be.equal('')
-    expect(viewClaim.updated).to.be.true  //eslint-disable-line
+    expect(viewClaim.message).toBe('')
+    expect(viewClaim.updated).toBe(true)  //eslint-disable-line
   })
 
   it('should construct a domain object given only a message sent', function () {
     viewClaim = new ViewClaim(true, true, NOT_UPDATED_EXPENSES, MESSAGE)
-    expect(viewClaim.message).to.be.equal(MESSAGE)
-    expect(viewClaim.updated).to.be.false  //eslint-disable-line
+    expect(viewClaim.message).toBe(MESSAGE)
+    expect(viewClaim.updated).toBe(false)  //eslint-disable-line
   })
 
   it('Throw a validation error if nothing has been updated and there is no message', function () {
     expect(function () {
       viewClaim = new ViewClaim(true, true, NOT_UPDATED_EXPENSES, '').isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })

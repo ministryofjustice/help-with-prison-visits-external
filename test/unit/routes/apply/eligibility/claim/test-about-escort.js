@@ -1,9 +1,16 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock('../../../../services/domain/about-escort', () => aboutEscortStub);
+jest.mock('../../../../services/data/insert-escort', () => insertEscortStub);
 
 describe('routes/apply/eligibility/claim/about-escort', function () {
   const ROUTE = '/apply/eligibility/claim/about-escort'
@@ -21,11 +28,7 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
     aboutEscortStub = sinon.stub()
     insertEscortStub = sinon.stub()
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/about-escort', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/about-escort': aboutEscortStub,
-      '../../../../services/data/insert-escort': insertEscortStub
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/about-escort')
     app = routeHelper.buildApp(route)
   })
 
@@ -35,8 +38,8 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -53,8 +56,8 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 if domain object is built successfully', function () {
@@ -63,9 +66,9 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(aboutEscortStub)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {

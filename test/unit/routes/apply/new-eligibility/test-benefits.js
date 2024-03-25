@@ -1,10 +1,16 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 const benefitsEnum = require('../../../../../app/constants/benefits-enum')
+
+jest.mock(
+  '../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock('../../../services/domain/benefits', () => benefitsStub);
 
 describe('routes/apply/new-eligibility/benefits', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAxMDE5LjU4NzAxNjY3LCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InI1In0=']
@@ -21,10 +27,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
     urlPathValidatorStub = sinon.stub()
     benefitsStub = sinon.stub()
 
-    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefits', {
-      '../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../services/domain/benefits': benefitsStub
-    })
+    const route = require('../../../../../app/routes/apply/new-eligibility/benefits')
     app = routeHelper.buildApp(route)
   })
 
@@ -34,8 +37,8 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -61,8 +64,8 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 and redirect to prisoner page if the relationship value is valid', function () {
@@ -110,9 +113,9 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(benefitsStub)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should respond with a 400 if domain object validation fails', function () {

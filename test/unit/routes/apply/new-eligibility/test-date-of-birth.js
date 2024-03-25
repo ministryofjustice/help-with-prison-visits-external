@@ -1,12 +1,18 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
 let urlPathValidatorStub
 let stubDateOfBirth
 let app
+
+jest.mock('../../../services/domain/date-of-birth', () => stubDateOfBirth);
+
+jest.mock(
+  '../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
 
 describe('routes/apply/new-eligibility/date-of-birth', function () {
   const DOB = '113725122'
@@ -17,11 +23,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
     urlPathValidatorStub = sinon.stub()
     stubDateOfBirth = sinon.stub()
 
-    const route = proxyquire(
-      '../../../../../app/routes/apply/new-eligibility/date-of-birth', {
-        '../../../services/domain/date-of-birth': stubDateOfBirth,
-        '../../../services/validators/url-path-validator': urlPathValidatorStub
-      })
+    const route = require('../../../../../app/routes/apply/new-eligibility/date-of-birth')
 
     app = routeHelper.buildApp(route)
   })
@@ -32,8 +34,8 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -51,8 +53,8 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
           .get(ROUTE)
           .set('Cookie', COOKIES)
           .expect(function () {
-            sinon.assert.calledOnce(urlPathValidatorStub)
-          })
+            sinon.toHaveBeenCalledTimes(1)
+          });
       })
 
       it('should respond with a 302 and redirect to /apply/first-time/new-eligibility/prisoner-relationship', function () {
@@ -62,10 +64,10 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
           .set('Cookie', COOKIES)
           .expect(302)
           .expect(function () {
-            sinon.assert.calledOnce(stubDateOfBirth)
+            sinon.toHaveBeenCalledTimes(1)
           })
           .expect('location', '/apply/first-time/new-eligibility/prisoner-relationship')
-          .expect(hasSetCookie)
+          .expect(hasSetCookie);
       })
 
       it('should respond with a 400 for a validation error', function () {

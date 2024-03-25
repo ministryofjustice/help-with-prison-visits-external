@@ -1,8 +1,12 @@
 const routeHelper = require('../../../helpers/routes/route-helper')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+
+jest.mock('../../services/validators/url-path-validator', () => urlPathValidatorStub);
+jest.mock('../../services/helpers/decrypt', () => decryptStub);
+jest.mock('../../services/data/get-repeat-eligibility', () => getRepeatEligibility);
+jest.mock('../../services/domain/check-your-information', () => CheckYourInformation);
 
 describe('/your-claims/check-your-information', function () {
   const REFERENCE = 'APVS123'
@@ -22,12 +26,7 @@ describe('/your-claims/check-your-information', function () {
     getRepeatEligibility = sinon.stub()
     CheckYourInformation = sinon.stub()
 
-    const route = proxyquire('../../../../app/routes/your-claims/check-your-information', {
-      '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/helpers/decrypt': decryptStub,
-      '../../services/data/get-repeat-eligibility': getRepeatEligibility,
-      '../../services/domain/check-your-information': CheckYourInformation
-    })
+    const route = require('../../../../app/routes/your-claims/check-your-information')
     app = routeHelper.buildApp(route)
   })
 
@@ -37,8 +36,8 @@ describe('/your-claims/check-your-information', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should call to get masked eligibility and respond with a 200', function () {
@@ -48,8 +47,8 @@ describe('/your-claims/check-your-information', function () {
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(getRepeatEligibility)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 500 if promise rejects.', function () {
@@ -67,8 +66,8 @@ describe('/your-claims/check-your-information', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 and redirect to /apply/eligibility/new-claim/future-or-past-visit', function () {
@@ -80,9 +79,9 @@ describe('/your-claims/check-your-information', function () {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(CheckYourInformation)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
+        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit');
     })
 
     it('should respond with a 302 and redirect to /apply/eligibility/new-claim/future-or-past-visit if prison GB and Country NI', function () {
@@ -94,9 +93,9 @@ describe('/your-claims/check-your-information', function () {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(CheckYourInformation)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
+        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit');
     })
 
     it('should redirect to /apply/eligibility/new-claim/same-journey-as-last-claim for Northern Ireland prison and Country', function () {
@@ -108,9 +107,9 @@ describe('/your-claims/check-your-information', function () {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(CheckYourInformation)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', '/apply/eligibility/new-claim/same-journey-as-last-claim')
+        .expect('location', '/apply/eligibility/new-claim/same-journey-as-last-claim');
     })
 
     it('should respond with a 400 for a validation error', function () {
@@ -121,8 +120,8 @@ describe('/your-claims/check-your-information', function () {
         .set('Cookie', COOKIES)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(getRepeatEligibility)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 500 if promise rejects.', function () {

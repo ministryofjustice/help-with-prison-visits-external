@@ -1,10 +1,32 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const paymentMethods = require('../../../../../../app/constants/payment-method-enum')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+jest.mock('../../../../services/domain/declaration', () => stubDeclaration);
+jest.mock('../../../../services/data/submit-claim', () => stubSubmitClaim);
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => stubUrlPathValidator
+);
+
+jest.mock(
+  '../../../../services/data/get-is-advance-claim',
+  () => stubGetIsAdvanceClaim
+);
+
+jest.mock(
+  '../../../../services/data/check-status-for-finishing-claim',
+  () => stubCheckStatusForFinishingClaim
+);
+
+jest.mock(
+  '../../../../services/data/check-if-reference-is-disabled',
+  () => stubCheckIfReferenceIsDisabled
+);
 
 describe('routes/apply/eligibility/claim/declaration', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
@@ -31,15 +53,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     stubCheckStatusForFinishingClaim = sinon.stub()
     stubCheckIfReferenceIsDisabled = sinon.stub()
 
-    const route = proxyquire(
-      '../../../../../../app/routes/apply/eligibility/claim/declaration', {
-        '../../../../services/domain/declaration': stubDeclaration,
-        '../../../../services/data/submit-claim': stubSubmitClaim,
-        '../../../../services/validators/url-path-validator': stubUrlPathValidator,
-        '../../../../services/data/get-is-advance-claim': stubGetIsAdvanceClaim,
-        '../../../../services/data/check-status-for-finishing-claim': stubCheckStatusForFinishingClaim,
-        '../../../../services/data/check-if-reference-is-disabled': stubCheckIfReferenceIsDisabled
-      })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/declaration')
     app = routeHelper.buildApp(route)
   })
 
@@ -49,8 +63,8 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(stubUrlPathValidator)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -67,8 +81,8 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(stubUrlPathValidator)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 302 and call submit claim and put past in route', function () {

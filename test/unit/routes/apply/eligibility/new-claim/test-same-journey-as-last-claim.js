@@ -1,9 +1,23 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock(
+  '../../../../services/domain/same-journey-as-last-claim',
+  () => sameJourneyAsLastClaimStub
+);
+
+jest.mock(
+  '../../../../services/data/get-last-claim-details',
+  () => getLastClaimDetailsStub
+);
 
 describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', function () {
   const COOKIES_REPEAT = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MTY2LjEwMTQ4MzMzNCwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJyZWZlcmVuY2VJZCI6IjViM2UxNjBkYTRhMTUzYTcwZiIsImNsYWltVHlwZSI6InJlcGVhdCIsImFkdmFuY2VPclBhc3QiOiJwYXN0In0=']
@@ -22,11 +36,9 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     sameJourneyAsLastClaimStub = sinon.stub()
     getLastClaimDetailsStub = sinon.stub()
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/same-journey-as-last-claim', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/same-journey-as-last-claim': sameJourneyAsLastClaimStub,
-      '../../../../services/data/get-last-claim-details': getLastClaimDetailsStub
-    })
+    const route = require(
+      '../../../../../../app/routes/apply/eligibility/new-claim/same-journey-as-last-claim'
+    )
     app = routeHelper.buildApp(route)
   })
 
@@ -36,8 +48,8 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
         .get(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -71,8 +83,8 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should redirect to /new-claim/past for a repeat claim if no', function () {

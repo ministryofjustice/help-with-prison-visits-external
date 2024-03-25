@@ -1,9 +1,16 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
+
+jest.mock('../../../../services/domain/about-child', () => aboutChildStub);
+jest.mock('../../../../services/data/insert-child', () => insertChildStub);
 
 describe('routes/apply/eligibility/claim/about-child', function () {
   const CLAIMID = '123'
@@ -23,11 +30,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     aboutChildStub = sinon.stub()
     insertChildStub = sinon.stub()
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/about-child', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/about-child': aboutChildStub,
-      '../../../../services/data/insert-child': insertChildStub
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/about-child')
     app = routeHelper.buildApp(route)
   })
 
@@ -37,8 +40,8 @@ describe('routes/apply/eligibility/claim/about-child', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should respond with a 200', function () {
@@ -58,8 +61,8 @@ describe('routes/apply/eligibility/claim/about-child', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
 
     it('should insert valid NewClaim domain object', function () {
@@ -69,10 +72,10 @@ describe('routes/apply/eligibility/claim/about-child', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(aboutChildStub)
-          sinon.assert.calledOnce(insertChildStub)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {

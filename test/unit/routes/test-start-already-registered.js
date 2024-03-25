@@ -1,10 +1,12 @@
 const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const encrypt = require('../../../app/services/helpers/encrypt')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
+
+jest.mock('../services/domain/already-registered', () => alreadyRegisteredStub);
+jest.mock('../services/helpers/encrypt', () => encryptStub);
 
 describe('routes/start-already-registered', function () {
   const ROUTE = '/start-already-registered'
@@ -18,10 +20,7 @@ describe('routes/start-already-registered', function () {
     alreadyRegisteredStub = sinon.stub()
     encryptStub = sinon.stub()
 
-    const route = proxyquire('../../../app/routes/start-already-registered', {
-      '../services/domain/already-registered': alreadyRegisteredStub,
-      '../services/helpers/encrypt': encryptStub
-    })
+    const route = require('../../../app/routes/start-already-registered')
     app = routeHelper.buildApp(route)
   })
 
@@ -54,9 +53,9 @@ describe('routes/start-already-registered', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
-          sinon.assert.calledOnce(alreadyRegisteredStub)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302)
+        .expect(302);
     })
 
     it('should redirect to the your-claims page with the reference and the dob set in a cookie', function () {

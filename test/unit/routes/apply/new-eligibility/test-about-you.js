@@ -1,6 +1,5 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
@@ -10,6 +9,25 @@ let stubDuplicateClaimCheck
 let stubGetTravellingFromAndTo
 let stubAboutYou
 let app
+
+jest.mock('../../../services/data/insert-visitor', () => stubInsertVisitor);
+
+jest.mock(
+  '../../../services/data/duplicate-claim-check',
+  () => stubDuplicateClaimCheck
+);
+
+jest.mock(
+  '../../../services/data/get-travelling-from-and-to',
+  () => stubGetTravellingFromAndTo
+);
+
+jest.mock('../../../services/domain/about-you', () => stubAboutYou);
+
+jest.mock(
+  '../../../services/validators/url-path-validator',
+  () => urlPathValidatorStub
+);
 
 describe('routes/apply/new-eligibility/about-you', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MDkwLjYyODkxNjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwiYmVuZWZpdE93bmVyIjoieWVzIiwicmVmZXJlbmNlSWQiOiI0ZTMzMDkxZmJkY2YzZmE3MGFhYjhhYjUiLCJkZWNyeXB0ZWRSZWYiOiJERU5RQTk2IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSJ9']
@@ -23,13 +41,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     stubGetTravellingFromAndTo = sinon.stub()
     stubAboutYou = sinon.stub()
 
-    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/about-you', {
-      '../../../services/data/insert-visitor': stubInsertVisitor,
-      '../../../services/data/duplicate-claim-check': stubDuplicateClaimCheck,
-      '../../../services/data/get-travelling-from-and-to': stubGetTravellingFromAndTo,
-      '../../../services/domain/about-you': stubAboutYou,
-      '../../../services/validators/url-path-validator': urlPathValidatorStub
-    })
+    const route = require('../../../../../app/routes/apply/new-eligibility/about-you')
 
     app = routeHelper.buildApp(route)
   })
@@ -41,8 +53,8 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-        })
+          sinon.toHaveBeenCalledTimes(1)
+        });
     })
   })
 
@@ -58,12 +70,12 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .expect(302)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubAboutYou)
-          sinon.assert.calledOnce(stubInsertVisitor)
-          sinon.assert.calledOnce(stubGetTravellingFromAndTo)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
+        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit');
     })
 
     it('should persist data and redirect to /apply/first-time/new-eligibility/date-of-birth?error=expired', function () {
@@ -90,12 +102,12 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubAboutYou)
+          sinon.toHaveBeenCalledTimes(1)
+          sinon.toHaveBeenCalledTimes(1)
           sinon.assert.notCalled(stubDuplicateClaimCheck)
           sinon.assert.notCalled(stubInsertVisitor)
           sinon.assert.notCalled(stubGetTravellingFromAndTo)
-        })
+        });
     })
 
     it('should respond with a 400 for invalid data', function () {

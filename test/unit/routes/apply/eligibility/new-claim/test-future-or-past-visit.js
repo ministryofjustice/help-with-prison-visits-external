@@ -1,13 +1,21 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-const expect = require('chai').expect
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjU1Ljc4NzksImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJyZWxhdGlvbnNoaXAiOiJyNCIsImJlbmVmaXQiOiJiMSIsInJlZmVyZW5jZUlkIjoiNWMyZTc3MWViNmNmMzlhNzA5IiwiZGVjcnlwdGVkUmVmIjoiVlgwUEo5MCIsImNsYWltVHlwZSI6ImZpcnN0LXRpbWUifQ==']
 const COOKIES_REPEAT = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjgyLjA3ODMzMzMzMywiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJyZWZlcmVuY2VJZCI6IjViM2UxNjBkYTRhMTUzYTcwZiIsImNsYWltVHlwZSI6InJlcGVhdCJ9']
 const COOKIES_EXPIRED = ['apvs-start-application=']
+
+jest.mock(
+  '../../../../services/validators/url-path-validator',
+  () => (function() { urlValidatorCalled = true })
+);
+
+jest.mock(
+  '../../../../services/domain/future-or-past-visit',
+  () => futureOrPastVisitStub
+);
 
 describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () {
   const ROUTE = '/apply/eligibility/new-claim/future-or-past-visit'
@@ -19,10 +27,9 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
   beforeEach(function () {
     futureOrPastVisitStub = sinon.stub()
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/future-or-past-visit', {
-      '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
-      '../../../../services/domain/future-or-past-visit': futureOrPastVisitStub
-    })
+    const route = require(
+      '../../../../../../app/routes/apply/eligibility/new-claim/future-or-past-visit'
+    )
     app = routeHelper.buildApp(route)
     urlValidatorCalled = false
   })
@@ -34,8 +41,8 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          expect(urlValidatorCalled).to.be.true  //eslint-disable-line
-        })
+          expect(urlValidatorCalled).toBe(true)  //eslint-disable-line
+        });
     })
   })
 

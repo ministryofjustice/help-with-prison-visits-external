@@ -1,5 +1,4 @@
 const RefreshmentExpense = require('../../../../../app/services/domain/expenses/refreshment-expense')
-const expect = require('chai').expect
 
 describe('services/domain/expenses/refreshment-expense', function () {
   const VALID_COST = '20'
@@ -9,7 +8,7 @@ describe('services/domain/expenses/refreshment-expense', function () {
     const expense = new RefreshmentExpense(
       VALID_COST
     )
-    expect(expense.cost).to.equal(VALID_COST)
+    expect(expense.cost).toBe(VALID_COST)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -17,6 +16,6 @@ describe('services/domain/expenses/refreshment-expense', function () {
       new RefreshmentExpense(
         INVALID_COST
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })
