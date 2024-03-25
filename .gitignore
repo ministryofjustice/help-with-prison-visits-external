@@ -39,3 +39,6 @@ app/public
 
 .localstack
 .vscode
+
+#jest
+test_results
