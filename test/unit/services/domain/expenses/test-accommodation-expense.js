@@ -20,6 +20,6 @@ describe('services/domain/expenses/accommodation-expense', function () {
         INVALID_COST,
         VALID_DURATION_OF_TRAVEL
       ).isValid()
-    }).toThrow();
+    }).toThrow()
   })
 })

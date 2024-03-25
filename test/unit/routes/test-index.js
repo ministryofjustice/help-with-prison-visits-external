@@ -23,7 +23,7 @@ describe('routes/index', function () {
         .expect(function (response) {
           expect(response.header['set-cookie'][0]).toEqual(expect.arrayContaining([COOKIE_NAME]))
         })
-        .expect(302);
+        .expect(302)
     })
 
     it('should not set the assisted digital cookie if the query paramater is not passed and respond with a 302', function () {
@@ -32,7 +32,7 @@ describe('routes/index', function () {
         .expect(function (response) {
           expect(response.header['set-cookie']).toBeUndefined()
         })
-        .expect(302);
+        .expect(302)
     })
   })
 })

@@ -11,14 +11,14 @@ let app
 jest.mock(
   '../../../services/data/insert-eligible-child',
   () => stubInsertEligibleChild
-);
+)
 
-jest.mock('../../../services/domain/eligible-child', () => stubEligibleChild);
+jest.mock('../../../services/domain/eligible-child', () => stubEligibleChild)
 
 jest.mock(
   '../../../services/validators/url-path-validator',
   () => urlPathValidatorStub
-);
+)
 
 describe('routes/apply/new-eligibility/eligible-child', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI2MzM1MjEwLjU5NDQ2NjY2OCwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InIxNCIsImJlbmVmaXQiOiJiMSIsImJlbmVmaXRPd25lciI6InllcyIsInJlZmVyZW5jZUlkIjoiNDI0MzcwMWVhYWM3NGRhNzBiYTg4ZmIyIiwiZGVjcnlwdGVkUmVmIjoiSDU3UFYxRCJ9']
@@ -42,7 +42,7 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
   })
 
@@ -61,7 +61,7 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
           sinon.toHaveBeenCalledTimes(1)
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', '/apply/first-time/new-eligibility/about-you');
+        .expect('location', '/apply/first-time/new-eligibility/about-you')
     })
 
     it('should persist data and redirect to /apply/first-time/new-eligibility/date-of-birth?error=expired', function () {

@@ -7,34 +7,34 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 jest.mock(
   '../../../../services/validators/url-path-validator',
   () => urlPathValidatorStub
-);
+)
 
 jest.mock(
   '../../../../services/routing/expenses-url-router',
   () => expenseUrlRouterStub
-);
+)
 
 jest.mock(
   '../../../../services/data/insert-car-expenses',
   () => insertCarExpensesStub
-);
+)
 
 jest.mock(
   '../../../../services/data/get-travelling-from-and-to',
   () => getTravellingFromAndToStub
-);
+)
 
-jest.mock('../../../../services/domain/expenses/car-expense', () => carExpenseStub);
+jest.mock('../../../../services/domain/expenses/car-expense', () => carExpenseStub)
 
 jest.mock(
   '../../../../services/data/get-masked-eligibility',
   () => getMaskedEligibilityStub
-);
+)
 
 jest.mock(
   '../../../../services/data/get-is-advance-claim',
   () => getIsAdvanceClaimStub
-);
+)
 
 describe('routes/apply/eligibility/claim/car-details', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
@@ -76,7 +76,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {
@@ -87,7 +87,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .expect(200)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should call parseParams', function () {
@@ -98,7 +98,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 500 if promise rejects.', function () {
@@ -118,7 +118,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .set('Cookie', COOKIES_REPEAT)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('REPEAT - should respond with a 200', function () {
@@ -129,7 +129,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .expect(200)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
@@ -148,7 +148,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .set('Cookie', COOKIES_REPEAT)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('REPEAT - should respond with a 500 if promise rejects.', function () {
@@ -181,7 +181,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302 if domain object is built and then persisted successfully', function () {
@@ -194,7 +194,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
           sinon.toHaveBeenCalledTimes(1)
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302);
+        .expect(302)
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
@@ -206,7 +206,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', REDIRECT_URL);
+        .expect('location', REDIRECT_URL)
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
@@ -217,7 +217,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
         .expect(400)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
@@ -250,7 +250,7 @@ describe('routes/apply/eligibility/claim/car-details', function () {
           sinon.toHaveBeenCalledTimes(1)
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302);
+        .expect(302)
     })
   })
 })

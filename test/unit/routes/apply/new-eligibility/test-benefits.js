@@ -8,9 +8,9 @@ const benefitsEnum = require('../../../../../app/constants/benefits-enum')
 jest.mock(
   '../../../services/validators/url-path-validator',
   () => urlPathValidatorStub
-);
+)
 
-jest.mock('../../../services/domain/benefits', () => benefitsStub);
+jest.mock('../../../services/domain/benefits', () => benefitsStub)
 
 describe('routes/apply/new-eligibility/benefits', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTAxMDE5LjU4NzAxNjY3LCJjbGFpbVR5cGUiOiJmaXJzdC10aW1lIiwiZG9iRW5jb2RlZCI6IjExMzcyNTEyMiIsInJlbGF0aW9uc2hpcCI6InI1In0=']
@@ -38,7 +38,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {
@@ -65,7 +65,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302 and redirect to prisoner page if the relationship value is valid', function () {
@@ -115,7 +115,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302);
+        .expect(302)
     })
 
     it('should respond with a 400 if domain object validation fails', function () {

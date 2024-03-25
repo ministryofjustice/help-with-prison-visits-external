@@ -6,12 +6,12 @@ const REFERENCE = 'V123456'
 const ELIGIBILITYID = null
 const DOB = '10-10-1990'
 
-jest.mock('./get-masked-eligibility', () => getMaskedEligibilityStub);
+jest.mock('./get-masked-eligibility', () => getMaskedEligibilityStub)
 
 jest.mock(
   './get-eligibility-visitor-updated-contact-detail',
   () => getEligibilityVisitorUpdateContactDetailStub
-);
+)
 
 describe('services/data/get-repeat-eligibility', function () {
   let getRepeatEligibility
@@ -36,7 +36,7 @@ describe('services/data/get-repeat-eligibility', function () {
         expect(result.EmailAddress).toBe(UPDATE_CONTACT_DETAILS.EmailAddress)
         expect(result.PhoneNumber).toBe(UPDATE_CONTACT_DETAILS.PhoneNumber)
         expect(result.FirstName).toBe(MASKED_ELIGIBILITY.FirstName)
-      });
+      })
   })
 
   it('should return contact details from the maskeed eligibility', function () {
@@ -50,6 +50,6 @@ describe('services/data/get-repeat-eligibility', function () {
         expect(result.EmailAddress).toBe(MASKED_ELIGIBILITY.EmailAddress)
         expect(result.PhoneNumber).toBe(MASKED_ELIGIBILITY.PhoneNumber)
         expect(result.FirstName).toBe(MASKED_ELIGIBILITY.FirstName)
-      });
+      })
   })
 })

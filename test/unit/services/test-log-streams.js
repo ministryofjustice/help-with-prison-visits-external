@@ -1,7 +1,7 @@
 const sinon = require('sinon')
 const config = require('../../../config')
 
-jest.mock('bunyan-prettystream', () => prettyStreamStub);
+jest.mock('bunyan-prettystream', () => prettyStreamStub)
 
 describe('services/log-streams', function () {
   const EXPECTED_LOG_LEVEL = config.LOGGING_LEVEL

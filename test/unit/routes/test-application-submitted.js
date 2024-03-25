@@ -2,7 +2,7 @@ const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const sinon = require('sinon')
 
-jest.mock('../services/validators/url-path-validator', () => urlPathValidatorStub);
+jest.mock('../services/validators/url-path-validator', () => urlPathValidatorStub)
 
 describe('routes/application-submitted', function () {
   const ROUTE = '/application-submitted'
@@ -22,7 +22,7 @@ describe('routes/application-submitted', function () {
         .get(ROUTE)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {

@@ -5,8 +5,8 @@ const encrypt = require('../../../app/services/helpers/encrypt')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
 
-jest.mock('../services/domain/already-registered', () => alreadyRegisteredStub);
-jest.mock('../services/helpers/encrypt', () => encryptStub);
+jest.mock('../services/domain/already-registered', () => alreadyRegisteredStub)
+jest.mock('../services/helpers/encrypt', () => encryptStub)
 
 describe('routes/start-already-registered', function () {
   const ROUTE = '/start-already-registered'
@@ -55,7 +55,7 @@ describe('routes/start-already-registered', function () {
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302);
+        .expect(302)
     })
 
     it('should redirect to the your-claims page with the reference and the dob set in a cookie', function () {

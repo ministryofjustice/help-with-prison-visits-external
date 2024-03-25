@@ -7,17 +7,17 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 jest.mock(
   '../../../../services/validators/url-path-validator',
   () => urlPathValidatorStub
-);
+)
 
-jest.mock('../../../../services/domain/new-claim', () => newClaimStub);
-jest.mock('../../../../services/data/insert-new-claim', () => insertNewClaimStub);
+jest.mock('../../../../services/domain/new-claim', () => newClaimStub)
+jest.mock('../../../../services/data/insert-new-claim', () => insertNewClaimStub)
 
 jest.mock(
   '../../../../services/data/insert-repeat-duplicate-claim',
   () => insertRepeatDuplicateClaimStub
-);
+)
 
-jest.mock('../../../../services/data/get-release-date', () => getReleaseDateStub);
+jest.mock('../../../../services/data/get-release-date', () => getReleaseDateStub)
 
 describe('routes/apply/eligibility/new-claim/journey-information', function () {
   const CLAIM_ID = '123'
@@ -62,7 +62,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {
@@ -85,7 +85,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should insert valid NewClaim domain object', function () {
@@ -99,7 +99,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
           sinon.toHaveBeenCalledTimes(1)
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302);
+        .expect(302)
     })
 
     it('should redirect to has-escort page if child-visitor is set to no', function () {

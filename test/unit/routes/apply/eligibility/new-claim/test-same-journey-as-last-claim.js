@@ -7,17 +7,17 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 jest.mock(
   '../../../../services/validators/url-path-validator',
   () => urlPathValidatorStub
-);
+)
 
 jest.mock(
   '../../../../services/domain/same-journey-as-last-claim',
   () => sameJourneyAsLastClaimStub
-);
+)
 
 jest.mock(
   '../../../../services/data/get-last-claim-details',
   () => getLastClaimDetailsStub
-);
+)
 
 describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', function () {
   const COOKIES_REPEAT = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MTY2LjEwMTQ4MzMzNCwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMiLCJyZWZlcmVuY2VJZCI6IjViM2UxNjBkYTRhMTUzYTcwZiIsImNsYWltVHlwZSI6InJlcGVhdCIsImFkdmFuY2VPclBhc3QiOiJwYXN0In0=']
@@ -49,7 +49,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
         .set('Cookie', COOKIES_REPEAT)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {
@@ -84,7 +84,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
         .set('Cookie', COOKIES_REPEAT)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should redirect to /new-claim/past for a repeat claim if no', function () {

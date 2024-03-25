@@ -36,13 +36,13 @@ const SINGLEPAGE_DOCUMENT_WITHOUT_CLAIM_EXPENSE_ID = {
   }
 }
 
-jest.mock('../../services/data/remove-claim-expense', () => removeClaimExpenseStub);
-jest.mock('../../services/data/remove-claim-document', () => removeClaimDocumentStub);
+jest.mock('../../services/data/remove-claim-expense', () => removeClaimExpenseStub)
+jest.mock('../../services/data/remove-claim-document', () => removeClaimDocumentStub)
 
 jest.mock(
   '../../services/data/get-claim-document-file-path',
   () => getClaimDocumentFilePathStub
-);
+)
 
 describe('routes/helpers/claim-summary-helper', function () {
   let claimSummaryHelper
@@ -133,7 +133,7 @@ describe('routes/helpers/claim-summary-helper', function () {
         .then(function (file) {
           expect(file.path).toBe(FILE_NAME)
           expect(file.name).toBe(EXPECTED_FILE_NAME)
-        });
+        })
     })
 
     it('should reject promise if the call to getDocumentFilePath rejects', function () {

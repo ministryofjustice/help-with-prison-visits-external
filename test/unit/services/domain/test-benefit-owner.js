@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-const ValidationError = require('../../../../app/services/errors/validation-error');
+const ValidationError = require('../../../../app/services/errors/validation-error')
 const BenefitOwner = require('../../../../app/services/domain/benefit-owner')
 
 let benefitOwner

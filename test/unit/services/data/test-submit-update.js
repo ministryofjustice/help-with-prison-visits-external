@@ -9,8 +9,8 @@ const BANK_DETAILS = { sortCode: '112233', accountNumber: '33445566', nameOnAcco
 const TEST_BANK_ACCOUNT_DETAILS = new BankAccountDetails(BANK_DETAILS.accountNumber, BANK_DETAILS.sortCode, BANK_DETAILS.nameOnAccount, BANK_DETAILS.rollNumber, 'yes')
 const NO_BANK_DETAILS = { required: false }
 
-jest.mock('./insert-task', () => insertTaskStub);
-jest.mock('./insert-bank-account-details-for-claim', () => insertBankDetailsStub);
+jest.mock('./insert-task', () => insertTaskStub)
+jest.mock('./insert-bank-account-details-for-claim', () => insertBankDetailsStub)
 
 describe('services/data/submit-update', function () {
   let submitUpdate
@@ -30,7 +30,7 @@ describe('services/data/submit-update', function () {
       .then(function () {
         expect(insertTaskStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '')).toBe(true)  //eslint-disable-line
         expect(insertBankDetailsStub.calledOnce).toBe(false)  //eslint-disable-line
-      });
+      })
   })
 
   it('should insert bank details if they have been updated', function () {
@@ -40,6 +40,6 @@ describe('services/data/submit-update', function () {
       .then(function () {
         expect(insertTaskStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '')).toBe(true)  //eslint-disable-line
         expect(insertBankDetailsStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID, TEST_BANK_ACCOUNT_DETAILS)).toBe(true)  //eslint-disable-line
-      });
+      })
   })
 })

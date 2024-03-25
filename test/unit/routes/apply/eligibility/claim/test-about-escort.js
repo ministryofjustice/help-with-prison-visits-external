@@ -7,10 +7,10 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 jest.mock(
   '../../../../services/validators/url-path-validator',
   () => urlPathValidatorStub
-);
+)
 
-jest.mock('../../../../services/domain/about-escort', () => aboutEscortStub);
-jest.mock('../../../../services/data/insert-escort', () => insertEscortStub);
+jest.mock('../../../../services/domain/about-escort', () => aboutEscortStub)
+jest.mock('../../../../services/data/insert-escort', () => insertEscortStub)
 
 describe('routes/apply/eligibility/claim/about-escort', function () {
   const ROUTE = '/apply/eligibility/claim/about-escort'
@@ -39,7 +39,7 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {
@@ -57,7 +57,7 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302 if domain object is built successfully', function () {
@@ -68,7 +68,7 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302);
+        .expect(302)
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {

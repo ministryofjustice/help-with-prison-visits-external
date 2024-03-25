@@ -7,17 +7,17 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 jest.mock(
   '../../../../services/domain/bank-account-details',
   () => stubBankAccountDetails
-);
+)
 
 jest.mock(
   '../../../../services/data/insert-bank-account-details-for-claim',
   () => stubInsertBankAccountDetailsForClaim
-);
+)
 
 jest.mock(
   '../../../../services/validators/url-path-validator',
   () => stubUrlPathValidator
-);
+)
 
 describe('routes/apply/eligibility/claim/bank-payment-details', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
@@ -52,7 +52,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {
@@ -70,7 +70,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302 and insert bank details', function () {

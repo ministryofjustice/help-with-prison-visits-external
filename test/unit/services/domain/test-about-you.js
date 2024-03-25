@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-const ValidationError = require('../../../../app/services/errors/validation-error');
+const ValidationError = require('../../../../app/services/errors/validation-error')
 const dateFormatter = require('../../../../app/services/date-formatter')
 const AboutYou = require('../../../../app/services/domain/about-you')
 

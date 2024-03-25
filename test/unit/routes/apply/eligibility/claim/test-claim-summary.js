@@ -27,12 +27,12 @@ const CLAIM = {
 jest.mock(
   '../../../../services/validators/url-path-validator',
   () => urlPathValidatorStub
-);
+)
 
-jest.mock('../../../../services/data/get-claim-summary', () => getClaimSummaryStub);
-jest.mock('../../../../services/domain/claim-summary', () => claimSummaryStub);
-jest.mock('../../../../services/aws-helper', () => awsHelperStub);
-jest.mock('../../../helpers/claim-summary-helper', () => claimSummaryHelperStub);
+jest.mock('../../../../services/data/get-claim-summary', () => getClaimSummaryStub)
+jest.mock('../../../../services/domain/claim-summary', () => claimSummaryStub)
+jest.mock('../../../../services/aws-helper', () => awsHelperStub)
+jest.mock('../../../helpers/claim-summary-helper', () => claimSummaryHelperStub)
 
 describe('routes/apply/eligibility/claim/claim-summary', function () {
   let app
@@ -70,7 +70,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {
@@ -97,7 +97,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302 to payment details', function () {
@@ -141,7 +141,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .get(VIEW_DOCUMENT_ROUTE)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond respond with 200 if valid path entered', function () {
@@ -164,7 +164,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(REMOVE_EXPENSE_ROUTE)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302', function () {
@@ -175,7 +175,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', ROUTE);
+        .expect('location', ROUTE)
     })
 
     it('should respond with a 500 if promise rejects.', function () {
@@ -192,7 +192,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302, call removeClaimDocument, and redirect to claim summary', function () {
@@ -204,7 +204,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           sinon.toHaveBeenCalledTimes(1)
           sinon.assert.calledWith(removeDocument, CLAIM_DOCUMENT_ID)
         })
-        .expect('location', ROUTE);
+        .expect('location', ROUTE)
     })
 
     it('should respond with a 302, call removeClaimDocument, and redirect to file upload', function () {
@@ -216,7 +216,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           sinon.toHaveBeenCalledTimes(1)
           sinon.assert.calledWith(removeDocument, CLAIM_DOCUMENT_ID)
         })
-        .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION`);
+        .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION`)
     })
 
     it('should respond with a 302, call removeClaimDocument, and redirect to file upload', function () {
@@ -229,7 +229,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
           sinon.toHaveBeenCalledTimes(1)
           sinon.assert.calledWith(removeDocument, CLAIM_DOCUMENT_ID)
         })
-        .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION${claimExpenseParam}`);
+        .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION${claimExpenseParam}`)
     })
 
     it('should respond with a 500 if promise rejects.', function () {

@@ -7,9 +7,9 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 jest.mock(
   '../../../../services/validators/url-path-validator',
   () => urlPathValidatorStub
-);
+)
 
-jest.mock('../../../../services/domain/has-child', () => hasChildStub);
+jest.mock('../../../../services/domain/has-child', () => hasChildStub)
 
 describe('routes/apply/eligibility/claim/has-child', function () {
   const ROUTE = '/apply/eligibility/claim/has-child'
@@ -37,7 +37,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {
@@ -55,7 +55,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302 if domain object is built successfully', function () {
@@ -65,7 +65,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302);
+        .expect(302)
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {

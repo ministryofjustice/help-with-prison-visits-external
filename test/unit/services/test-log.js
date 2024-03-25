@@ -1,8 +1,8 @@
 const sinon = require('sinon')
 
-jest.mock(bunyan, () => bunyanStub);
-jest.mock('./log-serializers', () => serializersStub);
-jest.mock('./log-streams', () => streamsStub);
+jest.mock(bunyan, () => bunyanStub)
+jest.mock('./log-serializers', () => serializersStub)
+jest.mock('./log-streams', () => streamsStub)
 
 describe('services/log', function () {
   let serializersStub

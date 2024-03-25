@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-const dateFormatter = require('../../../../app/services/date-formatter');
+const dateFormatter = require('../../../../app/services/date-formatter')
 const DateOfBirth = require('../../../../app/services/domain/date-of-birth')
 
 let dateOfBirth

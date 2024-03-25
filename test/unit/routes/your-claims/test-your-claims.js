@@ -2,13 +2,13 @@ const routeHelper = require('../../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const sinon = require('sinon')
 
-jest.mock('../../services/validators/url-path-validator', () => urlPathValidatorStub);
-jest.mock('../../services/data/get-historic-claims', () => getHistoricClaimsStub);
+jest.mock('../../services/validators/url-path-validator', () => urlPathValidatorStub)
+jest.mock('../../services/data/get-historic-claims', () => getHistoricClaimsStub)
 
 jest.mock(
   '../../services/data/get-historic-claims-by-reference',
   () => getHistoricClaimsByReferenceStub
-);
+)
 
 describe('/your-claims/your-claims', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjU5LjQ4NjY2NjY3LCJkZWNyeXB0ZWRSZWYiOiJRSFFDWFdaIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyJ9']
@@ -40,7 +40,7 @@ describe('/your-claims/your-claims', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200 if the database query returns a result', function () {
@@ -60,7 +60,7 @@ describe('/your-claims/your-claims', function () {
         .set('Cookie', COOKIES)
         .expect(function (response) {
           expect(response.text).toContain('"canStartNewClaim":true')
-        });
+        })
     })
 
     it('should set canStartNewClaim to false if claims in progress', function () {
@@ -71,7 +71,7 @@ describe('/your-claims/your-claims', function () {
         .set('Cookie', COOKIES)
         .expect(function (response) {
           expect(response.text).toContain('"canStartNewClaim":false')
-        });
+        })
     })
 
     it('should respond with a 302 and redirect if passed a non-matching reference number dob combination', function () {

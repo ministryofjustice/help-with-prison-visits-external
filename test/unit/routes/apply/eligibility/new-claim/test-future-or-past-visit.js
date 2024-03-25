@@ -9,13 +9,13 @@ const COOKIES_EXPIRED = ['apvs-start-application=']
 
 jest.mock(
   '../../../../services/validators/url-path-validator',
-  () => (function() { urlValidatorCalled = true })
-);
+  () => function () { urlValidatorCalled = true }
+)
 
 jest.mock(
   '../../../../services/domain/future-or-past-visit',
   () => futureOrPastVisitStub
-);
+)
 
 describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () {
   const ROUTE = '/apply/eligibility/new-claim/future-or-past-visit'
@@ -42,7 +42,7 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
         .expect(200)
         .expect(function () {
           expect(urlValidatorCalled).toBe(true)  //eslint-disable-line
-        });
+        })
     })
   })
 

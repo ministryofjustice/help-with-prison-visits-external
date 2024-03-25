@@ -5,28 +5,28 @@ const paymentMethods = require('../../../../../../app/constants/payment-method-e
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
-jest.mock('../../../../services/domain/declaration', () => stubDeclaration);
-jest.mock('../../../../services/data/submit-claim', () => stubSubmitClaim);
+jest.mock('../../../../services/domain/declaration', () => stubDeclaration)
+jest.mock('../../../../services/data/submit-claim', () => stubSubmitClaim)
 
 jest.mock(
   '../../../../services/validators/url-path-validator',
   () => stubUrlPathValidator
-);
+)
 
 jest.mock(
   '../../../../services/data/get-is-advance-claim',
   () => stubGetIsAdvanceClaim
-);
+)
 
 jest.mock(
   '../../../../services/data/check-status-for-finishing-claim',
   () => stubCheckStatusForFinishingClaim
-);
+)
 
 jest.mock(
   '../../../../services/data/check-if-reference-is-disabled',
   () => stubCheckIfReferenceIsDisabled
-);
+)
 
 describe('routes/apply/eligibility/claim/declaration', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3NDEwLjgzMzM2NjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiI1ZTI2NzIxOGFhY2UzMGE3MDciLCJkZWNyeXB0ZWRSZWYiOiJUUDVWVjg5IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6MTF9']
@@ -64,7 +64,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {
@@ -82,7 +82,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302 and call submit claim and put past in route', function () {

@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-const ClaimSummary = require('../../../../app/services/domain/claim-summary');
+const ClaimSummary = require('../../../../app/services/domain/claim-summary')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 
 describe('services/domain/claim-summary', function () {

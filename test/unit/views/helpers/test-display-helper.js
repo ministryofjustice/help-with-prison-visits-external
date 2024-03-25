@@ -3,7 +3,7 @@ const benefitsEnum = require('../../../../app/constants/benefits-enum')
 const prisonerRelationshipsEnum = require('../../../../app/constants/prisoner-relationships-enum')
 const expenseTypeEnum = require('../../../../app/constants/expense-type-enum')
 
-jest.mock('../../constants/prisons-enum', () => prisonsEnumStub);
+jest.mock('../../constants/prisons-enum', () => prisonsEnumStub)
 
 describe('views/helpers/display-helper', function () {
   const VALID_PRISONER_RELATIONSHIP_VALUE = prisonerRelationshipsEnum.WIFE.value

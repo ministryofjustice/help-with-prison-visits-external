@@ -3,10 +3,10 @@ const ValidationError = require('../../../../app/services/errors/validation-erro
 const supertest = require('supertest')
 const sinon = require('sinon')
 
-jest.mock('../../services/validators/url-path-validator', () => urlPathValidatorStub);
-jest.mock('../../services/helpers/decrypt', () => decryptStub);
-jest.mock('../../services/data/get-repeat-eligibility', () => getRepeatEligibility);
-jest.mock('../../services/domain/check-your-information', () => CheckYourInformation);
+jest.mock('../../services/validators/url-path-validator', () => urlPathValidatorStub)
+jest.mock('../../services/helpers/decrypt', () => decryptStub)
+jest.mock('../../services/data/get-repeat-eligibility', () => getRepeatEligibility)
+jest.mock('../../services/domain/check-your-information', () => CheckYourInformation)
 
 describe('/your-claims/check-your-information', function () {
   const REFERENCE = 'APVS123'
@@ -37,7 +37,7 @@ describe('/your-claims/check-your-information', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should call to get masked eligibility and respond with a 200', function () {
@@ -48,7 +48,7 @@ describe('/your-claims/check-your-information', function () {
         .expect(200)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 500 if promise rejects.', function () {
@@ -67,7 +67,7 @@ describe('/your-claims/check-your-information', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302 and redirect to /apply/eligibility/new-claim/future-or-past-visit', function () {
@@ -81,7 +81,7 @@ describe('/your-claims/check-your-information', function () {
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit');
+        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
     })
 
     it('should respond with a 302 and redirect to /apply/eligibility/new-claim/future-or-past-visit if prison GB and Country NI', function () {
@@ -95,7 +95,7 @@ describe('/your-claims/check-your-information', function () {
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit');
+        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
     })
 
     it('should redirect to /apply/eligibility/new-claim/same-journey-as-last-claim for Northern Ireland prison and Country', function () {
@@ -109,7 +109,7 @@ describe('/your-claims/check-your-information', function () {
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', '/apply/eligibility/new-claim/same-journey-as-last-claim');
+        .expect('location', '/apply/eligibility/new-claim/same-journey-as-last-claim')
     })
 
     it('should respond with a 400 for a validation error', function () {
@@ -121,7 +121,7 @@ describe('/your-claims/check-your-information', function () {
         .expect(400)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 500 if promise rejects.', function () {

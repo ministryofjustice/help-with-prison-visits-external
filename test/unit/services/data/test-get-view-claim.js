@@ -5,36 +5,36 @@ const CLAIMID = 1234
 const DOB = '10-10-1990'
 const ELIGIBILITYID = 1234
 
-jest.mock('./get-repeat-eligibility', () => getRepeatEligibilityStub);
+jest.mock('./get-repeat-eligibility', () => getRepeatEligibilityStub)
 
 jest.mock(
   './get-claim-expense-by-id-or-last-approved',
   () => getClaimExpenseByIdOrLastApprovedStub
-);
+)
 
 jest.mock(
   './get-claim-children-by-id-or-last-approved',
   () => getClaimChildrenByIdOrLastApprovedStub
-);
+)
 
-jest.mock('./get-historic-claim-by-claim-id', () => getHistoricClaimByClaimIdStub);
+jest.mock('./get-historic-claim-by-claim-id', () => getHistoricClaimByClaimIdStub)
 
 jest.mock(
   './get-claim-documents-historic-claim',
   () => getClaimDocumentsHistoricClaimStub
-);
+)
 
 jest.mock(
   './get-all-claim-documents-by-claim-id',
   () => getAllClaimDocumentsByClaimIdStub
-);
+)
 
-jest.mock('./get-claim-events', () => getClaimEventsStub);
+jest.mock('./get-claim-events', () => getClaimEventsStub)
 
 jest.mock(
   '../helpers/sort-view-claim-results-helper',
   () => sortViewClaimResultsHelperStub
-);
+)
 
 describe('services/data/get-view-claim', function () {
   let getViewClaim
@@ -70,6 +70,6 @@ describe('services/data/get-view-claim', function () {
         expect(getClaimDocumentsHistoricClaimStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID)).toBe(true)  //eslint-disable-line
         expect(getAllClaimDocumentsByClaimIdStub.calledWith(CLAIMID, REFERENCE, ELIGIBILITYID)).toBe(true)  //eslint-disable-line
         sinon.toHaveBeenCalledTimes(1)
-      });
+      })
   })
 })

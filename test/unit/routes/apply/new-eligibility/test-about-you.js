@@ -10,24 +10,24 @@ let stubGetTravellingFromAndTo
 let stubAboutYou
 let app
 
-jest.mock('../../../services/data/insert-visitor', () => stubInsertVisitor);
+jest.mock('../../../services/data/insert-visitor', () => stubInsertVisitor)
 
 jest.mock(
   '../../../services/data/duplicate-claim-check',
   () => stubDuplicateClaimCheck
-);
+)
 
 jest.mock(
   '../../../services/data/get-travelling-from-and-to',
   () => stubGetTravellingFromAndTo
-);
+)
 
-jest.mock('../../../services/domain/about-you', () => stubAboutYou);
+jest.mock('../../../services/domain/about-you', () => stubAboutYou)
 
 jest.mock(
   '../../../services/validators/url-path-validator',
   () => urlPathValidatorStub
-);
+)
 
 describe('routes/apply/new-eligibility/about-you', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI1OTQ4MDkwLjYyODkxNjY2NiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwiYmVuZWZpdE93bmVyIjoieWVzIiwicmVmZXJlbmNlSWQiOiI0ZTMzMDkxZmJkY2YzZmE3MGFhYjhhYjUiLCJkZWNyeXB0ZWRSZWYiOiJERU5RQTk2IiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSJ9']
@@ -54,7 +54,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .expect(200)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
   })
 
@@ -75,7 +75,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
           sinon.toHaveBeenCalledTimes(1)
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit');
+        .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
     })
 
     it('should persist data and redirect to /apply/first-time/new-eligibility/date-of-birth?error=expired', function () {
@@ -107,7 +107,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
           sinon.assert.notCalled(stubDuplicateClaimCheck)
           sinon.assert.notCalled(stubInsertVisitor)
           sinon.assert.notCalled(stubGetTravellingFromAndTo)
-        });
+        })
     })
 
     it('should respond with a 400 for invalid data', function () {

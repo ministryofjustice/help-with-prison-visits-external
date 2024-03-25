@@ -7,29 +7,29 @@ const ValidationError = require('../../../../../../app/services/errors/validatio
 jest.mock(
   '../../../../services/validators/url-path-validator',
   () => urlPathValidatorStub
-);
+)
 
 jest.mock(
   '../../../../services/routing/expenses-url-router',
   () => expenseUrlRouterStub
-);
+)
 
-jest.mock('../../../../services/data/insert-expense', () => insertExpenseStub);
+jest.mock('../../../../services/data/insert-expense', () => insertExpenseStub)
 
 jest.mock(
   '../../../../services/domain/expenses/plane-expense',
   () => planeExpenseStub
-);
+)
 
 jest.mock(
   '../../../../services/data/get-expense-owner-data',
   () => getExpenseOwnerDataStub
-);
+)
 
 jest.mock(
   '../../../../services/data/get-is-advance-claim',
   () => getIsAdvanceClaimStub
-);
+)
 
 describe('routes/apply/eligibility/claim/plane-details', function () {
   const ROUTE = '/apply/eligibility/claim/plane'
@@ -65,7 +65,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should call the function to get expense owner data', function () {
@@ -75,7 +75,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 200', function () {
@@ -86,7 +86,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
         .expect(200)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should call parseParams', function () {
@@ -97,7 +97,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
   })
 
@@ -112,7 +112,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
         .set('Cookie', COOKIES)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 302 if domain object is built and then persisted successfully', function () {
@@ -125,7 +125,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
           sinon.toHaveBeenCalledTimes(1)
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect(302);
+        .expect(302)
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
@@ -145,7 +145,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
         })
-        .expect('location', REDIRECT_URL);
+        .expect('location', REDIRECT_URL)
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
@@ -157,7 +157,7 @@ describe('routes/apply/eligibility/claim/plane-details', function () {
         .expect(400)
         .expect(function () {
           sinon.toHaveBeenCalledTimes(1)
-        });
+        })
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {

@@ -1,8 +1,8 @@
 /* eslint-disable no-new */
-const sinon = require('sinon');
+const sinon = require('sinon')
 const UploadError = require('../../../../app/services/errors/upload-error')
 
-jest.mock(fs, () => fsStub);
+jest.mock(fs, () => fsStub)
 
 describe('services/domain/file-upload', function () {
   const VALID_ID = '1'
