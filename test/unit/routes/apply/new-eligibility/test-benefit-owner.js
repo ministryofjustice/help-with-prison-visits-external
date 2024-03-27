@@ -1,12 +1,10 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
-let urlPathValidatorStub
-let stubBenefitOwner
-let stubInsertBenefitOwner
+const mockUrlPathValidator = jest.fn()
+const mockBenefitOwner = jest.fn()
+const mockInsertBenefitOwner = jest.fn()
 let app
 
 describe('routes/apply/new-eligibility/benefit-owner', function () {
@@ -15,17 +13,23 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
   const ROUTE = '/apply/first-time/new-eligibility/benefit-owner'
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    stubBenefitOwner = sinon.stub()
-    stubInsertBenefitOwner = sinon.stub()
+    jest.mock(
+      '../../../../../app/services/data/insert-benefit-owner',
+      () => mockInsertBenefitOwner
+    )
+    jest.mock('../../../../../app/services/domain/benefit-owner', () => mockBenefitOwner)
+    jest.mock(
+      '../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
 
-    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefit-owner', {
-      '../../../services/data/insert-benefit-owner': stubInsertBenefitOwner,
-      '../../../services/domain/benefit-owner': stubBenefitOwner,
-      '../../../services/validators/url-path-validator': urlPathValidatorStub
-    })
+    const route = require('../../../../../app/routes/apply/new-eligibility/benefit-owner')
 
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -34,7 +38,7 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
   })
@@ -42,17 +46,17 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to first-time/about-you for valid data', function () {
       const newBenefitOwner = {}
-      stubInsertBenefitOwner.resolves({ reference: 'NEWREF1', eligibilityId: 1234 })
-      stubBenefitOwner.returns(newBenefitOwner)
+      mockInsertBenefitOwner.mockResolvedValue({ reference: 'NEWREF1', eligibilityId: 1234 })
+      mockBenefitOwner.mockReturnValue(newBenefitOwner)
 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubBenefitOwner)
-          sinon.assert.calledOnce(stubInsertBenefitOwner)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
+          expect(mockBenefitOwner).toHaveBeenCalledTimes(1)
+          expect(mockInsertBenefitOwner).toHaveBeenCalledTimes(1)
         })
         .expect('location', '/apply/first-time/new-eligibility/about-you')
     })
@@ -61,8 +65,8 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
       const newReference = 'NEWREF1'
       const newEligibilityId = 1234
       const newBenefitOwner = {}
-      stubBenefitOwner.returns(newBenefitOwner)
-      stubInsertBenefitOwner.resolves({ reference: newReference, eligibilityId: newEligibilityId })
+      mockBenefitOwner.mockReturnValue(newBenefitOwner)
+      mockInsertBenefitOwner.mockResolvedValue({ reference: newReference, eligibilityId: newEligibilityId })
 
       return supertest(app)
         .post(ROUTE)
@@ -72,7 +76,7 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
     })
 
     it('should respond with a 400 for invalid data', function () {
-      stubBenefitOwner.throws(new ValidationError())
+      mockBenefitOwner.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -80,7 +84,7 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      stubBenefitOwner.throws(new Error())
+      mockBenefitOwner.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -88,7 +92,7 @@ describe('routes/apply/new-eligibility/benefit-owner', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      stubInsertBenefitOwner.rejects()
+      mockInsertBenefitOwner.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

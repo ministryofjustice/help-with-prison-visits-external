@@ -1,5 +1,3 @@
-const expect = require('chai').expect
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const MASKED_ELIGIBILITY = { EligibilityId: '1', FirstName: 'Bo*', EmailAddress: 'test@test.com', PhoneNumber: '87654321' }
@@ -8,46 +6,50 @@ const REFERENCE = 'V123456'
 const ELIGIBILITYID = null
 const DOB = '10-10-1990'
 
+jest.mock('./get-masked-eligibility', () => mockGetMaskedEligibility)
+
+jest.mock(
+  './get-eligibility-visitor-updated-contact-detail',
+  () => getEligibilityVisitorUpdateContactDetailStub
+)
+
 describe('services/data/get-repeat-eligibility', function () {
-  let getRepeatEligibility
-  let getMaskedEligibilityStub
+  let mockGetRepeatEligibility
+  let mockGetMaskedEligibility
   let getEligibilityVisitorUpdateContactDetailStub
 
-  before(function () {
-    getMaskedEligibilityStub = sinon.stub()
-    getEligibilityVisitorUpdateContactDetailStub = sinon.stub()
+  beforeAll(function () {
+    mockGetMaskedEligibility = jest.fn()
+    getEligibilityVisitorUpdateContactDetailStub = jest.fn()
 
-    getRepeatEligibility = proxyquire('../../../../app/services/data/get-repeat-eligibility', {
-      './get-masked-eligibility': getMaskedEligibilityStub,
-      './get-eligibility-visitor-updated-contact-detail': getEligibilityVisitorUpdateContactDetailStub
-    })
+    mockGetRepeatEligibility = require('../../../../app/services/data/get-repeat-eligibility')
   })
 
   it('should return contact details from updated contact', function () {
-    getMaskedEligibilityStub.resolves(MASKED_ELIGIBILITY)
-    getEligibilityVisitorUpdateContactDetailStub.resolves(UPDATE_CONTACT_DETAILS)
-    return getRepeatEligibility(REFERENCE, DOB, ELIGIBILITYID)
+    mockGetMaskedEligibility.mockResolvedValue(MASKED_ELIGIBILITY)
+    getEligibilityVisitorUpdateContactDetailStub.mockResolvedValue(UPDATE_CONTACT_DETAILS)
+    return mockGetRepeatEligibility(REFERENCE, DOB, ELIGIBILITYID)
       .then(function (result) {
-        expect(getMaskedEligibilityStub.calledWith(REFERENCE, DOB, ELIGIBILITYID)).to.be.true  //eslint-disable-line
-        expect(getEligibilityVisitorUpdateContactDetailStub.calledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)).to.be.true  //eslint-disable-line
+        expect(mockGetMaskedEligibility.hasBeenCalledWith(REFERENCE, DOB, ELIGIBILITYID)).toBe(true)  //eslint-disable-line
+        expect(getEligibilityVisitorUpdateContactDetailStub.hasBeenCalledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)).toBe(true)  //eslint-disable-line
 
-        expect(result.EmailAddress).to.equal(UPDATE_CONTACT_DETAILS.EmailAddress)
-        expect(result.PhoneNumber).to.equal(UPDATE_CONTACT_DETAILS.PhoneNumber)
-        expect(result.FirstName).to.equal(MASKED_ELIGIBILITY.FirstName)
+        expect(result.EmailAddress).toBe(UPDATE_CONTACT_DETAILS.EmailAddress)
+        expect(result.PhoneNumber).toBe(UPDATE_CONTACT_DETAILS.PhoneNumber)
+        expect(result.FirstName).toBe(MASKED_ELIGIBILITY.FirstName)
       })
   })
 
   it('should return contact details from the maskeed eligibility', function () {
-    getMaskedEligibilityStub.resolves(MASKED_ELIGIBILITY)
-    getEligibilityVisitorUpdateContactDetailStub.resolves({})
-    return getRepeatEligibility(REFERENCE, DOB, ELIGIBILITYID)
+    mockGetMaskedEligibility.mockResolvedValue(MASKED_ELIGIBILITY)
+    getEligibilityVisitorUpdateContactDetailStub.mockResolvedValue({})
+    return mockGetRepeatEligibility(REFERENCE, DOB, ELIGIBILITYID)
       .then(function (result) {
-        expect(getMaskedEligibilityStub.calledWith(REFERENCE, DOB, ELIGIBILITYID)).to.be.true  //eslint-disable-line
-        expect(getEligibilityVisitorUpdateContactDetailStub.calledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)).to.be.true  //eslint-disable-line
+        expect(mockGetMaskedEligibility.hasBeenCalledWith(REFERENCE, DOB, ELIGIBILITYID)).toBe(true)  //eslint-disable-line
+        expect(getEligibilityVisitorUpdateContactDetailStub.hasBeenCalledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)).toBe(true)  //eslint-disable-line
 
-        expect(result.EmailAddress).to.equal(MASKED_ELIGIBILITY.EmailAddress)
-        expect(result.PhoneNumber).to.equal(MASKED_ELIGIBILITY.PhoneNumber)
-        expect(result.FirstName).to.equal(MASKED_ELIGIBILITY.FirstName)
+        expect(result.EmailAddress).toBe(MASKED_ELIGIBILITY.EmailAddress)
+        expect(result.PhoneNumber).toBe(MASKED_ELIGIBILITY.PhoneNumber)
+        expect(result.FirstName).toBe(MASKED_ELIGIBILITY.FirstName)
       })
   })
 })

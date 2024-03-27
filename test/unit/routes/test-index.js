@@ -1,7 +1,6 @@
 const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
 const route = require('../../../app/routes/index')
-const expect = require('chai').expect
 
 describe('routes/index', function () {
   const ASSISTED_DIGITAL_ROUTE = '/assisted-digital'
@@ -10,6 +9,10 @@ describe('routes/index', function () {
 
   beforeEach(function () {
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ASSISTED_DIGITAL_ROUTE}`, function () {
@@ -22,7 +25,7 @@ describe('routes/index', function () {
         .get(ASSISTED_DIGITAL_ROUTE)
         .query(COOKIE)
         .expect(function (response) {
-          expect(response.header['set-cookie'][0]).to.contain(COOKIE_NAME)
+          expect(response.header['set-cookie'][0]).toEqual(expect.arrayContaining([COOKIE_NAME]))
         })
         .expect(302)
     })
@@ -31,7 +34,7 @@ describe('routes/index', function () {
       return supertest(app)
         .get(ASSISTED_DIGITAL_ROUTE)
         .expect(function (response) {
-          expect(response.header['set-cookie']).to.equal(undefined)
+          expect(response.header['set-cookie']).toBeUndefined()
         })
         .expect(302)
     })

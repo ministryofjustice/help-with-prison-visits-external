@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
@@ -13,21 +11,32 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
 
   let app
 
-  let urlPathValidatorStub
-  let sameJourneyAsLastClaimStub
-  let getLastClaimDetailsStub
+  const mockUrlPathValidator = jest.fn()
+  const mockSameJourneyAsLastClaim = jest.fn()
+  const mockGetLastClaimDetails = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    sameJourneyAsLastClaimStub = sinon.stub()
-    getLastClaimDetailsStub = sinon.stub()
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock(
+      '../../../../../../app/services/domain/same-journey-as-last-claim',
+      () => mockSameJourneyAsLastClaim
+    )
+    jest.mock(
+      '../../../../../../app/services/data/get-last-claim-details',
+      () => mockGetLastClaimDetails
+    )
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/same-journey-as-last-claim', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/same-journey-as-last-claim': sameJourneyAsLastClaimStub,
-      '../../../../services/data/get-last-claim-details': getLastClaimDetailsStub
-    })
+    const route = require(
+      '../../../../../../app/routes/apply/eligibility/new-claim/same-journey-as-last-claim'
+    )
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -36,12 +45,12 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
         .get(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 200', function () {
-      getLastClaimDetailsStub.resolves({ expenses: [REFERENCE] })
+      mockGetLastClaimDetails.mockResolvedValue({ expenses: [REFERENCE] })
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
@@ -49,7 +58,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 302 when no expenses and cannot duplicate claim', function () {
-      getLastClaimDetailsStub.resolves({ expenses: [] })
+      mockGetLastClaimDetails.mockResolvedValue({ expenses: [] })
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
@@ -57,7 +66,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      getLastClaimDetailsStub.rejects()
+      mockGetLastClaimDetails.mockRejectedValue()
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
@@ -71,12 +80,12 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should redirect to /new-claim/past for a repeat claim if no', function () {
-      sameJourneyAsLastClaimStub.returns({})
+      mockSameJourneyAsLastClaim.mockReturnValue({})
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
@@ -85,7 +94,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should redirect to /new-claim/past for a repeat-duplicate claim if yes', function () {
-      sameJourneyAsLastClaimStub.returns({})
+      mockSameJourneyAsLastClaim.mockReturnValue({})
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
@@ -102,8 +111,8 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      sameJourneyAsLastClaimStub.throws(new ValidationError())
-      getLastClaimDetailsStub.resolves({})
+      mockSameJourneyAsLastClaim.throws(new ValidationError())
+      mockGetLastClaimDetails.mockResolvedValue({})
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
@@ -111,8 +120,8 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      sameJourneyAsLastClaimStub.throws(new ValidationError())
-      getLastClaimDetailsStub.rejects()
+      mockSameJourneyAsLastClaim.throws(new ValidationError())
+      mockGetLastClaimDetails.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
@@ -120,7 +129,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      sameJourneyAsLastClaimStub.throws(new Error())
+      mockSameJourneyAsLastClaim.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)

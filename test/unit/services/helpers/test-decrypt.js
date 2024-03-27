@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const decrypt = require('../../../../app/services/helpers/decrypt')
 
 describe('services/helpers/decrypt', function () {
@@ -6,7 +5,7 @@ describe('services/helpers/decrypt', function () {
     try {
       decrypt('invalid value')
     } catch (err) {
-      expect(err.message).to.equal('Error when decrypting value')
+      expect(err.message).toBe('Error when decrypting value')
     }
   })
 })

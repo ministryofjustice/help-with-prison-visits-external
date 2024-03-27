@@ -1,5 +1,8 @@
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
+
+jest.mock(bunyan, () => bunyanStub)
+jest.mock('./log-serializers', () => serializersStub)
+jest.mock('./log-streams', () => streamsStub)
 
 describe('services/log', function () {
   let serializersStub
@@ -7,27 +10,23 @@ describe('services/log', function () {
   let bunyanStub
 
   beforeEach(function () {
-    serializersStub = sinon.stub()
+    serializersStub = jest.fn()
     streamsStub = {
-      buildConsoleStream: sinon.stub(),
-      buildFileStream: sinon.stub()
+      buildConsoleStream: jest.fn(),
+      buildFileStream: jest.fn()
     }
     bunyanStub = {
       createLogger: function () {
         return {
-          addStream: sinon.stub()
+          addStream: jest.fn()
         }
       }
     }
   })
 
   it('should add the buildConsoleStream and buildFileStream', function () {
-    proxyquire('../../../app/services/log', {
-      bunyan: bunyanStub,
-      './log-serializers': serializersStub,
-      './log-streams': streamsStub
-    })
-    sinon.assert.calledOnce(streamsStub.buildConsoleStream)
-    sinon.assert.calledOnce(streamsStub.buildFileStream)
+    require('../../../app/services/log')
+    sinon.toHaveBeenCalledTimes(1)
+    sinon.toHaveBeenCalledTimes(1)
   })
 })

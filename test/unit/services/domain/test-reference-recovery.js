@@ -1,5 +1,4 @@
 const ReferenceRecovery = require('../../../../app/services/domain/reference-recovery')
-const expect = require('chai').expect
 
 describe('services/domain/reference-recovery', function () {
   const VALID_EMAIL = 'test@test.com'
@@ -9,19 +8,19 @@ describe('services/domain/reference-recovery', function () {
 
   it('should construct a domain object given valid input', function () {
     const referenceRecovery = new ReferenceRecovery(VALID_EMAIL, VALID_PRISONER_NUMBER)
-    expect(referenceRecovery.EmailAddress).to.equal(VALID_EMAIL)
-    expect(referenceRecovery.PrisonerNumber).to.equal(VALID_PRISONER_NUMBER)
+    expect(referenceRecovery.EmailAddress).toBe(VALID_EMAIL)
+    expect(referenceRecovery.PrisonerNumber).toBe(VALID_PRISONER_NUMBER)
   })
 
   it('should throw an error if passed invalid email address', function () {
     expect(function () {
       new ReferenceRecovery(INVALID_EMAIL, VALID_PRISONER_NUMBER).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw an error if passed invalid prisoner number', function () {
     expect(function () {
       new ReferenceRecovery(VALID_EMAIL, INVALID_PRISONER_NUMBER).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })

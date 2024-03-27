@@ -3,34 +3,34 @@
 // var clamAv
 // var isInfectedSub
 // var clamStub
-// var configStub
+// var mockConfig
 
 // describe('services/clam-av', function () {
 //   beforeEach(function () {
-//     configStub = sinon.stub()
-//     isInfectedSub = sinon.stub().resolves()
-//     clamStub = sinon.stub().resolves({
+//     mockConfig = jest.fn()
+//     isInfectedSub = jest.fn().mockResolvedValue()
+//     clamStub = jest.fn().mockResolvedValue({
 //       is_infected: isInfectedSub,
-//       init: sinon.stub().resolves()
+//       init: jest.fn().mockResolvedValue()
 //     })
 
 //     clamAv = proxyquire('../../../app/services/clam-av', {
 //       clam: clamStub,
-//       '../../config': configStub
+//       '../../config': mockConfig
 //     })
 //   })
 
 //   describe('scan for malware', function () {
 //     it('should scan file when malware scanning is enabled', function () {
-//       configStub.ENABLE_MALWARE_SCANNING = 'true'
-//       console.log(configStub.ENABLE_MALWARE_SCANNING)
+//       mockConfig.ENABLE_MALWARE_SCANNING = 'true'
+//       console.log(mockConfig.ENABLE_MALWARE_SCANNING)
 //       clamAv.scan('/tmp/dummy/path')
 //       sinon.assert.calledOnce(isInfectedSub)
 //     })
 
 //     it('should not scan file when malware scanning is disabled', function () {
-//       configStub.ENABLE_MALWARE_SCANNING = 'false'
-//       console.log(configStub.ENABLE_MALWARE_SCANNING)
+//       mockConfig.ENABLE_MALWARE_SCANNING = 'false'
+//       console.log(mockConfig.ENABLE_MALWARE_SCANNING)
 //       clamAv.scan('/tmp/dummy/path')
 //       sinon.assert.notCalled(isInfectedSub)
 //     })

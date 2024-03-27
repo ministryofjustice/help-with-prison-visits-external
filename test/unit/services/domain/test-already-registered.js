@@ -1,6 +1,5 @@
 const AlreadyRegisterd = require('../../../../app/services/domain/already-registered')
 const dateFormatter = require('../../../../app/services/date-formatter')
-const expect = require('chai').expect
 
 describe('services/domain/already-registered', function () {
   const VALID_REFERNCE = 'APVS123'
@@ -17,9 +16,9 @@ describe('services/domain/already-registered', function () {
       VALID_MONTH,
       VALID_YEAR
     )
-    expect(alreadyRegistered.reference).to.equal(VALID_REFERNCE)
-    expect(alreadyRegistered.dob).to.deep.equal(dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR))
-    expect(alreadyRegistered.dobEncoded).to.deep.equal(dateFormatter.encodeDate(dateFormatter.buildFromDateString(VALID_DOB)))
+    expect(alreadyRegistered.reference).toBe(VALID_REFERNCE)
+    expect(alreadyRegistered.dob).toEqual(dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR))
+    expect(alreadyRegistered.dobEncoded).toEqual(dateFormatter.encodeDate(dateFormatter.buildFromDateString(VALID_DOB)))
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -30,6 +29,6 @@ describe('services/domain/already-registered', function () {
         VALID_MONTH,
         VALID_YEAR
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })

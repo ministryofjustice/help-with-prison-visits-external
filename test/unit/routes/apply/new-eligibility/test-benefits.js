@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 const benefitsEnum = require('../../../../../app/constants/benefits-enum')
@@ -14,18 +12,22 @@ describe('routes/apply/new-eligibility/benefits', function () {
 
   let app
 
-  let urlPathValidatorStub
-  let benefitsStub
+  const mockUrlPathValidator = jest.fn()
+  const mockBenefits = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    benefitsStub = sinon.stub()
+    jest.mock(
+      '../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock('../../../../../app/services/domain/benefits', () => mockBenefits)
 
-    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/benefits', {
-      '../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../services/domain/benefits': benefitsStub
-    })
+    const route = require('../../../../../app/routes/apply/new-eligibility/benefits')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -34,7 +36,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -61,12 +63,12 @@ describe('routes/apply/new-eligibility/benefits', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 302 and redirect to prisoner page if the relationship value is valid', function () {
-      benefitsStub.returns(VALID_PRISONER_BENEFIT)
+      mockBenefits.mockReturnValue(VALID_PRISONER_BENEFIT)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -75,7 +77,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
     })
 
     it('should respond with a 302 and redirect to /apply/first-time/new-eligibility/date-of-birth?error=expired', function () {
-      benefitsStub.returns(VALID_PRISONER_BENEFIT)
+      mockBenefits.mockReturnValue(VALID_PRISONER_BENEFIT)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
@@ -86,7 +88,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
     it('should respond with a 302 and redirect to prisoner page with reference/prisoner-number query params if repeat-new-eligibility', function () {
       const REPEAT_NEW_ELIGIBILITY_ROUTE = '/apply/repeat-new-eligibility/new-eligibility/benefits'
 
-      benefitsStub.returns(VALID_PRISONER_BENEFIT)
+      mockBenefits.mockReturnValue(VALID_PRISONER_BENEFIT)
 
       return supertest(app)
         .post(REPEAT_NEW_ELIGIBILITY_ROUTE)
@@ -96,7 +98,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
     })
 
     it('should respond with a 302 and redirect to /eligibility-fail if the benefit is set to none', function () {
-      benefitsStub.returns(INVALID_PRISONER_BENEFIT)
+      mockBenefits.mockReturnValue(INVALID_PRISONER_BENEFIT)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -105,18 +107,18 @@ describe('routes/apply/new-eligibility/benefits', function () {
     })
 
     it('should respond with a 302 if domain object is built and then persisted successfully', function () {
-      benefitsStub.returns(VALID_PRISONER_BENEFIT)
+      mockBenefits.mockReturnValue(VALID_PRISONER_BENEFIT)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(benefitsStub)
+          expect(mockBenefits).toHaveBeenCalledTimes(1)
         })
         .expect(302)
     })
 
     it('should respond with a 400 if domain object validation fails', function () {
-      benefitsStub.throws(new ValidationError())
+      mockBenefits.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -124,7 +126,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
     })
 
     it('should respond with a 500 if a non-validation error is thrown', function () {
-      benefitsStub.throws(new Error())
+      mockBenefits.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

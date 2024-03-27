@@ -1,12 +1,10 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
-let urlPathValidatorStub
-let stubEligibleChild
-let stubInsertEligibleChild
+const mockUrlPathValidator = jest.fn()
+const mockEligibleChild = jest.fn()
+const mockInsertEligibleChild = jest.fn()
 let app
 
 describe('routes/apply/new-eligibility/eligible-child', function () {
@@ -15,17 +13,23 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
   const ROUTE = '/apply/first-time/new-eligibility/eligible-child'
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    stubEligibleChild = sinon.stub()
-    stubInsertEligibleChild = sinon.stub()
+    jest.mock(
+      '../../../../../app/services/data/insert-eligible-child',
+      () => mockInsertEligibleChild
+    )
+    jest.mock('../../../../../app/services/domain/eligible-child', () => mockEligibleChild)
+    jest.mock(
+      '../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
 
-    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/eligible-child', {
-      '../../../services/data/insert-eligible-child': stubInsertEligibleChild,
-      '../../../services/domain/eligible-child': stubEligibleChild,
-      '../../../services/validators/url-path-validator': urlPathValidatorStub
-    })
+    const route = require('../../../../../app/routes/apply/new-eligibility/eligible-child')
 
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -34,7 +38,7 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
   })
@@ -42,17 +46,17 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to first-time/about-you for valid data', function () {
       const newEligibleChild = {}
-      stubEligibleChild.returns(newEligibleChild)
-      stubInsertEligibleChild.resolves({ reference: 'NEWREF1', eligibilityId: 1234 })
+      mockEligibleChild.mockReturnValue(newEligibleChild)
+      mockInsertEligibleChild.mockResolvedValue({ reference: 'NEWREF1', eligibilityId: 1234 })
 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubEligibleChild)
-          sinon.assert.calledOnce(stubInsertEligibleChild)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
+          expect(mockEligibleChild).toHaveBeenCalledTimes(1)
+          expect(mockInsertEligibleChild).toHaveBeenCalledTimes(1)
         })
         .expect('location', '/apply/first-time/new-eligibility/about-you')
     })
@@ -61,8 +65,8 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
       const newReference = 'NEWREF1'
       const newEligibilityId = 1234
       const newEligibleChild = {}
-      stubEligibleChild.returns(newEligibleChild)
-      stubInsertEligibleChild.resolves({ reference: newReference, eligibilityId: newEligibilityId })
+      mockEligibleChild.mockReturnValue(newEligibleChild)
+      mockInsertEligibleChild.mockResolvedValue({ reference: newReference, eligibilityId: newEligibilityId })
 
       return supertest(app)
         .post(ROUTE)
@@ -72,7 +76,7 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
     })
 
     it('should respond with a 400 for invalid data', function () {
-      stubEligibleChild.throws(new ValidationError())
+      mockEligibleChild.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -80,7 +84,7 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      stubEligibleChild.throws(new Error())
+      mockEligibleChild.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -88,7 +92,7 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      stubInsertEligibleChild.rejects()
+      mockInsertEligibleChild.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

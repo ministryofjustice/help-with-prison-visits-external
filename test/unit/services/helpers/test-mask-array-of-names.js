@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const maskArrayOfNames = require('../../../../app/services/helpers/mask-array-of-names')
 
 const LAST_NAME_1 = 'Bloggs'
@@ -15,7 +14,7 @@ const NAMES = [
 describe('services/helpers/mask-array-of-names', function () {
   it('should return the masked array of input strings', function () {
     const maskedArray = maskArrayOfNames(NAMES)
-    expect(maskedArray[0].LastName).to.equal(LAST_NAME_MASKED_1)
-    expect(maskedArray[1].LastName).to.equal(LAST_NAME_MASKED_2)
+    expect(maskedArray[0].LastName).toBe(LAST_NAME_MASKED_1)
+    expect(maskedArray[1].LastName).toBe(LAST_NAME_MASKED_2)
   })
 })

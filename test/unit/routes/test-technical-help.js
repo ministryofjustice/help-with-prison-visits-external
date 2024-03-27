@@ -1,7 +1,5 @@
 const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
 
@@ -18,23 +16,26 @@ describe('routes/help', function () {
   }
 
   let app
-  let technicalHelpStub
-  let configStub
-  let axiosStub
+  let mockAxios
+  let mockConfig
+  const mockTechnicalHelp = jest.fn()
+  const mockPost = jest.fn()
 
   beforeEach(function () {
-    technicalHelpStub = sinon.stub()
-    axiosStub = {
-      post: sinon.stub().resolves({
-        status: 201,
-        data: {
-          ticket: {
-            id: '123'
-          }
+    mockPost.mockResolvedValue({
+      status: 201,
+      data: {
+        ticket: {
+          id: '123'
         }
-      })
+      }
+    })
+
+    mockAxios = {
+      post: mockPost
     }
-    configStub = {
+
+    mockConfig = {
       ZENDESK_ENABLED: 'true',
       ZENDESK_PROD_ENVIRONMENT: 'true',
       ZENDESK_API_URL: 'http://test/',
@@ -42,12 +43,17 @@ describe('routes/help', function () {
       ZENDESK_API_KEY: '123'
     }
 
-    const route = proxyquire('../../../app/routes/technical-help', {
-      '../services/domain/technical-help': technicalHelpStub,
-      '../../config': configStub,
-      axios: axiosStub
-    })
+    jest.mock('../../../app/services/domain/technical-help', () => mockTechnicalHelp)
+    jest.mock('../../../app/config', () => mockConfig)
+    jest.mock('axios', () => mockAxios)
+
+    const route = require('../../../app/routes/technical-help')
+
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -60,25 +66,25 @@ describe('routes/help', function () {
 
   describe(`POST ${ROUTE}`, function () {
     it('should respond with a 302', function () {
-      technicalHelpStub.returns(VALID_DATA)
+      mockTechnicalHelp.mockReturnValue(VALID_DATA)
       return supertest(app)
         .post(ROUTE)
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(technicalHelpStub, VALID_DATA.name, VALID_DATA.emailAddress, VALID_DATA.referenceNumber, VALID_DATA.day, VALID_DATA.month, VALID_DATA.year, VALID_DATA.issue)
+          expect(mockTechnicalHelp).hasBeenCalledWith(VALID_DATA.name, VALID_DATA.emailAddress, VALID_DATA.referenceNumber, VALID_DATA.day, VALID_DATA.month, VALID_DATA.year, VALID_DATA.issue)
         })
     })
 
     it('should respond with a 400 if validation fails', function () {
-      technicalHelpStub.throws(new ValidationError())
+      mockTechnicalHelp.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if a non-validation error occurs.', function () {
-      technicalHelpStub.throws(new Error())
+      mockTechnicalHelp.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .expect(500)

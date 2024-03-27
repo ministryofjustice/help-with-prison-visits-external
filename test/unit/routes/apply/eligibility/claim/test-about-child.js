@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
@@ -14,21 +12,24 @@ describe('routes/apply/eligibility/claim/about-child', function () {
 
   let app
 
-  let urlPathValidatorStub
-  let aboutChildStub
-  let insertChildStub
+  const mockUrlPathValidator = jest.fn()
+  const mockAboutChild = jest.fn()
+  const mockInsertChild = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    aboutChildStub = sinon.stub()
-    insertChildStub = sinon.stub()
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock('../../../../../../app/services/domain/about-child', () => mockAboutChild)
+    jest.mock('../../../../../../app/services/data/insert-child', () => mockInsertChild)
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/about-child', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/about-child': aboutChildStub,
-      '../../../../services/data/insert-child': insertChildStub
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/about-child')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -37,7 +38,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -53,24 +54,24 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     const ABOUT_CHILD = {}
 
     it('should call the URL Path Validator', function () {
-      insertChildStub.resolves()
+      mockInsertChild.mockResolvedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should insert valid NewClaim domain object', function () {
-      aboutChildStub.returns(ABOUT_CHILD)
-      insertChildStub.resolves(CLAIMID)
+      mockAboutChild.mockReturnValue(ABOUT_CHILD)
+      mockInsertChild.mockResolvedValue(CLAIMID)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(aboutChildStub)
-          sinon.assert.calledOnce(insertChildStub)
+          expect(mockAboutChild).toHaveBeenCalledTimes(1)
+          expect(mockInsertChild).toHaveBeenCalledTimes(1)
         })
         .expect(302)
     })
@@ -84,7 +85,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     })
 
     it('should redirect to expenses page if add-another-child is set to no', function () {
-      insertChildStub.resolves(CLAIMID)
+      mockInsertChild.mockResolvedValue(CLAIMID)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -92,7 +93,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     })
 
     it('should redirect to the about-child page if add-another-child is set to yes', function () {
-      insertChildStub.resolves(CLAIMID)
+      mockInsertChild.mockResolvedValue(CLAIMID)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -103,7 +104,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      insertChildStub.throws(new ValidationError())
+      mockInsertChild.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -111,7 +112,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      insertChildStub.throws(new Error())
+      mockInsertChild.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -119,7 +120,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      insertChildStub.rejects()
+      mockInsertChild.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

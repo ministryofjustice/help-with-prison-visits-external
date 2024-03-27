@@ -1,5 +1,4 @@
 const CarExpense = require('../../../../../app/services/domain/expenses/car-expense')
-const expect = require('chai').expect
 
 describe('services/domain/expenses/car-expense', function () {
   const VALID_FROM = 'some from'
@@ -24,14 +23,14 @@ describe('services/domain/expenses/car-expense', function () {
       VALID_PARKING,
       VALID_PARKING_COST
     )
-    expect(expense.from).to.equal(VALID_FROM)
-    expect(expense.to).to.equal(VALID_TO)
-    expect(expense.toll).to.equal(VALID_TOLL)
-    expect(expense.tollCost).to.equal(VALID_TOLL_COST)
-    expect(expense.parking).to.equal(VALID_PARKING)
-    expect(expense.parkingCost).to.equal(VALID_PARKING_COST)
-    expect(expense.tollExpense).to.not.equal(null)
-    expect(expense.parkingExpense).to.not.equal(null)
+    expect(expense.from).toBe(VALID_FROM)
+    expect(expense.to).toBe(VALID_TO)
+    expect(expense.toll).toBe(VALID_TOLL)
+    expect(expense.tollCost).toBe(VALID_TOLL_COST)
+    expect(expense.parking).toBe(VALID_PARKING)
+    expect(expense.parkingCost).toBe(VALID_PARKING_COST)
+    expect(expense.tollExpense).not.toBeNull()
+    expect(expense.parkingExpense).not.toBeNull()
   })
 
   it('should construct a domain object given valid input of new destination and postcode', function () {
@@ -46,15 +45,15 @@ describe('services/domain/expenses/car-expense', function () {
       VALID_DESTINATION,
       VALID_POSTCODE
     )
-    expect(expense.from).to.equal(VALID_FROM)
-    expect(expense.to).to.equal(VALID_DESTINATION)
-    expect(expense.toll).to.equal(VALID_TOLL)
-    expect(expense.tollCost).to.equal(VALID_TOLL_COST)
-    expect(expense.parking).to.equal(VALID_PARKING)
-    expect(expense.parkingCost).to.equal(VALID_PARKING_COST)
-    expect(expense.toPostCode).to.equal(VALID_POSTCODE)
-    expect(expense.tollExpense).to.not.equal(null)
-    expect(expense.parkingExpense).to.not.equal(null)
+    expect(expense.from).toBe(VALID_FROM)
+    expect(expense.to).toBe(VALID_DESTINATION)
+    expect(expense.toll).toBe(VALID_TOLL)
+    expect(expense.tollCost).toBe(VALID_TOLL_COST)
+    expect(expense.parking).toBe(VALID_PARKING)
+    expect(expense.parkingCost).toBe(VALID_PARKING_COST)
+    expect(expense.toPostCode).toBe(VALID_POSTCODE)
+    expect(expense.tollExpense).not.toBeNull()
+    expect(expense.parkingExpense).not.toBeNull()
   })
 
   it('should not return null for toll cost if toll was not set', function () {
@@ -62,7 +61,7 @@ describe('services/domain/expenses/car-expense', function () {
       VALID_FROM,
       VALID_TO
     )
-    expect(expense.tollExpense).to.equal(null)
+    expect(expense.tollExpense).toBeNull()
   })
 
   it('should not return null for parking cost if parking was not set', function () {
@@ -70,7 +69,7 @@ describe('services/domain/expenses/car-expense', function () {
       VALID_FROM,
       VALID_TO
     )
-    expect(expense.parkingExpense).to.equal(null)
+    expect(expense.parkingExpense).toBeNull()
   })
 
   it('should throw an error if passed invalid destination', function () {
@@ -86,7 +85,7 @@ describe('services/domain/expenses/car-expense', function () {
         '',
         VALID_POSTCODE
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw an error if passed invalid postcode', function () {
@@ -102,7 +101,7 @@ describe('services/domain/expenses/car-expense', function () {
         VALID_DESTINATION,
         INVALID_POSTCODE
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw an error if passed invalid toll cost', function () {
@@ -115,7 +114,7 @@ describe('services/domain/expenses/car-expense', function () {
         VALID_PARKING,
         VALID_PARKING_COST
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw an error if passed invalid parking cost', function () {
@@ -128,6 +127,6 @@ describe('services/domain/expenses/car-expense', function () {
         VALID_PARKING,
         INVALID_PARKING_COST
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })
