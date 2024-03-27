@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
@@ -12,21 +10,24 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
 
   let app
 
-  let urlPathValidatorStub
-  let aboutEscortStub
-  let insertEscortStub
+  const mockUrlPathValidator = jest.fn()
+  const mockAboutEscort = jest.fn()
+  const mockInsertEscort = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    aboutEscortStub = sinon.stub()
-    insertEscortStub = sinon.stub()
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock('../../../../../../app/services/domain/about-escort', () => mockAboutEscort)
+    jest.mock('../../../../../../app/services/data/insert-escort', () => mockInsertEscort)
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/about-escort', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/about-escort': aboutEscortStub,
-      '../../../../services/data/insert-escort': insertEscortStub
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/about-escort')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -35,7 +36,7 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -53,17 +54,17 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 302 if domain object is built successfully', function () {
-      insertEscortStub.resolves()
+      mockInsertEscort.mockResolvedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(aboutEscortStub)
+          expect(mockInsertEscort).toHaveBeenCalledTimes(1)
         })
         .expect(302)
     })
@@ -77,7 +78,7 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
     })
 
     it('should respond redirect to the has-child page domain object was built successfully', function () {
-      insertEscortStub.resolves()
+      mockInsertEscort.mockResolvedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -85,7 +86,7 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      aboutEscortStub.throws(new ValidationError())
+      mockAboutEscort.throws(new ValidationError())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -93,7 +94,7 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      aboutEscortStub.throws(new Error())
+      mockAboutEscort.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -101,7 +102,7 @@ describe('routes/apply/eligibility/claim/about-escort', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      insertEscortStub.rejects()
+      mockInsertEscort.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

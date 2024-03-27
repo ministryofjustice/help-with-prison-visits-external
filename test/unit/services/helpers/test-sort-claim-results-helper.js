@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const sortViewClaimResultsHelper = require('../../../../app/services/helpers/sort-view-claim-results-helper')
 
 let claim
@@ -21,51 +20,51 @@ describe('services/helpers/sort-view-claim-results-helper', function () {
   it('should add Eligibility information to claim', function () {
     claim = { ClaimId: 1 }
     sortViewClaimResultsHelper(claim, ELIGIBILITY, CLAIM_DOCUMENTS, [], [])
-    expect(claim.EligibilityId).to.equal(ELIGIBILITY.EligibilityId)
-    expect(claim.FirstName).to.equal(ELIGIBILITY.FirstName)
+    expect(claim.EligibilityId).toBe(ELIGIBILITY.EligibilityId)
+    expect(claim.FirstName).toBe(ELIGIBILITY.FirstName)
   })
 
   it('should add internal claim documents to claim', function () {
     claim = { ClaimId: 1 }
     sortViewClaimResultsHelper(claim, ELIGIBILITY, CLAIM_DOCUMENTS, [], [])
-    expect(claim.visitConfirmation.ClaimDocumentId).to.equal(CLAIM_DOCUMENTS[0].ClaimDocumentId)
-    expect(claim.benefitDocument[0].ClaimDocumentId).to.equal(CLAIM_DOCUMENTS[1].ClaimDocumentId)
+    expect(claim.visitConfirmation.ClaimDocumentId).toBe(CLAIM_DOCUMENTS[0].ClaimDocumentId)
+    expect(claim.benefitDocument[0].ClaimDocumentId).toBe(CLAIM_DOCUMENTS[1].ClaimDocumentId)
   })
 
   it('should replace internal documents with external documents', function () {
     claim = { ClaimId: 1 }
     sortViewClaimResultsHelper(claim, ELIGIBILITY, CLAIM_DOCUMENTS, [], EXTERNAL_CLAIM_DOCUMENTS)
-    expect(claim.visitConfirmation.ClaimDocumentId).to.equal(EXTERNAL_CLAIM_DOCUMENTS[0].ClaimDocumentId)
-    expect(claim.benefitDocument[0].ClaimDocumentId).to.equal(EXTERNAL_CLAIM_DOCUMENTS[2].ClaimDocumentId)
-    expect(claim.benefitDocument[1].ClaimDocumentId).to.equal(EXTERNAL_CLAIM_DOCUMENTS[1].ClaimDocumentId)
+    expect(claim.visitConfirmation.ClaimDocumentId).toBe(EXTERNAL_CLAIM_DOCUMENTS[0].ClaimDocumentId)
+    expect(claim.benefitDocument[0].ClaimDocumentId).toBe(EXTERNAL_CLAIM_DOCUMENTS[2].ClaimDocumentId)
+    expect(claim.benefitDocument[1].ClaimDocumentId).toBe(EXTERNAL_CLAIM_DOCUMENTS[1].ClaimDocumentId)
   })
 
   it('should add claim document to claim expense', function () {
     claim = { ClaimId: 1 }
     sortViewClaimResultsHelper(claim, ELIGIBILITY, CLAIM_DOCUMENTS, claimExpenses, [])
-    expect(claimExpenses[0].DocumentType).to.equal(CLAIM_DOCUMENTS[2].DocumentType)
-    expect(claimExpenses[0].fromInternalWeb).to.equal(true)
+    expect(claimExpenses[0].DocumentType).toBe(CLAIM_DOCUMENTS[2].DocumentType)
+    expect(claimExpenses[0].fromInternalWeb).toBe(true)
   })
 
   it('should add placeholder claim documents when is advance claim and no claim docuemnts returned', function () {
     advanceClaim = { ClaimId: 1, IsAdvanceClaim: true }
     sortViewClaimResultsHelper(advanceClaim, ELIGIBILITY, [], claimExpenses, [])
-    expect(advanceClaim.visitConfirmation.DocumentType).to.equal('VISIT-CONFIRMATION')
-    expect(advanceClaim.visitConfirmation.ClaimDocumentId).to.equal(undefined)
-    expect(advanceClaim.visitConfirmation.fromInternalWeb).to.equal(true)
+    expect(advanceClaim.visitConfirmation.DocumentType).toBe('VISIT-CONFIRMATION')
+    expect(advanceClaim.visitConfirmation.ClaimDocumentId).toBeUndefined()
+    expect(advanceClaim.visitConfirmation.fromInternalWeb).toBe(true)
   })
 
   it('should not add placeholder documents', function () {
     advanceClaim = { ClaimId: 1, IsAdvanceClaim: true }
     sortViewClaimResultsHelper(advanceClaim, ELIGIBILITY, CLAIM_DOCUMENTS, claimExpenses, [])
-    expect(advanceClaim.visitConfirmation.DocumentType).to.equal(CLAIM_DOCUMENTS[0].DocumentType)
-    expect(advanceClaim.visitConfirmation.ClaimDocumentId).to.equal(CLAIM_DOCUMENTS[0].ClaimDocumentId)
-    expect(advanceClaim.visitConfirmation.fromInternalWeb).to.equal(true)
+    expect(advanceClaim.visitConfirmation.DocumentType).toBe(CLAIM_DOCUMENTS[0].DocumentType)
+    expect(advanceClaim.visitConfirmation.ClaimDocumentId).toBe(CLAIM_DOCUMENTS[0].ClaimDocumentId)
+    expect(advanceClaim.visitConfirmation.fromInternalWeb).toBe(true)
   })
 
   it('use requested cost when a claim expense has no status', function () {
     claim = { ClaimId: 1 }
     sortViewClaimResultsHelper(claim, ELIGIBILITY, CLAIM_DOCUMENTS, claimExpensesNoStatus, [])
-    expect(claimExpensesNoStatus[0].Cost).to.equal(claimExpensesNoStatus[0].RequestedCost)
+    expect(claimExpensesNoStatus[0].Cost).toBe(claimExpensesNoStatus[0].RequestedCost)
   })
 })

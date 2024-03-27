@@ -1,6 +1,5 @@
 const Expenses = require('../../../../../app/services/domain/expenses/expenses')
 const expenseTypeEnum = require('../../../../../app/constants/expense-type-enum')
-const expect = require('chai').expect
 
 describe('services/domain/expenses/expenses', function () {
   const VALID_EXPENSES_ARRAY = [expenseTypeEnum.BUS.value, expenseTypeEnum.FERRY.value]
@@ -10,7 +9,7 @@ describe('services/domain/expenses/expenses', function () {
     const expense = new Expenses(
       VALID_EXPENSES_ARRAY
     )
-    expect(expense.expense).to.equal(VALID_EXPENSES_ARRAY)
+    expect(expense.expense).toBe(VALID_EXPENSES_ARRAY)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -18,6 +17,6 @@ describe('services/domain/expenses/expenses', function () {
       new Expenses(
         INVALID_EXPENSES
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })

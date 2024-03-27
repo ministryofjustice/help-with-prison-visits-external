@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
@@ -17,22 +15,24 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
 
   let app
 
-  let stubPaymentDetails
-  let stubUrlPathValidator
-  let stubGetChangeAddressLink
+  const mockPaymentDetails = jest.fn()
+  const mockUrlPathValidator = jest.fn()
+  const mockGetChangeAddressLink = jest.fn()
 
   beforeEach(function () {
-    stubPaymentDetails = sinon.stub()
-    stubUrlPathValidator = sinon.stub()
-    stubGetChangeAddressLink = sinon.stub()
+    jest.mock('../../../../../../app/services/domain/payment-details', () => mockPaymentDetails)
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock('../../../../../../app/routes/helpers/get-change-address-link', () => mockGetChangeAddressLink)
 
-    const route = proxyquire(
-      '../../../../../../app/routes/apply/eligibility/claim/payment-details', {
-        '../../../../services/domain/payment-details': stubPaymentDetails,
-        '../../../../services/validators/url-path-validator': stubUrlPathValidator,
-        '../../../helpers/get-change-address-link': stubGetChangeAddressLink
-      })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/payment-details')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -41,7 +41,7 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(stubUrlPathValidator)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -59,13 +59,13 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(stubUrlPathValidator)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 302 and insert bank details', function () {
       const newPaymentDetails = { paymentMethod: 'bank' }
-      stubPaymentDetails.returns(newPaymentDetails)
+      mockPaymentDetails.mockReturnValue(newPaymentDetails)
 
       return supertest(app)
         .post(ROUTE)
@@ -73,7 +73,7 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubPaymentDetails, VALID_DATA.PaymentMethod)
+          expect(mockPaymentDetails).hasBeenCalledWith(VALID_DATA.PaymentMethod)
         })
         .expect('location', '/apply/eligibility/claim/bank-payment-details?isAdvance=false')
     })
@@ -87,7 +87,7 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      stubPaymentDetails.throws(new ValidationError({ firstName: {} }))
+      mockPaymentDetails.throws(new ValidationError({ firstName: {} }))
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

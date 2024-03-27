@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const SessionHandler = require('../../../../app/services/validators/session-handler')
 const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const prisonerRelationshipEnum = require('../../../../app/constants/prisoner-relationships-enum')
@@ -42,18 +41,18 @@ describe('services/validators/session-handler validateSession', function () {
 
     it('should return true if passed a valid dobEncoded value', function () {
       const result = SessionHandler.validateSession(VALID_ENCODED_DOB_SESSION, VALID_ENCODED_DOB_SESSION_URL)
-      expect(result).to.equal(true)
+      expect(result).toBe(true)
     })
 
     it('should return false if passed a null dobEncoded value', function () {
       const result = SessionHandler.validateSession(NULL_ENCODED_DOB_SESSION, VALID_ENCODED_DOB_SESSION_URL)
-      expect(result).to.equal(false)
+      expect(result).toBe(false)
     })
 
     it('should throw Error if passed an invalid dob value', function () {
       expect(function () {
         SessionHandler.validateSession(INVALID_ENCODED_DOB_SESSION, VALID_ENCODED_DOB_SESSION_URL)
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
   })
 
@@ -74,18 +73,18 @@ describe('services/validators/session-handler validateSession', function () {
 
     it('should return true if passed a valid relationship value', function () {
       const result = SessionHandler.validateSession(VALID_RELATIONSHIP_SESSION, VALID_RELATIONSHIP_SESSION_URL)
-      expect(result).to.equal(true)
+      expect(result).toBe(true)
     })
 
     it('should return false if passed a null relationship value', function () {
       const result = SessionHandler.validateSession(NULL_RELATIONSHIP_SESSION, VALID_RELATIONSHIP_SESSION_URL)
-      expect(result).to.equal(false)
+      expect(result).toBe(false)
     })
 
     it('should throw Error if passed an invalid relationship value', function () {
       expect(function () {
         SessionHandler.validateSession(INVALID_RELATIONSHIP_SESSION, VALID_RELATIONSHIP_SESSION_URL)
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
   })
 
@@ -112,18 +111,18 @@ describe('services/validators/session-handler validateSession', function () {
 
     it('should return true if passed a valid benefit value', function () {
       const result = SessionHandler.validateSession(VALID_BENEFIT_SESSION, VALID_BENEFIT_SESSION_URL)
-      expect(result).to.equal(true)
+      expect(result).toBe(true)
     })
 
     it('should return false if passed a null benefit value', function () {
       const result = SessionHandler.validateSession(NULL_BENEFIT_SESSION, VALID_BENEFIT_SESSION_URL)
-      expect(result).to.equal(false)
+      expect(result).toBe(false)
     })
 
     it('should throw Error if passed an invalid benefit value', function () {
       expect(function () {
         SessionHandler.validateSession(INVALID_BENEFIT_SESSION, VALID_BENEFIT_SESSION_URL)
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
   })
 
@@ -156,18 +155,18 @@ describe('services/validators/session-handler validateSession', function () {
 
     it('should return true if passed a valid about-the-prisoner value', function () {
       const result = SessionHandler.validateSession(VALID_PRISONER_SESSION, VALID_PRISONER_SESSION_URL)
-      expect(result).to.equal(true)
+      expect(result).toBe(true)
     })
 
     it('should return false if passed a null about-the-prisoner value', function () {
       const result = SessionHandler.validateSession(NULL_PRISONER_SESSION, VALID_PRISONER_SESSION_URL)
-      expect(result).to.equal(false)
+      expect(result).toBe(false)
     })
 
     it('should throw Error if passed an invalid about-the-prisoner value', function () {
       expect(function () {
         SessionHandler.validateSession(INVALID_PRISONER_SESSION, VALID_PRISONER_SESSION_URL)
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
   })
 
@@ -203,18 +202,18 @@ describe('services/validators/session-handler validateSession', function () {
 
     it('should return true if passed a valid about-you value', function () {
       const result = SessionHandler.validateSession(VALID_ABOUT_YOU_SESSION, VALID_ABOUT_YOU_SESSION_URL)
-      expect(result).to.equal(true)
+      expect(result).toBe(true)
     })
 
     it('should return false if passed a null about-you value', function () {
       const result = SessionHandler.validateSession(NULL_ABOUT_YOU_SESSION, VALID_ABOUT_YOU_SESSION_URL)
-      expect(result).to.equal(false)
+      expect(result).toBe(false)
     })
 
     it('should throw Error if passed an invalid about-you value', function () {
       expect(function () {
         SessionHandler.validateSession(INVALID_ABOUT_YOU_SESSION, VALID_ABOUT_YOU_SESSION_URL)
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
   })
 
@@ -253,18 +252,18 @@ describe('services/validators/session-handler validateSession', function () {
 
     it('should return true if passed a valid journey-information value', function () {
       const result = SessionHandler.validateSession(VALID_JOURNEY_SESSION, VALID_JOURNEY_SESSION_URL)
-      expect(result).to.equal(true)
+      expect(result).toBe(true)
     })
 
     it('should return false if passed a null journey-information value', function () {
       const result = SessionHandler.validateSession(NULL_JOURNEY_SESSION, VALID_JOURNEY_SESSION_URL)
-      expect(result).to.equal(false)
+      expect(result).toBe(false)
     })
 
     it('should throw Error if passed an invalid journey-information value', function () {
       expect(function () {
         SessionHandler.validateSession(INVALID_JOURNEY_SESSION, VALID_JOURNEY_SESSION_URL)
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
   })
 })
@@ -310,24 +309,24 @@ describe('services/validators/session-handler getErrorPath', function () {
   describe('first-time Session', function () {
     it('should return valid first time error path if passed a valid first-time url param', function () {
       const result = SessionHandler.getErrorPath(VALID_SESSION, FIRST_TIME_PARAMS_URL)
-      expect(result).to.equal(FIRST_TIME_ERROR_SESSION_URL)
+      expect(result).toBe(FIRST_TIME_ERROR_SESSION_URL)
     })
 
     it('should return valid first time error path if passed a valid first-time session', function () {
       const result = SessionHandler.getErrorPath(VALID_FIRST_TIME_SESSION, CLAIM_TYPE_SESSION_URL)
-      expect(result).to.equal(FIRST_TIME_ERROR_SESSION_URL)
+      expect(result).toBe(FIRST_TIME_ERROR_SESSION_URL)
     })
   })
 
   describe('repeat Session', function () {
     it('should return valid repeat error path if passed a valid repeat-new-eligibility url param', function () {
       const result = SessionHandler.getErrorPath(VALID_SESSION, REPEAT_PARAMS_URL)
-      expect(result).to.equal(REPEAT_ERROR_SESSION_URL)
+      expect(result).toBe(REPEAT_ERROR_SESSION_URL)
     })
 
     it('should return valid repeat error path if passed a valid repeat-new-eligibility session', function () {
       const result = SessionHandler.getErrorPath(VALID_REPEAT_SESSION, CLAIM_TYPE_SESSION_URL)
-      expect(result).to.equal(REPEAT_ERROR_SESSION_URL)
+      expect(result).toBe(REPEAT_ERROR_SESSION_URL)
     })
   })
 })
@@ -348,11 +347,11 @@ describe('services/validators/session-handler clearSession', function () {
 
   it('should return null session if passed a valid dobEncoded value', function () {
     const result = SessionHandler.clearSession(VALID_SESSION, CLEAR_SESSION_URL)
-    expect(result).to.equal(null)
+    expect(result).toBeNull()
   })
 
   it('should return false if passed a null dobEncoded value', function () {
     const result = SessionHandler.clearSession(VALID_SESSION, DONT_CLEAR_SESSION_URL)
-    expect(result).to.equal(VALID_SESSION)
+    expect(result).toBe(VALID_SESSION)
   })
 })

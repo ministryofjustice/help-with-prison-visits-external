@@ -1,5 +1,4 @@
 /* eslint-disable no-new */
-const expect = require('chai').expect
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const dateFormatter = require('../../../../app/services/date-formatter')
 const AboutYou = require('../../../../app/services/domain/about-you')
@@ -53,34 +52,36 @@ describe('services/domain/about-you', function () {
       VALID_PHONE_NUMBER
     )
 
-    expect(aboutYou.dob).to.deep.equal(dateFormatter.buildFromDateString(VALID_DOB))
-    expect(aboutYou.relationship).to.equal(VALID_RELATIONSHIP)
-    expect(aboutYou.benefit).to.equal(VALID_BENEFIT)
-    expect(aboutYou.benefitOwner).to.equal(VALID_BENEFIT_OWNER)
-    expect(aboutYou.firstName).to.equal(VALID_FIRST_NAME)
-    expect(aboutYou.lastName).to.equal(VALID_LAST_NAME)
-    expect(aboutYou.nationalInsuranceNumber, 'should uppercase and remove whitespace').to.equal(VALID_NATIONAL_INSURANCE_NUMBER.replace(/ /g, '').toUpperCase())
-    expect(aboutYou.houseNumberAndStreet).to.equal(VALID_HOUSE_NUMBER_AND_STREET)
-    expect(aboutYou.town).to.equal(VALID_TOWN)
-    expect(aboutYou.county).to.equal(VALID_COUNTY)
-    expect(aboutYou.postCode, 'should uppercase and remove whitespace').to.equal(VALID_POSTCODE.replace(/ /g, '').toUpperCase())
-    expect(aboutYou.country).to.equal(VALID_COUNTRY)
-    expect(aboutYou.emailAddress).to.equal(VALID_EMAIL_ADDRESS)
-    expect(aboutYou.phoneNumber).to.equal(VALID_PHONE_NUMBER)
+    expect(aboutYou.dob).toEqual(dateFormatter.buildFromDateString(VALID_DOB))
+    expect(aboutYou.relationship).toBe(VALID_RELATIONSHIP)
+    expect(aboutYou.benefit).toBe(VALID_BENEFIT)
+    expect(aboutYou.benefitOwner).toBe(VALID_BENEFIT_OWNER)
+    expect(aboutYou.firstName).toBe(VALID_FIRST_NAME)
+    expect(aboutYou.lastName).toBe(VALID_LAST_NAME)
+    // should uppercase and remove whitespace
+    expect(aboutYou.nationalInsuranceNumber).toBe(VALID_NATIONAL_INSURANCE_NUMBER.replace(/ /g, '').toUpperCase())
+    expect(aboutYou.houseNumberAndStreet).toBe(VALID_HOUSE_NUMBER_AND_STREET)
+    expect(aboutYou.town).toBe(VALID_TOWN)
+    expect(aboutYou.county).toBe(VALID_COUNTY)
+    // should uppercase and remove whitespace
+    expect(aboutYou.postCode).toBe(VALID_POSTCODE.replace(/ /g, '').toUpperCase())
+    expect(aboutYou.country).toBe(VALID_COUNTRY)
+    expect(aboutYou.emailAddress).toBe(VALID_EMAIL_ADDRESS)
+    expect(aboutYou.phoneNumber).toBe(VALID_PHONE_NUMBER)
   })
 
   it('should throw a ValidationError if given invalid input', function () {
     expect(function () {
       new AboutYou('', '', '', '', '', '', '', '', '', '', '', '', '')
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should return errors for all required fields', function () {
     try {
       new AboutYou('', '', '', '', '', '', '')
     } catch (error) {
-      expect(error).to.be.instanceof(ValidationError)
-      expect(error.validationErrors).to.have.all.keys(REQUIRED_FIELDS)
+      expect(error).toBeInstanceOf(ValidationError)
+      expect(Object.keys(error.validationErrors)).toContain(REQUIRED_FIELDS)
     }
   })
 
@@ -102,7 +103,7 @@ describe('services/domain/about-you', function () {
         VALID_EMAIL_ADDRESS,
         VALID_PHONE_NUMBER
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw a ValidationError if an invalid PostCode is provided as input', function () {
@@ -123,7 +124,7 @@ describe('services/domain/about-you', function () {
         VALID_EMAIL_ADDRESS,
         VALID_PHONE_NUMBER
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw a ValidationError if an invalid email address is provided as input', function () {
@@ -144,7 +145,7 @@ describe('services/domain/about-you', function () {
         INVALID_EMAIL_ADDRESS,
         VALID_PHONE_NUMBER
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should strip illegal characters from fields which accept free text inputs', function () {
@@ -166,19 +167,21 @@ describe('services/domain/about-you', function () {
       INVALID_CHARS_PHONE_NUMBER
     )
 
-    expect(aboutYou.dob).to.deep.equal(dateFormatter.buildFromDateString(VALID_DOB))
-    expect(aboutYou.relationship).to.equal(VALID_RELATIONSHIP)
-    expect(aboutYou.benefit).to.equal(VALID_BENEFIT)
-    expect(aboutYou.benefitOwner).to.equal(VALID_BENEFIT_OWNER)
-    expect(aboutYou.firstName).to.equal(INVALID_CHARS_FIRST_NAME.replace(unsafeInputPattern, ''))
-    expect(aboutYou.lastName).to.equal(INVALID_CHARS_LAST_NAME.replace(unsafeInputPattern, ''))
-    expect(aboutYou.nationalInsuranceNumber, 'should uppercase and remove whitespace').to.equal(VALID_NATIONAL_INSURANCE_NUMBER.replace(/ /g, '').toUpperCase())
-    expect(aboutYou.houseNumberAndStreet).to.equal(INVALID_CHARS_HOUSE_NUMBER_AND_STREET.replace(unsafeInputPattern, ''))
-    expect(aboutYou.town).to.equal(INVALID_CHARS_TOWN.replace(unsafeInputPattern, ''))
-    expect(aboutYou.county).to.equal(INVALID_CHARS_COUNTY.replace(unsafeInputPattern, ''))
-    expect(aboutYou.postCode, 'should uppercase and remove whitespace').to.equal(VALID_POSTCODE.replace(/ /g, '').toUpperCase())
-    expect(aboutYou.country).to.equal(INVALID_CHARS_COUNTRY.replace(unsafeInputPattern, ''))
-    expect(aboutYou.emailAddress).to.equal(VALID_EMAIL_ADDRESS)
-    expect(aboutYou.phoneNumber).to.equal(INVALID_CHARS_PHONE_NUMBER.replace(unsafeInputPattern, ''))
+    expect(aboutYou.dob).toEqual(dateFormatter.buildFromDateString(VALID_DOB))
+    expect(aboutYou.relationship).toBe(VALID_RELATIONSHIP)
+    expect(aboutYou.benefit).toBe(VALID_BENEFIT)
+    expect(aboutYou.benefitOwner).toBe(VALID_BENEFIT_OWNER)
+    expect(aboutYou.firstName).toBe(INVALID_CHARS_FIRST_NAME.replace(unsafeInputPattern, ''))
+    expect(aboutYou.lastName).toBe(INVALID_CHARS_LAST_NAME.replace(unsafeInputPattern, ''))
+    // should uppercase and remove whitespace
+    expect(aboutYou.nationalInsuranceNumber).toBe(VALID_NATIONAL_INSURANCE_NUMBER.replace(/ /g, '').toUpperCase())
+    expect(aboutYou.houseNumberAndStreet).toBe(INVALID_CHARS_HOUSE_NUMBER_AND_STREET.replace(unsafeInputPattern, ''))
+    expect(aboutYou.town).toBe(INVALID_CHARS_TOWN.replace(unsafeInputPattern, ''))
+    expect(aboutYou.county).toBe(INVALID_CHARS_COUNTY.replace(unsafeInputPattern, ''))
+    // should uppercase and remove whitespace
+    expect(aboutYou.postCode).toBe(VALID_POSTCODE.replace(/ /g, '').toUpperCase())
+    expect(aboutYou.country).toBe(INVALID_CHARS_COUNTRY.replace(unsafeInputPattern, ''))
+    expect(aboutYou.emailAddress).toBe(VALID_EMAIL_ADDRESS)
+    expect(aboutYou.phoneNumber).toBe(INVALID_CHARS_PHONE_NUMBER.replace(unsafeInputPattern, ''))
   })
 })

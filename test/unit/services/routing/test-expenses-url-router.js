@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const sinon = require('sinon')
 const expensesUrlRouter = require('../../../../app/services/routing/expenses-url-router')
 const paramBuilder = require('../../../../app/services/routing/param-builder')
@@ -7,17 +6,17 @@ describe('services/routing/expenses-url-router', function () {
   describe('parseParams', function () {
     let buildFormatted
 
-    before(function () {
+    beforeAll(function () {
       buildFormatted = sinon.stub(paramBuilder, 'buildFormatted')
     })
 
-    after(function () {
+    afterAll(function () {
       buildFormatted.restore()
     })
 
     it('should call buildFormatted to build and format the params parameter', function () {
       expensesUrlRouter.parseParams([])
-      sinon.assert.calledOnce(buildFormatted)
+      sinon.toHaveBeenCalledTimes(1)
     })
   })
 
@@ -25,7 +24,7 @@ describe('services/routing/expenses-url-router', function () {
     it('should throw an error if req is invalid', function () {
       expect(function () {
         expensesUrlRouter.getRedirectUrl(null)
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
 
     it('should throw an error if req.body is invalid', function () {
@@ -33,7 +32,7 @@ describe('services/routing/expenses-url-router', function () {
         expensesUrlRouter.getRedirectUrl({
           body: null
         })
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
 
     it('should throw an error if req.params is invalid', function () {
@@ -41,7 +40,7 @@ describe('services/routing/expenses-url-router', function () {
         expensesUrlRouter.getRedirectUrl({
           params: null
         })
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
 
     it('should throw an error if req.params.referenceId is invalid', function () {
@@ -51,7 +50,7 @@ describe('services/routing/expenses-url-router', function () {
             referenceId: null
           }
         })
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
 
     it('should throw an error if req.params.claimId is invalid', function () {
@@ -61,7 +60,7 @@ describe('services/routing/expenses-url-router', function () {
             claimId: null
           }
         })
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
 
     it('should throw an error if req.originalUrl is invalid', function () {
@@ -69,7 +68,7 @@ describe('services/routing/expenses-url-router', function () {
         expensesUrlRouter.getRedirectUrl({
           originalUrl: null
         })
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
 
     it('should throw an error if req.query is invalid', function () {
@@ -77,7 +76,7 @@ describe('services/routing/expenses-url-router', function () {
         expensesUrlRouter.getRedirectUrl({
           query: null
         })
-      }).to.throw(Error)
+      }).toThrow(Error)
     })
   })
 })

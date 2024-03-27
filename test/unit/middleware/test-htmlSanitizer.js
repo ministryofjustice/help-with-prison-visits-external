@@ -2,7 +2,6 @@ const htmlSanitizerMiddleware = require('../../../app/middleware/htmlSanitizer')
 const express = require('express')
 const supertest = require('supertest')
 const httpMocks = require('node-mocks-http')
-const expect = require('chai').expect
 
 describe('middleware/htmlSanitizer', function () {
   it('should sanitize string with <script> tag', function (done) {
@@ -18,7 +17,7 @@ describe('middleware/htmlSanitizer', function () {
     htmlSanitizerMiddleware()(mockRequest, mockResponse, function next (error) {
       if (error) { throw new Error('Expected not to receive an error') }
 
-      expect(mockRequest.body.propertyToSanitize).to.equal(' world')
+      expect(mockRequest.body.propertyToSanitize).toBe(' world')
       done()
     })
   })
@@ -36,7 +35,7 @@ describe('middleware/htmlSanitizer', function () {
     htmlSanitizerMiddleware()(mockRequest, mockResponse, function next (error) {
       if (error) { throw new Error('Expected not to receive an error') }
 
-      expect(mockRequest.body.propertyToSanitize).to.eql({ someAttrib: ' world' })
+      expect(mockRequest.body.propertyToSanitize).toEqual({ someAttrib: ' world' })
       done()
     })
   })
@@ -60,7 +59,7 @@ describe('middleware/htmlSanitizer', function () {
       .expect(200)
       .end(function (err, res) {
         if (err) throw err
-        expect(res.body.sanitized).to.equal(' world')
+        expect(res.body.sanitized).toBe(' world')
         done()
       })
 

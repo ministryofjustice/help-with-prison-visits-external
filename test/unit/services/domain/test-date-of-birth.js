@@ -1,5 +1,4 @@
 /* eslint-disable no-new */
-const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 const DateOfBirth = require('../../../../app/services/domain/date-of-birth')
 
@@ -23,11 +22,11 @@ describe('services/domain/date-of-birth', function () {
       VALID_PAST_YEAR
     )
 
-    expect(dateOfBirth.dob.toString()).to.equal(dateFormatter.buildFromDateString(VALID_DOB).toString())
-    expect(dateOfBirth.encodedDate).to.equal(dateFormatter.encodeDate(dateFormatter.buildFromDateString(VALID_DOB)))
-    expect(dateOfBirth.fields[0]).to.equal(VALID_DAY)
-    expect(dateOfBirth.fields[1]).to.equal(VALID_MONTH)
-    expect(dateOfBirth.fields[2]).to.equal(VALID_PAST_YEAR)
+    expect(dateOfBirth.dob.toString()).toBe(dateFormatter.buildFromDateString(VALID_DOB).toString())
+    expect(dateOfBirth.encodedDate).toBe(dateFormatter.encodeDate(dateFormatter.buildFromDateString(VALID_DOB)))
+    expect(dateOfBirth.fields[0]).toBe(VALID_DAY)
+    expect(dateOfBirth.fields[1]).toBe(VALID_MONTH)
+    expect(dateOfBirth.fields[2]).toBe(VALID_PAST_YEAR)
   })
 
   it('should throw ValidationError if a future date was given', function () {
@@ -37,7 +36,7 @@ describe('services/domain/date-of-birth', function () {
         VALID_MONTH,
         VALID_FUTURE_YEAR
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw ValidationError if date is under 16 years', function () {
@@ -47,7 +46,7 @@ describe('services/domain/date-of-birth', function () {
         dateFormatter.now().month() + 1,
         dateFormatter.now().year()
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw ValidationError if given invalid day, month, or year', function () {
@@ -57,6 +56,6 @@ describe('services/domain/date-of-birth', function () {
         INVALID_MONTH,
         INVALID_YEAR
       )
-    }).to.throw()
+    }).toThrow()
   })
 })

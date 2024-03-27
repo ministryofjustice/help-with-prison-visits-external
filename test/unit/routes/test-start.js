@@ -14,6 +14,10 @@ describe('routes/start', function () {
     app = routeHelper.buildApp(route)
   })
 
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
   describe(`GET ${ROUTE}`, function () {
     it('should respond with a 200', function () {
       return supertest(app)

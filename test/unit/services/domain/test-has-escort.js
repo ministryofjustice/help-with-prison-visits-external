@@ -1,5 +1,4 @@
 const HasEscort = require('../../../../app/services/domain/has-escort')
-const expect = require('chai').expect
 
 describe('services/domain/has-escort', function () {
   const VALID_INPUT = 'yes'
@@ -9,7 +8,7 @@ describe('services/domain/has-escort', function () {
     const hasEscort = new HasEscort(
       VALID_INPUT
     )
-    expect(hasEscort.hasEscort).to.equal(VALID_INPUT)
+    expect(hasEscort.hasEscort).toBe(VALID_INPUT)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -17,6 +16,6 @@ describe('services/domain/has-escort', function () {
       new HasEscort(
         INVALID_INPUT
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })

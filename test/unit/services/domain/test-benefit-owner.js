@@ -1,5 +1,4 @@
 /* eslint-disable no-new */
-const expect = require('chai').expect
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const BenefitOwner = require('../../../../app/services/domain/benefit-owner')
 
@@ -31,26 +30,27 @@ describe('services/domain/benefit-owner', function () {
       VALID_NATIONAL_INSURANCE_NUMBER
     )
 
-    expect(benefitOwner.firstName).to.equal(VALID_FIRST_NAME.trim())
-    expect(benefitOwner.lastName).to.equal(VALID_LAST_NAME.trim())
-    expect(benefitOwner.dobDay).to.equal(VALID_DOB_DAY)
-    expect(benefitOwner.dobMonth).to.equal(VALID_DOB_MONTH)
-    expect(benefitOwner.dobYear).to.equal(VALID_DOB_YEAR)
-    expect(benefitOwner.nationalInsuranceNumber, 'should uppercase and remove whitespace').to.equal(VALID_NATIONAL_INSURANCE_NUMBER.replace(/ /g, '').toUpperCase())
+    expect(benefitOwner.firstName).toBe(VALID_FIRST_NAME.trim())
+    expect(benefitOwner.lastName).toBe(VALID_LAST_NAME.trim())
+    expect(benefitOwner.dobDay).toBe(VALID_DOB_DAY)
+    expect(benefitOwner.dobMonth).toBe(VALID_DOB_MONTH)
+    expect(benefitOwner.dobYear).toBe(VALID_DOB_YEAR)
+    // should uppercase and remove whitespace
+    expect(benefitOwner.nationalInsuranceNumber).toBe(VALID_NATIONAL_INSURANCE_NUMBER.replace(/ /g, '').toUpperCase())
   })
 
   it('should throw a ValidationError if given invalid input', function () {
     expect(function () {
       new BenefitOwner('', '', '', '', '', '', '', '', '', '', '', '', '')
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should return errors for all required fields', function () {
     try {
       new BenefitOwner('', '', '', '', '', '', '')
     } catch (error) {
-      expect(error).to.be.instanceof(ValidationError)
-      expect(error.validationErrors).to.have.all.keys(REQUIRED_FIELDS)
+      expect(error).toBeInstanceOf(ValidationError)
+      expect(Object.keys(error.validationErrors)).toContain(REQUIRED_FIELDS)
     }
   })
 
@@ -64,7 +64,7 @@ describe('services/domain/benefit-owner', function () {
         VALID_DOB_YEAR,
         INVALID_NATIONAL_INSURANCE_NUMBER
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw a ValidationError if an invalid DOB day is provided as input', function () {
@@ -77,7 +77,7 @@ describe('services/domain/benefit-owner', function () {
         VALID_DOB_YEAR,
         VALID_NATIONAL_INSURANCE_NUMBER
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw a ValidationError if an invalid DOB month is provided as input', function () {
@@ -90,7 +90,7 @@ describe('services/domain/benefit-owner', function () {
         VALID_DOB_YEAR,
         VALID_NATIONAL_INSURANCE_NUMBER
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should strip illegal characters from fields which accept free text inputs', function () {
@@ -104,11 +104,12 @@ describe('services/domain/benefit-owner', function () {
       VALID_NATIONAL_INSURANCE_NUMBER
     )
 
-    expect(benefitOwner.firstName).to.equal(INVALID_CHARS_FIRST_NAME.replace(unsafeInputPattern, ''))
-    expect(benefitOwner.lastName).to.equal(INVALID_CHARS_LAST_NAME.replace(unsafeInputPattern, ''))
-    expect(benefitOwner.dobDay).to.equal(VALID_DOB_DAY)
-    expect(benefitOwner.dobMonth).to.equal(VALID_DOB_MONTH)
-    expect(benefitOwner.dobYear).to.equal(VALID_DOB_YEAR)
-    expect(benefitOwner.nationalInsuranceNumber, 'should uppercase and remove whitespace').to.equal(VALID_NATIONAL_INSURANCE_NUMBER.replace(/ /g, '').toUpperCase())
+    expect(benefitOwner.firstName).toBe(INVALID_CHARS_FIRST_NAME.replace(unsafeInputPattern, ''))
+    expect(benefitOwner.lastName).toBe(INVALID_CHARS_LAST_NAME.replace(unsafeInputPattern, ''))
+    expect(benefitOwner.dobDay).toBe(VALID_DOB_DAY)
+    expect(benefitOwner.dobMonth).toBe(VALID_DOB_MONTH)
+    expect(benefitOwner.dobYear).toBe(VALID_DOB_YEAR)
+    // should uppercase and remove whitespace
+    expect(benefitOwner.nationalInsuranceNumber).toBe(VALID_NATIONAL_INSURANCE_NUMBER.replace(/ /g, '').toUpperCase())
   })
 })
