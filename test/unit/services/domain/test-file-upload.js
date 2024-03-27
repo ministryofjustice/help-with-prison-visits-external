@@ -1,8 +1,8 @@
 /* eslint-disable no-new */
-const expect = require('chai').expect
-const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 const UploadError = require('../../../../app/services/errors/upload-error')
+
+jest.mock(fs, () => fsStub)
 
 describe('services/domain/file-upload', function () {
   const VALID_ID = '1'
@@ -17,12 +17,9 @@ describe('services/domain/file-upload', function () {
   let fsStub
 
   beforeEach(function () {
-    fsStub = sinon.stub()
+    fsStub = jest.fn()
 
-    FileUpload = proxyquire(
-      '../../../../app/services/domain/file-upload', {
-        fs: fsStub
-      })
+    FileUpload = require('../../../../app/services/domain/file-upload')
   })
 
   it('should construct a domain object given valid input when documentStatus is set to uploaded', function () {
@@ -35,9 +32,9 @@ describe('services/domain/file-upload', function () {
       undefined
     )
 
-    expect(fileUpload.path).to.equal(VALID_FILE.path)
-    expect(fileUpload.claimId).to.equal(VALID_ID)
-    expect(fileUpload.documentStatus).to.equal(VALID_DOCUMENT_STATUS)
+    expect(fileUpload.path).toBe(VALID_FILE.path)
+    expect(fileUpload.claimId).toBe(VALID_ID)
+    expect(fileUpload.documentStatus).toBe(VALID_DOCUMENT_STATUS)
   })
 
   it('should construct a domain object given valid input when documentStatus is set to alternative and change undefined claimExpeneseId to null', function () {
@@ -50,10 +47,10 @@ describe('services/domain/file-upload', function () {
       VALID_ALTERNATIVE
     )
 
-    expect(fileUpload.path).to.equal(undefined)
-    expect(fileUpload.claimId).to.equal(VALID_ID)
-    expect(fileUpload.claimExpenseId).to.equal(null)
-    expect(fileUpload.documentStatus).to.equal(VALID_ALTERNATIVE)
+    expect(fileUpload.path).toBeUndefined()
+    expect(fileUpload.claimId).toBe(VALID_ID)
+    expect(fileUpload.claimExpenseId).toBeNull()
+    expect(fileUpload.documentStatus).toBe(VALID_ALTERNATIVE)
   })
 
   it('should throw a ValidationError if passed invalid data', function () {
@@ -66,7 +63,7 @@ describe('services/domain/file-upload', function () {
         undefined,
         undefined
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw a ValidationError if passed an instance of UploadError', function () {
@@ -79,7 +76,7 @@ describe('services/domain/file-upload', function () {
         UPLOAD_ERROR,
         undefined
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw the given error if passed any type of error other than ValidationError', function () {
@@ -92,7 +89,7 @@ describe('services/domain/file-upload', function () {
         ERROR,
         undefined
       )
-    }).to.throw(ERROR)
+    }).toThrow(ERROR)
   })
 
   it('should throw a ValidationError if both file and alternative are set. I.e. A user selects post later and uploads a file', function () {
@@ -106,6 +103,6 @@ describe('services/domain/file-upload', function () {
         undefined,
         VALID_ALTERNATIVE
       )
-    }).to.throw()
+    }).toThrow()
   })
 })

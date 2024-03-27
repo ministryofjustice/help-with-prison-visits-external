@@ -1,5 +1,4 @@
 const FerryExpense = require('../../../../../app/services/domain/expenses/ferry-expense')
-const expect = require('chai').expect
 
 describe('services/domain/expenses/ferry-expense', function () {
   const VALID_COST = '20'
@@ -19,12 +18,12 @@ describe('services/domain/expenses/ferry-expense', function () {
       VALID_TICKET_TYPE,
       VALID_TICKET_OWNER
     )
-    expect(expense.cost).to.equal(VALID_COST)
-    expect(expense.from).to.equal(VALID_FROM)
-    expect(expense.to).to.equal(VALID_TO)
-    expect(expense.isReturn).to.equal(VALID_IS_RETURN)
-    expect(expense.ticketType).to.equal(VALID_TICKET_TYPE)
-    expect(expense.ticketOwner).to.equal(VALID_TICKET_OWNER)
+    expect(expense.cost).toBe(VALID_COST)
+    expect(expense.from).toBe(VALID_FROM)
+    expect(expense.to).toBe(VALID_TO)
+    expect(expense.isReturn).toBe(VALID_IS_RETURN)
+    expect(expense.ticketType).toBe(VALID_TICKET_TYPE)
+    expect(expense.ticketOwner).toBe(VALID_TICKET_OWNER)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -37,6 +36,6 @@ describe('services/domain/expenses/ferry-expense', function () {
         VALID_TICKET_TYPE,
         VALID_TICKET_OWNER
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })

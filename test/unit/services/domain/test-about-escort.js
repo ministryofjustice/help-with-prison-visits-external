@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const AboutEscort = require('../../../../app/services/domain/about-escort')
-const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 
 describe('services/domain/about-escort', function () {
@@ -20,8 +19,8 @@ describe('services/domain/about-escort', function () {
       VALID_MONTH,
       VALID_YEAR
     )
-    expect(escort.firstName).to.equal(VALID_FIRST_NAME)
-    expect(escort.dob).to.deep.equal(dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR))
+    expect(escort.firstName).toBe(VALID_FIRST_NAME)
+    expect(escort.dob).toEqual(dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR))
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -32,13 +31,13 @@ describe('services/domain/about-escort', function () {
         VALID_MONTH,
         VALID_YEAR
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw a validation error if any inputs were not set and the default domain object values where used', function () {
     expect(function () {
       new AboutEscort()
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should strip illegal characters from otherwise valid input', function () {
@@ -50,7 +49,7 @@ describe('services/domain/about-escort', function () {
       VALID_MONTH,
       VALID_YEAR
     )
-    expect(escort.firstName).to.equal(INVALID_CHARS_FIRST_NAME.replace(unsafeInputPattern, ''))
-    expect(escort.dob).to.deep.equal(dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR))
+    expect(escort.firstName).toBe(INVALID_CHARS_FIRST_NAME.replace(unsafeInputPattern, ''))
+    expect(escort.dob).toEqual(dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR))
   })
 })

@@ -1,5 +1,4 @@
 const HasChild = require('../../../../app/services/domain/has-child')
-const expect = require('chai').expect
 
 describe('services/domain/has-child', function () {
   const VALID_INPUT = 'yes'
@@ -9,7 +8,7 @@ describe('services/domain/has-child', function () {
     const hasChild = new HasChild(
       VALID_INPUT
     )
-    expect(hasChild.hasChild).to.equal(VALID_INPUT)
+    expect(hasChild.hasChild).toBe(VALID_INPUT)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -17,6 +16,6 @@ describe('services/domain/has-child', function () {
       new HasChild(
         INVALID_INPUT
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })

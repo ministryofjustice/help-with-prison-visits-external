@@ -1,5 +1,4 @@
 /* eslint-disable no-new */
-const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const AboutThePrisoner = require('../../../../app/services/domain/about-the-prisoner')
@@ -31,28 +30,28 @@ describe('services/domain/about-the-prisoner', function () {
       VALID_NAME_OF_PRISON
     )
 
-    expect(aboutThePrisoner.firstName).to.equal(VALID_FIRST_NAME.trim())
-    expect(aboutThePrisoner.lastName).to.equal(VALID_LAST_NAME.trim())
-    expect(aboutThePrisoner.dobDay).to.equal(VALID_DOB_DAY)
-    expect(aboutThePrisoner.dobMonth).to.equal(VALID_DOB_MONTH)
-    expect(aboutThePrisoner.dobYear).to.equal(VALID_DOB_YEAR)
-    expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONER_NUMBER.replace(/ /g, '').toUpperCase())
-    expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAME_OF_PRISON.trim())
-    expect(aboutThePrisoner.dob).to.be.equal(dateFormatter.buildFromDateString('1995-01-01').format('YYYY-MM-DD'))
+    expect(aboutThePrisoner.firstName).toBe(VALID_FIRST_NAME.trim())
+    expect(aboutThePrisoner.lastName).toBe(VALID_LAST_NAME.trim())
+    expect(aboutThePrisoner.dobDay).toBe(VALID_DOB_DAY)
+    expect(aboutThePrisoner.dobMonth).toBe(VALID_DOB_MONTH)
+    expect(aboutThePrisoner.dobYear).toBe(VALID_DOB_YEAR)
+    expect(aboutThePrisoner.prisonerNumber).toBe(VALID_PRISONER_NUMBER.replace(/ /g, '').toUpperCase())
+    expect(aboutThePrisoner.nameOfPrison).toBe(VALID_NAME_OF_PRISON.trim())
+    expect(aboutThePrisoner.dob).toBe(dateFormatter.buildFromDateString('1995-01-01').format('YYYY-MM-DD'))
   })
 
   it('should throw a ValidationError if invalid input', function () {
     expect(function () {
       new AboutThePrisoner('', '', '', '', '', '', '')
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should return errors for all required fields', function () {
     try {
       new AboutThePrisoner('', '', '', '', '', '', '')
     } catch (error) {
-      expect(error).to.be.instanceof(ValidationError)
-      expect(error.validationErrors).to.have.all.keys(REQUIRED_FIELDS)
+      expect(error).toBeInstanceOf(ValidationError)
+      expect(Object.keys(error.validationErrors)).toContain(REQUIRED_FIELDS)
     }
   })
 
@@ -67,7 +66,7 @@ describe('services/domain/about-the-prisoner', function () {
         VALID_PRISONER_NUMBER,
         VALID_NAME_OF_PRISON
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should strip illegal characters from otherwise valid data', function () {
@@ -81,13 +80,13 @@ describe('services/domain/about-the-prisoner', function () {
       VALID_NAME_OF_PRISON
     )
 
-    expect(aboutThePrisoner.firstName).to.equal(INVALID_CHARS_FIRST_NAME.replace(unsafeInputPattern, ''))
-    expect(aboutThePrisoner.lastName).to.equal(INVALID_CHARS_LAST_NAME.replace(unsafeInputPattern, ''))
-    expect(aboutThePrisoner.dobDay).to.equal(VALID_DOB_DAY)
-    expect(aboutThePrisoner.dobMonth).to.equal(VALID_DOB_MONTH)
-    expect(aboutThePrisoner.dobYear).to.equal(VALID_DOB_YEAR)
-    expect(aboutThePrisoner.prisonerNumber).to.equal(VALID_PRISONER_NUMBER.replace(/ /g, '').toUpperCase())
-    expect(aboutThePrisoner.nameOfPrison).to.equal(VALID_NAME_OF_PRISON.trim())
-    expect(aboutThePrisoner.dob).to.be.equal(dateFormatter.buildFromDateString('1995-01-01').format('YYYY-MM-DD'))
+    expect(aboutThePrisoner.firstName).toBe(INVALID_CHARS_FIRST_NAME.replace(unsafeInputPattern, ''))
+    expect(aboutThePrisoner.lastName).toBe(INVALID_CHARS_LAST_NAME.replace(unsafeInputPattern, ''))
+    expect(aboutThePrisoner.dobDay).toBe(VALID_DOB_DAY)
+    expect(aboutThePrisoner.dobMonth).toBe(VALID_DOB_MONTH)
+    expect(aboutThePrisoner.dobYear).toBe(VALID_DOB_YEAR)
+    expect(aboutThePrisoner.prisonerNumber).toBe(VALID_PRISONER_NUMBER.replace(/ /g, '').toUpperCase())
+    expect(aboutThePrisoner.nameOfPrison).toBe(VALID_NAME_OF_PRISON.trim())
+    expect(aboutThePrisoner.dob).toBe(dateFormatter.buildFromDateString('1995-01-01').format('YYYY-MM-DD'))
   })
 })

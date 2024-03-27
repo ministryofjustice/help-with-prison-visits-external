@@ -1,4 +1,3 @@
-const expect = require('chai').expect
 const UrlPathValidator = require('../../../../app/services/validators/url-path-validator')
 const claimTypeEnum = require('../../../../app/constants/claim-type-enum')
 const prisonerRelationshipEnum = require('../../../../app/constants/prisoner-relationships-enum')
@@ -38,116 +37,116 @@ describe('services/validators/url-path-validator', function () {
   it('should throw error if passed null', function () {
     expect(function () {
       UrlPathValidator(null)
-    }).to.throw(TypeError)
+    }).toThrow(TypeError)
   })
 
   it('should throw error if passed undefined', function () {
     expect(function () {
       UrlPathValidator(undefined)
-    }).to.throw(TypeError)
+    }).toThrow(TypeError)
   })
 
   it('should throw Error if passed an invalid claimType value', function () {
     expect(function () {
       UrlPathValidator(INVALID_CLAIM_TYPE)
-    }).to.throw(Error)
+    }).toThrow(Error)
   })
 
   it('should throw Error if passed an invalid dob value', function () {
     expect(function () {
       UrlPathValidator(INVALID_DOB)
-    }).to.throw(Error)
+    }).toThrow(Error)
   })
 
   it('should throw Error if passed an invalid relationship value', function () {
     expect(function () {
       UrlPathValidator(INVALID_RELATIONSHIP)
-    }).to.throw(Error)
+    }).toThrow(Error)
   })
 
   it('should throw Error if passed an invalid benefit value', function () {
     expect(function () {
       UrlPathValidator(INVALID_BENEFIT)
-    }).to.throw(Error)
+    }).toThrow(Error)
   })
 
   it('should throw Error if passed an invalid reference value', function () {
     expect(function () {
       UrlPathValidator(INVALID_REFERENCE)
-    }).to.throw(Error)
+    }).toThrow(Error)
   })
 
   it('should throw Error if passed an invalid claimId value', function () {
     expect(function () {
       UrlPathValidator(INVALID_CLAIMID)
-    }).to.throw(Error)
+    }).toThrow(Error)
   })
 
   it('should throw Error if passed an invalid referenceId value', function () {
     expect(function () {
       UrlPathValidator(INVALID_REFERENCEID)
-    }).to.throw(Error)
+    }).toThrow(Error)
   })
 
   it('should throw Error if passed an invalid claimDocumentId value', function () {
     expect(function () {
       UrlPathValidator(INVALID_CLAIM_DOCUMENT_ID)
-    }).to.throw(Error)
+    }).toThrow(Error)
   })
 
   it('should throw Error if passed an invalid advanceOrPast value', function () {
     expect(function () {
       UrlPathValidator(INVALID_ADVANCE_OR_PAST)
-    }).to.throw(Error)
+    }).toThrow(Error)
   })
 
   it('should return undefined if passed a valid claimType value', function () {
     const result = UrlPathValidator(VALID_CLAIM_TYPE)
-    expect(result).to.equal(undefined)
+    expect(result).toBeUndefined()
   })
 
   it('should return undefined if passed a valid dob value', function () {
     const result = UrlPathValidator(VALID_ENCODED_DOB)
-    expect(result).to.equal(undefined)
+    expect(result).toBeUndefined()
   })
 
   it('should return undefined if passed a valid relationship value', function () {
     const result = UrlPathValidator(VALID_RELATIONSHIP)
-    expect(result).to.equal(undefined)
+    expect(result).toBeUndefined()
   })
 
   it('should return undefined if passed a valid dob value', function () {
     const result = UrlPathValidator(VALID_ENCODED_DOB)
-    expect(result).to.equal(undefined)
+    expect(result).toBeUndefined()
   })
 
   it('should return undefined if passed a valid benefit value', function () {
     const result = UrlPathValidator(VALID_BENEFIT)
-    expect(result).to.equal(undefined)
+    expect(result).toBeUndefined()
   })
 
   it('should return undefined if passed a valid encrypted reference value', function () {
     const result = UrlPathValidator(VALID_ENCRYPTED_REFERENCE)
-    expect(result).to.equal(undefined)
+    expect(result).toBeUndefined()
   })
 
   it('should return undefined if passed a valid claimId value', function () {
     const result = UrlPathValidator(VALID_CLAIMID)
-    expect(result).to.equal(undefined)
+    expect(result).toBeUndefined()
   })
 
   it('should return undefined if passed a valid encrypted referenceId value', function () {
     const result = UrlPathValidator(VALID_ENCRYPTED_REFERENCEID)
-    expect(result).to.equal(undefined)
+    expect(result).toBeUndefined()
   })
 
   it('should return undefined if passed a valid claimDocumentId value', function () {
     const result = UrlPathValidator(VALID_CLAIM_DOCUMENT_ID)
-    expect(result).to.equal(undefined)
+    expect(result).toBeUndefined()
   })
 
   it('should return undefined if passed a valid advanceOrPast value', function () {
     const result = UrlPathValidator(VALID_ADVANCE_OR_PAST)
-    expect(result).to.equal(undefined)
+    expect(result).toBeUndefined()
   })
 })

@@ -1,5 +1,4 @@
 const HireExpense = require('../../../../../app/services/domain/expenses/hire-expense')
-const expect = require('chai').expect
 
 describe('services/domain/expenses/hire-expense', function () {
   const VALID_COST = '20'
@@ -15,10 +14,10 @@ describe('services/domain/expenses/hire-expense', function () {
       VALID_TO,
       VALID_DURATION_OF_TRAVEL
     )
-    expect(expense.cost).to.equal(VALID_COST)
-    expect(expense.from).to.equal(VALID_FROM)
-    expect(expense.to).to.equal(VALID_TO)
-    expect(expense.durationOfTravel).to.equal(VALID_DURATION_OF_TRAVEL)
+    expect(expense.cost).toBe(VALID_COST)
+    expect(expense.from).toBe(VALID_FROM)
+    expect(expense.to).toBe(VALID_TO)
+    expect(expense.durationOfTravel).toBe(VALID_DURATION_OF_TRAVEL)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -29,6 +28,6 @@ describe('services/domain/expenses/hire-expense', function () {
         VALID_TO,
         VALID_DURATION_OF_TRAVEL
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })

@@ -1,8 +1,11 @@
 const routeHelper = require('../../../helpers/routes/route-helper')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
+
+jest.mock('../../services/validators/url-path-validator', () => mockUrlPathValidator)
+jest.mock('../../services/helpers/decrypt', () => mockDecrypt)
+jest.mock('../../services/data/get-repeat-eligibility', () => mockGetRepeatEligibility)
+jest.mock('../../services/domain/check-your-information', () => mockCheckYourInformation)
 
 describe('/your-claims/check-your-information', function () {
   const REFERENCE = 'APVS123'
@@ -11,24 +14,20 @@ describe('/your-claims/check-your-information', function () {
 
   let app
 
-  let urlPathValidatorStub
-  let decryptStub
-  let getRepeatEligibility
-  let CheckYourInformation
+  const mockUrlPathValidator = jest.fn()
+  const mockDecrypt = jest.fn()
+  const mockGetRepeatEligibility = jest.fn()
+  const mockCheckYourInformation = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    decryptStub = sinon.stub().returns(REFERENCE)
-    getRepeatEligibility = sinon.stub()
-    CheckYourInformation = sinon.stub()
+    mockDecrypt.mockReturnValue(REFERENCE)
 
-    const route = proxyquire('../../../../app/routes/your-claims/check-your-information', {
-      '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/helpers/decrypt': decryptStub,
-      '../../services/data/get-repeat-eligibility': getRepeatEligibility,
-      '../../services/domain/check-your-information': CheckYourInformation
-    })
+    const route = require('../../../../app/routes/your-claims/check-your-information')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -37,23 +36,23 @@ describe('/your-claims/check-your-information', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should call to get masked eligibility and respond with a 200', function () {
-      getRepeatEligibility.resolves({})
+      mockGetRepeatEligibility.mockResolvedValue({})
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(getRepeatEligibility)
+          expect(mockGetRepeatEligibility).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      getRepeatEligibility.rejects()
+      mockGetRepeatEligibility.mockRejectedValue()
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -67,67 +66,67 @@ describe('/your-claims/check-your-information', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 302 and redirect to /apply/eligibility/new-claim/future-or-past-visit', function () {
-      CheckYourInformation.returns({})
-      getRepeatEligibility.resolves({ NameOfPrison: 'hewell', Country: 'England' })
+      mockCheckYourInformation.mockReturnValue({})
+      mockGetRepeatEligibility.mockResolvedValue({ NameOfPrison: 'hewell', Country: 'England' })
 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(CheckYourInformation)
+          expect(mockCheckYourInformation).toHaveBeenCalledTimes(1)
         })
         .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
     })
 
     it('should respond with a 302 and redirect to /apply/eligibility/new-claim/future-or-past-visit if prison GB and Country NI', function () {
-      CheckYourInformation.returns({})
-      getRepeatEligibility.resolves({ NameOfPrison: 'hewell', Country: 'Northern Ireland' })
+      mockCheckYourInformation.mockReturnValue({})
+      mockGetRepeatEligibility.mockResolvedValue({ NameOfPrison: 'hewell', Country: 'Northern Ireland' })
 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(CheckYourInformation)
+          expect(mockCheckYourInformation).toHaveBeenCalledTimes(1)
         })
         .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
     })
 
     it('should redirect to /apply/eligibility/new-claim/same-journey-as-last-claim for Northern Ireland prison and Country', function () {
-      CheckYourInformation.returns({})
-      getRepeatEligibility.resolves({ NameOfPrison: 'maghaberry', Country: 'Northern Ireland' })
+      mockCheckYourInformation.mockReturnValue({})
+      mockGetRepeatEligibility.mockResolvedValue({ NameOfPrison: 'maghaberry', Country: 'Northern Ireland' })
 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(CheckYourInformation)
+          expect(mockCheckYourInformation).toHaveBeenCalledTimes(1)
         })
         .expect('location', '/apply/eligibility/new-claim/same-journey-as-last-claim')
     })
 
     it('should respond with a 400 for a validation error', function () {
-      CheckYourInformation.throws(new ValidationError())
-      getRepeatEligibility.resolves({})
+      mockCheckYourInformation.throws(new ValidationError())
+      mockGetRepeatEligibility.mockResolvedValue({})
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(getRepeatEligibility)
+          expect(mockGetRepeatEligibility).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      CheckYourInformation.throws(new ValidationError())
-      getRepeatEligibility.rejects()
+      mockCheckYourInformation.throws(new ValidationError())
+      mockGetRepeatEligibility.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -135,7 +134,7 @@ describe('/your-claims/check-your-information', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      CheckYourInformation.throws(new Error())
+      mockCheckYourInformation.throws(new Error())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -143,7 +142,7 @@ describe('/your-claims/check-your-information', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      getRepeatEligibility.rejects()
+      mockGetRepeatEligibility.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

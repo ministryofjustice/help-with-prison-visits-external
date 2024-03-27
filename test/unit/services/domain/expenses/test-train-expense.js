@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const TrainExpense = require('../../../../../app/services/domain/expenses/train-expense')
-const expect = require('chai').expect
 
 describe('services/domain/expenses/train-expense', function () {
   const VALID_COST = '20'
@@ -31,11 +30,11 @@ describe('services/domain/expenses/train-expense', function () {
       EMPTY_RETURN_TIME,
       IS_PAST_CLAIM
     )
-    expect(expense.cost).to.equal(VALID_COST)
-    expect(expense.from).to.equal(VALID_FROM)
-    expect(expense.to).to.equal(VALID_TO)
-    expect(expense.isReturn).to.equal(VALID_IS_RETURN)
-    expect(expense.isAdvanceClaim).to.equal(IS_PAST_CLAIM)
+    expect(expense.cost).toBe(VALID_COST)
+    expect(expense.from).toBe(VALID_FROM)
+    expect(expense.to).toBe(VALID_TO)
+    expect(expense.isReturn).toBe(VALID_IS_RETURN)
+    expect(expense.isAdvanceClaim).toBe(IS_PAST_CLAIM)
   })
 
   it('should construct a domain object given valid input', function () {
@@ -49,12 +48,12 @@ describe('services/domain/expenses/train-expense', function () {
       VALID_RETURN_TIME,
       IS_ADVANCE_CLAIM
     )
-    expect(expense.cost).to.equal(VALID_COST)
-    expect(expense.from).to.equal(VALID_FROM)
-    expect(expense.to).to.equal(VALID_TO)
-    expect(expense.isReturn).to.equal(VALID_IS_RETURN)
-    expect(expense.ticketOwner).to.equal(VALID_TICKET_OWNER)
-    expect(expense.isAdvanceClaim).to.equal(IS_ADVANCE_CLAIM)
+    expect(expense.cost).toBe(VALID_COST)
+    expect(expense.from).toBe(VALID_FROM)
+    expect(expense.to).toBe(VALID_TO)
+    expect(expense.isReturn).toBe(VALID_IS_RETURN)
+    expect(expense.ticketOwner).toBe(VALID_TICKET_OWNER)
+    expect(expense.isAdvanceClaim).toBe(IS_ADVANCE_CLAIM)
   })
 
   it('should strip illegal characters from otherwise valid input', function () {
@@ -69,12 +68,12 @@ describe('services/domain/expenses/train-expense', function () {
       EMPTY_RETURN_TIME,
       IS_PAST_CLAIM
     )
-    expect(expense.cost).to.equal(VALID_COST)
-    expect(expense.from).to.equal(INVALID_CHARS_FROM.replace(unsafeInputPattern, ''))
-    expect(expense.to).to.equal(INVALID_CHARS_TO.replace(unsafeInputPattern, ''))
-    expect(expense.isReturn).to.equal(VALID_IS_RETURN)
-    expect(expense.ticketOwner).to.equal(VALID_TICKET_OWNER)
-    expect(expense.isAdvanceClaim).to.equal(IS_PAST_CLAIM)
+    expect(expense.cost).toBe(VALID_COST)
+    expect(expense.from).toBe(INVALID_CHARS_FROM.replace(unsafeInputPattern, ''))
+    expect(expense.to).toBe(INVALID_CHARS_TO.replace(unsafeInputPattern, ''))
+    expect(expense.isReturn).toBe(VALID_IS_RETURN)
+    expect(expense.ticketOwner).toBe(VALID_TICKET_OWNER)
+    expect(expense.isAdvanceClaim).toBe(IS_PAST_CLAIM)
   })
 
   it('should throw an error if passed invalid past claim data', function () {
@@ -89,7 +88,7 @@ describe('services/domain/expenses/train-expense', function () {
         EMPTY_RETURN_TIME,
         IS_PAST_CLAIM
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw an error if passed invalid advance claim data - no return', function () {
@@ -104,6 +103,6 @@ describe('services/domain/expenses/train-expense', function () {
         EMPTY_RETURN_TIME,
         IS_ADVANCE_CLAIM
       )
-    }).to.throw()
+    }).toThrow()
   })
 })

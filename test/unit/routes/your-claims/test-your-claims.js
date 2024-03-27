@@ -1,8 +1,5 @@
-const expect = require('chai').expect
 const routeHelper = require('../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 describe('/your-claims/your-claims', function () {
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjU5LjQ4NjY2NjY3LCJkZWNyeXB0ZWRSZWYiOiJRSFFDWFdaIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyJ9']
@@ -14,21 +11,24 @@ describe('/your-claims/your-claims', function () {
 
   let app
 
-  let urlPathValidatorStub
-  let getHistoricClaimsStub
-  let getHistoricClaimsByReferenceStub
+  const mockUrlPathValidator = jest.fn()
+  const mockGetHistoricClaims = jest.fn()
+  const mockGetHistoricClaimsByReference = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    getHistoricClaimsStub = sinon.stub()
-    getHistoricClaimsByReferenceStub = sinon.stub()
+    jest.mock('../../../../app/services/validators/url-path-validator', () => mockUrlPathValidator)
+    jest.mock('../../../../app/services/data/get-historic-claims', () => mockGetHistoricClaims)
+    jest.mock(
+      '../../../../app/services/data/get-historic-claims-by-reference',
+      () => mockGetHistoricClaimsByReference
+    )
 
-    const route = proxyquire('../../../../app/routes/your-claims/your-claims', {
-      '../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../services/data/get-historic-claims': getHistoricClaimsStub,
-      '../../services/data/get-historic-claims-by-reference': getHistoricClaimsByReferenceStub
-    })
+    const route = require('../../../../app/routes/your-claims/your-claims')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -37,13 +37,13 @@ describe('/your-claims/your-claims', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 200 if the database query returns a result', function () {
-      getHistoricClaimsStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
-      getHistoricClaimsByReferenceStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
+      mockGetHistoricClaims.mockResolvedValue(CLAIMS_CAN_START_NEW_CLAIM)
+      mockGetHistoricClaimsByReference.mockResolvedValue(CLAIMS_CAN_START_NEW_CLAIM)
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -51,29 +51,29 @@ describe('/your-claims/your-claims', function () {
     })
 
     it('should set canStartNewClaim to true if no claims in progress', function () {
-      getHistoricClaimsStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
-      getHistoricClaimsByReferenceStub.resolves(CLAIMS_CAN_START_NEW_CLAIM)
+      mockGetHistoricClaims.mockResolvedValue(CLAIMS_CAN_START_NEW_CLAIM)
+      mockGetHistoricClaimsByReference.mockResolvedValue(CLAIMS_CAN_START_NEW_CLAIM)
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function (response) {
-          expect(response.text).to.contain('"canStartNewClaim":true')
+          expect(response.text).toContain('"canStartNewClaim":true')
         })
     })
 
     it('should set canStartNewClaim to false if claims in progress', function () {
-      getHistoricClaimsStub.resolves(CLAIMS_CANNOT_START_NEW_CLAIM)
-      getHistoricClaimsByReferenceStub.resolves(CLAIMS_CANNOT_START_NEW_CLAIM)
+      mockGetHistoricClaims.mockResolvedValue(CLAIMS_CANNOT_START_NEW_CLAIM)
+      mockGetHistoricClaimsByReference.mockResolvedValue(CLAIMS_CANNOT_START_NEW_CLAIM)
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function (response) {
-          expect(response.text).to.contain('"canStartNewClaim":false')
+          expect(response.text).toContain('"canStartNewClaim":false')
         })
     })
 
     it('should respond with a 302 and redirect if passed a non-matching reference number dob combination', function () {
-      getHistoricClaimsStub.resolves([])
+      mockGetHistoricClaims.mockResolvedValue([])
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -82,7 +82,7 @@ describe('/your-claims/your-claims', function () {
     })
 
     it('should respond with a 302 and redirect if cookie is missing reference and dob', function () {
-      getHistoricClaimsStub.resolves([])
+      mockGetHistoricClaims.mockResolvedValue([])
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
@@ -91,7 +91,7 @@ describe('/your-claims/your-claims', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      getHistoricClaimsStub.rejects()
+      mockGetHistoricClaims.mockRejectedValue()
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
