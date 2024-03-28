@@ -25,14 +25,14 @@
 //       mockConfig.ENABLE_MALWARE_SCANNING = 'true'
 //       console.log(mockConfig.ENABLE_MALWARE_SCANNING)
 //       clamAv.scan('/tmp/dummy/path')
-//       sinon.assert.calledOnce(isInfectedSub)
+//       expect().calledOnce(isInfectedSub)
 //     })
 
 //     it('should not scan file when malware scanning is disabled', function () {
 //       mockConfig.ENABLE_MALWARE_SCANNING = 'false'
 //       console.log(mockConfig.ENABLE_MALWARE_SCANNING)
 //       clamAv.scan('/tmp/dummy/path')
-//       sinon.assert.notCalled(isInfectedSub)
+//       expect().not.toHaveBeenCalled(isInfectedSub)
 //     })
 //   })
 // })

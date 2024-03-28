@@ -4,19 +4,19 @@ const paramBuilder = require('../../../../app/services/routing/param-builder')
 
 describe('services/routing/expenses-url-router', function () {
   describe('parseParams', function () {
-    let buildFormatted
+    const mockBuildFormatted = jest.fn()
 
-    beforeAll(function () {
-      buildFormatted = sinon.stub(paramBuilder, 'buildFormatted')
+    beforeEach(function () {
+      jest.mock('../../../../app/services/routing/param-builder', () => mockBuildFormatted)
     })
 
-    afterAll(function () {
-      buildFormatted.restore()
+    afterEach(function () {
+      jest.resetAllMocks()
     })
 
-    it('should call buildFormatted to build and format the params parameter', function () {
+    it('should call mockBuildFormatted to build and format the params parameter', function () {
       expensesUrlRouter.parseParams([])
-      sinon.toHaveBeenCalledTimes(1)
+      expect(mockBuildFormatted).toHaveBeenCalledTimes(1)
     })
   })
 
