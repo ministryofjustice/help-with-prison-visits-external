@@ -1,4 +1,3 @@
-const sinon = require('sinon')
 const generateCsrfToken = require('../../../app/services/generate-csrf-token')
 
 const CSRF_TOKENT = 'some value'

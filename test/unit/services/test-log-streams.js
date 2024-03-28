@@ -1,29 +1,31 @@
 const sinon = require('sinon')
 const config = require('../../../config')
 
-jest.mock('bunyan-prettystream', () => prettyStreamStub)
-
 describe('services/log-streams', function () {
   const EXPECTED_LOG_LEVEL = config.LOGGING_LEVEL
 
   let logStreams
-  let prettyStreamStub
+  const mockPrettyStream = jest.fn()
 
   beforeEach(function () {
-    prettyStreamStub = jest.fn()
+    jest.mock('bunyan-prettystream', () => mockPrettyStream)
 
     logStreams = require('../../../app/services/log-streams')
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe('buildConsoleStream', function () {
     const EXPECTED_LOG_LEVEL = 'DEBUG'
 
     it('should build and return the expected console stream', function () {
-      prettyStreamStub.mockReturnValue({
+      mockPrettyStream.mockReturnValue({
         pipe: function () {}
       })
       const stream = logStreams.buildConsoleStream()
-      sinon.toHaveBeenCalledTimes(1)
+      expect(mockPrettyStream).toHaveBeenCalledTimes(1)
       expect(stream.level).toBe(EXPECTED_LOG_LEVEL)
       expect(stream.stream).not.toBeNull()
     })

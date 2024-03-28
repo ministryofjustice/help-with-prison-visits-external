@@ -81,7 +81,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.hasBeenCalledWith(mockBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
+          expect().hasBeenCalledWith(mockBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
         })
         .expect('location', '/apply/eligibility/claim/declaration?isAdvance=false')
     })

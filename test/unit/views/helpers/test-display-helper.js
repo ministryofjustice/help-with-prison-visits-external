@@ -3,8 +3,6 @@ const benefitsEnum = require('../../../../app/constants/benefits-enum')
 const prisonerRelationshipsEnum = require('../../../../app/constants/prisoner-relationships-enum')
 const expenseTypeEnum = require('../../../../app/constants/expense-type-enum')
 
-jest.mock('../../constants/prisons-enum', () => prisonsEnumStub)
-
 describe('views/helpers/display-helper', function () {
   const VALID_PRISONER_RELATIONSHIP_VALUE = prisonerRelationshipsEnum.WIFE.value
   const VALID_BENEFIT_VALUE = benefitsEnum.INCOME_SUPPORT.value
@@ -19,7 +17,13 @@ describe('views/helpers/display-helper', function () {
       'non-object': 'some non object element'
     }
 
+    jest.mock('../../../../app/constants/prisons-enum', () => prisonsEnumStub)
+
     displayHelper = require('../../../../app/views/helpers/display-helper')
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   it('should return the correct prisoner relationship display name given a valid value', function () {
