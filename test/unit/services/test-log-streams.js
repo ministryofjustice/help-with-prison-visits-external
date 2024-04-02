@@ -1,4 +1,3 @@
-const sinon = require('sinon')
 const config = require('../../../config')
 
 describe('services/log-streams', function () {

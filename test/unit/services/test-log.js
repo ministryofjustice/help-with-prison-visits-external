@@ -1,7 +1,7 @@
 describe('services/log', function () {
   const mockSerializers = jest.fn()
-  const mockStreams = jest.fn()
-  const mockBunyan = jest.fn()
+  let mockStreams
+  let mockBunyan
   const mockBuildConsoleStream = jest.fn()
   const mockBuildFileStream = jest.fn()
 

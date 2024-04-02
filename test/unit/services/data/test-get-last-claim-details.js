@@ -22,7 +22,7 @@ describe('services/data/get-last-claim-details', function () {
     mockGetClaimExpenseByIdOrLastApproved.mockResolvedValue(EXPENSES)
     mockGetClaimEscortByIdOrLastApproved.mockResolvedValue(ESCORT)
     mockMaskArrayOfNames.mockReturnValue(LAST_NAME_MASKED)
-    
+
     jest.mock('../../../../app/services/data/get-last-claim-for-reference', () => mockGetLastClaimForReference)
     jest.mock(
       '../../../../app/services/data/get-claim-children-by-id-or-last-approved',

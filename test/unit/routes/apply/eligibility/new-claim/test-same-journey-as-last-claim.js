@@ -111,7 +111,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      mockSameJourneyAsLastClaim.throws(new ValidationError())
+      mockSameJourneyAsLastClaim.mockImplementation(() => { throw new ValidationError() })
       mockGetLastClaimDetails.mockResolvedValue({})
       return supertest(app)
         .post(ROUTE)
@@ -120,7 +120,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      mockSameJourneyAsLastClaim.throws(new ValidationError())
+      mockSameJourneyAsLastClaim.mockImplementation(() => { throw new ValidationError() })
       mockGetLastClaimDetails.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
@@ -129,7 +129,7 @@ describe('routes/apply/eligibility/new-claim/same-journey-as-last-claim', functi
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      mockSameJourneyAsLastClaim.throws(new Error())
+      mockSameJourneyAsLastClaim.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)

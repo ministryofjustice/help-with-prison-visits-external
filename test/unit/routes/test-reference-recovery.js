@@ -52,14 +52,14 @@ describe('routes/reference-recovery', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      mockReferenceRecovery.throws(new ValidationError({ EmailAddress: {} }))
+      mockReferenceRecovery.mockImplementation(() => { throw new ValidationError({ EmailAddress: {} }) })
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      mockReferenceRecovery.throws(new Error())
+      mockReferenceRecovery.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .expect(500)

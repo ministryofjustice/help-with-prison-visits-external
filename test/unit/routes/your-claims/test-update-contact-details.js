@@ -77,7 +77,7 @@ describe('/your-claims/update-contact-details', function () {
     })
 
     it('should respond with a 400 for a validation error', function () {
-      mockUpdatedContactDetails.throws(new ValidationError())
+      mockUpdatedContactDetails.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -85,7 +85,7 @@ describe('/your-claims/update-contact-details', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      mockUpdatedContactDetails.throws(new Error())
+      mockUpdatedContactDetails.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

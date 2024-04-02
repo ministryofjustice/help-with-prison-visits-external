@@ -76,7 +76,7 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
     })
 
     it('should respond with a 400 for invalid data', function () {
-      mockEligibleChild.throws(new ValidationError())
+      mockEligibleChild.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -84,7 +84,7 @@ describe('routes/apply/new-eligibility/eligible-child', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      mockEligibleChild.throws(new Error())
+      mockEligibleChild.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

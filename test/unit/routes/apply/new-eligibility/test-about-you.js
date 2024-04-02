@@ -104,7 +104,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     })
 
     it('should respond with a 400 for invalid data', function () {
-      mockAboutYou.throws(new ValidationError())
+      mockAboutYou.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -120,7 +120,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      mockAboutYou.throws(new Error())
+      mockAboutYou.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

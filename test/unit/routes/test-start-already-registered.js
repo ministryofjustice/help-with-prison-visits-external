@@ -71,14 +71,14 @@ describe('routes/start-already-registered', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      mockAlreadyRegistered.throws(new ValidationError())
+      mockAlreadyRegistered.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      mockAlreadyRegistered.throws(new Error())
+      mockAlreadyRegistered.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .expect(500)

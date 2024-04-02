@@ -1,6 +1,5 @@
 const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const sinon = require('sinon')
 
 describe('routes/application-submitted', function () {
   const ROUTE = '/application-submitted'

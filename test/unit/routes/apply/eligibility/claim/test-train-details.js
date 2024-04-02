@@ -11,13 +11,20 @@ describe('routes/apply/eligibility/claim/train-details', function () {
   let app
 
   const mockUrlPathValidator = jest.fn()
-  const mockExpenseUrlRouter = jest.fn()
+  let mockExpenseUrlRouter
   const mockInsertExpense = jest.fn()
   const mockTrainExpense = jest.fn()
   const mockGetExpenseOwnerData = jest.fn()
   const mockGetIsAdvanceClaim = jest.fn()
+  const mockGetRedirectUrl = jest.fn()
+  const mockParseParams = jest.fn()
 
   beforeEach(function () {
+    mockExpenseUrlRouter.mockReturnValue({
+      getRedirectUrl: mockGetRedirectUrl,
+      parseParams: mockParseParams
+    })
+
     jest.mock(
       '../../../../../../app/services/validators/url-path-validator',
       () => mockUrlPathValidator
@@ -92,12 +99,11 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     it('should call parseParams', function () {
       mockGetIsAdvanceClaim.mockResolvedValue()
       mockGetExpenseOwnerData.mockResolvedValue()
-      const parseParams = sinon.stub(mockExpenseUrlRouter, 'parseParams')
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          expect(parseParams).toHaveBeenCalledTimes(1)
+          expect(mockParseParams).toHaveBeenCalledTimes(1)
         })
     })
   })
@@ -138,20 +144,20 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
-      const getRedirectUrl = sinon.stub(mockExpenseUrlRouter, 'getRedirectUrl').mockReturnValue(REDIRECT_URL)
+      mockGetRedirectUrl.mockReturnValue(REDIRECT_URL)
       mockInsertExpense.mockResolvedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          expect(getRedirectUrl).toHaveBeenCalledTimes(1)
+          expect(mockGetRedirectUrl).toHaveBeenCalledTimes(1)
         })
         .expect('location', REDIRECT_URL)
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
       mockGetExpenseOwnerData.mockResolvedValue()
-      mockTrainExpense.throws(new ValidationError())
+      mockTrainExpense.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -159,7 +165,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      mockTrainExpense.throws(new Error())
+      mockTrainExpense.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

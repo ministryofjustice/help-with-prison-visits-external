@@ -95,7 +95,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      mockBankAccountDetails.throws(new ValidationError({ firstName: {} }))
+      mockBankAccountDetails.mockImplementation(() => { throw new ValidationError({ firstName: {} }) })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

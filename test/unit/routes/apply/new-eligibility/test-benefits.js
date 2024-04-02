@@ -118,7 +118,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
     })
 
     it('should respond with a 400 if domain object validation fails', function () {
-      mockBenefits.throws(new ValidationError())
+      mockBenefits.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -126,7 +126,7 @@ describe('routes/apply/new-eligibility/benefits', function () {
     })
 
     it('should respond with a 500 if a non-validation error is thrown', function () {
-      mockBenefits.throws(new Error())
+      mockBenefits.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

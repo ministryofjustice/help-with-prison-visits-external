@@ -132,7 +132,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
 
     it('should catch a validation error', function () {
       mockUpload.mockImplementation((...args) => args[2]())
-      mockFileUpload.throws(new ValidationError())
+      mockFileUpload.mockImplementation(() => { throw new ValidationError() })
       mockClamAv.mockResolvedValue()
       return supertest(app)
         .post(`${ROUTE}VISIT_CONFIRMATION`)

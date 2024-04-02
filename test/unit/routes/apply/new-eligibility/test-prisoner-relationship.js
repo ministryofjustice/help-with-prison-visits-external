@@ -121,7 +121,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
     })
 
     it('should respond with a 400 if domain object validation fails', function () {
-      mockPrisonerRelationship.throws(new ValidationError())
+      mockPrisonerRelationship.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -129,7 +129,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
     })
 
     it('should respond with a 500 if a non-validation error is thrown', function () {
-      mockPrisonerRelationship.throws(new Error())
+      mockPrisonerRelationship.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

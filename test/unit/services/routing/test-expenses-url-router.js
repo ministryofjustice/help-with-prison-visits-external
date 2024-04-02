@@ -1,6 +1,4 @@
-const sinon = require('sinon')
 const expensesUrlRouter = require('../../../../app/services/routing/expenses-url-router')
-const paramBuilder = require('../../../../app/services/routing/param-builder')
 
 describe('services/routing/expenses-url-router', function () {
   describe('parseParams', function () {

@@ -101,7 +101,7 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      mockHasEscort.throws(new ValidationError())
+      mockHasEscort.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -112,7 +112,7 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      mockHasEscort.throws(new Error())
+      mockHasEscort.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

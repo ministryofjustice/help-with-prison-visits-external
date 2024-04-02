@@ -98,7 +98,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     })
 
     it('should respond with a 400 for invalid data', function () {
-      mockAboutThePrisoner.throws(new ValidationError())
+      mockAboutThePrisoner.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -106,7 +106,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      mockAboutThePrisoner.throws(new Error())
+      mockAboutThePrisoner.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

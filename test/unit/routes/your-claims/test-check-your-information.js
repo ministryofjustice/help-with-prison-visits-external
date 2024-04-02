@@ -2,11 +2,6 @@ const routeHelper = require('../../../helpers/routes/route-helper')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const supertest = require('supertest')
 
-jest.mock('../../services/validators/url-path-validator', () => mockUrlPathValidator)
-jest.mock('../../services/helpers/decrypt', () => mockDecrypt)
-jest.mock('../../services/data/get-repeat-eligibility', () => mockGetRepeatEligibility)
-jest.mock('../../services/domain/check-your-information', () => mockCheckYourInformation)
-
 describe('/your-claims/check-your-information', function () {
   const REFERENCE = 'APVS123'
   const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MTgzLjA0MjMzMzMzNSwiZGVjcnlwdGVkUmVmIjoiUUhRQ1hXWiIsImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJwcmlzb25lck51bWJlciI6IkExMjM0QkMifQ==']
@@ -21,6 +16,11 @@ describe('/your-claims/check-your-information', function () {
 
   beforeEach(function () {
     mockDecrypt.mockReturnValue(REFERENCE)
+
+    jest.mock('../../services/validators/url-path-validator', () => mockUrlPathValidator)
+    jest.mock('../../services/helpers/decrypt', () => mockDecrypt)
+    jest.mock('../../services/data/get-repeat-eligibility', () => mockGetRepeatEligibility)
+    jest.mock('../../services/domain/check-your-information', () => mockCheckYourInformation)
 
     const route = require('../../../../app/routes/your-claims/check-your-information')
     app = routeHelper.buildApp(route)
@@ -113,7 +113,7 @@ describe('/your-claims/check-your-information', function () {
     })
 
     it('should respond with a 400 for a validation error', function () {
-      mockCheckYourInformation.throws(new ValidationError())
+      mockCheckYourInformation.mockImplementation(() => { throw new ValidationError() })
       mockGetRepeatEligibility.mockResolvedValue({})
       return supertest(app)
         .post(ROUTE)
@@ -125,7 +125,7 @@ describe('/your-claims/check-your-information', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      mockCheckYourInformation.throws(new ValidationError())
+      mockCheckYourInformation.mockImplementation(() => { throw new ValidationError() })
       mockGetRepeatEligibility.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
@@ -134,7 +134,7 @@ describe('/your-claims/check-your-information', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      mockCheckYourInformation.throws(new Error())
+      mockCheckYourInformation.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

@@ -79,7 +79,7 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
     })
 
     it('should respond with a 400 if domain object validation fails', function () {
-      mockFutureOrPastVisit.throws(new ValidationError())
+      mockFutureOrPastVisit.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -87,7 +87,7 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
     })
 
     it('should respond with a 500 if any non-validation error occurs', function () {
-      mockFutureOrPastVisit.throws(new Error())
+      mockFutureOrPastVisit.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

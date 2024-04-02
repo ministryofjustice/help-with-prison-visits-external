@@ -15,9 +15,14 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
   const mockInsertExpense = jest.fn()
   const mockAccommodationExpense = jest.fn()
   const mockGetIsAdvanceClaim = jest.fn()
+  const mockParseParams = jest.fn()
+  const mockGetRedirectUrl = jest.fn()
 
   beforeEach(function () {
     mockGetIsAdvanceClaim.mockResolvedValue()
+    mockExpenseUrlRouter.mockReturnValue({
+      parseParams: mockParseParams
+    })
 
     jest.mock(
       '../../../../../../app/services/validators/url-path-validator',
@@ -68,12 +73,11 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
     })
 
     it('should call parseParams', function () {
-      const parseParams = sinon.stub(mockExpenseUrlRouter, 'parseParams')
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          expect(parseParams).toHaveBeenCalledTimes(1)
+          expect(mockParseParams).toHaveBeenCalledTimes(1)
         })
     })
   })
@@ -114,19 +118,19 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
-      const getRedirectUrl = sinon.stub(mockExpenseUrlRouter, 'getRedirectUrl').mockReturnValue(REDIRECT_URL)
+      mockGetRedirectUrl.mockReturnValue(REDIRECT_URL)
       mockInsertExpense.mockResolvedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          expect(getRedirectUrl).toHaveBeenCalledTimes(1)
+          expect(mockGetRedirectUrl).toHaveBeenCalledTimes(1)
         })
         .expect('location', REDIRECT_URL)
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      mockAccommodationExpense.throws(new ValidationError())
+      mockAccommodationExpense.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -137,7 +141,7 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      mockAccommodationExpense.throws(new Error())
+      mockAccommodationExpense.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

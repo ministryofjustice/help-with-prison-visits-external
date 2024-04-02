@@ -104,7 +104,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      mockInsertChild.throws(new ValidationError())
+      mockInsertChild.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -112,7 +112,7 @@ describe('routes/apply/eligibility/claim/about-child', function () {
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      mockInsertChild.throws(new Error())
+      mockInsertChild.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

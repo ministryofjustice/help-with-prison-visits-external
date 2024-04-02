@@ -70,7 +70,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
       })
 
       it('should respond with a 400 for a validation error', function () {
-        mockDateOfBirth.throws(new ValidationError())
+        mockDateOfBirth.mockImplementation(() => { throw new ValidationError() })
         return supertest(app)
           .post(ROUTE)
           .set('Cookie', COOKIES)
@@ -78,7 +78,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
       })
 
       it('should respond with a 500 for a non-validation error', function () {
-        mockDateOfBirth.throws(new Error())
+        mockDateOfBirth.mockImplementation(() => { throw new Error() })
         return supertest(app)
           .post(ROUTE)
           .set('Cookie', COOKIES)

@@ -106,7 +106,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
 
     it('should respond with a 400 if validation errors', function () {
       mockGetViewClaim.mockResolvedValue(CLAIM)
-      mockViewClaimDomainObject.throws(new ValidationError())
+      mockViewClaimDomainObject.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -115,7 +115,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
 
     it('should respond with a 500 if promise rejects.', function () {
       mockGetViewClaim.mockResolvedValue(CLAIM)
-      mockViewClaimDomainObject.throws(new Error())
+      mockViewClaimDomainObject.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

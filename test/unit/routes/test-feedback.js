@@ -14,8 +14,8 @@ describe('routes/feedback', function () {
 
   let app
 
-  let mockFeedback = jest.fn()
-  let mockInsertTask = jest.fn()
+  const mockFeedback = jest.fn()
+  const mockInsertTask = jest.fn()
 
   beforeEach(function () {
     mockInsertTask.mockResolvedValue()
@@ -53,14 +53,14 @@ describe('routes/feedback', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      mockFeedback.throws(new ValidationError({ rating: {} }))
+      mockFeedback.mockImplementation(() => { throw new ValidationError({ rating: {} }) })
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      mockFeedback.throws(new Error())
+      mockFeedback.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .expect(500)
