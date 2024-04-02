@@ -11,7 +11,7 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
   let app
 
   const mockUrlPathValidator = jest.fn()
-  const mockExpenseUrlRouter = jest.fn()
+  let mockExpenseUrlRouter = jest.fn()
   const mockInsertExpense = jest.fn()
   const mockAccommodationExpense = jest.fn()
   const mockGetIsAdvanceClaim = jest.fn()
@@ -20,9 +20,10 @@ describe('routes/apply/eligibility/claim/accommodation-details', function () {
 
   beforeEach(function () {
     mockGetIsAdvanceClaim.mockResolvedValue()
-    mockExpenseUrlRouter.mockReturnValue({
-      parseParams: mockParseParams
-    })
+    mockExpenseUrlRouter = {
+      parseParams: mockParseParams,
+      getRedirectUrl: mockGetRedirectUrl
+    }
 
     jest.mock(
       '../../../../../../app/services/validators/url-path-validator',

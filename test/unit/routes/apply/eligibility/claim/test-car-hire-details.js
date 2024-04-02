@@ -20,10 +20,10 @@ describe('routes/apply/eligibility/claim/car-hire-details', function () {
 
   beforeEach(function () {
     mockGetIsAdvanceClaim.mockResolvedValue()
-    mockExpenseUrlRouter.mockReturnValue({
+    mockExpenseUrlRouter = {
       parseParams: mockParseParams,
       getRedirectUrl: mockGetRedirectUrl
-    })
+    }
 
     jest.mock(
       '../../../../../../app/services/validators/url-path-validator',

@@ -11,7 +11,7 @@ describe('routes/apply/eligibility/claim/expenses', function () {
   let app
 
   const mockUrlPathValidator = jest.fn()
-  const mockExpenseUrlRouter = jest.fn()
+  let mockExpenseUrlRouter
   const mockExpenses = jest.fn()
   const mockGetClaimSummary = jest.fn()
   const mockGetIsAdvanceClaim = jest.fn()
@@ -20,9 +20,9 @@ describe('routes/apply/eligibility/claim/expenses', function () {
   beforeEach(function () {
     mockGetClaimSummary.mockResolvedValue({ claim: { Country: 'England' } })
     mockGetIsAdvanceClaim.mockResolvedValue()
-    mockExpenseUrlRouter.mockReturnValue({
+    mockExpenseUrlRouter = {
       getRedirectUrl: mockGetRedirectUrl
-    })
+    }
 
     jest.mock(
       '../../../../../../app/services/validators/url-path-validator',

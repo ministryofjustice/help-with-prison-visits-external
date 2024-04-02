@@ -20,10 +20,10 @@ describe('routes/apply/eligibility/claim/train-details', function () {
   const mockParseParams = jest.fn()
 
   beforeEach(function () {
-    mockExpenseUrlRouter.mockReturnValue({
+    mockExpenseUrlRouter = {
       getRedirectUrl: mockGetRedirectUrl,
       parseParams: mockParseParams
-    })
+    }
 
     jest.mock(
       '../../../../../../app/services/validators/url-path-validator',

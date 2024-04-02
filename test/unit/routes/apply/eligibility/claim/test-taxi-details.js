@@ -20,10 +20,10 @@ describe('routes/apply/eligibility/claim/taxi-details', function () {
 
   beforeEach(function () {
     mockGetIsAdvanceClaim.mockResolvedValue({})
-    mockExpenseUrlRouter.mockReturnValue({
+    mockExpenseUrlRouter = {
       getRedirectUrl: mockGetRedirectUrl,
       parseParams: mockParseParams
-    })
+    }
 
     jest.mock(
       '../../../../../../app/services/validators/url-path-validator',

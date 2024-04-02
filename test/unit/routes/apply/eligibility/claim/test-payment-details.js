@@ -87,7 +87,7 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      mockPaymentDetails.mockImplementation(() => { throw new ValidationError({ firstName: {} }))
+      mockPaymentDetails.mockImplementation(() => { throw new ValidationError({ firstName: {} }) })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
