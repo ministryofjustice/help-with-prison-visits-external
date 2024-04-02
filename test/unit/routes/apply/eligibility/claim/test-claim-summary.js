@@ -29,7 +29,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
   const mockUrlPathValidator = jest.fn()
   const mockGetClaimSummary = jest.fn()
   const mockClaimSummary = jest.fn()
-  let mockClaimSummaryHelper
+  const mockClaimSummaryHelper = jest.fn()
   const mockDownload = jest.fn()
   const mockAws = jest.fn()
   const mockGetDocumentFilePath = jest.fn()
@@ -208,7 +208,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .expect(302)
         .expect(function () {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
-          expect(mockRemoveDocument).hasBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', ROUTE)
     })
@@ -220,7 +220,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .expect(302)
         .expect(function () {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
-          expect(mockRemoveDocument).hasBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION`)
     })
@@ -233,7 +233,7 @@ describe('routes/apply/eligibility/claim/claim-summary', function () {
         .expect(302)
         .expect(function () {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
-          expect(mockRemoveDocument).hasBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION${claimExpenseParam}`)
     })

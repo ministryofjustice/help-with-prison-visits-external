@@ -20,8 +20,8 @@ describe('routes/feedback', function () {
   beforeEach(function () {
     mockInsertTask.mockResolvedValue()
 
-    jest.mock('../../../../app/services/domain/feedback', () => mockFeedback)
-    jest.mock('../../../../app/services/data/insert-task', () => mockInsertTask)
+    jest.mock('../../../app/services/domain/feedback', () => mockFeedback)
+    jest.mock('../../../app/services/data/insert-task', () => mockInsertTask)
 
     const route = require('../../../app/routes/feedback')
     app = routeHelper.buildApp(route)
@@ -47,8 +47,8 @@ describe('routes/feedback', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          expect(mockFeedback).hasBeenCalledWith(VALID_DATA.rating, VALID_DATA.improvements, VALID_DATA.emailAddress)
-          expect(mockInsertTask).hasBeenCalledWith(null, null, null, TaskEnums.FEEDBACK_SUBMITTED, `${VALID_DATA.rating}~~${VALID_DATA.improvements}~~${VALID_DATA.emailAddress}`)
+          expect(mockFeedback).toHaveBeenCalledWith(VALID_DATA.rating, VALID_DATA.improvements, VALID_DATA.emailAddress)
+          expect(mockInsertTask).toHaveBeenCalledWith(null, null, null, TaskEnums.FEEDBACK_SUBMITTED, `${VALID_DATA.rating}~~${VALID_DATA.improvements}~~${VALID_DATA.emailAddress}`)
         })
     })
 

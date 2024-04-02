@@ -59,7 +59,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
         .expect(function () {
           expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
           expect(mockAboutThePrisoner).toHaveBeenCalledTimes(1)
-          expect(mockInsertNewEligibilityAndPrisoner).hasBeenCalledWith(newAboutThePrisoner, 'first-time', undefined)
+          expect(mockInsertNewEligibilityAndPrisoner).toHaveBeenCalledWith(newAboutThePrisoner, 'first-time', undefined)
         })
         .expect('location', '/apply/first-time/new-eligibility/about-you')
     })
@@ -78,7 +78,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
         .expect(function () {
           expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
           expect(mockAboutThePrisoner).toHaveBeenCalledTimes(1)
-          expect(mockInsertNewEligibilityAndPrisoner).hasBeenCalledWith(newAboutThePrisoner, 'first-time', undefined)
+          expect(mockInsertNewEligibilityAndPrisoner).toHaveBeenCalledWith(newAboutThePrisoner, 'first-time', undefined)
         })
         .expect('location', '/apply/first-time/new-eligibility/benefit-owner')
     })

@@ -44,7 +44,7 @@ describe('routes/help', function () {
     }
 
     jest.mock('../../../app/services/domain/technical-help', () => mockTechnicalHelp)
-    jest.mock('../../../app/config', () => mockConfig)
+    jest.mock('../../../config', () => mockConfig)
     jest.mock('axios', () => mockAxios)
 
     const route = require('../../../app/routes/technical-help')
@@ -72,7 +72,7 @@ describe('routes/help', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          expect(mockTechnicalHelp).hasBeenCalledWith(VALID_DATA.name, VALID_DATA.emailAddress, VALID_DATA.referenceNumber, VALID_DATA.day, VALID_DATA.month, VALID_DATA.year, VALID_DATA.issue)
+          expect(mockTechnicalHelp).toHaveBeenCalledWith(VALID_DATA.name, VALID_DATA.emailAddress, VALID_DATA.referenceNumber, VALID_DATA.day, VALID_DATA.month, VALID_DATA.year, VALID_DATA.issue)
         })
     })
 

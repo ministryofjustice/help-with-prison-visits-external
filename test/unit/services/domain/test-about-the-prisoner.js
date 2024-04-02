@@ -51,7 +51,7 @@ describe('services/domain/about-the-prisoner', function () {
       new AboutThePrisoner('', '', '', '', '', '', '')
     } catch (error) {
       expect(error).toBeInstanceOf(ValidationError)
-      expect(Object.keys(error.validationErrors)).toContain(REQUIRED_FIELDS)
+      expect(Object.keys(error.validationErrors)).toEqual(REQUIRED_FIELDS)
     }
   })
 

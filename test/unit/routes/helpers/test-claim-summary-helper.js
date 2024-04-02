@@ -86,7 +86,7 @@ describe('routes/helpers/claim-summary-helper', function () {
     it('should call removeExpense with the given parameters', function () {
       claimSummaryHelper.removeExpense(CLAIM_ID, CLAIM_EXPENSE_ID)
       expect(mockRemoveClaimExpense).toHaveBeenCalledTimes(1)
-      expect(mockRemoveClaimExpense).hasBeenCalledWith(CLAIM_ID, CLAIM_EXPENSE_ID)
+      expect(mockRemoveClaimExpense).toHaveBeenCalledWith(CLAIM_ID, CLAIM_EXPENSE_ID)
     })
   })
 
@@ -94,7 +94,7 @@ describe('routes/helpers/claim-summary-helper', function () {
     it('should call removeDocument with the given parameters', function () {
       claimSummaryHelper.removeDocument(CLAIM_DOCUMENT_ID)
       expect(mockRemoveClaimDocument).toHaveBeenCalledTimes(1)
-      expect(mockRemoveClaimDocument).hasBeenCalledWith(CLAIM_DOCUMENT_ID)
+      expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
     })
   })
 

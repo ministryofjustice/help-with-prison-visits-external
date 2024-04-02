@@ -73,7 +73,7 @@ describe('routes/apply/eligibility/claim/payment-details', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          expect(mockPaymentDetails).hasBeenCalledWith(VALID_DATA.PaymentMethod)
+          expect(mockPaymentDetails).toHaveBeenCalledWith(VALID_DATA.PaymentMethod)
         })
         .expect('location', '/apply/eligibility/claim/bank-payment-details?isAdvance=false')
     })

@@ -33,18 +33,18 @@ describe('services/data/get-view-claim', function () {
       '../../../../app/services/data/get-claim-children-by-id-or-last-approved',
       () => mockGetClaimChildrenByIdOrLastApproved
     )
-    jest.mock('./get-historic-claim-by-claim-id', () => mockGetHistoricClaimByClaimId)
+    jest.mock('../../../../app/services/data/get-historic-claim-by-claim-id', () => mockGetHistoricClaimByClaimId)
     jest.mock(
-      './get-claim-documents-historic-claim',
+      '../../../../app/services/data/get-claim-documents-historic-claim',
       () => mockGetClaimDocumentsHistoricClaim
     )
     jest.mock(
-      './get-all-claim-documents-by-claim-id',
+      '../../../../app/services/data/get-all-claim-documents-by-claim-id',
       () => mockGetAllClaimDocumentsByClaimId
     )
-    jest.mock('./get-claim-events', () => mockGetClaimEvents)
+    jest.mock('../../../../app/services/data/get-claim-events', () => mockGetClaimEvents)
     jest.mock(
-      '../helpers/sort-view-claim-results-helper',
+      '../../../../app/services/helpers/sort-view-claim-results-helper',
       () => mockSortViewClaimResultsHelper
     )
 
@@ -58,12 +58,12 @@ describe('services/data/get-view-claim', function () {
   it('should call each data call, then return sorted results', function () {
     return getViewClaim(CLAIMID, REFERENCE, DOB)
       .then(function (result) {
-        expect(mockGetRepeatEligibilityStub).hasBeenCalledWith(REFERENCE, DOB, null).toBe(true)  //eslint-disable-line
-        expect(mockGetClaimExpenseByIdOrLastApproved).hasBeenCalledWith(REFERENCE, null, CLAIMID).toBe(true)  //eslint-disable-line
-        expect(mockGetClaimChildrenByIdOrLastApproved).hasBeenCalledWith(REFERENCE, null, CLAIMID).toBe(true)  //eslint-disable-line
-        expect(mockGetHistoricClaimByClaimId).hasBeenCalledWith(REFERENCE, DOB, CLAIMID).toBe(true)  //eslint-disable-line
-        expect(mockGetClaimDocumentsHistoricClaim).hasBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID).toBe(true)  //eslint-disable-line
-        expect(mockGetAllClaimDocumentsByClaimId).hasBeenCalledWith(CLAIMID, REFERENCE, ELIGIBILITYID).toBe(true)  //eslint-disable-line
+        expect(mockGetRepeatEligibilityStub).toHaveBeenCalledWith(REFERENCE, DOB, null).toBe(true)  //eslint-disable-line
+        expect(mockGetClaimExpenseByIdOrLastApproved).toHaveBeenCalledWith(REFERENCE, null, CLAIMID).toBe(true)  //eslint-disable-line
+        expect(mockGetClaimChildrenByIdOrLastApproved).toHaveBeenCalledWith(REFERENCE, null, CLAIMID).toBe(true)  //eslint-disable-line
+        expect(mockGetHistoricClaimByClaimId).toHaveBeenCalledWith(REFERENCE, DOB, CLAIMID).toBe(true)  //eslint-disable-line
+        expect(mockGetClaimDocumentsHistoricClaim).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID).toBe(true)  //eslint-disable-line
+        expect(mockGetAllClaimDocumentsByClaimId).toHaveBeenCalledWith(CLAIMID, REFERENCE, ELIGIBILITYID).toBe(true)  //eslint-disable-line
         expect(mockSortViewClaimResultsHelper).toHaveBeenCalledTimes(1)
       })
   })

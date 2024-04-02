@@ -27,28 +27,28 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     mockCsurf.mockReturnValue(mockCsurfResponse)
 
     jest.mock(
-      '../../../../services/validators/url-path-validator',
+      '../../../../../../app/services/validators/url-path-validator',
       () => mockUrlPathValidator
     )
-    jest.mock('../../../../services/upload', () => mockUpload)
-    jest.mock('../../../../services/domain/file-upload', () => mockFileUpload)
+    jest.mock('../../../../../../app/services/upload', () => mockUpload)
+    jest.mock('../../../../../../app/services/domain/file-upload', () => mockFileUpload)
     jest.mock(
-      '../../../../services/data/insert-file-upload-details-for-claim',
+      '../../../../../../app/services/data/insert-file-upload-details-for-claim',
       () => mockClaimDocumentInsert
     )
-    jest.mock('../../../../services/generate-csrf-token', () => mockGenerateCSRFToken)
-    jest.mock('../../../../services/clam-av', () => ({
+    jest.mock('../../../../../../app/services/generate-csrf-token', () => mockGenerateCSRFToken)
+    jest.mock('../../../../../../app/services/clam-av', () => ({
       mockClamAv,
       '@noCallThru': true
     }))
-    jest.mock('../../../../../config', () => mockConfig)
-    jest.mock('../../../../services/data/insert-task', () => mockInsertTask)
+    jest.mock('../../../../../../config', () => mockConfig)
+    jest.mock('../../../../../../app/services/data/insert-task', () => mockInsertTask)
     jest.mock(
-      '../../../../services/data/disable-old-claim-documents',
+      '../../../../../../app/services/data/disable-old-claim-documents',
       () => mockDisableOldClaimDocuments
     )
     jest.mock(
-      '../../../../services/data/check-expense-is-enabled',
+      '../../../../../../app/services/data/check-expense-is-enabled',
       () => mockCheckExpenseIsEnabled
     )
     jest.mock('csurf', () => mockCsurf)

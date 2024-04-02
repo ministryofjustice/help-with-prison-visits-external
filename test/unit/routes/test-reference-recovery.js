@@ -19,8 +19,8 @@ describe('routes/reference-recovery', function () {
   beforeEach(function () {
     mockInsertTask.mockResolvedValue()
 
-    jest.mock('../../../../app/services/domain/reference-recovery', () => mockReferenceRecovery)
-    jest.mock('../../../../app/services/data/insert-task', () => mockInsertTask)
+    jest.mock('../../../app/services/domain/reference-recovery', () => mockReferenceRecovery)
+    jest.mock('../../../app/services/data/insert-task', () => mockInsertTask)
 
     const route = require('../../../app/routes/reference-recovery')
     app = routeHelper.buildApp(route)
@@ -46,8 +46,8 @@ describe('routes/reference-recovery', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          expect(mockReferenceRecovery).hasBeenCalledWith(VALID_DATA.EmailAddress, VALID_DATA.PrisonerNumber)
-          expect(mockInsertTask).hasBeenCalledWith(null, null, null, TaskEnums.REFERENCE_RECOVERY, `${VALID_DATA.EmailAddress}~~${VALID_DATA.PrisonerNumber}`)
+          expect(mockReferenceRecovery).toHaveBeenCalledWith(VALID_DATA.EmailAddress, VALID_DATA.PrisonerNumber)
+          expect(mockInsertTask).toHaveBeenCalledWith(null, null, null, TaskEnums.REFERENCE_RECOVERY, `${VALID_DATA.EmailAddress}~~${VALID_DATA.PrisonerNumber}`)
         })
     })
 

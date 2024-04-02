@@ -24,7 +24,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
 
   beforeEach(function () {
     jest.mock('../../../../../../app/services/domain/declaration', () => mockDeclaration)
-    jest.mock('../../../../services/data/submit-claim', () => mockSubmitClaim)
+    jest.mock('../../../../../../app/services/data/submit-claim', () => mockSubmitClaim)
     jest.mock(
       '../../../../../../app/services/validators/url-path-validator',
       () => mockUrlPathValidator
@@ -91,7 +91,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          expect(mockDeclaration).hasBeenCalledWith(mockDeclaration, VALID_DATA['terms-and-conditions-input'])
+          expect(mockDeclaration).toHaveBeenCalledWith(mockDeclaration, VALID_DATA['terms-and-conditions-input'])
         })
         .expect('location', '/application-submitted')
     })

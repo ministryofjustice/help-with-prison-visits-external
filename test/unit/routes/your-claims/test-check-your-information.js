@@ -17,10 +17,10 @@ describe('/your-claims/check-your-information', function () {
   beforeEach(function () {
     mockDecrypt.mockReturnValue(REFERENCE)
 
-    jest.mock('../../services/validators/url-path-validator', () => mockUrlPathValidator)
-    jest.mock('../../services/helpers/decrypt', () => mockDecrypt)
-    jest.mock('../../services/data/get-repeat-eligibility', () => mockGetRepeatEligibility)
-    jest.mock('../../services/domain/check-your-information', () => mockCheckYourInformation)
+    jest.mock('../../../../app/services/validators/url-path-validator', () => mockUrlPathValidator)
+    jest.mock('../../../../app/services/helpers/decrypt', () => mockDecrypt)
+    jest.mock('../../../../app/services/data/get-repeat-eligibility', () => mockGetRepeatEligibility)
+    jest.mock('../../../../app/services/domain/check-your-information', () => mockCheckYourInformation)
 
     const route = require('../../../../app/routes/your-claims/check-your-information')
     app = routeHelper.buildApp(route)

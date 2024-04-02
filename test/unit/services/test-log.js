@@ -19,8 +19,8 @@ describe('services/log', function () {
     }
 
     jest.mock('bunyan', () => mockBunyan)
-    jest.mock('./log-serializers', () => mockSerializers)
-    jest.mock('./log-streams', () => mockStreams)
+    jest.mock('../../../app/services/log-serializers', () => mockSerializers)
+    jest.mock('../../../app/services/log-streams', () => mockStreams)
 
     require('../../../app/services/log')
   })

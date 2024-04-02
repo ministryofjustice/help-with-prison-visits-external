@@ -28,8 +28,8 @@ describe('services/data/get-repeat-eligibility', function () {
     mockGetEligibilityVisitorUpdateContactDetail.mockResolvedValue(UPDATE_CONTACT_DETAILS)
     return mockGetRepeatEligibility(REFERENCE, DOB, ELIGIBILITYID)
       .then(function (result) {
-        expect(mockGetMaskedEligibility).hasBeenCalledWith(REFERENCE, DOB, ELIGIBILITYID)  //eslint-disable-line
-        expect(mockGetEligibilityVisitorUpdateContactDetail).hasBeenCalledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)  //eslint-disable-line
+        expect(mockGetMaskedEligibility).toHaveBeenCalledWith(REFERENCE, DOB, ELIGIBILITYID)  //eslint-disable-line
+        expect(mockGetEligibilityVisitorUpdateContactDetail).toHaveBeenCalledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)  //eslint-disable-line
 
         expect(result.EmailAddress).toBe(UPDATE_CONTACT_DETAILS.EmailAddress)
         expect(result.PhoneNumber).toBe(UPDATE_CONTACT_DETAILS.PhoneNumber)
@@ -42,8 +42,8 @@ describe('services/data/get-repeat-eligibility', function () {
     mockGetEligibilityVisitorUpdateContactDetail.mockResolvedValue({})
     return mockGetRepeatEligibility(REFERENCE, DOB, ELIGIBILITYID)
       .then(function (result) {
-        expect(mockGetMaskedEligibility).hasBeenCalledWith(REFERENCE, DOB, ELIGIBILITYID)  //eslint-disable-line
-        expect(mockGetEligibilityVisitorUpdateContactDetail).hasBeenCalledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)  //eslint-disable-line
+        expect(mockGetMaskedEligibility).toHaveBeenCalledWith(REFERENCE, DOB, ELIGIBILITYID)  //eslint-disable-line
+        expect(mockGetEligibilityVisitorUpdateContactDetail).toHaveBeenCalledWith(REFERENCE, MASKED_ELIGIBILITY.EligibilityId)  //eslint-disable-line
 
         expect(result.EmailAddress).toBe(MASKED_ELIGIBILITY.EmailAddress)
         expect(result.PhoneNumber).toBe(MASKED_ELIGIBILITY.PhoneNumber)

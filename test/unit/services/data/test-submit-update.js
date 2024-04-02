@@ -28,8 +28,8 @@ describe('services/data/submit-update', function () {
     mockInsertTask.mockResolvedValue()
     return submitUpdate(REFERENCE, ELIGIBILITYID, CLAIMID, '', NO_BANK_DETAILS)
       .then(function () {
-        expect(mockInsertTask).hasBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '')  //eslint-disable-line
-        expect(mockInsertBankDetails).not.hasBeenCalledWith()  //eslint-disable-line
+        expect(mockInsertTask).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '')  //eslint-disable-line
+        expect(mockInsertBankDetails).not.toHaveBeenCalledWith()  //eslint-disable-line
       })
   })
 
@@ -38,8 +38,8 @@ describe('services/data/submit-update', function () {
     mockInsertBankDetails.mockResolvedValue()
     return submitUpdate(REFERENCE, ELIGIBILITYID, CLAIMID, '', BANK_DETAILS)
       .then(function () {
-        expect(mockInsertTask).hasBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '')  //eslint-disable-line
-        expect(mockInsertBankDetails).hasBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID, TEST_BANK_ACCOUNT_DETAILS)  //eslint-disable-line
+        expect(mockInsertTask).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '')  //eslint-disable-line
+        expect(mockInsertBankDetails).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID, TEST_BANK_ACCOUNT_DETAILS)  //eslint-disable-line
       })
   })
 })

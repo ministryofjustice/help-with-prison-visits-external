@@ -49,10 +49,10 @@ describe('services/data/get-last-claim-details', function () {
     mockGetLastClaimForReference.mockResolvedValue(CLAIMID)
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, false, false)
       .then(function (result) {
-        expect(mockGetLastClaimForReference).hasBeenCalledWith(REFERENCE, ELIGIBILITYID)
-        expect(mockGetClaimChildrenByIdOrLastApproved).hasBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
-        expect(mockGetClaimExpenseByIdOrLastApproved).hasBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
-        expect(mockGetClaimEscortByIdOrLastApproved).hasBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
+        expect(mockGetLastClaimForReference).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID)
+        expect(mockGetClaimChildrenByIdOrLastApproved).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
+        expect(mockGetClaimExpenseByIdOrLastApproved).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
+        expect(mockGetClaimEscortByIdOrLastApproved).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
         expect(mockMaskArrayOfNames).not.toHaveBeenCalled()
 
         expect(result.children).toBe(CHILDREN)
@@ -65,12 +65,12 @@ describe('services/data/get-last-claim-details', function () {
     mockGetLastClaimForReference.mockResolvedValue(CLAIMID)
     return getLastClaimDetails(REFERENCE, ELIGIBILITYID, true, false)
       .then(function (result) {
-        expect(mockGetLastClaimForReference).hasBeenCalledWith(REFERENCE, ELIGIBILITYID)
-        expect(mockGetClaimChildrenByIdOrLastApproved).hasBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
-        expect(mockGetClaimExpenseByIdOrLastApproved).hasBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
-        expect(mockGetClaimEscortByIdOrLastApproved).hasBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
-        expect(mockMaskArrayOfNames).hasBeenCalledWith(CHILDREN)
-        expect(mockMaskArrayOfNames).hasBeenCalledWith(ESCORT)
+        expect(mockGetLastClaimForReference).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID)
+        expect(mockGetClaimChildrenByIdOrLastApproved).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
+        expect(mockGetClaimExpenseByIdOrLastApproved).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
+        expect(mockGetClaimEscortByIdOrLastApproved).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID[0].ClaimId)
+        expect(mockMaskArrayOfNames).toHaveBeenCalledWith(CHILDREN)
+        expect(mockMaskArrayOfNames).toHaveBeenCalledWith(ESCORT)
       })
   })
 
