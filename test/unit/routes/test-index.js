@@ -25,7 +25,7 @@ describe('routes/index', function () {
         .get(ASSISTED_DIGITAL_ROUTE)
         .query(COOKIE)
         .expect(function (response) {
-          expect(response.header['set-cookie'][0]).toEqual(expect.arrayContaining([COOKIE_NAME]))
+          expect(response.header['set-cookie'][0]).toContain(COOKIE_NAME)
         })
         .expect(302)
     })

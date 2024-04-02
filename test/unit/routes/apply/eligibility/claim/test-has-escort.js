@@ -23,7 +23,7 @@ describe('routes/apply/eligibility/claim/has-escort', function () {
     )
     jest.mock('../../../../../../app/services/domain/has-escort', () => mockHasEscort)
     jest.mock(
-      '../../../../../../app/ervices/data/get-is-advance-claim',
+      '../../../../../../app/services/data/get-is-advance-claim',
       () => mockGetIsAdvanceClaim
     )
 

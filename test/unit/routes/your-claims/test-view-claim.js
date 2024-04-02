@@ -150,7 +150,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          mockRemoveClaimDocument.toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITY_ID}`)
     })
@@ -162,7 +162,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          mockRemoveClaimDocument.toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', ROUTE)
     })
@@ -174,7 +174,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          mockRemoveClaimDocument.toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION&claimExpenseId=${CLAIM_EXPENSE_ID}&eligibilityId=${ELIGIBILITY_ID}`)
     })

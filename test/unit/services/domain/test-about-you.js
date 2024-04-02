@@ -81,7 +81,7 @@ describe('services/domain/about-you', function () {
       new AboutYou('', '', '', '', '', '', '')
     } catch (error) {
       expect(error).toBeInstanceOf(ValidationError)
-      expect(Object.keys(error.validationErrors)).toContain(REQUIRED_FIELDS)
+      expect(Object.keys(error.validationErrors)).toEqual(REQUIRED_FIELDS)
     }
   })
 
