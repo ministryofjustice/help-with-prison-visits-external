@@ -14,7 +14,6 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
   const mockClaimDocumentInsert = jest.fn()
   const mockGenerateCSRFToken = jest.fn()
   const mockClamAv = jest.fn()
-  const mockConfig = jest.fn()
   const mockInsertTask = jest.fn()
   const mockDisableOldClaimDocuments = jest.fn()
   const mockCheckExpenseIsEnabled = jest.fn()
@@ -37,11 +36,20 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
       () => mockClaimDocumentInsert
     )
     jest.mock('../../../../../../app/services/generate-csrf-token', () => mockGenerateCSRFToken)
-    jest.mock('../../../../../../app/services/clam-av', () => ({
-      mockClamAv,
-      '@noCallThru': true
-    }))
-    jest.mock('../../../../../../config', () => mockConfig)
+    jest.mock('../../../../../../app/services/clam-av', async () => {
+      return {
+        scan: await mockClamAv
+      }
+    })
+    jest.mock('../../../../../../config', () => {
+      const originalModule = jest.requireActual('../../../../../../config')
+
+      return {
+        ...originalModule,
+        EXT_REFERENCE_SALT: 'c1e59a204dd1b24c7130817b834eec69'
+      }
+    })
+
     jest.mock('../../../../../../app/services/data/insert-task', () => mockInsertTask)
     jest.mock(
       '../../../../../../app/services/data/disable-old-claim-documents',

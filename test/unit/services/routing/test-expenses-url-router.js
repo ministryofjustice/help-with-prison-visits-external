@@ -7,7 +7,6 @@ describe('services/routing/expenses-url-router', function () {
 
     beforeEach(function () {
       paramBuilder.buildFormatted = mockBuildFormatted
-      // jest.mock('../../../../app/services/routing/param-builder', () => mockBuildFormatted)
     })
 
     afterEach(function () {
