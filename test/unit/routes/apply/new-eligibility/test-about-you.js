@@ -98,8 +98,8 @@ describe('routes/apply/new-eligibility/about-you', function () {
           expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
           expect(mockAboutYou).toHaveBeenCalledTimes(1)
           expect(mockDuplicateClaimCheck).not.toHaveBeenCalled()
-          expect(mockInsertVisitor).toHaveBeenCalledTimes(1)
-          expect(mockGetTravellingFromAndTo).toHaveBeenCalledTimes(1)
+          expect(mockInsertVisitor).not.toHaveBeenCalled()
+          expect(mockGetTravellingFromAndTo).not.toHaveBeenCalled()
         })
     })
 
