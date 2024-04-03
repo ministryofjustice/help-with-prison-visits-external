@@ -30,8 +30,8 @@ describe('services/domain/new-claim', function () {
       RELEASE_DATE
     )
     expect(claim.reference).toBe(VALID_REFERENCE)
-    expect(claim.dateOfJourney.toDate()).toBeGreaterThanOrEqual(expectedDateOfJourney.subtract(1, 'seconds').toDate())
-    expect(claim.dateOfJourney.toDate()).toBeLessThanOrEqual(expectedDateOfJourney.add(1, 'seconds').toDate())
+    expect(claim.dateOfJourney.toDate().valueOf()).toBeGreaterThanOrEqual(expectedDateOfJourney.subtract(1, 'seconds').toDate().valueOf())
+    expect(claim.dateOfJourney.toDate().valueOf()).toBeLessThanOrEqual(expectedDateOfJourney.add(1, 'seconds').toDate().valueOf())
     expect(claim.isAdvanceClaim).toBe(IS_PAST_CLAIM)
   })
 

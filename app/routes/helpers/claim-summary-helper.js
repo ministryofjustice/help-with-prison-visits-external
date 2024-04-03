@@ -51,6 +51,10 @@ module.exports.getDocumentFilePath = function (claimDocumentId) {
           name: `${DEFAULT_FILE_NAME}.${path.split('.').pop()}`
         }
       }
+
+      throw new Error(`Could not find the path to the document with claim document id ${claimDocumentId}`)
+    })
+    .catch(function (_error) {
       throw new Error(`Could not find the path to the document with claim document id ${claimDocumentId}`)
     })
 }

@@ -7,8 +7,8 @@ describe('services/log', function () {
 
   beforeEach(function () {
     mockStreams = {
-      mockBuildConsoleStream,
-      mockBuildFileStream
+      buildConsoleStream: mockBuildConsoleStream,
+      buildFileStream: mockBuildFileStream
     }
     mockBunyan = {
       createLogger: function () {

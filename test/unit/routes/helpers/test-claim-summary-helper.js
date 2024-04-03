@@ -134,12 +134,12 @@ describe('routes/helpers/claim-summary-helper', function () {
 
     it('should reject promise if the call to getDocumentFilePath rejects', function () {
       mockGetClaimDocumentFilePath.mockRejectedValue()
-      return expect(claimSummaryHelper.getDocumentFilePath()).to.be.rejected
+      return expect(claimSummaryHelper.getDocumentFilePath()).rejects.toThrow()
     })
 
     it('should reject promise if there is no filepath returned by getDocumentFilePath call', function () {
       mockGetClaimDocumentFilePath.mockResolvedValue()
-      return expect(claimSummaryHelper.getDocumentFilePath()).to.be.rejected
+      return expect(claimSummaryHelper.getDocumentFilePath()).rejects.toThrow()
     })
   })
 })

@@ -1,11 +1,13 @@
 const expensesUrlRouter = require('../../../../app/services/routing/expenses-url-router')
+const paramBuilder = require('../../../../app/services/routing/param-builder')
 
 describe('services/routing/expenses-url-router', function () {
   describe('parseParams', function () {
     const mockBuildFormatted = jest.fn()
 
     beforeEach(function () {
-      jest.mock('../../../../app/services/routing/param-builder', () => mockBuildFormatted)
+      paramBuilder.buildFormatted = mockBuildFormatted
+      // jest.mock('../../../../app/services/routing/param-builder', () => mockBuildFormatted)
     })
 
     afterEach(function () {

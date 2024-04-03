@@ -50,7 +50,7 @@ describe('services/domain/benefit-owner', function () {
       new BenefitOwner('', '', '', '', '', '', '')
     } catch (error) {
       expect(error).toBeInstanceOf(ValidationError)
-      expect(Object.keys(error.validationErrors)).toContain(REQUIRED_FIELDS)
+      expect(Object.keys(error.validationErrors).sort()).toEqual(REQUIRED_FIELDS.sort())
     }
   })
 
