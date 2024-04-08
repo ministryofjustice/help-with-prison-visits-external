@@ -1,8 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
-const expect = require('chai').expect
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 const COOKIES = ['apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MjU1Ljc4NzksImRvYkVuY29kZWQiOiIxMTQwMTc2MDciLCJyZWxhdGlvbnNoaXAiOiJyNCIsImJlbmVmaXQiOiJiMSIsInJlZmVyZW5jZUlkIjoiNWMyZTc3MWViNmNmMzlhNzA5IiwiZGVjcnlwdGVkUmVmIjoiVlgwUEo5MCIsImNsYWltVHlwZSI6ImZpcnN0LXRpbWUifQ==']
@@ -14,17 +11,30 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
 
   let app
   let urlValidatorCalled = false
-  let futureOrPastVisitStub
+  const mockFutureOrPastVisit = jest.fn()
+  const mockUrlValidatorCalled = jest.fn().mockImplementation(() => {
+    urlValidatorCalled = true
+  })
 
   beforeEach(function () {
-    futureOrPastVisitStub = sinon.stub()
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlValidatorCalled
+    )
+    jest.mock(
+      '../../../../../../app/services/domain/future-or-past-visit',
+      () => mockFutureOrPastVisit
+    )
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/future-or-past-visit', {
-      '../../../../services/validators/url-path-validator': function () { urlValidatorCalled = true },
-      '../../../../services/domain/future-or-past-visit': futureOrPastVisitStub
-    })
+    const route = require(
+      '../../../../../../app/routes/apply/eligibility/new-claim/future-or-past-visit'
+    )
     app = routeHelper.buildApp(route)
     urlValidatorCalled = false
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -34,14 +44,14 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          expect(urlValidatorCalled).to.be.true  //eslint-disable-line
+          expect(urlValidatorCalled).toBe(true)  //eslint-disable-line
         })
     })
   })
 
   describe(`POST ${ROUTE}`, function () {
     it('should redirect to /apply/eligibility/new-claim/journey-information for first-time claim', function () {
-      futureOrPastVisitStub.returns({ advancePast: 'past' })
+      mockFutureOrPastVisit.mockReturnValue({ advancePast: 'past' })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -59,7 +69,7 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
     })
 
     it('should redirect to /apply/eligibility/new-claim/journey-information for repeat claim', function () {
-      futureOrPastVisitStub.returns({ advancePast: 'advance' })
+      mockFutureOrPastVisit.mockReturnValue({ advancePast: 'advance' })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT)
@@ -69,7 +79,7 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
     })
 
     it('should respond with a 400 if domain object validation fails', function () {
-      futureOrPastVisitStub.throws(new ValidationError())
+      mockFutureOrPastVisit.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -77,7 +87,7 @@ describe('routes/apply/eligibility/new-claim/future-or-past-visit', function () 
     })
 
     it('should respond with a 500 if any non-validation error occurs', function () {
-      futureOrPastVisitStub.throws(new Error())
+      mockFutureOrPastVisit.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

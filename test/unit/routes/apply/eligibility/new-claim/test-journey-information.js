@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
@@ -15,11 +13,11 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
 
   let app
 
-  let urlPathValidatorStub
-  let newClaimStub
-  let insertNewClaimStub
-  let insertRepeatDuplicateClaimStub
-  let getReleaseDateStub
+  const mockUrlPathValidator = jest.fn()
+  const mockNewClaim = jest.fn()
+  const mockInsertNewClaim = jest.fn()
+  const mockInsertRepeatDuplicateClaim = jest.fn()
+  const mockGetReleaseDate = jest.fn()
 
   const releaseDate = [
     {
@@ -29,20 +27,26 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
   ]
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    newClaimStub = sinon.stub()
-    insertNewClaimStub = sinon.stub()
-    insertRepeatDuplicateClaimStub = sinon.stub()
-    getReleaseDateStub = sinon.stub()
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock('../../../../../../app/services/domain/new-claim', () => mockNewClaim)
+    jest.mock('../../../../../../app/services/data/insert-new-claim', () => mockInsertNewClaim)
+    jest.mock(
+      '../../../../../../app/services/data/insert-repeat-duplicate-claim',
+      () => mockInsertRepeatDuplicateClaim
+    )
+    jest.mock('../../../../../../app/services/data/get-release-date', () => mockGetReleaseDate)
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/new-claim/journey-information', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/new-claim': newClaimStub,
-      '../../../../services/data/insert-new-claim': insertNewClaimStub,
-      '../../../../services/data/insert-repeat-duplicate-claim': insertRepeatDuplicateClaimStub,
-      '../../../../services/data/get-release-date': getReleaseDateStub
-    })
+    const route = require(
+      '../../../../../../app/routes/apply/eligibility/new-claim/journey-information'
+    )
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -51,7 +55,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -68,33 +72,33 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     const REPEAT_DUPLICATE_CLAIM = {}
 
     it('should call the URL Path Validator', function () {
-      getReleaseDateStub.resolves(releaseDate)
-      insertNewClaimStub.resolves()
+      mockGetReleaseDate.mockResolvedValue(releaseDate)
+      mockInsertNewClaim.mockResolvedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should insert valid NewClaim domain object', function () {
-      getReleaseDateStub.resolves(releaseDate)
-      newClaimStub.returns(FIRST_TIME_CLAIM)
-      insertNewClaimStub.resolves(CLAIM_ID)
+      mockGetReleaseDate.mockResolvedValue(releaseDate)
+      mockNewClaim.mockReturnValue(FIRST_TIME_CLAIM)
+      mockInsertNewClaim.mockResolvedValue(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(newClaimStub)
-          sinon.assert.calledOnce(insertNewClaimStub)
+          expect(mockNewClaim).toHaveBeenCalledTimes(1)
+          expect(mockInsertNewClaim).toHaveBeenCalledTimes(1)
         })
         .expect(302)
     })
 
     it('should redirect to has-escort page if child-visitor is set to no', function () {
-      getReleaseDateStub.resolves(releaseDate)
-      insertNewClaimStub.resolves(CLAIM_ID)
+      mockGetReleaseDate.mockResolvedValue(releaseDate)
+      mockInsertNewClaim.mockResolvedValue(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -102,9 +106,9 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should redirect to claim summary page if claim is repeat duplicate', function () {
-      getReleaseDateStub.resolves(releaseDate)
-      newClaimStub.returns(REPEAT_DUPLICATE_CLAIM)
-      insertRepeatDuplicateClaimStub.resolves(CLAIM_ID)
+      mockGetReleaseDate.mockResolvedValue(releaseDate)
+      mockNewClaim.mockReturnValue(REPEAT_DUPLICATE_CLAIM)
+      mockInsertRepeatDuplicateClaim.mockResolvedValue(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_REPEAT_DUPLICATE)
@@ -112,8 +116,8 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', function () {
-      getReleaseDateStub.resolves(releaseDate)
-      insertNewClaimStub.resolves(CLAIM_ID)
+      mockGetReleaseDate.mockResolvedValue(releaseDate)
+      mockInsertNewClaim.mockResolvedValue(CLAIM_ID)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
@@ -122,7 +126,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      insertRepeatDuplicateClaimStub.rejects()
+      mockInsertRepeatDuplicateClaim.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -130,8 +134,8 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      getReleaseDateStub.resolves(releaseDate)
-      insertNewClaimStub.throws(new ValidationError())
+      mockGetReleaseDate.mockResolvedValue(releaseDate)
+      mockInsertNewClaim.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -139,7 +143,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      insertNewClaimStub.throws(new Error())
+      mockInsertNewClaim.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -147,7 +151,7 @@ describe('routes/apply/eligibility/new-claim/journey-information', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      insertNewClaimStub.rejects()
+      mockInsertNewClaim.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

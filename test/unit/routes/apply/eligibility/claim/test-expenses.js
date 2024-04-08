@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
@@ -12,27 +10,41 @@ describe('routes/apply/eligibility/claim/expenses', function () {
 
   let app
 
-  let urlPathValidatorStub
-  let expenseUrlRouterStub
-  let expensesStub
-  let getClaimSummaryStub
-  let getIsAdvanceClaimStub
+  const mockUrlPathValidator = jest.fn()
+  let mockExpenseUrlRouter
+  const mockExpenses = jest.fn()
+  const mockGetClaimSummary = jest.fn()
+  const mockGetIsAdvanceClaim = jest.fn()
+  const mockGetRedirectUrl = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    expenseUrlRouterStub = sinon.stub()
-    expensesStub = sinon.stub()
-    getClaimSummaryStub = sinon.stub().resolves({ claim: { Country: 'England' } })
-    getIsAdvanceClaimStub = sinon.stub().resolves()
+    mockGetClaimSummary.mockResolvedValue({ claim: { Country: 'England' } })
+    mockGetIsAdvanceClaim.mockResolvedValue()
+    mockExpenseUrlRouter = {
+      getRedirectUrl: mockGetRedirectUrl
+    }
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/expenses', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
-      '../../../../services/domain/expenses/expenses': expensesStub,
-      '../../../../services/data/get-claim-summary': getClaimSummaryStub,
-      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
-    })
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock(
+      '../../../../../../app/services/routing/expenses-url-router',
+      () => mockExpenseUrlRouter
+    )
+    jest.mock('../../../../../../app/services/domain/expenses/expenses', () => mockExpenses)
+    jest.mock('../../../../../../app/services/data/get-claim-summary', () => mockGetClaimSummary)
+    jest.mock(
+      '../../../../../../app/services/data/get-is-advance-claim',
+      () => mockGetIsAdvanceClaim
+    )
+
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/expenses')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -41,7 +53,7 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -50,7 +62,7 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(getClaimSummaryStub)
+          expect(mockGetClaimSummary).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -60,7 +72,7 @@ describe('routes/apply/eligibility/claim/expenses', function () {
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
+          expect(mockGetIsAdvanceClaim).toHaveBeenCalledTimes(1)
         })
     })
   })
@@ -70,33 +82,33 @@ describe('routes/apply/eligibility/claim/expenses', function () {
     const EXPENSES = {}
 
     it('should call the URL Path Validator', function () {
-      expensesStub.resolves()
+      mockExpenses.mockResolvedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 302 if domain object is built successfully', function () {
-      expensesStub.returns(EXPENSES)
+      mockExpenses.mockReturnValue(EXPENSES)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(expensesStub)
+          expect(mockExpenses).toHaveBeenCalledTimes(1)
         })
         .expect(302)
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
-      const getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
+      mockGetRedirectUrl.mockReturnValue(REDIRECT_URL)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(getRedirectUrl)
+          expect(mockGetRedirectUrl).toHaveBeenCalledTimes(1)
         })
         .expect('location', REDIRECT_URL)
     })
@@ -110,19 +122,19 @@ describe('routes/apply/eligibility/claim/expenses', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      expensesStub.throws(new ValidationError())
+      mockExpenses.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(400)
         .expect(function () {
-          sinon.assert.calledOnce(getClaimSummaryStub)
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
+          expect(mockGetClaimSummary).toHaveBeenCalledTimes(1)
+          expect(mockGetIsAdvanceClaim).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      expensesStub.throws(new Error())
+      mockExpenses.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

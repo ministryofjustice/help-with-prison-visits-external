@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 const prisonerRelationshipEnum = require('../../../../../app/constants/prisoner-relationships-enum')
@@ -14,18 +12,25 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
 
   let app
 
-  let urlPathValidatorStub
-  let prisonerRelationshipStub
+  const mockUrlPathValidator = jest.fn()
+  const mockPrisonerRelationship = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    prisonerRelationshipStub = sinon.stub()
+    jest.mock(
+      '../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock(
+      '../../../../../app/services/domain/prisoner-relationship',
+      () => mockPrisonerRelationship
+    )
 
-    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/prisoner-relationship', {
-      '../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../services/domain/prisoner-relationship': prisonerRelationshipStub
-    })
+    const route = require('../../../../../app/routes/apply/new-eligibility/prisoner-relationship')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -34,7 +39,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -61,12 +66,12 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 302 and redirect to benefits page if the relationship value is valid', function () {
-      prisonerRelationshipStub.returns(VALID_PRISONER_RELATIONSHIP)
+      mockPrisonerRelationship.mockReturnValue(VALID_PRISONER_RELATIONSHIP)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -75,7 +80,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
     })
 
     it('should respond with a 302 and redirect to /apply/first-time/new-eligibility?error=expired', function () {
-      prisonerRelationshipStub.returns(VALID_PRISONER_RELATIONSHIP)
+      mockPrisonerRelationship.mockReturnValue(VALID_PRISONER_RELATIONSHIP)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
@@ -86,7 +91,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
     it('should respond with a 302 and redirect to benefits page with reference/prisoner-number query params if repeat-new-eligibility', function () {
       const REPEAT_NEW_ELIGIBILITY_ROUTE = '/apply/repeat-new-eligibility/new-eligibility/prisoner-relationship'
 
-      prisonerRelationshipStub.returns(VALID_PRISONER_RELATIONSHIP)
+      mockPrisonerRelationship.mockReturnValue(VALID_PRISONER_RELATIONSHIP)
 
       return supertest(app)
         .post(REPEAT_NEW_ELIGIBILITY_ROUTE)
@@ -96,7 +101,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
     })
 
     it('should respond with a 302 and redirect to /eligibility-fail if the relationship is set to none', function () {
-      prisonerRelationshipStub.returns(INVALID_PRISONER_RELATIONSHIP)
+      mockPrisonerRelationship.mockReturnValue(INVALID_PRISONER_RELATIONSHIP)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -105,18 +110,18 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
     })
 
     it('should respond with a 302 if domain object is built and then persisted successfully', function () {
-      prisonerRelationshipStub.returns(VALID_PRISONER_RELATIONSHIP)
+      mockPrisonerRelationship.mockReturnValue(VALID_PRISONER_RELATIONSHIP)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(prisonerRelationshipStub)
+          expect(mockPrisonerRelationship).toHaveBeenCalledTimes(1)
         })
         .expect(302)
     })
 
     it('should respond with a 400 if domain object validation fails', function () {
-      prisonerRelationshipStub.throws(new ValidationError())
+      mockPrisonerRelationship.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -124,7 +129,7 @@ describe('routes/apply/new-eligibility/prisoner-relationship', function () {
     })
 
     it('should respond with a 500 if a non-validation error is thrown', function () {
-      prisonerRelationshipStub.throws(new Error())
+      mockPrisonerRelationship.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

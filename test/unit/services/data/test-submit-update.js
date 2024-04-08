@@ -1,6 +1,3 @@
-const expect = require('chai').expect
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const tasksEnum = require('../../../../app/constants/tasks-enum')
 const BankAccountDetails = require('../../../../app/services/domain/bank-account-details')
 
@@ -13,35 +10,36 @@ const NO_BANK_DETAILS = { required: false }
 
 describe('services/data/submit-update', function () {
   let submitUpdate
-  let insertTaskStub
-  let insertBankDetailsStub
+  const mockInsertTask = jest.fn()
+  const mockInsertBankDetails = jest.fn()
 
-  before(function () {
-    insertTaskStub = sinon.stub()
-    insertBankDetailsStub = sinon.stub()
+  beforeEach(function () {
+    jest.mock('../../../../app/services/data/insert-task', () => mockInsertTask)
+    jest.mock('../../../../app/services/data/insert-bank-account-details-for-claim', () => mockInsertBankDetails)
 
-    submitUpdate = proxyquire('../../../../app/services/data/submit-update', {
-      './insert-task': insertTaskStub,
-      './insert-bank-account-details-for-claim': insertBankDetailsStub
-    })
+    submitUpdate = require('../../../../app/services/data/submit-update')
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   it('should insert REQUEST_INFORMATION_RESPONSE task', function () {
-    insertTaskStub.resolves()
+    mockInsertTask.mockResolvedValue()
     return submitUpdate(REFERENCE, ELIGIBILITYID, CLAIMID, '', NO_BANK_DETAILS)
       .then(function () {
-        expect(insertTaskStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '')).to.be.true  //eslint-disable-line
-        expect(insertBankDetailsStub.calledOnce).to.be.false  //eslint-disable-line
+        expect(mockInsertTask).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '', false)  //eslint-disable-line
+        expect(mockInsertBankDetails).not.toHaveBeenCalled()  //eslint-disable-line
       })
   })
 
   it('should insert bank details if they have been updated', function () {
-    insertTaskStub.resolves()
-    insertBankDetailsStub.resolves()
+    mockInsertTask.mockResolvedValue()
+    mockInsertBankDetails.mockResolvedValue()
     return submitUpdate(REFERENCE, ELIGIBILITYID, CLAIMID, '', BANK_DETAILS)
       .then(function () {
-        expect(insertTaskStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '')).to.be.true  //eslint-disable-line
-        expect(insertBankDetailsStub.calledWith(REFERENCE, ELIGIBILITYID, CLAIMID, TEST_BANK_ACCOUNT_DETAILS)).to.be.true  //eslint-disable-line
+        expect(mockInsertTask).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID, tasksEnum.REQUEST_INFORMATION_RESPONSE, '', false)  //eslint-disable-line
+        expect(mockInsertBankDetails).toHaveBeenCalledWith(REFERENCE, ELIGIBILITYID, CLAIMID, TEST_BANK_ACCOUNT_DETAILS)  //eslint-disable-line
       })
   })
 })

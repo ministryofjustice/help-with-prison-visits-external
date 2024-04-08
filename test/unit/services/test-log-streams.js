@@ -1,33 +1,32 @@
-const expect = require('chai').expect
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const config = require('../../../config')
 
 describe('services/log-streams', function () {
   const EXPECTED_LOG_LEVEL = config.LOGGING_LEVEL
 
   let logStreams
-  let prettyStreamStub
+  const mockPrettyStream = jest.fn()
 
   beforeEach(function () {
-    prettyStreamStub = sinon.stub()
+    jest.mock('bunyan-prettystream', () => mockPrettyStream)
 
-    logStreams = proxyquire('../../../app/services/log-streams', {
-      'bunyan-prettystream': prettyStreamStub
-    })
+    logStreams = require('../../../app/services/log-streams')
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe('buildConsoleStream', function () {
     const EXPECTED_LOG_LEVEL = 'DEBUG'
 
     it('should build and return the expected console stream', function () {
-      prettyStreamStub.returns({
+      mockPrettyStream.mockReturnValue({
         pipe: function () {}
       })
       const stream = logStreams.buildConsoleStream()
-      sinon.assert.calledOnce(prettyStreamStub)
-      expect(stream.level).to.equal(EXPECTED_LOG_LEVEL)
-      expect(stream.stream).to.not.equal(null)
+      expect(mockPrettyStream).toHaveBeenCalledTimes(1)
+      expect(stream.level).toBe(EXPECTED_LOG_LEVEL)
+      expect(stream.stream).not.toBeNull()
     })
   })
 
@@ -39,11 +38,11 @@ describe('services/log-streams', function () {
 
     it('should build and return the expected file stream', function () {
       const stream = logStreams.buildFileStream()
-      expect(stream.type).to.equal(EXPECTED_TYPE)
-      expect(stream.level).to.equal(EXPECTED_LOG_LEVEL)
-      expect(stream.path).to.equal(EXPECTED_LOG_PATH)
-      expect(stream.period).to.equal(EXPECTED_PERIOD)
-      expect(stream.count).to.equal(EXPECTED_COUNT)
+      expect(stream.type).toBe(EXPECTED_TYPE)
+      expect(stream.level).toBe(EXPECTED_LOG_LEVEL)
+      expect(stream.path).toBe(EXPECTED_LOG_PATH)
+      expect(stream.period).toBe(EXPECTED_PERIOD)
+      expect(stream.count).toBe(EXPECTED_COUNT)
     })
   })
 })

@@ -1,38 +1,33 @@
-// const proxyquire = require('proxyquire')
-// const sinon = require('sinon')
-// var clamAv
-// var isInfectedSub
-// var clamStub
-// var configStub
+let clamAv
+const mockIsInfected = jest.fn()
+const mockClam = jest.fn()
+const mockConfig = jest.fn()
 
-// describe('services/clam-av', function () {
-//   beforeEach(function () {
-//     configStub = sinon.stub()
-//     isInfectedSub = sinon.stub().resolves()
-//     clamStub = sinon.stub().resolves({
-//       is_infected: isInfectedSub,
-//       init: sinon.stub().resolves()
-//     })
+describe.skip('services/clam-av', function () {
+  beforeEach(function () {
+    mockIsInfected.mockResolvedValue()
+    mockClam.mockResolvedValue({
+      is_infected: mockIsInfected,
+      init: jest.fn().mockResolvedValue()
+    })
 
-//     clamAv = proxyquire('../../../app/services/clam-av', {
-//       clam: clamStub,
-//       '../../config': configStub
-//     })
-//   })
+    jest.mock('../../../config', () => mockConfig)
+    jest.mock('clamscan', () => mockClam)
 
-//   describe('scan for malware', function () {
-//     it('should scan file when malware scanning is enabled', function () {
-//       configStub.ENABLE_MALWARE_SCANNING = 'true'
-//       console.log(configStub.ENABLE_MALWARE_SCANNING)
-//       clamAv.scan('/tmp/dummy/path')
-//       sinon.assert.calledOnce(isInfectedSub)
-//     })
+    clamAv = require('../../../app/services/clam-av')
+  })
 
-//     it('should not scan file when malware scanning is disabled', function () {
-//       configStub.ENABLE_MALWARE_SCANNING = 'false'
-//       console.log(configStub.ENABLE_MALWARE_SCANNING)
-//       clamAv.scan('/tmp/dummy/path')
-//       sinon.assert.notCalled(isInfectedSub)
-//     })
-//   })
-// })
+  describe('scan for malware', function () {
+    it('should scan file when malware scanning is enabled', function () {
+      mockConfig.ENABLE_MALWARE_SCANNING = 'true'
+      clamAv.scan('/tmp/dummy/path')
+      expect(mockIsInfected).hasBeenCalledTimes(1)
+    })
+
+    it('should not scan file when malware scanning is disabled', function () {
+      mockConfig.ENABLE_MALWARE_SCANNING = 'false'
+      clamAv.scan('/tmp/dummy/path')
+      expect(mockIsInfected).not.toHaveBeenCalled()
+    })
+  })
+})

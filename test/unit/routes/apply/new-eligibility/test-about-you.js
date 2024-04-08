@@ -1,14 +1,12 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
-let urlPathValidatorStub
-let stubInsertVisitor
-let stubDuplicateClaimCheck
-let stubGetTravellingFromAndTo
-let stubAboutYou
+const mockUrlPathValidator = jest.fn()
+const mockInsertVisitor = jest.fn()
+const mockDuplicateClaimCheck = jest.fn()
+const mockGetTravellingFromAndTo = jest.fn()
+const mockAboutYou = jest.fn()
 let app
 
 describe('routes/apply/new-eligibility/about-you', function () {
@@ -17,21 +15,28 @@ describe('routes/apply/new-eligibility/about-you', function () {
   const ROUTE = '/apply/first-time/new-eligibility/about-you'
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    stubInsertVisitor = sinon.stub()
-    stubDuplicateClaimCheck = sinon.stub()
-    stubGetTravellingFromAndTo = sinon.stub()
-    stubAboutYou = sinon.stub()
+    jest.mock('../../../../../app/services/data/insert-visitor', () => mockInsertVisitor)
+    jest.mock(
+      '../../../../../app/services/data/duplicate-claim-check',
+      () => mockDuplicateClaimCheck
+    )
+    jest.mock(
+      '../../../../../app/services/data/get-travelling-from-and-to',
+      () => mockGetTravellingFromAndTo
+    )
+    jest.mock('../../../../../app/services/domain/about-you', () => mockAboutYou)
+    jest.mock(
+      '../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
 
-    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/about-you', {
-      '../../../services/data/insert-visitor': stubInsertVisitor,
-      '../../../services/data/duplicate-claim-check': stubDuplicateClaimCheck,
-      '../../../services/data/get-travelling-from-and-to': stubGetTravellingFromAndTo,
-      '../../../services/domain/about-you': stubAboutYou,
-      '../../../services/validators/url-path-validator': urlPathValidatorStub
-    })
+    const route = require('../../../../../app/routes/apply/new-eligibility/about-you')
 
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -41,36 +46,36 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
   })
 
   describe(`POST ${ROUTE}`, function () {
     it('should persist data and redirect to /apply/eligibility/new-claim/future-or-past-visit for valid data', function () {
-      stubDuplicateClaimCheck.resolves(false)
-      stubInsertVisitor.resolves()
-      stubGetTravellingFromAndTo.resolves({ to: 'hewell' })
-      stubAboutYou.returns({})
+      mockDuplicateClaimCheck.mockResolvedValue(false)
+      mockInsertVisitor.mockResolvedValue()
+      mockGetTravellingFromAndTo.mockResolvedValue({ to: 'hewell' })
+      mockAboutYou.mockReturnValue({})
 
       return supertest(app)
         .post(ROUTE)
         .expect(302)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubAboutYou)
-          sinon.assert.calledOnce(stubInsertVisitor)
-          sinon.assert.calledOnce(stubGetTravellingFromAndTo)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
+          expect(mockAboutYou).toHaveBeenCalledTimes(1)
+          expect(mockInsertVisitor).toHaveBeenCalledTimes(1)
+          expect(mockGetTravellingFromAndTo).toHaveBeenCalledTimes(1)
         })
         .expect('location', '/apply/eligibility/new-claim/future-or-past-visit')
     })
 
     it('should persist data and redirect to /apply/first-time/new-eligibility/date-of-birth?error=expired', function () {
-      stubDuplicateClaimCheck.resolves(false)
-      stubInsertVisitor.resolves()
-      stubGetTravellingFromAndTo.resolves({ to: 'hewell' })
-      stubAboutYou.returns({})
+      mockDuplicateClaimCheck.mockResolvedValue(false)
+      mockInsertVisitor.mockResolvedValue()
+      mockGetTravellingFromAndTo.mockResolvedValue({ to: 'hewell' })
+      mockAboutYou.mockReturnValue({})
 
       return supertest(app)
         .post(ROUTE)
@@ -80,7 +85,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     })
 
     it('should not do duplicate check for Northern Ireland person', function () {
-      stubAboutYou.returns({
+      mockAboutYou.mockReturnValue({
         country: 'Northern Ireland',
         postCode: 'BT12 2WW'
       })
@@ -90,16 +95,16 @@ describe('routes/apply/new-eligibility/about-you', function () {
         .set('Cookie', COOKIES)
         .expect(200)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubAboutYou)
-          sinon.assert.notCalled(stubDuplicateClaimCheck)
-          sinon.assert.notCalled(stubInsertVisitor)
-          sinon.assert.notCalled(stubGetTravellingFromAndTo)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
+          expect(mockAboutYou).toHaveBeenCalledTimes(1)
+          expect(mockDuplicateClaimCheck).not.toHaveBeenCalled()
+          expect(mockInsertVisitor).not.toHaveBeenCalled()
+          expect(mockGetTravellingFromAndTo).not.toHaveBeenCalled()
         })
     })
 
     it('should respond with a 400 for invalid data', function () {
-      stubAboutYou.throws(new ValidationError())
+      mockAboutYou.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -107,7 +112,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     })
 
     it('should respond with a 400 for a duplicate claim', function () {
-      stubDuplicateClaimCheck.resolves(true)
+      mockDuplicateClaimCheck.mockResolvedValue(true)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -115,7 +120,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      stubAboutYou.throws(new Error())
+      mockAboutYou.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -123,7 +128,7 @@ describe('routes/apply/new-eligibility/about-you', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      stubInsertVisitor.rejects()
+      mockInsertVisitor.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

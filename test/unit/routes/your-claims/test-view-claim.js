@@ -1,6 +1,4 @@
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const ValidationError = require('../../../../app/services/errors/validation-error')
 const routeHelper = require('../../../helpers/routes/route-helper')
 
@@ -26,43 +24,42 @@ const REMOVE_DOCUMENT_ROUTE = `${ROUTE}/remove-document/${CLAIM_DOCUMENT_ID}?doc
 
 describe('routes/apply/eligibility/claim/view-claim', function () {
   let app
-  let awsStub
 
-  let urlPathValidatorStub
-  let getViewClaimStub
-  let getClaimDocumentFilePathStub
-  let viewClaimDomainObjectStub
-  let submitUpdateStub
-  let removeClaimDocumentStub
+  const mockUrlPathValidator = jest.fn()
+  const mockGetViewClaim = jest.fn()
+  const mockGetClaimDocumentFilePath = jest.fn()
+  const mockViewClaimDomainObject = jest.fn()
+  const mockSubmitUpdate = jest.fn()
+  const mockRemoveClaimDocument = jest.fn()
+  const mockDownload = jest.fn()
+  const mockAws = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    getViewClaimStub = sinon.stub()
-    getClaimDocumentFilePathStub = sinon.stub()
-    viewClaimDomainObjectStub = sinon.stub()
-    submitUpdateStub = sinon.stub()
-    removeClaimDocumentStub = sinon.stub()
-    awsStub = function () {
-      return {
-        download: sinon.stub().resolves(VALID_FILEPATH_RESULT.Filepath)
-      }
+    mockAws.mockReturnValue({
+      download: mockDownload.mockResolvedValue(VALID_FILEPATH_RESULT.Filepath)
+    })
+
+    const mockAwsHelper = {
+      AWSHelper: mockAws
     }
 
-    const awsHelperStub = {
-      AWSHelper: awsStub
-    }
+    jest.mock('../../../../app/services/validators/url-path-validator', () => mockUrlPathValidator)
+    jest.mock('../../../../app/services/data/get-view-claim', () => mockGetViewClaim)
+    jest.mock(
+      '../../../../app/services/data/get-claim-document-file-path',
+      () => mockGetClaimDocumentFilePath
+    )
+    jest.mock('../../../../app/services/domain/view-claim', () => mockViewClaimDomainObject)
+    jest.mock('../../../../app/services/data/submit-update', () => mockSubmitUpdate)
+    jest.mock('../../../../app/services/data/remove-claim-document', () => mockRemoveClaimDocument)
+    jest.mock('../../../../app/services/aws-helper', () => mockAwsHelper)
 
-    const route = proxyquire(
-      '../../../../app/routes/your-claims/view-claim', {
-        '../../services/validators/url-path-validator': urlPathValidatorStub,
-        '../../services/data/get-view-claim': getViewClaimStub,
-        '../../services/data/get-claim-document-file-path': getClaimDocumentFilePathStub,
-        '../../services/domain/view-claim': viewClaimDomainObjectStub,
-        '../../services/data/submit-update': submitUpdateStub,
-        '../../services/data/remove-claim-document': removeClaimDocumentStub,
-        '../../services/aws-helper': awsHelperStub
-      })
+    const route = require('../../../../app/routes/your-claims/view-claim')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -71,12 +68,12 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 200', function () {
-      getViewClaimStub.resolves(CLAIM)
+      mockGetViewClaim.mockResolvedValue(CLAIM)
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -90,26 +87,26 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 302', function () {
-      submitUpdateStub.resolves()
-      getViewClaimStub.resolves(CLAIM)
+      mockSubmitUpdate.mockResolvedValue()
+      mockGetViewClaim.mockResolvedValue(CLAIM)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(viewClaimDomainObjectStub)
+          expect(mockViewClaimDomainObject).toHaveBeenCalledTimes(1)
         })
         .expect('location', `/your-claims/${CLAIMID}?updated=true`)
     })
 
     it('should respond with a 400 if validation errors', function () {
-      getViewClaimStub.resolves(CLAIM)
-      viewClaimDomainObjectStub.throws(new ValidationError())
+      mockGetViewClaim.mockResolvedValue(CLAIM)
+      mockViewClaimDomainObject.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -117,8 +114,8 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      getViewClaimStub.resolves(CLAIM)
-      viewClaimDomainObjectStub.throws(new Error())
+      mockGetViewClaim.mockResolvedValue(CLAIM)
+      mockViewClaimDomainObject.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -128,7 +125,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
 
   describe(`GET ${VIEW_DOCUMENT_ROUTE}`, function () {
     it('should respond respond with 200 if valid path entered', function () {
-      getClaimDocumentFilePathStub.resolves(VALID_FILEPATH_RESULT)
+      mockGetClaimDocumentFilePath.mockResolvedValue(VALID_FILEPATH_RESULT)
       return supertest(app)
         .get(VIEW_DOCUMENT_ROUTE)
         .set('Cookie', COOKIES)
@@ -137,7 +134,7 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
     })
 
     it('should respond with 500 if invalid path provided', function () {
-      getClaimDocumentFilePathStub.resolves(INVALID_FILEPATH_RESULT)
+      mockGetClaimDocumentFilePath.mockResolvedValue(INVALID_FILEPATH_RESULT)
       return supertest(app)
         .get(VIEW_DOCUMENT_ROUTE)
         .set('Cookie', COOKIES)
@@ -147,43 +144,43 @@ describe('routes/apply/eligibility/claim/view-claim', function () {
 
   describe(`POST ${REMOVE_DOCUMENT_ROUTE}`, function () {
     it('should respond with a 302 and redirect to file upload if removal of a single page document succeeds', function () {
-      removeClaimDocumentStub.resolves()
+      mockRemoveClaimDocument.mockResolvedValue()
       return supertest(app)
         .post(REMOVE_DOCUMENT_ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
+          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITY_ID}`)
     })
 
     it('should respond with a 302 and redirect to view claim if removal of a multi page document succeeds', function () {
-      removeClaimDocumentStub.resolves()
+      mockRemoveClaimDocument.mockResolvedValue()
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
+          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', ROUTE)
     })
 
     it('should respond with a 302 and redirect to the file upload page if with claimExpenseId set if one was sent.', function () {
-      removeClaimDocumentStub.resolves()
+      mockRemoveClaimDocument.mockResolvedValue()
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&claimExpenseId=${CLAIM_EXPENSE_ID}`)
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(removeClaimDocumentStub, CLAIM_DOCUMENT_ID)
+          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION&claimExpenseId=${CLAIM_EXPENSE_ID}&eligibilityId=${ELIGIBILITY_ID}`)
     })
 
     it('should respond with a 500 if promise rejects', function () {
-      removeClaimDocumentStub.rejects()
+      mockRemoveClaimDocument.mockRejectedValue()
       return supertest(app)
         .post(REMOVE_DOCUMENT_ROUTE)
         .set('Cookie', COOKIES)

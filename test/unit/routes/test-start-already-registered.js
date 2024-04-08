@@ -1,7 +1,5 @@
 const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const encrypt = require('../../../app/services/helpers/encrypt')
 
 const ValidationError = require('../../../app/services/errors/validation-error')
@@ -11,18 +9,19 @@ describe('routes/start-already-registered', function () {
 
   let app
 
-  let alreadyRegisteredStub
-  let encryptStub
+  const mockAlreadyRegistered = jest.fn()
+  const mockEncrypt = jest.fn()
 
   beforeEach(function () {
-    alreadyRegisteredStub = sinon.stub()
-    encryptStub = sinon.stub()
+    jest.mock('../../../app/services/domain/already-registered', () => mockAlreadyRegistered)
+    jest.mock('../../../app/services/helpers/encrypt', () => mockEncrypt)
 
-    const route = proxyquire('../../../app/routes/start-already-registered', {
-      '../services/domain/already-registered': alreadyRegisteredStub,
-      '../services/helpers/encrypt': encryptStub
-    })
+    const route = require('../../../app/routes/start-already-registered')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -54,14 +53,14 @@ describe('routes/start-already-registered', function () {
       return supertest(app)
         .post(ROUTE)
         .expect(function () {
-          sinon.assert.calledOnce(alreadyRegisteredStub)
+          expect(mockAlreadyRegistered).toHaveBeenCalledTimes(1)
         })
         .expect(302)
     })
 
     it('should redirect to the your-claims page with the reference and the dob set in a cookie', function () {
-      alreadyRegisteredStub.returns(ALREADY_REGISTERED)
-      encryptStub.returns(ENCRYPTED_REFERENCE)
+      mockAlreadyRegistered.mockReturnValue(ALREADY_REGISTERED)
+      mockEncrypt.mockReturnValue(ENCRYPTED_REFERENCE)
       return supertest(app)
         .post(ROUTE)
         .send({
@@ -72,14 +71,14 @@ describe('routes/start-already-registered', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      alreadyRegisteredStub.throws(new ValidationError())
+      mockAlreadyRegistered.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .expect(400)
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      alreadyRegisteredStub.throws(new Error())
+      mockAlreadyRegistered.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .expect(500)

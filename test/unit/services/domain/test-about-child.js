@@ -1,6 +1,5 @@
 /* eslint-disable no-new */
 const AboutChild = require('../../../../app/services/domain/about-child')
-const expect = require('chai').expect
 const dateFormatter = require('../../../../app/services/date-formatter')
 const childRelationshipEnum = require('../../../../app/constants/child-relationship-enum')
 
@@ -23,10 +22,10 @@ describe('services/domain/about-child', function () {
       VALID_YEAR,
       VALID_CHILD_RELATIONSHIP
     )
-    expect(child.firstName).to.equal(VALID_FIRST_NAME)
-    expect(child.lastName).to.equal(VALID_LAST_NAME)
-    expect(child.dob).to.deep.equal(dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR))
-    expect(child.childRelationship).to.equal(VALID_CHILD_RELATIONSHIP)
+    expect(child.firstName).toBe(VALID_FIRST_NAME)
+    expect(child.lastName).toBe(VALID_LAST_NAME)
+    expect(child.dob).toEqual(dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR))
+    expect(child.childRelationship).toBe(VALID_CHILD_RELATIONSHIP)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -39,13 +38,13 @@ describe('services/domain/about-child', function () {
         VALID_YEAR,
         VALID_CHILD_RELATIONSHIP
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw a validation error if any inputs were not set and the default domain object values where used', function () {
     expect(function () {
       new AboutChild()
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should strip illegal characters from otherwise valid input', function () {
@@ -58,9 +57,9 @@ describe('services/domain/about-child', function () {
       VALID_YEAR,
       VALID_CHILD_RELATIONSHIP
     )
-    expect(child.firstName).to.equal(VALID_FIRST_NAME)
-    expect(child.lastName).to.equal(INVALID_CHARS_LAST_NAME.replace(unsafeInputPattern, ''))
-    expect(child.dob).to.deep.equal(dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR))
-    expect(child.childRelationship).to.equal(VALID_CHILD_RELATIONSHIP)
+    expect(child.firstName).toBe(VALID_FIRST_NAME)
+    expect(child.lastName).toBe(INVALID_CHARS_LAST_NAME.replace(unsafeInputPattern, ''))
+    expect(child.dob).toEqual(dateFormatter.build(VALID_DAY, VALID_MONTH, VALID_YEAR))
+    expect(child.childRelationship).toBe(VALID_CHILD_RELATIONSHIP)
   })
 })

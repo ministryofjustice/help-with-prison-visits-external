@@ -1,5 +1,4 @@
 const Feedback = require('../../../../app/services/domain/feedback')
-const expect = require('chai').expect
 
 describe('services/domain/feedback', function () {
   const VALID_RATING = 'satisfied'
@@ -11,26 +10,26 @@ describe('services/domain/feedback', function () {
 
   it('should construct a domain object given valid input', function () {
     const feedback = new Feedback(VALID_RATING, VALID_IMPROVEMENTS, VALID_EMAIL_ADDRESS)
-    expect(feedback.rating).to.equal(VALID_RATING)
-    expect(feedback.improvements).to.equal(VALID_IMPROVEMENTS)
-    expect(feedback.emailAddress).to.equal(VALID_EMAIL_ADDRESS)
+    expect(feedback.rating).toBe(VALID_RATING)
+    expect(feedback.improvements).toBe(VALID_IMPROVEMENTS)
+    expect(feedback.emailAddress).toBe(VALID_EMAIL_ADDRESS)
   })
 
   it('should throw an error if passed invalid rating', function () {
     expect(function () {
       new Feedback(INVALID_RATING, VALID_IMPROVEMENTS, VALID_EMAIL_ADDRESS).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw an error if passed invalid message', function () {
     expect(function () {
       new Feedback(VALID_RATING, INVALID_IMPROVEMENTS, VALID_EMAIL_ADDRESS).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw an error if passed invalid email address', function () {
     expect(function () {
       new Feedback(VALID_RATING, VALID_IMPROVEMENTS, INVALID_EMAIL_ADDRESS).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })

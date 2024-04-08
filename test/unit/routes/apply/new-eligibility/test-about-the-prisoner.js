@@ -1,12 +1,10 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
-let urlPathValidatorStub
-let stubAboutThePrisoner
-let stubInsertNewEligibilityAndPrisoner
+const mockUrlPathValidator = jest.fn()
+const mockAboutThePrisoner = jest.fn()
+const mockInsertNewEligibilityAndPrisoner = jest.fn()
 let app
 
 describe('routes/apply/new-eligibility/about-the-prisoner', function () {
@@ -16,17 +14,23 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
   const ROUTE = '/apply/first-time/new-eligibility/about-the-prisoner'
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    stubAboutThePrisoner = sinon.stub()
-    stubInsertNewEligibilityAndPrisoner = sinon.stub()
+    jest.mock(
+      '../../../../../app/services/data/insert-new-eligibility-and-prisoner',
+      () => mockInsertNewEligibilityAndPrisoner
+    )
+    jest.mock('../../../../../app/services/domain/about-the-prisoner', () => mockAboutThePrisoner)
+    jest.mock(
+      '../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
 
-    const route = proxyquire('../../../../../app/routes/apply/new-eligibility/about-the-prisoner', {
-      '../../../services/data/insert-new-eligibility-and-prisoner': stubInsertNewEligibilityAndPrisoner,
-      '../../../services/domain/about-the-prisoner': stubAboutThePrisoner,
-      '../../../services/validators/url-path-validator': urlPathValidatorStub
-    })
+    const route = require('../../../../../app/routes/apply/new-eligibility/about-the-prisoner')
 
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -35,7 +39,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
   })
@@ -45,17 +49,17 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
       const newReference = 'NEWREF1'
       const newEligibilityId = 1234
       const newAboutThePrisoner = {}
-      stubInsertNewEligibilityAndPrisoner.resolves({ reference: newReference, eligibilityId: newEligibilityId })
-      stubAboutThePrisoner.returns(newAboutThePrisoner)
+      mockInsertNewEligibilityAndPrisoner.mockResolvedValue({ reference: newReference, eligibilityId: newEligibilityId })
+      mockAboutThePrisoner.mockReturnValue(newAboutThePrisoner)
 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubAboutThePrisoner)
-          sinon.assert.calledWith(stubInsertNewEligibilityAndPrisoner, newAboutThePrisoner, 'first-time', undefined)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
+          expect(mockAboutThePrisoner).toHaveBeenCalledTimes(1)
+          expect(mockInsertNewEligibilityAndPrisoner).toHaveBeenCalledWith(newAboutThePrisoner, 'first-time', undefined)
         })
         .expect('location', '/apply/first-time/new-eligibility/about-you')
     })
@@ -64,17 +68,17 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
       const newReference = 'NEWREF1'
       const newEligibilityId = 1234
       const newAboutThePrisoner = {}
-      stubInsertNewEligibilityAndPrisoner.resolves({ reference: newReference, eligibilityId: newEligibilityId })
-      stubAboutThePrisoner.returns(newAboutThePrisoner)
+      mockInsertNewEligibilityAndPrisoner.mockResolvedValue({ reference: newReference, eligibilityId: newEligibilityId })
+      mockAboutThePrisoner.mockReturnValue(newAboutThePrisoner)
 
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_NOT_BENEFIT_OWNER)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
-          sinon.assert.calledOnce(stubAboutThePrisoner)
-          sinon.assert.calledWith(stubInsertNewEligibilityAndPrisoner, newAboutThePrisoner, 'first-time', undefined)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
+          expect(mockAboutThePrisoner).toHaveBeenCalledTimes(1)
+          expect(mockInsertNewEligibilityAndPrisoner).toHaveBeenCalledWith(newAboutThePrisoner, 'first-time', undefined)
         })
         .expect('location', '/apply/first-time/new-eligibility/benefit-owner')
     })
@@ -83,8 +87,8 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
       const newReference = 'NEWREF1'
       const newEligibilityId = 1234
       const newAboutThePrisoner = {}
-      stubInsertNewEligibilityAndPrisoner.resolves({ reference: newReference, eligibilityId: newEligibilityId })
-      stubAboutThePrisoner.returns(newAboutThePrisoner)
+      mockInsertNewEligibilityAndPrisoner.mockResolvedValue({ reference: newReference, eligibilityId: newEligibilityId })
+      mockAboutThePrisoner.mockReturnValue(newAboutThePrisoner)
 
       return supertest(app)
         .post(ROUTE)
@@ -94,7 +98,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     })
 
     it('should respond with a 400 for invalid data', function () {
-      stubAboutThePrisoner.throws(new ValidationError())
+      mockAboutThePrisoner.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -102,7 +106,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     })
 
     it('should respond with a 500 for a non-validation error', function () {
-      stubAboutThePrisoner.throws(new Error())
+      mockAboutThePrisoner.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -110,7 +114,7 @@ describe('routes/apply/new-eligibility/about-the-prisoner', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      stubInsertNewEligibilityAndPrisoner.rejects()
+      mockInsertNewEligibilityAndPrisoner.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

@@ -1,20 +1,20 @@
 const routeHelper = require('../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 describe('routes/application-submitted', function () {
   const ROUTE = '/application-submitted'
   let app
-  let urlPathValidatorStub
+  const mockUrlPathValidator = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
+    jest.mock('../../../app/services/validators/url-path-validator', () => mockUrlPathValidator)
 
-    const route = proxyquire('../../../app/routes/application-submitted', {
-      '../services/validators/url-path-validator': urlPathValidatorStub
-    })
+    const route = require('../../../app/routes/application-submitted')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -22,7 +22,7 @@ describe('routes/application-submitted', function () {
       return supertest(app)
         .get(ROUTE)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 

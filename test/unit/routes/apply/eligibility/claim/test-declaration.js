@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const paymentMethods = require('../../../../../../app/constants/payment-method-enum')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
@@ -16,31 +14,39 @@ describe('routes/apply/eligibility/claim/declaration', function () {
 
   let app
 
-  let stubDeclaration
-  let stubSubmitClaim
-  let stubUrlPathValidator
-  let stubGetIsAdvanceClaim
-  let stubCheckStatusForFinishingClaim
-  let stubCheckIfReferenceIsDisabled
+  const mockDeclaration = jest.fn()
+  const mockSubmitClaim = jest.fn()
+  const mockUrlPathValidator = jest.fn()
+  const mockGetIsAdvanceClaim = jest.fn()
+  const mockCheckStatusForFinishingClaim = jest.fn()
+  const mockCheckIfReferenceIsDisabled = jest.fn()
 
   beforeEach(function () {
-    stubDeclaration = sinon.stub()
-    stubSubmitClaim = sinon.stub()
-    stubUrlPathValidator = sinon.stub()
-    stubGetIsAdvanceClaim = sinon.stub()
-    stubCheckStatusForFinishingClaim = sinon.stub()
-    stubCheckIfReferenceIsDisabled = sinon.stub()
+    jest.mock('../../../../../../app/services/domain/declaration', () => mockDeclaration)
+    jest.mock('../../../../../../app/services/data/submit-claim', () => mockSubmitClaim)
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock(
+      '../../../../../../app/services/data/get-is-advance-claim',
+      () => mockGetIsAdvanceClaim
+    )
+    jest.mock(
+      '../../../../../../app/services/data/check-status-for-finishing-claim',
+      () => mockCheckStatusForFinishingClaim
+    )
+    jest.mock(
+      '../../../../../../app/services/data/check-if-reference-is-disabled',
+      () => mockCheckIfReferenceIsDisabled
+    )
 
-    const route = proxyquire(
-      '../../../../../../app/routes/apply/eligibility/claim/declaration', {
-        '../../../../services/domain/declaration': stubDeclaration,
-        '../../../../services/data/submit-claim': stubSubmitClaim,
-        '../../../../services/validators/url-path-validator': stubUrlPathValidator,
-        '../../../../services/data/get-is-advance-claim': stubGetIsAdvanceClaim,
-        '../../../../services/data/check-status-for-finishing-claim': stubCheckStatusForFinishingClaim,
-        '../../../../services/data/check-if-reference-is-disabled': stubCheckIfReferenceIsDisabled
-      })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/declaration')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -49,7 +55,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(stubUrlPathValidator)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -67,16 +73,16 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(stubUrlPathValidator)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 302 and call submit claim and put past in route', function () {
-      stubDeclaration.returns()
-      stubSubmitClaim.resolves()
-      stubGetIsAdvanceClaim.resolves(false)
-      stubCheckStatusForFinishingClaim.resolves(true)
-      stubCheckIfReferenceIsDisabled.resolves(false)
+      mockDeclaration.mockReturnValue()
+      mockSubmitClaim.mockResolvedValue()
+      mockGetIsAdvanceClaim.mockResolvedValue(false)
+      mockCheckStatusForFinishingClaim.mockResolvedValue(true)
+      mockCheckIfReferenceIsDisabled.mockResolvedValue(false)
 
       return supertest(app)
         .post(`${ROUTE}?paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
@@ -84,7 +90,7 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubDeclaration, VALID_DATA['terms-and-conditions-input'])
+          expect(mockDeclaration).toHaveBeenCalledWith(VALID_DATA['terms-and-conditions-input'])
         })
         .expect('location', '/application-submitted')
     })
@@ -99,11 +105,11 @@ describe('routes/apply/eligibility/claim/declaration', function () {
 
     it('should use assisted digital cookie value', function () {
       const assistedDigitalCaseWorker = 'a@b.com'
-      stubDeclaration.returns()
-      stubSubmitClaim.resolves()
-      stubGetIsAdvanceClaim.resolves()
-      stubCheckStatusForFinishingClaim.resolves(true)
-      stubCheckIfReferenceIsDisabled.resolves(false)
+      mockDeclaration.mockReturnValue()
+      mockSubmitClaim.mockResolvedValue()
+      mockGetIsAdvanceClaim.mockResolvedValue()
+      mockCheckStatusForFinishingClaim.mockResolvedValue(true)
+      mockCheckIfReferenceIsDisabled.mockResolvedValue(false)
 
       return supertest(app)
         .post(`${ROUTE}?paymentMethod=${paymentMethods.DIRECT_BANK_PAYMENT.value}`)
@@ -114,10 +120,10 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     })
 
     it('should just go to redirect if checkStatusForFinishingClaim returns false in case of double submission', function () {
-      stubDeclaration.returns()
-      stubGetIsAdvanceClaim.resolves()
-      stubCheckStatusForFinishingClaim.resolves(false)
-      stubCheckIfReferenceIsDisabled.resolves(false)
+      mockDeclaration.mockReturnValue()
+      mockGetIsAdvanceClaim.mockResolvedValue()
+      mockCheckStatusForFinishingClaim.mockResolvedValue(false)
+      mockCheckIfReferenceIsDisabled.mockResolvedValue(false)
 
       return supertest(app)
         .post(ROUTE)
@@ -125,12 +131,12 @@ describe('routes/apply/eligibility/claim/declaration', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.notCalled(stubSubmitClaim)
+          expect(mockSubmitClaim).not.toHaveBeenCalled()
         })
     })
 
     it('should respond with a 400 if validation fails', function () {
-      stubDeclaration.throws(new ValidationError({ firstName: {} }))
+      mockDeclaration.mockImplementation(() => { throw new ValidationError({ firstName: {} }) })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -138,8 +144,8 @@ describe('routes/apply/eligibility/claim/declaration', function () {
     })
 
     it('should respond with a 500 if promise rejects on submitting claim.', function () {
-      stubDeclaration.returns()
-      stubSubmitClaim.rejects()
+      mockDeclaration.mockReturnValue()
+      mockSubmitClaim.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

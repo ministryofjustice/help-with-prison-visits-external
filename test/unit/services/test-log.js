@@ -1,33 +1,32 @@
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
-
 describe('services/log', function () {
-  let serializersStub
-  let streamsStub
-  let bunyanStub
+  const mockSerializers = jest.fn()
+  let mockStreams
+  let mockBunyan
+  const mockBuildConsoleStream = jest.fn()
+  const mockBuildFileStream = jest.fn()
 
   beforeEach(function () {
-    serializersStub = sinon.stub()
-    streamsStub = {
-      buildConsoleStream: sinon.stub(),
-      buildFileStream: sinon.stub()
+    mockStreams = {
+      buildConsoleStream: mockBuildConsoleStream,
+      buildFileStream: mockBuildFileStream
     }
-    bunyanStub = {
+    mockBunyan = {
       createLogger: function () {
         return {
-          addStream: sinon.stub()
+          addStream: jest.fn()
         }
       }
     }
+
+    jest.mock('bunyan', () => mockBunyan)
+    jest.mock('../../../app/services/log-serializers', () => mockSerializers)
+    jest.mock('../../../app/services/log-streams', () => mockStreams)
+
+    require('../../../app/services/log')
   })
 
-  it('should add the buildConsoleStream and buildFileStream', function () {
-    proxyquire('../../../app/services/log', {
-      bunyan: bunyanStub,
-      './log-serializers': serializersStub,
-      './log-streams': streamsStub
-    })
-    sinon.assert.calledOnce(streamsStub.buildConsoleStream)
-    sinon.assert.calledOnce(streamsStub.buildFileStream)
+  it('should add the mockBuildConsoleStream and mockBuildFileStream', function () {
+    expect(mockBuildConsoleStream).toHaveBeenCalledTimes(1)
+    expect(mockBuildFileStream).toHaveBeenCalledTimes(1)
   })
 })

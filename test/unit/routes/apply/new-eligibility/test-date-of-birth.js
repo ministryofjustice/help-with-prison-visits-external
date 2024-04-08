@@ -1,11 +1,9 @@
 const routeHelper = require('../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const ValidationError = require('../../../../../app/services/errors/validation-error')
 
-let urlPathValidatorStub
-let stubDateOfBirth
+const mockUrlPathValidator = jest.fn()
+const mockDateOfBirth = jest.fn()
 let app
 
 describe('routes/apply/new-eligibility/date-of-birth', function () {
@@ -14,16 +12,19 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
   const ROUTE = '/apply/first-time/new-eligibility/date-of-birth'
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    stubDateOfBirth = sinon.stub()
+    jest.mock('../../../../../app/services/domain/date-of-birth', () => mockDateOfBirth)
+    jest.mock(
+      '../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
 
-    const route = proxyquire(
-      '../../../../../app/routes/apply/new-eligibility/date-of-birth', {
-        '../../../services/domain/date-of-birth': stubDateOfBirth,
-        '../../../services/validators/url-path-validator': urlPathValidatorStub
-      })
+    const route = require('../../../../../app/routes/apply/new-eligibility/date-of-birth')
 
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -32,7 +33,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -51,25 +52,25 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
           .get(ROUTE)
           .set('Cookie', COOKIES)
           .expect(function () {
-            sinon.assert.calledOnce(urlPathValidatorStub)
+            expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
           })
       })
 
       it('should respond with a 302 and redirect to /apply/first-time/new-eligibility/prisoner-relationship', function () {
-        stubDateOfBirth.returns({ encodedDate: DOB, sixteenOrUnder: false })
+        mockDateOfBirth.mockReturnValue({ encodedDate: DOB, sixteenOrUnder: false })
         return supertest(app)
           .post(ROUTE)
           .set('Cookie', COOKIES)
           .expect(302)
           .expect(function () {
-            sinon.assert.calledOnce(stubDateOfBirth)
+            expect(mockDateOfBirth).toHaveBeenCalledTimes(1)
           })
           .expect('location', '/apply/first-time/new-eligibility/prisoner-relationship')
           .expect(hasSetCookie)
       })
 
       it('should respond with a 400 for a validation error', function () {
-        stubDateOfBirth.throws(new ValidationError())
+        mockDateOfBirth.mockImplementation(() => { throw new ValidationError() })
         return supertest(app)
           .post(ROUTE)
           .set('Cookie', COOKIES)
@@ -77,7 +78,7 @@ describe('routes/apply/new-eligibility/date-of-birth', function () {
       })
 
       it('should respond with a 500 for a non-validation error', function () {
-        stubDateOfBirth.throws(new Error())
+        mockDateOfBirth.mockImplementation(() => { throw new Error() })
         return supertest(app)
           .post(ROUTE)
           .set('Cookie', COOKIES)

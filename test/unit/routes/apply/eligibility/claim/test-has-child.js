@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
@@ -13,18 +11,22 @@ describe('routes/apply/eligibility/claim/has-child', function () {
 
   let app
 
-  let urlPathValidatorStub
-  let hasChildStub
+  const mockUrlPathValidator = jest.fn()
+  const mockHasChild = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    hasChildStub = sinon.stub()
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock('../../../../../../app/services/domain/has-child', () => mockHasChild)
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/has-child', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/domain/has-child': hasChildStub
-    })
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/has-child')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -33,7 +35,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -51,7 +53,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -60,7 +62,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(hasChildStub)
+          expect(mockHasChild).toHaveBeenCalledTimes(1)
         })
         .expect(302)
     })
@@ -74,7 +76,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
     })
 
     it('should respond redirect to child page if hasChild equals yes', function () {
-      hasChildStub.returns({ hasChild: 'yes' })
+      mockHasChild.mockReturnValue({ hasChild: 'yes' })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -82,7 +84,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
     })
 
     it('should respond redirect to expense page if hasChild equals no', function () {
-      hasChildStub.returns({ hasChild: 'no' })
+      mockHasChild.mockReturnValue({ hasChild: 'no' })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -90,7 +92,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      hasChildStub.throws(new ValidationError())
+      mockHasChild.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -98,7 +100,7 @@ describe('routes/apply/eligibility/claim/has-child', function () {
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      hasChildStub.throws(new Error())
+      mockHasChild.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

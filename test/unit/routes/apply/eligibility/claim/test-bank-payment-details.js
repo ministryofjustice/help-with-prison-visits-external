@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
@@ -16,22 +14,32 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
 
   let app
 
-  let stubBankAccountDetails
-  let stubInsertBankAccountDetailsForClaim
-  let stubUrlPathValidator
+  const mockBankAccountDetails = jest.fn()
+  const mockInsertBankAccountDetailsForClaim = jest.fn()
+  const mockUrlPathValidator = jest.fn()
 
   beforeEach(function () {
-    stubBankAccountDetails = sinon.stub()
-    stubInsertBankAccountDetailsForClaim = sinon.stub()
-    stubUrlPathValidator = sinon.stub()
+    jest.mock(
+      '../../../../../../app/services/domain/bank-account-details',
+      () => mockBankAccountDetails
+    )
+    jest.mock(
+      '../../../../../../app/services/data/insert-bank-account-details-for-claim',
+      () => mockInsertBankAccountDetailsForClaim
+    )
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
 
-    const route = proxyquire(
-      '../../../../../../app/routes/apply/eligibility/claim/bank-payment-details', {
-        '../../../../services/domain/bank-account-details': stubBankAccountDetails,
-        '../../../../services/data/insert-bank-account-details-for-claim': stubInsertBankAccountDetailsForClaim,
-        '../../../../services/validators/url-path-validator': stubUrlPathValidator
-      })
+    const route = require(
+      '../../../../../../app/routes/apply/eligibility/claim/bank-payment-details'
+    )
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -40,7 +48,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(stubUrlPathValidator)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -58,14 +66,14 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(stubUrlPathValidator)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 302 and insert bank details', function () {
       const newPaymentDetails = { paymentMethod: 'bank' }
-      stubBankAccountDetails.returns(newPaymentDetails)
-      stubInsertBankAccountDetailsForClaim.resolves()
+      mockBankAccountDetails.mockReturnValue(newPaymentDetails)
+      mockInsertBankAccountDetailsForClaim.mockResolvedValue()
 
       return supertest(app)
         .post(ROUTE)
@@ -73,7 +81,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
         .send(VALID_DATA)
         .expect(302)
         .expect(function () {
-          sinon.assert.calledWith(stubBankAccountDetails, VALID_DATA.AccountNumber, VALID_DATA.SortCode)
+          expect(mockBankAccountDetails).toHaveBeenCalledWith(VALID_DATA.AccountNumber, VALID_DATA.SortCode, undefined, undefined)
         })
         .expect('location', '/apply/eligibility/claim/declaration?isAdvance=false')
     })
@@ -87,7 +95,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
     })
 
     it('should respond with a 400 if validation fails', function () {
-      stubBankAccountDetails.throws(new ValidationError({ firstName: {} }))
+      mockBankAccountDetails.mockImplementation(() => { throw new ValidationError({ firstName: {} }) })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -95,7 +103,7 @@ describe('routes/apply/eligibility/claim/bank-payment-details', function () {
     })
 
     it('should respond with a 500 if promise rejects inserting bank details.', function () {
-      stubInsertBankAccountDetailsForClaim.rejects()
+      mockInsertBankAccountDetailsForClaim.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

@@ -1,5 +1,4 @@
 const FutureOrPastVisit = require('../../../../app/services/domain/future-or-past-visit')
-const expect = require('chai').expect
 
 describe('services/domain/future-or-past-visit', function () {
   const VALID_INPUT = 'past'
@@ -9,7 +8,7 @@ describe('services/domain/future-or-past-visit', function () {
     const futureOrPastVisit = new FutureOrPastVisit(
       VALID_INPUT
     )
-    expect(futureOrPastVisit.advancePast).to.equal(VALID_INPUT)
+    expect(futureOrPastVisit.advancePast).toBe(VALID_INPUT)
   })
 
   it('should throw an error if passed invalid data', function () {
@@ -17,6 +16,6 @@ describe('services/domain/future-or-past-visit', function () {
       new FutureOrPastVisit(
         INVALID_INPUT
       ).isValid()
-    }).to.throw()
+    }).toThrow()
   })
 })

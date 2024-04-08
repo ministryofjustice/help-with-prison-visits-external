@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
 describe('routes/apply/eligibility/claim/file-upload', function () {
@@ -10,43 +8,65 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
   const ROUTE = '/apply/eligibility/claim/summary/file-upload?document='
 
   let app
-  let urlPathValidatorStub
-  let uploadStub
-  let fileUploadStub
-  let claimDocumentInsertStub
-  let generateCSRFTokenStub
-  let clamAvStub
-  let configStub
-  let insertTaskStub
-  let disableOldClaimDocumentsStub
-  let checkExpenseIsEnabledStub
+  const mockUrlPathValidator = jest.fn()
+  const mockUpload = jest.fn()
+  const mockFileUpload = jest.fn()
+  const mockClaimDocumentInsert = jest.fn()
+  const mockGenerateCSRFToken = jest.fn()
+  const mockClamAv = jest.fn()
+  const mockInsertTask = jest.fn()
+  const mockDisableOldClaimDocuments = jest.fn()
+  const mockCheckExpenseIsEnabled = jest.fn()
+  const mockCsurf = jest.fn()
+  const mockCsurfResponse = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    uploadStub = sinon.stub()
-    fileUploadStub = sinon.stub()
-    claimDocumentInsertStub = sinon.stub()
-    generateCSRFTokenStub = sinon.stub()
-    clamAvStub = sinon.stub()
-    configStub = sinon.stub()
-    insertTaskStub = sinon.stub()
-    disableOldClaimDocumentsStub = sinon.stub().resolves()
-    checkExpenseIsEnabledStub = sinon.stub().resolves()
+    mockDisableOldClaimDocuments.mockResolvedValue()
+    mockCheckExpenseIsEnabled.mockResolvedValue()
+    mockCsurf.mockReturnValue(mockCsurfResponse)
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/file-upload', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/upload': uploadStub,
-      '../../../../services/domain/file-upload': fileUploadStub,
-      '../../../../services/data/insert-file-upload-details-for-claim': claimDocumentInsertStub,
-      '../../../../services/generate-csrf-token': generateCSRFTokenStub,
-      '../../../../services/clam-av': { clamAvStub, '@noCallThru': true },
-      '../../../../../config': configStub,
-      '../../../../services/data/insert-task': insertTaskStub,
-      '../../../../services/data/disable-old-claim-documents': disableOldClaimDocumentsStub,
-      '../../../../services/data/check-expense-is-enabled': checkExpenseIsEnabledStub,
-      csurf: function () { return function () { } }
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock('../../../../../../app/services/upload', () => mockUpload)
+    jest.mock('../../../../../../app/services/domain/file-upload', () => mockFileUpload)
+    jest.mock(
+      '../../../../../../app/services/data/insert-file-upload-details-for-claim',
+      () => mockClaimDocumentInsert
+    )
+    jest.mock('../../../../../../app/services/generate-csrf-token', () => mockGenerateCSRFToken)
+    jest.mock('../../../../../../app/services/clam-av', async () => {
+      return {
+        scan: await mockClamAv
+      }
     })
+    jest.mock('../../../../../../config', () => {
+      const originalModule = jest.requireActual('../../../../../../config')
+
+      return {
+        ...originalModule,
+        EXT_REFERENCE_SALT: 'c1e59a204dd1b24c7130817b834eec69'
+      }
+    })
+
+    jest.mock('../../../../../../app/services/data/insert-task', () => mockInsertTask)
+    jest.mock(
+      '../../../../../../app/services/data/disable-old-claim-documents',
+      () => mockDisableOldClaimDocuments
+    )
+    jest.mock(
+      '../../../../../../app/services/data/check-expense-is-enabled',
+      () => mockCheckExpenseIsEnabled
+    )
+    jest.mock('csurf', () => mockCsurf)
+
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/file-upload')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
@@ -55,7 +75,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -64,7 +84,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(generateCSRFTokenStub)
+          expect(mockGenerateCSRFToken).toHaveBeenCalledTimes(1)
         })
     })
 
@@ -85,27 +105,27 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
 
   describe(`POST ${ROUTE}`, function () {
     it('should call the URL Path Validator', function () {
-      clamAvStub.resolves()
-      uploadStub.callsArg(2)
+      mockClamAv.mockResolvedValue()
+      mockUpload.mockImplementation((...args) => args[2]())
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should create a file upload object, insert it to DB and give 302', function () {
-      uploadStub.callsArg(2).returns({})
-      claimDocumentInsertStub.resolves()
-      clamAvStub.resolves()
+      mockUpload.mockImplementation((...args) => args[2]())
+      mockClaimDocumentInsert.mockResolvedValue()
+      mockClamAv.mockResolvedValue()
       return supertest(app)
         .post(`${ROUTE}VISIT_CONFIRMATION`)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(uploadStub)
-          sinon.assert.calledOnce(fileUploadStub)
-          sinon.assert.calledOnce(claimDocumentInsertStub)
+          expect(mockUpload).toHaveBeenCalledTimes(1)
+          expect(mockFileUpload).toHaveBeenCalledTimes(1)
+          expect(mockClaimDocumentInsert).toHaveBeenCalledTimes(1)
         })
         .expect(302)
     })
@@ -119,9 +139,9 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     })
 
     it('should catch a validation error', function () {
-      uploadStub.callsArg(2).returns({})
-      fileUploadStub.throws(new ValidationError())
-      clamAvStub.resolves()
+      mockUpload.mockImplementation((...args) => args[2]())
+      mockFileUpload.mockImplementation(() => { throw new ValidationError() })
+      mockClamAv.mockResolvedValue()
       return supertest(app)
         .post(`${ROUTE}VISIT_CONFIRMATION`)
         .set('Cookie', COOKIES)
@@ -129,7 +149,7 @@ describe('routes/apply/eligibility/claim/file-upload', function () {
     })
 
     it('should respond with a 500 if passed invalid document type', function () {
-      uploadStub.callsArg(2).returns({})
+      mockUpload.mockImplementation((...args) => args[2]())
       return supertest(app)
         .post(`${ROUTE}TEST`)
         .set('Cookie', COOKIES)

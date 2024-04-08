@@ -1,7 +1,5 @@
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 const supertest = require('supertest')
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 
@@ -12,67 +10,86 @@ describe('routes/apply/eligibility/claim/train-details', function () {
 
   let app
 
-  let urlPathValidatorStub
-  let expenseUrlRouterStub
-  let insertExpenseStub
-  let trainExpenseStub
-  let getExpenseOwnerDataStub
-  let getIsAdvanceClaimStub
+  const mockUrlPathValidator = jest.fn()
+  let mockExpenseUrlRouter
+  const mockInsertExpense = jest.fn()
+  const mockTrainExpense = jest.fn()
+  const mockGetExpenseOwnerData = jest.fn()
+  const mockGetIsAdvanceClaim = jest.fn()
+  const mockGetRedirectUrl = jest.fn()
+  const mockParseParams = jest.fn()
 
   beforeEach(function () {
-    urlPathValidatorStub = sinon.stub()
-    expenseUrlRouterStub = sinon.stub()
-    insertExpenseStub = sinon.stub()
-    trainExpenseStub = sinon.stub()
-    getExpenseOwnerDataStub = sinon.stub()
-    getIsAdvanceClaimStub = sinon.stub()
+    mockExpenseUrlRouter = {
+      getRedirectUrl: mockGetRedirectUrl,
+      parseParams: mockParseParams
+    }
 
-    const route = proxyquire('../../../../../../app/routes/apply/eligibility/claim/train-details', {
-      '../../../../services/validators/url-path-validator': urlPathValidatorStub,
-      '../../../../services/routing/expenses-url-router': expenseUrlRouterStub,
-      '../../../../services/data/insert-expense': insertExpenseStub,
-      '../../../../services/domain/expenses/train-expense': trainExpenseStub,
-      '../../../../services/data/get-expense-owner-data': getExpenseOwnerDataStub,
-      '../../../../services/data/get-is-advance-claim': getIsAdvanceClaimStub
-    })
+    jest.mock(
+      '../../../../../../app/services/validators/url-path-validator',
+      () => mockUrlPathValidator
+    )
+    jest.mock(
+      '../../../../../../app/services/routing/expenses-url-router',
+      () => mockExpenseUrlRouter
+    )
+    jest.mock('../../../../../../app/services/data/insert-expense', () => mockInsertExpense)
+    jest.mock(
+      '../../../../../../app/services/domain/expenses/train-expense',
+      () => mockTrainExpense
+    )
+    jest.mock(
+      '../../../../../../app/services/data/get-expense-owner-data',
+      () => mockGetExpenseOwnerData
+    )
+    jest.mock(
+      '../../../../../../app/services/data/get-is-advance-claim',
+      () => mockGetIsAdvanceClaim
+    )
+
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/train-details')
     app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   describe(`GET ${ROUTE}`, function () {
     it('should call the URL Path Validator', function () {
-      getExpenseOwnerDataStub.resolves()
+      mockGetExpenseOwnerData.mockResolvedValue()
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should call the function to determine if claim is advance or not', function () {
-      getIsAdvanceClaimStub.resolves()
+      mockGetIsAdvanceClaim.mockResolvedValue()
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(getIsAdvanceClaimStub)
+          expect(mockGetIsAdvanceClaim).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should call the function to get expense owner data', function () {
-      getIsAdvanceClaimStub.resolves()
-      getExpenseOwnerDataStub.resolves()
+      mockGetIsAdvanceClaim.mockResolvedValue()
+      mockGetExpenseOwnerData.mockResolvedValue()
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(getExpenseOwnerDataStub)
+          expect(mockGetExpenseOwnerData).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 200', function () {
-      getIsAdvanceClaimStub.resolves()
-      getExpenseOwnerDataStub.resolves()
+      mockGetIsAdvanceClaim.mockResolvedValue()
+      mockGetExpenseOwnerData.mockResolvedValue()
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
@@ -80,14 +97,13 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     })
 
     it('should call parseParams', function () {
-      getIsAdvanceClaimStub.resolves()
-      getExpenseOwnerDataStub.resolves()
-      const parseParams = sinon.stub(expenseUrlRouterStub, 'parseParams')
+      mockGetIsAdvanceClaim.mockResolvedValue()
+      mockGetExpenseOwnerData.mockResolvedValue()
       return supertest(app)
         .get(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(parseParams)
+          expect(mockParseParams).toHaveBeenCalledTimes(1)
         })
     })
   })
@@ -97,24 +113,24 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     const TRAIN_EXPENSE = {}
 
     it('should call the URL Path Validator', function () {
-      insertExpenseStub.resolves()
+      mockInsertExpense.mockResolvedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(urlPathValidatorStub)
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
     })
 
     it('should respond with a 302 if domain object is built and then persisted successfully', function () {
-      trainExpenseStub.returns(TRAIN_EXPENSE)
-      insertExpenseStub.resolves()
+      mockTrainExpense.mockReturnValue(TRAIN_EXPENSE)
+      mockInsertExpense.mockResolvedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(trainExpenseStub)
-          sinon.assert.calledOnce(insertExpenseStub)
+          expect(mockTrainExpense).toHaveBeenCalledTimes(1)
+          expect(mockInsertExpense).toHaveBeenCalledTimes(1)
         })
         .expect(302)
     })
@@ -128,20 +144,20 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     })
 
     it('should call getRedirectUrl and redirect to the url it returns', function () {
-      const getRedirectUrl = sinon.stub(expenseUrlRouterStub, 'getRedirectUrl').returns(REDIRECT_URL)
-      insertExpenseStub.resolves()
+      mockGetRedirectUrl.mockReturnValue(REDIRECT_URL)
+      mockInsertExpense.mockResolvedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
         .expect(function () {
-          sinon.assert.calledOnce(getRedirectUrl)
+          expect(mockGetRedirectUrl).toHaveBeenCalledTimes(1)
         })
         .expect('location', REDIRECT_URL)
     })
 
     it('should respond with a 400 if domain object validation fails.', function () {
-      getExpenseOwnerDataStub.resolves()
-      trainExpenseStub.throws(new ValidationError())
+      mockGetExpenseOwnerData.mockResolvedValue()
+      mockTrainExpense.mockImplementation(() => { throw new ValidationError() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -149,7 +165,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     })
 
     it('should respond with a 500 if any non-validation error occurs.', function () {
-      trainExpenseStub.throws(new Error())
+      mockTrainExpense.mockImplementation(() => { throw new Error() })
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)
@@ -157,7 +173,7 @@ describe('routes/apply/eligibility/claim/train-details', function () {
     })
 
     it('should respond with a 500 if promise rejects.', function () {
-      insertExpenseStub.rejects()
+      mockInsertExpense.mockRejectedValue()
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES)

@@ -1,7 +1,4 @@
 /* eslint-disable no-new */
-const expect = require('chai').expect
-const proxyquire = require('proxyquire')
-const sinon = require('sinon')
 const UploadError = require('../../../../app/services/errors/upload-error')
 
 describe('services/domain/file-upload', function () {
@@ -13,20 +10,17 @@ describe('services/domain/file-upload', function () {
   const UPLOAD_ERROR = new UploadError('File type error')
   const VALID_ALTERNATIVE = 'some alternative'
 
-  let FileUpload
-  let fsStub
+  let MockFileUploadClass
+  const mockFs = jest.fn()
 
   beforeEach(function () {
-    fsStub = sinon.stub()
+    jest.mock('fs', () => mockFs)
 
-    FileUpload = proxyquire(
-      '../../../../app/services/domain/file-upload', {
-        fs: fsStub
-      })
+    MockFileUploadClass = require('../../../../app/services/domain/file-upload')
   })
 
   it('should construct a domain object given valid input when documentStatus is set to uploaded', function () {
-    const fileUpload = new FileUpload(
+    const mockFileUpload = new MockFileUploadClass(
       VALID_ID,
       VALID_DOCUMENT_TYPE,
       VALID_ID,
@@ -35,13 +29,13 @@ describe('services/domain/file-upload', function () {
       undefined
     )
 
-    expect(fileUpload.path).to.equal(VALID_FILE.path)
-    expect(fileUpload.claimId).to.equal(VALID_ID)
-    expect(fileUpload.documentStatus).to.equal(VALID_DOCUMENT_STATUS)
+    expect(mockFileUpload.path).toBe(VALID_FILE.path)
+    expect(mockFileUpload.claimId).toBe(VALID_ID)
+    expect(mockFileUpload.documentStatus).toBe(VALID_DOCUMENT_STATUS)
   })
 
   it('should construct a domain object given valid input when documentStatus is set to alternative and change undefined claimExpeneseId to null', function () {
-    const fileUpload = new FileUpload(
+    const mockFileUpload = new MockFileUploadClass(
       VALID_ID,
       VALID_DOCUMENT_TYPE,
       undefined,
@@ -50,15 +44,15 @@ describe('services/domain/file-upload', function () {
       VALID_ALTERNATIVE
     )
 
-    expect(fileUpload.path).to.equal(undefined)
-    expect(fileUpload.claimId).to.equal(VALID_ID)
-    expect(fileUpload.claimExpenseId).to.equal(null)
-    expect(fileUpload.documentStatus).to.equal(VALID_ALTERNATIVE)
+    expect(mockFileUpload.path).toBeUndefined()
+    expect(mockFileUpload.claimId).toBe(VALID_ID)
+    expect(mockFileUpload.claimExpenseId).toBeNull()
+    expect(mockFileUpload.documentStatus).toBe(VALID_ALTERNATIVE)
   })
 
   it('should throw a ValidationError if passed invalid data', function () {
     expect(function () {
-      new FileUpload(
+      new MockFileUploadClass(
         VALID_ID,
         VALID_DOCUMENT_TYPE,
         VALID_ID,
@@ -66,12 +60,12 @@ describe('services/domain/file-upload', function () {
         undefined,
         undefined
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw a ValidationError if passed an instance of UploadError', function () {
     expect(function () {
-      new FileUpload(
+      new MockFileUploadClass(
         VALID_ID,
         VALID_DOCUMENT_TYPE,
         VALID_ID,
@@ -79,12 +73,12 @@ describe('services/domain/file-upload', function () {
         UPLOAD_ERROR,
         undefined
       )
-    }).to.throw()
+    }).toThrow()
   })
 
   it('should throw the given error if passed any type of error other than ValidationError', function () {
     expect(function () {
-      new FileUpload(
+      new MockFileUploadClass(
         VALID_ID,
         VALID_DOCUMENT_TYPE,
         VALID_ID,
@@ -92,13 +86,13 @@ describe('services/domain/file-upload', function () {
         ERROR,
         undefined
       )
-    }).to.throw(ERROR)
+    }).toThrow(ERROR)
   })
 
   it('should throw a ValidationError if both file and alternative are set. I.e. A user selects post later and uploads a file', function () {
-    fsStub.unlinkSync = function () {}
+    mockFs.unlinkSync = function () {}
     expect(function () {
-      new FileUpload(
+      new MockFileUploadClass(
         VALID_ID,
         VALID_DOCUMENT_TYPE,
         VALID_ID,
@@ -106,6 +100,6 @@ describe('services/domain/file-upload', function () {
         undefined,
         VALID_ALTERNATIVE
       )
-    }).to.throw()
+    }).toThrow()
   })
 })
