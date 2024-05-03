@@ -173,7 +173,7 @@ describe('First Time Claim Flow', () => {
     cy.get('[data-cy="expense-1"]')
       .should('contain', 'Car')
       .and('contain', 'New Testtown to Hewell')
-    cy.get('[data-cy="expense-amount-1"]').contains('13p per mile')
+    cy.get('[data-cy="expense-amount-1"]').contains('20p (13p for Scotland) per mile')
     cy.get('[data-cy="expense-2"]')
       .should('contain', 'Bus')
       .and('contain', 'Child - Euston to Birmingham New Street')
