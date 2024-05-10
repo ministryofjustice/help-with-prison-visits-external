@@ -35,7 +35,7 @@
     {% if claimExpense.ExpenseType == 'train' and claimDetails.claim.IsAdvanceClaim %}
       <td class="govuk-table__cell"></td>
     {% elseif claimExpense.ExpenseType == 'car' and claimExpense.Cost === 0 %}
-      <td class="govuk-table__cell" data-cy="expense-amount-{{ loop.index }}">13p per mile</td>
+      <td class="govuk-table__cell" data-cy="expense-amount-{{ loop.index }}">20p per mile for this kind of travel (13p if travelling to a Scottish prison)</td>
     {% else %}
       <td class="govuk-table__cell" data-cy="expense-amount-{{ loop.index }}">{{ displayHelper.toCurrency(claimExpense.Cost) }}</td>
     {% endif %}

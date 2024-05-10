@@ -17,14 +17,14 @@
 
     <p>If you were away from home for more than 5 hours you may get a contribution for food and drink.</p>
 
-    <p>There’s a limit of £2.55 per person for trips over 5 hours and £5.10 for trips over 10 hours.</p>
+    <p>There is a limit of £3.50 per person for trips over 5 hours (£2.55 if visiting a Scottish prison) and £5.10 for trips over 10 hours (wherever you are travelling to).</p>
 
     <p>Give the total for every person you are claiming for.</p>
 
     <form action="/apply/eligibility/claim/refreshment{{ params }}"
           method="post">
 
-      {% set costExample = 2.55 %}
+      {% set costExample = 3.50 %}
       {% include "partials/expenses/cost.html" %}
 
       <p>Keep receipts as you may need to show them later on.</p>
