@@ -10,7 +10,8 @@ module.exports = {
       database: config.DATABASE,
       options: {
         encrypt: false,
-        enableArithAbort: true
+        enableArithAbort: true,
+        connectTimeout: 30000
       }
     },
     pool: {
