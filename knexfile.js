@@ -8,9 +8,12 @@ module.exports = {
       user: config.EXT_WEB_USERNAME,
       password: config.EXT_WEB_PASSWORD,
       database: config.DATABASE,
+      requestTimeout: 30000,
+      connectTimeout: 30000,
       options: {
         encrypt: false,
         enableArithAbort: true,
+        requestTimeout: 30000,
         connectTimeout: 30000
       }
     },
