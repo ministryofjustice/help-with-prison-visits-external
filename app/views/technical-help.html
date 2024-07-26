@@ -1,10 +1,5 @@
 {% extends "includes/layout.html" %}
 
-{% from "govuk/components/input/macro.njk" import govukInput %}
-{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
-{% from "govuk/components/character-count/macro.njk" import govukCharacterCount %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
-
 {% block pageTitle %}
 Help using the service - {{ serviceName }}
 {% endblock %}
@@ -12,8 +7,6 @@ Help using the service - {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-
-  {% include "includes/validation-error-messages.html" %}
 
   <h1 class="govuk-heading-xl">Help using the service</h1>
 
@@ -23,104 +16,15 @@ Help using the service - {{ serviceName }}
       <li>would like an update on a claim</li>
     </ul>
 
-  <p>We only use your details to respond to your request.</p>
-  <p>If you do not need help, you can use the <a href="https://get-help-with-the-cost-of-prison-visits.form.service.justice.gov.uk/">feedback form</a>.</p>
+  <p class="govuk-body">Email your name and request to <a href="mailto:helpwithprisonvisits@justice.gov.uk" class="govuk-link">helpwithprisonvisits@justice.gov.uk</a></p>
 
+  <p class="govuk-body">Also include your reference number and the date of the claim.</p> 
 
-  <form action="/help" method="post" novalidate>
-    {{ govukInput({
-      label: {
-        text: "Name",
-        classes: "govuk-label--s"
-      },
-      id: "name",
-      name: "name",
-      value: help['name'],
-      classes: "govuk-!-width-one-half",
-      autocomplete: "name",
-      spellcheck: false,
-      errorMessage: errors | findError('name')
-    }) }}
+  <p class="govuk-body">Do not include personal or financial information.</p> 
+    
+  <p class="govuk-body">If you do not need help, you can use the <a href="https://get-help-with-the-cost-of-prison-visits.form.service.justice.gov.uk/">feedback form</a>.</p>
 
-    {{ govukInput({
-      label: {
-        text: "Email address",
-        classes: "govuk-label--s"
-      },
-      id: "EmailAddress",
-      name: "emailAddress",
-      type: "email",
-      value: help['emailAddress'],
-      classes: "govuk-!-width-one-half",
-      autocomplete: "email",
-      spellcheck: false,
-      errorMessage: errors | findError('EmailAddress')
-    }) }}
-
-    {{ govukInput({
-      label: {
-        text: "Reference number (optional)",
-        classes: "govuk-label--s"
-      },
-      id: "ReferenceNumber",
-      name: "referenceNumber",
-      value: help['referenceNumber'],
-      classes: "govuk-!-width-one-half",
-      spellcheck: false,
-      errorMessage: errors | findError('ReferenceNumber')
-    }) }}
-
-    {{ govukDateInput({
-      id: "date-of-claim",
-      namePrefix: "date-of-claim",
-      fieldset: {
-        legend: {
-          text: "Date of claim (optional)",
-          classes: "govuk-label--s"
-        }
-      },
-      items: [
-        {
-          classes: "govuk-input--width-2",
-          name: "day",
-          value: help['date-of-claim-day']
-        },
-        {
-          classes: "govuk-input--width-2",
-          name: "month",
-          value: help['date-of-claim-month']
-        },
-        {
-          classes: "govuk-input--width-4",
-          name: "year",
-          value: help['date-of-claim-year']
-        }
-      ],
-      errorMessage: errors | findError('DateOfClaim')
-    }) }}
-
-    {{ govukCharacterCount({
-      name: "issue",
-      id: "issue",
-      maxlength: 1200,
-      rows: 6,
-      label: {
-        text: "Describe what you'd like help with",
-        classes: "govuk-label--s"
-      },
-      hint: {
-        text: "Do not include personal or financial information."
-      },
-      value: help['issue'],
-      errorMessage: errors | findError('issue')
-    }) }}
-
-    {% include "partials/csrf-hidden-input.html" %}
-
-    {{ govukButton({
-      text: "Continue",
-      preventDoubleClick: true
-    }) }}
-  </form>
+  </div>
 </div>
+
 {% endblock %}
