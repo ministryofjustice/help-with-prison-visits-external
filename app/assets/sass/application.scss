@@ -1,5 +1,5 @@
 $govuk-global-styles: true;
-@import '../../../node_modules/govuk-frontend/govuk/all';
+@import '../../../node_modules/govuk-frontend/dist/govuk/all';
 
 // Autocomplete styles from https://github.com/ministryofjustice/prison-visits-public
 @import 'moj.autocomplete';
