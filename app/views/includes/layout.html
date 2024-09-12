@@ -1,6 +1,7 @@
 {% extends "govuk/template.njk" %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "govuk/components/header/macro.njk" import govukHeader %}
+{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 
 {% block head %}
   <link href="/public/stylesheets/application.css" rel="stylesheet">
@@ -11,9 +12,11 @@
   {{ govukHeader({
     homepageUrl: "https://www.gov.uk",
     containerClasses: "govuk-width-container",
+    classes: "govuk-header--full-width-border"
+  }) }}
+  {{ govukServiceNavigation({
     serviceName: serviceName,
-    serviceUrl: "/start",
-    useTudorCrown: true
+    serviceUrl: "/start"
   }) }}
 {% endblock %}
 
@@ -29,7 +32,7 @@
 {%block beforeContent %}
   {{ govukPhaseBanner({
     tag: {
-      text: "beta"
+      text: "Beta"
     },
     html: 'This is a new service - your <a href="https://get-help-with-the-cost-of-prison-visits.form.service.justice.gov.uk/">feedback</a> will help us to improve it. If you\'re having a problem, <a href="/help">contact us for help</a>.'
   }) }}
