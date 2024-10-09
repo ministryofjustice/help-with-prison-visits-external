@@ -70,14 +70,12 @@
 {% block bodyEnd %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
 
+  <script type="module" src="/public/javascripts/govukFrontendInit.js"></script>
   <script src="/assets/jquery.min.js"></script>
   <script src="/assets/jquery-ui.min.js"></script>
   <script src="/public/javascripts/moj.autocomplete.js"></script>
   <script src="/public/javascripts/upload-page.js"></script>
   <script src="/public/javascripts/print-link.js"></script>
-
-  <script src="/assets/govuk/all.js"></script>
-  <script>window.GOVUKFrontend.initAll()</script>
 
   {# TEMPORARY - code from https://github.com/alphagov/govuk_template_jinja for cookie banner #}
   <script src="/public/javascripts/cookie-banner.js"></script>

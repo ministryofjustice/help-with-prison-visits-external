@@ -28,14 +28,14 @@ app.use(helmet.hsts({ maxAge: 5184000 }))
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
-    scriptSrc: ["'self'",
-      'www.google-analytics.com',
-      "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='",
-      "'sha256-l1eTVSK8DTnK8+yloud7wZUqFrI0atVo6VlC6PJvYaQ='"], // govuk-frontend - initAll() inline script
-    connectSrc: ["'self'", 'www.google-analytics.com'],
+    scriptSrc: [
+      "'self'",
+      '*.google-analytics.com'
+    ],
+    connectSrc: ["'self'", '*.google-analytics.com'],
     styleSrc: ["'self'"],
     fontSrc: ["'self'", 'data:'],
-    imgSrc: ["'self'", 'www.google-analytics.com']
+    imgSrc: ["'self'", '*.google-analytics.com']
   }
 }))
 
