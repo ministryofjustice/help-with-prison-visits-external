@@ -61,7 +61,8 @@
   "standard": {
     "ignore": [
       "jquery*.js",
-      "ga.js"
+      "ga.js",
+      "app/**/javascripts/*.js"
     ],
     "globals": [
       "describe",
