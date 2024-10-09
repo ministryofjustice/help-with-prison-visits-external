@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./node_modules/sass/sass.js --no-source-map --quiet app/assets/sass/application.scss app/public/stylesheets/application.css
+./node_modules/sass/sass.js --no-source-map --quiet-deps --load-path=node_modules/govuk-frontend/dist --load-path=. app/assets/sass/application.scss app/public/stylesheets/application.css
