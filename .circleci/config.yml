@@ -10,7 +10,7 @@ feature_branch: &feature_branch
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@7
+  hmpps: ministryofjustice/hmpps@10
 
 # executors:
 #   integration-tests:
@@ -26,7 +26,7 @@ parameters:
 
   node-version:
     type: string
-    default: 20.11-browsers
+    default: 20.17-browsers
 
 jobs:
   unit_test:
@@ -108,6 +108,9 @@ workflows:
           <<: *feature_branch
           name: deploy_dev_preview
           env: "dev"
+          jira_update: true
+          pipeline_id: <<pipeline.id>>
+          pipeline_number: <<pipeline.number>>
           context: hmpps-common-vars
           requires:
             - request_dev_approval
@@ -120,6 +123,9 @@ workflows:
           <<: *feature_branch
           name: deploy_preprod_preview
           env: "preprod"
+          jira_update: true
+          pipeline_id: <<pipeline.id>>
+          pipeline_number: <<pipeline.number>>
           context:
             - hmpps-common-vars
             - help-with-prison-visits-external-preprod
@@ -129,6 +135,9 @@ workflows:
           <<: *main_branch
           name: deploy_dev
           env: "dev"
+          jira_update: true
+          pipeline_id: <<pipeline.id>>
+          pipeline_number: <<pipeline.number>>
           context: hmpps-common-vars
           requires:
             - helm_lint
@@ -142,6 +151,9 @@ workflows:
       - hmpps/deploy_env:
           name: deploy_preprod
           env: "preprod"
+          jira_update: true
+          pipeline_id: <<pipeline.id>>
+          pipeline_number: <<pipeline.number>>
           context:
             - hmpps-common-vars
             - help-with-prison-visits-external-preprod
@@ -154,6 +166,9 @@ workflows:
       - hmpps/deploy_env:
           name: deploy_prod
           env: "prod"
+          jira_update: true
+          pipeline_id: <<pipeline.id>>
+          pipeline_number: <<pipeline.number>>
           slack_notification: true
           slack_channel_name: << pipeline.parameters.alerts-slack-channel >>
           context:
