@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('uuid')
+const { randomUUID } = require('crypto')
 const { S3 } = require('@aws-sdk/client-s3')
 const fs = require('fs')
 const log = require('./log')
@@ -65,7 +65,7 @@ class AWSHelper {
       Bucket: this.bucketName,
       Key: key
     }
-    const randomFilename = uuidv4()
+    const randomFilename = randomUUID()
     const tempFile = `${config.FILE_TMP_DIR}/${randomFilename}`
 
     try {
