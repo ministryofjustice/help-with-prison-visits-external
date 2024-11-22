@@ -777,15 +777,15 @@ module.exports = {
     region: 'SCO'
   },
 
-  CASTLE_HUNTLY: {
-    value: 'castle-huntly',
-    displayName: 'Castle Huntly',
+  BELLA_CENTRE: {
+    value: 'bella-centre',
+    displayName: 'Bella Centre',
     region: 'SCO'
   },
 
-  CORNTON_VALE: {
-    value: 'cornton-vale',
-    displayName: 'Cornton Vale',
+  CASTLE_HUNTLY: {
+    value: 'castle-huntly',
+    displayName: 'Castle Huntly',
     region: 'SCO'
   },
 
@@ -831,6 +831,12 @@ module.exports = {
     region: 'SCO'
   },
 
+  LILIAS_CENTRE: {
+    value: 'lilias-centre',
+    displayName: 'Lilias Centre',
+    region: 'SCO'
+  },
+
   LOW_MOSS: {
     value: 'low-moss',
     displayName: 'Low Moss',
@@ -852,6 +858,12 @@ module.exports = {
   SHOTTS: {
     value: 'shotts',
     displayName: 'Shotts',
+    region: 'SCO'
+  },
+
+  STIRLING: {
+    value: 'stirling',
+    displayName: 'Stirling',
     region: 'SCO'
   },
 
