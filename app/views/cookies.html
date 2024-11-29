@@ -19,47 +19,74 @@ Cookies - {{ serviceName }}
         <h3 class="govuk-heading-m">Settings cookies</h3>
         <p>These cookies do things like remember your preferences and the choices you make, to personalise your experience of using the service. You may see a banner when you visit the service inviting you to accept cookies or review your settings. We’ll set cookies so that your computer knows you’ve seen it and not to show it again, and also to store your settings.</p>
 
-        <table class="govuk-table">
-            <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                    <th scope="col" class="govuk-table__header">Name</th>
-                    <th scope="col" class="govuk-table__header">Purpose</th>
-                    <th scope="col" class="govuk-table__header">Expires</th>
-                </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">seen_cookie_message</th>
-                    <td class="govuk-table__cell">Saves your cookie consent settings</td>
-                    <td class="govuk-table__cell">1 month</td>
-                </tr>
-            </tbody>
-        </table>
+        {{ govukTable({
+            head: [
+              {
+                text: "Name"
+              },
+              {
+                text: "Purpose"
+              },
+              {
+                text: "Expires"
+              }
+            ],
+            rows: [
+              [
+                {
+                  text: "seen_cookie_message"
+                },
+                {
+                  text: "Saves your cookie consent settings"
+                },
+                {
+                  text: "1 month"
+                }
+              ]
+            ]
+        }) }}
 
         <h3 class="govuk-heading-m">Essential cookies</h3>
         <p>Essential cookies keep your information secure while you use the service. We do not need to ask permission to use them.</p>
 
-        <table class="govuk-table">
-            <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                    <th scope="col" class="govuk-table__header">Name</th>
-                    <th scope="col" class="govuk-table__header">Purpose</th>
-                    <th scope="col" class="govuk-table__header">Expires</th>
-                </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">_csrf</th>
-                    <td class="govuk-table__cell">We add a cookie to check calls made to form pages to ensure the requests come from a valid source</td>
-                    <td class="govuk-table__cell">When you close your browser</td>
-                </tr>
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">apvs-start-already-registered/apvs-start-already-registered.sig</th>
-                    <td class="govuk-table__cell">We add a cookie to temporarily hold parameters when you enter your existing reference details to avoid saving them in your browsing history for security</td>
-                    <td class="govuk-table__cell">When you close your browser</td>
-                </tr>
-            </tbody>
-        </table>
+        {{ govukTable({
+            head: [
+              {
+                text: "Name"
+              },
+              {
+                text: "Purpose"
+              },
+              {
+                text: "Expires"
+              }
+            ],
+            rows: [
+              [
+                {
+                  text: "_csrf"
+                },
+                {
+                  text: "We add a cookie to check calls made to form pages to ensure the requests come from a valid source"
+                },
+                {
+                  text: "When you close your browser"
+                }
+              ],
+              [
+                {
+                    text: "apvs-start-already-registered/apvs-start-already-registered.sig"
+                },
+                {
+                    text: "We add a cookie to temporarily hold parameters when you enter your existing reference details to avoid saving them in your browsing history for security"
+                },
+                {
+                    text: "When you close your browser"
+                }
+               ]
+            ]
+        }) }}
+
 
         <h3 class="govuk-heading-m">Analytics cookies</h3>
         <p>We use Google Analytics to collect data about how you use the service. This information helps us to improve our service. Google doesn’t collect or store your personal information, for example your name or address, so this information can’t be used to identify who you are.</p>
@@ -71,33 +98,50 @@ Cookies - {{ serviceName }}
             <li>what you click on while you’re visiting the site</li>
         </ul>
         <p>You can read more about <a href="https://www.gov.uk/help/cookies" class="govuk-link">how cookies are used on GOV.UK</a>.</p>
+        
         <p>Google Analytics sets the following cookies:</p>
 
-        <table class="govuk-table">
-            <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                    <th scope="col" class="govuk-table__header">Name</th>
-                    <th scope="col" class="govuk-table__header">Purpose</th>
-                    <th scope="col" class="govuk-table__header">Expires</th>
-                </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">_ga and _gat</th>
-                    <td class="govuk-table__cell">Checks if you’ve visited the service before. This helps us count how many people visit our site.</td>
-                    <td class="govuk-table__cell">2 years</td>
-                </tr>
-            <tbody class="govuk-table__body">
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">_gid</th>
-                    <td class="govuk-table__cell">Checks if you’ve visited the service before. This helps us count how many people visit our site.</td>
-                    <td class="govuk-table__cell">24 hours</td>
-                </tr>
-            </tbody>
-        </table>
+        {{ govukTable({
+            head: [
+              {
+                text: "Name"
+              },
+              {
+                text: "Purpose"
+              },
+              {
+                text: "Expires"
+              }
+            ],
+            rows: [
+              [
+                {
+                  text: "_ga and _gat"
+                },
+                {
+                  text: "Checks if you’ve visited the service before. This helps us count how many people visit our site"
+                },
+                {
+                  text: "2 years"
+                }
+              ],
+              [
+                {
+                    text: "_gid"
+                },
+                {
+                    text: "Checks if you’ve visited the service before. This helps us count how many people visit our sitey"
+                },
+                {
+                    text: "24 hours"
+                }
+               ]
+            ]
+        }) }}
 
-        <p>You can <a href="https://tools.google.com/dlpage/gaoptout" class="govuk-link">opt out of Google Analytics cookies.</a></p>
+        <p>You can <a href="https://tools.google.com/dlpage/gaoptout" class="govuk-link">opt out of Google Analytics cookies</a>.</p>
 
     </div>
 </div>
+
 {% endblock %}
