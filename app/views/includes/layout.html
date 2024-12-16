@@ -20,15 +20,6 @@
   }) }}
 {% endblock %}
 
-{# Temporarily using old-style cookie banner #}
-{% block bodyStart %}
-<div id="global-cookie-message">
-  <p>{{__('GOV.UK uses cookies to make the site simpler.')}}
-    <a href="/cookies" title="{{__('Find out more about cookies')}}">{{__('Find out more about cookies')}}</a>
-  </p>
-</div>
-{% endblock %}
-
 {%block beforeContent %}
   {{ govukPhaseBanner({
     tag: {
