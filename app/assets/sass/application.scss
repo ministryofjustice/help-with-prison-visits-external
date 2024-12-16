@@ -3,7 +3,7 @@ $govuk-global-styles: true;
 
 // Autocomplete styles from https://github.com/ministryofjustice/prison-visits-public
 @import 'moj.autocomplete';
-@import "moj/components/banner/banner";
+@import 'moj/components/banner/banner';
 
 @mixin respond-to($media) {
   @if $media==handhelds {
