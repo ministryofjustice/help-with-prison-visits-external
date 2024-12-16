@@ -2,7 +2,6 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{%- from "moj/components/banner/macro.njk" import mojBanner -%}
 
 {% block pageTitle %}
   {% if errors %}Error: {% endif %}Your claim - {{ serviceName }}
@@ -11,13 +10,9 @@
 {% block content %}
 
 {% if updated %}
-
-  {{ mojBanner({
-    type: 'success',
-    text: 'Application updated',
-    iconFallbackText: 'Success'
-  }) }}
-  
+  <div id="application-updated" class="success-summary">
+    Application updated
+  </div>
 {% endif %}
 
 {% include "includes/validation-error-messages.html" %}
