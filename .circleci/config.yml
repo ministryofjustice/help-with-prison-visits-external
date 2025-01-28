@@ -24,6 +24,10 @@ parameters:
     type: string
     default: "help-with-prison-visits-alerts"
 
+  releases-slack-channel:
+    type: string
+    default: visits-releases
+
   node-version:
     type: string
     default: 22.12-browsers
@@ -170,7 +174,7 @@ workflows:
           pipeline_id: <<pipeline.id>>
           pipeline_number: <<pipeline.number>>
           slack_notification: true
-          slack_channel_name: << pipeline.parameters.alerts-slack-channel >>
+          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
           context:
             - help-with-prison-visits-asynchronous-worker-prod
             - hmpps-common-vars
