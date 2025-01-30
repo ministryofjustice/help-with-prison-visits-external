@@ -26,65 +26,33 @@ parameters:
     default: 22.13-browsers
 
 jobs:
-  build:
-    executor:
-      name: hmpps/node
-      tag: << pipeline.parameters.node-version >>
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: Install Dependencies
-          command: npm ci --no-audit
-      - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
-            - ~/.cache
-      - run:
-          command: |
-            npm run build
-      - run: # Run linter after build because the integration test code depends on compiled typescript...
-          name: Linter check
-          command: npm run lint
-      - persist_to_workspace:
-          root: .
-          paths:
-            - node_modules
-            - build
-            - dist
-            - assets/stylesheets
-
   unit_test:
     executor:
       name: hmpps/node
       tag: << pipeline.parameters.node-version >>
     steps:
       - checkout
+      - run:
+          name: Switch python
+          command: sudo apt-get update -y && sudo apt-get install -y --no-install-recommends python-is-python3
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
-          name: unit tests
-          command: npm run test:ci
-      - store_test_results:
-          path: test_results
-      - store_artifacts:
-          path: test_results/unit-test-reports.html
-      - store_artifacts:
-          path: test_results/jest/coverage
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Run Unit Tests
+          command: npm run test
 
 workflows:
   version: 2
   build-test-and-deploy:
     jobs:
-      - build:
-          filters:
-            tags:
-              ignore: /.*/
-      - unit_test:
-          requires:
-            - build
+      - unit_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
