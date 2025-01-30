@@ -12,17 +12,10 @@ version: 2.1
 orbs:
   hmpps: ministryofjustice/hmpps@10
 
-# executors:
-#   integration-tests:
-#     docker:
-#       - image: cimg/node:12.22-browsers
-#       - image: circleci/redis:buster
-#     working_directory: ~/app
-
 parameters:
   alerts-slack-channel:
     type: string
-    default: "help-with-prison-visits-alerts"
+    default: "help-with-prison-visits-alerts-nonprod"
 
   releases-slack-channel:
     type: string
@@ -30,7 +23,7 @@ parameters:
 
   node-version:
     type: string
-    default: 22.12-browsers
+    default: 22.13-browsers
 
 jobs:
   unit_test:
@@ -54,49 +47,12 @@ jobs:
       - run:
           name: Run Unit Tests
           command: npm run test
-  # integration_test:
-  #   executor: integration-tests
-  #   steps:
-  #     - checkout
-  #     - attach_workspace:
-  #         at: ~/app
-  #     - run:
-  #         name: Install missing OS dependency
-  #         command: sudo apt-get install libxss1
-  #     - run:
-  #         name: Get wiremock
-  #         command: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
-  #     - run:
-  #         name: Run wiremock
-  #         command: java -jar wiremock.jar --port 9091
-  #         background: true
-  #     - run:
-  #         name: Run the node app.
-  #         command: npm run start-feature
-  #         background: true
-  #     - run:
-  #         name: Wait for node app to start
-  #         command: sleep 5
-  #     - restore_cache:
-  #         key: dependency-cache-{{ checksum "package-lock.json" }}
-  #     - run:
-  #         name: integration tests
-  #         command: npm run int-test
-  #     - store_test_results:
-  #         path: test_results
-  #     - store_artifacts:
-  #         path: integration-tests/videos
-  #     - store_artifacts:
-  #         path: integration-tests/screenshots
 
 workflows:
   version: 2
   build-test-and-deploy:
     jobs:
       - unit_test
-      # - integration_test:
-      #     requires:
-      #       - unit_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
