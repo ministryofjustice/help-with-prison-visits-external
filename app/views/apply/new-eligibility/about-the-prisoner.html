@@ -94,7 +94,7 @@
       {% if not prisonerNumber %}
       {{ govukInput({
         label: {
-          text: "Prisoner number"
+          text: "Prison number"
         },
         hint: {
           text: "For example, A1234BC"
@@ -110,7 +110,7 @@
         errorMessage: errors | findError('PrisonerNumber')
       }) }}
       {% else %}
-        <label id="PrisonerNumber" class="govuk-label" for="prisoner-number">Prisoner number</label>
+        <label id="PrisonerNumber" class="govuk-label" for="prisoner-number">Prison number</label>
         <span>{{ prisonerNumber }}</span>
         <input id="prisoner-number" name="PrisonerNumber" value="{{ prisonerNumber }}" type="hidden">
       {% endif %}

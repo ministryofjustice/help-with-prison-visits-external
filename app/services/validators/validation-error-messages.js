@@ -35,7 +35,7 @@ module.exports = {
   getEnterPrisonerFirstName: function () { return 'Enter the prisoner\'s first name' },
   getEnterPrisonerLastName: function () { return 'Enter the prisoner\'s last name' },
   getEnterPrisonerDateOfBirth: function () { return 'Enter the prisoner\'s date of birth' },
-  getEnterPrisonerNumber: function () { return 'Enter a prisoner number' },
+  getEnterPrisonerNumber: function () { return 'Enter a prison number' },
   getEnterPrison: function () { return 'Enter the name of the prison' },
   getEnterYourFirstName: function () { return 'Enter your first name' },
   getEnterYourLastName: function () { return 'Enter your last name' },
