@@ -484,8 +484,7 @@ module.exports = {
   MILLSIKE: {
     value: 'millsike',
     displayName: 'Millsike',
-    region: 'ENG/WAL',
-    postcode: 'YO41 1FZ',
+    region: 'ENG/WAL'
   },
 
   MOORLAND: {
