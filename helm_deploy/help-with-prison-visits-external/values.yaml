@@ -3,6 +3,7 @@
 generic-service:
   nameOverride: help-with-prison-visits-external
   serviceAccountName: help-with-prison-visits-external
+  productId: "DPS081"
 
   image:
     repository: quay.io/hmpps/help-with-prison-visits-external
