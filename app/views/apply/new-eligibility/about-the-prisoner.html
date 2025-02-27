@@ -21,7 +21,7 @@
 
       {{ govukInput({
         label: {
-          text: "Prisoner first name"
+          text: "First name"
         },
         id: "FirstName",
         name: "FirstName",
@@ -36,7 +36,7 @@
 
       {{ govukInput({
         label: {
-          text: "Prisoner last name"
+          text: "Last name"
         },
         id: "LastName",
         name: "LastName",
@@ -115,8 +115,23 @@
         <input id="prisoner-number" name="PrisonerNumber" value="{{ prisonerNumber }}" type="hidden">
       {% endif %}
 
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Help with the prison number
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          This is the number given to people when they enter prison.
+          <br><br>
+          Their prison number stays the same if they move to another prison. 
+          <br><br>
+          You need to ask the prisoner for this information before you can book.
+        </div>
+      </details>
+
       <div class="govuk-form-group {% if errors['NameOfPrison'][0] %} govuk-form-group--error{% endif %}">
-        <label id="NameOfPrison" class="govuk-label" for="prison-name">Name of the prison</label>
+        <label id="NameOfPrison" class="govuk-label" for="prison-name">Prison name</label>
         <div class="govuk-hint">For example, Hewell</div>
         {% if errors['NameOfPrison'][0] %}
         <span class="govuk-error-message">
