@@ -481,6 +481,12 @@ module.exports = {
     region: 'ENG/WAL'
   },
 
+  MILLSIKE: {
+    value: 'millsike',
+    displayName: 'Millsike',
+    region: 'ENG/WAL'
+  },
+
   MOORLAND: {
     value: 'moorland',
     displayName: 'Moorland',
