@@ -4,7 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}Enter information about the prisoner being visited - {{ serviceName }}
+  {% if errors %}Error: {% endif %}Prisoner details - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -14,14 +14,14 @@
     {% include "includes/validation-error-messages.html" %}
 
     <h1 class="govuk-heading-l">
-      About the prisoner
+      Prisoner details
     </h1>
 
     <form action="{{ URL }}" method="post" novalidate>
 
       {{ govukInput({
         label: {
-          text: "Prisoner first name"
+          text: "First name"
         },
         id: "FirstName",
         name: "FirstName",
@@ -36,7 +36,7 @@
 
       {{ govukInput({
         label: {
-          text: "Prisoner last name"
+          text: "Last name"
         },
         id: "LastName",
         name: "LastName",
@@ -56,11 +56,11 @@
         namePrefix: "dob",
         fieldset: {
           legend: {
-            text: "Prisoner date of birth"
+            text: "Date of birth"
           }
         },
         hint: {
-          text: "For example, 18 08 1989"
+          text: "For example, 28 04 1996"
         },
         items: [
           {
@@ -94,7 +94,7 @@
       {% if not prisonerNumber %}
       {{ govukInput({
         label: {
-          text: "Prisoner number"
+          text: "Prison number"
         },
         hint: {
           text: "For example, A1234BC"
@@ -110,13 +110,26 @@
         errorMessage: errors | findError('PrisonerNumber')
       }) }}
       {% else %}
-        <label id="PrisonerNumber" class="govuk-label" for="prisoner-number">Prisoner number</label>
+        <label id="PrisonerNumber" class="govuk-label" for="prisoner-number">Prison number</label>
         <span>{{ prisonerNumber }}</span>
         <input id="prisoner-number" name="PrisonerNumber" value="{{ prisonerNumber }}" type="hidden">
       {% endif %}
 
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Help with the prison number
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p>This is the number given to people when they enter prison.</p>
+          <p>Their prison number stays the same if they move to another prison. </p>
+          <p>You need to ask the prisoner for this information.</p>
+        </div>
+      </details>
+
       <div class="govuk-form-group {% if errors['NameOfPrison'][0] %} govuk-form-group--error{% endif %}">
-        <label id="NameOfPrison" class="govuk-label" for="prison-name">Name of the prison</label>
+        <label id="NameOfPrison" class="govuk-label" for="prison-name">Prison name</label>
         <div class="govuk-hint">For example, Hewell</div>
         {% if errors['NameOfPrison'][0] %}
         <span class="govuk-error-message">

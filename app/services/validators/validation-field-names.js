@@ -14,7 +14,7 @@ module.exports = {
   EmailAddress: 'Email address',
   PhoneNumber: 'Phone number',
   DateOfBirth: 'Date of birth',
-  PrisonerNumber: 'Prisoner number',
+  PrisonerNumber: 'Prison number',
   NameOfPrison: 'Name of prison',
   NameOnAccount: 'Name on the account',
   AccountNumber: 'Account number',
