@@ -1,6 +1,7 @@
 {% extends "includes/layout.html" %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
 {% if relationship === 'eligible-child' %}
   {% set titleText = "Is the eligible child covered by any of the following" %}
@@ -21,6 +22,10 @@
     <h1 class="govuk-heading-l">
       {{ titleText }}?
     </h1>
+
+    {{ govukInsetText({
+      text: "Tax credits are ending on 5 April 2025. Any submissions based on claiming Tax Credits made after 3 May 2025 will be rejected."
+    }) }}
 
     <form action="{{ URL }}" method="post">
 
