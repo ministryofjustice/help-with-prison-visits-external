@@ -1,7 +1,6 @@
 {% extends "includes/layout.html" %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
 {% if relationship === 'eligible-child' %}
   {% set titleText = "Is the eligible child covered by any of the following" %}
@@ -22,10 +21,6 @@
     <h1 class="govuk-heading-l">
       {{ titleText }}?
     </h1>
-
-    {{ govukInsetText({
-      text: "Tax credits end on 5 April. Any claims based on tax credits for visits after 5 April will be rejected."
-    }) }}
 
     <form action="{{ URL }}" method="post">
 
@@ -78,16 +73,6 @@
             }
           },
           {
-            value: "b5",
-            text: "Working Tax credits (with disability or child tax) or Child Tax Credit",
-            hint: {
-              text: "While earning less than £17,474 a year"
-            },
-            attributes: {
-              "data-cy": "tax-credits"
-            }
-          },
-          {
             value: "b6",
             text: "Pension Credit",
             attributes: {
@@ -106,13 +91,6 @@
             text: "Health Certificate (HC3)",
             attributes: {
               "data-cy": "hc3"
-            }
-          },
-          {
-            value: "b9",
-            text: "NHS Tax Credit Exemption Certificate",
-            attributes: {
-              "data-cy": "tax-credit"
             }
           },
           ({
