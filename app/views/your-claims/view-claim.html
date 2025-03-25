@@ -8,6 +8,13 @@
 {% endblock %}
 
 {%block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: {
+      text: "Beta"
+    },
+    html: 'This is a new service - your <a href="https://get-help-with-the-cost-of-prison-visits.form.service.justice.gov.uk/">feedback</a> will help us to improve it. If you\'re having a problem, <a href="/help">contact us for help</a>.'
+  }) }}
+
   <a href="/your-claims" id="back" class="govuk-back-link">Back</a>
 {% endblock %}
 
