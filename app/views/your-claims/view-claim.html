@@ -2,6 +2,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
 {% set backLinkHref = "/your-claims" %}
 
@@ -11,9 +12,16 @@
 
 {% block content %}
 {% if updated %}
-  <div id="application-updated" class="success-summary">
-    Application updated
-  </div>
+  {% set html %}
+    <h3 class="govuk-notification-banner__heading" id="application-updated">
+      Application updated
+    </h3>
+  {% endset %}
+
+  {{ govukNotificationBanner({
+    html: html,
+    type: "success"
+  }) }}
 {% endif %}
 
 {% include "includes/validation-error-messages.html" %}
