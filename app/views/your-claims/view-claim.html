@@ -7,9 +7,12 @@
   {% if errors %}Error: {% endif %}Your claim - {{ serviceName }}
 {% endblock %}
 
+{%block beforeContent %}
+  <a href="/your-claims" id="back" class="govuk-back-link">Back</a>
+{% endblock %}
+
 {% block content %}
 
-<a href="/your-claims" id="back" class="govuk-back-link">Back</a>
 
 {% if updated %}
   <div id="application-updated" class="success-summary">
