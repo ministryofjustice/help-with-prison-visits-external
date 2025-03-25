@@ -9,6 +9,8 @@
 
 {% block content %}
 
+<a href="/your-claims" id="back" class="govuk-back-link">Back</a>
+
 {% if updated %}
   <div id="application-updated" class="success-summary">
     Application updated
@@ -22,10 +24,6 @@
 <h1 class="govuk-heading-l">
   Your claim
 </h1>
-
-{% if not updated %}
-  <p>Add evidence for your claim.</p>
-{% endif %}
 
 {% include "partials/claim-summary/claim-summary-visitor.html" %}
 
@@ -147,11 +145,7 @@
       }) }}
 
       <p>
-        <a href="/your-claims" id="cancel">cancel</a>
-      </p>
-    {% else %}
-      <p>
-        <a href="/your-claims" id="back">back</a>
+        <a href="/your-claims" id="cancel">Cancel</a>
       </p>
     {% endif %}
   </div>
