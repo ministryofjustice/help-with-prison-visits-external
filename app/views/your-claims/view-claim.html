@@ -2,17 +2,26 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set backLinkHref = "/your-claims" %}
 
 {% block pageTitle %}
   {% if errors %}Error: {% endif %}Your claim - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
-
 {% if updated %}
-  <div id="application-updated" class="success-summary">
-    Application updated
-  </div>
+  {% set html %}
+    <h3 class="govuk-notification-banner__heading" id="application-updated">
+      Application updated
+    </h3>
+  {% endset %}
+
+  {{ govukNotificationBanner({
+    html: html,
+    type: "success"
+  }) }}
 {% endif %}
 
 {% include "includes/validation-error-messages.html" %}
@@ -22,10 +31,6 @@
 <h1 class="govuk-heading-l">
   Your claim
 </h1>
-
-{% if not updated %}
-  <p>Add evidence for your claim.</p>
-{% endif %}
 
 {% include "partials/claim-summary/claim-summary-visitor.html" %}
 
@@ -147,11 +152,7 @@
       }) }}
 
       <p>
-        <a href="/your-claims" id="cancel">cancel</a>
-      </p>
-    {% else %}
-      <p>
-        <a href="/your-claims" id="back">back</a>
+        <a href="/your-claims" id="cancel">Cancel</a>
       </p>
     {% endif %}
   </div>
