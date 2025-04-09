@@ -6,7 +6,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block pageTitle %}
-  {% if errors %}Error: {% endif %}Return visitor sign in - {{ serviceName }}
+  {% if errors %}Error: {% endif %}Returning visitor sign in - {{ serviceName }}
 {% endblock %}
 
 {% block content %}
@@ -16,10 +16,16 @@
   {% include "includes/validation-error-messages.html" %}
 
   {% if recovery %}
+    {% set recoveryhtml %}
+      <h3 class="govuk-notification-banner__heading">
+        Email sent
+      </h3>
+      <p class="govuk-body">Check your email for your recovered reference number.</p>
+    {% endset %}
+
     {{ govukNotificationBanner({
-      titleText: "Reference recovery",
-      text: "Now check your email for your recovered reference number",
-      type: 'success'
+      html: recoveryhtml,
+      type: "success"
     }) }}
   {% endif %}
 
@@ -53,7 +59,7 @@
         
         {% set detailsHtml %}
         <p>
-          Check your emails from "Help with the cost of visits" or you can <a href="/reference-recovery">recover your reference number</a>.
+          Check emails from "Help with the cost of visits" or you can <a href="/reference-recovery">recover your reference number</a>.
         </p>
         {% endset %}
 
