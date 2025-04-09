@@ -24,7 +24,7 @@
   {% endif %}
 
   <h1 class="govuk-heading-l">
-    Return visitors
+    Returning visitors
   </h1>
 
   <p>Sign in to check progress on a claim or apply without entering all of your information again.</p>
@@ -52,11 +52,11 @@
         }) }}
         
         {% set detailsHtml %}
-        <ul class="govuk-list govuk-list--number">
-          <li>Check your emails from HWPV (Help With Prison Visits)</li>
-          <li><a href="/reference-recovery">Recover your reference number</a></li>
-        </ul>
+        <p>
+          Check your emails from "Help with the cost of visits" or you can <a href="/reference-recovery">recover your reference number</a>.
+        </p>
         {% endset %}
+
         {{ govukDetails({
           summaryText: "Where to find your reference number",
           html: detailsHtml
