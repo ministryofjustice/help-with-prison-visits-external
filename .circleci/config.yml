@@ -23,7 +23,7 @@ parameters:
 
   node-version:
     type: string
-    default: 22.15-browsers
+    default: 22.16-browsers
 
 jobs:
   unit_test:
