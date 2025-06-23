@@ -14,7 +14,7 @@
   {{ govukHeader({
     homepageUrl: "https://www.gov.uk",
     containerClasses: "govuk-width-container",
-    classes: "govuk-header--full-width-border"
+    rebrand: true
   }) }}
   {{ govukServiceNavigation({
     serviceName: serviceName,
@@ -48,6 +48,7 @@
 
 {% block footer %}
   {{ govukFooter({
+    rebrand: true,
     meta: {
       items: [
         {
