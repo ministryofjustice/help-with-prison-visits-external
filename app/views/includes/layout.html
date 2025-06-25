@@ -3,6 +3,7 @@
 {% from "govuk/components/header/macro.njk" import govukHeader %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% set govukRebrand = true %}
 
 {% block head %}
   <link href="/public/stylesheets/application.css" rel="stylesheet">
@@ -13,7 +14,7 @@
   {{ govukHeader({
     homepageUrl: "https://www.gov.uk",
     containerClasses: "govuk-width-container",
-    classes: "govuk-header--full-width-border"
+    rebrand: true
   }) }}
   {{ govukServiceNavigation({
     serviceName: serviceName,
@@ -47,6 +48,7 @@
 
 {% block footer %}
   {{ govukFooter({
+    rebrand: true,
     meta: {
       items: [
         {
