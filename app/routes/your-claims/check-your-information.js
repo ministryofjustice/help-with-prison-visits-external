@@ -53,7 +53,7 @@ module.exports = function (router) {
       req.session.eligibilityId = req.body?.EligibilityId
       req.session.referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, req.session.eligibilityId)
 
-      new CheckYourInformation(req.body && req.body['confirm-correct']) // eslint-disable-line no-new
+      new CheckYourInformation(req.body?.['confirm-correct']) // eslint-disable-line no-new
 
       getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'), null)
         .then(function (eligibility) {

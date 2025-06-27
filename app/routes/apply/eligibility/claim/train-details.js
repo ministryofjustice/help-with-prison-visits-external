@@ -55,10 +55,10 @@ module.exports = function (router) {
         req.body?.cost,
         req.body?.from,
         req.body?.to,
-        (req.body && req.body['return-journey']) ?? '',
-        (req.body && req.body['ticket-owner']) ?? '',
-        (req.body && req.body['departure-time']) ?? '',
-        (req.body && req.body['return-time']) ?? '',
+        req.body?.['return-journey'] ?? '',
+        req.body?.['ticket-owner'] ?? '',
+        req.body?.['departure-time'] ?? '',
+        req.body?.['return-time'] ?? '',
         isAdvanceClaim
       )
 

@@ -33,7 +33,7 @@ module.exports = function (router) {
     }
 
     try {
-      const hasEscort = new HasEscort((req.body && req.body['has-escort']) ?? '')
+      const hasEscort = new HasEscort(req.body?.['has-escort'] ?? '')
       if (hasEscort.hasEscort === 'yes') {
         return res.redirect('/apply/eligibility/claim/about-escort')
       } else {

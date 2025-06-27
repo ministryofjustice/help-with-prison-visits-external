@@ -38,7 +38,7 @@ module.exports = function (router) {
     const assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
 
     try {
-      new Declaration((req.body && req.body['terms-and-conditions-input']) ?? '') // eslint-disable-line no-new
+      new Declaration(req.body?.['terms-and-conditions-input'] ?? '') // eslint-disable-line no-new
       return checkIfReferenceIsDisabled(referenceAndEligibilityId.reference)
         .then(function (isDisabled) {
           return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId)

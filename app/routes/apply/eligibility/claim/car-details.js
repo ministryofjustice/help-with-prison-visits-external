@@ -97,13 +97,13 @@ function post (carOnly, req, res, next) {
       req.body?.from,
       req.body?.to,
       req.body?.toll,
-      (req.body && req.body['toll-cost']) ?? '',
-      (req.body && req.body['parking-charge']) ?? '',
-      (req.body && req.body['parking-charge-cost']) ?? '',
-      (req.body && req.body['new-destination']) ?? '',
+      req.body?.['toll-cost'] ?? '',
+      req.body?.['parking-charge'] ?? '',
+      req.body?.['parking-charge-cost'] ?? '',
+      req.body?.['new-destination'] ?? '',
       req.body?.destination,
       req.body?.PostCode,
-      (req.body && req.body['new-origin']) ?? '',
+      req.body?.['new-origin'] ?? '',
       req.body?.origin,
       req.body?.FromPostCode
     )

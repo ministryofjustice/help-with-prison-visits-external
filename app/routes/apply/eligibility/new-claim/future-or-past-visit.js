@@ -28,8 +28,8 @@ module.exports = function (router) {
     }
 
     try {
-      var futureOrPastVisit = new FutureOrPastVisit((req.body && req.body['advance-past']) ?? '') // eslint-disable-line
-      req.session.advanceOrPast = (req.body && req.body['advance-past']) ?? ''
+      var futureOrPastVisit = new FutureOrPastVisit(req.body?.['advance-past'] ?? '') // eslint-disable-line
+      req.session.advanceOrPast = req.body?.['advance-past'] ?? ''
 
       let nextPage = 'journey-information'
       if (req.session.claimType === claimTypeEnum.REPEAT_CLAIM) {

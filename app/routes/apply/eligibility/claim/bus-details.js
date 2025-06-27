@@ -51,8 +51,8 @@ module.exports = function (router) {
         req.body?.cost,
         req.body?.from,
         req.body?.to,
-        (req.body && req.body['return-journey']) ?? '',
-        (req.body && req.body['ticket-owner']) ?? ''
+        req.body?.['return-journey'] ?? '',
+        req.body?.['ticket-owner'] ?? ''
       )
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)

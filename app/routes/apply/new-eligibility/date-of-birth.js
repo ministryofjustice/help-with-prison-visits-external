@@ -29,9 +29,9 @@ module.exports = function (router) {
 
     try {
       const dateOfBirth = new DateOfBirth(
-        (req.body && req.body['dob-day']) ?? '',
-        (req.body && req.body['dob-month']) ?? '',
-        (req.body && req.body['dob-year']) ?? ''
+        req.body?.['dob-day'] ?? '',
+        req.body?.['dob-month'] ?? '',
+        req.body?.['dob-year'] ?? ''
       )
 
       req.session.dobEncoded = dateOfBirth.encodedDate

@@ -37,9 +37,9 @@ module.exports = function (router) {
       const benefitOwner = new BenefitOwner(
         req.body?.FirstName,
         req.body?.LastName,
-        (req.body && req.body['dob-day']) ?? '',
-        (req.body && req.body['dob-month']) ?? '',
-        (req.body && req.body['dob-year']) ?? '',
+        req.body?.['dob-day'] ?? '',
+        req.body?.['dob-month'] ?? '',
+        req.body?.['dob-year'] ?? '',
         req.body?.NationalInsuranceNumber)
 
       const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)

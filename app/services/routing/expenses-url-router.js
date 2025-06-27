@@ -18,7 +18,7 @@ module.exports.getRedirectUrl = function (req) {
     throw ROUTING_ERROR
   }
 
-  if (req.body && req.body['add-another-journey']) {
+  if (req.body?.['add-another-journey']) {
     return req.originalUrl
   }
   const params = getParams(req.body?.expenses, toArray(req.query))

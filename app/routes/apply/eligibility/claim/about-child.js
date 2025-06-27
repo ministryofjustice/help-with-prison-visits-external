@@ -35,15 +35,15 @@ module.exports = function (router) {
       const child = new AboutChild(
         req.body?.FirstName,
         req.body?.LastName,
-        (req.body && req.body['dob-day']) ?? '',
-        (req.body && req.body['dob-month']) ?? '',
-        (req.body && req.body['dob-year']) ?? '',
-        (req.body && req.body['child-relationship']) ?? ''
+        req.body?.['dob-day'] ?? '',
+        req.body?.['dob-month'] ?? '',
+        req.body?.['dob-year'] ?? '',
+        req.body?.['child-relationship'] ?? ''
       )
 
       insertChild(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, child)
         .then(function () {
-          if (req.body && req.body['add-another-child']) {
+          if (req.body?.['add-another-child']) {
             return res.redirect(req.originalUrl)
           } else {
             return res.redirect('/apply/eligibility/claim/expenses')

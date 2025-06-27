@@ -45,9 +45,9 @@ module.exports = function (router) {
         }
         const newClaim = new NewClaim(
           req.session.referenceId,
-          (req.body && req.body['date-of-journey-day']) ?? '',
-          (req.body && req.body['date-of-journey-month']) ?? '',
-          (req.body && req.body['date-of-journey-year']) ?? '',
+          req.body?.['date-of-journey-day'] ?? '',
+          req.body?.['date-of-journey-month'] ?? '',
+          req.body?.['date-of-journey-year'] ?? '',
           isAdvancedClaim,
           releaseDateIsSet,
           releaseDate
