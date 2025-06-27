@@ -45,9 +45,9 @@ module.exports = function (router) {
         }
         const newClaim = new NewClaim(
           req.session.referenceId,
-          req.body['date-of-journey-day'],
-          req.body['date-of-journey-month'],
-          req.body['date-of-journey-year'],
+          (req.body && req.body['date-of-journey-day']) ?? '',
+          (req.body && req.body['date-of-journey-month']) ?? '',
+          (req.body && req.body['date-of-journey-year']) ?? '',
           isAdvancedClaim,
           releaseDateIsSet,
           releaseDate
@@ -79,7 +79,7 @@ module.exports = function (router) {
             claimType: req.session.claimType,
             referenceId: req.session.referenceId,
             advanceOrPast: req.session.advanceOrPast,
-            claim: req.body
+            claim: req.body ?? {}
           })
         } else {
           throw error
@@ -92,7 +92,7 @@ module.exports = function (router) {
           claimType: req.session.claimType,
           referenceId: req.session.referenceId,
           advanceOrPast: req.session.advanceOrPast,
-          claim: req.body
+          claim: req.body ?? {}
         })
       } else {
         throw error

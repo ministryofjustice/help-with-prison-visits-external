@@ -5,29 +5,33 @@ const sanitizeHtml = require('sanitize-html')
 */
 module.exports = () => {
   return (req, res, next) => {
-    Object.keys(req.body).forEach((key) => {
-      const value = req.body[key]
+    if (req.body) {
+      Object.keys(req.body).forEach((key) => {
+        const value = req.body[key]
 
-      if (typeof value === 'string') {
-        req.body[key] = sanitizeHtml(value)
-      }
+        if (typeof value === 'string') {
+          req.body[key] = sanitizeHtml(value)
+        }
 
-      if (typeof value === 'object') {
-        req.body[key] = sanitizeObject(value)
-      }
-    })
+        if (typeof value === 'object') {
+          req.body[key] = sanitizeObject(value)
+        }
+      })
+    }
 
-    Object.keys(req.query).forEach((key) => {
-      const value = req.query[key]
+    if (req.query) {
+      Object.keys(req.query).forEach((key) => {
+        const value = req.query[key]
 
-      if (typeof value === 'string') {
-        req.query[key] = sanitizeHtml(value)
-      }
+        if (typeof value === 'string') {
+          req.query[key] = sanitizeHtml(value)
+        }
 
-      if (typeof value === 'object') {
-        req.query[key] = sanitizeObject(value)
-      }
-    })
+        if (typeof value === 'object') {
+          req.query[key] = sanitizeObject(value)
+        }
+      })
+    }
 
     next()
   }

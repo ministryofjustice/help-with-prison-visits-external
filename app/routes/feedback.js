@@ -11,7 +11,7 @@ module.exports = function (router) {
 
   router.post('/feedback', function (req, res, next) {
     try {
-      const feedback = new Feedback(req.body.rating, req.body.improvements, req.body.emailAddress)
+      const feedback = new Feedback(req.body?.rating, req.body?.improvements, req.body?.emailAddress)
       insertTask(null, null, null, TaskEnums.FEEDBACK_SUBMITTED, `${feedback.rating}~~${feedback.improvements}~~${feedback.emailAddress}`)
         .then(function () {
           return res.redirect('/start')
@@ -20,9 +20,9 @@ module.exports = function (router) {
       if (error instanceof ValidationError) {
         return res.status(400).render('feedback', {
           errors: error.validationErrors,
-          rating: req.body.rating,
-          improvements: req.body.improvements,
-          emailAddress: req.body.emailAddress
+          rating: req.body?.rating,
+          improvements: req.body?.improvements,
+          emailAddress: req.body?.emailAddress
         })
       } else {
         next(error)

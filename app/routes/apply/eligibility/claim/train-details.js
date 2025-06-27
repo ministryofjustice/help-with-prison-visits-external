@@ -52,13 +52,13 @@ module.exports = function (router) {
     const isAdvanceClaim = req.session.isAdvanceClaim
     try {
       const expense = new TrainExpense(
-        req.body.cost,
-        req.body.from,
-        req.body.to,
-        req.body['return-journey'],
-        req.body['ticket-owner'],
-        req.body['departure-time'],
-        req.body['return-time'],
+        req.body?.cost,
+        req.body?.from,
+        req.body?.to,
+        (req.body && req.body['return-journey']) ?? '',
+        (req.body && req.body['ticket-owner']) ?? '',
+        (req.body && req.body['departure-time']) ?? '',
+        (req.body && req.body['return-time']) ?? '',
         isAdvanceClaim
       )
 
@@ -81,7 +81,7 @@ module.exports = function (router) {
               expenseOwners: expenseOwnerData,
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-              expense: req.body,
+              expense: req.body ?? {},
               isAdvanceClaim
             })
           })

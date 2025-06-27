@@ -8,18 +8,18 @@ module.exports = function (router) {
 
     req.session = SessionHandler.clearSession(req.session, req.url)
 
-    if ((req.query.error === 'expired')) {
+    if ((req.query?.error === 'expired')) {
       errors = { expired: [ERROR_MESSAGES.getExpiredSession] }
     }
 
-    return res.render('start', { errors, recovery: req.query.recovery })
+    return res.render('start', { errors, recovery: req.query?.recovery })
   })
 
   router.post('/start', function (req, res) {
-    if (!req.body.madeClaimForPrisonerBefore) {
+    if (!req.body?.madeClaimForPrisonerBefore) {
       const errors = { madeClaimForPrisonerBefore: [ERROR_MESSAGES.getMadeClaimForPrisonerBeforeIsRequired] }
       return res.status(400).render('start', { errors })
-    } else if (req.body.madeClaimForPrisonerBefore === 'yes') {
+    } else if (req.body?.madeClaimForPrisonerBefore === 'yes') {
       return res.redirect('/start-already-registered')
     } else {
       return res.redirect(`/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth`)

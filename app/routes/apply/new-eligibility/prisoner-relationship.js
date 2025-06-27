@@ -27,7 +27,7 @@ module.exports = function (router) {
     }
 
     try {
-      const prisonerRelationship = new PrisonerRelationship(req.body.relationship)
+      const prisonerRelationship = new PrisonerRelationship(req.body?.relationship)
 
       const relationship = prisonerRelationship.relationship
       req.session.relationship = relationship

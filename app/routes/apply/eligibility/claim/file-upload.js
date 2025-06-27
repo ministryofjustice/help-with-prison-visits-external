@@ -61,9 +61,9 @@ function get (req, res) {
   }
 
   setReferenceIds(req)
-  if (req.query.claimExpenseId != null) {
+  if (req.query?.claimExpenseId != null) {
     // check that the expense is still enabled
-    checkExpenseIsEnabled(req.query.claimExpenseId)
+    checkExpenseIsEnabled(req.query?.claimExpenseId)
       .then(function (claimExpense) {
         if (claimExpense.length === 0) {
           renderFileUploadPage(req, res)
@@ -81,13 +81,13 @@ function get (req, res) {
 }
 
 function renderFileUploadPage (req, res) {
-  if (Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query.document)) {
+  if (Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query?.document)) {
     return res.render('apply/eligibility/claim/file-upload', {
-      document: req.query.document,
+      document: req.query?.document,
       fileUploadGuidingText: DocumentTypeEnum,
       URL: req.url,
       yourClaimUrl: req.yourClaimUrl,
-      hideAlternative: req.query.hideAlt
+      hideAlternative: req.query?.hideAlt
     })
   }
 
@@ -116,11 +116,11 @@ function post (req, res, next, redirectURL) {
       if (error) {
         throw new ValidationError({ upload: [ERROR_MESSAGES.getUploadTooLarge] })
       } else {
-        if (!(Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query.document))) {
+        if (!(Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query?.document))) {
           throw new Error('Not a valid document type')
         }
       }
-      req.fileUpload = new FileUpload(req.session.claimId, req.query.document, req.query.claimExpenseId, req.file, req.error, req.body.alternative)
+      req.fileUpload = new FileUpload(req.session.claimId, req.query?.document, req.query?.claimExpenseId, req.file, req.error, req.body?.alternative)
       next()
     } catch (error) {
       handleError(req, res, next, error)
@@ -130,7 +130,7 @@ function post (req, res, next, redirectURL) {
 
 function checkForMalware (req, res, next, redirectURL) {
   const ids = setReferenceIds(req)
-  const claimId = addClaimIdIfNotBenefitDocument(req.query.document, req.session.claimId)
+  const claimId = addClaimIdIfNotBenefitDocument(req.query?.document, req.session.claimId)
   if (req.file) {
     clam.scan(req.file.path).then(async (infected) => {
       if (infected) insertMalwareAlertTask(ids, claimId, req.file.path)
@@ -160,12 +160,12 @@ function handleError (req, res, next, error) {
   if (error instanceof ValidationError) {
     return res.status(400).render('apply/eligibility/claim/file-upload', {
       errors: error.validationErrors,
-      document: req.query.document,
+      document: req.query?.document,
       fileUploadGuidingText: DocumentTypeEnum,
       URL: req.URL,
       yourClaimUrl: req.yourClaimUrl,
       csrfToken,
-      hideAlternative: req.query.hideAlt
+      hideAlternative: req.query?.hideAlt
     })
   } else {
     next(error)
@@ -181,7 +181,7 @@ function setReferenceIds (req) {
     id = referenceAndEligibility.id
   } else {
     reference = req.session.decryptedRef
-    id = req.query.eligibilityId
+    id = req.query?.eligibilityId
     req.session.referenceId = referenceIdHelper.getReferenceId(reference, id)
   }
   return { eligibilityId: id, reference }
@@ -206,7 +206,7 @@ function insertMalwareAlertTask (ids, claimId, path) {
 }
 
 function updateClaimDocumentMetadata (ids, claimId, req) {
-  return disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query.hideAlt)
+  return disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query?.hideAlt)
     .then(function () {
       return ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload)
     })
@@ -223,12 +223,12 @@ function unlinkFile (path) {
 function getTargetDir (req) {
   const decryptedReferenceId = decrypt(req.session.referenceId)
   let targetDir
-  if (req.query.document !== 'VISIT_CONFIRMATION' && req.query.document !== 'RECEIPT') {
-    targetDir = `${decryptedReferenceId}/${req.query.document}`
-  } else if (req.query.claimExpenseId) {
-    targetDir = `${decryptedReferenceId}/${req.session.claimId}/${req.query.claimExpenseId}/${req.query.document}`
+  if (req.query?.document !== 'VISIT_CONFIRMATION' && req.query?.document !== 'RECEIPT') {
+    targetDir = `${decryptedReferenceId}/${req.query?.document}`
+  } else if (req.query?.claimExpenseId) {
+    targetDir = `${decryptedReferenceId}/${req.session.claimId}/${req.query?.claimExpenseId}/${req.query?.document}`
   } else {
-    targetDir = `${decryptedReferenceId}/${req.session.claimId}/${req.query.document}`
+    targetDir = `${decryptedReferenceId}/${req.session.claimId}/${req.query?.document}`
   }
   return targetDir
 }

@@ -9,21 +9,21 @@ module.exports = function (router) {
 
     req.session = SessionHandler.clearSession(req.session, req.url)
 
-    if (req.query.error === 'yes') {
+    if (req.query?.error === 'yes') {
       errors = { invalidReferenceNumberAndDob: [ERROR_MESSAGES.getInvalidReferenceNumberAndDob] }
-    } else if ((req.query.error === 'expired')) {
+    } else if ((req.query?.error === 'expired')) {
       errors = { expired: [ERROR_MESSAGES.getExpiredSession] }
-    } else if ((req.query.error === 'disabled')) {
+    } else if ((req.query?.error === 'disabled')) {
       errors = { expired: [ERROR_MESSAGES.getReferenceDisabled] }
     }
-    return res.render('start-already-registered', { errors, recovery: req.query.recovery })
+    return res.render('start-already-registered', { errors, recovery: req.query?.recovery })
   })
 
   router.post('/start-already-registered', function (req, res) {
-    const reference = req.body.reference
-    const day = req.body['dob-day']
-    const month = req.body['dob-month']
-    const year = req.body['dob-year']
+    const reference = req.body?.reference
+    const day = req.body && req.body['dob-day']
+    const month = req.body && req.body['dob-month']
+    const year = req.body && req.body['dob-year']
 
     try {
       const alreadyRegistered = new AlreadyRegistered(reference, day, month, year)

@@ -27,7 +27,7 @@ module.exports = function (router) {
     }
 
     try {
-      const updatedContactDetails = new UpdatedContactDetails(req.body['email-address'], req.body['phone-number'])
+      const updatedContactDetails = new UpdatedContactDetails((req.body && req.body['email-address']) ?? '', (req.body && req.body['phone-number']) ?? '')
       insertEligibilityVisitorUpdatedContactDetail(req.session.decryptedRef, req.session.eligibilityId, updatedContactDetails)
         .then(function () {
           res.redirect('/your-claims/check-your-information')
@@ -40,7 +40,7 @@ module.exports = function (router) {
         return res.status(400).render('your-claims/update-contact-details', {
           errors: error.validationErrors,
           eligibilityId: req.session.eligibilityId,
-          contactDetails: req.body
+          contactDetails: req.body ?? {}
         })
       } else {
         throw error

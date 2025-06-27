@@ -94,18 +94,18 @@ function post (carOnly, req, res, next) {
 
   try {
     const expense = new CarExpense(
-      req.body.from,
-      req.body.to,
-      req.body.toll,
-      req.body['toll-cost'],
-      req.body['parking-charge'],
-      req.body['parking-charge-cost'],
-      req.body['new-destination'],
-      req.body.destination,
-      req.body.PostCode,
-      req.body['new-origin'],
-      req.body.origin,
-      req.body.FromPostCode
+      req.body?.from,
+      req.body?.to,
+      req.body?.toll,
+      (req.body && req.body['toll-cost']) ?? '',
+      (req.body && req.body['parking-charge']) ?? '',
+      (req.body && req.body['parking-charge-cost']) ?? '',
+      (req.body && req.body['new-destination']) ?? '',
+      req.body?.destination,
+      req.body?.PostCode,
+      (req.body && req.body['new-origin']) ?? '',
+      req.body?.origin,
+      req.body?.FromPostCode
     )
 
     insertCarExpenses(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
@@ -126,7 +126,7 @@ function post (carOnly, req, res, next) {
             claimId: req.session.claimId,
             params: expenseUrlRouter.parseParams(req.query),
             redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-            expense: req.body,
+            expense: req.body ?? {},
             carOnly,
             displayHelper,
             isAdvanceClaim

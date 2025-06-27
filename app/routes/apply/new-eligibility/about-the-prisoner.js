@@ -32,16 +32,14 @@ module.exports = function (router) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    const prisoner = req.body
-
     try {
-      const aboutThePrisoner = new AboutThePrisoner(req.body.FirstName,
-        req.body.LastName,
-        req.body['dob-day'],
-        req.body['dob-month'],
-        req.body['dob-year'],
-        req.body.PrisonerNumber,
-        req.body.NameOfPrison)
+      const aboutThePrisoner = new AboutThePrisoner(req.body?.FirstName,
+        req.body?.LastName,
+        (req.body && req.body['dob-day']) ?? '',
+        (req.body && req.body['dob-month']) ?? '',
+        (req.body && req.body['dob-year']) ?? '',
+        req.body?.PrisonerNumber,
+        req.body?.NameOfPrison)
 
       insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.session.decryptedRef)
         .then(function (result) {
@@ -73,8 +71,8 @@ module.exports = function (router) {
         return res.status(400).render('apply/new-eligibility/about-the-prisoner', {
           errors: error.validationErrors,
           URL: req.url,
-          prisonerNumber: req.query['prisoner-number'],
-          prisoner,
+          prisonerNumber: (req.body && req.query['prisoner-number']) ?? '',
+          prisoner: req.body ?? {},
           displayHelper
         })
       } else {

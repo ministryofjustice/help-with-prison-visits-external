@@ -33,11 +33,11 @@ module.exports = function (router) {
 
     try {
       const escort = new AboutEscort(
-        req.body.FirstName,
-        req.body.LastName,
-        req.body['dob-day'],
-        req.body['dob-month'],
-        req.body['dob-year']
+        req.body?.FirstName,
+        req.body?.LastName,
+        (req.body && req.body['dob-day']) ?? '',
+        (req.body && req.body['dob-month']) ?? '',
+        (req.body && req.body['dob-year']) ?? ''
       )
 
       insertEscort(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, escort)
@@ -54,7 +54,7 @@ module.exports = function (router) {
           claimType: req.session.claimType,
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          escort: req.body
+          escort: req.body ?? {}
         })
       } else {
         throw error

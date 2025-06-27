@@ -40,7 +40,7 @@ module.exports = function (router) {
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
-      const expense = new RefreshmentExpense(req.body.cost)
+      const expense = new RefreshmentExpense(req.body?.cost)
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
         .then(function () {
@@ -60,7 +60,7 @@ module.exports = function (router) {
               claimId: req.session.claimId,
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-              expense: req.body,
+              expense: req.body ?? {},
               isAdvanceClaim
             })
           })

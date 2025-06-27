@@ -130,7 +130,7 @@ module.exports = function (router) {
   router.post('/apply/eligibility/claim/summary/remove-expense/:claimExpenseId', function (req, res, next) {
     UrlPathValidator(req.params)
 
-    return claimSummaryHelper.removeExpenseAndDocument(req.session.claimId, req.params.claimExpenseId, req.query.claimDocumentId)
+    return claimSummaryHelper.removeExpenseAndDocument(req.session.claimId, req.params.claimExpenseId, req.query?.claimDocumentId)
       .then(function () {
         return res.redirect(claimSummaryHelper.buildClaimSummaryUrl(req))
       })

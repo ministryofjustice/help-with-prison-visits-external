@@ -41,8 +41,8 @@ module.exports = function (router) {
 
     try {
       const expense = new AccommodationExpense(
-        req.body.cost,
-        req.body.duration
+        req.body?.cost,
+        req.body?.duration
       )
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
@@ -63,7 +63,7 @@ module.exports = function (router) {
               claimId: req.session.claimId,
               params: expenseUrlRouter.parseParams(req.query),
               redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-              expense: req.body,
+              expense: req.body ?? {},
               isAdvanceClaim
             })
           })

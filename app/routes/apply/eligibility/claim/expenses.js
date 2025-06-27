@@ -42,7 +42,7 @@ module.exports = function (router) {
     }
 
     try {
-      new Expenses(req.body.expenses) // eslint-disable-line no-new
+      new Expenses(req.body?.expenses) // eslint-disable-line no-new
       return res.redirect(expenseUrlRouter.getRedirectUrl(req))
     } catch (error) {
       if (error instanceof ValidationError) {
