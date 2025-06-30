@@ -48,11 +48,11 @@ module.exports = function (router) {
 
     try {
       const expense = new BusExpense(
-        req.body.cost,
-        req.body.from,
-        req.body.to,
-        req.body['return-journey'],
-        req.body['ticket-owner']
+        req.body?.cost,
+        req.body?.from,
+        req.body?.to,
+        req.body?.['return-journey'] ?? '',
+        req.body?.['ticket-owner'] ?? ''
       )
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
@@ -76,7 +76,7 @@ module.exports = function (router) {
                   expenseOwners: expenseOwnerData,
                   params: expenseUrlRouter.parseParams(req.query),
                   redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-                  expense: req.body,
+                  expense: req.body ?? {},
                   isAdvanceClaim
                 })
               })

@@ -16,7 +16,7 @@ module.exports = function (router) {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
       claimId: req.session.claimId,
-      isAdvance: req.query.isAdvance
+      isAdvance: req.query?.isAdvance
     })
   })
 
@@ -29,18 +29,18 @@ module.exports = function (router) {
     }
 
     try {
-      const paymentDetails = new PaymentDetails(req.body.PaymentMethod)
+      const paymentDetails = new PaymentDetails(req.body?.PaymentMethod)
       req.session.paymentMethod = paymentDetails.paymentMethod
-      return res.redirect(`/apply/eligibility/claim/bank-payment-details?isAdvance=${req.query.isAdvance}`)
+      return res.redirect(`/apply/eligibility/claim/bank-payment-details?isAdvance=${req.query?.isAdvance}`)
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/eligibility/claim/payment-details', {
           errors: error.validationErrors,
           claimType: req.session.claimType,
-          paymentDetails: req.body,
+          paymentDetails: req.body ?? {},
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          isAdvance: req.query.isAdvance
+          isAdvance: req.query?.isAdvance
         })
       } else {
         throw error

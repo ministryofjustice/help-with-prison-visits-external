@@ -48,20 +48,20 @@ module.exports = function (router) {
     const benefit = enumHelper.getKeyByAttribute(benefitsHelper, req.session.benefit, 'urlValue').value
     const benefitOwner = req.session.benefitOwner
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    const visitorDetails = req.body
+    const visitorDetails = req.body ?? {}
 
     try {
       const aboutYou = new AboutYou(dob, relationship, benefit, benefitOwner,
-        req.body.FirstName,
-        req.body.LastName,
-        req.body.NationalInsuranceNumber,
-        req.body.HouseNumberAndStreet,
-        req.body.Town,
-        req.body.County,
-        req.body.PostCode,
-        req.body.Country,
-        req.body.EmailAddress,
-        req.body.PhoneNumber)
+        req.body?.FirstName,
+        req.body?.LastName,
+        req.body?.NationalInsuranceNumber,
+        req.body?.HouseNumberAndStreet,
+        req.body?.Town,
+        req.body?.County,
+        req.body?.PostCode,
+        req.body?.Country,
+        req.body?.EmailAddress,
+        req.body?.PhoneNumber)
 
       const nIClaimant = aboutYou.country === NORTHERN_IRELAND || (aboutYou.postCode && aboutYou.postCode.startsWith('BT'))
 

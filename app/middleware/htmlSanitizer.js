@@ -5,7 +5,7 @@ const sanitizeHtml = require('sanitize-html')
 */
 module.exports = () => {
   return (req, res, next) => {
-    Object.keys(req.body).forEach((key) => {
+    Object.keys(req.body ?? {}).forEach((key) => {
       const value = req.body[key]
 
       if (typeof value === 'string') {
@@ -17,7 +17,7 @@ module.exports = () => {
       }
     })
 
-    Object.keys(req.query).forEach((key) => {
+    Object.keys(req.query ?? {}).forEach((key) => {
       const value = req.query[key]
 
       if (typeof value === 'string') {

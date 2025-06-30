@@ -50,10 +50,10 @@ module.exports = function (router) {
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
-      new SameJourneyAsLastClaim(req.body['same-journey-as-last-claim']) // eslint-disable-line no-new
+      new SameJourneyAsLastClaim(req.body?.['same-journey-as-last-claim'] ?? '') // eslint-disable-line no-new
 
       req.session.claimType = 'repeat'
-      if (req.body['same-journey-as-last-claim'] === 'yes') {
+      if (req.body && (req.body['same-journey-as-last-claim'] === 'yes')) {
         req.session.claimType = 'repeat-duplicate'
       }
 

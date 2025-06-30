@@ -31,16 +31,16 @@ module.exports = function (router) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    const benefitOwnerBody = req.body
+    const benefitOwnerBody = req.body ?? {}
 
     try {
       const benefitOwner = new BenefitOwner(
-        req.body.FirstName,
-        req.body.LastName,
-        req.body['dob-day'],
-        req.body['dob-month'],
-        req.body['dob-year'],
-        req.body.NationalInsuranceNumber)
+        req.body?.FirstName,
+        req.body?.LastName,
+        req.body?.['dob-day'] ?? '',
+        req.body?.['dob-month'] ?? '',
+        req.body?.['dob-year'] ?? '',
+        req.body?.NationalInsuranceNumber)
 
       const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 

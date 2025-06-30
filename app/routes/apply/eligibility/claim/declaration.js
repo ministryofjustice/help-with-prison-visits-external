@@ -21,7 +21,7 @@ module.exports = function (router) {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
       claimId: req.session.claimId,
-      isAdvance: req.query.isAdvance,
+      isAdvance: req.query?.isAdvance,
       paymentMethod: req.session.paymentMethod
     })
   })
@@ -38,7 +38,7 @@ module.exports = function (router) {
     const assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
 
     try {
-      new Declaration(req.body['terms-and-conditions-input']) // eslint-disable-line no-new
+      new Declaration(req.body?.['terms-and-conditions-input'] ?? '') // eslint-disable-line no-new
       return checkIfReferenceIsDisabled(referenceAndEligibilityId.reference)
         .then(function (isDisabled) {
           return checkStatusForFinishingClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId)
@@ -47,7 +47,7 @@ module.exports = function (router) {
                 return res.redirect(SessionHandler.getErrorPath(req.session, req.url, true))
               } else {
                 if (claimInProgress) {
-                  return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, req.session.claimType, assistedDigitalCaseWorker, req.query.paymentMethod)
+                  return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, req.session.claimType, assistedDigitalCaseWorker, req.query?.paymentMethod)
                     .catch(function (error) {
                       next(error)
                     })
@@ -62,11 +62,11 @@ module.exports = function (router) {
         return res.status(400).render('apply/eligibility/claim/declaration', {
           errors: error.validationErrors,
           claimType: req.session.claimType,
-          paymentDetailsAndDeclaration: req.body,
+          paymentDetailsAndDeclaration: req.body ?? {},
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          isAdvance: req.query.isAdvance,
-          paymentMethod: req.query.paymentMethod
+          isAdvance: req.query?.isAdvance,
+          paymentMethod: req.query?.paymentMethod
         })
       } else {
         throw error

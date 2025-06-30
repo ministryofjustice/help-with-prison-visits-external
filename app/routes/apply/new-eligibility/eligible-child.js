@@ -33,23 +33,23 @@ module.exports = function (router) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    const eligibleChildDetails = req.body
+    const eligibleChildDetails = req.body ?? {}
 
     try {
       const eligibleChild = new EligibleChild(
-        req.body.FirstName,
-        req.body.LastName,
-        req.body.ChildRelationship,
-        req.body['dob-day'],
-        req.body['dob-month'],
-        req.body['dob-year'],
-        req.body.ParentFirstName,
-        req.body.ParentLastName,
-        req.body.HouseNumberAndStreet,
-        req.body.Town,
-        req.body.County,
-        req.body.PostCode,
-        req.body.Country)
+        req.body?.FirstName,
+        req.body?.LastName,
+        req.body?.ChildRelationship,
+        req.body?.['dob-day'] ?? '',
+        req.body?.['dob-month'] ?? '',
+        req.body?.['dob-year'] ?? '',
+        req.body?.ParentFirstName,
+        req.body?.ParentLastName,
+        req.body?.HouseNumberAndStreet,
+        req.body?.Town,
+        req.body?.County,
+        req.body?.PostCode,
+        req.body?.Country)
 
       const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
@@ -57,7 +57,7 @@ module.exports = function (router) {
         .then(function (result) {
           const benefitOwner = req.session.benefitOwner
 
-          if (req.body['add-another-child']) {
+          if (req.body?.['add-another-child']) {
             return res.redirect(req.originalUrl)
           } else {
             if (benefitOwner === 'no') {

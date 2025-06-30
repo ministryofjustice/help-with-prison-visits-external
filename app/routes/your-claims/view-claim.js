@@ -55,13 +55,13 @@ module.exports = function (router) {
             claimExpenseHelper,
             displayHelper,
             URL: req.url,
-            forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney, req.query.updated),
+            forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney, req.query?.updated),
             viewClaim: true,
             claimStatusHelper,
             claimEventHelper,
             isRequestInfoPayment,
-            forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED' || req.query.updated,
-            updated: req.query.updated,
+            forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED' || req.query?.updated,
+            updated: req.query?.updated,
             addInformation
           })
       })
@@ -77,11 +77,11 @@ module.exports = function (router) {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
-    const SortCode = req.body.SortCode
-    const AccountNumber = req.body.AccountNumber
-    const NameOnAccount = req.body.NameOnAccount
-    const RollNumber = req.body.RollNumber
-    const message = req.body['message-to-caseworker']
+    const SortCode = req.body?.SortCode
+    const AccountNumber = req.body?.AccountNumber
+    const NameOnAccount = req.body?.NameOnAccount
+    const RollNumber = req.body?.RollNumber
+    const message = req.body?.['message-to-caseworker'] ?? ''
     const assistedDigitalCookie = req.cookies['apvs-assisted-digital']
 
     req.session.claimId = req.params.claimId
@@ -182,13 +182,13 @@ module.exports = function (router) {
 
     removeClaimDocument(req.params.claimDocumentId)
       .then(function () {
-        if (req.query.multipage) {
+        if (req.query?.multipage) {
           return res.redirect(`/your-claims/${req.params.claimId}`)
         } else {
-          if (req.query.claimExpenseId) {
-            return res.redirect(`/your-claims/${req.params.claimId}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}&eligibilityId=${req.query.eligibilityId}`)
+          if (req.query?.claimExpenseId) {
+            return res.redirect(`/your-claims/${req.params.claimId}/file-upload?document=${req.query?.document}&claimExpenseId=${req.query?.claimExpenseId}&eligibilityId=${req.query?.eligibilityId}`)
           } else {
-            return res.redirect(`/your-claims/${req.params.claimId}/file-upload?document=${req.query.document}&eligibilityId=${req.query.eligibilityId}`)
+            return res.redirect(`/your-claims/${req.params.claimId}/file-upload?document=${req.query?.document}&eligibilityId=${req.query?.eligibilityId}`)
           }
         }
       })

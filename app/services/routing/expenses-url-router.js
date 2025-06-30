@@ -6,7 +6,11 @@ const POST_EXPENSES_PATH = 'summary'
 const ROUTING_ERROR = new Error('An error occured.')
 
 module.exports.parseParams = function (params) {
-  return paramBuilder.buildFormatted(toArray(params))
+  if (params) {
+    return paramBuilder.buildFormatted(toArray(params))
+  }
+
+  return ''
 }
 
 module.exports.getRedirectUrl = function (req) {
@@ -14,10 +18,10 @@ module.exports.getRedirectUrl = function (req) {
     throw ROUTING_ERROR
   }
 
-  if (req.body['add-another-journey']) {
+  if (req.body?.['add-another-journey']) {
     return req.originalUrl
   }
-  const params = getParams(req.body.expenses, toArray(req.query))
+  const params = getParams(req.body?.expenses, toArray(req.query))
   return buildUrl(params, req.session.claimType, req.session.referenceId, req.session.claimId)
 }
 

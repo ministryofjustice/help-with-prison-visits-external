@@ -45,7 +45,7 @@ describe('middleware/htmlSanitizer', function () {
     app.use(express.json())
     app.use(htmlSanitizerMiddleware())
     app.post('/', function (req, res, next) {
-      res.send({ sanitized: req.body.propertyToSanitize })
+      res.send({ sanitized: req.body?.propertyToSanitize })
     })
     const server = app.listen(3000)
 

@@ -28,7 +28,7 @@ module.exports = function (router) {
     }
 
     try {
-      const hasChild = new HasChild(req.body['has-child'])
+      const hasChild = new HasChild(req.body?.['has-child'] ?? '')
       if (hasChild.hasChild === 'yes') {
         return res.redirect('/apply/eligibility/claim/about-child')
       } else {

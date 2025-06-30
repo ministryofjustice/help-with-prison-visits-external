@@ -10,12 +10,12 @@ module.exports.buildClaimSummaryUrl = function (req) {
 
 module.exports.buildRemoveDocumentUrl = function (req) {
   const url = this.buildClaimSummaryUrl(req)
-  if (req.query.multipage) {
+  if (req.query?.multipage) {
     return url
-  } else if (req.query.claimExpenseId) {
-    return `${url}/file-upload?document=${req.query.document}&claimExpenseId=${req.query.claimExpenseId}`
+  } else if (req.query?.claimExpenseId) {
+    return `${url}/file-upload?document=${req.query?.document}&claimExpenseId=${req.query?.claimExpenseId}`
   } else {
-    return `${url}/file-upload?document=${req.query.document}`
+    return `${url}/file-upload?document=${req.query?.document}`
   }
 }
 
