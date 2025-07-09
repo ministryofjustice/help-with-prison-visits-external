@@ -91,7 +91,7 @@
     "cookie-session": "^2.1.0",
     "csurf": "^1.11.0",
     "debug": "^4.4.1",
-    "dotenv": "^16.6.1",
+    "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "govuk-frontend": "^5.11.0",
     "helmet": "^8.1.0",
