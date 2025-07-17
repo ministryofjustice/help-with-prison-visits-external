@@ -12,8 +12,8 @@ const benefitsHelper = require('../../../constants/benefits-enum')
 const NORTHERN_IRELAND = 'Northern Ireland'
 const SessionHandler = require('../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/about-you', function (req, res) {
+module.exports = router => {
+  router.get('/apply/:claimType/new-eligibility/about-you', (req, res) => {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
@@ -34,7 +34,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/about-you', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/about-you', (req, res, next) => {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
@@ -76,14 +76,14 @@ module.exports = function (router) {
           }
 
           return insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou)
-            .then(function () {
+            .then(() => {
               return getTravellingFromAndTo(referenceAndEligibilityId.reference)
-                .then(function (result) {
+                .then(result => {
                   return res.redirect('/apply/eligibility/new-claim/future-or-past-visit')
                 })
             })
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {

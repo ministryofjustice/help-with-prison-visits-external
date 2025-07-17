@@ -4,8 +4,8 @@ const ValidationError = require('../../../services/errors/validation-error')
 const prisonerRelationshipEnum = require('../../../constants/prisoner-relationships-enum')
 const SessionHandler = require('../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/prisoner-relationship', function (req, res) {
+module.exports = router => {
+  router.get('/apply/:claimType/new-eligibility/prisoner-relationship', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -18,7 +18,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/prisoner-relationship', function (req, res) {
+  router.post('/apply/:claimType/new-eligibility/prisoner-relationship', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 

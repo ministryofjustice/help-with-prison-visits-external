@@ -8,8 +8,8 @@ const checkStatusForFinishingClaim = require('../../../../services/data/check-st
 const checkIfReferenceIsDisabled = require('../../../../services/data/check-if-reference-is-disabled')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/declaration', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/declaration', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -26,7 +26,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/apply/eligibility/claim/declaration', function (req, res, next) {
+  router.post('/apply/eligibility/claim/declaration', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -48,7 +48,7 @@ module.exports = function (router) {
               } else {
                 if (claimInProgress) {
                   return finishClaim(res, referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, req.session.claimType, assistedDigitalCaseWorker, req.query?.paymentMethod)
-                    .catch(function (error) {
+                    .catch(error => {
                       next(error)
                     })
                 } else {
@@ -77,7 +77,7 @@ module.exports = function (router) {
 
 function finishClaim (res, reference, eligibilityId, claimId, claimType, assistedDigitalCaseWorker, paymentMethod) {
   return submitClaim(reference, eligibilityId, claimId, claimType, assistedDigitalCaseWorker, paymentMethod)
-    .then(function () {
+    .then(() => {
       return redirectApplicationSubmitted(res, reference, claimId)
     })
 }

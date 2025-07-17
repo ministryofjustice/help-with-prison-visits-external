@@ -10,11 +10,11 @@ const displayHelper = require('../../../../views/helpers/display-helper')
 const SessionHandler = require('../../../../services/validators/session-handler')
 const ErrorHandler = require('../../../../services/validators/error-handler')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
-const { AWSHelper } = require('../../../../services/aws-helper')
+const AWSHelper = require('../../../../services/aws-helper')
 const aws = new AWSHelper()
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/summary', function (req, res, next) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/summary', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -23,7 +23,7 @@ module.exports = function (router) {
     }
     let savedClaimDetails
     getClaimSummary(req.session.claimId, req.session.claimType)
-      .then(function (claimDetails) {
+      .then(claimDetails => {
         savedClaimDetails = claimDetails
 
         if (req.session.ExpenseIsEnabled != null) {
@@ -46,7 +46,7 @@ module.exports = function (router) {
             URL: req.url
           })
       })
-      .catch(function (error) {
+      .catch(error => {
         if (error instanceof ValidationError) {
           return res.status(400).render('apply/eligibility/claim/claim-summary', {
             errors: error.validationErrors,
@@ -66,7 +66,7 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/apply/eligibility/claim/summary', function (req, res, next) {
+  router.post('/apply/eligibility/claim/summary', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -80,7 +80,7 @@ module.exports = function (router) {
 
     let savedClaimDetails
     getClaimSummary(req.session.claimId, req.session.claimType)
-      .then(function (claimDetails) {
+      .then(claimDetails => {
         savedClaimDetails = claimDetails
 
         const visitConfirmation = claimDetails.claim.visitConfirmation
@@ -93,7 +93,7 @@ module.exports = function (router) {
         new ClaimSummary(visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUpload) // eslint-disable-line no-new
         return res.redirect(`/apply/eligibility/claim/bank-payment-details?isAdvance=${isAdvanceClaim}`)
       })
-      .catch(function (error) {
+      .catch(error => {
         if (error instanceof ValidationError) {
           return res.status(400).render('apply/eligibility/claim/claim-summary', {
             errors: error.validationErrors,
@@ -113,40 +113,40 @@ module.exports = function (router) {
       })
   })
 
-  router.get('/apply/eligibility/claim/summary/view-document/:claimDocumentId', function (req, res, next) {
+  router.get('/apply/eligibility/claim/summary/view-document/:claimDocumentId', (req, res, next) => {
     UrlPathValidator(req.params)
 
     return claimSummaryHelper.getDocumentFilePath(req.params.claimDocumentId)
-      .then(async function (file) {
+      .then(async file => {
         const awsDownloadPath = await aws.download(file.path)
 
         res.download(awsDownloadPath, file.name)
       })
-      .catch(function (error) {
+      .catch(error => {
         next(error)
       })
   })
 
-  router.post('/apply/eligibility/claim/summary/remove-expense/:claimExpenseId', function (req, res, next) {
+  router.post('/apply/eligibility/claim/summary/remove-expense/:claimExpenseId', (req, res, next) => {
     UrlPathValidator(req.params)
 
     return claimSummaryHelper.removeExpenseAndDocument(req.session.claimId, req.params.claimExpenseId, req.query?.claimDocumentId)
-      .then(function () {
+      .then(() => {
         return res.redirect(claimSummaryHelper.buildClaimSummaryUrl(req))
       })
-      .catch(function (error) {
+      .catch(error => {
         next(error)
       })
   })
 
-  router.post('/apply/eligibility/claim/summary/remove-document/:claimDocumentId', function (req, res, next) {
+  router.post('/apply/eligibility/claim/summary/remove-document/:claimDocumentId', (req, res, next) => {
     UrlPathValidator(req.params)
 
     return claimSummaryHelper.removeDocument(req.params.claimDocumentId)
-      .then(function () {
+      .then(() => {
         return res.redirect(claimSummaryHelper.buildRemoveDocumentUrl(req))
       })
-      .catch(function (error) {
+      .catch(error => {
         next(error)
       })
   })

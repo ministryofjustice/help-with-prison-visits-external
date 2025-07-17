@@ -2,7 +2,7 @@ const ExpenseTypeEnum = require('../../constants/expense-type-enum')
 const ticketOwnerEnum = require('../../constants/ticket-owner-enum')
 const displayHelper = require('./display-helper')
 
-module.exports = function (expense) {
+module.exports = expense => {
   let formattedDetail
   const travelTime = expense.TravelTime ? ` (${expense.TravelTime})` : ''
 
@@ -36,26 +36,30 @@ module.exports = function (expense) {
   return formattedDetail
 }
 
-function addTicketOwnerPrefix (expense) {
+function addTicketOwnerPrefix(expense) {
   let result = ''
 
-  for (const ticketOwner in ticketOwnerEnum) {
+  Object.keys(ticketOwnerEnum).forEach(ticketOwner => {
     if (ticketOwnerEnum[ticketOwner].value === expense.TicketOwner) {
-      result = ticketOwnerEnum[ticketOwner].displayValue + ' - '
+      result = `${ticketOwnerEnum[ticketOwner].displayValue} - `
     }
-  }
+  })
+
+  // for (const ticketOwner in ticketOwnerEnum) {
+  //   if (ticketOwnerEnum[ticketOwner].value === expense.TicketOwner) {
+  //     result = `${ticketOwnerEnum[ticketOwner].displayValue} - `
+  //   }
+  // }
 
   return result
 }
 
-function addReturnPostfix (expense) {
+function addReturnPostfix(expense) {
   if (expense.IsReturn) {
     if (expense.ExpenseType === 'train' && expense.ReturnTime) {
       return ` - Return (${expense.ReturnTime})`
-    } else {
-      return ' - Return'
     }
-  } else {
-    return ''
+    return ' - Return'
   }
+  return ''
 }

@@ -3,24 +3,21 @@ const FieldsetValidator = require('../validators/fieldset-validator')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
+
 const unsafeInputPattern = />|<|&lt|&gt/g
 const MINIMUM_AGE_IN_YEARS = 18
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutEscort {
-  constructor (firstName, lastName, day, month, year) {
+  constructor(firstName, lastName, day, month, year) {
     this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
     this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''
-    this.dobFields = [
-      day ? day.trim() : '',
-      month ? month.trim() : '',
-      year ? year.trim() : ''
-    ]
+    this.dobFields = [day ? day.trim() : '', month ? month.trim() : '', year ? year.trim() : '']
     this.dob = dateFormatter.build(day, month, year)
     this.isValid()
   }
 
-  isValid () {
+  isValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)

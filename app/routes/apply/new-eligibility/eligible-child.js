@@ -5,8 +5,8 @@ const referenceIdHelper = require('../../helpers/reference-id-helper')
 const insertNewEligibleChild = require('../../../services/data/insert-eligible-child')
 const SessionHandler = require('../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/eligible-child', function (req, res) {
+module.exports = router => {
+  router.get('/apply/:claimType/new-eligibility/eligible-child', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -24,7 +24,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/eligible-child', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/eligible-child', (req, res, next) => {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
@@ -54,7 +54,7 @@ module.exports = function (router) {
       const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
       insertNewEligibleChild(eligibleChild, referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
-        .then(function (result) {
+        .then(result => {
           const benefitOwner = req.session.benefitOwner
 
           if (req.body?.['add-another-child']) {
@@ -67,7 +67,7 @@ module.exports = function (router) {
             }
           }
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {

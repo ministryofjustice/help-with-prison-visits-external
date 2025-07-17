@@ -15,13 +15,13 @@ const forEdit = require('../helpers/for-edit')
 const encrypt = require('../../services/helpers/encrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 const dateFormatter = require('../../services/date-formatter')
-const { AWSHelper } = require('../../services/aws-helper')
+const AWSHelper = require('../../services/aws-helper')
 const aws = new AWSHelper()
 
 const REFERENCE_SESSION_ERROR = '?error=expired'
 
-module.exports = function (router) {
-  router.get('/your-claims/:claimId', function (req, res, next) {
+module.exports = router => {
+  router.get('/your-claims/:claimId', (req, res, next) => {
     UrlPathValidator(req.params)
 
     if (!req.session ||
@@ -34,7 +34,7 @@ module.exports = function (router) {
     const dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
     getViewClaim(req.session.claimId, req.session.decryptedRef, dobDecoded)
-      .then(function (claimDetails) {
+      .then(claimDetails => {
         const referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, claimDetails.claim.EligibilityId)
         const isRequestInfoPayment = claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
         const addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
@@ -68,7 +68,7 @@ module.exports = function (router) {
       .catch(error => next(error))
   })
 
-  router.post('/your-claims/:claimId', function (req, res, next) {
+  router.post('/your-claims/:claimId', (req, res, next) => {
     UrlPathValidator(req.params)
 
     if (!req.session ||
@@ -91,7 +91,7 @@ module.exports = function (router) {
     let bankDetails
 
     getViewClaim(req.session.claimId, req.session.decryptedRef, dobDecoded)
-      .then(function (claimDetails) {
+      .then(claimDetails => {
         try {
           const benefit = claimDetails.claim.benefitDocument
           if (benefit.length <= 0) {
@@ -101,7 +101,7 @@ module.exports = function (router) {
           bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT', nameOnAccount: NameOnAccount, rollNumber: RollNumber }
           const claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message) // eslint-disable-line no-unused-vars
           submitUpdate(req.session.decryptedRef, claimDetails.claim.EligibilityId, req.session.claimId, message, bankDetails, assistedDigitalCookie)
-            .then(function () {
+            .then(() => {
               return res.redirect(`/your-claims/${req.session.claimId}?updated=true`)
             })
         } catch (error) {
@@ -141,7 +141,7 @@ module.exports = function (router) {
       })
   })
 
-  router.get('/your-claims/:claimId/view-document/:claimDocumentId', function (req, res, next) {
+  router.get('/your-claims/:claimId/view-document/:claimDocumentId', (req, res, next) => {
     UrlPathValidator(req.params)
 
     if (!req.session ||
@@ -151,7 +151,7 @@ module.exports = function (router) {
     }
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
-      .then(async function (result) {
+      .then(async result => {
         const path = result.Filepath
         if (path) {
           try {
@@ -166,12 +166,12 @@ module.exports = function (router) {
           throw new Error('No path to file provided')
         }
       })
-      .catch(function (error) {
+      .catch(error => {
         next(error)
       })
   })
 
-  router.post('/your-claims/:claimId/remove-document/:claimDocumentId', function (req, res, next) {
+  router.post('/your-claims/:claimId/remove-document/:claimDocumentId', (req, res, next) => {
     UrlPathValidator(req.params)
 
     if (!req.session ||
@@ -181,7 +181,7 @@ module.exports = function (router) {
     }
 
     removeClaimDocument(req.params.claimDocumentId)
-      .then(function () {
+      .then(() => {
         if (req.query?.multipage) {
           return res.redirect(`/your-claims/${req.params.claimId}`)
         } else {
@@ -192,7 +192,7 @@ module.exports = function (router) {
           }
         }
       })
-      .catch(function (error) {
+      .catch(error => {
         next(error)
       })
   })

@@ -11,20 +11,20 @@ const displayHelper = require('../../../../views/helpers/display-helper')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/car', function (req, res, next) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/car', (req, res, next) => {
     return get(false, req, res, next)
   })
 
-  router.get('/apply/eligibility/claim/car-only', function (req, res, next) {
+  router.get('/apply/eligibility/claim/car-only', (req, res, next) => {
     return get(true, req, res, next)
   })
 
-  router.post('/apply/eligibility/claim/car', function (req, res, next) {
+  router.post('/apply/eligibility/claim/car', (req, res, next) => {
     return post(false, req, res, next)
   })
 
-  router.post('/apply/eligibility/claim/car-only', function (req, res, next) {
+  router.post('/apply/eligibility/claim/car-only', (req, res, next) => {
     return post(true, req, res, next)
   })
 }
@@ -43,7 +43,7 @@ function get (carOnly, req, res, next) {
     .then(function (isAdvanceClaim) {
       if (req.session.claimType === claimTypeEnum.FIRST_TIME || req.session.claimType === claimTypeEnum.REPEAT_NEW_ELIGIBILITY) {
         getTravellingFromAndTo(referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
-          .then(function (result) {
+          .then(result => {
             return res.render('apply/eligibility/claim/car-details', {
               claimType: req.session.claimType,
               referenceId: req.session.referenceId,
@@ -56,12 +56,12 @@ function get (carOnly, req, res, next) {
               isAdvanceClaim
             })
           })
-          .catch(function (error) {
+          .catch(error => {
             next(error)
           })
       } else {
         getMaskedEligibility(referenceAndEligibilityId.reference, null, referenceAndEligibilityId.id)
-          .then(function (result) {
+          .then(result => {
             const fromAndTo = { from: result.Town, to: result.NameOfPrison }
             return res.render('apply/eligibility/claim/car-details', {
               claimType: req.session.claimType,
@@ -75,7 +75,7 @@ function get (carOnly, req, res, next) {
               isAdvanceClaim
             })
           })
-          .catch(function (error) {
+          .catch(error => {
             next(error)
           })
       }
@@ -109,10 +109,10 @@ function post (carOnly, req, res, next) {
     )
 
     insertCarExpenses(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
-      .then(function () {
+      .then(() => {
         return res.redirect(expenseUrlRouter.getRedirectUrl(req))
       })
-      .catch(function (error) {
+      .catch(error => {
         next(error)
       })
   } catch (error) {

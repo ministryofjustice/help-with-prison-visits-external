@@ -1,10 +1,11 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 
-module.exports = function (reference, dob, eligibilityId) {
+module.exports = (reference, dob, eligibilityId) => {
   const db = getDatabaseConnector()
 
-  return db.raw('SELECT * FROM [IntSchema].[getMaskedEligibility] (?, ?, ?)', [reference, dob, eligibilityId])
-    .then(function (result) {
+  return db
+    .raw('SELECT * FROM [IntSchema].[getMaskedEligibility] (?, ?, ?)', [reference, dob, eligibilityId])
+    .then(result => {
       if (result && result.length > 0) {
         return result[0]
       }

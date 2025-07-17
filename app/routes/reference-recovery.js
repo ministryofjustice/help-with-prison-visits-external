@@ -3,17 +3,17 @@ const insertTask = require('../services/data/insert-task')
 const ValidationError = require('../services/errors/validation-error')
 const TaskEnums = require('../constants/tasks-enum')
 
-module.exports = function (router) {
-  router.get('/reference-recovery', function (req, res) {
+module.exports = router => {
+  router.get('/reference-recovery', (req, res) => {
     return res.render('reference-recovery', {
     })
   })
 
-  router.post('/reference-recovery', function (req, res, next) {
+  router.post('/reference-recovery', (req, res, next) => {
     try {
       const referenceRecovery = new ReferenceRecovery(req.body?.EmailAddress, req.body?.PrisonerNumber)
       insertTask(null, null, null, TaskEnums.REFERENCE_RECOVERY, `${referenceRecovery.EmailAddress}~~${referenceRecovery.PrisonerNumber}`)
-        .then(function () {
+        .then(() => {
           return res.redirect('/start-already-registered?recovery=true')
         })
     } catch (error) {

@@ -1,7 +1,15 @@
 const informationRequiredMessagesEnum = require('../../constants/information-required-messages-enum')
 const claimStatusEnum = require('../../constants/claim-status-enum')
 
-module.exports = function (claimStatus, benefitStatus, benefitDocument, visitConfirmationStatus, visitConifirmationDocument, expenses, bankDetailsRequested) {
+module.exports = (
+  claimStatus,
+  benefitStatus,
+  benefitDocument,
+  visitConfirmationStatus,
+  visitConifirmationDocument,
+  expenses,
+  bankDetailsRequested,
+) => {
   const addInformation = []
   if (claimStatus === claimStatusEnum.REQUEST_INFORMATION || claimStatus === claimStatusEnum.REQUEST_INFO_PAYMENT) {
     const caseworkerMessages = { field: 'messages', message: informationRequiredMessagesEnum.CASEWORKER_MESSAGES }
@@ -18,17 +26,28 @@ module.exports = function (claimStatus, benefitStatus, benefitDocument, visitCon
   }
 
   if (requiredAttention(visitConfirmationStatus, visitConifirmationDocument)) {
-    const visitConfirmation = { field: 'VisitConfirmation', message: informationRequiredMessagesEnum.VISIT_CONFIRMATION }
+    const visitConfirmation = {
+      field: 'VisitConfirmation',
+      message: informationRequiredMessagesEnum.VISIT_CONFIRMATION,
+    }
     addInformation.push(visitConfirmation)
   }
 
-  for (const expense in expenses) {
-    if (requiredAttention(expenses[expense].Status, { DocumentStatus: expenses[expense].DocumentStatus, fromInternalWeb: expenses[expense].fromInternalWeb })) {
+  Object.keys(expenses).find(expense => {
+    // for (const expense in expenses) {
+    if (
+      requiredAttention(expenses[expense].Status, {
+        DocumentStatus: expenses[expense].DocumentStatus,
+        fromInternalWeb: expenses[expense].fromInternalWeb,
+      })
+    ) {
       const expensesInformation = { field: 'claim-expense', message: informationRequiredMessagesEnum.EXPENSE }
       addInformation.push(expensesInformation)
-      break
+      return true
     }
-  }
+
+    return false
+  })
 
   if (bankDetailsRequested) {
     const bankDetails = { field: 'bank-details', message: informationRequiredMessagesEnum.BANK_DETAILS }
@@ -37,12 +56,12 @@ module.exports = function (claimStatus, benefitStatus, benefitDocument, visitCon
   return addInformation
 }
 
-function requiredAttention (status, document) {
+function requiredAttention(status, document) {
   if (status === claimStatusEnum.REQUEST_INFORMATION && document.fromInternalWeb) {
     return true
-  } else if (document && document.DocumentStatus === 'upload-later') {
-    return true
-  } else {
-    return false
   }
+  if (document && document.DocumentStatus === 'upload-later') {
+    return true
+  }
+  return false
 }

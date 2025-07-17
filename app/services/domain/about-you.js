@@ -2,13 +2,27 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
+
 const unsafeInputPattern = />|<|&lt|&gt/g
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutYou {
-  constructor (dob, relationship, benefit, benefitOwner, firstName, lastName,
-    nationalInsuranceNumber, houseNumberAndStreet, town, county, postCode,
-    country, emailAddress, phoneNumber) {
+  constructor(
+    dob,
+    relationship,
+    benefit,
+    benefitOwner,
+    firstName,
+    lastName,
+    nationalInsuranceNumber,
+    houseNumberAndStreet,
+    town,
+    county,
+    postCode,
+    country,
+    emailAddress,
+    phoneNumber,
+  ) {
     this.dob = dateFormatter.buildFromDateString(dob)
     this.relationship = relationship
     this.benefit = benefit
@@ -16,7 +30,9 @@ class AboutYou {
 
     this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
     this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''
-    this.nationalInsuranceNumber = nationalInsuranceNumber ? nationalInsuranceNumber.replace(/ /g, '').toUpperCase() : ''
+    this.nationalInsuranceNumber = nationalInsuranceNumber
+      ? nationalInsuranceNumber.replace(/ /g, '').toUpperCase()
+      : ''
     this.houseNumberAndStreet = houseNumberAndStreet ? houseNumberAndStreet.replace(unsafeInputPattern, '').trim() : ''
     this.town = town ? town.replace(unsafeInputPattern, '').trim() : ''
     this.county = county ? county.replace(unsafeInputPattern, '').trim() : ''
@@ -28,7 +44,7 @@ class AboutYou {
     this.IsValid()
   }
 
-  IsValid () {
+  IsValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
@@ -48,28 +64,20 @@ class AboutYou {
       .isRequired(ERROR_MESSAGES.getEnterYourHouseNumber)
       .isLessThanLength(200)
 
-    FieldValidator(this.town, 'Town', errors)
-      .isRequired(ERROR_MESSAGES.getEnterYourTown)
-      .isRange(3, 100)
+    FieldValidator(this.town, 'Town', errors).isRequired(ERROR_MESSAGES.getEnterYourTown).isRange(3, 100)
 
-    FieldValidator(this.county, 'County', errors)
-      .isRequired(ERROR_MESSAGES.getEnterYourCounty)
-      .isRange(4, 100)
+    FieldValidator(this.county, 'County', errors).isRequired(ERROR_MESSAGES.getEnterYourCounty).isRange(4, 100)
 
-    FieldValidator(this.postCode, 'PostCode', errors)
-      .isRequired(ERROR_MESSAGES.getEnterYourPostcode)
-      .isPostcode()
+    FieldValidator(this.postCode, 'PostCode', errors).isRequired(ERROR_MESSAGES.getEnterYourPostcode).isPostcode()
 
-    FieldValidator(this.country, 'Country', errors)
-      .isRequired(ERROR_MESSAGES.getSelectACountry)
+    FieldValidator(this.country, 'Country', errors).isRequired(ERROR_MESSAGES.getSelectACountry)
 
     FieldValidator(this.emailAddress, 'EmailAddress', errors)
       .isRequired(ERROR_MESSAGES.getEnterYourEmailAddress)
       .isLessThanLength(100)
       .isEmail()
 
-    FieldValidator(this.phoneNumber, 'PhoneNumber', errors)
-      .isLessThanLength(20)
+    FieldValidator(this.phoneNumber, 'PhoneNumber', errors).isLessThanLength(20)
 
     const validationErrors = errors.get()
 

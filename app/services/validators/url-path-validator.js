@@ -1,14 +1,15 @@
 const validator = require('./common-validator')
+
 const VALIDATION_ERROR = new Error('An error has occured')
-const decrypt = require('../../services/helpers/decrypt')
-const dateFormatter = require('../../services/date-formatter')
+const decrypt = require('../helpers/decrypt')
+const dateFormatter = require('../date-formatter')
 
 /**
  * A validator for validating URL path paramaeters.
  * Takes the params property of a HTTP request as input.
  */
 class UrlPathValidator {
-  static validate (path) {
+  static validate(path) {
     if (path.referenceId) {
       const referenceId = decrypt(path.referenceId)
 
@@ -36,7 +37,7 @@ class UrlPathValidator {
     this.validateParam(path.advanceOrPast, 'isValidAdvanceOrPast')
   }
 
-  static validateParam (param, validateFunction) {
+  static validateParam(param, validateFunction) {
     if (param) {
       if (!validator[validateFunction](param)) {
         throw VALIDATION_ERROR
@@ -45,6 +46,6 @@ class UrlPathValidator {
   }
 }
 
-module.exports = function (data) {
+module.exports = data => {
   return UrlPathValidator.validate(data)
 }

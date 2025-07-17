@@ -21,32 +21,32 @@ const checkExpenseIsEnabled = require('../../../../services/data/check-expense-i
 const fs = require('fs').promises
 let csrfToken
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/summary/file-upload', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/summary/file-upload', (req, res) => {
     req.yourClaimUrl = '/apply/eligibility/claim/summary'
     get(req, res)
   })
 
-  router.get('/your-claims/:claimId/file-upload', function (req, res) {
+  router.get('/your-claims/:claimId/file-upload', (req, res) => {
     req.yourClaimUrl = `/your-claims/${req.params.claimId}`
     get(req, res)
   })
 
   router.post('/apply/eligibility/claim/summary/file-upload',
-    function (req, res, next) {
+    (req, res, next) => {
       req.yourClaimUrl = '/apply/eligibility/claim/summary'
       post(req, res, next)
     },
-    function (req, res, next) {
+    (req, res, next) => {
       checkForMalware(req, res, next, '/apply/eligibility/claim/summary')
     })
 
   router.post('/your-claims/:claimId/file-upload',
-    function (req, res, next) {
+    (req, res, next) => {
       req.yourClaimUrl = `/your-claims/${req.params.claimId}`
       post(req, res, next)
     },
-    function (req, res, next) {
+    (req, res, next) => {
       checkForMalware(req, res, next, `/your-claims/${req.params.claimId}`)
     })
 }
@@ -104,11 +104,11 @@ function post (req, res, next, redirectURL) {
 
   setReferenceIds(req)
 
-  Upload(req, res, function (error) {
+  Upload(req, res, error => {
     try {
       // If there was no file attached, we still need to check the CSRF token
       if (!req.file) {
-        csrfProtection(req, res, function (error) {
+        csrfProtection(req, res, error => {
           if (error) throw error
         })
       }
@@ -137,7 +137,7 @@ function checkForMalware (req, res, next, redirectURL) {
 
       await moveScannedFileToStorage(req, res, next)
 
-      return updateClaimDocumentMetadata(ids, claimId, req).then(function () {
+      return updateClaimDocumentMetadata(ids, claimId, req).then(() => {
         res.redirect(redirectURL)
       })
     }).catch((error) => {
@@ -148,9 +148,9 @@ function checkForMalware (req, res, next, redirectURL) {
   } else {
     // This handles the case were Post/Upload Later is selected, so no actual file is being provided,
     // however we still need to insert metadata indicating that the user selected on of these options
-    updateClaimDocumentMetadata(ids, claimId, req).then(function () {
+    updateClaimDocumentMetadata(ids, claimId, req).then(() => {
       res.redirect(redirectURL)
-    }).catch(function (error) {
+    }).catch(error => {
       next(error)
     })
   }
@@ -198,7 +198,7 @@ async function moveScannedFileToStorage (req, res, next) {
 
 function insertMalwareAlertTask (ids, claimId, path) {
   insertTask(ids.reference, ids.eligibilityId, claimId, tasksEnum.SEND_MALWARE_ALERT, config.MALWARE_NOTIFICATION_EMAIL_ADDRESS)
-    .then(function () {
+    .then(() => {
       logger.warn(`Malware detected in file ${path}`)
     })
 
@@ -207,7 +207,7 @@ function insertMalwareAlertTask (ids, claimId, path) {
 
 function updateClaimDocumentMetadata (ids, claimId, req) {
   return disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query?.hideAlt)
-    .then(function () {
+    .then(() => {
       return ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload)
     })
 }
@@ -215,7 +215,7 @@ function updateClaimDocumentMetadata (ids, claimId, req) {
 function unlinkFile (path) {
   return fs.unlink(path).then(() => {
     logger.info(`Removed temporary file ${path}`)
-  }).catch(function (error) {
+  }).catch(error => {
     logger.error(error)
   })
 }

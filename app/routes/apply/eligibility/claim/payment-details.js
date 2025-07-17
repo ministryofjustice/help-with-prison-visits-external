@@ -3,8 +3,8 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/payment-details', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/payment-details', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -20,7 +20,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/apply/eligibility/claim/payment-details', function (req, res, next) {
+  router.post('/apply/eligibility/claim/payment-details', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 

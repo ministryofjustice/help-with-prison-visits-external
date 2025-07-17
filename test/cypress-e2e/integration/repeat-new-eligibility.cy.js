@@ -9,7 +9,7 @@ describe('Repeat claim with new eligibility details', () => {
   let reference
 
   before(() => {
-    cy.task('insertEligibilityAndClaim').then((generatedRef) => {
+    cy.task('insertEligibilityAndClaim').then(generatedRef => {
       reference = generatedRef
       cy.log(`Claim generated with reference ${reference}`)
     })
@@ -18,8 +18,7 @@ describe('Repeat claim with new eligibility details', () => {
   it('should display each page in the repeat claim flow', () => {
     cy.visit(`/assisted-digital?caseworker=${caseworker}`)
     cy.location('pathname').should('equal', '/start')
-    cy.getCookie('apvs-assisted-digital')
-      .should('have.property', 'value', encodeURIComponent(caseworker))
+    cy.getCookie('apvs-assisted-digital').should('have.property', 'value', encodeURIComponent(caseworker))
 
     // Start ("yes" previous claim made)
     cy.get('[data-cy="yes"]').check()
@@ -61,8 +60,7 @@ describe('Repeat claim with new eligibility details', () => {
     cy.get('[data-cy="dob-month"]').type('6')
     cy.get('[data-cy="dob-year"]').type('1956')
     // test auto-complete for 'Hewell'
-    cy.get('input[data-cy="prison-name"]').type('Hewe').type('{enter}')
-      .should('have.value', 'Hewell')
+    cy.get('input[data-cy="prison-name"]').type('Hewe').type('{enter}').should('have.value', 'Hewell')
     cy.get('[data-cy="submit"]').contains('Continue').click()
 
     // About you
@@ -73,8 +71,7 @@ describe('Repeat claim with new eligibility details', () => {
     cy.get('[data-cy="town"]').type('New Testtown')
     cy.get('[data-cy="county"]').type('Testshire')
     cy.get('[data-cy="postcode"]').type('WA1 2AB')
-    cy.get('[data-cy="country"]').select('Wales')
-      .should('have.value', 'Wales')
+    cy.get('[data-cy="country"]').select('Wales').should('have.value', 'Wales')
     cy.get('[data-cy="email"]').type('test-visitor@example.com')
     cy.get('[data-cy="phone"]').type('01234 567789')
     cy.get('[data-cy="submit"]').contains('Continue').click()

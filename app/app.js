@@ -1,19 +1,19 @@
-const config = require('../config')
 const express = require('express')
 const crypto = require('crypto')
-const nunjucksSetup = require('./services/nunjucks-setup')
 const path = require('path')
-const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
 const helmet = require('helmet')
 const compression = require('compression')
 const i18n = require('i18n')
-const routes = require('./routes/routes')
-const log = require('./services/log')
 const onFinished = require('on-finished')
 const cookieParser = require('cookie-parser')
 const csurf = require('csurf')
-const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
 const cookieSession = require('cookie-session')
+const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
+const log = require('./services/log')
+const routes = require('./routes/routes')
+const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
+const nunjucksSetup = require('./services/nunjucks-setup')
+const config = require('../config')
 
 const app = express()
 
@@ -30,30 +30,38 @@ app.use((_req, res, next) => {
   res.locals.cspNonce = crypto.randomBytes(16).toString('hex')
   next()
 })
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    scriptSrc: [
-      "'self'",
-      '*.google-analytics.com',
-      'www.googletagmanager.com',
-      (_req, res) => `'nonce-${res.locals.cspNonce}'`
-    ],
-    connectSrc: ["'self'", '*.google-analytics.com'],
-    styleSrc: ["'self'"],
-    fontSrc: ["'self'", 'data:'],
-    imgSrc: ["'self'", '*.google-analytics.com']
-  }
-}))
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        '*.google-analytics.com',
+        'www.googletagmanager.com',
+        (_req, res) => `'nonce-${res.locals.cspNonce}'`,
+      ],
+      connectSrc: ["'self'", '*.google-analytics.com'],
+      styleSrc: ["'self'"],
+      fontSrc: ["'self'", 'data:'],
+      imgSrc: ["'self'", '*.google-analytics.com'],
+    },
+  }),
+)
 
 const packageJson = require('../package.json')
+
 const developmentMode = app.get('env') === 'development'
 const releaseVersion = packageJson.version
 const serviceName = 'Get help with the cost of prison visits'
 
 nunjucksSetup(app, developmentMode)
 
-const publicFolders = ['public', 'assets', '../node_modules/govuk_template_jinja/assets', '../node_modules/govuk_frontend_toolkit']
+const publicFolders = [
+  'public',
+  'assets',
+  '../node_modules/govuk_template_jinja/assets',
+  '../node_modules/govuk_frontend_toolkit',
+]
 
 publicFolders.forEach(dir => {
   app.use('/public', express.static(path.join(__dirname, dir)))
@@ -64,7 +72,7 @@ const govukAssets = [
   '../node_modules/govuk-frontend/dist/govuk/assets',
   '../node_modules/govuk-frontend/dist',
   '../node_modules/jquery/dist',
-  '../node_modules/jquery-ui-dist'
+  '../node_modules/jquery-ui-dist',
 ]
 govukAssets.forEach(dir => {
   app.use('/assets', express.static(path.join(__dirname, dir)))
@@ -72,13 +80,15 @@ govukAssets.forEach(dir => {
 
 // Cookie session
 app.set('trust proxy', 1) // trust first proxy
-app.use(cookieSession({
-  name: 'apvs-start-application',
-  keys: [config.EXT_APPLICATION_SECRET],
-  maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE)
-}))
+app.use(
+  cookieSession({
+    name: 'apvs-start-application',
+    keys: [config.EXT_APPLICATION_SECRET],
+    maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE, 10),
+  }),
+)
 // Update a value in the cookie so that the set-cookie will be sent
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   req.session.nowInMinutes = Date.now() / 60e3
   next()
 })
@@ -88,16 +98,16 @@ app.use(express.urlencoded({ extended: false }))
 app.use(htmlSanitizerMiddleware())
 
 // Send assetPath to all views.
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   res.locals.asset_path = '/public/'
   req.body = req.body || {}
   next()
 })
 
 // Add variables that are available in all views.
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   res.locals.serviceName = serviceName
-  res.locals.releaseVersion = 'v' + releaseVersion
+  res.locals.releaseVersion = `v${releaseVersion}`
   next()
 })
 
@@ -105,17 +115,17 @@ app.use(function (req, res, next) {
 i18n.configure({
   locales: ['en', 'cy'],
   directory: path.join(__dirname, '/locales'),
-  updateFiles: config.I18N_UPDATEFILES || true
+  updateFiles: config.I18N_UPDATEFILES || true,
 })
 app.use(i18n.init)
 
 // Log each HTML request and it's response.
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   // Log response started.
   log.info({ request: req }, 'Route Started.')
 
   // Log response finished.
-  onFinished(res, function () {
+  onFinished(res, () => {
     log.info({ response: res }, 'Route Complete.')
   })
   next()
@@ -127,8 +137,8 @@ app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: co
 // Check for valid CSRF tokens on state-changing methods.
 const csrfProtection = csurf({ cookie: { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' } })
 
-app.use(function (req, res, next) {
-  csrfExcludeRoutes.forEach(function (route) {
+app.use((req, res, next) => {
+  csrfExcludeRoutes.forEach(route => {
     if (req.originalUrl.includes(route) && req.method === 'POST') {
       next()
     } else {
@@ -138,7 +148,7 @@ app.use(function (req, res, next) {
 })
 
 // Generate CSRF tokens to be sent in POST requests
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   if (Object.prototype.hasOwnProperty.call(req, 'csrfToken')) {
     res.locals.csrfToken = req.csrfToken()
   }
@@ -151,7 +161,7 @@ routes(router)
 app.use('/', router)
 
 // Use robots.txt and root level redirections
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   if (req.url === '/robots.txt') {
     res.type('text/plain')
     res.send('User-agent: *\nDisallow: /')
@@ -161,7 +171,7 @@ app.use(function (req, res, next) {
 })
 
 // catch 404 and forward to error handler.
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   const err = new Error('Not Found')
   err.status = 404
   res.status(404)
@@ -169,24 +179,24 @@ app.use(function (req, res, next) {
 })
 
 // catch CSRF token errors
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
   log.error({ error: err })
   res.status(403)
-  res.render('includes/error', {
-    error: 'Invalid CSRF token'
+  return res.render('includes/error', {
+    error: 'Invalid CSRF token',
   })
 })
 
 // Development error handler.
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   log.error({ error: err })
   res.status(err.status || 500)
   if (err.status === 404) {
     res.render('includes/error-404')
   } else {
     res.render('includes/error', {
-      error: developmentMode ? err : null
+      error: developmentMode ? err : null,
     })
   }
 })

@@ -5,7 +5,7 @@ const paramBuilder = require('./param-builder')
 const POST_EXPENSES_PATH = 'summary'
 const ROUTING_ERROR = new Error('An error occured.')
 
-module.exports.parseParams = function (params) {
+module.exports.parseParams = params => {
   if (params) {
     return paramBuilder.buildFormatted(toArray(params))
   }
@@ -13,7 +13,7 @@ module.exports.parseParams = function (params) {
   return ''
 }
 
-module.exports.getRedirectUrl = function (req) {
+module.exports.getRedirectUrl = req => {
   if (!isValid(req)) {
     throw ROUTING_ERROR
   }

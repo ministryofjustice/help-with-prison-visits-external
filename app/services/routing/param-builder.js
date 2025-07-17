@@ -3,21 +3,21 @@
  */
 const URL_PARAMS = require('../../constants/expenses-url-path-enum')
 
-module.exports.format = function (params) {
+module.exports.format = params => {
   let queryString = ''
   if (!isEmpty(params)) {
     queryString = '?'
-    params.forEach(function (param) {
-      queryString += param + '=&'
+    params.forEach(param => {
+      queryString += `${param}=&`
     })
   }
   return queryString.replace(/&$/, '')
 }
 
-module.exports.build = function (params) {
+module.exports.build = params => {
   const paramsArray = []
   if (params) {
-    params.forEach(function (param) {
+    params.forEach(param => {
       if (URL_PARAMS.includes(param)) {
         paramsArray.push(param)
       }
@@ -26,10 +26,10 @@ module.exports.build = function (params) {
   return paramsArray
 }
 
-module.exports.buildFormatted = function (params) {
+module.exports.buildFormatted = params => {
   return this.format(this.build(params))
 }
 
-function isEmpty (array) {
+function isEmpty(array) {
   return !array || array.length === 0
 }

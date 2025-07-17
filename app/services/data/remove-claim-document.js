@@ -1,8 +1,8 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
-const { AWSHelper } = require('../aws-helper')
+const AWSHelper = require('../aws-helper')
 const aws = new AWSHelper()
 
-module.exports = function (claimDocumentId) {
+module.exports = claimDocumentId => {
   const db = getDatabaseConnector()
 
   return db('ClaimDocument')
@@ -11,7 +11,7 @@ module.exports = function (claimDocumentId) {
     .update({
       IsEnabled: false
     })
-    .then(async function (filepath) {
+    .then(async filePath => {
       if (filepath[0]?.Filepath) {
         await aws.delete(filepath[0].Filepath)
       }

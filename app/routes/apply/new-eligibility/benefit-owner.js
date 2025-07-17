@@ -5,8 +5,8 @@ const ValidationError = require('../../../services/errors/validation-error')
 const insertBenefitOwner = require('../../../services/data/insert-benefit-owner')
 const SessionHandler = require('../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/benefit-owner', function (req, res) {
+module.exports = router => {
+  router.get('/apply/:claimType/new-eligibility/benefit-owner', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -23,7 +23,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/benefit-owner', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/benefit-owner', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -45,10 +45,10 @@ module.exports = function (router) {
       const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
       return insertBenefitOwner(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, benefitOwner)
-        .then(function () {
+        .then(() => {
           return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {

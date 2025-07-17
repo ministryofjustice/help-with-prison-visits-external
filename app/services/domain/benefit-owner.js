@@ -3,22 +3,25 @@ const FieldValidator = require('../validators/field-validator')
 const FieldsetValidator = require('../validators/fieldset-validator')
 const dateFormatter = require('../date-formatter')
 const ErrorHandler = require('../validators/error-handler')
+
 const unsafeInputPattern = />|<|&lt|&gt/g
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class BenefitsAbout {
-  constructor (firstName, lastName, dobDay, dobMonth, dobYear, nationalInsuranceNumber) {
+  constructor(firstName, lastName, dobDay, dobMonth, dobYear, nationalInsuranceNumber) {
     this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
     this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''
     this.dobDay = dobDay
     this.dobMonth = dobMonth
     this.dobYear = dobYear
-    this.nationalInsuranceNumber = nationalInsuranceNumber ? nationalInsuranceNumber.replace(/ /g, '').toUpperCase() : ''
+    this.nationalInsuranceNumber = nationalInsuranceNumber
+      ? nationalInsuranceNumber.replace(/ /g, '').toUpperCase()
+      : ''
 
     this.IsValid()
   }
 
-  IsValid () {
+  IsValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
@@ -29,11 +32,7 @@ class BenefitsAbout {
       .isRequired(ERROR_MESSAGES.getEnterBenefitOwnerLastName)
       .isLessThanLength(100, ERROR_MESSAGES.getBenefitOwnerNameLessThanLengthMessage)
 
-    const dobFields = [
-      this.dobDay,
-      this.dobMonth,
-      this.dobYear
-    ]
+    const dobFields = [this.dobDay, this.dobMonth, this.dobYear]
 
     const dob = dateFormatter.build(this.dobDay, this.dobMonth, this.dobYear)
 

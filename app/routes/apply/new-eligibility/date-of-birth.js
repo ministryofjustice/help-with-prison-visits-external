@@ -4,8 +4,8 @@ const ValidationError = require('../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../services/validators/validation-error-messages')
 const SessionHandler = require('../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/date-of-birth', function (req, res) {
+module.exports = router => {
+  router.get('/apply/:claimType/new-eligibility/date-of-birth', (req, res) => {
     UrlPathValidator(req.params)
     let errors
 
@@ -24,7 +24,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/date-of-birth', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/date-of-birth', (req, res, next) => {
     UrlPathValidator(req.params)
 
     try {

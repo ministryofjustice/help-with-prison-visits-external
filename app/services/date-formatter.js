@@ -1,28 +1,29 @@
 const moment = require('moment')
+
 const DATE_FORMAT = 'YYYY-MM-DD'
 const DATE_ENCODE_FORMAT = 'YYYYMMDD'
 const INVALID_DATE_ERROR = 'Invalid date'
 const bases = require('bases')
 
-exports.format = function (date) {
+exports.format = date => {
   if (!isDate(date) || isUndefined(date) || isNull(date)) {
     return INVALID_DATE_ERROR
   }
   return date.format(DATE_FORMAT)
 }
 
-exports.now = function () {
+exports.now = () => {
   const now = moment()
   return applyDST(now)
 }
 
-exports.build = function (day, month, year) {
-  month = month - 1
+exports.build = (day, month, year) => {
+  month -= 1
   const date = moment([year, month, day])
   return applyDST(date)
 }
 
-exports.buildFormatted = function (day, month, year) {
+exports.buildFormatted = (day, month, year) => {
   const date = this.build(day, month, year)
   if (!isValidDate(date)) {
     return INVALID_DATE_ERROR
@@ -30,7 +31,7 @@ exports.buildFormatted = function (day, month, year) {
   return this.format(date)
 }
 
-exports.buildFromDateString = function (date) {
+exports.buildFromDateString = date => {
   if (typeof date !== 'string') {
     return false
   }
@@ -42,35 +43,35 @@ exports.buildFromDateString = function (date) {
   return this.build(day, month, year)
 }
 
-exports.encodeDate = function (date) {
+exports.encodeDate = date => {
   return bases.toBase8(date.format(DATE_ENCODE_FORMAT))
 }
 
-exports.decodeDate = function (encodedDate) {
+exports.decodeDate = encodedDate => {
   const date = moment(bases.fromBase(encodedDate, 8), DATE_ENCODE_FORMAT)
   const formattedDate = this.format(date)
   return formattedDate
 }
 
-function applyDST (date) {
+function applyDST(date) {
   if (date.isDST()) {
     date = date.add(1, 'hour')
   }
   return date
 }
 
-function isUndefined (date) {
+function isUndefined(date) {
   return typeof date === 'undefined'
 }
 
-function isNull (date) {
+function isNull(date) {
   return date === null
 }
 
-function isDate (date) {
+function isDate(date) {
   return date instanceof moment
 }
 
-function isValidDate (date) {
+function isValidDate(date) {
   return date.isValid()
 }

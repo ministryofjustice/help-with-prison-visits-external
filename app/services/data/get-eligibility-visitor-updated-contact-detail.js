@@ -1,6 +1,6 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 
-module.exports = function (reference, eligibilityId) {
+module.exports = (reference, eligibilityId) => {
   const db = getDatabaseConnector()
 
   return db('EligibilityVisitorUpdateContactDetail')

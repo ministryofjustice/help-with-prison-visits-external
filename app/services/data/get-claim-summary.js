@@ -5,7 +5,7 @@ const getRepeatEligibility = require('./get-repeat-eligibility')
 const maskArrayOfNames = require('../helpers/mask-array-of-names')
 const maskString = require('../helpers/mask-string')
 
-module.exports = function (claimId, claimType) {
+module.exports = (claimId, claimType) => {
   const db = getDatabaseConnector()
 
   return db('Claim')
@@ -29,54 +29,63 @@ module.exports = function (claimId, claimType) {
       'Prisoner.DateOfBirth AS PrisonerDateOfBirth',
       'Prisoner.PrisonNumber',
       'Prisoner.NameOfPrison',
-      'Eligibility.Status AS EligibilityStatus'
+      'Eligibility.Status AS EligibilityStatus',
     )
-    .then(function (claim) {
-      if ((claimType === claimTypeEnum.REPEAT_CLAIM || claimType === claimTypeEnum.REPEAT_DUPLICATE) &&
-        claim.EligibilityStatus == null) {
+    .then(claim => {
+      if (
+        (claimType === claimTypeEnum.REPEAT_CLAIM || claimType === claimTypeEnum.REPEAT_DUPLICATE) &&
+        claim.EligibilityStatus == null
+      ) {
         // Repeat claim using existing eligibility data, retrieve from IntSchema
-        return getRepeatEligibility(claim.Reference, null, claim.EligibilityId)
-          .then(function (eligibility) {
-            claim.FirstName = eligibility.FirstName
-            claim.LastName = eligibility.LastName
-            claim.Country = eligibility.Country
-            claim.Benefit = eligibility.Benefit
-            claim.PrisonerFirstName = eligibility.PrisonerFirstName
-            claim.PrisonerLastName = eligibility.PrisonerLastName
-            claim.PrisonerDateOfBirth = eligibility.PrisonerDateOfBirth
-            claim.PrisonNumber = eligibility.PrisonNumber
-            claim.NameOfPrison = eligibility.NameOfPrison
-            return claim
-          })
+        return getRepeatEligibility(claim.Reference, null, claim.EligibilityId).then(eligibility => {
+          claim.FirstName = eligibility.FirstName
+          claim.LastName = eligibility.LastName
+          claim.Country = eligibility.Country
+          claim.Benefit = eligibility.Benefit
+          claim.PrisonerFirstName = eligibility.PrisonerFirstName
+          claim.PrisonerLastName = eligibility.PrisonerLastName
+          claim.PrisonerDateOfBirth = eligibility.PrisonerDateOfBirth
+          claim.PrisonNumber = eligibility.PrisonNumber
+          claim.NameOfPrison = eligibility.NameOfPrison
+          return claim
+        })
       }
       return claim
     })
-    .then(function (claim) {
+    .then(claim => {
       return db('ClaimDocument')
-        .where({ 'ClaimDocument.ClaimId': claimId, 'ClaimDocument.IsEnabled': true, 'ClaimDocument.ClaimExpenseId': null })
+        .where({
+          'ClaimDocument.ClaimId': claimId,
+          'ClaimDocument.IsEnabled': true,
+          'ClaimDocument.ClaimExpenseId': null,
+        })
         .orWhere({
           'ClaimDocument.ClaimId': null,
           'ClaimDocument.Reference': claim.Reference,
           'ClaimDocument.EligibilityId': claim.EligibilityId,
           'ClaimDocument.IsEnabled': true,
-          'ClaimDocument.ClaimExpenseId': null
+          'ClaimDocument.ClaimExpenseId': null,
         })
         .select('ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
         .orderBy('ClaimDocument.DateSubmitted', 'desc')
-        .then(function (claimDocuments) {
+        .then(claimDocuments => {
           return db('Claim')
             .join('ClaimExpense', 'Claim.ClaimId', '=', 'ClaimExpense.ClaimId')
             .where({ 'Claim.ClaimId': claimId, 'ClaimExpense.IsEnabled': true })
-            .select('ClaimExpense.*', 'ClaimDocument.DocumentStatus', 'ClaimDocument.DocumentType', 'ClaimDocument.ClaimDocumentId')
-            .leftJoin('ClaimDocument', function () {
-              this
-                .on('ClaimExpense.ClaimId', 'ClaimDocument.ClaimId')
+            .select(
+              'ClaimExpense.*',
+              'ClaimDocument.DocumentStatus',
+              'ClaimDocument.DocumentType',
+              'ClaimDocument.ClaimDocumentId',
+            )
+            .leftJoin('ClaimDocument', () => {
+              this.on('ClaimExpense.ClaimId', 'ClaimDocument.ClaimId')
                 .on('ClaimExpense.ClaimExpenseId', 'ClaimDocument.ClaimExpenseId')
                 .on('ClaimExpense.IsEnabled', 'ClaimDocument.IsEnabled')
             })
-            .then(function (claimExpenses) {
+            .then(claimExpenses => {
               claim.benefitDocument = []
-              claimDocuments.forEach(function (document) {
+              claimDocuments.forEach(document => {
                 if (document.DocumentType === documentTypeEnum.VISIT_CONFIRMATION.documentType) {
                   claim.visitConfirmation = document
                 } else {
@@ -86,31 +95,31 @@ module.exports = function (claimId, claimType) {
               return claimExpenses
             })
         })
-        .then(function (claimExpenses) {
+        .then(claimExpenses => {
           return db('Claim')
             .join('ClaimChild', 'Claim.ClaimId', '=', 'ClaimChild.ClaimId')
             .where({ 'Claim.ClaimId': claimId, 'ClaimChild.IsEnabled': true })
             .select()
             .orderBy('ClaimChild.FirstName')
-            .then(function (claimChild) {
+            .then(claimChild => {
               let child = claimChild
               if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
                 child = maskArrayOfNames(claimChild)
               }
               return {
                 claimExpenses,
-                claimChild: child
+                claimChild: child,
               }
             })
         })
-        .then(function (expensesAndChildren) {
+        .then(expensesAndChildren => {
           return db('ClaimEscort')
             .where({
               'ClaimEscort.ClaimId': claimId,
-              'ClaimEscort.IsEnabled': true
+              'ClaimEscort.IsEnabled': true,
             })
             .first()
-            .then(function (claimEscort) {
+            .then(claimEscort => {
               const escort = claimEscort
               if (claimType === claimTypeEnum.REPEAT_DUPLICATE && claimEscort) {
                 escort.LastName = maskString(claimEscort.LastName, 1)
@@ -119,11 +128,11 @@ module.exports = function (claimId, claimType) {
                 claim,
                 claimExpenses: expensesAndChildren.claimExpenses,
                 claimChild: expensesAndChildren.claimChild,
-                claimEscort
+                claimEscort,
               }
             })
         })
-        .then(function (expensesChildrenAndEscort) {
+        .then(expensesChildrenAndEscort => {
           return db('EligibleChild')
             .where('EligibleChild.EligibilityId', claim.EligibilityId)
             .columns([
@@ -137,9 +146,9 @@ module.exports = function (claimId, claimType) {
               'EligibleChild.Town AS EligibleChildTown',
               'EligibleChild.County AS EligibleChildCounty',
               'EligibleChild.PostCode AS EligibleChildPostCode',
-              'EligibleChild.Country AS EligibleChildCountry'
+              'EligibleChild.Country AS EligibleChildCountry',
             ])
-            .then(function (children) {
+            .then(children => {
               let eligibleChildren = children
               if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
                 eligibleChildren = maskArrayOfNames(eligibleChildren)
@@ -149,7 +158,7 @@ module.exports = function (claimId, claimType) {
                 claimExpenses: expensesChildrenAndEscort.claimExpenses,
                 claimChild: expensesChildrenAndEscort.claimChild,
                 claimEscort: expensesChildrenAndEscort.claimEscort,
-                eligibleChildren
+                eligibleChildren,
               }
             })
         })

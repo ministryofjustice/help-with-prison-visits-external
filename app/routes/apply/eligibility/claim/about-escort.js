@@ -5,8 +5,8 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const insertEscort = require('../../../../services/data/insert-escort')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/about-escort', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/about-escort', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -21,7 +21,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/apply/eligibility/claim/about-escort', function (req, res, next) {
+  router.post('/apply/eligibility/claim/about-escort', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -41,10 +41,10 @@ module.exports = function (router) {
       )
 
       insertEscort(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, escort)
-        .then(function () {
+        .then(() => {
           return res.redirect('/apply/eligibility/claim/has-child')
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {

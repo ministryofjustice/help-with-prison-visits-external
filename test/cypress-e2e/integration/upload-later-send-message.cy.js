@@ -5,7 +5,7 @@ describe('Upload later and send a message', () => {
   let reference
 
   before(() => {
-    cy.task('insertEligibilityAndClaim', 'PENDING').then((generatedRef) => {
+    cy.task('insertEligibilityAndClaim', 'PENDING').then(generatedRef => {
       reference = generatedRef
       cy.log(`Claim generated with reference ${reference}`)
     })
@@ -14,8 +14,7 @@ describe('Upload later and send a message', () => {
   it('should display each page in the repeat claim flow', () => {
     cy.visit(`/assisted-digital?caseworker=${caseworker}`)
     cy.location('pathname').should('equal', '/start')
-    cy.getCookie('apvs-assisted-digital')
-      .should('have.property', 'value', encodeURIComponent(caseworker))
+    cy.getCookie('apvs-assisted-digital').should('have.property', 'value', encodeURIComponent(caseworker))
 
     // Start ("yes" previous claim made)
     cy.get('[data-cy="yes"]').check()
@@ -40,9 +39,10 @@ describe('Upload later and send a message', () => {
     cy.get('[data-cy="submit"]').contains('Continue').click()
 
     // Add message to claim and submit
-    cy.get('[data-cy="message-to-caseworker"]')
-      .type('Sorry I have lost my bus receipt, is it ok to still approve my ' +
-        'claim? I will post the other as soon as I can.')
+    cy.get('[data-cy="message-to-caseworker"]').type(
+      'Sorry I have lost my bus receipt, is it ok to still approve my ' +
+        'claim? I will post the other as soon as I can.',
+    )
     cy.get('[data-cy="submit"]').contains('Submit updates').click()
 
     // Updated view claims page

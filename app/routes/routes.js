@@ -56,11 +56,11 @@ const routes = [
   require('./your-claims/view-claim'),
 
   // Health check routes
-  require('./health-check/status')
+  require('./health-check/status'),
 ]
 
-module.exports = function (router) {
-  routes.forEach(function (route) {
+module.exports = router => {
+  routes.forEach(route => {
     route(router)
   })
 }

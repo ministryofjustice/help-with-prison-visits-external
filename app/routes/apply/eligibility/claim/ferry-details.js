@@ -8,8 +8,8 @@ const getExpenseOwnerData = require('../../../../services/data/get-expense-owner
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/ferry', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/ferry', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -35,7 +35,7 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/apply/eligibility/claim/ferry', function (req, res, next) {
+  router.post('/apply/eligibility/claim/ferry', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -56,10 +56,10 @@ module.exports = function (router) {
       )
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
-        .then(function () {
+        .then(() => {
           return res.redirect(expenseUrlRouter.getRedirectUrl(req))
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {

@@ -7,8 +7,8 @@ const claimExpenseHelper = require('../../../../views/helpers/claim-expense-help
 const displayHelper = require('../../../../views/helpers/display-helper')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
+module.exports = router => {
+  router.get('/apply/eligibility/new-claim/same-journey-as-last-claim', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -34,12 +34,12 @@ module.exports = function (router) {
           return res.redirect('/apply/eligibility/new-claim/journey-information')
         }
       })
-      .catch(function (error) {
+      .catch(error => {
         next(error)
       })
   })
 
-  router.post('/apply/eligibility/new-claim/same-journey-as-last-claim', function (req, res, next) {
+  router.post('/apply/eligibility/new-claim/same-journey-as-last-claim', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -71,7 +71,7 @@ module.exports = function (router) {
               displayHelper
             })
           })
-          .catch(function (error) {
+          .catch(error => {
             next(error)
           })
       } else {

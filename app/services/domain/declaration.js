@@ -4,16 +4,15 @@ const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class Declaration {
-  constructor (termsAndConiditions) {
+  constructor(termsAndConiditions) {
     this.termsAndConiditions = termsAndConiditions
     this.IsValid()
   }
 
-  IsValid () {
+  IsValid() {
     const errors = ErrorHandler()
 
-    FieldValidator(this.termsAndConiditions, 'terms-and-conditions', errors)
-      .isRequired(ERROR_MESSAGES.getDisclaimer)
+    FieldValidator(this.termsAndConiditions, 'terms-and-conditions', errors).isRequired(ERROR_MESSAGES.getDisclaimer)
 
     const validationErrors = errors.get()
 

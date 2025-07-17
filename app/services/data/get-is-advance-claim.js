@@ -1,12 +1,12 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 
-module.exports = function (claimId) {
+module.exports = claimId => {
   const db = getDatabaseConnector()
 
   return db('Claim')
     .where('ClaimId', claimId)
     .first('IsAdvanceClaim')
-    .then(function (result) {
+    .then(result => {
       return result.IsAdvanceClaim
     })
 }

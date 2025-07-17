@@ -10,8 +10,8 @@ const SessionHandler = require('../../services/validators/session-handler')
 
 const NORTHERN_IRELAND = 'Northern Ireland'
 
-module.exports = function (router) {
-  router.get('/your-claims/check-your-information', function (req, res, next) {
+module.exports = router => {
+  router.get('/your-claims/check-your-information', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -22,7 +22,7 @@ module.exports = function (router) {
     const dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
     getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'), null)
-      .then(function (eligibility) {
+      .then(eligibility => {
         req.session.prisonerNumber = eligibility.PrisonNumber
         req.session.eligibilityId = eligibility.EligibilityId
 
@@ -33,12 +33,12 @@ module.exports = function (router) {
           displayHelper
         })
       })
-      .catch(function (error) {
+      .catch(error => {
         next(error)
       })
   })
 
-  router.post('/your-claims/check-your-information', function (req, res, next) {
+  router.post('/your-claims/check-your-information', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -56,7 +56,7 @@ module.exports = function (router) {
       new CheckYourInformation(req.body?.['confirm-correct']) // eslint-disable-line no-new
 
       getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'), null)
-        .then(function (eligibility) {
+        .then(eligibility => {
           const nameOfPrison = eligibility.NameOfPrison
           const isNorthernIrelandClaim = eligibility.Country === NORTHERN_IRELAND
           const isNorthernIrelandPrison = prisonsHelper.isNorthernIrelandPrison(nameOfPrison)
@@ -73,13 +73,13 @@ module.exports = function (router) {
 
           return res.redirect(`/apply/eligibility/new-claim/${nextPage}`)
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {
       if (error instanceof ValidationError) {
         getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'), null)
-          .then(function (eligibility) {
+          .then(eligibility => {
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,
               dob: req.session.dobEncoded,
@@ -88,7 +88,7 @@ module.exports = function (router) {
               displayHelper
             })
           })
-          .catch(function (error) {
+          .catch(error => {
             next(error)
           })
       } else {

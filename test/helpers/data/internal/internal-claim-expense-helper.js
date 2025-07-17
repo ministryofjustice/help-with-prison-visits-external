@@ -11,7 +11,7 @@ module.exports.DURATION_OF_TRAVEL = null
 module.exports.TICKET_TYPE = null
 module.exports.TICKET_OWNER = 'you'
 
-module.exports.build = function () {
+module.exports.build = () => {
   return {
     ClaimExpenseId: this.CLAIM_EXPENSE_ID,
     ExpenseType: this.EXPENSE_TYPE,
@@ -23,11 +23,11 @@ module.exports.build = function () {
     DurationOfTravel: this.DURATION_OF_TRAVEL,
     TicketType: this.TICKET_TYPE,
     TicketOwner: this.TICKET_OWNER,
-    IsEnabled: true
+    IsEnabled: true,
   }
 }
 
-module.exports.insert = function (reference, eligibilityId, claimId, data) {
+module.exports.insert = (reference, eligibilityId, claimId, data) => {
   const expense = data || this.build()
   const db = getDatabaseConnector()
 
@@ -46,22 +46,18 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
     DurationOfTravel: expense.DurationOfTravel,
     TicketType: expense.TicketType,
     TicketOwner: expense.TicketOwner,
-    IsEnabled: expense.IsEnabled
+    IsEnabled: expense.IsEnabled,
   })
 }
 
-module.exports.get = function (claimId) {
+module.exports.get = claimId => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('IntSchema.ClaimExpense')
-    .where('ClaimId', claimId)
+  return db.first().from('IntSchema.ClaimExpense').where('ClaimId', claimId)
 }
 
-module.exports.delete = function (claimId) {
+module.exports.delete = claimId => {
   const db = getDatabaseConnector()
 
-  return db('IntSchema.ClaimExpense')
-    .where('ClaimId', claimId)
-    .del()
+  return db('IntSchema.ClaimExpense').where('ClaimId', claimId).del()
 }

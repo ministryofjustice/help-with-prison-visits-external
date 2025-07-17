@@ -4,8 +4,8 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/has-escort', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/has-escort', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -24,7 +24,7 @@ module.exports = function (router) {
       })
   })
 
-  router.post('/apply/eligibility/claim/has-escort', function (req, res) {
+  router.post('/apply/eligibility/claim/has-escort', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 

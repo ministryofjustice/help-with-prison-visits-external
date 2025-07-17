@@ -1,3 +1,4 @@
+const moment = require('moment')
 const { getDatabaseConnector } = require('../../../app/databaseConnector')
 const claimChildHelper = require('./claim-child-helper')
 const claimEscortHelper = require('./claim-escort-helper')
@@ -7,7 +8,6 @@ const insertNewClaim = require('../../../app/services/data/insert-new-claim')
 const NewClaim = require('../../../app/services/domain/new-claim')
 const claimStatusEnum = require('../../../app/constants/claim-status-enum')
 const dateFormatter = require('../../../app/services/date-formatter')
-const moment = require('moment')
 
 module.exports.CLAIM_TYPE = 'first-time'
 module.exports.IS_ADVANCE_CLAIM = false
@@ -20,62 +20,60 @@ const DAY = this.DATE_OF_JOURNEY.format('DD')
 const MONTH = this.DATE_OF_JOURNEY.format('MM')
 const YEAR = this.DATE_OF_JOURNEY.format('YYYY')
 
-module.exports.build = function (reference) {
+module.exports.build = reference => {
   return new NewClaim(reference, DAY, MONTH, YEAR, this.IS_ADVANCE_CLAIM)
 }
 
-module.exports.insert = function (reference, eligibilityId) {
+module.exports.insert = (reference, eligibilityId) => {
   return insertNewClaim(reference, eligibilityId, this.CLAIM_TYPE, this.build(reference))
 }
 
-module.exports.insertWithExpenseChildDocuments = function (reference, eligibilityId) {
+module.exports.insertWithExpenseChildDocuments = (reference, eligibilityId) => {
   let claimId
   return this.insert(reference, eligibilityId)
-    .then(function (newClaimId) {
+    .then(newClaimId => {
       claimId = newClaimId
       return expenseHelper.insert(reference, eligibilityId, claimId)
     })
-    .then(function () {
+    .then(() => {
       return claimChildHelper.insert(reference, eligibilityId, claimId)
     })
-    .then(function () {
+    .then(() => {
       return claimEscortHelper.insert(reference, eligibilityId, claimId)
     })
-    .then(function () {
-      return claimDocumentHelper.insert(reference, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)
-        .then(function () {
+    .then(() => {
+      return claimDocumentHelper
+        .insert(reference, eligibilityId, claimId, claimDocumentHelper.DOCUMENT_TYPE)
+        .then(() => {
           return claimDocumentHelper.insert(reference, eligibilityId, null, 'BENEFIT')
         })
     })
-    .then(function () {
+    .then(() => {
       return claimId
     })
 }
 
-module.exports.get = function (claimId) {
+module.exports.get = claimId => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('ExtSchema.Claim')
-    .where('ClaimId', claimId)
+  return db.first().from('ExtSchema.Claim').where('ClaimId', claimId)
 }
 
-module.exports.delete = function (claimId) {
+module.exports.delete = claimId => {
   const db = getDatabaseConnector()
 
-  return db('ExtSchema.Claim')
-    .where('ClaimId', claimId)
-    .del()
+  return db('ExtSchema.Claim').where('ClaimId', claimId).del()
 }
 
-module.exports.getRef = function (caseworker) {
+module.exports.getRef = caseworker => {
   const db = getDatabaseConnector()
 
-  return db.first('Reference')
+  return db
+    .first('Reference')
     .from('ExtSchema.Claim')
     .where('AssistedDigitalCaseworker', caseworker)
     .orderBy('DateCreated', 'desc')
-    .then(function (result) {
+    .then(result => {
       return result.Reference
     })
 }

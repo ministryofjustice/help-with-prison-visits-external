@@ -7,8 +7,8 @@ const displayHelper = require('../../../views/helpers/display-helper')
 const SessionHandler = require('../../../services/validators/session-handler')
 const prisonerRelationshipEnum = require('../../../constants/prisoner-relationships-enum')
 
-module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res) {
+module.exports = router => {
+  router.get('/apply/:claimType/new-eligibility/about-the-prisoner', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -24,7 +24,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/about-the-prisoner', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -42,7 +42,7 @@ module.exports = function (router) {
         req.body?.NameOfPrison)
 
       insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.session.decryptedRef)
-        .then(function (result) {
+        .then(result => {
           req.session.referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
           req.session.decryptedRef = result.reference
           const benefitOwner = req.session.benefitOwner
@@ -63,7 +63,7 @@ module.exports = function (router) {
             }
           }
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {

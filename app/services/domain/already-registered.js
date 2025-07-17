@@ -4,10 +4,11 @@ const FieldsetValidator = require('../validators/fieldset-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
+
 const MINIMUM_AGE_IN_YEARS = 16
 
 class AlreadyRegistered {
-  constructor (reference, day, month, year) {
+  constructor(reference, day, month, year) {
     this.reference = reference
     this.fields = [day, month, year]
     this.dob = dateFormatter.build(day, month, year)
@@ -15,7 +16,7 @@ class AlreadyRegistered {
     this.isValid()
   }
 
-  isValid () {
+  isValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.reference, 'reference', errors)

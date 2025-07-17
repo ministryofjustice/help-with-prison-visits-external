@@ -5,8 +5,8 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const insertChild = require('../../../../services/data/insert-child')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/about-child', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/about-child', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -21,7 +21,7 @@ module.exports = function (router) {
     })
   })
 
-  router.post('/apply/eligibility/claim/about-child', function (req, res, next) {
+  router.post('/apply/eligibility/claim/about-child', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -42,14 +42,14 @@ module.exports = function (router) {
       )
 
       insertChild(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, child)
-        .then(function () {
+        .then(() => {
           if (req.body?.['add-another-child']) {
             return res.redirect(req.originalUrl)
           } else {
             return res.redirect('/apply/eligibility/claim/expenses')
           }
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {

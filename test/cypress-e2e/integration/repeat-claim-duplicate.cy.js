@@ -9,7 +9,7 @@ describe('Repeat claim duplicate claim', () => {
   let reference
 
   before(() => {
-    cy.task('insertEligibilityAndClaim').then((generatedRef) => {
+    cy.task('insertEligibilityAndClaim').then(generatedRef => {
       reference = generatedRef
       cy.log(`Claim generated with reference ${reference}`)
     })
@@ -18,8 +18,7 @@ describe('Repeat claim duplicate claim', () => {
   it('should display each page in the repeat claim flow', () => {
     cy.visit(`/assisted-digital?caseworker=${caseworker}`)
     cy.location('pathname').should('equal', '/start')
-    cy.getCookie('apvs-assisted-digital')
-      .should('have.property', 'value', encodeURIComponent(caseworker))
+    cy.getCookie('apvs-assisted-digital').should('have.property', 'value', encodeURIComponent(caseworker))
 
     // Start ("yes" previous claim made)
     cy.get('[data-cy="yes"]').check()
@@ -86,9 +85,7 @@ describe('Repeat claim duplicate claim', () => {
     cy.get('[data-cy="prison"]').contains('Hewell')
     cy.get('[data-cy="visit-date"]').contains(todaysDate.format('dddd D MMMM YYYY'))
     cy.get('[data-cy="visit-confirmation"]').contains('Sending visit confirmation by post')
-    cy.get('[data-cy="expense-1"]')
-      .should('contain', 'Bus')
-      .and('contain', 'You - London to Edinburgh - Return')
+    cy.get('[data-cy="expense-1"]').should('contain', 'Bus').and('contain', 'You - London to Edinburgh - Return')
     cy.get('[data-cy="expense-amount-1"]').contains('£10')
     cy.get('[data-cy="expense-info-1"]').contains('Receipt needed')
     cy.get('[data-cy="add-expense-receipt"]').click()
@@ -98,9 +95,7 @@ describe('Repeat claim duplicate claim', () => {
     cy.get('[data-cy="submit"]').contains('Continue').click()
 
     // Claim summary
-    cy.get('[data-cy="expense-1"]')
-      .should('contain', 'Bus')
-      .and('contain', 'You - London to Edinburgh - Return')
+    cy.get('[data-cy="expense-1"]').should('contain', 'Bus').and('contain', 'You - London to Edinburgh - Return')
     cy.get('[data-cy="expense-amount-1"]').contains('£10')
     cy.get('[data-cy="expense-info-1"]').contains('Sending receipt by post')
     cy.get('[data-cy="submit"]').contains('Continue').click()
