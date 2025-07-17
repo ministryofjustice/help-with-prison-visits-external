@@ -33,8 +33,8 @@ module.exports = (
     addInformation.push(visitConfirmation)
   }
 
-  Object.keys(expenses).find(expense => {
-    // for (const expense in expenses) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const expense in expenses) {
     if (
       requiredAttention(expenses[expense].Status, {
         DocumentStatus: expenses[expense].DocumentStatus,
@@ -43,11 +43,9 @@ module.exports = (
     ) {
       const expensesInformation = { field: 'claim-expense', message: informationRequiredMessagesEnum.EXPENSE }
       addInformation.push(expensesInformation)
-      return true
+      break
     }
-
-    return false
-  })
+  }
 
   if (bankDetailsRequested) {
     const bankDetails = { field: 'bank-details', message: informationRequiredMessagesEnum.BANK_DETAILS }

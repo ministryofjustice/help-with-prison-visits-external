@@ -21,7 +21,7 @@ describe('services/log-streams', () => {
 
     it('should build and return the expected console stream', () => {
       mockPrettyStream.mockReturnValue({
-        // pipe() {},
+        pipe: () => {},
       })
       const stream = logStreams.buildConsoleStream()
       expect(mockPrettyStream).toHaveBeenCalledTimes(1)

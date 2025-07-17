@@ -33,25 +33,19 @@ describe('routes/apply/eligibility/claim/view-claim', () => {
   const mockViewClaimDomainObject = jest.fn()
   const mockSubmitUpdate = jest.fn()
   const mockRemoveClaimDocument = jest.fn()
-  const mockDownload = jest.fn()
-  const mockAws = jest.fn()
 
   beforeEach(() => {
-    mockAws.mockReturnValue({
-      download: mockDownload.mockResolvedValue(VALID_FILEPATH_RESULT.Filepath),
-    })
-
-    const mockAwsHelper = {
-      AWSHelper: mockAws,
-    }
-
     jest.mock('../../../../app/services/validators/url-path-validator', () => mockUrlPathValidator)
     jest.mock('../../../../app/services/data/get-view-claim', () => mockGetViewClaim)
     jest.mock('../../../../app/services/data/get-claim-document-file-path', () => mockGetClaimDocumentFilePath)
     jest.mock('../../../../app/services/domain/view-claim', () => mockViewClaimDomainObject)
     jest.mock('../../../../app/services/data/submit-update', () => mockSubmitUpdate)
     jest.mock('../../../../app/services/data/remove-claim-document', () => mockRemoveClaimDocument)
-    jest.mock('../../../../app/services/aws-helper', () => mockAwsHelper)
+    jest.mock('../../../../app/services/aws-helper', () => {
+      return jest.fn().mockImplementation(() => ({
+        download: () => 'test/resources/testfile.txt',
+      }))
+    })
 
     const route = require('../../../../app/routes/your-claims/view-claim')
     app = routeHelper.buildApp(route)

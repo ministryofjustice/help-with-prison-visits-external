@@ -152,12 +152,13 @@ module.exports = router => {
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
       .then(async result => {
+        console.log(result)
         const path = result.Filepath
         if (path) {
           try {
             const fileName = `HwPV-Upload.${path.split('.').pop()}`
             const awsDownloadPath = await aws.download(path)
-
+console.log(awsDownloadPath)
             return res.download(awsDownloadPath, fileName)
           } catch (error) {
             next(error)

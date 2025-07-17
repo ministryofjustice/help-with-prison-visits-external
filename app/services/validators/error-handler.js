@@ -14,14 +14,12 @@ class ErrorHandler {
 
   get() {
     const { errors } = this
-    // for (const field in errors) {
-    Object.keys(errors).forEach(field => {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const field in errors) {
       if (errors[field].length > 0) {
         return errors
       }
-
-      return null
-    })
+    }
 
     return false
   }

@@ -17,6 +17,7 @@ module.exports = router => {
           return res.redirect('/start-already-registered?recovery=true')
         })
     } catch (error) {
+      console.log(error)
       if (error instanceof ValidationError) {
         return res.status(400).render('reference-recovery', {
           errors: error.validationErrors,

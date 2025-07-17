@@ -31,33 +31,19 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
   const mockUrlPathValidator = jest.fn()
   const mockGetClaimSummary = jest.fn()
   const mockClaimSummary = jest.fn()
-  const mockDownload = jest.fn()
-  // const mockAws = jest.fn()
   const mockGetDocumentFilePath = jest.fn()
   const mockRemoveExpenseAndDocument = jest.fn()
   const mockRemoveDocument = jest.fn()
-  let mockAwsHelper
 
   beforeEach(() => {
-    // mockAws.mockReturnValue({
-    //   download: mockDownload.mockResolvedValue(FILEPATH_RESULT.path),
-    // })
-
-    // mockAwsHelper = {
-    //   AWSHelper: mockAws,
-    // }
-
-    jest.mock('../../../../app/services/aws-helper', () => {
-      return jest.fn().mockImplementation(() => ({
-        download: mockDownload.mockResolvedValue(FILEPATH_RESULT.path),
-      }))
-    })
-
     jest.mock('../../../../../../app/services/validators/url-path-validator', () => mockUrlPathValidator)
     jest.mock('../../../../../../app/services/data/get-claim-summary', () => mockGetClaimSummary)
     jest.mock('../../../../../../app/services/domain/claim-summary', () => mockClaimSummary)
-    jest.mock('../../../../../../app/services/aws-helper', () => mockAwsHelper)
-
+    jest.mock('../../../../../../app/services/aws-helper', () => {
+      return jest.fn().mockImplementation(() => ({
+        download: () => 'test/resources/testfile.txt',
+      }))
+    })
     jest.mock('../../../../../../app/routes/helpers/claim-summary-helper', () => {
       const originalModule = jest.requireActual('../../../../../../app/routes/helpers/claim-summary-helper')
 
