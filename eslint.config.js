@@ -10,5 +10,10 @@ config.push({
     'global-require': 'off',
   },
 })
+config.push({
+  languageOptions: {
+    ecmaVersion: 2020,
+  },
+})
 
 module.exports = config

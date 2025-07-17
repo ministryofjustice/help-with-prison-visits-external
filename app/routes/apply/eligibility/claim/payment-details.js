@@ -16,7 +16,7 @@ module.exports = router => {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
       claimId: req.session.claimId,
-      isAdvance: req.query?.isAdvance
+      isAdvance: req.query?.isAdvance,
     })
   })
 
@@ -40,11 +40,10 @@ module.exports = router => {
           paymentDetails: req.body ?? {},
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          isAdvance: req.query?.isAdvance
+          isAdvance: req.query?.isAdvance,
         })
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }

@@ -8,7 +8,7 @@ module.exports = router => {
 
     req.session = SessionHandler.clearSession(req.session, req.url)
 
-    if ((req.query?.error === 'expired')) {
+    if (req.query?.error === 'expired') {
       errors = { expired: [ERROR_MESSAGES.getExpiredSession] }
     }
 
@@ -19,10 +19,10 @@ module.exports = router => {
     if (!req.body?.madeClaimForPrisonerBefore) {
       const errors = { madeClaimForPrisonerBefore: [ERROR_MESSAGES.getMadeClaimForPrisonerBeforeIsRequired] }
       return res.status(400).render('start', { errors })
-    } else if (req.body?.madeClaimForPrisonerBefore === 'yes') {
-      return res.redirect('/start-already-registered')
-    } else {
-      return res.redirect(`/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth`)
     }
+    if (req.body?.madeClaimForPrisonerBefore === 'yes') {
+      return res.redirect('/start-already-registered')
+    }
+    return res.redirect(`/apply/${claimTypeEnum.FIRST_TIME}/new-eligibility/date-of-birth`)
   })
 }

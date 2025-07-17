@@ -15,7 +15,7 @@ module.exports = router => {
 
     return res.render('apply/eligibility/new-claim/future-or-past-visit', {
       claimType: req.session.claimType,
-      referenceId: req.session.referenceId
+      referenceId: req.session.referenceId,
     })
   })
 
@@ -42,11 +42,10 @@ module.exports = router => {
         return res.status(400).render('apply/eligibility/new-claim/future-or-past-visit', {
           errors: error.validationErrors,
           claimType: req.session.claimType,
-          referenceId: req.session.referenceId
+          referenceId: req.session.referenceId,
         })
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }

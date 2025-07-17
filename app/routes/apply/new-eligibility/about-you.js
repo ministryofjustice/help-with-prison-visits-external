@@ -9,6 +9,7 @@ const enumHelper = require('../../../constants/helpers/enum-helper')
 const relationshipHelper = require('../../../constants/prisoner-relationships-enum')
 const dateFormatter = require('../../../services/date-formatter')
 const benefitsHelper = require('../../../constants/benefits-enum')
+
 const NORTHERN_IRELAND = 'Northern Ireland'
 const SessionHandler = require('../../../services/validators/session-handler')
 
@@ -30,7 +31,7 @@ module.exports = router => {
       relationship: req.session.relationship,
       benefit: req.session.benefit,
       benefitOwner: req.session.benefitOwner,
-      referenceId: req.session.referenceId
+      referenceId: req.session.referenceId,
     })
   })
 
@@ -46,12 +47,16 @@ module.exports = router => {
     const dob = dateFormatter.decodeDate(req.session.dobEncoded)
     const relationship = enumHelper.getKeyByAttribute(relationshipHelper, req.session.relationship, 'urlValue').value
     const benefit = enumHelper.getKeyByAttribute(benefitsHelper, req.session.benefit, 'urlValue').value
-    const benefitOwner = req.session.benefitOwner
+    const { benefitOwner } = req.session
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
     const visitorDetails = req.body ?? {}
 
     try {
-      const aboutYou = new AboutYou(dob, relationship, benefit, benefitOwner,
+      const aboutYou = new AboutYou(
+        dob,
+        relationship,
+        benefit,
+        benefitOwner,
         req.body?.FirstName,
         req.body?.LastName,
         req.body?.NationalInsuranceNumber,
@@ -61,27 +66,31 @@ module.exports = router => {
         req.body?.PostCode,
         req.body?.Country,
         req.body?.EmailAddress,
-        req.body?.PhoneNumber)
+        req.body?.PhoneNumber,
+      )
 
-      const nIClaimant = aboutYou.country === NORTHERN_IRELAND || (aboutYou.postCode && aboutYou.postCode.startsWith('BT'))
+      const nIClaimant =
+        aboutYou.country === NORTHERN_IRELAND || (aboutYou.postCode && aboutYou.postCode.startsWith('BT'))
 
       if (nIClaimant) {
         return res.render('ni-claimant')
       }
 
-      duplicateClaimCheck(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou.nationalInsuranceNumber)
-        .then(function (isDuplicate) {
+      duplicateClaimCheck(
+        referenceAndEligibilityId.reference,
+        referenceAndEligibilityId.id,
+        aboutYou.nationalInsuranceNumber,
+      )
+        .then(isDuplicate => {
           if (isDuplicate) {
             return renderValidationError(req, res, visitorDetails, null, true)
           }
 
-          return insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou)
-            .then(() => {
-              return getTravellingFromAndTo(referenceAndEligibilityId.reference)
-                .then(result => {
-                  return res.redirect('/apply/eligibility/new-claim/future-or-past-visit')
-                })
+          return insertVisitor(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, aboutYou).then(() => {
+            return getTravellingFromAndTo(referenceAndEligibilityId.reference).then(result => {
+              return res.redirect('/apply/eligibility/new-claim/future-or-past-visit')
             })
+          })
         })
         .catch(error => {
           next(error)
@@ -89,14 +98,15 @@ module.exports = router => {
     } catch (error) {
       if (error instanceof ValidationError) {
         return renderValidationError(req, res, visitorDetails, error.validationErrors, false)
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }
 
-function renderValidationError (req, res, visitorDetails, validationErrors, isDuplicateClaim) {
+function renderValidationError(req, res, visitorDetails, validationErrors, isDuplicateClaim) {
   return res.status(400).render('apply/new-eligibility/about-you', {
     errors: validationErrors,
     isDuplicateClaim,
@@ -106,6 +116,6 @@ function renderValidationError (req, res, visitorDetails, validationErrors, isDu
     benefit: req.session.benefit,
     benefitOwner: req.session.benefitOwner,
     referenceId: req.session.referenceId,
-    visitor: visitorDetails
+    visitor: visitorDetails,
   })
 }

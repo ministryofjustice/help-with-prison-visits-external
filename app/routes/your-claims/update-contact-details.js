@@ -14,7 +14,7 @@ module.exports = router => {
     }
 
     return res.render('your-claims/update-contact-details', {
-      eligibilityId: req.session.eligibilityId
+      eligibilityId: req.session.eligibilityId,
     })
   })
 
@@ -27,8 +27,15 @@ module.exports = router => {
     }
 
     try {
-      const updatedContactDetails = new UpdatedContactDetails(req.body?.['email-address'] ?? '', req.body?.['phone-number'] ?? '')
-      insertEligibilityVisitorUpdatedContactDetail(req.session.decryptedRef, req.session.eligibilityId, updatedContactDetails)
+      const updatedContactDetails = new UpdatedContactDetails(
+        req.body?.['email-address'] ?? '',
+        req.body?.['phone-number'] ?? '',
+      )
+      insertEligibilityVisitorUpdatedContactDetail(
+        req.session.decryptedRef,
+        req.session.eligibilityId,
+        updatedContactDetails,
+      )
         .then(() => {
           res.redirect('/your-claims/check-your-information')
         })
@@ -40,11 +47,12 @@ module.exports = router => {
         return res.status(400).render('your-claims/update-contact-details', {
           errors: error.validationErrors,
           eligibilityId: req.session.eligibilityId,
-          contactDetails: req.body ?? {}
+          contactDetails: req.body ?? {},
         })
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }

@@ -33,7 +33,7 @@ describe('services/data/get-expense-owner-data', () => {
       .then(() => {
         return getExpenseOwnerData(claimId, eligibilityId, REFERENCE)
       })
-      .then(function (expenseOwnerData) {
+      .then(expenseOwnerData => {
         expect(expenseOwnerData.escort).to.be.true  //eslint-disable-line
         expect(expenseOwnerData.child).to.be.false  //eslint-disable-line
       })
@@ -45,7 +45,7 @@ describe('services/data/get-expense-owner-data', () => {
       .then(() => {
         return getExpenseOwnerData(claimId, eligibilityId, REFERENCE)
       })
-      .then(function (expenseOwnerData) {
+      .then(expenseOwnerData => {
         expect(expenseOwnerData.escort).to.be.false  //eslint-disable-line
         expect(expenseOwnerData.child).to.be.true  //eslint-disable-line
       })
@@ -60,14 +60,14 @@ describe('services/data/get-expense-owner-data', () => {
       .then(() => {
         return getExpenseOwnerData(claimId, eligibilityId, REFERENCE)
       })
-      .then(function (expenseOwnerData) {
+      .then(expenseOwnerData => {
         expect(expenseOwnerData.escort).to.be.true  //eslint-disable-line
         expect(expenseOwnerData.child).to.be.true  //eslint-disable-line
       })
   })
 
   it('should return false if neither a ClaimChild or ClaimEscort are associated to claim', () => {
-    return getExpenseOwnerData(claimId, eligibilityId, REFERENCE).then(function (expenseOwnerData) {
+    return getExpenseOwnerData(claimId, eligibilityId, REFERENCE).then(expenseOwnerData => {
         expect(expenseOwnerData.escort).to.be.false  //eslint-disable-line
         expect(expenseOwnerData.child).to.be.false  //eslint-disable-line
     })

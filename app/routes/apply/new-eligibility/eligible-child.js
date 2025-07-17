@@ -20,7 +20,7 @@ module.exports = router => {
       dob: req.session.dobEncoded,
       relationship: req.session.relationship,
       benefit: req.session.benefit,
-      referenceId: req.session.referenceId
+      referenceId: req.session.referenceId,
     })
   })
 
@@ -49,23 +49,22 @@ module.exports = router => {
         req.body?.Town,
         req.body?.County,
         req.body?.PostCode,
-        req.body?.Country)
+        req.body?.Country,
+      )
 
       const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
       insertNewEligibleChild(eligibleChild, referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
         .then(result => {
-          const benefitOwner = req.session.benefitOwner
+          const { benefitOwner } = req.session
 
           if (req.body?.['add-another-child']) {
             return res.redirect(req.originalUrl)
-          } else {
-            if (benefitOwner === 'no') {
-              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
-            } else {
-              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
-            }
           }
+          if (benefitOwner === 'no') {
+            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+          }
+          return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
         })
         .catch(error => {
           next(error)
@@ -73,14 +72,15 @@ module.exports = router => {
     } catch (error) {
       if (error instanceof ValidationError) {
         return renderValidationError(req, res, eligibleChildDetails, error.validationErrors)
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }
 
-function renderValidationError (req, res, eligibleChildDetails, validationErrors) {
+function renderValidationError(req, res, eligibleChildDetails, validationErrors) {
   return res.status(400).render('apply/new-eligibility/eligible-child', {
     errors: validationErrors,
     URL: req.url,
@@ -89,6 +89,6 @@ function renderValidationError (req, res, eligibleChildDetails, validationErrors
     relationship: req.session.relationship,
     benefit: req.session.benefit,
     referenceId: req.session.referenceId,
-    eligibleChild: eligibleChildDetails
+    eligibleChild: eligibleChildDetails,
   })
 }

@@ -13,14 +13,14 @@ module.exports = router => {
       req.session = SessionHandler.clearSession(req.session, req.url)
     }
 
-    if ((req.query?.error === 'expired')) {
+    if (req.query?.error === 'expired') {
       errors = { expired: [ERROR_MESSAGES.getExpiredSessionDOB] }
     }
 
     return res.render('apply/new-eligibility/date-of-birth', {
       errors,
       recovery: req.query?.recovery,
-      claimType: req.params.claimType
+      claimType: req.params.claimType,
     })
   })
 
@@ -31,7 +31,7 @@ module.exports = router => {
       const dateOfBirth = new DateOfBirth(
         req.body?.['dob-day'] ?? '',
         req.body?.['dob-month'] ?? '',
-        req.body?.['dob-year'] ?? ''
+        req.body?.['dob-year'] ?? '',
       )
 
       req.session.dobEncoded = dateOfBirth.encodedDate
@@ -42,11 +42,10 @@ module.exports = router => {
         return res.status(400).render('apply/new-eligibility/date-of-birth', {
           errors: error.validationErrors,
           claimType: req.params.claimType,
-          claimant: req.body ?? {}
+          claimant: req.body ?? {},
         })
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }

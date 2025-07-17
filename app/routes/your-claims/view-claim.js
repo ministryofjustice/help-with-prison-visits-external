@@ -16,6 +16,7 @@ const encrypt = require('../../services/helpers/encrypt')
 const getRequiredInformationWarnings = require('../helpers/get-required-information-warnings')
 const dateFormatter = require('../../services/date-formatter')
 const AWSHelper = require('../../services/aws-helper')
+
 const aws = new AWSHelper()
 
 const REFERENCE_SESSION_ERROR = '?error=expired'
@@ -24,9 +25,7 @@ module.exports = router => {
   router.get('/your-claims/:claimId', (req, res, next) => {
     UrlPathValidator(req.params)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.decryptedRef) {
+    if (!req.session || !req.session.dobEncoded || !req.session.decryptedRef) {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
@@ -37,43 +36,50 @@ module.exports = router => {
       .then(claimDetails => {
         const referenceId = referenceIdHelper.getReferenceId(req.session.decryptedRef, claimDetails.claim.EligibilityId)
         const isRequestInfoPayment = claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT'
-        const addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
+        const addInformation = getRequiredInformationWarnings(
+          claimDetails.claim.Status,
           claimDetails.claim.BenefitStatus,
           claimDetails.claim.benefitDocument[0],
           claimDetails.claim.VisitConfirmationCheck,
           claimDetails.claim.visitConfirmation,
           claimDetails.claimExpenses,
-          isRequestInfoPayment)
-        return res.render('your-claims/view-claim',
-          {
-            reference: req.session.decryptedRef,
-            referenceId,
-            dob: dobDecoded,
-            claimId: req.session.claimId,
-            claimDetails,
-            dateHelper,
-            claimExpenseHelper,
-            displayHelper,
-            URL: req.url,
-            forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney, req.query?.updated),
-            viewClaim: true,
-            claimStatusHelper,
-            claimEventHelper,
-            isRequestInfoPayment,
-            forReview: claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED' || req.query?.updated,
-            updated: req.query?.updated,
-            addInformation
-          })
+          isRequestInfoPayment,
+        )
+        return res.render('your-claims/view-claim', {
+          reference: req.session.decryptedRef,
+          referenceId,
+          dob: dobDecoded,
+          claimId: req.session.claimId,
+          claimDetails,
+          dateHelper,
+          claimExpenseHelper,
+          displayHelper,
+          URL: req.url,
+          forEdit: forEdit(
+            claimDetails.claim.Status,
+            claimDetails.claim.IsAdvanceClaim,
+            claimDetails.claim.DateOfJourney,
+            req.query?.updated,
+          ),
+          viewClaim: true,
+          claimStatusHelper,
+          claimEventHelper,
+          isRequestInfoPayment,
+          forReview:
+            claimDetails.claim.Status === 'NEW' || claimDetails.claim.Status === 'UPDATED' || req.query?.updated,
+          updated: req.query?.updated,
+          addInformation,
+        })
       })
       .catch(error => next(error))
+
+    return null
   })
 
   router.post('/your-claims/:claimId', (req, res, next) => {
     UrlPathValidator(req.params)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.decryptedRef) {
+    if (!req.session || !req.session.dobEncoded || !req.session.decryptedRef) {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
@@ -90,75 +96,97 @@ module.exports = router => {
     const encryptedRef = encrypt(req.session.decryptedRef)
     let bankDetails
 
-    getViewClaim(req.session.claimId, req.session.decryptedRef, dobDecoded)
-      .then(claimDetails => {
-        try {
-          const benefit = claimDetails.claim.benefitDocument
-          if (benefit.length <= 0) {
-            benefit.push({ fromInternalWeb: true })
-          }
-
-          bankDetails = { accountNumber: AccountNumber, sortCode: SortCode, required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT', nameOnAccount: NameOnAccount, rollNumber: RollNumber }
-          const claim = new ViewClaim(claimDetails.claim.visitConfirmation.fromInternalWeb, benefit[0].fromInternalWeb, claimDetails.claimExpenses, message) // eslint-disable-line no-unused-vars
-          submitUpdate(req.session.decryptedRef, claimDetails.claim.EligibilityId, req.session.claimId, message, bankDetails, assistedDigitalCookie)
-            .then(() => {
-              return res.redirect(`/your-claims/${req.session.claimId}?updated=true`)
-            })
-        } catch (error) {
-          if (error instanceof ValidationError) {
-            const referenceId = referenceIdHelper.getReferenceId(encryptedRef, claimDetails.claim.EligibilityId)
-            const isRequestInfoPayment = bankDetails.required
-            const addInformation = getRequiredInformationWarnings(claimDetails.claim.Status,
-              claimDetails.claim.BenefitStatus,
-              claimDetails.claim.benefitDocument[0],
-              claimDetails.claim.VisitConfirmationCheck,
-              claimDetails.claim.visitConfirmation,
-              claimDetails.claimExpenses,
-              isRequestInfoPayment)
-            return res.status(400).render('your-claims/view-claim', {
-              errors: error.validationErrors,
-              reference: req.session.decryptedRef,
-              referenceId,
-              claimId: req.session.claimId,
-              claimDetails,
-              dateHelper,
-              dob: dobDecoded,
-              claimExpenseHelper,
-              displayHelper,
-              URL: req.url,
-              forEdit: forEdit(claimDetails.claim.Status, claimDetails.claim.IsAdvanceClaim, claimDetails.claim.DateOfJourney),
-              viewClaim: true,
-              claimEventHelper,
-              bankDetails: { AccountNumber, SortCode, NameOnAccount, RollNumber },
-              isRequestInfoPayment,
-              addInformation,
-              claimStatusHelper
-            })
-          } else {
-            next(error)
-          }
+    getViewClaim(req.session.claimId, req.session.decryptedRef, dobDecoded).then(claimDetails => {
+      try {
+        const benefit = claimDetails.claim.benefitDocument
+        if (benefit.length <= 0) {
+          benefit.push({ fromInternalWeb: true })
         }
-      })
+
+        bankDetails = {
+          accountNumber: AccountNumber,
+          sortCode: SortCode,
+          required: claimDetails.claim.Status === 'REQUEST-INFO-PAYMENT',
+          nameOnAccount: NameOnAccount,
+          rollNumber: RollNumber,
+        }
+        // eslint-disable-next-line no-new
+        new ViewClaim(
+          claimDetails.claim.visitConfirmation.fromInternalWeb,
+          benefit[0].fromInternalWeb,
+          claimDetails.claimExpenses,
+          message,
+        )
+        submitUpdate(
+          req.session.decryptedRef,
+          claimDetails.claim.EligibilityId,
+          req.session.claimId,
+          message,
+          bankDetails,
+          assistedDigitalCookie,
+        ).then(() => {
+          return res.redirect(`/your-claims/${req.session.claimId}?updated=true`)
+        })
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          const referenceId = referenceIdHelper.getReferenceId(encryptedRef, claimDetails.claim.EligibilityId)
+          const isRequestInfoPayment = bankDetails.required
+          const addInformation = getRequiredInformationWarnings(
+            claimDetails.claim.Status,
+            claimDetails.claim.BenefitStatus,
+            claimDetails.claim.benefitDocument[0],
+            claimDetails.claim.VisitConfirmationCheck,
+            claimDetails.claim.visitConfirmation,
+            claimDetails.claimExpenses,
+            isRequestInfoPayment,
+          )
+          return res.status(400).render('your-claims/view-claim', {
+            errors: error.validationErrors,
+            reference: req.session.decryptedRef,
+            referenceId,
+            claimId: req.session.claimId,
+            claimDetails,
+            dateHelper,
+            dob: dobDecoded,
+            claimExpenseHelper,
+            displayHelper,
+            URL: req.url,
+            forEdit: forEdit(
+              claimDetails.claim.Status,
+              claimDetails.claim.IsAdvanceClaim,
+              claimDetails.claim.DateOfJourney,
+            ),
+            viewClaim: true,
+            claimEventHelper,
+            bankDetails: { AccountNumber, SortCode, NameOnAccount, RollNumber },
+            isRequestInfoPayment,
+            addInformation,
+            claimStatusHelper,
+          })
+        }
+        next(error)
+      }
+
+      return null
+    })
+
+    return null
   })
 
   router.get('/your-claims/:claimId/view-document/:claimDocumentId', (req, res, next) => {
     UrlPathValidator(req.params)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.decryptedRef) {
+    if (!req.session || !req.session.dobEncoded || !req.session.decryptedRef) {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
     getClaimDocumentFilePath(req.params.claimDocumentId)
       .then(async result => {
-        console.log(result)
         const path = result.Filepath
         if (path) {
           try {
             const fileName = `HwPV-Upload.${path.split('.').pop()}`
             const awsDownloadPath = await aws.download(path)
-console.log(awsDownloadPath)
             return res.download(awsDownloadPath, fileName)
           } catch (error) {
             next(error)
@@ -166,18 +194,19 @@ console.log(awsDownloadPath)
         } else {
           throw new Error('No path to file provided')
         }
+        return null
       })
       .catch(error => {
         next(error)
       })
+
+    return null
   })
 
   router.post('/your-claims/:claimId/remove-document/:claimDocumentId', (req, res, next) => {
     UrlPathValidator(req.params)
 
-    if (!req.session ||
-        !req.session.dobEncoded ||
-        !req.session.decryptedRef) {
+    if (!req.session || !req.session.dobEncoded || !req.session.decryptedRef) {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
@@ -185,16 +214,20 @@ console.log(awsDownloadPath)
       .then(() => {
         if (req.query?.multipage) {
           return res.redirect(`/your-claims/${req.params.claimId}`)
-        } else {
-          if (req.query?.claimExpenseId) {
-            return res.redirect(`/your-claims/${req.params.claimId}/file-upload?document=${req.query?.document}&claimExpenseId=${req.query?.claimExpenseId}&eligibilityId=${req.query?.eligibilityId}`)
-          } else {
-            return res.redirect(`/your-claims/${req.params.claimId}/file-upload?document=${req.query?.document}&eligibilityId=${req.query?.eligibilityId}`)
-          }
         }
+        if (req.query?.claimExpenseId) {
+          return res.redirect(
+            `/your-claims/${req.params.claimId}/file-upload?document=${req.query?.document}&claimExpenseId=${req.query?.claimExpenseId}&eligibilityId=${req.query?.eligibilityId}`,
+          )
+        }
+        return res.redirect(
+          `/your-claims/${req.params.claimId}/file-upload?document=${req.query?.document}&eligibilityId=${req.query?.eligibilityId}`,
+        )
       })
       .catch(error => {
         next(error)
       })
+
+    return null
   })
 }

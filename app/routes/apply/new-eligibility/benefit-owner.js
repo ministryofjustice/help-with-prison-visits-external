@@ -19,7 +19,7 @@ module.exports = router => {
       dob: req.session.dobEncoded,
       relationship: req.session.relationship,
       benefit: req.session.benefit,
-      referenceId: req.session.referenceId
+      referenceId: req.session.referenceId,
     })
   })
 
@@ -40,7 +40,8 @@ module.exports = router => {
         req.body?.['dob-day'] ?? '',
         req.body?.['dob-month'] ?? '',
         req.body?.['dob-year'] ?? '',
-        req.body?.NationalInsuranceNumber)
+        req.body?.NationalInsuranceNumber,
+      )
 
       const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
@@ -54,14 +55,13 @@ module.exports = router => {
     } catch (error) {
       if (error instanceof ValidationError) {
         return renderValidationError(req, res, benefitOwnerBody, error.validationErrors, false)
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }
 
-function renderValidationError (req, res, benefitOwnerBody, validationErrors, isDuplicateClaim) {
+function renderValidationError(req, res, benefitOwnerBody, validationErrors, isDuplicateClaim) {
   return res.status(400).render('apply/new-eligibility/benefit-owner', {
     errors: validationErrors,
     isDuplicateClaim,
@@ -70,6 +70,6 @@ function renderValidationError (req, res, benefitOwnerBody, validationErrors, is
     relationship: req.session.relationship,
     benefit: req.session.benefit,
     referenceId: req.session.referenceId,
-    benefitOwner: benefitOwnerBody
+    benefitOwner: benefitOwnerBody,
   })
 }

@@ -9,7 +9,7 @@ const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-clai
 const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = router => {
-  router.get('/apply/eligibility/claim/train', (req, res) => {
+  router.get('/apply/eligibility/claim/train', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -20,14 +20,18 @@ module.exports = router => {
     const claim = {}
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
     getIsAdvanceClaim(req.session.claimId)
-      .then(function (isAdvanceClaim) {
+      .then(isAdvanceClaim => {
         claim.isAdvanceClaim = isAdvanceClaim
         req.session.isAdvanceClaim = isAdvanceClaim
       })
       .then(() => {
-        return getExpenseOwnerData(req.session.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
+        return getExpenseOwnerData(
+          req.session.claimId,
+          referenceAndEligibilityId.id,
+          referenceAndEligibilityId.reference,
+        )
       })
-      .then(function (expenseOwnerData) {
+      .then(expenseOwnerData => {
         return res.render('apply/eligibility/claim/train-details', {
           claimType: req.session.claimType,
           referenceId: req.session.referenceId,
@@ -35,9 +39,11 @@ module.exports = router => {
           expenseOwners: expenseOwnerData,
           params: expenseUrlRouter.parseParams(req.query),
           redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-          isAdvanceClaim: claim.isAdvanceClaim
+          isAdvanceClaim: claim.isAdvanceClaim,
         })
       })
+
+    return null
   })
 
   router.post('/apply/eligibility/claim/train', (req, res, next) => {
@@ -49,7 +55,7 @@ module.exports = router => {
     }
 
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    const isAdvanceClaim = req.session.isAdvanceClaim
+    const { isAdvanceClaim } = req.session
     try {
       const expense = new TrainExpense(
         req.body?.cost,
@@ -59,7 +65,7 @@ module.exports = router => {
         req.body?.['ticket-owner'] ?? '',
         req.body?.['departure-time'] ?? '',
         req.body?.['return-time'] ?? '',
-        isAdvanceClaim
+        isAdvanceClaim,
       )
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
@@ -71,23 +77,27 @@ module.exports = router => {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        return getExpenseOwnerData(req.session.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
-          .then(function (expenseOwnerData) {
-            return res.status(400).render('apply/eligibility/claim/train-details', {
-              errors: error.validationErrors,
-              claimType: req.session.claimType,
-              referenceId: req.session.referenceId,
-              claimId: req.session.claimId,
-              expenseOwners: expenseOwnerData,
-              params: expenseUrlRouter.parseParams(req.query),
-              redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-              expense: req.body ?? {},
-              isAdvanceClaim
-            })
+        return getExpenseOwnerData(
+          req.session.claimId,
+          referenceAndEligibilityId.id,
+          referenceAndEligibilityId.reference,
+        ).then(expenseOwnerData => {
+          return res.status(400).render('apply/eligibility/claim/train-details', {
+            errors: error.validationErrors,
+            claimType: req.session.claimType,
+            referenceId: req.session.referenceId,
+            claimId: req.session.claimId,
+            expenseOwners: expenseOwnerData,
+            params: expenseUrlRouter.parseParams(req.query),
+            redirectUrl: expenseUrlRouter.getRedirectUrl(req),
+            expense: req.body ?? {},
+            isAdvanceClaim,
           })
-      } else {
-        throw error
+        })
       }
+      throw error
     }
+
+    return null
   })
 }

@@ -23,7 +23,7 @@ module.exports = router => {
     return res.render('apply/new-eligibility/benefits', {
       URL: req.url,
       relationship,
-      showYCS: !!req.cookies['apvs-assisted-digital']
+      showYCS: !!req.cookies['apvs-assisted-digital'],
     })
   })
 
@@ -46,7 +46,7 @@ module.exports = router => {
     try {
       const benefits = new Benefits(req.body?.benefit, req.body?.benefitOwner)
 
-      const benefit = benefits.benefit
+      const { benefit } = benefits
       req.session.benefit = req.body?.benefit
       req.session.benefitOwner = req.body?.benefitOwner
 
@@ -60,11 +60,10 @@ module.exports = router => {
         return res.status(400).render('apply/new-eligibility/benefits', {
           errors: error.validationErrors,
           URL: req.url,
-          relationship
+          relationship,
         })
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }

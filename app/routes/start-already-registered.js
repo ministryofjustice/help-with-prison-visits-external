@@ -11,9 +11,9 @@ module.exports = router => {
 
     if (req.query?.error === 'yes') {
       errors = { invalidReferenceNumberAndDob: [ERROR_MESSAGES.getInvalidReferenceNumberAndDob] }
-    } else if ((req.query?.error === 'expired')) {
+    } else if (req.query?.error === 'expired') {
       errors = { expired: [ERROR_MESSAGES.getExpiredSession] }
-    } else if ((req.query?.error === 'disabled')) {
+    } else if (req.query?.error === 'disabled') {
       errors = { expired: [ERROR_MESSAGES.getReferenceDisabled] }
     }
     return res.render('start-already-registered', { errors, recovery: req.query?.recovery })
@@ -39,11 +39,10 @@ module.exports = router => {
           dobMonth: month,
           dobYear: year,
           reference,
-          errors: error.validationErrors
+          errors: error.validationErrors,
         })
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }

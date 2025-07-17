@@ -21,7 +21,7 @@ module.exports = router => {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
       claimId: req.session.claimId,
-      isAdvance: req.query?.isAdvance
+      isAdvance: req.query?.isAdvance,
     })
   })
 
@@ -36,9 +36,19 @@ module.exports = router => {
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
-      const bankAccountDetails = new BankAccountDetails(req.body?.AccountNumber, req.body?.SortCode, req.body?.NameOnAccount, req.body?.RollNumber)
+      const bankAccountDetails = new BankAccountDetails(
+        req.body?.AccountNumber,
+        req.body?.SortCode,
+        req.body?.NameOnAccount,
+        req.body?.RollNumber,
+      )
       const redirectURL = `/apply/eligibility/claim/declaration?isAdvance=${req.query?.isAdvance}`
-      insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, bankAccountDetails)
+      insertBankAccountDetailsForClaim(
+        referenceAndEligibilityId.reference,
+        referenceAndEligibilityId.id,
+        req.session.claimId,
+        bankAccountDetails,
+      )
         .then(() => {
           return res.redirect(redirectURL)
         })
@@ -53,11 +63,12 @@ module.exports = router => {
           paymentDetails: req.body ?? {},
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          isAdvance: req.query?.isAdvance
+          isAdvance: req.query?.isAdvance,
         })
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }

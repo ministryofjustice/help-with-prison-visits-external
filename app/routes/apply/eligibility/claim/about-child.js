@@ -17,7 +17,7 @@ module.exports = router => {
     return res.render('apply/eligibility/claim/about-child', {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
-      claimId: req.session.claimId
+      claimId: req.session.claimId,
     })
   })
 
@@ -38,16 +38,15 @@ module.exports = router => {
         req.body?.['dob-day'] ?? '',
         req.body?.['dob-month'] ?? '',
         req.body?.['dob-year'] ?? '',
-        req.body?.['child-relationship'] ?? ''
+        req.body?.['child-relationship'] ?? '',
       )
 
       insertChild(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, child)
         .then(() => {
           if (req.body?.['add-another-child']) {
             return res.redirect(req.originalUrl)
-          } else {
-            return res.redirect('/apply/eligibility/claim/expenses')
           }
+          return res.redirect('/apply/eligibility/claim/expenses')
         })
         .catch(error => {
           next(error)
@@ -59,11 +58,12 @@ module.exports = router => {
           claimType: req.session.claimType,
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          claimant: req.body ?? {}
+          claimant: req.body ?? {},
         })
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }

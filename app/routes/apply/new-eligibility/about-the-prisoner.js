@@ -20,7 +20,7 @@ module.exports = router => {
       URL: req.url,
       prisonerNumber: req.session.prisonerNumber,
       displayHelper,
-      showYCS: !!req.cookies['apvs-assisted-digital']
+      showYCS: !!req.cookies['apvs-assisted-digital'],
     })
   })
 
@@ -33,19 +33,21 @@ module.exports = router => {
     }
 
     try {
-      const aboutThePrisoner = new AboutThePrisoner(req.body?.FirstName,
+      const aboutThePrisoner = new AboutThePrisoner(
+        req.body?.FirstName,
         req.body?.LastName,
         req.body?.['dob-day'] ?? '',
         req.body?.['dob-month'] ?? '',
         req.body?.['dob-year'] ?? '',
         req.body?.PrisonerNumber,
-        req.body?.NameOfPrison)
+        req.body?.NameOfPrison,
+      )
 
       insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.session.decryptedRef)
         .then(result => {
           req.session.referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
           req.session.decryptedRef = result.reference
-          const benefitOwner = req.session.benefitOwner
+          const { benefitOwner } = req.session
           const relationships = Object.keys(prisonerRelationshipEnum)
           let relationship
           for (const r of relationships) {
@@ -55,13 +57,11 @@ module.exports = router => {
           }
           if (relationship === 'eligible-child') {
             return res.redirect(`/apply/${req.params.claimType}/new-eligibility/eligible-child`)
-          } else {
-            if (benefitOwner === 'no') {
-              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
-            } else {
-              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
-            }
           }
+          if (benefitOwner === 'no') {
+            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+          }
+          return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
         })
         .catch(error => {
           next(error)
@@ -73,11 +73,12 @@ module.exports = router => {
           URL: req.url,
           prisonerNumber: (req.body && req.query['prisoner-number']) ?? '',
           prisoner: req.body ?? {},
-          displayHelper
+          displayHelper,
         })
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }

@@ -9,7 +9,7 @@ const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-clai
 const SessionHandler = require('../../../../services/validators/session-handler')
 
 module.exports = router => {
-  router.get('/apply/eligibility/claim/ferry', (req, res) => {
+  router.get('/apply/eligibility/claim/ferry', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -18,21 +18,25 @@ module.exports = router => {
     }
 
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    getIsAdvanceClaim(req.session.claimId)
-      .then(function (isAdvanceClaim) {
-        return getExpenseOwnerData(req.session.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
-          .then(function (expenseOwnerData) {
-            return res.render('apply/eligibility/claim/ferry-details', {
-              claimType: req.session.claimType,
-              referenceId: req.session.referenceId,
-              claimId: req.session.claimId,
-              expenseOwners: expenseOwnerData,
-              params: expenseUrlRouter.parseParams(req.query),
-              redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-              isAdvanceClaim
-            })
-          })
+    getIsAdvanceClaim(req.session.claimId).then(isAdvanceClaim => {
+      return getExpenseOwnerData(
+        req.session.claimId,
+        referenceAndEligibilityId.id,
+        referenceAndEligibilityId.reference,
+      ).then(expenseOwnerData => {
+        return res.render('apply/eligibility/claim/ferry-details', {
+          claimType: req.session.claimType,
+          referenceId: req.session.referenceId,
+          claimId: req.session.claimId,
+          expenseOwners: expenseOwnerData,
+          params: expenseUrlRouter.parseParams(req.query),
+          redirectUrl: expenseUrlRouter.getRedirectUrl(req),
+          isAdvanceClaim,
+        })
       })
+    })
+
+    return null
   })
 
   router.post('/apply/eligibility/claim/ferry', (req, res, next) => {
@@ -52,7 +56,7 @@ module.exports = router => {
         req.body?.to,
         req.body?.['return-journey'] ?? '',
         req.body?.['ticket-type'] ?? '',
-        req.body?.['ticket-owner'] ?? ''
+        req.body?.['ticket-owner'] ?? '',
       )
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
@@ -64,26 +68,30 @@ module.exports = router => {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        getIsAdvanceClaim(req.session.claimId)
-          .then(function (isAdvanceClaim) {
-            return getExpenseOwnerData(req.session.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
-              .then(function (expenseOwnerData) {
-                return res.status(400).render('apply/eligibility/claim/ferry-details', {
-                  errors: error.validationErrors,
-                  claimType: req.session.claimType,
-                  referenceId: req.session.referenceId,
-                  claimId: req.session.claimId,
-                  expenseOwners: expenseOwnerData,
-                  params: expenseUrlRouter.parseParams(req.query),
-                  redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-                  expense: req.body ?? {},
-                  isAdvanceClaim
-                })
-              })
+        getIsAdvanceClaim(req.session.claimId).then(isAdvanceClaim => {
+          return getExpenseOwnerData(
+            req.session.claimId,
+            referenceAndEligibilityId.id,
+            referenceAndEligibilityId.reference,
+          ).then(expenseOwnerData => {
+            return res.status(400).render('apply/eligibility/claim/ferry-details', {
+              errors: error.validationErrors,
+              claimType: req.session.claimType,
+              referenceId: req.session.referenceId,
+              claimId: req.session.claimId,
+              expenseOwners: expenseOwnerData,
+              params: expenseUrlRouter.parseParams(req.query),
+              redirectUrl: expenseUrlRouter.getRedirectUrl(req),
+              expense: req.body ?? {},
+              isAdvanceClaim,
+            })
           })
+        })
       } else {
         throw error
       }
     }
+
+    return null
   })
 }

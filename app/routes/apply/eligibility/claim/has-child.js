@@ -15,7 +15,7 @@ module.exports = router => {
     return res.render('apply/eligibility/claim/has-child', {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
-      claimId: req.session.claimId
+      claimId: req.session.claimId,
     })
   })
 
@@ -31,20 +31,18 @@ module.exports = router => {
       const hasChild = new HasChild(req.body?.['has-child'] ?? '')
       if (hasChild.hasChild === 'yes') {
         return res.redirect('/apply/eligibility/claim/about-child')
-      } else {
-        return res.redirect('/apply/eligibility/claim/expenses')
       }
+      return res.redirect('/apply/eligibility/claim/expenses')
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/eligibility/claim/has-child', {
           errors: error.validationErrors,
           claimType: req.session.claimType,
           referenceId: req.session.referenceId,
-          claimId: req.session.claimId
+          claimId: req.session.claimId,
         })
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }

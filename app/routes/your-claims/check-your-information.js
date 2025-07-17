@@ -21,7 +21,11 @@ module.exports = router => {
 
     const dobDecoded = dateFormatter.decodeDate(req.session.dobEncoded)
 
-    getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'), null)
+    getRepeatEligibility(
+      req.session.decryptedRef,
+      dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'),
+      null,
+    )
       .then(eligibility => {
         req.session.prisonerNumber = eligibility.PrisonNumber
         req.session.eligibilityId = eligibility.EligibilityId
@@ -30,12 +34,14 @@ module.exports = router => {
           dob: dobDecoded,
           reference: req.session.decryptedRef,
           eligibility,
-          displayHelper
+          displayHelper,
         })
       })
       .catch(error => {
         next(error)
       })
+
+    return null
   })
 
   router.post('/your-claims/check-your-information', (req, res, next) => {
@@ -55,7 +61,11 @@ module.exports = router => {
 
       new CheckYourInformation(req.body?.['confirm-correct']) // eslint-disable-line no-new
 
-      getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'), null)
+      getRepeatEligibility(
+        req.session.decryptedRef,
+        dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'),
+        null,
+      )
         .then(eligibility => {
           const nameOfPrison = eligibility.NameOfPrison
           const isNorthernIrelandClaim = eligibility.Country === NORTHERN_IRELAND
@@ -78,22 +88,28 @@ module.exports = router => {
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        getRepeatEligibility(req.session.decryptedRef, dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'), null)
+        getRepeatEligibility(
+          req.session.decryptedRef,
+          dateFormatter.buildFromDateString(dobDecoded).format('YYYY-MM-DD'),
+          null,
+        )
           .then(eligibility => {
             return res.status(400).render('your-claims/check-your-information', {
               errors: error.validationErrors,
               dob: req.session.dobEncoded,
               reference: req.session.decryptedRef,
               eligibility,
-              displayHelper
+              displayHelper,
             })
           })
-          .catch(error => {
-            next(error)
+          .catch(innerError => {
+            next(innerError)
           })
       } else {
         throw error
       }
     }
+
+    return null
   })
 }

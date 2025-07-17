@@ -17,7 +17,7 @@ module.exports = router => {
     return res.render('apply/eligibility/claim/about-escort', {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
-      claimId: req.session.claimId
+      claimId: req.session.claimId,
     })
   })
 
@@ -37,7 +37,7 @@ module.exports = router => {
         req.body?.LastName,
         req.body?.['dob-day'] ?? '',
         req.body?.['dob-month'] ?? '',
-        req.body?.['dob-year'] ?? ''
+        req.body?.['dob-year'] ?? '',
       )
 
       insertEscort(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, escort)
@@ -54,11 +54,12 @@ module.exports = router => {
           claimType: req.session.claimType,
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          escort: req.body ?? {}
+          escort: req.body ?? {},
         })
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }

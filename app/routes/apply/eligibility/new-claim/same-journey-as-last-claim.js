@@ -21,22 +21,23 @@ module.exports = router => {
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true, isAdvancedClaim)
-      .then(function (lastClaimDetails) {
+      .then(lastClaimDetails => {
         if (lastClaimDetails.expenses[0]) {
           return res.render('apply/eligibility/new-claim/same-journey-as-last-claim', {
             referenceId: req.session.referenceId,
             advanceOrPast: req.session.advanceOrPast,
             lastClaimDetails,
             claimExpenseHelper,
-            displayHelper
+            displayHelper,
           })
-        } else {
-          return res.redirect('/apply/eligibility/new-claim/journey-information')
         }
+        return res.redirect('/apply/eligibility/new-claim/journey-information')
       })
       .catch(error => {
         next(error)
       })
+
+    return null
   })
 
   router.post('/apply/eligibility/new-claim/same-journey-as-last-claim', (req, res, next) => {
@@ -53,7 +54,7 @@ module.exports = router => {
       new SameJourneyAsLastClaim(req.body?.['same-journey-as-last-claim'] ?? '') // eslint-disable-line no-new
 
       req.session.claimType = 'repeat'
-      if (req.body && (req.body['same-journey-as-last-claim'] === 'yes')) {
+      if (req.body && req.body['same-journey-as-last-claim'] === 'yes') {
         req.session.claimType = 'repeat-duplicate'
       }
 
@@ -61,22 +62,24 @@ module.exports = router => {
     } catch (error) {
       if (error instanceof ValidationError) {
         getLastClaimDetails(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, true)
-          .then(function (lastClaimDetails) {
+          .then(lastClaimDetails => {
             return res.status(400).render('apply/eligibility/new-claim/same-journey-as-last-claim', {
               errors: error.validationErrors,
               referenceId: req.session.referenceId,
               advanceOrPast: req.session.advanceOrPast,
               lastClaimDetails,
               claimExpenseHelper,
-              displayHelper
+              displayHelper,
             })
           })
-          .catch(error => {
-            next(error)
+          .catch(innerError => {
+            next(innerError)
           })
       } else {
         throw error
       }
     }
+
+    return null
   })
 }
