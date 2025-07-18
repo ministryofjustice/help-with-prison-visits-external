@@ -1,4 +1,4 @@
-$('#document').change(() => {
+$('#document').change(function () {
   const document = $('#document').val().replace(/\\/g, '/').replace(/.*\//, '')
   if (document) {
     $('#alternative').hide()

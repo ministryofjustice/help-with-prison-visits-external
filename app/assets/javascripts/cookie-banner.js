@@ -1,7 +1,7 @@
 /* eslint-disable */
 // From https://github.com/alphagov/govuk_template_jinja
 
-(() => {
+(function () {
   "use strict"
   var root = this;
   if(typeof root.GOVUK === 'undefined') { root.GOVUK = {}; }
@@ -62,12 +62,12 @@
     return null;
   };
 }).call(this);
-(() => {
+(function () {
   'use strict'
   var root = this
   if (typeof root.GOVUK === 'undefined') { root.GOVUK = {} }
 
-  GOVUK.addCookieMessage = () => {
+  GOVUK.addCookieMessage = function () {
     var message = document.getElementById('global-cookie-message')
 
     var hasCookieMessage = (message && GOVUK.cookie('seen_cookie_message') === null)
