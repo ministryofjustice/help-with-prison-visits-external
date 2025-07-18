@@ -1,9 +1,7 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 
-module.exports = function (claimExpenseId) {
+module.exports = claimExpenseId => {
   const db = getDatabaseConnector()
 
-  return db('ClaimExpense')
-    .select('IsEnabled')
-    .where({ ClaimExpenseId: claimExpenseId })
+  return db('ClaimExpense').select('IsEnabled').where({ ClaimExpenseId: claimExpenseId })
 }

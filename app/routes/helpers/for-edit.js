@@ -1,6 +1,6 @@
 const moment = require('moment')
 
-module.exports = function (status, isAdvance, dateOfJourney, updated) {
+module.exports = (status, isAdvance, dateOfJourney, updated) => {
   let forEdit = false
   if (updated) {
     return forEdit
@@ -15,11 +15,11 @@ module.exports = function (status, isAdvance, dateOfJourney, updated) {
   return forEdit
 }
 
-function advanceEdit (dateOfJourney) {
-  let advanceEdit = false
+function advanceEdit(dateOfJourney) {
+  let doAdvanceEdit = false
   const currentDate = moment()
   if (moment(dateOfJourney).isSameOrBefore(currentDate, 'day')) {
-    advanceEdit = true
+    doAdvanceEdit = true
   }
-  return advanceEdit
+  return doAdvanceEdit
 }

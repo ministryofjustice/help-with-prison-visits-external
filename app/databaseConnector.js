@@ -4,7 +4,7 @@ const { KNEX_CONFIG } = require('../config')
 
 let cachedConnection
 
-function getDatabaseConnector (connectionDetails = KNEX_CONFIG) {
+function getDatabaseConnector(connectionDetails = KNEX_CONFIG) {
   const knexConfig = require('../knexfile')[connectionDetails]
 
   if (cachedConnection) {
@@ -16,5 +16,5 @@ function getDatabaseConnector (connectionDetails = KNEX_CONFIG) {
 }
 
 module.exports = {
-  getDatabaseConnector
+  getDatabaseConnector,
 }

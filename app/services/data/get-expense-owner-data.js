@@ -1,23 +1,22 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 
-module.exports = function (claimId, eligibilityId, reference) {
+module.exports = (claimId, eligibilityId, reference) => {
   const result = {}
   return getAnyClaimChildren(claimId, eligibilityId, reference)
-    .then(function (child) {
+    .then(child => {
       result.child = child.length !== 0
       return getAnyClaimEscorts(claimId, eligibilityId, reference)
     })
-    .then(function (escort) {
+    .then(escort => {
       result.escort = escort.length !== 0
-      return getAnyEligibleChildren(eligibilityId, reference)
-        .then(function (eligibleChildren) {
-          result.eligibleChildren = eligibleChildren.length !== 0
-          return result
-        })
+      return getAnyEligibleChildren(eligibilityId, reference).then(eligibleChildren => {
+        result.eligibleChildren = eligibleChildren.length !== 0
+        return result
+      })
     })
 }
 
-function getAnyClaimChildren (claimId, eligibilityId, reference) {
+function getAnyClaimChildren(claimId, eligibilityId, reference) {
   const db = getDatabaseConnector()
 
   return db('ClaimChild')
@@ -25,12 +24,12 @@ function getAnyClaimChildren (claimId, eligibilityId, reference) {
       ClaimId: claimId,
       EligibilityId: eligibilityId,
       Reference: reference,
-      IsEnabled: true
+      IsEnabled: true,
     })
     .select('ClaimChildId')
 }
 
-function getAnyClaimEscorts (claimId, eligibilityId, reference) {
+function getAnyClaimEscorts(claimId, eligibilityId, reference) {
   const db = getDatabaseConnector()
 
   return db('ClaimEscort')
@@ -38,12 +37,12 @@ function getAnyClaimEscorts (claimId, eligibilityId, reference) {
       ClaimId: claimId,
       EligibilityId: eligibilityId,
       Reference: reference,
-      IsEnabled: true
+      IsEnabled: true,
     })
     .select('ClaimEscortId')
 }
 
-function getAnyEligibleChildren (eligibilityId, reference) {
+function getAnyEligibleChildren(eligibilityId, reference) {
   const db = getDatabaseConnector()
 
   return db.raw('SELECT * FROM [IntSchema].[getEligibleChildren] (?, ?)', [reference, eligibilityId])

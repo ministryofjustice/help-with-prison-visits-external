@@ -4,8 +4,8 @@ const ValidationError = require('../../services/errors/validation-error')
 const insertEligibilityVisitorUpdatedContactDetail = require('../../services/data/insert-eligibility-visitor-updated-contact-detail')
 const SessionHandler = require('../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/your-claims/update-contact-details', function (req, res) {
+module.exports = router => {
+  router.get('/your-claims/update-contact-details', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -14,11 +14,11 @@ module.exports = function (router) {
     }
 
     return res.render('your-claims/update-contact-details', {
-      eligibilityId: req.session.eligibilityId
+      eligibilityId: req.session.eligibilityId,
     })
   })
 
-  router.post('/your-claims/update-contact-details', function (req, res, next) {
+  router.post('/your-claims/update-contact-details', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -27,12 +27,19 @@ module.exports = function (router) {
     }
 
     try {
-      const updatedContactDetails = new UpdatedContactDetails(req.body?.['email-address'] ?? '', req.body?.['phone-number'] ?? '')
-      insertEligibilityVisitorUpdatedContactDetail(req.session.decryptedRef, req.session.eligibilityId, updatedContactDetails)
-        .then(function () {
+      const updatedContactDetails = new UpdatedContactDetails(
+        req.body?.['email-address'] ?? '',
+        req.body?.['phone-number'] ?? '',
+      )
+      insertEligibilityVisitorUpdatedContactDetail(
+        req.session.decryptedRef,
+        req.session.eligibilityId,
+        updatedContactDetails,
+      )
+        .then(() => {
           res.redirect('/your-claims/check-your-information')
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {
@@ -40,11 +47,12 @@ module.exports = function (router) {
         return res.status(400).render('your-claims/update-contact-details', {
           errors: error.validationErrors,
           eligibilityId: req.session.eligibilityId,
-          contactDetails: req.body ?? {}
+          contactDetails: req.body ?? {},
         })
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }

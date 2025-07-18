@@ -3,23 +3,23 @@ const ValidationError = require('../services/errors/validation-error')
 const ERROR_MESSAGES = require('../services/validators/validation-error-messages')
 const SessionHandler = require('../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/start-already-registered', function (req, res) {
+module.exports = router => {
+  router.get('/start-already-registered', (req, res) => {
     let errors
 
     req.session = SessionHandler.clearSession(req.session, req.url)
 
     if (req.query?.error === 'yes') {
       errors = { invalidReferenceNumberAndDob: [ERROR_MESSAGES.getInvalidReferenceNumberAndDob] }
-    } else if ((req.query?.error === 'expired')) {
+    } else if (req.query?.error === 'expired') {
       errors = { expired: [ERROR_MESSAGES.getExpiredSession] }
-    } else if ((req.query?.error === 'disabled')) {
+    } else if (req.query?.error === 'disabled') {
       errors = { expired: [ERROR_MESSAGES.getReferenceDisabled] }
     }
     return res.render('start-already-registered', { errors, recovery: req.query?.recovery })
   })
 
-  router.post('/start-already-registered', function (req, res) {
+  router.post('/start-already-registered', (req, res) => {
     const reference = req.body?.reference
     const day = req.body && req.body['dob-day']
     const month = req.body && req.body['dob-month']
@@ -39,11 +39,10 @@ module.exports = function (router) {
           dobMonth: month,
           dobYear: year,
           reference,
-          errors: error.validationErrors
+          errors: error.validationErrors,
         })
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }

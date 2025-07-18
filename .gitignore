@@ -42,3 +42,5 @@ app/public
 
 #jest
 test_results
+
+.eslintcache

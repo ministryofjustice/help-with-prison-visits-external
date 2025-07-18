@@ -4,57 +4,58 @@ const getClaimDocumentFilePath = require('../../services/data/get-claim-document
 
 const DEFAULT_FILE_NAME = 'HwPV-Upload'
 
-module.exports.buildClaimSummaryUrl = function (req) {
+module.exports.buildClaimSummaryUrl = _req => {
   return '/apply/eligibility/claim/summary'
 }
 
-module.exports.buildRemoveDocumentUrl = function (req) {
+module.exports.buildRemoveDocumentUrl = req => {
   const url = this.buildClaimSummaryUrl(req)
   if (req.query?.multipage) {
     return url
-  } else if (req.query?.claimExpenseId) {
-    return `${url}/file-upload?document=${req.query?.document}&claimExpenseId=${req.query?.claimExpenseId}`
-  } else {
-    return `${url}/file-upload?document=${req.query?.document}`
   }
+  if (req.query?.claimExpenseId) {
+    return `${url}/file-upload?document=${req.query?.document}&claimExpenseId=${req.query?.claimExpenseId}`
+  }
+  return `${url}/file-upload?document=${req.query?.document}`
 }
 
-module.exports.removeExpense = function (claimId, claimExpenseId) {
+module.exports.removeExpense = (claimId, claimExpenseId) => {
   return removeClaimExpense(claimId, claimExpenseId)
 }
 
-module.exports.removeDocument = function (claimDocumentId) {
+module.exports.removeDocument = claimDocumentId => {
   return removeClaimDocument(claimDocumentId)
 }
 
-module.exports.removeExpenseAndDocument = function (claimId, claimExpenseId, claimDocumentId) {
+module.exports.removeExpenseAndDocument = (claimId, claimExpenseId, claimDocumentId) => {
   const self = this
-  return self.removeExpense(claimId, claimExpenseId)
-    .then(function () { return self.removeDocument(claimDocumentId) })
+  return self.removeExpense(claimId, claimExpenseId).then(() => {
+    return self.removeDocument(claimDocumentId)
+  })
 }
 
-module.exports.getBenefitDocument = function (benefitDocument) {
+module.exports.getBenefitDocument = benefitDocument => {
   let result
   if (benefitDocument && benefitDocument.length > 0) {
-    result = benefitDocument[0]
+    ;[result] = benefitDocument
   }
   return result
 }
 
-module.exports.getDocumentFilePath = function (claimDocumentId) {
+module.exports.getDocumentFilePath = claimDocumentId => {
   return getClaimDocumentFilePath(claimDocumentId)
-    .then(function (result) {
+    .then(result => {
       if (result && result.Filepath) {
         const path = result.Filepath
         return {
           path,
-          name: `${DEFAULT_FILE_NAME}.${path.split('.').pop()}`
+          name: `${DEFAULT_FILE_NAME}.${path.split('.').pop()}`,
         }
       }
 
       throw new Error(`Could not find the path to the document with claim document id ${claimDocumentId}`)
     })
-    .catch(function (_error) {
+    .catch(_error => {
       throw new Error(`Could not find the path to the document with claim document id ${claimDocumentId}`)
     })
 }

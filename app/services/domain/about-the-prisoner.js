@@ -3,11 +3,12 @@ const FieldValidator = require('../validators/field-validator')
 const FieldsetValidator = require('../validators/fieldset-validator')
 const dateFormatter = require('../date-formatter')
 const ErrorHandler = require('../validators/error-handler')
+
 const unsafeInputPattern = />|<|&lt|&gt/g
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class AboutThePrisoner {
-  constructor (firstName, lastName, dobDay, dobMonth, dobYear, prisonerNumber, nameOfPrison) {
+  constructor(firstName, lastName, dobDay, dobMonth, dobYear, prisonerNumber, nameOfPrison) {
     this.firstName = firstName ? firstName.replace(unsafeInputPattern, '').trim() : ''
     this.lastName = lastName ? lastName.replace(unsafeInputPattern, '').trim() : ''
     this.dobDay = dobDay
@@ -19,7 +20,7 @@ class AboutThePrisoner {
     this.IsValid()
   }
 
-  IsValid () {
+  IsValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
@@ -30,11 +31,7 @@ class AboutThePrisoner {
       .isRequired(ERROR_MESSAGES.getEnterPrisonerLastName)
       .isLessThanLength(100, ERROR_MESSAGES.getPrisonerNameLessThanLengthMessage)
 
-    const dobFields = [
-      this.dobDay,
-      this.dobMonth,
-      this.dobYear
-    ]
+    const dobFields = [this.dobDay, this.dobMonth, this.dobYear]
 
     const dob = dateFormatter.build(this.dobDay, this.dobMonth, this.dobYear)
 

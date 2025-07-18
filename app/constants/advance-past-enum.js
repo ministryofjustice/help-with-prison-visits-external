@@ -1,4 +1,4 @@
 module.exports = {
   ADVANCE: 'advance',
-  PAST: 'past'
+  PAST: 'past',
 }

@@ -4,8 +4,8 @@ const ValidationError = require('../../../services/errors/validation-error')
 const prisonerRelationshipEnum = require('../../../constants/prisoner-relationships-enum')
 const SessionHandler = require('../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/prisoner-relationship', function (req, res) {
+module.exports = router => {
+  router.get('/apply/:claimType/new-eligibility/prisoner-relationship', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -14,11 +14,11 @@ module.exports = function (router) {
     }
 
     return res.render('apply/new-eligibility/prisoner-relationship', {
-      URL: req.url
+      URL: req.url,
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/prisoner-relationship', function (req, res) {
+  router.post('/apply/:claimType/new-eligibility/prisoner-relationship', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -29,23 +29,21 @@ module.exports = function (router) {
     try {
       const prisonerRelationship = new PrisonerRelationship(req.body?.relationship)
 
-      const relationship = prisonerRelationship.relationship
+      const { relationship } = prisonerRelationship
       req.session.relationship = relationship
 
       if (relationship === prisonerRelationshipEnum.NONE.urlValue) {
         return res.redirect('/eligibility-fail')
-      } else {
-        return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefits`)
       }
+      return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefits`)
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/new-eligibility/prisoner-relationship', {
           errors: error.validationErrors,
-          URL: req.url
+          URL: req.url,
         })
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }

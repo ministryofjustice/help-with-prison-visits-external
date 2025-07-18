@@ -1,5 +1,5 @@
-module.exports = function (router) {
-  router.get('/cookies', function (req, res) {
+module.exports = router => {
+  router.get('/cookies', (req, res) => {
     return res.render('cookies')
   })
 }

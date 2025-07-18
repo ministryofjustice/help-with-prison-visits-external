@@ -58,5 +58,5 @@ module.exports = {
   'departure-time': 'Departure time',
   'return-time': 'Return time',
   PaymentMethod: 'Payment method',
-  DateOfClaim: 'Date of claim'
+  DateOfClaim: 'Date of claim',
 }

@@ -1,7 +1,3 @@
-const UploadError = function (message) {
-  Error.captureStackTrace(this, this.constructor)
-  this.name = this.constructor.name
-  this.message = message
-}
+class UploadError extends Error {}
 
 module.exports = UploadError

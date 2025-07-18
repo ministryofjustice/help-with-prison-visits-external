@@ -3,7 +3,7 @@ const config = require('../../../config')
 
 const algorithm = 'aes-256-ctr'
 
-module.exports = function (value) {
+module.exports = value => {
   try {
     const iv = Buffer.alloc(16, 0)
     const cipher = crypto.createCipheriv(algorithm, config.EXT_REFERENCE_SALT, iv)
@@ -11,8 +11,8 @@ module.exports = function (value) {
     crypted += cipher.final('hex')
 
     return crypted
+    // eslint-disable-next-line no-unused-vars
   } catch (err) {
-    console.error(err)
     throw new Error('Error when encrypting value')
   }
 }

@@ -4,12 +4,12 @@ const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class HasEscort {
-  constructor (hasEscort) {
+  constructor(hasEscort) {
     this.hasEscort = hasEscort
     this.isValid()
   }
 
-  isValid () {
+  isValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.hasEscort, 'has-escort', errors)

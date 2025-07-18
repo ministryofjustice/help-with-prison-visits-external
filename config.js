@@ -51,6 +51,6 @@ module.exports = {
   MAX_DAYS_BEFORE_ADVANCE_CLAIM: process.env.APVS_MAX_DAYS_AFTER_RETROSPECTIVE_CLAIM || '28',
 
   features: {
-    YCS_JOURNEY: process.env.FEATURES_YCS_JOURNEY === 'true' || false
-  }
+    YCS_JOURNEY: process.env.FEATURES_YCS_JOURNEY === 'true' || false,
+  },
 }

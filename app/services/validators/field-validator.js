@@ -9,14 +9,14 @@ class FieldValidator {
    * @param fieldName The name of of the HTML element to link the error message to.
    * @param errors An instance of the ErrorHandler class.
    */
-  constructor (data, fieldName, errors) {
+  constructor(data, fieldName, errors) {
     this.data = data
     this.fieldName = fieldName
     this.errors = errors
   }
 
-  isRequired (specificMessage) {
-    const message = (!specificMessage) ? ERROR_MESSAGES.getIsRequired : specificMessage
+  isRequired(specificMessage) {
+    const message = !specificMessage ? ERROR_MESSAGES.getIsRequired : specificMessage
     if (validator.isNullOrUndefined(this.data)) {
       this.errors.add(this.fieldName, message)
     } else if (this.data === 'select') {
@@ -25,133 +25,133 @@ class FieldValidator {
     return this
   }
 
-  isAlpha () {
+  isAlpha() {
     if (!validator.isAlpha(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsAlpha)
     }
     return this
   }
 
-  isNumeric () {
+  isNumeric() {
     if (!validator.isNumeric(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsNumeric)
     }
     return this
   }
 
-  isCurrency () {
+  isCurrency() {
     if (!validator.isCurrency(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsCurrency)
     }
     return this
   }
 
-  isGreaterThanZero () {
+  isGreaterThanZero() {
     if (!validator.isGreaterThanZero(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsGreaterThan)
     }
     return this
   }
 
-  isRange (min, max) {
+  isRange(min, max) {
     if (!validator.isRange(this.data, min, max)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsRangeMessage, { min, max })
     }
     return this
   }
 
-  isLength (length, specificMessage) {
-    const message = (!specificMessage) ? ERROR_MESSAGES.getIsLengthMessage : specificMessage
+  isLength(length, specificMessage) {
+    const message = !specificMessage ? ERROR_MESSAGES.getIsLengthMessage : specificMessage
     if (!validator.isLength(this.data, length)) {
       this.errors.add(this.fieldName, message, { length })
     }
     return this
   }
 
-  isLessThanLength (length, specificMessage) {
-    const message = (!specificMessage) ? ERROR_MESSAGES.getIsPhoneNumberLessThanLengthMessage : specificMessage
+  isLessThanLength(length, specificMessage) {
+    const message = !specificMessage ? ERROR_MESSAGES.getIsPhoneNumberLessThanLengthMessage : specificMessage
     if (!validator.isLessThanLength(this.data, length)) {
       this.errors.add(this.fieldName, message, { length })
     }
     return this
   }
 
-  isNationalInsuranceNumber () {
+  isNationalInsuranceNumber() {
     if (!validator.isNationalInsuranceNumber(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
     }
     return this
   }
 
-  isPostcode () {
+  isPostcode() {
     if (!validator.isPostcode(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
     }
     return this
   }
 
-  isEmail () {
+  isEmail() {
     if (!validator.isEmail(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidFormat)
     }
     return this
   }
 
-  isInteger () {
+  isInteger() {
     if (!validator.isInteger(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsIntegerFormat)
     }
     return this
   }
 
-  isMaxIntOrLess () {
+  isMaxIntOrLess() {
     if (!validator.isMaxIntOrLess(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getValueIsTooLarge)
     }
   }
 
-  isMaxCostOrLess () {
+  isMaxCostOrLess() {
     if (!validator.isMaxCostOrLess(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getCostIsTooLarge, { cost: parseFloat(config.MAX_COST) })
     }
   }
 
-  isReference () {
+  isReference() {
     if (!validator.isValidReference(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidReference)
     }
     return this
   }
 
-  isEmptyOrReference () {
+  isEmptyOrReference() {
     if (!validator.isNullOrUndefined(this.data) && !validator.isValidReference(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidReference)
     }
     return this
   }
 
-  isValidChildRelationship () {
+  isValidChildRelationship() {
     if (!validator.isValidChildRelationship(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
     }
     return this
   }
 
-  isValidBooleanSelect () {
+  isValidBooleanSelect() {
     if (!validator.isValidBooleanSelect(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
     }
     return this
   }
 
-  isValidPrisonerRelationship () {
+  isValidPrisonerRelationship() {
     if (!validator.isValidPrisonerRelationship(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
     }
     return this
   }
 
-  isValidBenefit (fromDomain) {
+  isValidBenefit(fromDomain) {
     if (fromDomain && this.data === 'none') {
       return this
     }
@@ -161,21 +161,21 @@ class FieldValidator {
     return this
   }
 
-  isValidExpenseArray () {
+  isValidExpenseArray() {
     if (!validator.isValidExpenseArray(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
     }
     return this
   }
 
-  isValidAdvanceOrPast () {
+  isValidAdvanceOrPast() {
     if (!validator.isValidAdvanceOrPast(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsValidOption)
     }
     return this
   }
 
-  isValidRollNumber () {
+  isValidRollNumber() {
     if (!validator.isValidRollNumber(this.data)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getRollNumberValidFormatMessage)
     }
@@ -183,6 +183,6 @@ class FieldValidator {
   }
 }
 
-module.exports = function (data, fieldName, errors) {
+module.exports = (data, fieldName, errors) => {
   return new FieldValidator(data, fieldName, errors)
 }

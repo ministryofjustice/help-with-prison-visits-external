@@ -5,7 +5,7 @@ describe('Claim payment information requested', () => {
   let reference
 
   before(() => {
-    cy.task('insertEligibilityAndClaim', 'REQUEST-INFO-PAYMENT').then((generatedRef) => {
+    cy.task('insertEligibilityAndClaim', 'REQUEST-INFO-PAYMENT').then(generatedRef => {
       reference = generatedRef
       cy.log(`Claim generated with reference ${reference}`)
     })
@@ -14,8 +14,7 @@ describe('Claim payment information requested', () => {
   it('should display update bank details', () => {
     cy.visit(`/assisted-digital?caseworker=${caseworker}`)
     cy.location('pathname').should('equal', '/start')
-    cy.getCookie('apvs-assisted-digital')
-      .should('have.property', 'value', encodeURIComponent(caseworker))
+    cy.getCookie('apvs-assisted-digital').should('have.property', 'value', encodeURIComponent(caseworker))
 
     // Start ("yes" previous claim made)
     cy.get('[data-cy="yes"]').check()
@@ -43,8 +42,9 @@ describe('Claim payment information requested', () => {
     cy.get('[data-cy="name-on-account"]').type('Mr Joe Bloggs')
     cy.get('[data-cy="sort-code"]').type('223344')
     cy.get('[data-cy="account-number"]').type('11223344')
-    cy.get('[data-cy="message-to-caseworker"]')
-      .type('Sorry about that, my bank account information has been corrected.')
+    cy.get('[data-cy="message-to-caseworker"]').type(
+      'Sorry about that, my bank account information has been corrected.',
+    )
     cy.get('[data-cy="submit"]').contains('Submit updates').click()
 
     // Updated view claims page

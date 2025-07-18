@@ -4,8 +4,8 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/has-escort', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/has-escort', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -13,18 +13,19 @@ module.exports = function (router) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
 
-    getIsAdvanceClaim(req.session.claimId)
-      .then(function (isAdvanceClaim) {
-        return res.render('apply/eligibility/claim/has-escort', {
-          claimType: req.session.claimType,
-          referenceId: req.session.referenceId,
-          claimId: req.session.claimId,
-          isAdvanceClaim
-        })
+    getIsAdvanceClaim(req.session.claimId).then(isAdvanceClaim => {
+      return res.render('apply/eligibility/claim/has-escort', {
+        claimType: req.session.claimType,
+        referenceId: req.session.referenceId,
+        claimId: req.session.claimId,
+        isAdvanceClaim,
       })
+    })
+
+    return null
   })
 
-  router.post('/apply/eligibility/claim/has-escort', function (req, res) {
+  router.post('/apply/eligibility/claim/has-escort', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -36,24 +37,24 @@ module.exports = function (router) {
       const hasEscort = new HasEscort(req.body?.['has-escort'] ?? '')
       if (hasEscort.hasEscort === 'yes') {
         return res.redirect('/apply/eligibility/claim/about-escort')
-      } else {
-        return res.redirect('/apply/eligibility/claim/has-child')
       }
+      return res.redirect('/apply/eligibility/claim/has-child')
     } catch (error) {
       if (error instanceof ValidationError) {
-        getIsAdvanceClaim(req.session.claimId)
-          .then(function (isAdvanceClaim) {
-            return res.status(400).render('apply/eligibility/claim/has-escort', {
-              errors: error.validationErrors,
-              claimType: req.session.claimType,
-              referenceId: req.session.referenceId,
-              claimId: req.session.claimId,
-              isAdvanceClaim
-            })
+        getIsAdvanceClaim(req.session.claimId).then(isAdvanceClaim => {
+          return res.status(400).render('apply/eligibility/claim/has-escort', {
+            errors: error.validationErrors,
+            claimType: req.session.claimType,
+            referenceId: req.session.referenceId,
+            claimId: req.session.claimId,
+            isAdvanceClaim,
           })
+        })
       } else {
         throw error
       }
     }
+
+    return null
   })
 }

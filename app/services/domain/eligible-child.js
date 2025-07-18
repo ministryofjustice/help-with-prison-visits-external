@@ -3,11 +3,26 @@ const FieldValidator = require('../validators/field-validator')
 const FieldsetValidator = require('../validators/fieldset-validator')
 const dateFormatter = require('../date-formatter')
 const ErrorHandler = require('../validators/error-handler')
+
 const unsafeInputPattern = />|<|&lt|&gt/g
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class EligibleChild {
-  constructor (firstName, lastName, childRelationship, dobDay, dobMonth, dobYear, parentFirstName, parentLastName, houseNumberAndStreet, town, county, postCode, country) {
+  constructor(
+    firstName,
+    lastName,
+    childRelationship,
+    dobDay,
+    dobMonth,
+    dobYear,
+    parentFirstName,
+    parentLastName,
+    houseNumberAndStreet,
+    town,
+    county,
+    postCode,
+    country,
+  ) {
     this.childRelationship = childRelationship
     this.dobDay = dobDay
     this.dobMonth = dobMonth
@@ -26,7 +41,7 @@ class EligibleChild {
     this.IsValid()
   }
 
-  IsValid () {
+  IsValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.firstName, 'FirstName', errors)
@@ -37,11 +52,7 @@ class EligibleChild {
       .isRequired(ERROR_MESSAGES.getEnterYourLastName)
       .isLessThanLength(100, ERROR_MESSAGES.getClaimantNameLessThanLengthMessage)
 
-    const dobFields = [
-      this.dobDay,
-      this.dobMonth,
-      this.dobYear
-    ]
+    const dobFields = [this.dobDay, this.dobMonth, this.dobYear]
 
     const dob = dateFormatter.build(this.dobDay, this.dobMonth, this.dobYear)
 
@@ -62,20 +73,13 @@ class EligibleChild {
       .isRequired(ERROR_MESSAGES.getEnterYourHouseNumber)
       .isLessThanLength(200)
 
-    FieldValidator(this.town, 'Town', errors)
-      .isRequired(ERROR_MESSAGES.getEnterYourTown)
-      .isRange(3, 100)
+    FieldValidator(this.town, 'Town', errors).isRequired(ERROR_MESSAGES.getEnterYourTown).isRange(3, 100)
 
-    FieldValidator(this.county, 'County', errors)
-      .isRequired(ERROR_MESSAGES.getEnterYourCounty)
-      .isRange(4, 100)
+    FieldValidator(this.county, 'County', errors).isRequired(ERROR_MESSAGES.getEnterYourCounty).isRange(4, 100)
 
-    FieldValidator(this.postCode, 'PostCode', errors)
-      .isRequired(ERROR_MESSAGES.getEnterYourPostcode)
-      .isPostcode()
+    FieldValidator(this.postCode, 'PostCode', errors).isRequired(ERROR_MESSAGES.getEnterYourPostcode).isPostcode()
 
-    FieldValidator(this.country, 'Country', errors)
-      .isRequired(ERROR_MESSAGES.getSelectACountry)
+    FieldValidator(this.country, 'Country', errors).isRequired(ERROR_MESSAGES.getSelectACountry)
 
     const validationErrors = errors.get()
 

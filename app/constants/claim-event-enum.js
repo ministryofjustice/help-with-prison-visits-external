@@ -3,5 +3,5 @@ module.exports = {
   'CLAIM-REJECTED': 'Claim rejected',
   'CLAIM-REQUEST-INFORMATION': 'Requested Information',
   'CLOSE-ADVANCE-CLAIM': 'Advance claim closed',
-  'UPDATED-CONTACT-DETAILS': 'Contact details updated'
+  'UPDATED-CONTACT-DETAILS': 'Contact details updated',
 }

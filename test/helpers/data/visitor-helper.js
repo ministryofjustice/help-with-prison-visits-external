@@ -19,7 +19,7 @@ module.exports.REQURE_BENEFIT_UPLOAD = false
 module.exports.BENEFIT = 'income-support'
 module.exports.BENEFIT_OWNER = 'yes'
 
-module.exports.build = function () {
+module.exports.build = () => {
   return new AboutYou(
     this.DATE_OF_BIRTH,
     this.RELATIONSHIP,
@@ -34,25 +34,22 @@ module.exports.build = function () {
     this.POST_CODE,
     this.COUNTRY,
     this.EMAIL_ADDRESS,
-    this.PHONE_NUMBER)
+    this.PHONE_NUMBER,
+  )
 }
 
-module.exports.insert = function (reference, eligibilityId) {
+module.exports.insert = (reference, eligibilityId) => {
   return insertVisitor(reference, eligibilityId, this.build())
 }
 
-module.exports.get = function (reference) {
+module.exports.get = reference => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('ExtSchema.Visitor')
-    .where('Reference', reference)
+  return db.first().from('ExtSchema.Visitor').where('Reference', reference)
 }
 
-module.exports.delete = function (reference) {
+module.exports.delete = reference => {
   const db = getDatabaseConnector()
 
-  return db('ExtSchema.Visitor')
-    .where('Reference', reference)
-    .del()
+  return db('ExtSchema.Visitor').where('Reference', reference).del()
 }

@@ -4,16 +4,15 @@ const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class PaymentDetails {
-  constructor (paymentMethod) {
+  constructor(paymentMethod) {
     this.paymentMethod = paymentMethod
     this.IsValid()
   }
 
-  IsValid () {
+  IsValid() {
     const errors = ErrorHandler()
 
-    FieldValidator(this.paymentMethod, 'PaymentMethod', errors)
-      .isRequired(ERROR_MESSAGES.getPaymentMethod)
+    FieldValidator(this.paymentMethod, 'PaymentMethod', errors).isRequired(ERROR_MESSAGES.getPaymentMethod)
 
     const validationErrors = errors.get()
 

@@ -10,32 +10,22 @@ module.exports.MONTH = '05'
 module.exports.YEAR = '1984'
 module.exports.DOB = dateFormatter.build(this.DAY, this.MONTH, this.YEAR)
 
-module.exports.build = function () {
-  return new AboutEscort(
-    this.FIRST_NAME,
-    this.LAST_NAME,
-    this.DAY,
-    this.MONTH,
-    this.YEAR
-  )
+module.exports.build = () => {
+  return new AboutEscort(this.FIRST_NAME, this.LAST_NAME, this.DAY, this.MONTH, this.YEAR)
 }
 
-module.exports.insert = function (reference, eligibilityId, claimId) {
+module.exports.insert = (reference, eligibilityId, claimId) => {
   return insertEscort(reference, eligibilityId, claimId, this.build())
 }
 
-module.exports.get = function (claimId) {
+module.exports.get = claimId => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('ExtSchema.ClaimEscort')
-    .where({ ClaimId: claimId, IsEnabled: true })
+  return db.first().from('ExtSchema.ClaimEscort').where({ ClaimId: claimId, IsEnabled: true })
 }
 
-module.exports.delete = function (claimId) {
+module.exports.delete = claimId => {
   const db = getDatabaseConnector()
 
-  return db('ExtSchema.ClaimEscort')
-    .where('ClaimId', claimId)
-    .del()
+  return db('ExtSchema.ClaimEscort').where('ClaimId', claimId).del()
 }

@@ -1,4 +1,4 @@
-const BaseExpense = require('../../../services/domain/expenses/base-expense')
+const BaseExpense = require('./base-expense')
 const EXPENSE_TYPE = require('../../../constants/expense-type-enum')
 const ValidationError = require('../../errors/validation-error')
 const FieldValidator = require('../../validators/field-validator')
@@ -6,12 +6,12 @@ const ErrorHandler = require('../../validators/error-handler')
 const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class AccommodationExpense extends BaseExpense {
-  constructor (cost, durationOfTravel) {
+  constructor(cost, durationOfTravel) {
     super(EXPENSE_TYPE.ACCOMMODATION.value, cost, null, null, null, null, durationOfTravel, null, null, null)
     this.isValid()
   }
 
-  isValid () {
+  isValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.durationOfTravel, 'duration', errors)

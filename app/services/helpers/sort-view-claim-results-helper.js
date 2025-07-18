@@ -1,12 +1,12 @@
 const displayHelper = require('../../views/helpers/display-helper')
 const documentTypeEnum = require('../../constants/document-type-enum')
 
-module.exports = function (claim, eligibility, claimDocuments, claimExpenses, externalClaimDocuments) {
+module.exports = (claim, eligibility, claimDocuments, claimExpenses, externalClaimDocuments) => {
   sortClaimAndEligibility(claim, eligibility)
   return sortClaimDocumentsAndExpenses(claim, claimDocuments, claimExpenses, externalClaimDocuments)
 }
 
-function sortClaimAndEligibility (claim, eligibility) {
+function sortClaimAndEligibility(claim, eligibility) {
   claim.EligibilityId = eligibility.EligibilityId
   claim.FirstName = eligibility.FirstName
   claim.LastName = eligibility.LastName
@@ -18,8 +18,8 @@ function sortClaimAndEligibility (claim, eligibility) {
   return claim
 }
 
-function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, externalClaimDocuments) {
-  claimExpenses.forEach(function (expense) {
+function sortClaimDocumentsAndExpenses(claim, claimDocuments, claimExpenses, externalClaimDocuments) {
+  claimExpenses.forEach(expense => {
     if (!expense.Status || expense.Status === 'REQUEST-INFORMATION') {
       expense.Cost = expense.RequestedCost
     }
@@ -29,7 +29,7 @@ function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, ex
   })
   const externalDocumentMap = {}
   const multiPageDocuments = []
-  externalClaimDocuments.forEach(function (document) {
+  externalClaimDocuments.forEach(document => {
     const key = `${document.DocumentType}${document.ClaimExpenseId}`
     if (key in externalDocumentMap) {
       multiPageDocuments.push(document)
@@ -42,7 +42,7 @@ function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, ex
     addPlaceholderDocumentsForAdanceClaims(claimDocuments, claimExpenses)
   }
 
-  claimDocuments.forEach(function (document) {
+  claimDocuments.forEach(document => {
     const key = `${document.DocumentType}${document.ClaimExpenseId}`
     if (document.DocumentType === documentTypeEnum.VISIT_CONFIRMATION.documentType) {
       if (key in externalDocumentMap) {
@@ -53,7 +53,7 @@ function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, ex
         claim.visitConfirmation.fromInternalWeb = true
       }
     } else if (document.DocumentType === documentTypeEnum.RECEIPT.documentType) {
-      claimExpenses.forEach(function (expense) {
+      claimExpenses.forEach(expense => {
         if (document.ClaimExpenseId === expense.ClaimExpenseId) {
           if (key in externalDocumentMap) {
             expense.DocumentType = externalDocumentMap[key].DocumentType
@@ -67,28 +67,26 @@ function sortClaimDocumentsAndExpenses (claim, claimDocuments, claimExpenses, ex
           }
         }
       })
-    } else {
-      if (key in externalDocumentMap) {
-        if (displayHelper.getBenefitMultipage(document.DocumentType)) {
-          multiPageDocuments.forEach(function (otherBenefitDocument) {
-            otherBenefitDocument.fromInternalWeb = false
-            claim.benefitDocument.push(otherBenefitDocument)
-          })
-        }
-        externalDocumentMap[key].fromInternalWeb = false
-        claim.benefitDocument.push(externalDocumentMap[key])
-      } else {
-        document.fromInternalWeb = true
-        claim.benefitDocument.push(document)
+    } else if (key in externalDocumentMap) {
+      if (displayHelper.getBenefitMultipage(document.DocumentType)) {
+        multiPageDocuments.forEach(otherBenefitDocument => {
+          otherBenefitDocument.fromInternalWeb = false
+          claim.benefitDocument.push(otherBenefitDocument)
+        })
       }
+      externalDocumentMap[key].fromInternalWeb = false
+      claim.benefitDocument.push(externalDocumentMap[key])
+    } else {
+      document.fromInternalWeb = true
+      claim.benefitDocument.push(document)
     }
   })
   return claimExpenses
 }
 
-function addPlaceholderDocumentsForAdanceClaims (claimDocuments, claimExpenses) {
+function addPlaceholderDocumentsForAdanceClaims(claimDocuments, claimExpenses) {
   const documents = []
-  claimDocuments.forEach(function (document) {
+  claimDocuments.forEach(document => {
     if (document.ClaimExpenseId) {
       documents.push(document.ClaimExpenseId)
     } else {
@@ -98,9 +96,12 @@ function addPlaceholderDocumentsForAdanceClaims (claimDocuments, claimExpenses) 
   if (documents.indexOf(documentTypeEnum.VISIT_CONFIRMATION.documentType) === -1) {
     claimDocuments.push({ DocumentType: documentTypeEnum.VISIT_CONFIRMATION.documentType, ClaimExpenseId: null })
   }
-  claimExpenses.forEach(function (expense) {
+  claimExpenses.forEach(expense => {
     if (documents.indexOf(expense.ClaimExpenseId) === -1) {
-      claimDocuments.push({ DocumentType: documentTypeEnum.RECEIPT.documentType, ClaimExpenseId: expense.ClaimExpenseId })
+      claimDocuments.push({
+        DocumentType: documentTypeEnum.RECEIPT.documentType,
+        ClaimExpenseId: expense.ClaimExpenseId,
+      })
     }
   })
 }

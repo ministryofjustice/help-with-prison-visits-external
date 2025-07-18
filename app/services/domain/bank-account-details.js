@@ -2,10 +2,11 @@ const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
+
 const unsafeInputPattern = />|<|&lt|&gt/g
 
 class BankAccountDetails {
-  constructor (accountNumber, sortCode, nameOnAccount, rollNumber) {
+  constructor(accountNumber, sortCode, nameOnAccount, rollNumber) {
     this.accountNumber = accountNumber.replace(/ /g, '')
     this.sortCode = sortCode.replace(/ |-/g, '')
     this.nameOnAccount = nameOnAccount ? nameOnAccount.replace(unsafeInputPattern, '').trim() : ''
@@ -13,7 +14,7 @@ class BankAccountDetails {
     this.IsValid()
   }
 
-  IsValid () {
+  IsValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.accountNumber, 'AccountNumber', errors)
@@ -32,9 +33,7 @@ class BankAccountDetails {
 
     if (this.rollNumber) {
       if (this.rollNumber !== '') {
-        FieldValidator(this.rollNumber, 'RollNumber', errors)
-          .isRange(1, 18)
-          .isValidRollNumber()
+        FieldValidator(this.rollNumber, 'RollNumber', errors).isRange(1, 18).isValidRollNumber()
       }
     }
 

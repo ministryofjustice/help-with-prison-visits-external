@@ -1,14 +1,14 @@
+const fs = require('fs')
 const ValidationError = require('../errors/validation-error')
 const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
-const fs = require('fs')
 const dateFormatter = require('../date-formatter')
 const documentTypeEnum = require('../../constants/document-type-enum')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 const UploadError = require('../errors/upload-error')
 
 class FileUpload {
-  constructor (claimId, documentType, claimExpenseId, file, error, alternative) {
+  constructor(claimId, documentType, claimExpenseId, file, error, alternative) {
     this.file = file
     this.alternative = alternative
     this.error = error
@@ -31,7 +31,7 @@ class FileUpload {
     }
   }
 
-  IsValid () {
+  IsValid() {
     const errors = ErrorHandler()
 
     if (this.error) {
@@ -43,8 +43,7 @@ class FileUpload {
     }
 
     if (!this.file) {
-      FieldValidator(this.alternative, 'upload', errors)
-        .isRequired(ERROR_MESSAGES.getUploadRequired)
+      FieldValidator(this.alternative, 'upload', errors).isRequired(ERROR_MESSAGES.getUploadRequired)
     }
 
     if (this.file && this.alternative) {

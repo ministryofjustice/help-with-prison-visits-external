@@ -4,17 +4,15 @@ const ErrorHandler = require('../../validators/error-handler')
 const ERROR_MESSAGES = require('../../validators/validation-error-messages')
 
 class Expenses {
-  constructor (expense) {
+  constructor(expense) {
     this.expense = expense
     this.isValid()
   }
 
-  isValid () {
+  isValid() {
     const errors = ErrorHandler()
 
-    FieldValidator(this.expense, 'expenses', errors)
-      .isRequired(ERROR_MESSAGES.getSelectAnExpense)
-      .isValidExpenseArray()
+    FieldValidator(this.expense, 'expenses', errors).isRequired(ERROR_MESSAGES.getSelectAnExpense).isValidExpenseArray()
 
     const validationErrors = errors.get()
     if (validationErrors) {

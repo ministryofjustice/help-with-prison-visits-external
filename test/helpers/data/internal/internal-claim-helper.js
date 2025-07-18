@@ -16,7 +16,7 @@ module.exports.STATUS = 'APPROVED'
 module.exports.REASON = null
 module.exports.NOTE = null
 
-module.exports.build = function () {
+module.exports.build = () => {
   return {
     ClaimId: this.CLAIM_ID,
     ClaimType: this.CLAIM_TYPE,
@@ -27,47 +27,45 @@ module.exports.build = function () {
     DateReviewed: this.DATE_REVIEWED.toDate(),
     Status: this.STATUS,
     Reason: this.REASON,
-    Note: this.NOTE
+    Note: this.NOTE,
   }
 }
 
-module.exports.insert = function (reference, eligibilityId, data, status) {
+module.exports.insert = (reference, eligibilityId, data, status) => {
   const claim = data || this.build()
   const db = getDatabaseConnector()
   if (status) {
     claim.Status = status
   }
-  return db('IntSchema.Claim').insert({
-    ClaimId: claim.ClaimId,
-    EligibilityId: eligibilityId,
-    Reference: reference,
-    ClaimType: claim.ClaimType,
-    IsAdvanceClaim: claim.IsAdvanceClaim,
-    DateOfJourney: claim.DateOfJourney,
-    DateCreated: claim.DateCreated,
-    DateSubmitted: claim.DateSubmitted,
-    DateReviewed: claim.DateReviewed,
-    Status: claim.Status,
-    Reason: claim.Reason,
-    Note: claim.Note
-  }).returning('ClaimId')
-    .then(function (insertedIds) {
+  return db('IntSchema.Claim')
+    .insert({
+      ClaimId: claim.ClaimId,
+      EligibilityId: eligibilityId,
+      Reference: reference,
+      ClaimType: claim.ClaimType,
+      IsAdvanceClaim: claim.IsAdvanceClaim,
+      DateOfJourney: claim.DateOfJourney,
+      DateCreated: claim.DateCreated,
+      DateSubmitted: claim.DateSubmitted,
+      DateReviewed: claim.DateReviewed,
+      Status: claim.Status,
+      Reason: claim.Reason,
+      Note: claim.Note,
+    })
+    .returning('ClaimId')
+    .then(insertedIds => {
       return insertedIds[0].ClaimId
     })
 }
 
-module.exports.get = function (claimId) {
+module.exports.get = claimId => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('IntSchema.Claim')
-    .where('ClaimId', claimId)
+  return db.first().from('IntSchema.Claim').where('ClaimId', claimId)
 }
 
-module.exports.delete = function (claimId) {
+module.exports.delete = claimId => {
   const db = getDatabaseConnector()
 
-  return db('IntSchema.Claim')
-    .where('ClaimId', claimId)
-    .del()
+  return db('IntSchema.Claim').where('ClaimId', claimId).del()
 }

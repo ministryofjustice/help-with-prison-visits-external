@@ -11,18 +11,18 @@ module.exports.YEAR = '2014'
 module.exports.CHILD_RELATIONSHIP = childRelationshipEnum.PRISONER_CHILD
 module.exports.DOB = dateFormatter.build(this.DAY, this.MONTH, this.YEAR)
 
-module.exports.build = function () {
+module.exports.build = () => {
   return {
     ClaimChildId: this.CLAIM_CHILD_ID,
     FirstName: this.FIRST_NAME,
     LastName: this.LAST_NAME,
     DateOfBirth: this.DOB.format('YYYY-MM-DD'),
     Relationship: this.CHILD_RELATIONSHIP,
-    IsEnabled: true
+    IsEnabled: true,
   }
 }
 
-module.exports.insert = function (reference, eligibilityId, claimId, data) {
+module.exports.insert = (reference, eligibilityId, claimId, data) => {
   const child = data || this.build()
   const db = getDatabaseConnector()
 
@@ -35,22 +35,18 @@ module.exports.insert = function (reference, eligibilityId, claimId, data) {
     LastName: child.LastName,
     DateOfBirth: child.DateOfBirth,
     Relationship: child.Relationship,
-    IsEnabled: child.IsEnabled
+    IsEnabled: child.IsEnabled,
   })
 }
 
-module.exports.get = function (claimId) {
+module.exports.get = claimId => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('IntSchema.ClaimChild')
-    .where('ClaimId', claimId)
+  return db.first().from('IntSchema.ClaimChild').where('ClaimId', claimId)
 }
 
-module.exports.delete = function (claimId) {
+module.exports.delete = claimId => {
   const db = getDatabaseConnector()
 
-  return db('IntSchema.ClaimChild')
-    .where('ClaimId', claimId)
-    .del()
+  return db('IntSchema.ClaimChild').where('ClaimId', claimId).del()
 }

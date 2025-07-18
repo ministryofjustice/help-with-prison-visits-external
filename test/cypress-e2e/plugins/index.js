@@ -25,18 +25,16 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
 
   on('task', {
-
     /**
      * Finds first claim reference for given Assisted Digital
      * caseworker then deletes all records with that reference
      *
      * @param {String} caseworker email address
      */
-    deleteRecordsforADCaseworker (caseworker) {
-      return claimHelper.getRef(caseworker)
-        .then(function (reference) {
-          return internalEligibilityHelper.deleteAll(reference)
-        })
+    deleteRecordsforADCaseworker(caseworker) {
+      return claimHelper.getRef(caseworker).then(reference => {
+        return internalEligibilityHelper.deleteAll(reference)
+      })
     },
 
     /**
@@ -46,7 +44,7 @@ module.exports = (on, config) => {
      * @param {String} status claim status (optional)
      * @returns String generated claim reference
      */
-    insertEligibilityAndClaim (status) {
+    insertEligibilityAndClaim(status) {
       const reference = referenceGenerator.generate()
       internalEligibilityHelper.insertEligibilityAndClaim(reference, status)
       return reference
@@ -57,8 +55,8 @@ module.exports = (on, config) => {
      *
      * @param {String} claim reference
      */
-    deleteAllforReference (reference) {
+    deleteAllforReference(reference) {
       return internalEligibilityHelper.deleteAll(reference)
-    }
+    },
   })
 }

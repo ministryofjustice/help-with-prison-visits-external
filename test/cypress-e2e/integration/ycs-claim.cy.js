@@ -41,19 +41,19 @@ describe('YCS Claim Flow', () => {
     cy.get('[data-cy="dob-year"]').type('1956')
     cy.get('[data-cy="prisoner-number"]').type('Z6541TS')
     // test auto-complete for 'Rainsbrook STC (YCS)' - shouldn't exist
-    cy.get('input[data-cy="prison-name"]').type('Rain').type('{enter}')
+    cy.get('input[data-cy="prison-name"]')
+      .type('Rain')
+      .type('{enter}')
       .should('not.have.value', 'Rainsbrook STC (YCS)')
       .clear()
     // test auto-complete for 'Hewell'
-    cy.get('input[data-cy="prison-name"]').type('Hewe').type('{enter}')
-      .should('have.value', 'Hewell')
+    cy.get('input[data-cy="prison-name"]').type('Hewe').type('{enter}').should('have.value', 'Hewell')
   })
 
   it('should display YCS establishments and benefit option for assisted digital flow', () => {
     cy.visit(`/assisted-digital?caseworker=${caseworker}`)
     cy.location('pathname').should('equal', '/start')
-    cy.getCookie('apvs-assisted-digital')
-      .should('have.property', 'value', encodeURIComponent(caseworker))
+    cy.getCookie('apvs-assisted-digital').should('have.property', 'value', encodeURIComponent(caseworker))
 
     // Start ("no" previous claim made)
     cy.get('[data-cy="no"]').check()
@@ -82,8 +82,7 @@ describe('YCS Claim Flow', () => {
     cy.get('[data-cy="dob-year"]').type('1956')
     cy.get('[data-cy="prisoner-number"]').type('Z6541TS')
     // test auto-complete for 'Rainsbrook STC (YCS)'
-    cy.get('input[data-cy="prison-name"]').type('Rain').type('{enter}')
-      .should('have.value', 'Rainsbrook STC (YCS)')
+    cy.get('input[data-cy="prison-name"]').type('Rain').type('{enter}').should('have.value', 'Rainsbrook STC (YCS)')
     cy.get('[data-cy="submit"]').contains('Continue').click()
 
     // About you
@@ -94,8 +93,7 @@ describe('YCS Claim Flow', () => {
     cy.get('[data-cy="town"]').type('New Testtown')
     cy.get('[data-cy="county"]').type('Testshire')
     cy.get('[data-cy="postcode"]').type('T1 2AB')
-    cy.get('[data-cy="country"]').select('England')
-      .should('have.value', 'England')
+    cy.get('[data-cy="country"]').select('England').should('have.value', 'England')
     cy.get('[data-cy="email"]').type('test-visitor@example.com')
     cy.get('[data-cy="phone"]').type('01234 567789')
     cy.get('[data-cy="submit"]').contains('Continue').click()

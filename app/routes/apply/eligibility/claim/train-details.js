@@ -8,8 +8,8 @@ const getExpenseOwnerData = require('../../../../services/data/get-expense-owner
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/train', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/train', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -20,14 +20,18 @@ module.exports = function (router) {
     const claim = {}
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
     getIsAdvanceClaim(req.session.claimId)
-      .then(function (isAdvanceClaim) {
+      .then(isAdvanceClaim => {
         claim.isAdvanceClaim = isAdvanceClaim
         req.session.isAdvanceClaim = isAdvanceClaim
       })
-      .then(function () {
-        return getExpenseOwnerData(req.session.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
+      .then(() => {
+        return getExpenseOwnerData(
+          req.session.claimId,
+          referenceAndEligibilityId.id,
+          referenceAndEligibilityId.reference,
+        )
       })
-      .then(function (expenseOwnerData) {
+      .then(expenseOwnerData => {
         return res.render('apply/eligibility/claim/train-details', {
           claimType: req.session.claimType,
           referenceId: req.session.referenceId,
@@ -35,12 +39,14 @@ module.exports = function (router) {
           expenseOwners: expenseOwnerData,
           params: expenseUrlRouter.parseParams(req.query),
           redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-          isAdvanceClaim: claim.isAdvanceClaim
+          isAdvanceClaim: claim.isAdvanceClaim,
         })
       })
+
+    return null
   })
 
-  router.post('/apply/eligibility/claim/train', function (req, res, next) {
+  router.post('/apply/eligibility/claim/train', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -49,7 +55,7 @@ module.exports = function (router) {
     }
 
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    const isAdvanceClaim = req.session.isAdvanceClaim
+    const { isAdvanceClaim } = req.session
     try {
       const expense = new TrainExpense(
         req.body?.cost,
@@ -59,35 +65,39 @@ module.exports = function (router) {
         req.body?.['ticket-owner'] ?? '',
         req.body?.['departure-time'] ?? '',
         req.body?.['return-time'] ?? '',
-        isAdvanceClaim
+        isAdvanceClaim,
       )
 
       insertExpense(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, expense)
-        .then(function () {
+        .then(() => {
           return res.redirect(expenseUrlRouter.getRedirectUrl(req))
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {
       if (error instanceof ValidationError) {
-        return getExpenseOwnerData(req.session.claimId, referenceAndEligibilityId.id, referenceAndEligibilityId.reference)
-          .then(function (expenseOwnerData) {
-            return res.status(400).render('apply/eligibility/claim/train-details', {
-              errors: error.validationErrors,
-              claimType: req.session.claimType,
-              referenceId: req.session.referenceId,
-              claimId: req.session.claimId,
-              expenseOwners: expenseOwnerData,
-              params: expenseUrlRouter.parseParams(req.query),
-              redirectUrl: expenseUrlRouter.getRedirectUrl(req),
-              expense: req.body ?? {},
-              isAdvanceClaim
-            })
+        return getExpenseOwnerData(
+          req.session.claimId,
+          referenceAndEligibilityId.id,
+          referenceAndEligibilityId.reference,
+        ).then(expenseOwnerData => {
+          return res.status(400).render('apply/eligibility/claim/train-details', {
+            errors: error.validationErrors,
+            claimType: req.session.claimType,
+            referenceId: req.session.referenceId,
+            claimId: req.session.claimId,
+            expenseOwners: expenseOwnerData,
+            params: expenseUrlRouter.parseParams(req.query),
+            redirectUrl: expenseUrlRouter.getRedirectUrl(req),
+            expense: req.body ?? {},
+            isAdvanceClaim,
           })
-      } else {
-        throw error
+        })
       }
+      throw error
     }
+
+    return null
   })
 }

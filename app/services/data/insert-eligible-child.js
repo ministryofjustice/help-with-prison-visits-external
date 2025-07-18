@@ -1,7 +1,7 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 const EligibleChild = require('../domain/eligible-child')
 
-module.exports = function (child, reference, eligibilityId) {
+module.exports = (child, reference, eligibilityId) => {
   if (!(child instanceof EligibleChild)) {
     throw new Error('Provided eligibleChild object is not an instance of the expected class')
   }
@@ -20,9 +20,8 @@ module.exports = function (child, reference, eligibilityId) {
     Town: child.town,
     County: child.county,
     PostCode: child.postCode,
-    Country: child.country
+    Country: child.country,
   }
 
-  return db('EligibleChild')
-    .insert(eligibleChild)
+  return db('EligibleChild').insert(eligibleChild)
 }

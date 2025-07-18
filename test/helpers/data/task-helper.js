@@ -7,26 +7,21 @@ module.exports.TASK = tasksEnum.COMPLETE_CLAIM
 module.exports.ADDITONAL_DATA = 'Smith'
 module.exports.STATUS = taskStatusEnum.PENDING
 
-module.exports.insert = function (reference, claimId) {
+module.exports.insert = (reference, claimId) => {
   return insertTask(reference, claimId, this.Task, this.ADDITONAL_DATA)
 }
 
-module.exports.get = function (reference, claimId) {
+module.exports.get = (reference, claimId) => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('ExtSchema.Task')
-    .where({
-      Reference: reference,
-      ClaimId: claimId
-    })
+  return db.first().from('ExtSchema.Task').where({
+    Reference: reference,
+    ClaimId: claimId,
+  })
 }
 
-module.exports.delete = function (reference) {
+module.exports.delete = reference => {
   const db = getDatabaseConnector()
 
-  return db.select()
-    .from('ExtSchema.Task')
-    .where('Reference', reference)
-    .del()
+  return db.select().from('ExtSchema.Task').where('Reference', reference).del()
 }

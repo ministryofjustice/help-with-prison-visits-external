@@ -7,8 +7,7 @@ describe('First Time Claim Flow (Northern Ireland rules - Voucher)', () => {
   it('should display each page in the first time eligibility flow for NI rules only with advance claim option allowed & voucher payout', () => {
     cy.visit(`/assisted-digital?caseworker=${caseworker}`)
     cy.location('pathname').should('equal', '/start')
-    cy.getCookie('apvs-assisted-digital')
-      .should('have.property', 'value', encodeURIComponent(caseworker))
+    cy.getCookie('apvs-assisted-digital').should('have.property', 'value', encodeURIComponent(caseworker))
 
     // Start ("no" previous claim made)
     cy.get('[data-cy="no"]').check()
@@ -37,8 +36,7 @@ describe('First Time Claim Flow (Northern Ireland rules - Voucher)', () => {
     cy.get('[data-cy="dob-year"]').type('1959')
     cy.get('[data-cy="prisoner-number"]').type('Z6544TS')
     // test auto-complete for 'Hewell'
-    cy.get('input[data-cy="prison-name"]').type('Hewe').type('{enter}')
-      .should('have.value', 'Hewell')
+    cy.get('input[data-cy="prison-name"]').type('Hewe').type('{enter}').should('have.value', 'Hewell')
     cy.get('[data-cy="submit"]').contains('Continue').click()
 
     // About you
@@ -49,8 +47,7 @@ describe('First Time Claim Flow (Northern Ireland rules - Voucher)', () => {
     cy.get('[data-cy="town"]').type('NI Testtown')
     cy.get('[data-cy="county"]').type('NI Testshire')
     cy.get('[data-cy="postcode"]').type('BT1 3CD')
-    cy.get('[data-cy="country"]').select('Northern Ireland')
-      .should('have.value', 'Northern Ireland')
+    cy.get('[data-cy="country"]').select('Northern Ireland').should('have.value', 'Northern Ireland')
     cy.get('[data-cy="email"]').type('test-visitor-ni@example.com')
     cy.get('[data-cy="phone"]').type('01234 98765')
     cy.get('[data-cy="submit"]').contains('Continue').click()

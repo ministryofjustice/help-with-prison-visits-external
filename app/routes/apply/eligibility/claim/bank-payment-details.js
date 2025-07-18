@@ -6,8 +6,8 @@ const BankAccountDetails = require('../../../../services/domain/bank-account-det
 const SessionHandler = require('../../../../services/validators/session-handler')
 const PaymentDetails = require('../../../../services/domain/payment-details')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/bank-payment-details', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/bank-payment-details', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -21,11 +21,11 @@ module.exports = function (router) {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
       claimId: req.session.claimId,
-      isAdvance: req.query?.isAdvance
+      isAdvance: req.query?.isAdvance,
     })
   })
 
-  router.post('/apply/eligibility/claim/bank-payment-details', function (req, res, next) {
+  router.post('/apply/eligibility/claim/bank-payment-details', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -36,13 +36,23 @@ module.exports = function (router) {
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
     try {
-      const bankAccountDetails = new BankAccountDetails(req.body?.AccountNumber, req.body?.SortCode, req.body?.NameOnAccount, req.body?.RollNumber)
+      const bankAccountDetails = new BankAccountDetails(
+        req.body?.AccountNumber,
+        req.body?.SortCode,
+        req.body?.NameOnAccount,
+        req.body?.RollNumber,
+      )
       const redirectURL = `/apply/eligibility/claim/declaration?isAdvance=${req.query?.isAdvance}`
-      insertBankAccountDetailsForClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, bankAccountDetails)
-        .then(function () {
+      insertBankAccountDetailsForClaim(
+        referenceAndEligibilityId.reference,
+        referenceAndEligibilityId.id,
+        req.session.claimId,
+        bankAccountDetails,
+      )
+        .then(() => {
           return res.redirect(redirectURL)
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {
@@ -53,11 +63,12 @@ module.exports = function (router) {
           paymentDetails: req.body ?? {},
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          isAdvance: req.query?.isAdvance
+          isAdvance: req.query?.isAdvance,
         })
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }

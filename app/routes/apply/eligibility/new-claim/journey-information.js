@@ -8,8 +8,8 @@ const insertRepeatDuplicateClaim = require('../../../../services/data/insert-rep
 const SessionHandler = require('../../../../services/validators/session-handler')
 const getReleaseDate = require('../../../../services/data/get-release-date')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/new-claim/journey-information', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/new-claim/journey-information', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -20,11 +20,11 @@ module.exports = function (router) {
     return res.render('apply/eligibility/new-claim/journey-information', {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
-      advanceOrPast: req.session.advanceOrPast
+      advanceOrPast: req.session.advanceOrPast,
     })
   })
 
-  router.post('/apply/eligibility/new-claim/journey-information', function (req, res, next) {
+  router.post('/apply/eligibility/new-claim/journey-information', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -36,55 +36,61 @@ module.exports = function (router) {
     const isAdvancedClaim = req.session.advanceOrPast === 'advance'
 
     try {
-      return getReleaseDate(referenceAndEligibilityId.id).then(function (results) {
-        let releaseDateIsSet
-        let releaseDate
-        if (results.length > 0) {
-          releaseDateIsSet = results[0].ReleaseDateIsSet
-          releaseDate = results[0].ReleaseDate
-        }
-        const newClaim = new NewClaim(
-          req.session.referenceId,
-          req.body?.['date-of-journey-day'] ?? '',
-          req.body?.['date-of-journey-month'] ?? '',
-          req.body?.['date-of-journey-year'] ?? '',
-          isAdvancedClaim,
-          releaseDateIsSet,
-          releaseDate
-        )
+      return getReleaseDate(referenceAndEligibilityId.id)
+        .then(results => {
+          let releaseDateIsSet
+          let releaseDate
+          if (results.length > 0) {
+            releaseDateIsSet = results[0].ReleaseDateIsSet
+            releaseDate = results[0].ReleaseDate
+          }
+          const newClaim = new NewClaim(
+            req.session.referenceId,
+            req.body?.['date-of-journey-day'] ?? '',
+            req.body?.['date-of-journey-month'] ?? '',
+            req.body?.['date-of-journey-year'] ?? '',
+            isAdvancedClaim,
+            releaseDateIsSet,
+            releaseDate,
+          )
 
-        if (!isRepeatDuplicateClaim(req.session.claimType)) {
-          insertNewClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimType, newClaim)
-            .then(function (claimId) {
-              req.session.claimId = claimId
-              return res.redirect('/apply/eligibility/claim/has-escort')
+          if (!isRepeatDuplicateClaim(req.session.claimType)) {
+            insertNewClaim(
+              referenceAndEligibilityId.reference,
+              referenceAndEligibilityId.id,
+              req.session.claimType,
+              newClaim,
+            )
+              .then(claimId => {
+                req.session.claimId = claimId
+                return res.redirect('/apply/eligibility/claim/has-escort')
+              })
+              .catch(error => {
+                next(error)
+              })
+          } else {
+            insertRepeatDuplicateClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, newClaim)
+              .then(claimId => {
+                req.session.claimId = claimId
+                return res.redirect('/apply/eligibility/claim/summary')
+              })
+              .catch(error => {
+                next(error)
+              })
+          }
+        })
+        .catch(error => {
+          if (error instanceof ValidationError) {
+            return res.status(400).render('apply/eligibility/new-claim/journey-information', {
+              errors: error.validationErrors,
+              claimType: req.session.claimType,
+              referenceId: req.session.referenceId,
+              advanceOrPast: req.session.advanceOrPast,
+              claim: req.body ?? {},
             })
-            .catch(function (error) {
-              next(error)
-            })
-        } else {
-          insertRepeatDuplicateClaim(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, newClaim)
-            .then(function (claimId) {
-              req.session.claimId = claimId
-              return res.redirect('/apply/eligibility/claim/summary')
-            })
-            .catch(function (error) {
-              next(error)
-            })
-        }
-      }).catch(function (error) {
-        if (error instanceof ValidationError) {
-          return res.status(400).render('apply/eligibility/new-claim/journey-information', {
-            errors: error.validationErrors,
-            claimType: req.session.claimType,
-            referenceId: req.session.referenceId,
-            advanceOrPast: req.session.advanceOrPast,
-            claim: req.body ?? {}
-          })
-        } else {
+          }
           throw error
-        }
-      })
+        })
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).render('apply/eligibility/new-claim/journey-information', {
@@ -92,19 +98,14 @@ module.exports = function (router) {
           claimType: req.session.claimType,
           referenceId: req.session.referenceId,
           advanceOrPast: req.session.advanceOrPast,
-          claim: req.body ?? {}
+          claim: req.body ?? {},
         })
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }
 
-function isRepeatDuplicateClaim (claimType) {
-  let isRepeatDuplicateClaim = false
-  if (claimType === claimTypeEnum.REPEAT_DUPLICATE) {
-    isRepeatDuplicateClaim = true
-  }
-  return isRepeatDuplicateClaim
+function isRepeatDuplicateClaim(claimType) {
+  return claimType === claimTypeEnum.REPEAT_DUPLICATE
 }

@@ -1,3 +1,3 @@
-module.exports = function (req) {
+module.exports = req => {
   return req.csrfToken()
 }

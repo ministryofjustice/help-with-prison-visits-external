@@ -11,8 +11,8 @@ const SessionHandler = require('../../services/validators/session-handler')
 
 const REFERENCE_DOB_INCORRECT_ERROR = '?error=yes'
 
-module.exports = function (router) {
-  router.get('/your-claims', function (req, res, next) {
+module.exports = router => {
+  router.get('/your-claims', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -22,41 +22,45 @@ module.exports = function (router) {
 
     const decodedDOB = dateFormatter.decodeDate(req.session.dobEncoded)
 
-    getHistoricClaims(req.session.decryptedRef, dateFormatter.buildFromDateString(decodedDOB).format('YYYY-MM-DD'))
-      .then(function (claims) {
+    return getHistoricClaims(
+      req.session.decryptedRef,
+      dateFormatter.buildFromDateString(decodedDOB).format('YYYY-MM-DD'),
+    )
+      .then(claims => {
         if (claims.length === 0) {
           return res.redirect(`/start-already-registered${REFERENCE_DOB_INCORRECT_ERROR}`)
         }
 
-        getHistoricClaimsByReference(req.session.decryptedRef)
-          .then(function (claims) {
-            const canStartNewClaim = noClaimsInProgress(claims)
+        return getHistoricClaimsByReference(req.session.decryptedRef).then(historicClaims => {
+          const canStartNewClaim = noClaimsInProgress(historicClaims)
 
-            return res.render('your-claims/your-claims', {
-              reference: req.session.decryptedRef,
-              claims,
-              dateHelper,
-              claimStatusHelper,
-              canStartNewClaim,
-              displayHelper,
-              forEdit
-            })
+          return res.render('your-claims/your-claims', {
+            reference: req.session.decryptedRef,
+            claims: historicClaims,
+            dateHelper,
+            claimStatusHelper,
+            canStartNewClaim,
+            displayHelper,
+            forEdit,
           })
+        })
       })
-      .catch(function (error) {
+      .catch(error => {
         next(error)
       })
   })
 
-  function noClaimsInProgress (claims) {
+  function noClaimsInProgress(claims) {
     let result = true
 
-    claims.forEach(function (claim) {
-      if (claim.Status !== claimStatusEnum.APPROVED &&
-          claim.Status !== claimStatusEnum.AUTOAPPROVED &&
-          claim.Status !== claimStatusEnum.REJECTED &&
-          claim.Status !== claimStatusEnum.APPROVED_ADVANCE_CLOSED &&
-          claim.Status !== claimStatusEnum.APPROVED_PAYOUT_BARCODE_EXPIRED) {
+    claims.forEach(claim => {
+      if (
+        claim.Status !== claimStatusEnum.APPROVED &&
+        claim.Status !== claimStatusEnum.AUTOAPPROVED &&
+        claim.Status !== claimStatusEnum.REJECTED &&
+        claim.Status !== claimStatusEnum.APPROVED_ADVANCE_CLOSED &&
+        claim.Status !== claimStatusEnum.APPROVED_PAYOUT_BARCODE_EXPIRED
+      ) {
         result = false
       }
     })

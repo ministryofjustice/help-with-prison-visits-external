@@ -3,21 +3,18 @@ const FieldsetValidator = require('../validators/fieldset-validator')
 const ErrorHandler = require('../validators/error-handler')
 const dateFormatter = require('../date-formatter')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
+
 const MINIMUM_AGE_IN_YEARS = 16
 
 class DateOfBirth {
-  constructor (day, month, year) {
-    this.fields = [
-      day,
-      month,
-      year
-    ]
+  constructor(day, month, year) {
+    this.fields = [day, month, year]
     this.dob = dateFormatter.build(day, month, year)
     this.encodedDate = dateFormatter.encodeDate(this.dob)
     this.IsValid()
   }
 
-  IsValid () {
+  IsValid() {
     const errors = ErrorHandler()
 
     FieldsetValidator(this.fields, 'dob', errors)

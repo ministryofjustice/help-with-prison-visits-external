@@ -1,7 +1,7 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 const AboutYou = require('../domain/about-you')
 
-module.exports = function (reference, eligibilityId, aboutYou) {
+module.exports = (reference, eligibilityId, aboutYou) => {
   if (!(aboutYou instanceof AboutYou)) {
     throw new Error('Provided aboutYou object is not an instance of the expected class')
   }
@@ -25,22 +25,18 @@ module.exports = function (reference, eligibilityId, aboutYou) {
     DateOfBirth: dateOfBirth,
     Relationship: aboutYou.relationship,
     Benefit: aboutYou.benefit,
-    BenefitOwner: aboutYou.benefitOwner
+    BenefitOwner: aboutYou.benefitOwner,
   }
 
   return db('Visitor')
     .where('Reference', reference)
     .count('Reference as ReferenceCount')
-    .then(function (countResult) {
+    .then(countResult => {
       const count = countResult[0].ReferenceCount
 
       if (count === 0) {
-        return db('Visitor')
-          .insert(visitorInformation)
-      } else {
-        return db('Visitor')
-          .where('Reference', reference)
-          .update(visitorInformation)
+        return db('Visitor').insert(visitorInformation)
       }
+      return db('Visitor').where('Reference', reference).update(visitorInformation)
     })
 }

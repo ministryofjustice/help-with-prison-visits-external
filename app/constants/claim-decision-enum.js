@@ -6,5 +6,5 @@ module.exports = {
   'REQUEST-INFO-PAYMENT': 'Payment information requested',
   PENDING: 'Pending',
   REJECTED: 'Rejected',
-  NEW: 'In progress'
+  NEW: 'In progress',
 }

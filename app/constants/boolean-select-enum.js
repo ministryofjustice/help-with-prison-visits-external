@@ -1,4 +1,4 @@
 module.exports = {
   YES: 'yes',
-  NO: 'no'
+  NO: 'no',
 }

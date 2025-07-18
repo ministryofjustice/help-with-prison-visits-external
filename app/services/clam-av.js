@@ -1,16 +1,16 @@
-const config = require('../../config')
 const NodeClam = require('clamscan')
+const config = require('../../config')
 const log = require('./log')
 
-module.exports.scan = async function (filePath) {
+module.exports.scan = async filePath => {
   if (config.ENABLE_MALWARE_SCANNING === 'true') {
     try {
       const clamscan = await new NodeClam().init({
         clamdscan: {
           host: config.CLAM_AV_HOST,
           port: config.CLAM_AV_PORT,
-          timeout: config.CLAM_AV_TIMEOUT
-        }
+          timeout: config.CLAM_AV_TIMEOUT,
+        },
       })
 
       log.info(`ClamAV initialised. Scanning ${filePath}`)

@@ -4,37 +4,37 @@ const prisonerRelationshipsEnum = require('../../constants/prisoner-relationship
 const expenseTypeEnum = require('../../constants/expense-type-enum')
 const enumHelper = require('../../constants/helpers/enum-helper')
 
-module.exports.getPrisonerRelationshipDisplayName = function (value) {
+module.exports.getPrisonerRelationshipDisplayName = value => {
   const element = enumHelper.getKeyByAttribute(prisonerRelationshipsEnum, value)
   return element.displayName
 }
 
-module.exports.getBenefitDisplayName = function (value) {
+module.exports.getBenefitDisplayName = value => {
   const element = enumHelper.getKeyByAttribute(benefitsEnum, value)
   return element.displayName
 }
 
-module.exports.getBenefitRequireUpload = function (value) {
+module.exports.getBenefitRequireUpload = value => {
   const element = enumHelper.getKeyByAttribute(benefitsEnum, value)
   return element.requireBenefitUpload
 }
 
-module.exports.getBenefitMultipage = function (value) {
+module.exports.getBenefitMultipage = value => {
   const element = enumHelper.getKeyByAttribute(benefitsEnum, value)
   return element.multipage
 }
 
-module.exports.getPrisonDisplayName = function (value) {
+module.exports.getPrisonDisplayName = value => {
   const element = enumHelper.getKeyByAttribute(prisonsEnum, value)
   return !element.displayName ? value : element.displayName
 }
 
-module.exports.getExpenseDisplayName = function (value) {
+module.exports.getExpenseDisplayName = value => {
   const element = enumHelper.getKeyByAttribute(expenseTypeEnum, value)
   return element.displayName
 }
 
-module.exports.getExpenseReceiptRequired = function (value) {
+module.exports.getExpenseReceiptRequired = value => {
   const element = enumHelper.getKeyByAttribute(expenseTypeEnum, value)
   return element.receiptRequired
 }
@@ -45,26 +45,33 @@ const prisonsByRegion = {
   NI: {},
   JSY: {},
   GSY: {},
-  YCS: {}
+  YCS: {},
 }
 
-for (const prisonKey in prisonsEnum) {
-  const element = prisonsEnum[prisonKey]
-  if (typeof element === 'object') {
-    prisonsByRegion[element.region][prisonKey] = element
+Object.keys(prisonsEnum).forEach(prisonKey => {
+  if (Object.hasOwn(prisonsEnum, prisonKey) && typeof prisonsEnum[prisonKey] === 'object') {
+    prisonsByRegion[prisonsEnum[prisonKey].region][prisonKey] = prisonsEnum[prisonKey]
   }
-}
+})
+// for (const prisonKey in prisonsEnum) {
+//   if (Object.hasOwn(prisonsEnum, prisonKey)) {
+//     const element = prisonsEnum[prisonKey]
+//     if (typeof element === 'object') {
+//       prisonsByRegion[element.region][prisonKey] = element
+//     }
+//   }
+// }
 
-module.exports.getPrisonsByRegion = function (region) {
+module.exports.getPrisonsByRegion = region => {
   return prisonsByRegion[region]
 }
 
-module.exports.toCurrency = function (value) {
+module.exports.toCurrency = value => {
   let result = ''
 
   if (value < 0) {
     result += '-'
-    value = value * -1
+    value *= -1
   }
 
   if (value % 1 === 0) {
@@ -76,8 +83,12 @@ module.exports.toCurrency = function (value) {
   return result
 }
 
-module.exports.zeroCostWarning = function (expenseType, cost, isAdvanceClaim) {
-  if (cost > 0 || expenseType === expenseTypeEnum.CAR.value || (expenseType === expenseTypeEnum.TRAIN.value && isAdvanceClaim)) {
+module.exports.zeroCostWarning = (expenseType, cost, isAdvanceClaim) => {
+  if (
+    cost > 0 ||
+    expenseType === expenseTypeEnum.CAR.value ||
+    (expenseType === expenseTypeEnum.TRAIN.value && isAdvanceClaim)
+  ) {
     return false
   }
   return true

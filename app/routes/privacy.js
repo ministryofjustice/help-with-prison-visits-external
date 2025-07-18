@@ -1,5 +1,5 @@
-module.exports = function (router) {
-  router.get('/privacy', function (req, res) {
+module.exports = router => {
+  router.get('/privacy', (req, res) => {
     return res.render('privacy')
   })
 }

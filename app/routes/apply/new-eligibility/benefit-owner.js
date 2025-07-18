@@ -5,8 +5,8 @@ const ValidationError = require('../../../services/errors/validation-error')
 const insertBenefitOwner = require('../../../services/data/insert-benefit-owner')
 const SessionHandler = require('../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/benefit-owner', function (req, res) {
+module.exports = router => {
+  router.get('/apply/:claimType/new-eligibility/benefit-owner', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -19,11 +19,11 @@ module.exports = function (router) {
       dob: req.session.dobEncoded,
       relationship: req.session.relationship,
       benefit: req.session.benefit,
-      referenceId: req.session.referenceId
+      referenceId: req.session.referenceId,
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/benefit-owner', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/benefit-owner', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -40,28 +40,28 @@ module.exports = function (router) {
         req.body?.['dob-day'] ?? '',
         req.body?.['dob-month'] ?? '',
         req.body?.['dob-year'] ?? '',
-        req.body?.NationalInsuranceNumber)
+        req.body?.NationalInsuranceNumber,
+      )
 
       const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
       return insertBenefitOwner(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, benefitOwner)
-        .then(function () {
+        .then(() => {
           return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {
       if (error instanceof ValidationError) {
         return renderValidationError(req, res, benefitOwnerBody, error.validationErrors, false)
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }
 
-function renderValidationError (req, res, benefitOwnerBody, validationErrors, isDuplicateClaim) {
+function renderValidationError(req, res, benefitOwnerBody, validationErrors, isDuplicateClaim) {
   return res.status(400).render('apply/new-eligibility/benefit-owner', {
     errors: validationErrors,
     isDuplicateClaim,
@@ -70,6 +70,6 @@ function renderValidationError (req, res, benefitOwnerBody, validationErrors, is
     relationship: req.session.relationship,
     benefit: req.session.benefit,
     referenceId: req.session.referenceId,
-    benefitOwner: benefitOwnerBody
+    benefitOwner: benefitOwnerBody,
   })
 }

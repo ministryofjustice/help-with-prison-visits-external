@@ -14,13 +14,13 @@ module.exports = {
         encrypt: false,
         enableArithAbort: true,
         requestTimeout: 30000,
-        connectTimeout: 30000
-      }
+        connectTimeout: 30000,
+      },
     },
     pool: {
       min: 2,
-      max: 10
-    }
+      max: 10,
+    },
   },
   testing: {
     client: 'mssql',
@@ -31,8 +31,8 @@ module.exports = {
       database: config.TESTING_DATABASE,
       options: {
         encrypt: false,
-        enableArithAbort: true
-      }
-    }
-  }
+        enableArithAbort: true,
+      },
+    },
+  },
 }

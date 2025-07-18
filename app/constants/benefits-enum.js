@@ -6,7 +6,7 @@ module.exports = {
     requireBenefitUpload: false,
     displayName: 'Income Support',
     multipage: true,
-    urlValue: 'b1'
+    urlValue: 'b1',
   },
 
   JOBSEEKERS_ALLOWANCE: {
@@ -14,7 +14,7 @@ module.exports = {
     requireBenefitUpload: false,
     displayName: 'Jobseeker’s Allowance (JSA)',
     multipage: true,
-    urlValue: 'b2'
+    urlValue: 'b2',
   },
 
   EMPLOYMENT_SUPPORT: {
@@ -22,7 +22,7 @@ module.exports = {
     requireBenefitUpload: false,
     displayName: 'Employment and Support Allowance (ESA)',
     multipage: true,
-    urlValue: 'b3'
+    urlValue: 'b3',
   },
 
   UNIVERSAL_CREDIT: {
@@ -30,7 +30,7 @@ module.exports = {
     requireBenefitUpload: true,
     displayName: 'Universal Credit',
     multipage: true,
-    urlValue: 'b4'
+    urlValue: 'b4',
   },
 
   WORKING_TAX_CREDIT: {
@@ -38,7 +38,7 @@ module.exports = {
     requireBenefitUpload: true,
     displayName: 'Working Tax credits (with disability or child tax) or Child Tax Credit',
     multipage: true,
-    urlValue: 'b5'
+    urlValue: 'b5',
   },
 
   PENSION_CREDIT: {
@@ -46,7 +46,7 @@ module.exports = {
     requireBenefitUpload: true,
     displayName: 'Pension Credit',
     multipage: true,
-    urlValue: 'b6'
+    urlValue: 'b6',
   },
 
   HC2: {
@@ -54,7 +54,7 @@ module.exports = {
     requireBenefitUpload: true,
     displayName: 'Health Certificate (HC2)',
     multipage: true,
-    urlValue: 'b7'
+    urlValue: 'b7',
   },
 
   HC3: {
@@ -62,7 +62,7 @@ module.exports = {
     requireBenefitUpload: true,
     displayName: 'Health Certificate (HC3)',
     multipage: true,
-    urlValue: 'b8'
+    urlValue: 'b8',
   },
 
   NHS_TAX_CREDIT: {
@@ -70,7 +70,7 @@ module.exports = {
     requireBenefitUpload: true,
     displayName: 'NHS Tax Credit Exemption Certificate',
     multipage: true,
-    urlValue: 'b9'
+    urlValue: 'b9',
   },
 
   NONE: {
@@ -78,7 +78,7 @@ module.exports = {
     requireBenefitUpload: false,
     displayName: 'None',
     multipage: false,
-    urlValue: 'none'
+    urlValue: 'none',
   },
 
   YES: {
@@ -86,7 +86,7 @@ module.exports = {
     requireBenefitUpload: false,
     displayName: 'Yes',
     multipage: false,
-    urlValue: 'yes'
+    urlValue: 'yes',
   },
 
   NO: {
@@ -94,7 +94,7 @@ module.exports = {
     requireBenefitUpload: false,
     displayName: 'No',
     multipage: false,
-    urlValue: 'no'
+    urlValue: 'no',
   },
 
   YCS: {
@@ -102,10 +102,10 @@ module.exports = {
     requireBenefitUpload: false,
     displayName: 'YCS',
     multipage: false,
-    urlValue: 'ycs'
+    urlValue: 'ycs',
   },
 
-  getByValue: function (value) {
+  getByValue(value) {
     return EnumHelper.getKeyByAttribute(this, value)
-  }
+  },
 }

@@ -12,33 +12,22 @@ module.exports.YEAR = '2014'
 module.exports.CHILD_RELATIONSHIP = childRelationshipEnum.PRISONER_CHILD
 module.exports.DOB = dateFormatter.build(this.DAY, this.MONTH, this.YEAR)
 
-module.exports.build = function () {
-  return new AboutChild(
-    this.FIRST_NAME,
-    this.LAST_NAME,
-    this.DAY,
-    this.MONTH,
-    this.YEAR,
-    this.CHILD_RELATIONSHIP
-  )
+module.exports.build = () => {
+  return new AboutChild(this.FIRST_NAME, this.LAST_NAME, this.DAY, this.MONTH, this.YEAR, this.CHILD_RELATIONSHIP)
 }
 
-module.exports.insert = function (reference, eligibilityId, claimId) {
+module.exports.insert = (reference, eligibilityId, claimId) => {
   return insertChild(reference, eligibilityId, claimId, this.build())
 }
 
-module.exports.get = function (claimId) {
+module.exports.get = claimId => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('ExtSchema.ClaimChild')
-    .where('ClaimId', claimId)
+  return db.first().from('ExtSchema.ClaimChild').where('ClaimId', claimId)
 }
 
-module.exports.delete = function (claimId) {
+module.exports.delete = claimId => {
   const db = getDatabaseConnector()
 
-  return db('ExtSchema.ClaimChild')
-    .where('ClaimId', claimId)
-    .del()
+  return db('ExtSchema.ClaimChild').where('ClaimId', claimId).del()
 }

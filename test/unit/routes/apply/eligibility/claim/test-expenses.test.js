@@ -1,0 +1,138 @@
+const supertest = require('supertest')
+const routeHelper = require('../../../../../helpers/routes/route-helper')
+
+const ValidationError = require('../../../../../../app/services/errors/validation-error')
+
+describe('routes/apply/eligibility/claim/expenses', () => {
+  const COOKIES = [
+    'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA3MzgxLjEzODEzMzMzMiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsInJlbGF0aW9uc2hpcCI6InI0IiwiYmVuZWZpdCI6ImIxIiwicmVmZXJlbmNlSWQiOiIzYjI0NzE3YWI5YTI0N2E3MGIiLCJkZWNyeXB0ZWRSZWYiOiIxUjY0RVROIiwiY2xhaW1UeXBlIjoiZmlyc3QtdGltZSIsImFkdmFuY2VPclBhc3QiOiJwYXN0IiwiY2xhaW1JZCI6OH0=',
+  ]
+  const COOKIES_EXPIRED = ['apvs-start-application=']
+  const ROUTE = '/apply/eligibility/claim/expenses'
+
+  let app
+
+  const mockUrlPathValidator = jest.fn()
+  let mockExpenseUrlRouter
+  const mockExpenses = jest.fn()
+  const mockGetClaimSummary = jest.fn()
+  const mockGetIsAdvanceClaim = jest.fn()
+  const mockGetRedirectUrl = jest.fn()
+
+  beforeEach(() => {
+    mockGetClaimSummary.mockResolvedValue({ claim: { Country: 'England' } })
+    mockGetIsAdvanceClaim.mockResolvedValue()
+    mockExpenseUrlRouter = {
+      getRedirectUrl: mockGetRedirectUrl,
+    }
+
+    jest.mock('../../../../../../app/services/validators/url-path-validator', () => mockUrlPathValidator)
+    jest.mock('../../../../../../app/services/routing/expenses-url-router', () => mockExpenseUrlRouter)
+    jest.mock('../../../../../../app/services/domain/expenses/expenses', () => mockExpenses)
+    jest.mock('../../../../../../app/services/data/get-claim-summary', () => mockGetClaimSummary)
+    jest.mock('../../../../../../app/services/data/get-is-advance-claim', () => mockGetIsAdvanceClaim)
+
+    const route = require('../../../../../../app/routes/apply/eligibility/claim/expenses')
+    app = routeHelper.buildApp(route)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  describe(`GET ${ROUTE}`, () => {
+    it('should call the URL Path Validator', () => {
+      return supertest(app)
+        .get(ROUTE)
+        .set('Cookie', COOKIES)
+        .expect(() => {
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
+        })
+    })
+
+    it('should call to get claim details and check if NI prison', () => {
+      return supertest(app)
+        .get(ROUTE)
+        .set('Cookie', COOKIES)
+        .expect(() => {
+          expect(mockGetClaimSummary).toHaveBeenCalledTimes(1)
+        })
+    })
+
+    it('should respond with a 200', () => {
+      return supertest(app)
+        .get(ROUTE)
+        .set('Cookie', COOKIES)
+        .expect(200)
+        .expect(() => {
+          expect(mockGetIsAdvanceClaim).toHaveBeenCalledTimes(1)
+        })
+    })
+  })
+
+  describe(`POST ${ROUTE}`, () => {
+    const REDIRECT_URL = 'some-url'
+    const EXPENSES = {}
+
+    it('should call the URL Path Validator', () => {
+      mockExpenses.mockResolvedValue()
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES)
+        .expect(() => {
+          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
+        })
+    })
+
+    it('should respond with a 302 if domain object is built successfully', () => {
+      mockExpenses.mockReturnValue(EXPENSES)
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES)
+        .expect(() => {
+          expect(mockExpenses).toHaveBeenCalledTimes(1)
+        })
+        .expect(302)
+    })
+
+    it('should call getRedirectUrl and redirect to the url it returns', () => {
+      mockGetRedirectUrl.mockReturnValue(REDIRECT_URL)
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES)
+        .expect(() => {
+          expect(mockGetRedirectUrl).toHaveBeenCalledTimes(1)
+        })
+        .expect('location', REDIRECT_URL)
+    })
+
+    it('should redirect to date-of-birth error page if cookie is expired', () => {
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES_EXPIRED)
+        .expect(302)
+        .expect('location', '/start-already-registered?error=expired')
+    })
+
+    it('should respond with a 400 if domain object validation fails.', () => {
+      mockExpenses.mockImplementation(() => {
+        throw new ValidationError()
+      })
+      return supertest(app)
+        .post(ROUTE)
+        .set('Cookie', COOKIES)
+        .expect(400)
+        .expect(() => {
+          expect(mockGetClaimSummary).toHaveBeenCalledTimes(1)
+          expect(mockGetIsAdvanceClaim).toHaveBeenCalledTimes(1)
+        })
+    })
+
+    it('should respond with a 500 if any non-validation error occurs.', () => {
+      mockExpenses.mockImplementation(() => {
+        throw new Error()
+      })
+      return supertest(app).post(ROUTE).set('Cookie', COOKIES).expect(500)
+    })
+  })
+})

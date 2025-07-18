@@ -9,7 +9,7 @@ module.exports.DATE_CREATED = dateFormatter.now()
 module.exports.DATE_SUBMITTED = dateFormatter.now()
 module.exports.STATUS = eligiblityStatusEnum.IN_PROGRESS
 
-module.exports.insert = function (reference) {
+module.exports.insert = reference => {
   const db = getDatabaseConnector()
 
   return db('ExtSchema.Eligibility')
@@ -17,71 +17,89 @@ module.exports.insert = function (reference) {
       Reference: reference,
       DateCreated: this.DATE_CREATED.toDate(),
       DateSubmitted: this.DATE_SUBMITTED.toDate(),
-      Status: this.STATUS
+      Status: this.STATUS,
     })
     .returning('EligibilityId')
-    .then(function (insertedIds) {
+    .then(insertedIds => {
       return insertedIds[0].EligibilityId
     })
 }
 
-module.exports.insertEligibilityVisitorAndPrisoner = function (reference) {
+module.exports.insertEligibilityVisitorAndPrisoner = reference => {
   let eligibilityId
 
   return this.insert(reference)
-    .then(function (newEligibilityId) {
+    .then(newEligibilityId => {
       eligibilityId = newEligibilityId
       return visitorHelper.insert(reference, eligibilityId)
     })
-    .then(function () {
+    .then(() => {
       return prisonerHelper.insert(reference, eligibilityId)
     })
-    .then(function () {
+    .then(() => {
       return eligibilityId
     })
 }
 
-module.exports.insertEligibilityClaim = function (reference) {
+module.exports.insertEligibilityClaim = reference => {
   let eligibilityId
 
   return this.insert(reference)
-    .then(function (newEligibilityId) {
+    .then(newEligibilityId => {
       eligibilityId = newEligibilityId
       return claimHelper.insert(reference, newEligibilityId)
     })
-    .then(function (newClaimId) {
+    .then(newClaimId => {
       return { eligibilityId, claimId: newClaimId }
     })
 }
 
-module.exports.get = function (reference) {
+module.exports.get = reference => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('ExtSchema.Eligibility')
-    .where('Reference', reference)
+  return db.first().from('ExtSchema.Eligibility').where('Reference', reference)
 }
 
-module.exports.delete = function (reference) {
+module.exports.delete = reference => {
   return deleteByReference('ExtSchema.Eligibility', reference)
 }
 
-function deleteByReference (schemaTable, reference) {
+function deleteByReference(schemaTable, reference) {
   const db = getDatabaseConnector()
 
   return db(schemaTable).where('Reference', reference).del()
 }
 
-module.exports.deleteAll = function (reference) {
+module.exports.deleteAll = reference => {
   return deleteByReference('ExtSchema.Task', reference)
-    .then(function () { return deleteByReference('ExtSchema.EligibleChild', reference) })
-    .then(function () { return deleteByReference('ExtSchema.ClaimBankDetail', reference) })
-    .then(function () { return deleteByReference('ExtSchema.ClaimDocument', reference) })
-    .then(function () { return deleteByReference('ExtSchema.ClaimExpense', reference) })
-    .then(function () { return deleteByReference('ExtSchema.ClaimChild', reference) })
-    .then(function () { return deleteByReference('ExtSchema.ClaimEscort', reference) })
-    .then(function () { return deleteByReference('ExtSchema.Claim', reference) })
-    .then(function () { return deleteByReference('ExtSchema.Visitor', reference) })
-    .then(function () { return deleteByReference('ExtSchema.Prisoner', reference) })
-    .then(function () { return deleteByReference('ExtSchema.Eligibility', reference) })
+    .then(() => {
+      return deleteByReference('ExtSchema.EligibleChild', reference)
+    })
+    .then(() => {
+      return deleteByReference('ExtSchema.ClaimBankDetail', reference)
+    })
+    .then(() => {
+      return deleteByReference('ExtSchema.ClaimDocument', reference)
+    })
+    .then(() => {
+      return deleteByReference('ExtSchema.ClaimExpense', reference)
+    })
+    .then(() => {
+      return deleteByReference('ExtSchema.ClaimChild', reference)
+    })
+    .then(() => {
+      return deleteByReference('ExtSchema.ClaimEscort', reference)
+    })
+    .then(() => {
+      return deleteByReference('ExtSchema.Claim', reference)
+    })
+    .then(() => {
+      return deleteByReference('ExtSchema.Visitor', reference)
+    })
+    .then(() => {
+      return deleteByReference('ExtSchema.Prisoner', reference)
+    })
+    .then(() => {
+      return deleteByReference('ExtSchema.Eligibility', reference)
+    })
 }

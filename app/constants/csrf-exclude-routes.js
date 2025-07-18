@@ -1,3 +1,1 @@
-module.exports = [
-  'file-upload'
-]
+module.exports = ['file-upload']

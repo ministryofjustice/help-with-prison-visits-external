@@ -7,7 +7,7 @@ const DisplayHelper = require('../../views/helpers/display-helper')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class ClaimSummary {
-  constructor (visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUploadNotRequired) {
+  constructor(visitConfirmation, benefit, benefitDocument, claimExpenses, isAdvanceClaim, benefitUploadNotRequired) {
     this.benefit = benefit
     this.claimExpenses = claimExpenses
     this.benefitDocumentStatus = benefitDocument ? benefitDocument.DocumentStatus : ''
@@ -17,12 +17,13 @@ class ClaimSummary {
     this.isValid()
   }
 
-  isValid () {
+  isValid() {
     const errors = ErrorHandler()
 
     if (BenefitEnum.getByValue(this.benefit).requireBenefitUpload && !this.benefitUploadNotRequired) {
-      FieldValidator(this.benefitDocumentStatus, 'benefit-information', errors)
-        .isRequired(ERROR_MESSAGES.getDocumentOnSummary)
+      FieldValidator(this.benefitDocumentStatus, 'benefit-information', errors).isRequired(
+        ERROR_MESSAGES.getDocumentOnSummary,
+      )
     }
 
     if (this.claimExpenses.length <= 0) {
@@ -30,15 +31,17 @@ class ClaimSummary {
     }
 
     if (!this.isAdvanceClaim) {
-      FieldValidator(this.visitConfirmationStatus, 'VisitConfirmation', errors)
-        .isRequired(ERROR_MESSAGES.getDocumentOnSummary)
+      FieldValidator(this.visitConfirmationStatus, 'VisitConfirmation', errors).isRequired(
+        ERROR_MESSAGES.getDocumentOnSummary,
+      )
     }
 
     if (!this.isAdvanceClaim) {
-      this.claimExpenses.forEach(function (expense) {
+      this.claimExpenses.forEach(expense => {
         if (DisplayHelper.getExpenseReceiptRequired(expense.ExpenseType)) {
-          FieldValidator(expense.DocumentStatus, 'claim-expense', errors)
-            .isRequired(ERROR_MESSAGES.getDocumentOnSummary)
+          FieldValidator(expense.DocumentStatus, 'claim-expense', errors).isRequired(
+            ERROR_MESSAGES.getDocumentOnSummary,
+          )
         }
       })
     }
@@ -54,11 +57,13 @@ class ClaimSummary {
 
 module.exports = ClaimSummary
 
-function checkForZeroExpense (claimExpenses, isAdvanceClaim, errors) {
-  claimExpenses.forEach(function (expense) {
-    if (expense.ExpenseType !== ExpenseEnum.CAR.value && !(expense.ExpenseType === ExpenseEnum.TRAIN.value && isAdvanceClaim)) {
-      FieldValidator(expense.Cost, 'claim-expense', errors)
-        .isGreaterThanZero()
+function checkForZeroExpense(claimExpenses, isAdvanceClaim, errors) {
+  claimExpenses.forEach(expense => {
+    if (
+      expense.ExpenseType !== ExpenseEnum.CAR.value &&
+      !(expense.ExpenseType === ExpenseEnum.TRAIN.value && isAdvanceClaim)
+    ) {
+      FieldValidator(expense.Cost, 'claim-expense', errors).isGreaterThanZero()
     }
   })
 }

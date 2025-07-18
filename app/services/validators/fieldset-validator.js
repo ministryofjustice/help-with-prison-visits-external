@@ -8,17 +8,17 @@ class FieldsetValidator {
    * @param fieldName The name of of the HTML element to link the error message to.
    * @param errors An instance of the ErrorHandler class.
    */
-  constructor (data, fieldName, errors) {
+  constructor(data, fieldName, errors) {
     this.data = data || []
     this.fieldName = fieldName
     this.errors = errors
   }
 
-  isRequired (specificMessage) {
-    const message = (!specificMessage) ? ERROR_MESSAGES.getIsRequired : specificMessage
+  isRequired(specificMessage) {
+    const message = !specificMessage ? ERROR_MESSAGES.getIsRequired : specificMessage
     const self = this
     if (this.data instanceof Array) {
-      this.data.forEach(function (data) {
+      this.data.forEach(data => {
         if (validator.isNullOrUndefined(data)) {
           self.errors.add(self.fieldName, message)
         }
@@ -27,42 +27,42 @@ class FieldsetValidator {
     return this
   }
 
-  isEmptyOrValidDate (date) {
+  isEmptyOrValidDate(date) {
     if (!validator.isNullOrUndefined(date) && !validator.isValidDate(date)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getInvalidDateFormatMessage)
     }
     return this
   }
 
-  isValidDate (date) {
+  isValidDate(date) {
     if (!validator.isValidDate(date)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getInvalidDateFormatMessage)
     }
     return this
   }
 
-  isValidDateOfBirth (date) {
+  isValidDateOfBirth(date) {
     if (!validator.isValidDateOfBirth(date)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getInvalidDateFormatMessage)
     }
     return this
   }
 
-  isPastDate (date) {
+  isPastDate(date) {
     if (!validator.isDateInThePast(date)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getPastDateMessage)
     }
     return this
   }
 
-  isFutureDate (date) {
+  isFutureDate(date) {
     if (!validator.isDateInTheFuture(date)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getFutureDateMessage)
     }
     return this
   }
 
-  isDateWithinDays (date, days, isAdvanceClaim) {
+  isDateWithinDays(date, days, isAdvanceClaim) {
     if (!validator.isDateWithinDays(date, days)) {
       const message = isAdvanceClaim ? ERROR_MESSAGES.getFutureDateSetDaysAway : ERROR_MESSAGES.getPastDateSetDaysAway
       this.errors.add(this.fieldName, message, { days })
@@ -70,28 +70,28 @@ class FieldsetValidator {
     return this
   }
 
-  isNotDateWithinDays (date, days) {
+  isNotDateWithinDays(date, days) {
     if (validator.isDateWithinDays(date, days)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getNotDateSetDaysAway, { days })
     }
     return this
   }
 
-  isYoungerThanInYears (dob, years) {
+  isYoungerThanInYears(dob, years) {
     if (validator.isOlderThanInYears(dob, years)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsYoungerThan, { years })
     }
     return this
   }
 
-  isOlderThanInYears (dob, years) {
+  isOlderThanInYears(dob, years) {
     if (!validator.isOlderThanInYears(dob, years)) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsOlderThan, { years })
     }
     return this
   }
 
-  isVisitDateBeforeReleaseDate (visitDate, releaseDateIsSet, releaseDate) {
+  isVisitDateBeforeReleaseDate(visitDate, releaseDateIsSet, releaseDate) {
     if (releaseDateIsSet) {
       if (!validator.isVisitDateBeforeReleaseDate(visitDate, releaseDate)) {
         this.errors.add(this.fieldName, ERROR_MESSAGES.getVisitDateBeforeReleaseDateMessage)
@@ -100,7 +100,7 @@ class FieldsetValidator {
     return this
   }
 
-  isAlreadyVisited (isAlreadyVisited) {
+  isAlreadyVisited(isAlreadyVisited) {
     if (isAlreadyVisited === true) {
       this.errors.add(this.fieldName, ERROR_MESSAGES.getIsAlreadyVisited)
     }
@@ -108,6 +108,6 @@ class FieldsetValidator {
   }
 }
 
-module.exports = function (data, fieldName, errors) {
+module.exports = (data, fieldName, errors) => {
   return new FieldsetValidator(data, fieldName, errors)
 }

@@ -1,10 +1,10 @@
-module.exports = function (router) {
-  router.get('/status', function (req, res) {
+module.exports = router => {
+  router.get('/status', (req, res) => {
     return res.sendStatus(200)
   })
-  router.get('/health', function (req, res) {
+  router.get('/health', (req, res) => {
     return res.json({
-      status: 'UP'
+      status: 'UP',
     })
   })
 }

@@ -1,5 +1,5 @@
-module.exports = function (router) {
-  router.get('/eligibility-fail', function (req, res) {
+module.exports = router => {
+  router.get('/eligibility-fail', (req, res) => {
     return res.render('eligibility-fail')
   })
 }

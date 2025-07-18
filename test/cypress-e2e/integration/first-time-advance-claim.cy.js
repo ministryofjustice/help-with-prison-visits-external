@@ -11,8 +11,7 @@ describe('First Time Claim Flow (Advance)', () => {
   it('should display each page in the first time eligibility flow Advance', () => {
     cy.visit(`/assisted-digital?caseworker=${caseworker}`)
     cy.location('pathname').should('equal', '/start')
-    cy.getCookie('apvs-assisted-digital')
-      .should('have.property', 'value', encodeURIComponent(caseworker))
+    cy.getCookie('apvs-assisted-digital').should('have.property', 'value', encodeURIComponent(caseworker))
 
     // Start ("no" previous claim made)
     cy.get('[data-cy="no"]').check()
@@ -41,8 +40,7 @@ describe('First Time Claim Flow (Advance)', () => {
     cy.get('[data-cy="dob-year"]').type('1957')
     cy.get('[data-cy="prisoner-number"]').type('Z6541TS')
     // test auto-complete for 'Hewell'
-    cy.get('input[data-cy="prison-name"]').type('Hewe').type('{enter}')
-      .should('have.value', 'Hewell')
+    cy.get('input[data-cy="prison-name"]').type('Hewe').type('{enter}').should('have.value', 'Hewell')
     cy.get('[data-cy="submit"]').contains('Continue').click()
 
     // About you
@@ -53,8 +51,7 @@ describe('First Time Claim Flow (Advance)', () => {
     cy.get('[data-cy="town"]').type('New Testtown')
     cy.get('[data-cy="county"]').type('Testshire')
     cy.get('[data-cy="postcode"]').type('T1 2AB')
-    cy.get('[data-cy="country"]').select('England')
-      .should('have.value', 'England')
+    cy.get('[data-cy="country"]').select('England').should('have.value', 'England')
     cy.get('[data-cy="email"]').type('test-visitor@example.com')
     cy.get('[data-cy="phone"]').type('01234 567789')
     cy.get('[data-cy="submit"]').contains('Continue').click()
