@@ -1,3 +1,4 @@
+/* eslint func-names: 0 */
 const { getDatabaseConnector } = require('../../databaseConnector')
 const claimTypeEnum = require('../../constants/claim-type-enum')
 const documentTypeEnum = require('../../constants/document-type-enum')
@@ -78,7 +79,7 @@ module.exports = (claimId, claimType) => {
               'ClaimDocument.DocumentType',
               'ClaimDocument.ClaimDocumentId',
             )
-            .leftJoin('ClaimDocument', () => {
+            .leftJoin('ClaimDocument', function () {
               this.on('ClaimExpense.ClaimId', 'ClaimDocument.ClaimId')
                 .on('ClaimExpense.ClaimExpenseId', 'ClaimDocument.ClaimExpenseId')
                 .on('ClaimExpense.IsEnabled', 'ClaimDocument.IsEnabled')
