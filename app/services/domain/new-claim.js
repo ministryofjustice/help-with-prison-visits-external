@@ -41,6 +41,7 @@ class NewClaim {
     }
 
     const validationErrors = errors.get()
+
     if (validationErrors) {
       throw new ValidationError(validationErrors)
     }

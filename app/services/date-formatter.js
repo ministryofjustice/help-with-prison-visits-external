@@ -5,30 +5,32 @@ const DATE_ENCODE_FORMAT = 'YYYYMMDD'
 const INVALID_DATE_ERROR = 'Invalid date'
 const bases = require('bases')
 
-exports.format = date => {
+const format = date => {
   if (!isDate(date) || isUndefined(date) || isNull(date)) {
     return INVALID_DATE_ERROR
   }
   return date.format(DATE_FORMAT)
 }
+exports.format = format
 
 exports.now = () => {
   const now = moment()
   return applyDST(now)
 }
 
-exports.build = (day, month, year) => {
+const build = (day, month, year) => {
   month -= 1
   const date = moment([year, month, day])
   return applyDST(date)
 }
+exports.build = build
 
 exports.buildFormatted = (day, month, year) => {
-  const date = this.build(day, month, year)
+  const date = build(day, month, year)
   if (!isValidDate(date)) {
     return INVALID_DATE_ERROR
   }
-  return this.format(date)
+  return format(date)
 }
 
 exports.buildFromDateString = date => {
@@ -40,7 +42,7 @@ exports.buildFromDateString = date => {
   const month = dateSplit[1]
   const day = dateSplit[2]
 
-  return this.build(day, month, year)
+  return build(day, month, year)
 }
 
 exports.encodeDate = date => {
@@ -49,7 +51,7 @@ exports.encodeDate = date => {
 
 exports.decodeDate = encodedDate => {
   const date = moment(bases.fromBase(encodedDate, 8), DATE_ENCODE_FORMAT)
-  const formattedDate = this.format(date)
+  const formattedDate = format(date)
   return formattedDate
 }
 
