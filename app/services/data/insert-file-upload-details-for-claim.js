@@ -1,7 +1,7 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 const FileUpload = require('../domain/file-upload')
 
-module.exports = function (reference, eligibilityId, claimId, fileUpload) {
+module.exports = (reference, eligibilityId, claimId, fileUpload) => {
   if (!(fileUpload instanceof FileUpload)) {
     throw new Error('Provided fileUpload object is not an instance of the expected class')
   }
@@ -17,6 +17,6 @@ module.exports = function (reference, eligibilityId, claimId, fileUpload) {
     DocumentStatus: fileUpload.documentStatus,
     Filepath: fileUpload.path,
     DateSubmitted: fileUpload.dateSubmitted,
-    IsEnabled: true
+    IsEnabled: true,
   })
 }

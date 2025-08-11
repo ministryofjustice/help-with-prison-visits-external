@@ -11,8 +11,7 @@ describe('First Time Claim Flow', () => {
   it('should display each page in the first time eligibility flow', () => {
     cy.visit(`/assisted-digital?caseworker=${caseworker}`)
     cy.location('pathname').should('equal', '/start')
-    cy.getCookie('apvs-assisted-digital')
-      .should('have.property', 'value', encodeURIComponent(caseworker))
+    cy.getCookie('apvs-assisted-digital').should('have.property', 'value', encodeURIComponent(caseworker))
 
     // Start ("no" previous claim made)
     cy.get('[data-cy="no"]').check()
@@ -41,8 +40,7 @@ describe('First Time Claim Flow', () => {
     cy.get('[data-cy="dob-year"]').type('1956')
     cy.get('[data-cy="prisoner-number"]').type('Z6541TS')
     // test auto-complete for 'Hewell'
-    cy.get('input[data-cy="prison-name"]').type('Hewe').type('{enter}')
-      .should('have.value', 'Hewell')
+    cy.get('input[data-cy="prison-name"]').type('Hewe').type('{enter}').should('have.value', 'Hewell')
     cy.get('[data-cy="submit"]').contains('Continue').click()
 
     // About you
@@ -53,8 +51,7 @@ describe('First Time Claim Flow', () => {
     cy.get('[data-cy="town"]').type('New Testtown')
     cy.get('[data-cy="county"]').type('Testshire')
     cy.get('[data-cy="postcode"]').type('T1 2AB')
-    cy.get('[data-cy="country"]').select('England')
-      .should('have.value', 'England')
+    cy.get('[data-cy="country"]').select('England').should('have.value', 'England')
     cy.get('[data-cy="email"]').type('test-visitor@example.com')
     cy.get('[data-cy="phone"]').type('01234 567789')
     cy.get('[data-cy="submit"]').contains('Continue').click()
@@ -170,18 +167,14 @@ describe('First Time Claim Flow', () => {
     cy.get('[data-cy="prison"]').contains('Hewell')
     cy.get('[data-cy="visit-date"]').contains(todaysDate.format('dddd D MMMM YYYY'))
     cy.get('[data-cy="visit-confirmation"]').contains('Sending visit confirmation by post')
-    cy.get('[data-cy="expense-1"]')
-      .should('contain', 'Car')
-      .and('contain', 'New Testtown to Hewell')
-    cy.get('[data-cy="expense-amount-1"]').contains('20p per mile for this kind of travel (30p if travelling to a Scottish prison)')
-    cy.get('[data-cy="expense-2"]')
-      .should('contain', 'Bus')
-      .and('contain', 'Child - Euston to Birmingham New Street')
+    cy.get('[data-cy="expense-1"]').should('contain', 'Car').and('contain', 'New Testtown to Hewell')
+    cy.get('[data-cy="expense-amount-1"]').contains(
+      '20p per mile for this kind of travel (30p if travelling to a Scottish prison)',
+    )
+    cy.get('[data-cy="expense-2"]').should('contain', 'Bus').and('contain', 'Child - Euston to Birmingham New Street')
     cy.get('[data-cy="expense-amount-2"]').contains('£20')
     cy.get('[data-cy="expense-info-2"]').contains('Sending receipt by post')
-    cy.get('[data-cy="expense-3"]')
-      .should('contain', 'Bus')
-      .and('contain', 'Escort - Euston to Birmingham New Street')
+    cy.get('[data-cy="expense-3"]').should('contain', 'Bus').and('contain', 'Escort - Euston to Birmingham New Street')
     cy.get('[data-cy="expense-amount-3"]').contains('£21')
     cy.get('[data-cy="expense-info-3"]').contains('Sending receipt by post')
     cy.get('[data-cy="expense-4"]').contains('Light refreshment')

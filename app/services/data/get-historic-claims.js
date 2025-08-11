@@ -1,7 +1,10 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 
-module.exports = function (reference, dob) {
+module.exports = (reference, dob) => {
   const db = getDatabaseConnector()
 
-  return db.raw('SELECT * FROM [IntSchema].[getHistoricClaimIds] (?, ?) ORDER BY getHistoricClaimIds.DateSubmitted DESC', [reference, dob])
+  return db.raw(
+    'SELECT * FROM [IntSchema].[getHistoricClaimIds] (?, ?) ORDER BY getHistoricClaimIds.DateSubmitted DESC',
+    [reference, dob],
+  )
 }

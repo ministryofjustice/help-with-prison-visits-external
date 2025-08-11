@@ -5,8 +5,8 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const insertEscort = require('../../../../services/data/insert-escort')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/claim/about-escort', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/claim/about-escort', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -17,11 +17,11 @@ module.exports = function (router) {
     return res.render('apply/eligibility/claim/about-escort', {
       claimType: req.session.claimType,
       referenceId: req.session.referenceId,
-      claimId: req.session.claimId
+      claimId: req.session.claimId,
     })
   })
 
-  router.post('/apply/eligibility/claim/about-escort', function (req, res, next) {
+  router.post('/apply/eligibility/claim/about-escort', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -37,14 +37,14 @@ module.exports = function (router) {
         req.body?.LastName,
         req.body?.['dob-day'] ?? '',
         req.body?.['dob-month'] ?? '',
-        req.body?.['dob-year'] ?? ''
+        req.body?.['dob-year'] ?? '',
       )
 
       insertEscort(referenceAndEligibilityId.reference, referenceAndEligibilityId.id, req.session.claimId, escort)
-        .then(function () {
+        .then(() => {
           return res.redirect('/apply/eligibility/claim/has-child')
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {
@@ -54,11 +54,12 @@ module.exports = function (router) {
           claimType: req.session.claimType,
           referenceId: req.session.referenceId,
           claimId: req.session.claimId,
-          escort: req.body ?? {}
+          escort: req.body ?? {},
         })
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }

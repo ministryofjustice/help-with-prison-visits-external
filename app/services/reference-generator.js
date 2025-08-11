@@ -1,7 +1,7 @@
 const bases = require('bases')
 const referenceNumber = require('../constants/reference-number-enum')
 
-module.exports.generate = function () {
+module.exports.generate = () => {
   const min = 1073741824 // 1000000
   const max = 34359738367 // VVVVVVV
   const random = Math.floor(Math.random() * (max - min) + min)

@@ -4,7 +4,7 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 
 class ViewClaim {
-  constructor (visitConfirmationDocumentNotUpdated, benefitDocumentNotUpdated, claimExpenses, message) {
+  constructor(visitConfirmationDocumentNotUpdated, benefitDocumentNotUpdated, claimExpenses, message) {
     this.visitConfirmationDocumentNotUpdated = visitConfirmationDocumentNotUpdated
     this.benefitDocumentNotUpdated = benefitDocumentNotUpdated
     this.claimExpenses = claimExpenses
@@ -13,11 +13,11 @@ class ViewClaim {
     this.isValid()
   }
 
-  isValid () {
+  isValid() {
     const self = this
     const errors = ErrorHandler()
 
-    this.claimExpenses.forEach(function (expense) {
+    this.claimExpenses.forEach(expense => {
       if (!expense.fromInternalWeb) {
         self.updated = true
       }
@@ -27,8 +27,7 @@ class ViewClaim {
       throw new ValidationError({ updates: [ERROR_MESSAGES.getNoUpdatesMade] })
     }
 
-    FieldValidator(this.message, 'send-message-to-caseworker', errors)
-      .isLessThanLength(1000)
+    FieldValidator(this.message, 'send-message-to-caseworker', errors).isLessThanLength(1000)
 
     const validationErrors = errors.get()
     if (validationErrors) {

@@ -5,8 +5,8 @@ const referenceIdHelper = require('../../helpers/reference-id-helper')
 const insertNewEligibleChild = require('../../../services/data/insert-eligible-child')
 const SessionHandler = require('../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/eligible-child', function (req, res) {
+module.exports = router => {
+  router.get('/apply/:claimType/new-eligibility/eligible-child', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -20,11 +20,11 @@ module.exports = function (router) {
       dob: req.session.dobEncoded,
       relationship: req.session.relationship,
       benefit: req.session.benefit,
-      referenceId: req.session.referenceId
+      referenceId: req.session.referenceId,
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/eligible-child', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/eligible-child', (req, res, next) => {
     UrlPathValidator(req.params)
     req.session.claimType = req.params.claimType
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
@@ -49,38 +49,38 @@ module.exports = function (router) {
         req.body?.Town,
         req.body?.County,
         req.body?.PostCode,
-        req.body?.Country)
+        req.body?.Country,
+      )
 
       const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
 
       insertNewEligibleChild(eligibleChild, referenceAndEligibilityId.reference, referenceAndEligibilityId.id)
-        .then(function (result) {
-          const benefitOwner = req.session.benefitOwner
+        .then(result => {
+          const { benefitOwner } = req.session
 
           if (req.body?.['add-another-child']) {
             return res.redirect(req.originalUrl)
-          } else {
-            if (benefitOwner === 'no') {
-              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
-            } else {
-              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
-            }
           }
+          if (benefitOwner === 'no') {
+            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+          }
+          return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {
       if (error instanceof ValidationError) {
         return renderValidationError(req, res, eligibleChildDetails, error.validationErrors)
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }
 
-function renderValidationError (req, res, eligibleChildDetails, validationErrors) {
+function renderValidationError(req, res, eligibleChildDetails, validationErrors) {
   return res.status(400).render('apply/new-eligibility/eligible-child', {
     errors: validationErrors,
     URL: req.url,
@@ -89,6 +89,6 @@ function renderValidationError (req, res, eligibleChildDetails, validationErrors
     relationship: req.session.relationship,
     benefit: req.session.benefit,
     referenceId: req.session.referenceId,
-    eligibleChild: eligibleChildDetails
+    eligibleChild: eligibleChildDetails,
   })
 }

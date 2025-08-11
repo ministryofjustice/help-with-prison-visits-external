@@ -22,7 +22,7 @@ module.exports.REQURE_BENEFIT_UPLOAD = false
 module.exports.BENEFIT = 'income-support'
 module.exports.BENEFIT_OWNER = 'yes'
 
-module.exports.insert = function (reference, eligibilityId) {
+module.exports.insert = (reference, eligibilityId) => {
   const db = getDatabaseConnector()
 
   return db('IntSchema.Visitor').insert({
@@ -42,22 +42,18 @@ module.exports.insert = function (reference, eligibilityId) {
     DateOfBirth: this.DATE_OF_BIRTH.format('YYYY-MM-DD'),
     Relationship: this.RELATIONSHIP,
     Benefit: this.BENEFIT,
-    BenefitOwner: this.BENEFIT_OWNER
+    BenefitOwner: this.BENEFIT_OWNER,
   })
 }
 
-module.exports.get = function (reference) {
+module.exports.get = reference => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('IntSchema.Visitor')
-    .where('Reference', reference)
+  return db.first().from('IntSchema.Visitor').where('Reference', reference)
 }
 
-module.exports.delete = function (reference) {
+module.exports.delete = reference => {
   const db = getDatabaseConnector()
 
-  return db('IntSchema.Visitor')
-    .where('Reference', reference)
-    .del()
+  return db('IntSchema.Visitor').where('Reference', reference).del()
 }

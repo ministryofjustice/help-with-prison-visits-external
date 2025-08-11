@@ -3,7 +3,20 @@ const unsafeInputPattern = />|<|&lt|&gt/g
  * This is a base class for all of the expense domain objects.
  */
 class BaseExpense {
-  constructor (expenseType, cost, travelTime, from, to, isReturn, durationOfTravel, ticketType, ticketOwner, returnTime, toPostCode, fromPostCode) {
+  constructor(
+    expenseType,
+    cost,
+    travelTime,
+    from,
+    to,
+    isReturn,
+    durationOfTravel,
+    ticketType,
+    ticketOwner,
+    returnTime,
+    toPostCode,
+    fromPostCode,
+  ) {
     this.createField('expenseType', expenseType)
     this.createField('cost', cost)
     this.createField('travelTime', travelTime)
@@ -18,7 +31,7 @@ class BaseExpense {
     this.createField('fromPostCode', fromPostCode)
   }
 
-  createField (key, value) {
+  createField(key, value) {
     this[key] = value ? value.toString().replace(unsafeInputPattern, '').trim() : ''
   }
 }

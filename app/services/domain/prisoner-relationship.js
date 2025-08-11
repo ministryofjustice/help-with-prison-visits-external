@@ -4,12 +4,12 @@ const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class PrisonerRelationship {
-  constructor (relationship) {
+  constructor(relationship) {
     this.relationship = relationship ? relationship.trim() : ''
     this.isValid()
   }
 
-  isValid () {
+  isValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.relationship, 'relationship', errors)

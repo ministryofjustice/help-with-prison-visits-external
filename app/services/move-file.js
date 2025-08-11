@@ -1,8 +1,9 @@
 const path = require('path')
-const { AWSHelper } = require('./aws-helper')
+const AWSHelper = require('./aws-helper')
+
 const aws = new AWSHelper()
 
-module.exports = async function (tempPath, targetDir, targetFile) {
+module.exports = async (tempPath, targetDir, targetFile) => {
   const targetFilePath = path.join(targetDir, targetFile)
 
   try {

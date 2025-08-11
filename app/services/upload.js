@@ -1,29 +1,29 @@
-const config = require('../../config')
 const multer = require('multer')
 const crypto = require('crypto')
 const path = require('path')
-const UploadError = require('./errors/upload-error')
 const csrfProtection = require('csurf')({ cookie: true })
+const config = require('../../config')
+const UploadError = require('./errors/upload-error')
 
-const maxFileSize = parseInt(config.FILE_UPLOAD_MAXSIZE)
+const maxFileSize = parseInt(config.FILE_UPLOAD_MAXSIZE, 10)
 const allowedFileTypes = ['image/png', 'image/x-png', 'image/jpeg', 'image/pjpeg', 'application/pdf']
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination(req, file, cb) {
     cb(null, config.FILE_TMP_DIR)
   },
-  filename: function (req, file, cb) {
-    crypto.randomBytes(16, function (err, raw) {
+  filename(req, file, cb) {
+    crypto.randomBytes(16, (err, raw) => {
       cb(null, raw.toString('hex') + Date.now() + path.extname(file.originalname))
       if (err) {
         throw new Error('Problem creating filename')
       }
     })
-  }
+  },
 })
 
-function fileFilter (req, file, cb) {
-  csrfProtection(req, file, function (csrfError) {
+function fileFilter(req, file, cb) {
+  csrfProtection(req, file, csrfError => {
     if (csrfError) {
       req.error = csrfError
       return cb(null, false, csrfError)
@@ -33,14 +33,14 @@ function fileFilter (req, file, cb) {
       req.error = error
       return cb(null, false, error)
     }
-    cb(null, true)
+    return cb(null, true)
   })
 }
 
 module.exports = multer({
   storage,
   limits: {
-    fileSize: maxFileSize
+    fileSize: maxFileSize,
   },
-  fileFilter
+  fileFilter,
 }).single('document')

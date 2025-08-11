@@ -1,21 +1,21 @@
-module.exports.requestSerializer = function (request) {
+module.exports.requestSerializer = request => {
   return {
     url: request.url,
     method: request.method,
-    params: request.params
+    params: request.params,
   }
 }
 
-module.exports.responseSerializer = function (response) {
+module.exports.responseSerializer = response => {
   return {
-    statusCode: response.statusCode
+    statusCode: response.statusCode,
   }
 }
 
-module.exports.errorSerializer = function (error) {
+module.exports.errorSerializer = error => {
   return {
     message: error.message,
     name: error.name,
-    stack: error.stack
+    stack: error.stack,
   }
 }

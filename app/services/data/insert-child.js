@@ -1,7 +1,7 @@
 const { getDatabaseConnector } = require('../../databaseConnector')
 const AboutChild = require('../domain/about-child')
 
-module.exports = function (reference, eligibilityId, claimId, child) {
+module.exports = (reference, eligibilityId, claimId, child) => {
   if (!(child instanceof AboutChild)) {
     throw new Error('Provided object is not an instance of the expected class')
   }
@@ -16,6 +16,6 @@ module.exports = function (reference, eligibilityId, claimId, child) {
     LastName: child.lastName,
     DateOfBirth: child.dob.format('YYYY-MM-DD'),
     Relationship: child.childRelationship,
-    IsEnabled: true
+    IsEnabled: true,
   })
 }

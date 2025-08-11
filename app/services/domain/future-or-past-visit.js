@@ -4,12 +4,12 @@ const ErrorHandler = require('../validators/error-handler')
 const ERROR_MESSAGES = require('../validators/validation-error-messages')
 
 class FutureOrPastVisit {
-  constructor (advancePast) {
+  constructor(advancePast) {
     this.advancePast = advancePast
     this.isValid()
   }
 
-  isValid () {
+  isValid() {
     const errors = ErrorHandler()
 
     FieldValidator(this.advancePast, 'advance-past', errors)

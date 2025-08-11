@@ -4,8 +4,8 @@ const FutureOrPastVisit = require('../../../../services/domain/future-or-past-vi
 const ValidationError = require('../../../../services/errors/validation-error')
 const SessionHandler = require('../../../../services/validators/session-handler')
 
-module.exports = function (router) {
-  router.get('/apply/eligibility/new-claim/future-or-past-visit', function (req, res) {
+module.exports = router => {
+  router.get('/apply/eligibility/new-claim/future-or-past-visit', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -15,11 +15,11 @@ module.exports = function (router) {
 
     return res.render('apply/eligibility/new-claim/future-or-past-visit', {
       claimType: req.session.claimType,
-      referenceId: req.session.referenceId
+      referenceId: req.session.referenceId,
     })
   })
 
-  router.post('/apply/eligibility/new-claim/future-or-past-visit', function (req, res) {
+  router.post('/apply/eligibility/new-claim/future-or-past-visit', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -42,11 +42,10 @@ module.exports = function (router) {
         return res.status(400).render('apply/eligibility/new-claim/future-or-past-visit', {
           errors: error.validationErrors,
           claimType: req.session.claimType,
-          referenceId: req.session.referenceId
+          referenceId: req.session.referenceId,
         })
-      } else {
-        throw error
       }
+      throw error
     }
   })
 }

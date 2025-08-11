@@ -13,40 +13,28 @@ module.exports.TICKET_TYPE = null
 module.exports.TICKET_OWNER = 'child'
 module.exports.RETURN_TIME = null
 
-module.exports.build = function () {
-  return new BusExpense(
-    this.COST,
-    this.FROM,
-    this.TO,
-    this.IS_RETURN,
-    this.TICKET_OWNER
-  )
+module.exports.build = () => {
+  return new BusExpense(this.COST, this.FROM, this.TO, this.IS_RETURN, this.TICKET_OWNER)
 }
 
-module.exports.insert = function (reference, eligibilityId, claimId) {
+module.exports.insert = (reference, eligibilityId, claimId) => {
   return insertExpense(reference, eligibilityId, claimId, this.build())
 }
 
-module.exports.get = function (claimId) {
+module.exports.get = claimId => {
   const db = getDatabaseConnector()
 
-  return db.first()
-    .from('ExtSchema.ClaimExpense')
-    .where('ClaimId', claimId)
+  return db.first().from('ExtSchema.ClaimExpense').where('ClaimId', claimId)
 }
 
-module.exports.getAll = function (claimId) {
+module.exports.getAll = claimId => {
   const db = getDatabaseConnector()
 
-  return db.select()
-    .from('ExtSchema.ClaimExpense')
-    .where('ClaimId', claimId)
+  return db.select().from('ExtSchema.ClaimExpense').where('ClaimId', claimId)
 }
 
-module.exports.delete = function (claimId) {
+module.exports.delete = claimId => {
   const db = getDatabaseConnector()
 
-  return db('ExtSchema.ClaimExpense')
-    .where('ClaimId', claimId)
-    .del()
+  return db('ExtSchema.ClaimExpense').where('ClaimId', claimId).del()
 }

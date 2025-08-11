@@ -1,9 +1,9 @@
-module.exports = function (router) {
-  router.get('/', function (req, res) {
+module.exports = router => {
+  router.get('/', (req, res) => {
     return res.redirect('https://www.gov.uk/help-with-prison-visits')
   })
 
-  router.get('/assisted-digital', function (req, res) {
+  router.get('/assisted-digital', (req, res) => {
     const caseworker = req.query?.caseworker
 
     if (caseworker) {

@@ -7,8 +7,8 @@ const displayHelper = require('../../../views/helpers/display-helper')
 const SessionHandler = require('../../../services/validators/session-handler')
 const prisonerRelationshipEnum = require('../../../constants/prisoner-relationships-enum')
 
-module.exports = function (router) {
-  router.get('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res) {
+module.exports = router => {
+  router.get('/apply/:claimType/new-eligibility/about-the-prisoner', (req, res) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -20,11 +20,11 @@ module.exports = function (router) {
       URL: req.url,
       prisonerNumber: req.session.prisonerNumber,
       displayHelper,
-      showYCS: !!req.cookies['apvs-assisted-digital']
+      showYCS: !!req.cookies['apvs-assisted-digital'],
     })
   })
 
-  router.post('/apply/:claimType/new-eligibility/about-the-prisoner', function (req, res, next) {
+  router.post('/apply/:claimType/new-eligibility/about-the-prisoner', (req, res, next) => {
     UrlPathValidator(req.params)
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -33,19 +33,21 @@ module.exports = function (router) {
     }
 
     try {
-      const aboutThePrisoner = new AboutThePrisoner(req.body?.FirstName,
+      const aboutThePrisoner = new AboutThePrisoner(
+        req.body?.FirstName,
         req.body?.LastName,
         req.body?.['dob-day'] ?? '',
         req.body?.['dob-month'] ?? '',
         req.body?.['dob-year'] ?? '',
         req.body?.PrisonerNumber,
-        req.body?.NameOfPrison)
+        req.body?.NameOfPrison,
+      )
 
       insertNewEligibilityAndPrisoner(aboutThePrisoner, req.params.claimType, req.session.decryptedRef)
-        .then(function (result) {
+        .then(result => {
           req.session.referenceId = referenceIdHelper.getReferenceId(result.reference, result.eligibilityId)
           req.session.decryptedRef = result.reference
-          const benefitOwner = req.session.benefitOwner
+          const { benefitOwner } = req.session
           const relationships = Object.keys(prisonerRelationshipEnum)
           let relationship
           for (const r of relationships) {
@@ -55,15 +57,13 @@ module.exports = function (router) {
           }
           if (relationship === 'eligible-child') {
             return res.redirect(`/apply/${req.params.claimType}/new-eligibility/eligible-child`)
-          } else {
-            if (benefitOwner === 'no') {
-              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
-            } else {
-              return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
-            }
           }
+          if (benefitOwner === 'no') {
+            return res.redirect(`/apply/${req.params.claimType}/new-eligibility/benefit-owner`)
+          }
+          return res.redirect(`/apply/${req.params.claimType}/new-eligibility/about-you`)
         })
-        .catch(function (error) {
+        .catch(error => {
           next(error)
         })
     } catch (error) {
@@ -73,11 +73,12 @@ module.exports = function (router) {
           URL: req.url,
           prisonerNumber: (req.body && req.query['prisoner-number']) ?? '',
           prisoner: req.body ?? {},
-          displayHelper
+          displayHelper,
         })
-      } else {
-        throw error
       }
+      throw error
     }
+
+    return null
   })
 }

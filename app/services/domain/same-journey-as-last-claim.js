@@ -3,16 +3,15 @@ const FieldValidator = require('../validators/field-validator')
 const ErrorHandler = require('../validators/error-handler')
 
 class SameJourneyAsLastClaim {
-  constructor (sameJourneyAsLastClaim) {
+  constructor(sameJourneyAsLastClaim) {
     this.sameJourneyAsLastClaim = sameJourneyAsLastClaim
     this.isValid()
   }
 
-  isValid () {
+  isValid() {
     const errors = ErrorHandler()
 
-    FieldValidator(this.sameJourneyAsLastClaim, 'same-journey-as-last-claim', errors)
-      .isRequired()
+    FieldValidator(this.sameJourneyAsLastClaim, 'same-journey-as-last-claim', errors).isRequired()
 
     const validationErrors = errors.get()
     if (validationErrors) {

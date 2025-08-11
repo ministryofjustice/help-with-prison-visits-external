@@ -9,8 +9,8 @@ const log = bunyan.createLogger({
   serializers: {
     request: serializers.requestSerializer,
     response: serializers.responseSerializer,
-    error: serializers.errorSerializer
-  }
+    error: serializers.errorSerializer,
+  },
 })
 
 log.addStream(streams.buildConsoleStream())
