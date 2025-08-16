@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.864.0",
-    "applicationinsights": "^2.9.7",
+    "applicationinsights": "^2.9.8",
     "axios": "^1.11.0",
     "bases": "^0.2.1",
     "bunyan": "^1.8.15",
