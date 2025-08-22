@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 require('../azure-appinsights')
 var app = process.env.APVS_MAINTENANCE_MODE === 'true' ? require('../app-maintenance') : require('../app')
 var debug = require('debug')('apvs-external-web:server')

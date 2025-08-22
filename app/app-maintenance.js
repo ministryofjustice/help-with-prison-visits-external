@@ -2,7 +2,6 @@ const express = require('express')
 const nunjucks = require('nunjucks')
 const path = require('path')
 const i18n = require('i18n')
-const onFinished = require('on-finished')
 const log = require('./services/log')
 
 const app = express()
@@ -52,18 +51,6 @@ i18n.configure({
 })
 app.use(i18n.init)
 
-// Log each HTML request and it's response.
-app.use((req, res, next) => {
-  // Log response started.
-  log.info({ request: req }, 'Route Started.')
-
-  // Log response finished.
-  onFinished(res, () => {
-    log.info({ response: res }, 'Route Complete.')
-  })
-  next()
-})
-
 // Add variables that are available in all views.
 app.use((req, res, next) => {
   res.locals.serviceName = serviceName
@@ -95,7 +82,7 @@ app.use((req, res, next) => {
 
 // Development error handler.
 app.use((err, req, res, next) => {
-  log.error({ error: err })
+  log.error(err)
   res.status(err.status || 500)
   if (err.status === 404) {
     res.render('includes/error-404')

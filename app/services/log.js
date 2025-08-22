@@ -1,19 +1,9 @@
 const bunyan = require('bunyan')
-const serializers = require('./log-serializers')
-const streams = require('./log-streams')
+const bunyanFormat = require('bunyan-format')
+const config = require('../../config')
 
-// Create a base logger for the application.
-const log = bunyan.createLogger({
-  name: 'external-web',
-  streams: [],
-  serializers: {
-    request: serializers.requestSerializer,
-    response: serializers.responseSerializer,
-    error: serializers.errorSerializer,
-  },
-})
+const formatOut = bunyanFormat({ outputMode: 'short', color: !config.PRODUCTION })
 
-log.addStream(streams.buildConsoleStream())
-log.addStream(streams.buildFileStream())
+const log = bunyan.createLogger({ name: 'HwPV Internal', stream: formatOut, level: 'debug' })
 
 module.exports = log
