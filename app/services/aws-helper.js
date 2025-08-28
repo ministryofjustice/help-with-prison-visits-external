@@ -21,6 +21,8 @@ class AWSHelper {
       this.s3config.forcePathStyle = true
     }
 
+    log.info(this.s3config)
+
     this.s3 = new S3(this.s3config)
   }
 
