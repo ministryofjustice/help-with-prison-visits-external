@@ -18,6 +18,8 @@ module.exports.scan = async filePath => {
 
       if (isInfected === null) throw new Error('ClamAV: Unable to scan')
 
+      log.info('ClamAV file scanned')
+
       return Promise.resolve(isInfected)
     } catch (err) {
       log.error(err)
