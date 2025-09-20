@@ -70,9 +70,9 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.887.0",
+    "@aws-sdk/client-s3": "^3.890.0",
     "applicationinsights": "^2.9.8",
-    "axios": "^1.11.0",
+    "axios": "^1.12.2",
     "bases": "^0.2.1",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
@@ -81,7 +81,7 @@
     "cookie-parser": "^1.4.7",
     "cookie-session": "^2.1.1",
     "csurf": "^1.11.0",
-    "debug": "^4.4.1",
+    "debug": "^4.4.3",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "govuk-frontend": "^5.11.2",
