@@ -6,5 +6,9 @@ generic-service:
     host: "help-with-prison-visits.service.gov.uk"
     tlsSecretName: "help-with-prison-visits-service-cert"
 
+  env:
+    FEATURES_YCS_JOURNEY: 'true'
+    ENVIRONMENT_NAME: prod
+
 generic-prometheus-alerts:
   alertSeverity: help-with-prison-visits

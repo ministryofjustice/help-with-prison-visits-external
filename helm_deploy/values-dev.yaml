@@ -6,6 +6,7 @@ generic-service:
 
   env:
     FEATURES_YCS_JOURNEY: 'true'
+    ENVIRONMENT_NAME: dev
 
   allowlist:
     groups:
