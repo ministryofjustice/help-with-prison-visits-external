@@ -62,7 +62,6 @@ COPY --from=build --chown=appuser:appgroup \
         /app/knexfile.js \
         /app/config.js \
         /app/build-info.json \
-        /app/build-css \
         ./
 
 COPY --from=build --chown=appuser:appgroup \
