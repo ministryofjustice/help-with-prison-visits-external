@@ -6,7 +6,7 @@ generic-service:
   productId: "DPS081"
 
   image:
-    repository: quay.io/hmpps/help-with-prison-visits-external
+    repository: ghcr.io/ministryofjustice/help-with-prison-visits-external
     tag: app_version    # override at deployment time
     port: 3000
 
