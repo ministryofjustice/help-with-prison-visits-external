@@ -165,7 +165,7 @@ function checkForMalware(req, res, next, redirectURL) {
   } else {
     // This handles the case were Post/Upload Later is selected, so no actual file is being provided,
     // however we still need to insert metadata indicating that the user selected on of these options
-    updateClaimDocumentMetadata(ids, claimId, req)
+    updateClaimDocumentMetadata(ids, claimId, req, false)
       .then(() => {
         res.redirect(redirectURL)
       })
@@ -229,9 +229,9 @@ function insertMalwareAlertTask(ids, claimId, path) {
   throw new ValidationError({ upload: [ERROR_MESSAGES.getMalwareDetected] })
 }
 
-function updateClaimDocumentMetadata(ids, claimId, req) {
-  return disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query?.hideAlt).then(() => {
-    return ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload)
+function updateClaimDocumentMetadata(ids, claimId, req, fileUploaded = true) {
+  return disableOldClaimDocuments(ids.reference, claimId, req.fileUpload, req.query?.hideAlt, fileUploaded).then(() => {
+    return ClaimDocumentInsert(ids.reference, ids.eligibilityId, claimId, req.fileUpload, fileUploaded)
   })
 }
 
