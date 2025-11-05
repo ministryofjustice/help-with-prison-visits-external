@@ -16,6 +16,14 @@ generic-service:
     annotations:
       # note this limit is per ingress replica
       nginx.ingress.kubernetes.io/limit-rpm: "120"
+      nginx.ingress.kubernetes.io/server-snippet: add_header X-Robots-Tag "noindex, nofollow";
+    modsecurity_enabled: true
+    modsecurity_snippet: |
+      SecRuleEngine DetectionOnly
+      SecAuditEngine On
+      SecAuditLog /var/log/nginx/error.log
+      SecAuditLogType Serial
+      SecDefaultAction "phase:2,pass,log,tag:github_team=hmpps-prison-visits-booking,tag:namespace={{ .Release.Namespace }}"
 
   livenessProbe:
     httpGet:
