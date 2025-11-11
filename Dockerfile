@@ -1,19 +1,23 @@
 # Stage: base image
-FROM node:24-bookworm-slim AS base
-
-ARG BUILD_NUMBER
-ARG GIT_REF
-ARG GIT_BRANCH
+FROM node:24-alpine AS base
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
+
+RUN apk --update-cache upgrade --available \
+        && apk --no-cache add tzdata \
+        && rm -rf /var/cache/apk/*
 
 ENV TZ=Europe/London
 RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
 
 RUN addgroup --gid 2000 --system appgroup && \
-    adduser --uid 2000 --system appuser --gid 2000
+        adduser --uid 2000 --system appuser --ingroup appgroup
 
 WORKDIR /app
+
+ARG BUILD_NUMBER
+ARG GIT_REF
+ARG GIT_BRANCH
 
 # Cache breaking and ensure required build / git args defined
 RUN test -n "$BUILD_NUMBER" || (echo "BUILD_NUMBER not set" && false)
@@ -25,11 +29,6 @@ ENV BUILD_NUMBER=${BUILD_NUMBER}
 ENV GIT_REF=${GIT_REF}
 ENV GIT_BRANCH=${GIT_BRANCH}
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
-
 # Stage: build assets
 FROM base AS build
 
@@ -39,6 +38,7 @@ ARG GIT_BRANCH
 
 COPY package*.json ./
 RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
+ENV NODE_ENV='production'
 
 COPY . .
 RUN npm run css-build
