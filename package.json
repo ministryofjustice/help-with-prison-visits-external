@@ -72,9 +72,9 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.921.0",
+    "@aws-sdk/client-s3": "^3.927.0",
     "applicationinsights": "^2.9.8",
-    "axios": "^1.13.1",
+    "axios": "^1.13.2",
     "bases": "^0.2.1",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
@@ -97,13 +97,13 @@
     "nunjucks": "^3.2.4",
     "path": "^0.12.7",
     "sanitize-html": "^2.17.0",
-    "sass": "^1.93.2",
+    "sass": "^1.93.3",
     "tedious": "^19.0.0",
     "validator": "^13.15.20"
   },
   "devDependencies": {
-    "@ministryofjustice/eslint-config-hmpps": "^1.0.0",
-    "cypress": "^15.5.0",
+    "@ministryofjustice/eslint-config-hmpps": "^1.0.1",
+    "cypress": "^15.6.0",
     "jest": "^30.2.0",
     "jest-html-reporter": "^4.3.0",
     "jest-junit": "^16.0.0",
