@@ -1,4 +1,3 @@
-
 {
   "name": "help-with-prison-visits-external",
   "version": "1.0.0",
@@ -26,14 +25,15 @@
     "test-unit": "jest",
     "test:ci": "jest --runInBand --coverage",
     "test-e2e": "KNEX_CONFIG=testing cypress run --config video=false",
-    "test-e2e-ui": "KNEX_CONFIG=testing cypress open"
+    "test-e2e-ui": "KNEX_CONFIG=testing cypress open",
+    "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "jest": {
     "collectCoverageFrom": [
       "app/**/*.{ts,js,jsx,mjs}"
     ],
-    "testPathIgnorePatterns" : [
-      "<rootDir>/test/unit/routes/mock-view-engine.js" 
+    "testPathIgnorePatterns": [
+      "<rootDir>/test/unit/routes/mock-view-engine.js"
     ],
     "testMatch": [
       "<rootDir>/test/unit/**/?(*.){ts,js,jsx,mjs}"
@@ -103,6 +103,7 @@
   },
   "devDependencies": {
     "@ministryofjustice/eslint-config-hmpps": "^1.0.1",
+    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
     "cypress": "^15.7.0",
     "jest": "^30.2.0",
     "jest-html-reporter": "^4.3.0",
