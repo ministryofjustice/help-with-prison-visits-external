@@ -43,10 +43,6 @@ ENV NODE_ENV='production'
 COPY . .
 RUN npm run css-build
 
-RUN export BUILD_NUMBER=${BUILD_NUMBER} && \
-    export GIT_REF=${GIT_REF} && \
-    npm run record-build-info
-
 RUN npm prune --no-audit --omit=dev
 
 # Stage: copy production assets and dependencies
@@ -61,7 +57,6 @@ COPY --from=build --chown=appuser:appgroup \
         /app/package-lock.json \
         /app/knexfile.js \
         /app/config.js \
-        /app/build-info.json \
         ./
 
 COPY --from=build --chown=appuser:appgroup \

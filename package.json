@@ -13,7 +13,6 @@
   "scripts": {
     "build": "./build",
     "css-build": "sass --no-source-map --quiet-deps --load-path=node_modules/govuk-frontend/dist --load-path=. ./app/assets/sass/application.scss ./app/public/stylesheets/application.css",
-    "record-build-info": "node scripts/record-build-info",
     "security_audit": "npx audit-ci --config audit-ci.json",
     "start": "npm run css-build && node ./app/bin/www",
     "lint": "eslint . --cache --max-warnings 0",
