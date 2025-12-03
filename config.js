@@ -1,4 +1,25 @@
+const production = process.env.NODE_ENV === 'production'
+
+function get(name, fallback, options = { requireInProduction: false }) {
+  if (process.env[name]) {
+    return process.env[name]
+  }
+  if (fallback !== undefined && (!production || !options.requireInProduction)) {
+    return fallback
+  }
+  throw new Error(`Missing env var ${name}`)
+}
+
+const requiredInProduction = { requireInProduction: true }
+
 module.exports = {
+  buildNumber: get('BUILD_NUMBER', '1_0_0', requiredInProduction),
+  productId: get('PRODUCT_ID', 'UNASSIGNED', requiredInProduction),
+  gitRef: get('GIT_REF', 'xxxxxxxxxxxxxxxxxxx', requiredInProduction),
+  branchName: get('GIT_BRANCH', 'xxxxxxxxxxxxxxxxxxx', requiredInProduction),
+
+  apis: {},
+
   // Logging
   LOGGING_PATH: process.env.LOGGING_PATH,
   LOGGING_LEVEL: process.env.LOGGING_LEVEL || 'DEBUG',

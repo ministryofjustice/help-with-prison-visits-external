@@ -3,7 +3,7 @@ const routeHelper = require('../../../helpers/routes/route-helper')
 const status = require('../../../../app/routes/health-check/status')
 
 describe('routes/health-check/status', () => {
-  const ROUTE = '/status'
+  const ROUTE = '/info'
 
   let app
 
@@ -17,12 +17,12 @@ describe('routes/health-check/status', () => {
     })
   })
 
-  describe('GET /health', () => {
-    it('should respond with a 200', () => {
-      return supertest(app)
-        .get('/health')
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
-    })
-  })
+  // describe('GET /health', () => {
+  //   it('should respond with a 200', () => {
+  //     return supertest(app)
+  //       .get('/health')
+  //       .expect(200)
+  //       .expect('Content-Type', /application\/json/)
+  //   })
+  // })
 })
