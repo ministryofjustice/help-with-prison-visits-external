@@ -3,6 +3,7 @@ const hmppsConfig = require('@ministryofjustice/eslint-config-hmpps')
 
 const config = hmppsConfig({
   extraIgnorePaths: ['app/assets/**/*.js', 'test/integration/**/*.js', 'test/cypress-e2e/**/*.js', 'cypress.config.js'],
+  extraPathsAllowingDevDependencies: ['.allowed-scripts.mjs'],
 })
 config.push({
   rules: {
