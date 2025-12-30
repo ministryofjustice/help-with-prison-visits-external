@@ -5,7 +5,7 @@ const helmet = require('helmet')
 const compression = require('compression')
 const i18n = require('i18n')
 const cookieParser = require('cookie-parser')
-const csurf = require('csurf')
+const { csrfSync } = require('csrf-sync')
 const cookieSession = require('cookie-session')
 const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
 const log = require('./services/log')
@@ -122,21 +122,29 @@ app.use(i18n.init)
 app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' }))
 
 // Check for valid CSRF tokens on state-changing methods.
-const csrfProtection = csurf({ cookie: { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' } })
+const {
+  csrfSynchronisedProtection, // This is the default CSRF protection middleware.
+} = csrfSync({
+  // By default, csrf-sync uses x-csrf-token header, but we use the token in forms and send it in the request body, so change getTokenFromRequest so it grabs from there
+  getTokenFromRequest: req => {
+    // eslint-disable-next-line no-underscore-dangle
+    return req.body?._csrf
+  },
+})
 
 app.use((req, res, next) => {
   csrfExcludeRoutes.forEach(route => {
     if (req.originalUrl.includes(route) && req.method === 'POST') {
       next()
     } else {
-      csrfProtection(req, res, next)
+      csrfSynchronisedProtection(req, res, next)
     }
   })
 })
 
 // Generate CSRF tokens to be sent in POST requests
 app.use((req, res, next) => {
-  if (Object.prototype.hasOwnProperty.call(req, 'csrfToken')) {
+  if (typeof req.csrfToken === 'function') {
     res.locals.csrfToken = req.csrfToken()
   }
   next()

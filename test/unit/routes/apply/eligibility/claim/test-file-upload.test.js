@@ -14,24 +14,26 @@ describe('routes/apply/eligibility/claim/file-upload', () => {
   const mockUpload = jest.fn()
   const mockFileUpload = jest.fn()
   const mockClaimDocumentInsert = jest.fn()
-  const mockGenerateCSRFToken = jest.fn()
   const mockClamAv = jest.fn()
   const mockInsertTask = jest.fn()
   const mockDisableOldClaimDocuments = jest.fn()
   const mockCheckExpenseIsEnabled = jest.fn()
-  const mockCsurf = jest.fn()
-  const mockCsurfResponse = jest.fn()
+  const mockIsRequestValid = jest.fn()
+  const mockCsrfSync = {
+    generateToken: jest.fn(),
+    isRequestValid: mockIsRequestValid,
+    invalidCsrfTokenError: new Error(),
+  }
 
   beforeEach(() => {
     mockDisableOldClaimDocuments.mockResolvedValue()
     mockCheckExpenseIsEnabled.mockResolvedValue()
-    mockCsurf.mockReturnValue(mockCsurfResponse)
+    mockIsRequestValid.mockReturnValue(true)
 
     jest.mock('../../../../../../app/services/validators/url-path-validator', () => mockUrlPathValidator)
     jest.mock('../../../../../../app/services/upload', () => mockUpload)
     jest.mock('../../../../../../app/services/domain/file-upload', () => mockFileUpload)
     jest.mock('../../../../../../app/services/data/insert-file-upload-details-for-claim', () => mockClaimDocumentInsert)
-    jest.mock('../../../../../../app/services/generate-csrf-token', () => mockGenerateCSRFToken)
     jest.mock('../../../../../../app/services/clam-av', async () => {
       return {
         scan: await mockClamAv,
@@ -49,7 +51,7 @@ describe('routes/apply/eligibility/claim/file-upload', () => {
     jest.mock('../../../../../../app/services/data/insert-task', () => mockInsertTask)
     jest.mock('../../../../../../app/services/data/disable-old-claim-documents', () => mockDisableOldClaimDocuments)
     jest.mock('../../../../../../app/services/data/check-expense-is-enabled', () => mockCheckExpenseIsEnabled)
-    jest.mock('csurf', () => mockCsurf)
+    jest.mock('csrf-sync', () => mockCsrfSync)
 
     const route = require('../../../../../../app/routes/apply/eligibility/claim/file-upload')
     app = routeHelper.buildApp(route)
@@ -66,15 +68,6 @@ describe('routes/apply/eligibility/claim/file-upload', () => {
         .set('Cookie', COOKIES)
         .expect(() => {
           expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
-        })
-    })
-
-    it('should call the CSRFToken generator', () => {
-      return supertest(app)
-        .get(ROUTE)
-        .set('Cookie', COOKIES)
-        .expect(() => {
-          expect(mockGenerateCSRFToken).toHaveBeenCalledTimes(1)
         })
     })
 

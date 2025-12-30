@@ -1,4 +1,4 @@
-const csrfProtection = require('csurf')({ cookie: true })
+const { generateToken, isRequestValid, invalidCsrfTokenError } = require('csrf-sync')
 const fs = require('fs').promises
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
@@ -10,7 +10,6 @@ const FileUpload = require('../../../../services/domain/file-upload')
 const moveFile = require('../../../../services/move-file')
 const disableOldClaimDocuments = require('../../../../services/data/disable-old-claim-documents')
 const ClaimDocumentInsert = require('../../../../services/data/insert-file-upload-details-for-claim')
-const generateCSRFToken = require('../../../../services/generate-csrf-token')
 const decrypt = require('../../../../services/helpers/decrypt')
 const clam = require('../../../../services/clam-av')
 const config = require('../../../../../config')
@@ -59,7 +58,7 @@ module.exports = router => {
 }
 
 function get(req, res) {
-  csrfToken = generateCSRFToken(req)
+  csrfToken = generateToken(req, true)
   UrlPathValidator(req.params)
   const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -116,9 +115,9 @@ function post(req, res, next, _redirectURL) {
     try {
       // If there was no file attached, we still need to check the CSRF token
       if (!req.file) {
-        csrfProtection(req, res, csrfError => {
-          if (csrfError) throw error
-        })
+        if (!isRequestValid(req)) {
+          throw invalidCsrfTokenError
+        }
       }
 
       if (error) {
