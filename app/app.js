@@ -7,7 +7,6 @@ const i18n = require('i18n')
 const cookieParser = require('cookie-parser')
 const { csrfSync } = require('csrf-sync')
 const cookieSession = require('cookie-session')
-const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
 const log = require('./services/log')
 const routes = require('./routes/routes')
 const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
@@ -133,18 +132,16 @@ const {
 })
 
 app.use((req, res, next) => {
-  csrfExcludeRoutes.forEach(route => {
-    if (req.originalUrl.includes(route) && req.method === 'POST') {
-      next()
-    } else {
-      csrfSynchronisedProtection(req, res, next)
-    }
-  })
+  if (req.originalUrl.includes('file-upload') && req.method === 'POST') {
+    next()
+  }
+
+  csrfSynchronisedProtection(req, res, next)
 })
 
 // Generate CSRF tokens to be sent in POST requests
 app.use((req, res, next) => {
-  if (typeof req.csrfToken === 'function') {
+  if (Object.prototype.hasOwnProperty.call(req, 'csrfToken')) {
     res.locals.csrfToken = req.csrfToken()
   }
   next()
