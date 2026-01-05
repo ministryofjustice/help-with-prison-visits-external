@@ -4,9 +4,8 @@ const path = require('path')
 const helmet = require('helmet')
 const compression = require('compression')
 const i18n = require('i18n')
-const cookieParser = require('cookie-parser')
 const { csrfSync } = require('csrf-sync')
-const cookieSession = require('cookie-session')
+const session = require('express-session')
 const log = require('./services/log')
 const routes = require('./routes/routes')
 const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
@@ -77,12 +76,24 @@ govukAssets.forEach(dir => {
 })
 
 // Cookie session
-app.set('trust proxy', 1) // trust first proxy
+app.set('trust proxy', true)
+
 app.use(
-  cookieSession({
+  session({
+    secret: config.EXT_APPLICATION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
+    proxy: true,
     name: 'apvs-start-application',
-    keys: [config.EXT_APPLICATION_SECRET],
-    maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE, 10),
+    cookie: {
+      // domain: config.HWPVCOOKIE.DOMAIN,
+      httpOnly: true,
+      maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE, 10),
+      sameSite: 'lax',
+      secure: config.production,
+      signed: true,
+    },
   }),
 )
 // Update a value in the cookie so that the set-cookie will be sent
@@ -117,9 +128,6 @@ i18n.configure({
 })
 app.use(i18n.init)
 
-// Use cookie parser middleware (required for csurf)
-app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' }))
-
 // Check for valid CSRF tokens on state-changing methods.
 const {
   csrfSynchronisedProtection, // This is the default CSRF protection middleware.
@@ -141,7 +149,7 @@ app.use((req, res, next) => {
 
 // Generate CSRF tokens to be sent in POST requests
 app.use((req, res, next) => {
-  if (Object.prototype.hasOwnProperty.call(req, 'csrfToken')) {
+  if (typeof req.csrfToken === 'function') {
     res.locals.csrfToken = req.csrfToken()
   }
   next()
