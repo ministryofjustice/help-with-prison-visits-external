@@ -3,6 +3,7 @@ const crypto = require('crypto')
 const path = require('path')
 const helmet = require('helmet')
 const compression = require('compression')
+const cookieParser = require('cookie-parser')
 const i18n = require('i18n')
 const { csrfSync } = require('csrf-sync')
 const cookieSession = require('cookie-session')
@@ -116,6 +117,9 @@ i18n.configure({
   updateFiles: config.I18N_UPDATEFILES || true,
 })
 app.use(i18n.init)
+
+// Use cookie parser middleware (required for csurf)
+app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' }))
 
 // Check for valid CSRF tokens on state-changing methods.
 const {
