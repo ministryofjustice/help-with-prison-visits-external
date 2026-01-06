@@ -5,7 +5,7 @@ const helmet = require('helmet')
 const compression = require('compression')
 const i18n = require('i18n')
 const { csrfSync } = require('csrf-sync')
-const session = require('express-session')
+const cookieSession = require('cookie-session')
 const log = require('./services/log')
 const routes = require('./routes/routes')
 const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
@@ -76,26 +76,15 @@ govukAssets.forEach(dir => {
 })
 
 // Cookie session
-app.set('trust proxy', true)
-
+app.set('trust proxy', 1) // trust first proxy
 app.use(
-  session({
-    secret: config.EXT_APPLICATION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    rolling: true,
-    proxy: true,
+  cookieSession({
     name: 'apvs-start-application',
-    cookie: {
-      // domain: config.HWPVCOOKIE.DOMAIN,
-      httpOnly: true,
-      maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE, 10),
-      sameSite: 'lax',
-      secure: config.production,
-      signed: true,
-    },
+    keys: [config.EXT_APPLICATION_SECRET],
+    maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE, 10),
   }),
 )
+
 // Update a value in the cookie so that the set-cookie will be sent
 app.use((req, res, next) => {
   req.session.nowInMinutes = Date.now() / 60e3
