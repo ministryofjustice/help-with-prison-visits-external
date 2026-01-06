@@ -5,7 +5,7 @@ const helmet = require('helmet')
 const compression = require('compression')
 const cookieParser = require('cookie-parser')
 const i18n = require('i18n')
-const { csrfSync } = require('csrf-csrf')
+const { doubleCsrf } = require('csrf-csrf')
 const cookieSession = require('cookie-session')
 const log = require('./services/log')
 const routes = require('./routes/routes')
@@ -123,8 +123,8 @@ app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: co
 
 // Check for valid CSRF tokens on state-changing methods.
 const {
-  csrfSynchronisedProtection, // This is the default CSRF protection middleware.
-} = csrfSync({
+  doubleCsrfProtection, // This is the default CSRF protection middleware.
+} = doubleCsrf({
   // By default, csrf-sync uses x-csrf-token header, but we use the token in forms and send it in the request body, so change getTokenFromRequest so it grabs from there
   getTokenFromRequest: req => {
     // eslint-disable-next-line no-underscore-dangle
@@ -137,7 +137,7 @@ app.use((req, res, next) => {
     next()
   }
 
-  csrfSynchronisedProtection(req, res, next)
+  doubleCsrfProtection(req, res, next)
 })
 
 // Generate CSRF tokens to be sent in POST requests

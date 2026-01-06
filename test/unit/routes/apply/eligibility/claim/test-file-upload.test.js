@@ -19,7 +19,7 @@ describe('routes/apply/eligibility/claim/file-upload', () => {
   const mockDisableOldClaimDocuments = jest.fn()
   const mockCheckExpenseIsEnabled = jest.fn()
   const mockValidateRequest = jest.fn()
-  const mockCsrfSync = {
+  const mockdoubleCsrf = {
     generateCsrfToken: jest.fn(),
     validateRequest: mockValidateRequest,
     invalidCsrfTokenError: new Error(),
@@ -51,7 +51,7 @@ describe('routes/apply/eligibility/claim/file-upload', () => {
     jest.mock('../../../../../../app/services/data/insert-task', () => mockInsertTask)
     jest.mock('../../../../../../app/services/data/disable-old-claim-documents', () => mockDisableOldClaimDocuments)
     jest.mock('../../../../../../app/services/data/check-expense-is-enabled', () => mockCheckExpenseIsEnabled)
-    jest.mock('csrf-csrf', () => mockCsrfSync)
+    jest.mock('csrf-csrf', () => mockdoubleCsrf)
 
     const route = require('../../../../../../app/routes/apply/eligibility/claim/file-upload')
     app = routeHelper.buildApp(route)
