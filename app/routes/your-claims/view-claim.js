@@ -88,7 +88,7 @@ module.exports = router => {
     const NameOnAccount = req.body?.NameOnAccount
     const RollNumber = req.body?.RollNumber
     const message = req.body?.['message-to-caseworker'] ?? ''
-    const assistedDigitalCookie = req.cookies?.['apvs-assisted-digital']
+    const assistedDigitalCookie = req.cookies['apvs-assisted-digital']
 
     req.session.claimId = req.params.claimId
 
