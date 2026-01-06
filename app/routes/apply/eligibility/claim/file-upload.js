@@ -1,4 +1,4 @@
-const { generateToken, isRequestValid, invalidCsrfTokenError } = require('csrf-sync')
+const { generateCsrfToken, validateRequest, invalidCsrfTokenError } = require('csrf-csrf')
 const fs = require('fs').promises
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
@@ -56,7 +56,7 @@ module.exports = router => {
 }
 
 function get(req, res) {
-  csrfToken = generateToken(req, true)
+  csrfToken = generateCsrfToken(req, res, { overwrite: true })
   UrlPathValidator(req.params)
   const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -113,7 +113,7 @@ function post(req, res, next, _redirectURL) {
     try {
       // If there was no file attached, we still need to check the CSRF token
       if (!req.file) {
-        if (!isRequestValid(req)) {
+        if (!validateRequest(req)) {
           throw invalidCsrfTokenError
         }
       }
