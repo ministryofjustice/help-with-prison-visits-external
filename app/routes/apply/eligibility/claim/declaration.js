@@ -35,7 +35,7 @@ module.exports = router => {
     }
 
     const referenceAndEligibilityId = referenceIdHelper.extractReferenceId(req.session.referenceId)
-    const assistedDigitalCaseWorker = req.cookies['apvs-assisted-digital']
+    const assistedDigitalCaseWorker = req.cookies?.['apvs-assisted-digital']
 
     try {
       new Declaration(req.body?.['terms-and-conditions-input'] ?? '') // eslint-disable-line no-new

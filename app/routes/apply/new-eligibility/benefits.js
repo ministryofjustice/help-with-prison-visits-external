@@ -23,7 +23,7 @@ module.exports = router => {
     return res.render('apply/new-eligibility/benefits', {
       URL: req.url,
       relationship,
-      showYCS: !!req.cookies['apvs-assisted-digital'],
+      showYCS: !!req.cookies?.['apvs-assisted-digital'],
     })
   })
 

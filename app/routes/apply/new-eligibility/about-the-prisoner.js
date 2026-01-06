@@ -20,7 +20,7 @@ module.exports = router => {
       URL: req.url,
       prisonerNumber: req.session.prisonerNumber,
       displayHelper,
-      showYCS: !!req.cookies['apvs-assisted-digital'],
+      showYCS: !!req.cookies?.['apvs-assisted-digital'],
     })
   })
 
