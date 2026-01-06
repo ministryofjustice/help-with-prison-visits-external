@@ -125,8 +125,9 @@ app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: co
 const {
   doubleCsrfProtection, // This is the default CSRF protection middleware.
 } = doubleCsrf({
+  getSecret: () => config.EXT_APPLICATION_SECRET,
   // By default, csrf-sync uses x-csrf-token header, but we use the token in forms and send it in the request body, so change getTokenFromRequest so it grabs from there
-  getTokenFromRequest: req => {
+  getCsrfTokenFromRequest: req => {
     // eslint-disable-next-line no-underscore-dangle
     return req.body?._csrf
   },
