@@ -38,12 +38,14 @@ describe('routes/apply/eligibility/claim/bank-payment-details', () => {
 
   describe(`GET ${ROUTE}`, () => {
     it('should call the URL Path Validator', () => {
-      return supertest(app)
-        .get(ROUTE)
-        // .set('Cookie', COOKIES)
-        .expect(() => {
-          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
-        })
+      return (
+        supertest(app)
+          .get(ROUTE)
+          // .set('Cookie', COOKIES)
+          .expect(() => {
+            expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
+          })
+      )
     })
 
     it.only('should respond with a 200', () => {
@@ -53,12 +55,14 @@ describe('routes/apply/eligibility/claim/bank-payment-details', () => {
 
   describe(`POST ${ROUTE}`, () => {
     it('should call the URL Path Validator', () => {
-      return supertest(app)
-        .post(ROUTE)
-        // .set('Cookie', COOKIES)
-        .expect(() => {
-          expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
-        })
+      return (
+        supertest(app)
+          .post(ROUTE)
+          // .set('Cookie', COOKIES)
+          .expect(() => {
+            expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
+          })
+      )
     })
 
     it('should respond with a 302 and insert bank details', () => {
@@ -66,28 +70,32 @@ describe('routes/apply/eligibility/claim/bank-payment-details', () => {
       mockBankAccountDetails.mockReturnValue(newPaymentDetails)
       mockInsertBankAccountDetailsForClaim.mockResolvedValue()
 
-      return supertest(app)
-        .post(ROUTE)
-        // .set('Cookie', COOKIES)
-        .send(VALID_DATA)
-        .expect(302)
-        .expect(() => {
-          expect(mockBankAccountDetails).toHaveBeenCalledWith(
-            VALID_DATA.AccountNumber,
-            VALID_DATA.SortCode,
-            undefined,
-            undefined,
-          )
-        })
-        .expect('location', '/apply/eligibility/claim/declaration?isAdvance=false')
+      return (
+        supertest(app)
+          .post(ROUTE)
+          // .set('Cookie', COOKIES)
+          .send(VALID_DATA)
+          .expect(302)
+          .expect(() => {
+            expect(mockBankAccountDetails).toHaveBeenCalledWith(
+              VALID_DATA.AccountNumber,
+              VALID_DATA.SortCode,
+              undefined,
+              undefined,
+            )
+          })
+          .expect('location', '/apply/eligibility/claim/declaration?isAdvance=false')
+      )
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', () => {
-      return supertest(app)
-        .post(ROUTE)
-        // .set('Cookie', COOKIES_EXPIRED)
-        .expect(302)
-        .expect('location', '/start-already-registered?error=expired')
+      return (
+        supertest(app)
+          .post(ROUTE)
+          // .set('Cookie', COOKIES_EXPIRED)
+          .expect(302)
+          .expect('location', '/start-already-registered?error=expired')
+      )
     })
 
     it('should respond with a 400 if validation fails', () => {

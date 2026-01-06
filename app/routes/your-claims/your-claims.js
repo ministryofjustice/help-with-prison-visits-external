@@ -14,6 +14,7 @@ const REFERENCE_DOB_INCORRECT_ERROR = '?error=yes'
 module.exports = router => {
   router.get('/your-claims', (req, res, next) => {
     UrlPathValidator(req.params)
+
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
