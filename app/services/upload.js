@@ -1,7 +1,7 @@
 const multer = require('multer')
 const crypto = require('crypto')
 const path = require('path')
-const { isRequestValid, invalidCsrfTokenError } = require('csrf-sync')
+const { validateRequest, invalidCsrfTokenError } = require('csrf-csrf')
 const config = require('../../config')
 const UploadError = require('./errors/upload-error')
 
@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 })
 
 function fileFilter(req, file, cb) {
-  if (isRequestValid(req)) {
+  if (validateRequest(req)) {
     req.error = invalidCsrfTokenError
     return cb(null, false, invalidCsrfTokenError)
   }
