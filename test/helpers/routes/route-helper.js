@@ -1,26 +1,20 @@
 const express = require('express')
-const session = require('express-session')
 const htmlSanitizerMiddleware = require('../../../app/middleware/htmlSanitizer')
 const mockViewEngine = require('../../unit/routes/mock-view-engine')
 
 const VIEWS_DIRECTORY = '../../../app/views'
 
-module.exports.buildApp = route => {
+module.exports.buildApp = (route, sessionData) => {
   const app = express()
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
   app.use(htmlSanitizerMiddleware())
 
-  app.use(
-    session({
-      secret: 'test-secret',
-      name: 'apvs-start-application',
-      cookie: {
-        expires: new Date(2050, 1),
-        signed: false,
-      },
-    }),
-  )
+  app.use((req, res, next) => {
+    req.session = sessionData
+
+    next()
+  })
 
   route(app)
   mockViewEngine(app, VIEWS_DIRECTORY)
