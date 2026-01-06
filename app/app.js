@@ -6,8 +6,8 @@ const compression = require('compression')
 const i18n = require('i18n')
 const cookieParser = require('cookie-parser')
 const csurf = require('csurf')
-const cookieSession = require('cookie-session')
 const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
+const session = require('express-session')
 const log = require('./services/log')
 const routes = require('./routes/routes')
 const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
@@ -78,12 +78,22 @@ govukAssets.forEach(dir => {
 })
 
 // Cookie session
-app.set('trust proxy', 1) // trust first proxy
+app.set('trust proxy', true) // trust first proxy
 app.use(
-  cookieSession({
+  session({
+    secret: config.EXT_APPLICATION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
+    proxy: true,
     name: 'apvs-start-application',
-    keys: [config.EXT_APPLICATION_SECRET],
-    maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE, 10),
+    cookie: {
+      httpOnly: true,
+      maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE, 10),
+      sameSite: 'lax',
+      secure: config.production,
+      signed: true,
+    },
   }),
 )
 // Update a value in the cookie so that the set-cookie will be sent
