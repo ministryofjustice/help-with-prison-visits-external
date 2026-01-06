@@ -12,7 +12,6 @@ describe('/your-claims/your-claims', () => {
   const CLAIMS_CANNOT_START_NEW_CLAIM = [{ Status: 'INPROGRESS' }]
 
   let app
-  let sessionData
 
   const mockUrlPathValidator = jest.fn()
   const mockGetHistoricClaims = jest.fn()
@@ -24,8 +23,7 @@ describe('/your-claims/your-claims', () => {
     jest.mock('../../../../app/services/data/get-historic-claims-by-reference', () => mockGetHistoricClaimsByReference)
 
     const route = require('../../../../app/routes/your-claims/your-claims')
-    sessionData = {}
-    app = routeHelper.buildApp(route, sessionData)
+    app = routeHelper.buildApp(route)
   })
 
   afterEach(() => {
@@ -43,13 +41,9 @@ describe('/your-claims/your-claims', () => {
     })
 
     it.only('should respond with a 200 if the database query returns a result', () => {
-      sessionData = {
-        dobEncoded: '113725122',
-        decryptedRef: '1234567',
-      }
       mockGetHistoricClaims.mockResolvedValue(CLAIMS_CAN_START_NEW_CLAIM)
       mockGetHistoricClaimsByReference.mockResolvedValue(CLAIMS_CAN_START_NEW_CLAIM)
-      return supertest(app).get(ROUTE).expect(200)
+      return supertest(app).get(ROUTE).set('Cookie', COOKIES).expect(200)
     })
 
     it('should set canStartNewClaim to true if no claims in progress', () => {
