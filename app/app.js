@@ -1,5 +1,6 @@
 const express = require('express')
 const crypto = require('crypto')
+const { randomUUID } = require('crypto')
 const path = require('path')
 const helmet = require('helmet')
 const compression = require('compression')
@@ -86,6 +87,16 @@ app.use(
   }),
 )
 
+// Generate unique ID for request for use in session
+app.use((req, res, next) => {
+  const oldValue = req.session.id
+  const id = oldValue === undefined ? randomUUID() : oldValue
+
+  req.session.id = id
+
+  next()
+})
+
 // Update a value in the cookie so that the set-cookie will be sent
 app.use((req, res, next) => {
   req.session.nowInMinutes = Date.now() / 60e3
@@ -131,6 +142,7 @@ const {
     // eslint-disable-next-line no-underscore-dangle
     return req.body?._csrf
   },
+  cookieOptions: { secure: config.EXT_SECURE_COOKIE === 'true' },
 })
 
 app.use((req, res, next) => {
