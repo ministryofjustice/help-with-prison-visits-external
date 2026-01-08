@@ -203,7 +203,7 @@ exports.isValidExpenseArray = expenseArray => {
   let result = true
 
   if (!(expenseArray instanceof Array)) {
-    return this.isValidExpense(expenseArray)
+    return isValidExpense(expenseArray)
   }
 
   expenseArray.forEach(expense => {
