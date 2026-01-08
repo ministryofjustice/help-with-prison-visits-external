@@ -189,10 +189,20 @@ exports.isValidClaimType = claimType => {
 }
 
 const isValidExpense = expense => {
+  if (expense === null || expense === undefined) {
+    return false
+  }
   let result = false
   Object.keys(expenseTypeEnum).forEach(key => {
-    log.info(`EXPENSE: ${key}, ${JSON.stringify(expense)}`)
-    if (expenseTypeEnum[key].value === expense) {
+    log.info(`EXPENSE1: ${key}, ${JSON.stringify(expense)}`)
+
+    if (typeof expense === 'object') {
+      const expenses = Object.values(expense)
+
+      if (expenses.includes(expenseTypeEnum[key].value)) {
+        result = true
+      }
+    } else if (expenseTypeEnum[key].value === expense) {
       result = true
     }
   })
@@ -211,7 +221,7 @@ exports.isValidExpenseArray = expenseArray => {
   }
 
   expenseArray.forEach(expense => {
-    log.info(`EXPENSE: ${expense}`)
+    log.info(`EXPENSE2: ${expense}`)
     if (!isValidExpense(expense)) {
       result = false
     }
