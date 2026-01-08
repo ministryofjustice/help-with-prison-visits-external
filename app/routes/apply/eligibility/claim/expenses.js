@@ -43,7 +43,9 @@ module.exports = router => {
     }
 
     try {
-      new Expenses(req.body?.expenses) // eslint-disable-line no-new
+      const expenses = req.body?.expenses
+
+      new Expenses(typeof expenses === 'object' ? Object.values(expenses) : expenses) // eslint-disable-line no-new
       return res.redirect(expenseUrlRouter.getRedirectUrl(req))
     } catch (error) {
       if (error instanceof ValidationError) {
