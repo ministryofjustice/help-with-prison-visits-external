@@ -187,7 +187,7 @@ exports.isValidClaimType = claimType => {
   return result
 }
 
-exports.isValidExpense = expense => {
+const isValidExpense = expense => {
   let result = false
   Object.keys(expenseTypeEnum).forEach(key => {
     if (expenseTypeEnum[key].value === expense) {
@@ -197,8 +197,9 @@ exports.isValidExpense = expense => {
   return result
 }
 
+exports.isValidExpense = isValidExpense
+
 exports.isValidExpenseArray = expenseArray => {
-  const self = this
   let result = true
 
   if (!(expenseArray instanceof Array)) {
@@ -206,7 +207,7 @@ exports.isValidExpenseArray = expenseArray => {
   }
 
   expenseArray.forEach(expense => {
-    if (!self.isValidExpense(expense)) {
+    if (!isValidExpense(expense)) {
       result = false
     }
   })

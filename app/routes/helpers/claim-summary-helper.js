@@ -19,18 +19,21 @@ module.exports.buildRemoveDocumentUrl = req => {
   return `${url}/file-upload?document=${req.query?.document}`
 }
 
-module.exports.removeExpense = (claimId, claimExpenseId) => {
+const removeExpense = (claimId, claimExpenseId) => {
   return removeClaimExpense(claimId, claimExpenseId)
 }
 
-module.exports.removeDocument = claimDocumentId => {
+module.exports.removeExpense = removeExpense
+
+const removeDocument = claimDocumentId => {
   return removeClaimDocument(claimDocumentId)
 }
 
+module.exports.removeDocument = removeDocument
+
 module.exports.removeExpenseAndDocument = (claimId, claimExpenseId, claimDocumentId) => {
-  const self = this
-  return self.removeExpense(claimId, claimExpenseId).then(() => {
-    return self.removeDocument(claimDocumentId)
+  return removeExpense(claimId, claimExpenseId).then(() => {
+    return removeDocument(claimDocumentId)
   })
 }
 

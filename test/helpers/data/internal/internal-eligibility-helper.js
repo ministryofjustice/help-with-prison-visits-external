@@ -93,16 +93,15 @@ function deleteByReference(schemaTable, reference) {
  * Deletes all records with the given reference across all schemas.
  */
 module.exports.deleteAll = reference => {
-  const self = this
-  return self.deleteAllExternal(reference).then(() => {
-    return self.deleteAllInternal(reference)
+  return deleteAllExternal(reference).then(() => {
+    return deleteAllInternal(reference)
   })
 }
 
 /**
  * Deletes all records with the given reference in the External schema.
  */
-module.exports.deleteAllExternal = reference => {
+const deleteAllExternal = reference => {
   return deleteByReference('ExtSchema.Task', reference)
     .then(() => {
       return deleteByReference('ExtSchema.ClaimDocument', reference)
@@ -138,12 +137,13 @@ module.exports.deleteAllExternal = reference => {
       return deleteByReference('ExtSchema.Eligibility', reference)
     })
 }
+module.exports.deleteAllExternal = this.deleteAllExternal
 
 /**
  * Deletes all records with the given reference in the Internal schema.
  * Excludes the DirectPaymentFile and AutoApprovalConfig tables.
  */
-module.exports.deleteAllInternal = reference => {
+const deleteAllInternal = reference => {
   return deleteByReference('IntSchema.Task', reference)
     .then(() => {
       return deleteByReference('IntSchema.ClaimEvent', reference)
@@ -182,3 +182,4 @@ module.exports.deleteAllInternal = reference => {
       return deleteByReference('IntSchema.Eligibility', reference)
     })
 }
+module.exports.deleteAllInternal = this.deleteAllInternal
