@@ -17,7 +17,6 @@ const dateFormatter = require('../date-formatter')
 const NUM_YEARS_LIMIT = 120
 const SQL_MAX_INT = 2147483647
 const config = require('../../../config')
-const log = require('../log')
 
 const VALID_ROLL_NUMBER_REGEX = '^[-0-9.A-Za-z ]+$'
 
@@ -189,20 +188,9 @@ exports.isValidClaimType = claimType => {
 }
 
 const isValidExpense = expense => {
-  if (expense === null || expense === undefined) {
-    return false
-  }
   let result = false
   Object.keys(expenseTypeEnum).forEach(key => {
-    log.info(`EXPENSE1: ${key}, ${JSON.stringify(expense)}`)
-
-    if (typeof expense === 'object') {
-      const expenses = Object.values(expense)
-
-      if (expenses.includes(expenseTypeEnum[key].value)) {
-        result = true
-      }
-    } else if (expenseTypeEnum[key].value === expense) {
+    if (expenseTypeEnum[key].value === expense) {
       result = true
     }
   })
@@ -214,14 +202,11 @@ exports.isValidExpense = isValidExpense
 exports.isValidExpenseArray = expenseArray => {
   let result = true
 
-  log.info(expenseArray)
-
   if (!(expenseArray instanceof Array)) {
     return isValidExpense(expenseArray)
   }
 
   expenseArray.forEach(expense => {
-    log.info(`EXPENSE2: ${expense}`)
     if (!isValidExpense(expense)) {
       result = false
     }
