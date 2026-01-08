@@ -5,6 +5,7 @@ const ValidationError = require('../../../../services/errors/validation-error')
 const getClaimSummary = require('../../../../services/data/get-claim-summary')
 const getIsAdvanceClaim = require('../../../../services/data/get-is-advance-claim')
 const SessionHandler = require('../../../../services/validators/session-handler')
+const log = require('../../../../services/log')
 
 const NORTHERN_IRELAND = 'Northern Ireland'
 
@@ -43,6 +44,7 @@ module.exports = router => {
     }
 
     try {
+      log.info(req.body?.expenses)
       new Expenses(req.body?.expenses) // eslint-disable-line no-new
       return res.redirect(expenseUrlRouter.getRedirectUrl(req))
     } catch (error) {
