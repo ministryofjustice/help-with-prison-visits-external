@@ -22,12 +22,7 @@ module.exports.getRedirectUrl = req => {
   if (req.body?.['add-another-journey']) {
     return req.originalUrl
   }
-  let expenses = req.body?.expenses
-
-  if (typeof req.body?.expenses === 'object') {
-    expenses = toArray(req.body.expenses)
-  }
-  const params = getParams(expenses, toArray(req.query))
+  const params = getParams(req.body?.expenses, toArray(req.query))
   return buildUrl(params, req.session.claimType, req.session.referenceId, req.session.claimId)
 }
 
