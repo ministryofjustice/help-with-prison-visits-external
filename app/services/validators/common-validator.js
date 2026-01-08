@@ -191,7 +191,7 @@ exports.isValidClaimType = claimType => {
 const isValidExpense = expense => {
   let result = false
   Object.keys(expenseTypeEnum).forEach(key => {
-    log.info(`EXPENSE: ${key}, ${expense}`)
+    log.info(`EXPENSE: ${key}, ${JSON.stringify(expense)}`)
     if (expenseTypeEnum[key].value === expense) {
       result = true
     }
