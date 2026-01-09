@@ -1,13 +1,13 @@
 const express = require('express')
 const crypto = require('crypto')
+const { randomUUID } = require('crypto')
 const path = require('path')
 const helmet = require('helmet')
 const compression = require('compression')
-const i18n = require('i18n')
 const cookieParser = require('cookie-parser')
-const csurf = require('csurf')
+const i18n = require('i18n')
+const { doubleCsrf } = require('csrf-csrf')
 const cookieSession = require('cookie-session')
-const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
 const log = require('./services/log')
 const routes = require('./routes/routes')
 const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
@@ -86,6 +86,17 @@ app.use(
     maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE, 10),
   }),
 )
+
+// Generate unique ID for request for use in session
+app.use((req, res, next) => {
+  const oldValue = req.session.id
+  const id = oldValue === undefined ? randomUUID() : oldValue
+
+  req.session.id = id
+
+  next()
+})
+
 // Update a value in the cookie so that the set-cookie will be sent
 app.use((req, res, next) => {
   req.session.nowInMinutes = Date.now() / 60e3
@@ -122,21 +133,29 @@ app.use(i18n.init)
 app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' }))
 
 // Check for valid CSRF tokens on state-changing methods.
-const csrfProtection = csurf({ cookie: { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' } })
+const {
+  doubleCsrfProtection, // This is the default CSRF protection middleware.
+} = doubleCsrf({
+  getSecret: () => config.EXT_APPLICATION_SECRET,
+  getSessionIdentifier: req => req.session.id,
+  getCsrfTokenFromRequest: req => {
+    // eslint-disable-next-line no-underscore-dangle
+    return req.body?._csrf
+  },
+  cookieOptions: { secure: config.EXT_SECURE_COOKIE === 'true' },
+})
 
 app.use((req, res, next) => {
-  csrfExcludeRoutes.forEach(route => {
-    if (req.originalUrl.includes(route) && req.method === 'POST') {
-      next()
-    } else {
-      csrfProtection(req, res, next)
-    }
-  })
+  if (req.originalUrl.includes('file-upload') && req.method === 'POST') {
+    next()
+  }
+
+  doubleCsrfProtection(req, res, next)
 })
 
 // Generate CSRF tokens to be sent in POST requests
 app.use((req, res, next) => {
-  if (Object.prototype.hasOwnProperty.call(req, 'csrfToken')) {
+  if (typeof req.csrfToken === 'function') {
     res.locals.csrfToken = req.csrfToken()
   }
   next()
