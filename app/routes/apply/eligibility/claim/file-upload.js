@@ -37,6 +37,7 @@ module.exports = router => {
     '/apply/eligibility/claim/summary/file-upload',
     (req, res, next) => {
       req.yourClaimUrl = '/apply/eligibility/claim/summary'
+      logger.info(req.yourClaimUrl)
       post(req, res, next)
     },
     (req, res, next) => {
@@ -48,6 +49,7 @@ module.exports = router => {
     '/your-claims/:claimId/file-upload',
     (req, res, next) => {
       req.yourClaimUrl = `/your-claims/${req.params.claimId}`
+      logger.info(req.yourClaimUrl)
       post(req, res, next)
     },
     (req, res, next) => {
