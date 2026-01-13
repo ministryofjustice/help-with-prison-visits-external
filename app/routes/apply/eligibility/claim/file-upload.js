@@ -142,9 +142,11 @@ function post(req, res, next, _redirectURL) {
 }
 
 function checkForMalware(req, res, next, redirectURL) {
+  logger.info('checkForMalware')
   const ids = setReferenceIds(req)
   const claimId = addClaimIdIfNotBenefitDocument(req.query?.document, req.session.claimId)
   if (req.file) {
+    logger.info('File uploaded')
     clam
       .scan(req.file.path)
       .then(async infected => {
@@ -165,6 +167,7 @@ function checkForMalware(req, res, next, redirectURL) {
   } else {
     // This handles the case were Post/Upload Later is selected, so no actual file is being provided,
     // however we still need to insert metadata indicating that the user selected on of these options
+    logger.info('No file uploaded')
     updateClaimDocumentMetadata(ids, claimId, req)
       .then(() => {
         res.redirect(redirectURL)
