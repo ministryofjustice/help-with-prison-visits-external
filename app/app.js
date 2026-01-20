@@ -140,6 +140,10 @@ const {
   getSessionIdentifier: req => req.session.id,
   getCsrfTokenFromRequest: req => {
     // eslint-disable-next-line no-underscore-dangle
+    log.info(`_csrf:${req.body?._csrf}`)
+    log.info(JSON.stringify(req.cookies))
+    log.info(`secure: ${config.EXT_SECURE_COOKIE}`)
+    // eslint-disable-next-line no-underscore-dangle
     return req.body?._csrf
   },
   cookieOptions: { secure: config.EXT_SECURE_COOKIE === 'true' },
