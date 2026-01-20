@@ -82,16 +82,18 @@ app.set('trust proxy', 1) // trust first proxy
 app.use(
   cookieSession({
     name: 'apvs-start-application',
-    keys: [config.EXT_APPLICATION_SECRET],
+    secret: config.EXT_APPLICATION_SECRET,
     maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE, 10),
   }),
 )
 
 // Generate unique ID for request for use in session
 app.use((req, res, next) => {
-  const oldValue = req.session.id
-  req.session.id = oldValue === undefined ? randomUUID() : oldValue
-  log.info(`set session id: ${req.session.id}`)
+  const oldCsrfId = req.session.csrfId
+  const csrfId = oldCsrfId === undefined ? randomUUID() : oldCsrfId
+  req.session.csrfId = csrfId
+  log.info(`old session csrfId: ${oldCsrfId}`)
+  log.info(`set session csrfId: ${req.session.csrfId}`)
   next()
 })
 
@@ -135,13 +137,13 @@ const {
   doubleCsrfProtection, // This is the default CSRF protection middleware.
 } = doubleCsrf({
   getSecret: () => config.EXT_APPLICATION_SECRET,
-  getSessionIdentifier: req => req.session.id,
+  getSessionIdentifier: req => req.session.csrfId,
   getCsrfTokenFromRequest: req => {
     // eslint-disable-next-line no-underscore-dangle
     log.info(`_csrf:${req.body?._csrf}`)
     log.info(req.cookies['apvs-csrf'])
     log.info(`secure: ${config.EXT_SECURE_COOKIE}`)
-    log.info(`session:${req.session.id}`)
+    log.info(`session:${req.session.csrfId}`)
     // eslint-disable-next-line no-underscore-dangle
     return req.body?._csrf
   },
@@ -183,6 +185,7 @@ app.use((req, res, next) => {
 // catch 404 and forward to error handler.
 app.use((req, res, next) => {
   const err = new Error(`Not Found: ${req.originalUrl}`)
+  log.error(err.message)
   err.status = 404
   res.status(404)
   next(err)
@@ -200,15 +203,15 @@ app.use((err, req, res, next) => {
 
 // Development error handler.
 app.use((err, req, res, next) => {
-  log.error(err)
   res.status(err.status || 500)
   if (err.status === 404) {
-    res.render('includes/error-404')
-  } else {
-    res.render('includes/error', {
-      error: developmentMode ? err : null,
-    })
+    return res.render('includes/error-404')
   }
+
+  log.error(err)
+  return res.render('includes/error', {
+    error: developmentMode ? err : null,
+  })
 })
 
 module.exports = app
