@@ -90,10 +90,8 @@ app.use(
 // Generate unique ID for request for use in session
 app.use((req, res, next) => {
   const oldValue = req.session.id
-  const id = oldValue === undefined ? randomUUID() : oldValue
-
-  req.session.id = id
-
+  req.session.id = oldValue === undefined ? randomUUID() : oldValue
+  log.info(`set session id: ${req.session.id}`)
   next()
 })
 
@@ -141,11 +139,13 @@ const {
   getCsrfTokenFromRequest: req => {
     // eslint-disable-next-line no-underscore-dangle
     log.info(`_csrf:${req.body?._csrf}`)
-    log.info(JSON.stringify(req.cookies))
+    log.info(req.cookies['apvs-csrf'])
     log.info(`secure: ${config.EXT_SECURE_COOKIE}`)
+    log.info(`session:${req.session.id}`)
     // eslint-disable-next-line no-underscore-dangle
     return req.body?._csrf
   },
+  cookieName: 'apvs-csrf',
   cookieOptions: { secure: config.EXT_SECURE_COOKIE === 'true' },
 })
 
