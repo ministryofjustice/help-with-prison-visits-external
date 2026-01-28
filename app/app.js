@@ -1,13 +1,13 @@
 const express = require('express')
 const crypto = require('crypto')
+const { randomUUID } = require('crypto')
 const path = require('path')
 const helmet = require('helmet')
 const compression = require('compression')
-const i18n = require('i18n')
 const cookieParser = require('cookie-parser')
-const csurf = require('csurf')
+const i18n = require('i18n')
+const { doubleCsrf } = require('csrf-csrf')
 const cookieSession = require('cookie-session')
-const csrfExcludeRoutes = require('./constants/csrf-exclude-routes')
 const log = require('./services/log')
 const routes = require('./routes/routes')
 const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
@@ -82,10 +82,21 @@ app.set('trust proxy', 1) // trust first proxy
 app.use(
   cookieSession({
     name: 'apvs-start-application',
-    keys: [config.EXT_APPLICATION_SECRET],
+    secret: config.EXT_APPLICATION_SECRET,
     maxAge: parseInt(config.EXT_SESSION_COOKIE_MAXAGE, 10),
   }),
 )
+
+// Generate unique ID for request for use in session
+app.use((req, res, next) => {
+  const oldCsrfId = req.session.csrfId
+  const csrfId = oldCsrfId === undefined ? randomUUID() : oldCsrfId
+  req.session.csrfId = csrfId
+  log.info(`old session csrfId: ${oldCsrfId}`)
+  log.info(`set session csrfId: ${req.session.csrfId}`)
+  next()
+})
+
 // Update a value in the cookie so that the set-cookie will be sent
 app.use((req, res, next) => {
   req.session.nowInMinutes = Date.now() / 60e3
@@ -122,21 +133,35 @@ app.use(i18n.init)
 app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' }))
 
 // Check for valid CSRF tokens on state-changing methods.
-const csrfProtection = csurf({ cookie: { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' } })
+const {
+  doubleCsrfProtection, // This is the default CSRF protection middleware.
+} = doubleCsrf({
+  getSecret: () => config.EXT_APPLICATION_SECRET,
+  getSessionIdentifier: req => req.session.csrfId,
+  getCsrfTokenFromRequest: req => {
+    // eslint-disable-next-line no-underscore-dangle
+    log.info(`_csrf:${req.body?._csrf}`)
+    log.info(req.cookies['apvs-csrf'])
+    log.info(`secure: ${config.EXT_SECURE_COOKIE}`)
+    log.info(`session:${req.session.csrfId}`)
+    // eslint-disable-next-line no-underscore-dangle
+    return req.body?._csrf
+  },
+  cookieName: 'apvs-csrf',
+  cookieOptions: { secure: config.EXT_SECURE_COOKIE === 'true' },
+})
 
 app.use((req, res, next) => {
-  csrfExcludeRoutes.forEach(route => {
-    if (req.originalUrl.includes(route) && req.method === 'POST') {
-      next()
-    } else {
-      csrfProtection(req, res, next)
-    }
-  })
+  if (req.originalUrl.includes('file-upload') && req.method === 'POST') {
+    next()
+  }
+
+  doubleCsrfProtection(req, res, next)
 })
 
 // Generate CSRF tokens to be sent in POST requests
 app.use((req, res, next) => {
-  if (Object.prototype.hasOwnProperty.call(req, 'csrfToken')) {
+  if (typeof req.csrfToken === 'function') {
     res.locals.csrfToken = req.csrfToken()
   }
   next()
@@ -160,6 +185,7 @@ app.use((req, res, next) => {
 // catch 404 and forward to error handler.
 app.use((req, res, next) => {
   const err = new Error(`Not Found: ${req.originalUrl}`)
+  log.error(err.message)
   err.status = 404
   res.status(404)
   next(err)
@@ -177,15 +203,15 @@ app.use((err, req, res, next) => {
 
 // Development error handler.
 app.use((err, req, res, next) => {
-  log.error(err)
   res.status(err.status || 500)
   if (err.status === 404) {
-    res.render('includes/error-404')
-  } else {
-    res.render('includes/error', {
-      error: developmentMode ? err : null,
-    })
+    return res.render('includes/error-404')
   }
+
+  log.error(err)
+  return res.render('includes/error', {
+    error: developmentMode ? err : null,
+  })
 })
 
 module.exports = app
