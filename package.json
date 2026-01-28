@@ -46,7 +46,7 @@
     "govuk-frontend": "^5.14.0",
     "helmet": "^8.1.0",
     "i18n": "^0.15.3",
-    "jquery": "^3.7.1",
+    "jquery": "^4.0.0",
     "jquery-ui-dist": "^1.13.3",
     "knex": "^3.1.0",
     "moment": "^2.30.1",
