@@ -141,7 +141,7 @@ const {
   doubleCsrfProtection, // This is the default CSRF protection middleware.
 } = doubleCsrf({
   getSecret: () => config.EXT_APPLICATION_SECRET,
-  getSessionIdentifier: req => req.session.csrfId,
+  getSessionIdentifier: req => req.session.csrfId || '',
   getCsrfTokenFromRequest: req => {
     // eslint-disable-next-line no-underscore-dangle
     log.info(`_csrf:${req.body?._csrf}`)
