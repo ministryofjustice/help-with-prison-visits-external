@@ -96,6 +96,7 @@ app.use((req, res, next) => {
 // Generate unique ID for request for use in session
 app.use((req, res, next) => {
   log.info(`session exists? ${req.session}`)
+  log.info(req.originalUrl)
   const oldCsrfId = req.session.csrfId
   log.info(`old session csrfId: ${oldCsrfId}`)
   const csrfId = oldCsrfId === undefined ? randomUUID() : oldCsrfId
