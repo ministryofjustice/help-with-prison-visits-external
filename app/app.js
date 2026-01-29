@@ -87,19 +87,20 @@ app.use(
   }),
 )
 
-// Generate unique ID for request for use in session
-app.use((req, res, next) => {
-  const oldCsrfId = req.session.csrfId
-  const csrfId = oldCsrfId === undefined ? randomUUID() : oldCsrfId
-  req.session.csrfId = csrfId
-  log.info(`old session csrfId: ${oldCsrfId}`)
-  log.info(`set session csrfId: ${req.session.csrfId}`)
-  next()
-})
-
 // Update a value in the cookie so that the set-cookie will be sent
 app.use((req, res, next) => {
   req.session.nowInMinutes = Date.now() / 60e3
+  next()
+})
+
+// Generate unique ID for request for use in session
+app.use((req, res, next) => {
+  log.info(`session exists? ${req.session}`)
+  const oldCsrfId = req.session.csrfId
+  log.info(`old session csrfId: ${oldCsrfId}`)
+  const csrfId = oldCsrfId === undefined ? randomUUID() : oldCsrfId
+  req.session.csrfId = csrfId
+  log.info(`set session csrfId: ${req.session.csrfId}`)
   next()
 })
 
