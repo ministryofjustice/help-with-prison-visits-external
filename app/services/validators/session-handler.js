@@ -266,7 +266,12 @@ module.exports = {
       page === 'date-of-birth' ||
       page === 'application-submitted'
     ) {
-      session = null
+      const { csrfId } = session
+      session = {}
+
+      if (csrfId) {
+        session.csrfId = csrfId
+      }
     }
 
     return session

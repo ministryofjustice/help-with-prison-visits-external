@@ -95,15 +95,17 @@ app.use((req, res, next) => {
 
 // Generate unique ID for request for use in session
 app.use((req, res, next) => {
-  if (req.originalUrl === '/ping') next()
-
-  log.info(`session exists? ${JSON.stringify(req.session)}`)
+  log.info('================================>')
+  log.info(`session  ${JSON.stringify(req.session)}`)
   log.info(req.originalUrl)
   const oldCsrfId = req.session.csrfId
   log.info(`old session csrfId: ${oldCsrfId}`)
   const csrfId = oldCsrfId === undefined ? randomUUID() : oldCsrfId
   req.session.csrfId = csrfId
   log.info(`set session csrfId: ${req.session.csrfId}`)
+
+  log.info(`session  ${JSON.stringify(req.session)}`)
+  log.info('================================<')
   next()
 })
 
@@ -141,7 +143,7 @@ const {
   doubleCsrfProtection, // This is the default CSRF protection middleware.
 } = doubleCsrf({
   getSecret: () => config.EXT_APPLICATION_SECRET,
-  getSessionIdentifier: req => req.session.csrfId || '',
+  getSessionIdentifier: req => req.session.csrfId,
   getCsrfTokenFromRequest: req => {
     // eslint-disable-next-line no-underscore-dangle
     log.info(`_csrf:${req.body?._csrf}`)
