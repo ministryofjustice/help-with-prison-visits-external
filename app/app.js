@@ -130,7 +130,7 @@ i18n.configure({
 app.use(i18n.init)
 
 // Use cookie parser middleware (required for csurf)
-app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' }))
+app.use(cookieParser())
 
 // Check for valid CSRF tokens on state-changing methods.
 const {
