@@ -1,4 +1,4 @@
-const { generateCsrfToken, validateRequest, invalidCsrfTokenError } = require('csrf-csrf')
+const { doubleCsrf } = require('csrf-csrf')
 const fs = require('fs').promises
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
@@ -20,6 +20,21 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 const checkExpenseIsEnabled = require('../../../../services/data/check-expense-is-enabled')
 
 let csrfToken
+
+const {
+  generateCsrfToken,
+  validateRequest,
+  invalidCsrfTokenError, // This is the default CSRF protection middleware.
+} = doubleCsrf({
+  getSecret: () => config.EXT_APPLICATION_SECRET,
+  getSessionIdentifier: req => req.session.csrfId,
+  getCsrfTokenFromRequest: req => {
+    // eslint-disable-next-line no-underscore-dangle
+    return req.body?._csrf
+  },
+  cookieName: 'apvs-csrf',
+  cookieOptions: { secure: config.EXT_SECURE_COOKIE === 'true' },
+})
 
 module.exports = router => {
   router.get('/apply/eligibility/claim/summary/file-upload', (req, res) => {
