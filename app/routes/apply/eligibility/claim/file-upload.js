@@ -116,17 +116,13 @@ function post(req, res, next, _redirectURL) {
     try {
       // If there was no file attached, we still need to check the CSRF token
       if (!req.file) {
-        // eslint-disable-next-line no-underscore-dangle
-        logger.info(`validating request with ${req.body?._csrf}`)
-        logger.info(`cookie ${JSON.stringify(req.cookies['apvs-csrf'])}`)
-        logger.info(`${typeof validateRequest}`)
         if (!validateRequest(req)) {
           throw invalidCsrfTokenError
         }
       }
 
       if (error) {
-        logger.info(error)
+        // this will show this error for any error
         throw new ValidationError({ upload: [ERROR_MESSAGES.getUploadTooLarge] })
       } else if (!Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query?.document)) {
         throw new Error('Not a valid document type')
@@ -187,8 +183,6 @@ function checkForMalware(req, res, next, redirectURL) {
 
 function handleError(req, res, next, error) {
   if (error instanceof ValidationError) {
-    logger.info(csrfToken)
-
     return res.status(400).render('apply/eligibility/claim/file-upload', {
       errors: error.validationErrors,
       document: req.query?.document,

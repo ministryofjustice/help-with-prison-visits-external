@@ -132,10 +132,8 @@ app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: co
 
 app.use((req, res, next) => {
   if (req.originalUrl.includes('file-upload') && req.method === 'POST') {
-    log.info(`On file-upload page with POST ${req.originalUrl}`)
     next()
   } else {
-    log.info(req.originalUrl)
     doubleCsrfProtection(req, res, next)
   }
 })
@@ -166,7 +164,6 @@ app.use((req, res, next) => {
 // catch 404 and forward to error handler.
 app.use((req, res, next) => {
   const err = new Error(`Not Found: ${req.originalUrl}`)
-  log.error(err.message)
   err.status = 404
   res.status(404)
   next(err)
