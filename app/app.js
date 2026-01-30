@@ -6,8 +6,8 @@ const helmet = require('helmet')
 const compression = require('compression')
 const i18n = require('i18n')
 const cookieParser = require('cookie-parser')
-const { doubleCsrf } = require('csrf-csrf')
 const cookieSession = require('cookie-session')
+const { doubleCsrfProtection } = require('./services/get-csrf-functions')
 const log = require('./services/log')
 const routes = require('./routes/routes')
 const htmlSanitizerMiddleware = require('./middleware/htmlSanitizer')
@@ -128,21 +128,7 @@ i18n.configure({
 app.use(i18n.init)
 
 // Use cookie parser middleware (required for csurf)
-app.use(cookieParser())
-
-// Check for valid CSRF tokens on state-changing methods.
-const {
-  doubleCsrfProtection, // This is the default CSRF protection middleware.
-} = doubleCsrf({
-  getSecret: () => config.EXT_APPLICATION_SECRET,
-  getSessionIdentifier: req => req.session.csrfId,
-  getCsrfTokenFromRequest: req => {
-    // eslint-disable-next-line no-underscore-dangle
-    return req.body?._csrf
-  },
-  cookieName: 'apvs-csrf',
-  cookieOptions: { secure: config.EXT_SECURE_COOKIE === 'true' },
-})
+app.use(cookieParser(config.EXT_APPLICATION_SECRET, { httpOnly: true, secure: config.EXT_SECURE_COOKIE === 'true' }))
 
 app.use((req, res, next) => {
   if (req.originalUrl.includes('file-upload') && req.method === 'POST') {
