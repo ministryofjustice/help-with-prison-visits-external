@@ -146,10 +146,12 @@ const {
 
 app.use((req, res, next) => {
   if (req.originalUrl.includes('file-upload') && req.method === 'POST') {
+    log.info(`On file-upload page with POST ${req.originalUrl}`)
     next()
+  } else {
+    log.info(req.originalUrl)
+    doubleCsrfProtection(req, res, next)
   }
-
-  doubleCsrfProtection(req, res, next)
 })
 
 // Generate CSRF tokens to be sent in POST requests

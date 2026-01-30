@@ -1,15 +1,16 @@
-const { doubleCsrf } = require('csrf-csrf')
 const fs = require('fs').promises
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const DocumentTypeEnum = require('../../../../constants/document-type-enum')
 const Upload = require('../../../../services/upload')
+const { validateRequest, invalidCsrfTokenError } = require('../../../../services/get-csrf-functions')
 const ValidationError = require('../../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
 const FileUpload = require('../../../../services/domain/file-upload')
 const moveFile = require('../../../../services/move-file')
 const disableOldClaimDocuments = require('../../../../services/data/disable-old-claim-documents')
 const ClaimDocumentInsert = require('../../../../services/data/insert-file-upload-details-for-claim')
+const generateCSRFToken = require('../../../../services/generate-csrf-token')
 const decrypt = require('../../../../services/helpers/decrypt')
 const clam = require('../../../../services/clam-av')
 const config = require('../../../../../config')
@@ -20,21 +21,6 @@ const SessionHandler = require('../../../../services/validators/session-handler'
 const checkExpenseIsEnabled = require('../../../../services/data/check-expense-is-enabled')
 
 let csrfToken
-
-const {
-  generateCsrfToken,
-  validateRequest,
-  invalidCsrfTokenError, // This is the default CSRF protection middleware.
-} = doubleCsrf({
-  getSecret: () => config.EXT_APPLICATION_SECRET,
-  getSessionIdentifier: req => req.session.csrfId,
-  getCsrfTokenFromRequest: req => {
-    // eslint-disable-next-line no-underscore-dangle
-    return req.body?._csrf
-  },
-  cookieName: 'apvs-csrf',
-  cookieOptions: { secure: config.EXT_SECURE_COOKIE === 'true' },
-})
 
 module.exports = router => {
   router.get('/apply/eligibility/claim/summary/file-upload', (req, res) => {
@@ -73,7 +59,7 @@ module.exports = router => {
 }
 
 function get(req, res) {
-  csrfToken = generateCsrfToken(req, res, { overwrite: true })
+  csrfToken = generateCSRFToken(req)
   UrlPathValidator(req.params)
   const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
@@ -130,12 +116,17 @@ function post(req, res, next, _redirectURL) {
     try {
       // If there was no file attached, we still need to check the CSRF token
       if (!req.file) {
+        // eslint-disable-next-line no-underscore-dangle
+        logger.info(`validating request with ${req.body?._csrf}`)
+        logger.info(`cookie ${JSON.stringify(req.cookies['apvs-csrf'])}`)
+        logger.info(`${typeof validateRequest}`)
         if (!validateRequest(req)) {
           throw invalidCsrfTokenError
         }
       }
 
       if (error) {
+        logger.info(error)
         throw new ValidationError({ upload: [ERROR_MESSAGES.getUploadTooLarge] })
       } else if (!Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query?.document)) {
         throw new Error('Not a valid document type')
@@ -196,6 +187,8 @@ function checkForMalware(req, res, next, redirectURL) {
 
 function handleError(req, res, next, error) {
   if (error instanceof ValidationError) {
+    logger.info(csrfToken)
+
     return res.status(400).render('apply/eligibility/claim/file-upload', {
       errors: error.validationErrors,
       document: req.query?.document,
