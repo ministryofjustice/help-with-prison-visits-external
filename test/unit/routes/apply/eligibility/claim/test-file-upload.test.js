@@ -74,6 +74,15 @@ describe('routes/apply/eligibility/claim/file-upload', () => {
         })
     })
 
+    it('should call the CSRFToken generator', () => {
+      return supertest(app)
+        .get(ROUTE)
+        .set('Cookie', COOKIES)
+        .expect(() => {
+          expect(mockGenerateCSRFToken).toHaveBeenCalledTimes(1)
+        })
+    })
+
     it('should respond with a 200 if passed valid document type', () => {
       return supertest(app).get(`${ROUTE}VISIT_CONFIRMATION`).set('Cookie', COOKIES).expect(200)
     })
