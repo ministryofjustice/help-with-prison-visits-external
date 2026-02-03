@@ -28,8 +28,8 @@
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.978.0",
-    "@ministryofjustice/hmpps-monitoring": "1.0.0",
+    "@aws-sdk/client-s3": "^3.980.0",
+    "@ministryofjustice/hmpps-monitoring": "1.0.1",
     "applicationinsights": "^2.9.8",
     "axios": "^1.13.4",
     "bases": "^0.2.1",
