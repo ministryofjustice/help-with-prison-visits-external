@@ -345,9 +345,14 @@ describe('services/validators/session-handler clearSession', () => {
   const CLEAR_SESSION_URL = '/start'
   const DONT_CLEAR_SESSION_URL = '/apply/first-time/new-eligibility/about-the-prisoner'
 
-  it('should return null session if passed a valid dobEncoded value', () => {
+  it('should return empty session if passed a valid dobEncoded value', () => {
     const result = SessionHandler.clearSession(VALID_SESSION, CLEAR_SESSION_URL)
-    expect(result).toBeNull()
+    expect(result).toStrictEqual({})
+  })
+
+  it('should return session with only csrf if passed a valid dobEncoded value and csrf exists', () => {
+    const result = SessionHandler.clearSession({ ...VALID_SESSION, csrfId: 1 }, CLEAR_SESSION_URL)
+    expect(result).toStrictEqual({ csrfId: 1 })
   })
 
   it('should return false if passed a null dobEncoded value', () => {
