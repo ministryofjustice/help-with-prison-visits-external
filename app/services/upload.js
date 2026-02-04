@@ -1,7 +1,7 @@
 const multer = require('multer')
 const crypto = require('crypto')
 const path = require('path')
-const csrfProtection = require('csurf')({ cookie: true })
+const { validateRequest, invalidCsrfTokenError } = require('./get-csrf-functions')
 const config = require('../../config')
 const UploadError = require('./errors/upload-error')
 
@@ -23,18 +23,16 @@ const storage = multer.diskStorage({
 })
 
 function fileFilter(req, file, cb) {
-  csrfProtection(req, file, csrfError => {
-    if (csrfError) {
-      req.error = csrfError
-      return cb(null, false, csrfError)
-    }
-    if (!allowedFileTypes.includes(file.mimetype)) {
-      const error = new UploadError('File type error')
-      req.error = error
-      return cb(null, false, error)
-    }
-    return cb(null, true)
-  })
+  if (!validateRequest(req)) {
+    req.error = invalidCsrfTokenError
+    return cb(null, false, invalidCsrfTokenError)
+  }
+  if (!allowedFileTypes.includes(file.mimetype)) {
+    const error = new UploadError('File type error')
+    req.error = error
+    return cb(null, false, error)
+  }
+  return cb(null, true)
 }
 
 module.exports = multer({

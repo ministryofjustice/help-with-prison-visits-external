@@ -1,9 +1,9 @@
-const csrfProtection = require('csurf')({ cookie: true })
 const fs = require('fs').promises
 const UrlPathValidator = require('../../../../services/validators/url-path-validator')
 const referenceIdHelper = require('../../../helpers/reference-id-helper')
 const DocumentTypeEnum = require('../../../../constants/document-type-enum')
 const Upload = require('../../../../services/upload')
+const { validateRequest, invalidCsrfTokenError } = require('../../../../services/get-csrf-functions')
 const ValidationError = require('../../../../services/errors/validation-error')
 const ERROR_MESSAGES = require('../../../../services/validators/validation-error-messages')
 const FileUpload = require('../../../../services/domain/file-upload')
@@ -116,12 +116,13 @@ function post(req, res, next, _redirectURL) {
     try {
       // If there was no file attached, we still need to check the CSRF token
       if (!req.file) {
-        csrfProtection(req, res, csrfError => {
-          if (csrfError) throw error
-        })
+        if (!validateRequest(req)) {
+          throw invalidCsrfTokenError
+        }
       }
 
       if (error) {
+        // this will show this error for any error
         throw new ValidationError({ upload: [ERROR_MESSAGES.getUploadTooLarge] })
       } else if (!Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query?.document)) {
         throw new Error('Not a valid document type')
