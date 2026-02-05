@@ -1,3 +1,3 @@
-$('.print-link').click(function () {
+$('.print-link').on('click', function () {
   window.print()
 })
