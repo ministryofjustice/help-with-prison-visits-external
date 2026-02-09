@@ -31,7 +31,7 @@
     "@aws-sdk/client-s3": "^3.984.0",
     "@ministryofjustice/hmpps-monitoring": "1.0.2",
     "applicationinsights": "^2.9.8",
-    "axios": "^1.13.4",
+    "axios": "^1.13.5",
     "bases": "^0.2.1",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
