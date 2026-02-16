@@ -28,10 +28,10 @@
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.984.0",
+    "@aws-sdk/client-s3": "^3.989.0",
     "@ministryofjustice/hmpps-monitoring": "1.0.2",
     "applicationinsights": "^2.9.8",
-    "axios": "^1.13.4",
+    "axios": "^1.13.5",
     "bases": "^0.2.1",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
@@ -41,7 +41,7 @@
     "cookie-session": "^2.1.1",
     "csrf-csrf": "^4.0.3",
     "debug": "^4.4.3",
-    "dotenv": "^17.2.4",
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "govuk-frontend": "^5.14.0",
     "helmet": "^8.1.0",
@@ -55,7 +55,7 @@
     "path": "^0.12.7",
     "sanitize-html": "^2.17.0",
     "sass": "^1.97.3",
-    "tedious": "^19.2.0",
+    "tedious": "^19.2.1",
     "validator": "^13.15.26"
   },
   "devDependencies": {
