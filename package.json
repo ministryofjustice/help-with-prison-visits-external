@@ -43,7 +43,7 @@
     "debug": "^4.4.3",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "govuk-frontend": "^5.14.0",
+    "govuk-frontend": "^6.0.0",
     "helmet": "^8.1.0",
     "i18n": "^0.15.3",
     "jquery": "^4.0.0",
