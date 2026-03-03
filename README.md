@@ -7,7 +7,7 @@ Help With Prison Visits external, public facing web application.
 ## Requirements
 
 * Docker (Including Docker Compose)
-* Node 12 (Including NPM) - If running locally
+* Node 24 (Including NPM) - If running locally
 
 ## Run
 
