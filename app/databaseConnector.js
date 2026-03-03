@@ -1,4 +1,3 @@
-require('dotenv').config({ quiet: true })
 const knex = require('knex')
 const { KNEX_CONFIG } = require('../config')
 

@@ -12,7 +12,7 @@ Help With Prison Visits external, public facing web application.
 ## Run
 
 ### Locally
-The application uses `dotenv` to pick up a local file containing settings for environment variables called `.env`. This file will not be checked into Git. Speak to a member of the PVB dev team (#prison-visit-booking-dev on Slack) to populate.
+The application uses node's `--env-file=.env` to pick up a local file containing settings for environment variables called `.env`. This file will not be checked into Git. Speak to a member of the Visits dev team (#visits-dev on Slack) to populate.
 
 #### Database
 It is possible to use the dev instance of the database which can then be used to set some of the above environment variables. This can be achieved by setting up a port-forwarding pod in Kubernetes so that the dev database can be forwarded to a local port. i.e. `kubectl run port-forward-pod --image=ministryofjustice/port-forward  --port=1433 --env="REMOTE_HOST=<RDS_DB>" --env="LOCAL_PORT=1433" --env="REMOTE_PORT=1433"` followed by setting up the port forward itself `kubectl port-forward pod/port-forward-pod 1433:1433`
