@@ -10,8 +10,8 @@
   overflow-y: scroll;
   list-style: none;
   background-color: $govuk-body-background-colour;
-  border: 1px solid govuk-colour("mid-grey");
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+  border: 1px solid govuk-colour("black", $variant: "tint-80");
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 
   .ui-menu-item {
     a {

@@ -42,7 +42,7 @@
     "csrf-csrf": "^4.0.3",
     "debug": "^4.4.3",
     "express": "^5.2.1",
-    "govuk-frontend": "^5.14.0",
+    "govuk-frontend": "6.1.0",
     "helmet": "^8.1.0",
     "i18n": "^0.15.3",
     "jquery": "^4.0.0",
