@@ -94,4 +94,3 @@ You can start the application in maintenance mode, this requires the `APVS_MAINT
 As a GOV.UK service this application should support Welsh.
 
 Localisation is provided via the [i18n node module](https://www.npmjs.com/package/i18n) which populates localisation strings for the supported locales into `app/locales`. Near the end of the Beta the localisation files will be sent for translation and populated.
-
