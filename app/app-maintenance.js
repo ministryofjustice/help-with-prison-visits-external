@@ -2,6 +2,7 @@ const express = require('express')
 const nunjucks = require('nunjucks')
 const path = require('path')
 const i18n = require('i18n')
+const config = require('../config')
 const log = require('./services/log')
 
 const app = express()
@@ -54,6 +55,7 @@ app.use(i18n.init)
 // Add variables that are available in all views.
 app.use((req, res, next) => {
   res.locals.serviceName = serviceName
+  res.locals.environmentName = config.environmentName
   next()
 })
 
