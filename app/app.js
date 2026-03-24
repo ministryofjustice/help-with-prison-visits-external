@@ -116,6 +116,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.locals.serviceName = serviceName
   res.locals.releaseVersion = `v${releaseVersion}`
+  res.locals.environmentName = config.environmentName
   next()
 })
 
