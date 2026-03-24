@@ -547,3 +547,21 @@ ul.claim-dialog-public li.claimant {
       #global-cookie-message p {
         font-size: 16px;
         line-height: 1.25; } }
+
+
+
+.env--localhost .govuk-header__homepage-link::after {
+  content: "LOCALHOST";
+  @extend .govuk-tag--yellow;
+}
+.env--dev .govuk-header__homepage-link::after {
+  content: "DEV";
+}
+.env--preprod .govuk-header__homepage-link::after {
+  content: "PRE-PRODUCTION";
+  @extend .govuk-tag--green;
+}
+.govuk-header__homepage-link::after {
+  margin-left: govuk-spacing(1);
+  @extend .govuk-tag;
+}

@@ -4,6 +4,7 @@
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% set govukRebrand = true %}
+{% set bodyClasses = ("env--" + environmentName) if environmentName %}
 
 {% block head %}
   <link href="/public/stylesheets/application.css" rel="stylesheet">
