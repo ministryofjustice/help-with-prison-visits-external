@@ -1,6 +1,8 @@
 # Get help with the cost of prison visits
 
-[![pipeline](https://github.com/ministryofjustice/help-with-prison-visits-external/actions/workflows/pipeline.yml/badge.svg)](https://github.com/ministryofjustice/help-with-prison-visits-external) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/help-with-prison-visits-external/badge)](https://github-community.service.justice.gov.uk/repository-standards/help-with-prison-visits-external)
+[![pipeline](https://github.com/ministryofjustice/help-with-prison-visits-external/actions/workflows/pipeline.yml/badge.svg)](https://github.com/ministryofjustice/help-with-prison-visits-external) 
+[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 Help With Prison Visits external, public facing web application.
 
