@@ -29,10 +29,10 @@
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1018.0",
+    "@aws-sdk/client-s3": "^3.1026.0",
     "@ministryofjustice/hmpps-monitoring": "1.0.2",
     "applicationinsights": "^2.9.8",
-    "axios": "^1.13.6",
+    "axios": "^1.14.0",
     "bases": "^0.2.1",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
@@ -48,25 +48,25 @@
     "i18n": "^0.15.3",
     "jquery": "^4.0.0",
     "jquery-ui": "^1.14.2",
-    "knex": "^3.2.6",
+    "knex": "^3.2.9",
     "moment": "^2.30.1",
     "multer": "^2.1.1",
     "nunjucks": "^3.2.4",
     "sanitize-html": "^2.17.2",
     "tedious": "^19.2.1",
-    "validator": "^13.15.26"
+    "validator": "^13.15.35"
   },
   "devDependencies": {
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
-    "cypress": "^15.13.0",
+    "cypress": "^15.13.1",
     "jest": "^30.3.0",
-    "jest-html-reporter": "^4.3.0",
+    "jest-html-reporter": "^4.4.0",
     "jest-junit": "^16.0.0",
     "node-mocks-http": "^1.17.2",
     "nyc": "^18.0.0",
     "prettier": "^3.8.1",
-    "sass": "^1.98.0",
+    "sass": "^1.99.0",
     "supertest": "^7.2.2"
   }
 }
