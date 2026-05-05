@@ -61,7 +61,7 @@
     "cypress": "^15.14.2",
     "jest": "^30.3.0",
     "jest-html-reporter": "^4.4.0",
-    "jest-junit": "^16.0.0",
+    "jest-junit": "^17.0.0",
     "node-mocks-http": "^1.17.2",
     "nyc": "^18.0.0",
     "prettier": "^3.8.3",
