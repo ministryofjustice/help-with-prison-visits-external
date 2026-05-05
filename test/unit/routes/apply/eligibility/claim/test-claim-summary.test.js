@@ -34,11 +34,20 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
   const mockGetDocumentFilePath = jest.fn()
   const mockRemoveExpenseAndDocument = jest.fn()
   const mockRemoveDocument = jest.fn()
+  const mockValidateSession = jest.fn()
+  const mockGetErrorPath = jest.fn()
 
   beforeEach(() => {
+    mockValidateSession.mockReturnValue(true)
+    mockGetErrorPath.mockReturnValue('/start-already-registered?error=expired')
+
     jest.mock('../../../../../../app/services/validators/url-path-validator', () => mockUrlPathValidator)
     jest.mock('../../../../../../app/services/data/get-claim-summary', () => mockGetClaimSummary)
     jest.mock('../../../../../../app/services/domain/claim-summary', () => mockClaimSummary)
+    jest.mock('../../../../../../app/services/validators/session-handler', () => ({
+      validateSession: mockValidateSession,
+      getErrorPath: mockGetErrorPath,
+    }))
     jest.mock('../../../../../../app/services/aws-helper', () => {
       return jest.fn().mockImplementation(() => ({
         download: () => 'test/resources/testfile.txt',
@@ -105,6 +114,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
     })
 
     it('should redirect to date-of-birth error page if cookie is expired', () => {
+      mockValidateSession.mockReturnValueOnce(false)
       return supertest(app)
         .post(ROUTE)
         .set('Cookie', COOKIES_EXPIRED)
@@ -130,6 +140,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
     it('should call the URL Path Validator', () => {
       return supertest(app)
         .get(VIEW_DOCUMENT_ROUTE)
+        .set('Cookie', COOKIES)
         .expect(() => {
           expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
@@ -137,11 +148,11 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
 
     it('should respond respond with 200 if valid path entered', () => {
       mockGetDocumentFilePath.mockResolvedValue(FILEPATH_RESULT)
-      return supertest(app).get(VIEW_DOCUMENT_ROUTE).expect(200)
+      return supertest(app).get(VIEW_DOCUMENT_ROUTE).set('Cookie', COOKIES).expect(200)
     })
 
     it('should respond with 500 if invalid path provided', () => {
-      return supertest(app).get(VIEW_DOCUMENT_ROUTE).expect(500)
+      return supertest(app).get(VIEW_DOCUMENT_ROUTE).set('Cookie', COOKIES).expect(500)
     })
   })
 
@@ -149,6 +160,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
     it('should call the URL Path Validator', () => {
       return supertest(app)
         .post(REMOVE_EXPENSE_ROUTE)
+        .set('Cookie', COOKIES)
         .expect(() => {
           expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
@@ -158,6 +170,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
       mockRemoveExpenseAndDocument.mockResolvedValue()
       return supertest(app)
         .post(REMOVE_EXPENSE_ROUTE)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect(() => {
           expect(mockRemoveExpenseAndDocument).toHaveBeenCalledTimes(1)
@@ -167,7 +180,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
 
     it('should respond with a 500 if promise rejects.', () => {
       mockRemoveExpenseAndDocument.mockRejectedValue()
-      return supertest(app).post(REMOVE_EXPENSE_ROUTE).expect(500)
+      return supertest(app).post(REMOVE_EXPENSE_ROUTE).set('Cookie', COOKIES).expect(500)
     })
   })
 
@@ -175,6 +188,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
     it('should call the URL Path Validator', () => {
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
+        .set('Cookie', COOKIES)
         .expect(() => {
           expect(mockUrlPathValidator).toHaveBeenCalledTimes(1)
         })
@@ -184,6 +198,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
       mockRemoveDocument.mockResolvedValue()
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect(() => {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
@@ -196,6 +211,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
       mockRemoveDocument.mockResolvedValue()
       return supertest(app)
         .post(REMOVE_DOCUMENT_ROUTE)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect(() => {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
@@ -209,6 +225,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
       const claimExpenseParam = '&claimExpenseId=1'
       return supertest(app)
         .post(`${REMOVE_DOCUMENT_ROUTE}${claimExpenseParam}`)
+        .set('Cookie', COOKIES)
         .expect(302)
         .expect(() => {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
@@ -219,7 +236,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
 
     it('should respond with a 500 if promise rejects.', () => {
       mockRemoveDocument.mockRejectedValue()
-      return supertest(app).post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`).expect(500)
+      return supertest(app).post(`${REMOVE_DOCUMENT_ROUTE}&multipage=true`).set('Cookie', COOKIES).expect(500)
     })
   })
 })

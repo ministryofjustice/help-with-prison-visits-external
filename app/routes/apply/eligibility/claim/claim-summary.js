@@ -116,6 +116,12 @@ module.exports = router => {
   })
 
   router.get('/apply/eligibility/claim/summary/view-document/:claimDocumentId', (req, res, next) => {
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
+
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
+    }
+
     UrlPathValidator(req.params)
 
     return claimSummaryHelper
@@ -131,6 +137,12 @@ module.exports = router => {
   })
 
   router.post('/apply/eligibility/claim/summary/remove-expense/:claimExpenseId', (req, res, next) => {
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
+
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
+    }
+
     UrlPathValidator(req.params)
 
     return claimSummaryHelper
@@ -144,6 +156,12 @@ module.exports = router => {
   })
 
   router.post('/apply/eligibility/claim/summary/remove-document/:claimDocumentId', (req, res, next) => {
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
+
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
+    }
+
     UrlPathValidator(req.params)
 
     return claimSummaryHelper
