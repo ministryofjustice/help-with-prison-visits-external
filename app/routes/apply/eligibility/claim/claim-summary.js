@@ -116,13 +116,13 @@ module.exports = router => {
   })
 
   router.get('/apply/eligibility/claim/summary/view-document/:claimDocumentId', (req, res, next) => {
+    UrlPathValidator(req.params)
+
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
-
-    UrlPathValidator(req.params)
 
     return claimSummaryHelper
       .getDocumentFilePath(req.params.claimDocumentId)
@@ -137,13 +137,13 @@ module.exports = router => {
   })
 
   router.post('/apply/eligibility/claim/summary/remove-expense/:claimExpenseId', (req, res, next) => {
+    UrlPathValidator(req.params)
+
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
-
-    UrlPathValidator(req.params)
 
     return claimSummaryHelper
       .removeExpenseAndDocument(req.session.claimId, req.params.claimExpenseId, req.query?.claimDocumentId)
@@ -156,13 +156,13 @@ module.exports = router => {
   })
 
   router.post('/apply/eligibility/claim/summary/remove-document/:claimDocumentId', (req, res, next) => {
+    UrlPathValidator(req.params)
+
     const isValidSession = SessionHandler.validateSession(req.session, req.url)
 
     if (!isValidSession) {
       return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
     }
-
-    UrlPathValidator(req.params)
 
     return claimSummaryHelper
       .removeDocument(req.params.claimDocumentId)
