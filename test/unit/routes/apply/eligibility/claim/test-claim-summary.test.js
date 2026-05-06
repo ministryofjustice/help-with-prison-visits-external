@@ -2,6 +2,7 @@ const supertest = require('supertest')
 const ValidationError = require('../../../../../../app/services/errors/validation-error')
 const routeHelper = require('../../../../../helpers/routes/route-helper')
 
+const CLAIM_ID = 13
 const CLAIM_EXPENSE_ID = '1234'
 const CLAIM_DOCUMENT_ID = '123'
 const FILEPATH_RESULT = { path: 'test/resources/testfile.txt', name: 'testfile.txt' }
@@ -202,7 +203,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
         .expect(302)
         .expect(() => {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
-          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_ID, CLAIM_DOCUMENT_ID)
         })
         .expect('location', ROUTE)
     })
@@ -215,7 +216,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
         .expect(302)
         .expect(() => {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
-          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_ID, CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION`)
     })
@@ -229,7 +230,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
         .expect(302)
         .expect(() => {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
-          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_ID, CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION${claimExpenseParam}`)
     })

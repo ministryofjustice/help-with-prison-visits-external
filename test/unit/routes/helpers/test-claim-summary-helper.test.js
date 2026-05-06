@@ -87,9 +87,9 @@ describe('routes/helpers/claim-summary-helper', () => {
 
   describe('removeDocument', () => {
     it('should call removeDocument with the given parameters', () => {
-      claimSummaryHelper.removeDocument(CLAIM_DOCUMENT_ID)
+      claimSummaryHelper.removeDocument(CLAIM_ID, CLAIM_DOCUMENT_ID)
       expect(mockRemoveClaimDocument).toHaveBeenCalledTimes(1)
-      expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
+      expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_ID, CLAIM_DOCUMENT_ID)
     })
   })
 

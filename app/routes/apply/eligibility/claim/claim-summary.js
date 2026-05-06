@@ -125,7 +125,7 @@ module.exports = router => {
     }
 
     return claimSummaryHelper
-      .getDocumentFilePath(req.params.claimDocumentId)
+      .getDocumentFilePath(req.session.claimId, req.params.claimDocumentId)
       .then(async file => {
         const awsDownloadPath = await aws.download(file.path)
 
@@ -165,7 +165,7 @@ module.exports = router => {
     }
 
     return claimSummaryHelper
-      .removeDocument(req.params.claimDocumentId)
+      .removeDocument(req.session.claimId, req.params.claimDocumentId)
       .then(() => {
         return res.redirect(claimSummaryHelper.buildRemoveDocumentUrl(req))
       })
