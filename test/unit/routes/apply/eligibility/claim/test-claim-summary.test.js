@@ -146,7 +146,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
         })
     })
 
-    it('should respond respond with 200 if valid path entered', () => {
+    it('should respond with 200 if valid path entered', () => {
       mockGetDocumentFilePath.mockResolvedValue(FILEPATH_RESULT)
       return supertest(app).get(VIEW_DOCUMENT_ROUTE).set('Cookie', COOKIES).expect(200)
     })
