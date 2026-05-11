@@ -29,8 +29,8 @@
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1041.0",
-    "@ministryofjustice/hmpps-monitoring": "1.0.2",
+    "@aws-sdk/client-s3": "^3.1045.0",
+    "@ministryofjustice/hmpps-monitoring": "1.1.0",
     "applicationinsights": "^2.9.8",
     "bases": "^0.2.1",
     "bunyan": "^1.8.15",
@@ -47,7 +47,7 @@
     "i18n": "^0.15.3",
     "jquery": "^4.0.0",
     "jquery-ui": "^1.14.2",
-    "knex": "^3.2.9",
+    "knex": "^3.2.10",
     "moment": "^2.30.1",
     "multer": "^2.1.1",
     "nunjucks": "^3.2.4",
@@ -59,7 +59,7 @@
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.4",
     "cypress": "^15.14.2",
-    "jest": "^30.3.0",
+    "jest": "^30.4.1",
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "node-mocks-http": "^1.17.2",
