@@ -550,18 +550,18 @@ ul.claim-dialog-public li.claimant {
 
 
 
-.env--localhost .govuk-header__homepage-link::after {
+.env--localhost .govuk-service-navigation__service-name::after {
   content: "LOCALHOST";
   @extend .govuk-tag--yellow;
 }
-.env--dev .govuk-header__homepage-link::after {
+.env--dev .govuk-service-navigation__service-name::after {
   content: "DEV";
 }
-.env--preprod .govuk-header__homepage-link::after {
+.env--preprod .govuk-service-navigation__service-name::after {
   content: "PRE-PRODUCTION";
   @extend .govuk-tag--green;
 }
-.govuk-header__homepage-link::after {
+.govuk-service-navigation__service-name::after {
   margin-left: govuk-spacing(1);
   @extend .govuk-tag;
 }
