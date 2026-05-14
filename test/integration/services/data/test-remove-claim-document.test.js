@@ -22,7 +22,7 @@ describe('services/data/remove-claim-document', () => {
   })
 
   it('should disable a claim document', () => {
-    return removeClaimDocument(claimDocumentId)
+    return removeClaimDocument(claimId, claimDocumentId)
       .then(() => {
         return claimDocumentHelper.get(claimId)
       })
