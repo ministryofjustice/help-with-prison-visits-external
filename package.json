@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1045.0",
-    "@ministryofjustice/hmpps-monitoring": "1.1.0",
+    "@ministryofjustice/hmpps-monitoring": "2.1.0",
     "applicationinsights": "^2.9.8",
     "bases": "^0.2.1",
     "bunyan": "^1.8.15",
@@ -51,15 +51,15 @@
     "moment": "^2.30.1",
     "multer": "^2.1.1",
     "nunjucks": "^3.2.4",
-    "sanitize-html": "^2.17.3",
+    "sanitize-html": "^2.17.4",
     "tedious": "^19.2.1",
     "validator": "^13.15.35"
   },
   "devDependencies": {
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.4",
-    "cypress": "^15.14.2",
-    "jest": "^30.4.1",
+    "cypress": "^15.15.0",
+    "jest": "^30.4.2",
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "node-mocks-http": "^1.17.2",
