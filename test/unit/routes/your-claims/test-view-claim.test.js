@@ -3,7 +3,7 @@ const ValidationError = require('../../../../app/services/errors/validation-erro
 const routeHelper = require('../../../helpers/routes/route-helper')
 
 const COOKIES = [
-  'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjQ5LjM2NTU1LCJkZWNyeXB0ZWRSZWYiOiJRSFFDWFdaIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyIsImNsYWltSWQiOjF9',
+  'apvs-start-application=eyJub3dJbk1pbnV0ZXMiOjI0OTA4MjQ5LjM2NTU1LCJkZWNyeXB0ZWRSZWYiOiJRSFFDWFdaIiwiZG9iRW5jb2RlZCI6IjExNDAxNzYwNyJ9',
 ]
 const ELIGIBILITY_ID = '1234'
 const CLAIMID = '1'
@@ -131,7 +131,7 @@ describe('routes/apply/eligibility/claim/view-claim', () => {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(() => {
-          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(1, CLAIM_DOCUMENT_ID)
+          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION&eligibilityId=${ELIGIBILITY_ID}`)
     })
@@ -143,7 +143,7 @@ describe('routes/apply/eligibility/claim/view-claim', () => {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(() => {
-          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(1, CLAIM_DOCUMENT_ID)
+          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect('location', ROUTE)
     })
@@ -155,7 +155,7 @@ describe('routes/apply/eligibility/claim/view-claim', () => {
         .set('Cookie', COOKIES)
         .expect(302)
         .expect(() => {
-          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(1, CLAIM_DOCUMENT_ID)
+          expect(mockRemoveClaimDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
         })
         .expect(
           'location',
