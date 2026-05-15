@@ -77,6 +77,11 @@ module.exports = {
         page = tempPage[0] // eslint-disable-line prefer-destructuring
       }
 
+      // Allow us to check routes where 'page' ends up being an ID
+      if (/^\d+$/.test(page)) {
+        page = splitUrl.pop(-1)
+      }
+
       if (page === 'prisoner-relationship') {
         if (!session.dobEncoded) {
           return false
@@ -180,7 +185,10 @@ module.exports = {
         page === 'summary' ||
         page === 'payment-details' ||
         page === 'bank-payment-details' ||
-        page === 'declaration'
+        page === 'declaration' ||
+        page === 'view-document' ||
+        page === 'remove-expense' ||
+        page === 'remove-document'
       ) {
         if (
           !session.referenceId ||

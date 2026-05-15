@@ -118,8 +118,14 @@ module.exports = router => {
   router.get('/apply/eligibility/claim/summary/view-document/:claimDocumentId', (req, res, next) => {
     UrlPathValidator(req.params)
 
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
+
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
+    }
+
     return claimSummaryHelper
-      .getDocumentFilePath(req.params.claimDocumentId)
+      .getDocumentFilePath(req.session.claimId, req.params.claimDocumentId)
       .then(async file => {
         const awsDownloadPath = await aws.download(file.path)
 
@@ -132,6 +138,12 @@ module.exports = router => {
 
   router.post('/apply/eligibility/claim/summary/remove-expense/:claimExpenseId', (req, res, next) => {
     UrlPathValidator(req.params)
+
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
+
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
+    }
 
     return claimSummaryHelper
       .removeExpenseAndDocument(req.session.claimId, req.params.claimExpenseId, req.query?.claimDocumentId)
@@ -146,8 +158,14 @@ module.exports = router => {
   router.post('/apply/eligibility/claim/summary/remove-document/:claimDocumentId', (req, res, next) => {
     UrlPathValidator(req.params)
 
+    const isValidSession = SessionHandler.validateSession(req.session, req.url)
+
+    if (!isValidSession) {
+      return res.redirect(SessionHandler.getErrorPath(req.session, req.url))
+    }
+
     return claimSummaryHelper
-      .removeDocument(req.params.claimDocumentId)
+      .removeDocument(req.session.claimId, req.params.claimDocumentId)
       .then(() => {
         return res.redirect(claimSummaryHelper.buildRemoveDocumentUrl(req))
       })
