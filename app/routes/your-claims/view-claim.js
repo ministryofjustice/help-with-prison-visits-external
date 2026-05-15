@@ -180,7 +180,7 @@ module.exports = router => {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
-    getClaimDocumentFilePath(req.session.claimId, req.params.claimDocumentId)
+    getClaimDocumentFilePath(req.params.claimDocumentId)
       .then(async result => {
         const path = result.Filepath
         if (path) {
@@ -210,7 +210,7 @@ module.exports = router => {
       return res.redirect(`/start-already-registered${REFERENCE_SESSION_ERROR}`)
     }
 
-    removeClaimDocument(req.session.claimId, req.params.claimDocumentId)
+    removeClaimDocument(req.params.claimDocumentId)
       .then(() => {
         if (req.query?.multipage) {
           return res.redirect(`/your-claims/${req.params.claimId}`)
