@@ -3,6 +3,19 @@ generic-service:
   replicaCount: 2
   ingress:
     host: "help-with-prison-visits-dev.hmpps.service.justice.gov.uk"
+    modsecurity_snippet: |
+      SecRuleEngine On
+      SecAuditEngine On
+      SecAuditLog /var/log/nginx/error.log
+      SecAuditLogType Serial
+      SecDefaultAction "phase:2,pass,log,tag:github_team=hmpps-prison-visits-booking,tag:namespace={{ .Release.Namespace }}"
+      SecAction \
+        "id:900000,\
+        phase:1,\
+        nolog,\
+        pass,\
+        t:none,\
+        setvar:tx.paranoia_level=2"
 
   env:
     FEATURES_YCS_JOURNEY: 'true'
