@@ -29,7 +29,7 @@
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1047.0",
+    "@aws-sdk/client-s3": "^3.1057.0",
     "@ministryofjustice/hmpps-monitoring": "2.1.0",
     "applicationinsights": "^2.9.8",
     "bases": "^0.2.1",
@@ -43,7 +43,7 @@
     "debug": "^4.4.3",
     "express": "^5.2.1",
     "govuk-frontend": "6.1.0",
-    "helmet": "^8.1.0",
+    "helmet": "^8.2.0",
     "i18n": "^0.15.3",
     "jquery": "^4.0.0",
     "jquery-ui": "^1.14.2",
@@ -57,15 +57,15 @@
   },
   "devDependencies": {
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
-    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.4",
-    "cypress": "^15.15.0",
+    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
+    "cypress": "^15.16.0",
     "jest": "^30.4.2",
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "node-mocks-http": "^1.17.2",
     "nyc": "^18.0.0",
     "prettier": "^3.8.3",
-    "sass": "^1.99.0",
+    "sass": "^1.100.0",
     "supertest": "^7.2.2"
   }
 }
