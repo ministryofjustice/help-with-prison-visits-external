@@ -51,7 +51,7 @@
     "multer": "^2.2.0",
     "nunjucks": "^3.2.4",
     "sanitize-html": "^2.17.5",
-    "tedious": "^19.2.2",
+    "tedious": "^20.0.0",
     "validator": "^13.15.35"
   },
   "devDependencies": {
