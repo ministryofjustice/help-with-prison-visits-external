@@ -28,7 +28,7 @@
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1075.0",
+    "@aws-sdk/client-s3": "^3.1080.0",
     "@ministryofjustice/hmpps-monitoring": "2.1.0",
     "applicationinsights": "^2.9.8",
     "bases": "^0.2.1",
@@ -46,12 +46,12 @@
     "i18n": "^0.15.3",
     "jquery": "^4.0.0",
     "jquery-ui": "^1.14.2",
-    "knex": "^3.2.10",
+    "knex": "^3.3.0",
     "moment": "^2.30.1",
     "multer": "^2.2.0",
     "nunjucks": "^3.2.4",
     "sanitize-html": "^2.17.5",
-    "tedious": "^19.2.1",
+    "tedious": "^19.2.2",
     "validator": "^13.15.35"
   },
   "devDependencies": {
@@ -62,12 +62,12 @@
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "node-mocks-http": "^1.17.2",
-    "prettier": "^3.8.4",
+    "prettier": "^3.9.4",
     "sass": "^1.101.0",
     "supertest": "^7.2.2"
   },
   "overrides": {
-    "@opentelemetry/core": "2.8.0",
-    "js-yaml": "5.0.0"
+    "@opentelemetry/core": "2.9.0",
+    "js-yaml": "5.2.1"
   }
 }
