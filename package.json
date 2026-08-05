@@ -28,7 +28,7 @@
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1091.0",
+    "@aws-sdk/client-s3": "^3.1097.0",
     "@ministryofjustice/hmpps-monitoring": "2.1.0",
     "applicationinsights": "^2.9.8",
     "bases": "^0.2.1",
@@ -63,7 +63,7 @@
     "jest-junit": "^17.0.0",
     "node-mocks-http": "^1.18.1",
     "prettier": "^3.9.6",
-    "sass": "^1.101.6",
+    "sass": "^1.102.0",
     "supertest": "^7.2.2"
   },
   "overrides": {
