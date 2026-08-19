@@ -3,12 +3,12 @@ const AWSHelper = require('../aws-helper')
 
 const aws = new AWSHelper()
 
-module.exports = claimDocumentId => {
+module.exports = (claimId, claimDocumentId) => {
   const db = getDatabaseConnector()
 
   return db('ClaimDocument')
     .returning('Filepath')
-    .where('ClaimDocumentId', claimDocumentId)
+    .where({ ClaimId: claimId, ClaimDocumentId: claimDocumentId })
     .update({
       IsEnabled: false,
     })
