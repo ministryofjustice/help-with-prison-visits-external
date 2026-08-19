@@ -119,7 +119,7 @@ module.exports = router => {
     UrlPathValidator(req.params)
 
     return claimSummaryHelper
-      .getDocumentFilePath(req.params.claimDocumentId)
+      .getDocumentFilePath(req.session.claimId, req.params.claimDocumentId)
       .then(async file => {
         const awsDownloadPath = await aws.download(file.path)
 
@@ -147,7 +147,7 @@ module.exports = router => {
     UrlPathValidator(req.params)
 
     return claimSummaryHelper
-      .removeDocument(req.params.claimDocumentId)
+      .removeDocument(req.session.claimId, req.params.claimDocumentId)
       .then(() => {
         return res.redirect(claimSummaryHelper.buildRemoveDocumentUrl(req))
       })

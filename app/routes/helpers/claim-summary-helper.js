@@ -23,14 +23,14 @@ module.exports.removeExpense = (claimId, claimExpenseId) => {
   return removeClaimExpense(claimId, claimExpenseId)
 }
 
-module.exports.removeDocument = claimDocumentId => {
-  return removeClaimDocument(claimDocumentId)
+module.exports.removeDocument = (claimId, claimDocumentId) => {
+  return removeClaimDocument(claimId, claimDocumentId)
 }
 
 module.exports.removeExpenseAndDocument = (claimId, claimExpenseId, claimDocumentId) => {
   const self = this
   return self.removeExpense(claimId, claimExpenseId).then(() => {
-    return self.removeDocument(claimDocumentId)
+    return self.removeDocument(claimId, claimDocumentId)
   })
 }
 
@@ -42,8 +42,8 @@ module.exports.getBenefitDocument = benefitDocument => {
   return result
 }
 
-module.exports.getDocumentFilePath = claimDocumentId => {
-  return getClaimDocumentFilePath(claimDocumentId)
+module.exports.getDocumentFilePath = (claimId, claimDocumentId) => {
+  return getClaimDocumentFilePath(claimId, claimDocumentId)
     .then(result => {
       if (result && result.Filepath) {
         const path = result.Filepath
