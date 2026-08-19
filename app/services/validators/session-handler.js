@@ -68,97 +68,66 @@ module.exports = {
       }
     }
 
-    function checkDependencies(session, url) {
-      const splitUrl = url.split('/')
-      let page = splitUrl.pop(-1)
-
-      if (page.includes('?')) {
-        const tempPage = page.split('?')
-        page = tempPage[0] // eslint-disable-line prefer-destructuring
-      }
+    function checkDependencies(session, urlString) {
+      const path = urlString.split('?')
+      const splitUrl = path[0].split('/')
+      const page = splitUrl.pop(-1)
 
       if (page === 'prisoner-relationship') {
-        if (!session.dobEncoded) {
-          return false
-        }
-        return true
+        return !!session.dobEncoded
       }
 
       if (page === 'child-escort') {
-        if (!session.dobEncoded || !session.relationship) {
-          return false
-        }
-        return true
+        return !!session.dobEncoded && !!session.relationship
       }
 
       if (page === 'benefits') {
-        if (!session.dobEncoded || !session.relationship) {
-          return false
-        }
-        return true
+        return !!session.dobEncoded && !!session.relationship
       }
 
       if (page === 'about-the-prisoner') {
-        if (!session.dobEncoded || !session.relationship || !session.benefit || !session.benefitOwner) {
-          return false
-        }
-        return true
+        return !!session.dobEncoded && !!session.relationship && !!session.benefit && !!session.benefitOwner
       }
 
       if (page === 'eligible-child') {
-        if (
-          !session.dobEncoded ||
-          !session.relationship ||
-          !session.benefit ||
-          !session.referenceId ||
-          !session.decryptedRef ||
-          !session.benefitOwner
-        ) {
-          return false
-        }
-        return true
+        return (
+          !!session.dobEncoded &&
+          !!session.relationship &&
+          !!session.benefit &&
+          !!session.referenceId &&
+          !!session.decryptedRef &&
+          !!session.benefitOwner
+        )
       }
 
       if (page === 'benefit-owner') {
-        if (
-          !session.dobEncoded ||
-          !session.relationship ||
-          !session.benefit ||
-          !session.referenceId ||
-          !session.decryptedRef ||
-          !session.benefitOwner
-        ) {
-          return false
-        }
-        return true
+        return (
+          !!session.dobEncoded &&
+          !!session.relationship &&
+          !!session.benefit &&
+          !!session.referenceId &&
+          !!session.decryptedRef &&
+          !!session.benefitOwner
+        )
       }
 
       if (page === 'about-you') {
-        if (
-          !session.dobEncoded ||
-          !session.relationship ||
-          !session.benefit ||
-          !session.referenceId ||
-          !session.decryptedRef ||
-          !session.benefitOwner
-        ) {
-          return false
-        }
-        return true
+        return (
+          !!session.dobEncoded &&
+          !!session.relationship &&
+          !!session.benefit &&
+          !!session.referenceId &&
+          !!session.decryptedRef &&
+          !!session.benefitOwner
+        )
       }
 
       if (page === 'future-or-past-visit') {
-        if (!session.referenceId || !session.decryptedRef || !session.claimType) {
-          return false
-        }
-        return true
+        return !!session.referenceId && !!session.decryptedRef && !!session.claimType
       }
 
       if (page === 'journey-information') {
-        if (!session.referenceId || !session.decryptedRef || !session.claimType || !session.advanceOrPast) {
-          return false
-        }
-        return true
+        return !!session.referenceId && !!session.decryptedRef && !!session.claimType && !!session.advanceOrPast
       }
 
       if (
@@ -182,23 +151,17 @@ module.exports = {
         page === 'bank-payment-details' ||
         page === 'declaration'
       ) {
-        if (
-          !session.referenceId ||
-          !session.decryptedRef ||
-          !session.claimType ||
-          !session.advanceOrPast ||
-          !session.claimId
-        ) {
-          return false
-        }
-        return true
+        return (
+          !!session.referenceId &&
+          !!session.decryptedRef &&
+          !!session.claimType &&
+          !!session.advanceOrPast &&
+          !!session.claimId
+        )
       }
 
       if (page === 'file-upload') {
-        if (!session.decryptedRef || !session.claimId) {
-          return false
-        }
-        return true
+        return !!session.decryptedRef && !!session.claimId
       }
 
       if (
@@ -207,17 +170,11 @@ module.exports = {
         page === 'update-contact-details' ||
         page === 'check-your-information'
       ) {
-        if (!session.dobEncoded || !session.decryptedRef) {
-          return false
-        }
-        return true
+        return !!session.dobEncoded && !!session.decryptedRef
       }
 
       if (page === 'same-journey-as-last-claim') {
-        if (!session.claimType || !session.referenceId || !session.decryptedRef || !session.advanceOrPast) {
-          return false
-        }
-        return true
+        return !!session.claimType && !!session.referenceId && !!session.decryptedRef && !!session.advanceOrPast
       }
 
       return false
