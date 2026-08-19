@@ -187,7 +187,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
         .expect(302)
         .expect(() => {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
-          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveDocument).toHaveBeenCalledWith(undefined, CLAIM_DOCUMENT_ID)
         })
         .expect('location', ROUTE)
     })
@@ -199,7 +199,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
         .expect(302)
         .expect(() => {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
-          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveDocument).toHaveBeenCalledWith(undefined, CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION`)
     })
@@ -212,7 +212,7 @@ describe('routes/apply/eligibility/claim/claim-summary', () => {
         .expect(302)
         .expect(() => {
           expect(mockRemoveDocument).toHaveBeenCalledTimes(1)
-          expect(mockRemoveDocument).toHaveBeenCalledWith(CLAIM_DOCUMENT_ID)
+          expect(mockRemoveDocument).toHaveBeenCalledWith(undefined, CLAIM_DOCUMENT_ID)
         })
         .expect('location', `${ROUTE}/file-upload?document=VISIT_CONFIRMATION${claimExpenseParam}`)
     })
