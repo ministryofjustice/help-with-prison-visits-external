@@ -71,7 +71,7 @@ module.exports = {
     function checkDependencies(session, urlString) {
       const path = urlString.split('?')
       const splitUrl = path[0].split('/')
-      const page = splitUrl.pop(-1)
+      const page = splitUrl.pop()
 
       if (page === 'prisoner-relationship') {
         return !!session.dobEncoded
