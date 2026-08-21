@@ -283,8 +283,8 @@ module.exports = {
     region: 'ENG/WAL',
   },
 
-  GRENDON: {
-    value: 'grendon',
+  GRENDON_SPRING_HILL: {
+    value: 'grendon/spring-hill',
     displayName: 'Grendon',
     region: 'ENG/WAL',
   },
