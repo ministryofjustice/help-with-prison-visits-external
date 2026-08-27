@@ -285,7 +285,7 @@ module.exports = {
 
   GRENDON_SPRING_HILL: {
     value: 'grendon/spring-hill',
-    displayName: 'Grendon/Spring Hill',
+    displayName: 'Grendon',
     region: 'ENG/WAL',
   },
 
@@ -613,6 +613,12 @@ module.exports = {
     region: 'ENG/WAL',
   },
 
+  SPRING_HILL: {
+    value: 'spring-hill',
+    displayName: 'Spring Hill',
+    region: 'ENG/WAL',
+  },
+
   STAFFORD: {
     value: 'stafford',
     displayName: 'Stafford',
@@ -792,6 +798,12 @@ module.exports = {
   CASTLE_HUNTLY: {
     value: 'castle-huntly',
     displayName: 'Castle Huntly',
+    region: 'SCO',
+  },
+
+  CORNTON_VALE: {
+    value: 'cornton-vale',
+    displayName: 'Cornton Vale',
     region: 'SCO',
   },
 
