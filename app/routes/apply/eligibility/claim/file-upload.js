@@ -123,6 +123,7 @@ function post(req, res, next, _redirectURL) {
 
       if (error) {
         // this will show this error for any error
+        console.log('Actual error', error) // eslint-disable-line no-console
         throw new ValidationError({ upload: [ERROR_MESSAGES.getUploadTooLarge] })
       } else if (!Object.prototype.hasOwnProperty.call(DocumentTypeEnum, req.query?.document)) {
         throw new Error('Not a valid document type')

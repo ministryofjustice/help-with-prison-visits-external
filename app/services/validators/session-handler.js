@@ -72,6 +72,21 @@ module.exports = {
       const path = urlString.split('?')
       const splitUrl = path[0].split('/')
       const page = splitUrl.pop()
+      let actualPage = ''
+
+      // sort out claim summary pages that are passed an ID as their final "page"
+      if (/^\d+$/.test(page)) {
+        console.log('found an ID') // eslint-disable-line no-console
+        const testPage = splitUrl.pop()
+        console.log('testPage', testPage) // eslint-disable-line no-console
+        const claimSummaryTest = splitUrl.pop()
+        console.log('claimSummaryTest', claimSummaryTest) // eslint-disable-line no-console
+
+        if (claimSummaryTest === 'summary') {
+          actualPage = testPage
+          console.log('actualPage', actualPage) // eslint-disable-line no-console
+        }
+      }
 
       if (page === 'prisoner-relationship') {
         return !!session.dobEncoded
@@ -147,6 +162,9 @@ module.exports = {
         page === 'taxi' ||
         page === 'train' ||
         page === 'summary' ||
+        actualPage === 'view-document' ||
+        actualPage === 'remove-expense' ||
+        actualPage === 'remove-document' ||
         page === 'payment-details' ||
         page === 'bank-payment-details' ||
         page === 'declaration'
