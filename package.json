@@ -29,7 +29,7 @@
     "prepare": "hmpps-precommit-hooks-prepare"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1112.0",
+    "@aws-sdk/client-s3": "^3.1117.0",
     "@ministryofjustice/hmpps-monitoring": "2.1.0",
     "applicationinsights": "^2.9.8",
     "bases": "^0.2.1",
@@ -42,7 +42,7 @@
     "csrf-csrf": "^4.0.3",
     "debug": "^4.4.3",
     "express": "^5.2.1",
-    "govuk-frontend": "6.4.0",
+    "govuk-frontend": "6.5.0",
     "helmet": "^8.3.0",
     "i18n": "^0.15.3",
     "jquery": "^4.0.0",
@@ -59,13 +59,13 @@
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.2",
-    "cypress": "^15.20.1",
+    "cypress": "^15.21.0",
     "jest": "^30.4.2",
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "node-mocks-http": "^1.18.1",
     "prettier": "^3.9.6",
-    "sass": "^1.102.0",
+    "sass": "^1.103.1",
     "supertest": "^7.2.2"
   },
   "overrides": {
