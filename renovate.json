@@ -5,7 +5,6 @@
   "prCreation": "immediate",
   "dependencyDashboard": true,
   "schedule": ["* * * * 0,6"],
-  "ignoreDeps": ["sanitize-html"],
   "packageRules": [
     {
       "matchManagers": ["npm"],
