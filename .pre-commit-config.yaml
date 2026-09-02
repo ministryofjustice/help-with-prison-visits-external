@@ -26,7 +26,7 @@ repos:
         name: running tests
         language: system
         entry: npm run test
-        files: (\.(ts)$|^package-lock\.json$)
+        files: (\.(js)$|^package-lock\.json$)
         require_serial: true
         pass_filenames: false
   - repo: builtin
