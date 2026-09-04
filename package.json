@@ -29,7 +29,7 @@
     "prepare": "hmpps-precommit-hooks-prepare"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1117.0",
+    "@aws-sdk/client-s3": "^3.1121.0",
     "@ministryofjustice/hmpps-monitoring": "2.1.0",
     "applicationinsights": "^2.9.8",
     "bases": "^0.2.1",
@@ -59,8 +59,8 @@
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.2",
-    "cypress": "^15.21.0",
-    "jest": "^30.4.2",
+    "cypress": "^15.21.1",
+    "jest": "^30.5.0",
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "lint-staged": "17.4.1",
@@ -72,6 +72,6 @@
   "overrides": {
     "@opentelemetry/core": "2.10.0",
     "brace-expansion": "5.0.9",
-    "js-yaml": "5.3.0"
+    "js-yaml": "5.4.1"
   }
 }
