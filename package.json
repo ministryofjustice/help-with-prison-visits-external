@@ -59,6 +59,7 @@
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.2",
+    "chokidar": "3.3.0",
     "cypress": "^15.21.0",
     "jest": "^30.4.2",
     "jest-html-reporter": "^4.4.0",
