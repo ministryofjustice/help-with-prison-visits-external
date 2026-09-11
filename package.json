@@ -59,7 +59,7 @@
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.2",
-    "cypress": "^15.21.1",
+    "cypress": "^16.0.0",
     "jest": "^30.5.1",
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
