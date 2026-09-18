@@ -29,7 +29,7 @@
     "prepare": "hmpps-precommit-hooks-prepare"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1127.0",
+    "@aws-sdk/client-s3": "^3.1131.0",
     "@ministryofjustice/hmpps-monitoring": "2.1.0",
     "applicationinsights": "^2.9.8",
     "bases": "^0.2.1",
