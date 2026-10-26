@@ -51,7 +51,7 @@
     "moment": "^2.31.0",
     "multer": "^2.4.0",
     "nunjucks": "^3.2.4",
-    "sanitize-html": "2.18.0",
+    "sanitize-html": "2.18.1",
     "tedious": "^20.3.8",
     "validator": "^13.15.35"
   },
