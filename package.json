@@ -49,7 +49,7 @@
     "jquery-ui": "^1.14.2",
     "knex": "^3.3.0",
     "moment": "^2.31.0",
-    "multer": "^2.4.0",
+    "multer": "^2.5.0",
     "nunjucks": "^3.2.4",
     "sanitize-html": "2.18.1",
     "tedious": "^20.3.4",
