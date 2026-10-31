@@ -29,7 +29,7 @@
     "prepare": "hmpps-precommit-hooks-prepare"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1152.0",
+    "@aws-sdk/client-s3": "^3.1156.0",
     "@ministryofjustice/hmpps-monitoring": "2.1.0",
     "applicationinsights": "^2.9.8",
     "bases": "^0.2.1",
@@ -66,7 +66,7 @@
     "lint-staged": "17.6.0",
     "node-mocks-http": "^1.18.1",
     "prettier": "^3.9.10",
-    "sass": "^1.105.2",
+    "sass": "^1.106.1",
     "supertest": "^7.3.1"
   },
   "overrides": {
