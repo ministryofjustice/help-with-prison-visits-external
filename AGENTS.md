@@ -6,7 +6,7 @@ This is the public-facing Express/Nunjucks service for Help with Prison Visits. 
 
 ## Commands
 
-- Install and prepare hooks: `npm run setup`
+- Install and prepare hooks: `npm ci`
 - Build assets/application: `npm run build`
 - Compile Sass only: `npm run css-build`
 - Run locally with `.env`: `npm run start:dev`

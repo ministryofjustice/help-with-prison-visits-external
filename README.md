@@ -1,7 +1,7 @@
 # Get help with the cost of prison visits
 
 [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/help-with-prison-visits-external/badge?style=flat)](https://github-community.service.justice.gov.uk/repository-standards/help-with-prison-visits-external)
-[![pipeline](https://github.com/ministryofjustice/help-with-prison-visits-external/actions/workflows/pipeline.yml/badge.svg)](https://github.com/ministryofjustice/help-with-prison-visits-external) 
+[![pipeline](https://github.com/ministryofjustice/help-with-prison-visits-external/actions/workflows/pipeline.yml/badge.svg)](https://github.com/ministryofjustice/help-with-prison-visits-external)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 Help With Prison Visits external, public facing web application.
@@ -9,7 +9,7 @@ Help With Prison Visits external, public facing web application.
 ## Requirements
 
 * Docker (Including Docker Compose)
-* Node 24 (Including NPM) - If running locally
+* Node 26 (Including NPM 12) - If running locally
 
 ## Run
 
@@ -22,10 +22,10 @@ It is possible to use the dev instance of the database which can then be used to
 Then install dependencies and run on port 3000.
 
 ```
-npm run setup
+npm ci
 npm run dev
 ```
- 
+
 ### Docker Compose
 This enables the application to run as a docker image locally and also contains setup to allow a local instance of clamav to run to allow the app to work locally.
 

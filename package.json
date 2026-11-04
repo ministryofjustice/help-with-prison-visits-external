@@ -7,8 +7,8 @@
     "url": "https://github.com/ministryofjustice/help-with-prison-visits-external.git"
   },
   "engines": {
-    "node": "^24",
-    "npm": "^11"
+    "node": "^26",
+    "npm": "^12"
   },
   "scripts": {
     "build": "./build",
@@ -25,7 +25,6 @@
     "test:ci": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --runInBand --coverage",
     "test-e2e": "KNEX_CONFIG=testing cypress run --config video=false",
     "test-e2e-ui": "KNEX_CONFIG=testing cypress open",
-    "setup": "npm ci && hmpps-npm-script-run-allowlist",
     "prepare": "hmpps-precommit-hooks-prepare"
   },
   "dependencies": {
@@ -56,10 +55,9 @@
     "validator": "^13.15.35"
   },
   "devDependencies": {
-    "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
-    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
+    "@ministryofjustice/eslint-config-hmpps": "^1.0.4",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.2",
-    "cypress": "^16.2.0",
+    "cypress": "^16.2.1",
     "jest": "^30.5.2",
     "jest-html-reporter": "^4.4.2",
     "jest-junit": "^17.0.0",
@@ -74,5 +72,11 @@
     "brace-expansion": "5.0.12",
     "js-yaml": "5.5.0",
     "qs": "6.16.1"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
+    "cypress@16.2.1": true,
+    "dtrace-provider@0.8.8": false,
+    "unrs-resolver@1.12.2": true
   }
 }
