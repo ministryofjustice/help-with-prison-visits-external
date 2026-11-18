@@ -12,7 +12,7 @@ generic-service:
 
   ingress:
     enabled: true
-    tlsSecretName: help-with-prison-visits-cert   
+    tlsSecretName: help-with-prison-visits-cert
     annotations:
       # note this limit is per ingress replica
       nginx.ingress.kubernetes.io/limit-rpm: "120"
@@ -34,14 +34,14 @@ generic-service:
     httpGet:
       path: /ping
       port: http
-  
+
   readinessProbe:
     httpGet:
       path: /ping
       port: http
-  
+
   env:
-    LOGGING_LEVEL: 'DEBUG'
+    LOG_LEVEL: 'info'
     APVS_EXT_SECURE_COOKIE: 'true'
     APVS_ENABLE_MALWARE_SCANNING: 'true'
     APVS_CLAM_AV_HOST: 'help-with-prison-visits-external-clamav'
@@ -60,7 +60,7 @@ generic-service:
 
   namespace_secrets:
     help-with-prison-visits-external:
-      APVS_DATABASE: "APVS_DATABASE" 
+      APVS_DATABASE: "APVS_DATABASE"
       APVS_EXT_WEB_USERNAME: "APVS_EXT_WEB_USERNAME"
       APVS_EXT_WEB_PASSWORD: "APVS_EXT_WEB_PASSWORD"
       APPINSIGHTS_INSTRUMENTATIONKEY: "APVS_APP_INSIGHTS_INSTRUMENTATION_KEY"
