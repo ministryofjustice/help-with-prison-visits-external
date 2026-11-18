@@ -22,12 +22,6 @@ module.exports = {
 
   apis: {},
 
-  // Logging
-  LOGGING_PATH: process.env.LOGGING_PATH,
-  LOGGING_LEVEL: process.env.LOGGING_LEVEL || 'DEBUG',
-  LOGSTASH_HOST: process.env.LOGSTASH_HOST,
-  LOGSTASH_PORT: process.env.LOGSTASH_PORT,
-
   // DB
   DATABASE_SERVER: process.env.APVS_DATABASE_SERVER,
   DATABASE: process.env.APVS_DATABASE,
