@@ -1,3 +1,4 @@
+const fs = require('node:fs')
 const config = require('./config')
 
 module.exports = {
@@ -11,7 +12,8 @@ module.exports = {
       requestTimeout: 30000,
       connectTimeout: 30000,
       options: {
-        encrypt: false,
+        encrypt: true,
+        cryptoCredentialsDetails: { ca: fs.readFileSync(config.DATABASE_CA_CERT_PATH) },
         enableArithAbort: true,
         requestTimeout: 30000,
         connectTimeout: 30000,
@@ -30,7 +32,8 @@ module.exports = {
       password: config.TESTING_PASSWORD,
       database: config.TESTING_DATABASE,
       options: {
-        encrypt: false,
+        encrypt: true,
+        cryptoCredentialsDetails: { ca: fs.readFileSync(config.DATABASE_CA_CERT_PATH) },
         enableArithAbort: true,
       },
     },

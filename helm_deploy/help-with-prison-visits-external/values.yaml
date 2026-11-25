@@ -52,6 +52,7 @@ generic-service:
     NODE_ENV: 'production'
     APVS_MAINTENANCE_MODE: 'false'
     APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
+    DATABASE_CA_CERT_PATH: './global-bundle.pem'
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:

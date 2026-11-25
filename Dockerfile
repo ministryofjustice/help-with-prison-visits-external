@@ -22,6 +22,8 @@ COPY package*.json .npmrc ./
 RUN CYPRESS_INSTALL_BINARY=0 NPM_CONFIG_AUDIT=false NPM_CONFIG_FUND=false npm ci
 ENV NODE_ENV='production'
 
+ADD --chown=appuser:appgroup https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem ./
+
 COPY . .
 RUN npm run css-build
 
@@ -43,6 +45,7 @@ COPY --from=build --chown=appuser:appgroup \
         /app/package-lock.json \
         /app/knexfile.js \
         /app/config.js \
+        /app/global-bundle.pem \
         ./
 
 COPY --from=build --chown=appuser:appgroup \
