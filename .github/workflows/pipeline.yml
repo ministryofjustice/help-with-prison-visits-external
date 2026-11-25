@@ -32,6 +32,8 @@ jobs:
   node_unit_tests:
     name: node unit tests
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_unit_tests.yml@v2 # WORKFLOW_VERSION
+    with:
+      test-report-continue-on-error: true
     needs: [node_build]
     secrets: inherit
   helm_lint:
